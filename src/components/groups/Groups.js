@@ -14,8 +14,7 @@ const Groups = ({ currentURL, setCurrentURL }) => {
     setCurrentURL(URLBuilder);
   }, [setCurrentURL]);
 
-  const fixedURL = "/api" + currentURL.slice(4);
-  const [state, setUrl] = APIRequest(fixedURL);
+  const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {
     setUrl(currentURL);

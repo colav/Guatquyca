@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AuthorsKeywords from "./AuthorsKeywords";
 import ErrorWarning from "./ErrorWarning";
 import history from "../history";
@@ -10,27 +10,23 @@ import { Link } from "react-router-dom";
 import { renderedAffiliation } from "../helpers/renderedAffiliation";
 import { renderedTitle } from "../helpers/renderedTitle";
 const Avatar = require("antd/lib/avatar").default;
-const Button = require("antd/lib/button").default;
 const Card = require("antd/lib/card").default;
 const List = require("antd/lib/list").default;
 const queryString = require("query-string");
 
 const SearchResultList = ({ currentURL, setCurrentURL }) => {
-  const [buttonFlag, setButtonFlag] = useState(false);
   const [state, setUrl] = APIRequest(currentURL);
   const parsed = queryString.parse(currentURL);
 
+  window.addEventListener("popstate", () => {
+    setCurrentURL(URLBuilder);
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentURL]);
-
-  useEffect(() => {
     setCurrentURL(URLBuilder);
-  }, [setCurrentURL]);
-
-  useEffect(() => {
     setUrl(currentURL);
-  }, [currentURL, setUrl]);
+  }, [currentURL, setUrl, setCurrentURL]);
 
   const renderedItemName = (item) => {
     if (!item.abbreviations || item.abbreviations.length === 0) {
@@ -41,32 +37,21 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
     return null;
   };
 
-  const onPageChange = (total, range) => {
-    window.scrollTo(0, 0);
-    if (
-      total === range[1] &&
-      state.data.total_results &&
-      total !== state.data.total_results
-    ) {
-      setTimeout(() => {
-        setButtonFlag(true);
-      }, 100);
-    } else {
-      setTimeout(() => {
-        setButtonFlag(false);
-      }, 100);
-    }
+  const onClick = (url) => {
+    setCurrentURL(url);
   };
 
-  const loadMoreContent = () => {
-    const currentPage = state.data.page;
-    if (currentPage === 1) {
-      history.push(currentURL + "&page=2");
-      setCurrentURL(URLBuilder);
-    } else {
-      history.push(currentURL + (currentPage + 1).toString());
-      setCurrentURL(URLBuilder);
-    }
+  const onPageChange = (page, pageSize) => {
+    const parsed = queryString.parse(history.location.search);
+    const newQuery = {
+      ...parsed,
+      max: pageSize.toString(),
+      page: page.toString(),
+    };
+    history.push(
+      `${history.location.pathname}?${queryString.stringify(newQuery)}`
+    );
+    setCurrentURL(URLBuilder);
   };
 
   if (state.isError) {
@@ -83,15 +68,6 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
           : null
       }
       bodyStyle={{ padding: "14px 8px" }}
-      actions={
-        buttonFlag
-          ? [
-              <Button type="primary" onClick={() => loadMoreContent()}>
-                Cargar más resultados
-              </Button>,
-            ]
-          : null
-      }
     >
       <List
         itemLayout="vertical"
@@ -99,8 +75,11 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
         pagination={{
           size: "small",
           position: "bottom",
+          total: state.data.total_results || state.data.count,
+          onChange: onPageChange,
           hideOnSinglePage: true,
-          showTotal: (total, range) => onPageChange(total, range),
+          current: parsed.page ? parseInt(parsed.page) : 1,
+          pageSize: parsed.max ? parsed.max : 100,
         }}
         dataSource={state.data.data}
         renderItem={(item) => (
@@ -111,16 +90,25 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
                 <Link
                   to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`}
                 >
-                  {renderedItemName(item)}
+                  <span
+                    onClick={() =>
+                      onClick(
+                        `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`
+                      )
+                    }
+                  >
+                    {renderedItemName(item)}
+                  </span>
                 </Link>
               }
               description={renderedAffiliation(
                 state.data.filters.affiliations.length
-                  ? state.data.filters.affiliations[0].name
+                  ? state.data.filters.affiliations[0].name ||
+                      item.affiliation.name
                   : "null"
               )}
             />
-            {parsed.data === "author" ? (
+            {parsed.data === "authors" ? (
               <AuthorsKeywords keywords={item.keywords} />
             ) : null}
           </List.Item>
