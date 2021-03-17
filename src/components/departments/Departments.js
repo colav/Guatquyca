@@ -1,19 +1,14 @@
 import React, { useEffect } from "react";
+import DepartmentTitleCard from "./DepartmentsTitleCard";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import TabListsCard from "../faculties/TabListsCard";
-import DepartmentTitleCard from "./DepartmentsTitleCard";
-import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { renderedTitle } from "../../helpers/renderedTitle";
 const Row = require("antd/lib/row").default;
 
-const Departments = ({ currentURL, setCurrentURL }) => {
-  useEffect(() => {
-    setCurrentURL(URLBuilder);
-  }, [setCurrentURL]);
-
+const Departments = ({ currentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {

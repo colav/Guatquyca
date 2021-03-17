@@ -1,19 +1,14 @@
 import React, { useEffect } from "react";
 import ErrorWarning from "../ErrorWarning";
+import GroupTitleCard from "./GroupsTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import TabListsCard from "../faculties/TabListsCard";
-import GroupTitleCard from "./GroupsTitleCard";
-import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { renderedTitle } from "../../helpers/renderedTitle";
 const Row = require("antd/lib/row").default;
 
-const Groups = ({ currentURL, setCurrentURL }) => {
-  useEffect(() => {
-    setCurrentURL(URLBuilder);
-  }, [setCurrentURL]);
-
+const Groups = ({ currentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {
