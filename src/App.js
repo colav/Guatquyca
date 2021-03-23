@@ -8,6 +8,7 @@ import Groups from "./components/groups/Groups";
 import Header from "./layouts/Header";
 import history from "./history";
 import Sidebar from "./layouts/Sidebar";
+import ScrollToTop from "./helpers/ScrollToTop";
 import { Router, Route } from "react-router-dom";
 import { URLBuilder } from "./helpers/URLBuilder";
 import "./App.less";
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <Router history={history}>
+      <ScrollToTop />
       <Route path="/app">
         <Layout>
           <Header setCurrentURL={setCurrentURL} />

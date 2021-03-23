@@ -23,7 +23,6 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
   });
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     setCurrentURL(URLBuilder);
     setUrl(currentURL);
   }, [currentURL, setUrl, setCurrentURL]);
@@ -89,16 +88,13 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
               title={
                 <Link
                   to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`}
+                  onClick={() =>
+                    onClick(
+                      `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`
+                    )
+                  }
                 >
-                  <span
-                    onClick={() =>
-                      onClick(
-                        `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`
-                      )
-                    }
-                  >
-                    {renderedItemName(item)}
-                  </span>
+                  {renderedItemName(item)}
                 </Link>
               }
               description={renderedAffiliation(

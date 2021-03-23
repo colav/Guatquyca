@@ -8,7 +8,7 @@ import { APIRequest } from "../../apis/clustercien";
 import { renderedTitle } from "../../helpers/renderedTitle";
 const Row = require("antd/lib/row").default;
 
-const Faculties = ({ currentURL }) => {
+const Faculties = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const Faculties = ({ currentURL }) => {
         <LogoU />
         <FacultyTitleCard
           title={state.data.name}
+          abbreviation={state.data.abbreviations}
           extlink={
             state.data.external_urls[0] !== undefined
               ? state.data.external_urls[0].url
@@ -51,7 +52,11 @@ const Faculties = ({ currentURL }) => {
           }
           subtitle={state.data.institution[0].name}
         />
-        <TabListsCard tabObjects={tabObjects} tabContent={tabContent} />
+        <TabListsCard
+          tabObjects={tabObjects}
+          tabContent={tabContent}
+          setCurrentURL={setCurrentURL}
+        />
       </Row>
     </div>
   );

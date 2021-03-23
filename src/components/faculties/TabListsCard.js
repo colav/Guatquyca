@@ -4,7 +4,7 @@ import { APIKEY, DATA } from "../../constants/routes";
 const List = require("antd/lib/list").default;
 const Card = require("antd/lib/card").default;
 
-const TabListsCard = ({ tabObjects, tabContent }) => {
+const TabListsCard = ({ tabObjects, tabContent, setCurrentURL }) => {
   const [selectedKey, setSelectedKey] = useState(tabObjects[0].key);
   const onSelectedKey = (key) => {
     setSelectedKey(key);
@@ -36,6 +36,11 @@ const TabListsCard = ({ tabObjects, tabContent }) => {
               description={
                 <Link
                   to={`/app/${selectedKey}?${APIKEY}&${DATA}&id=${item.id}`}
+                  onClick={() =>
+                    setCurrentURL(
+                      `/app/${selectedKey}?${APIKEY}&${DATA}&id=${item.id}`
+                    )
+                  }
                 >
                   {item.full_name}
                   {item.name}

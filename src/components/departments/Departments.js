@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import DepartmentTitleCard from "./DepartmentsTitleCard";
+import DepartmentsTitleCard from "./DepartmentsTitleCard";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
@@ -8,7 +8,7 @@ import { APIRequest } from "../../apis/clustercien";
 import { renderedTitle } from "../../helpers/renderedTitle";
 const Row = require("antd/lib/row").default;
 
-const Departments = ({ currentURL }) => {
+const Departments = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Departments = ({ currentURL }) => {
     <div className="site-card-wrapper">
       <Row gutter={[10, 10]}>
         <LogoU />
-        <DepartmentTitleCard
+        <DepartmentsTitleCard
           title={state.data.name}
           extlink={
             state.data.external_urls[0] !== undefined
@@ -52,7 +52,11 @@ const Departments = ({ currentURL }) => {
           }
           subtitle={state.data.institution[0].name}
         />
-        <TabListsCard tabObjects={tabObjects} tabContent={tabContent} />
+        <TabListsCard
+          tabObjects={tabObjects}
+          tabContent={tabContent}
+          setCurrentURL={setCurrentURL}
+        />
       </Row>
     </div>
   );

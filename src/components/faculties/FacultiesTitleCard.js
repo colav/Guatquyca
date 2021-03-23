@@ -5,7 +5,7 @@ const Typography = require("antd/lib/typography").default;
 const Col = require("antd/lib/col").default;
 const LinkOutlined = require("@ant-design/icons/LinkOutlined").default;
 
-const FacultyTitleCard = ({ title, extlink, subtitle }) => {
+const FacultyTitleCard = ({ title, abbreviation, extlink, subtitle }) => {
   return (
     <Col
       xs={24}
@@ -27,7 +27,9 @@ const FacultyTitleCard = ({ title, extlink, subtitle }) => {
             : ""
         }
       >
-        <Typography.Title level={2}>{title}</Typography.Title>
+        <Typography.Title level={2}>
+          {title} {abbreviation ? `(${abbreviation})` : ""}
+        </Typography.Title>
         <Typography.Title level={3}>
           {renderedAffiliation(subtitle)}
         </Typography.Title>

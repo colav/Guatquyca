@@ -8,7 +8,7 @@ import { APIRequest } from "../../apis/clustercien";
 import { renderedTitle } from "../../helpers/renderedTitle";
 const Row = require("antd/lib/row").default;
 
-const Groups = ({ currentURL }) => {
+const Groups = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
 
   useEffect(() => {
@@ -58,7 +58,11 @@ const Groups = ({ currentURL }) => {
           }
           subtitle={state.data.institution[0].name}
         />
-        <TabListsCard tabObjects={tabObjects} tabContent={tabContent} />
+        <TabListsCard
+          tabObjects={tabObjects}
+          tabContent={tabContent}
+          setCurrentURL={setCurrentURL}
+        />
       </Row>
     </div>
   );
