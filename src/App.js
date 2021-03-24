@@ -7,6 +7,7 @@ import Footer from "./layouts/Footer";
 import Groups from "./components/groups/Groups";
 import Header from "./layouts/Header";
 import history from "./history";
+import Institutions from "./components/institutions/Institutions";
 import Sidebar from "./layouts/Sidebar";
 import ScrollToTop from "./helpers/ScrollToTop";
 import { Router, Route } from "react-router-dom";
@@ -50,6 +51,12 @@ const App = () => {
             </Route>
             <Route exact path="/app/authors">
               <Authors currentURL={currentURL} setCurrentURL={setCurrentURL} />
+            </Route>
+            <Route exact path="/app/institutions">
+              <Institutions
+                currentURL={currentURL}
+                setCurrentURL={setCurrentURL}
+              />
             </Route>
             <Footer />
           </Layout.Content>

@@ -98,10 +98,8 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
                 </Link>
               }
               description={renderedAffiliation(
-                state.data.filters.affiliations.length
-                  ? state.data.filters.affiliations[0].name ||
-                      item.affiliation.name
-                  : "null"
+                item.affiliation ? item.affiliation.name : "",
+                setCurrentURL
               )}
             />
             {parsed.data === "authors" ? (

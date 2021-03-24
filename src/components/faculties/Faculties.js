@@ -5,7 +5,7 @@ import LoadingCard from "../LoadingCard";
 import LogoU from "./LogoU";
 import TabListsCard from "./TabListsCard";
 import { APIRequest } from "../../apis/clustercien";
-import { renderedTitle } from "../../helpers/renderedTitle";
+import { tabListMaker } from "../../helpers/tabListMaker";
 const Row = require("antd/lib/row").default;
 
 const Faculties = ({ currentURL, setCurrentURL }) => {
@@ -15,23 +15,8 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
     setUrl(currentURL);
   }, [currentURL, setUrl]);
 
-  const tabList = Object.keys(state.data).filter(
-    (key) =>
-      key !== "name" &&
-      key !== "external_urls" &&
-      key !== "id" &&
-      key !== "type" &&
-      key !== "abbreviations" &&
-      key !== "institution"
-  );
-  let tabObjects = [];
-  for (let i = 0; i < tabList.length; i++) {
-    tabObjects.push({ key: tabList[i], tab: renderedTitle(tabList[i]) });
-  }
-  let tabContent = {};
-  for (let i = 0; i < tabList.length; i++) {
-    tabContent[tabList[i]] = state.data[tabList[i]];
-  }
+  const tabList = ["departments", "authors", "groups"];
+  const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -40,17 +25,14 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
   }
   return (
     <div className="site-card-wrapper">
-      <Row gutter={[10, 10]}>
+      <Row gutter={[0, 10]}>
         <LogoU />
         <FacultyTitleCard
           title={state.data.name}
           abbreviation={state.data.abbreviations}
-          extlink={
-            state.data.external_urls[0] !== undefined
-              ? state.data.external_urls[0].url
-              : ""
-          }
+          external_urls={state.data.external_urls}
           subtitle={state.data.institution[0].name}
+          setCurrentURL={setCurrentURL}
         />
         <TabListsCard
           tabObjects={tabObjects}

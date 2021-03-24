@@ -82,7 +82,7 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
         </Typography.Title>
         <Space wrap>{renderedButtons(state.external_urls)}</Space>
         <Typography.Title level={3}>
-          {renderedAffiliation(state.affiliation.name)}
+          {renderedAffiliation(state.affiliation.name, setCurrentURL)}
         </Typography.Title>
       </Card>
     </Col>
