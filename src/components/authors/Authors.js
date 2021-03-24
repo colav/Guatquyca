@@ -19,12 +19,10 @@ const Authors = ({ currentURL, setCurrentURL }) => {
     return <LoadingCard />;
   }
   return (
-    <div className="site-card-wrapper">
-      <Row gutter={[10, 10]}>
-        <LogoU />
-        <AuthorsTitleCard state={state.data} setCurrentURL={setCurrentURL} />
-      </Row>
-    </div>
+    <Row /* gutter={[10, 10]} */>
+      <LogoU />
+      <AuthorsTitleCard state={state.data} setCurrentURL={setCurrentURL} />
+    </Row>
   );
 };
 

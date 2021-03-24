@@ -2,9 +2,14 @@ import React from "react";
 import { APIKEY, DATA } from "../../constants/routes";
 import { Link } from "react-router-dom";
 import { renderedAffiliation } from "../../helpers/renderedAffiliation";
+import orcid from "../../icons/orcid";
+import researcherid from "../../icons/researcherid";
+import scholar from "../../icons/scholar";
+import scopus from "../../icons/scopus";
 const Button = require("antd/lib/button").default;
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
+const Space = require("antd/lib/space").default;
 const TeamOutlined = require("@ant-design/icons/TeamOutlined").default;
 const Typography = require("antd/lib/typography").default;
 
@@ -16,24 +21,26 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
     return `/app/${type}s?${APIKEY}&${DATA}&id=${id}`;
   };
 
+  const iconList = {
+    orcid: orcid(),
+    scholar: scholar(),
+    scopus: scopus(),
+    researcherid: researcherid(),
+  };
+
   const renderedButtons = (URLList) => {
     return URLList.map((item) => (
-      <Button key={item.source} href={item.url}>
-        {item.source}
-      </Button>
+      <Button
+        type="link"
+        key={item.source}
+        href={item.url}
+        icon={iconList[item.source]}
+      />
     ));
   };
 
   return (
-    <Col
-      xs={24}
-      sm={24}
-      md={18}
-      lg={19}
-      xl={20}
-      xxl={21}
-      style={{ padding: "0 5" }}
-    >
+    <Col xs={24} sm={24} md={18} lg={19} xl={20} xxl={21}>
       <Card
         actions={[
           <Link
@@ -73,10 +80,10 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
             ""
           )}
         </Typography.Title>
+        <Space wrap>{renderedButtons(state.external_urls)}</Space>
         <Typography.Title level={3}>
           {renderedAffiliation(state.affiliation.name)}
         </Typography.Title>
-        {renderedButtons(state.external_urls)}
       </Card>
     </Col>
   );
