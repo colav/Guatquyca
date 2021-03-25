@@ -12,6 +12,7 @@ import { renderedTitle } from "../helpers/renderedTitle";
 const Avatar = require("antd/lib/avatar").default;
 const Card = require("antd/lib/card").default;
 const List = require("antd/lib/list").default;
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const queryString = require("query-string");
 
 const SearchResultList = ({ currentURL, setCurrentURL }) => {
@@ -84,7 +85,22 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              avatar={<Avatar shape="square" size={60} src={LOGOUDEA} />}
+              avatar={
+                <Avatar
+                  shape="square"
+                  size={60}
+                  src={
+                    item.affiliation &&
+                    item.affiliation.id === "60120afa4749273de6161883" ? (
+                      LOGOUDEA
+                    ) : (
+                      <ReadOutlined
+                        style={{ color: "gray", fontSize: "30px" }}
+                      />
+                    )
+                  }
+                />
+              }
               title={
                 <Link
                   to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`}
