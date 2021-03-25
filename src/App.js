@@ -26,7 +26,11 @@ const App = () => {
           <Header setCurrentURL={setCurrentURL} />
           <Sidebar />
           <Layout.Content
-            style={{ margin: "90px 15px 15px", overflow: "initial" }}
+            style={{
+              margin: "85px 10px 15px 60px",
+              overflow: "initial",
+              transition: "opacity 0.5s",
+            }}
           >
             <Route exact path="/app/search">
               <SearchResultList

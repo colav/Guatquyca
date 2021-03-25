@@ -67,11 +67,10 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
           ? (state.data.total_results || state.data.count) + " resultados"
           : null
       }
-      bodyStyle={{ padding: "14px 8px" }}
+      bodyStyle={{ padding: "15px 20px 25px 15px" }}
     >
       <List
         itemLayout="vertical"
-        size="large"
         pagination={{
           size: "small",
           position: "bottom",
