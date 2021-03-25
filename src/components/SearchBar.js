@@ -40,10 +40,18 @@ const options = [
 const SearchBar = ({ setCurrentURL }) => {
   const [selected, setSelected] = useState(options[0]);
 
-  function searchRequest() {
-    setCurrentURL(`${SEARCH}${APIKEY}&data=${selected.value}&max=10&page=1`);
-    history.push(`${SEARCH}${APIKEY}&data=${selected.value}&max=10&page=1`);
-  }
+  const searchRequest = (input) => {
+    setCurrentURL(
+      `${SEARCH}${APIKEY}&data=${selected.value}&max=10&page=1`.concat(
+        input ? `&keywords=${input}` : ""
+      )
+    );
+    history.push(
+      `${SEARCH}${APIKEY}&data=${selected.value}&max=10&page=1`.concat(
+        input ? `&keywords=${input}` : ""
+      )
+    );
+  };
 
   return (
     <Input.Search
