@@ -44,10 +44,12 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
       <Card
         actions={[
           <Link
-            to={URL(state.group.type, state.group.id)}
-            onClick={() => setCurrentURL(URL(state.group.type, state.group.id))}
+            to={URL(state.faculty.type, state.faculty.id)}
+            onClick={() =>
+              setCurrentURL(URL(state.faculty.type, state.faculty.id))
+            }
           >
-            <TeamOutlined /> {state.group.name}
+            <TeamOutlined /> {state.faculty.name}
           </Link>,
           <Link
             to={URL(state.department.type, state.department.id)}
@@ -58,12 +60,10 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
             <TeamOutlined /> {state.department.name}
           </Link>,
           <Link
-            to={URL(state.faculty.type, state.faculty.id)}
-            onClick={() =>
-              setCurrentURL(URL(state.faculty.type, state.faculty.id))
-            }
+            to={URL(state.group.type, state.group.id)}
+            onClick={() => setCurrentURL(URL(state.group.type, state.group.id))}
           >
-            <TeamOutlined /> {state.faculty.name}
+            <TeamOutlined /> {state.group.name}
           </Link>,
         ]}
       >

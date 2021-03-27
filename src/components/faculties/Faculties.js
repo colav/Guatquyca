@@ -15,7 +15,7 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
     setUrl(currentURL);
   }, [currentURL, setUrl]);
 
-  const tabList = ["departments", "authors", "groups"];
+  const tabList = ["departments", "groups", "authors"];
   const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
 
   if (state.isError) {

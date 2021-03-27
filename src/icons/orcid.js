@@ -1,5 +1,3 @@
-import React from "react";
-
 const orcid = () => {
   return (
     <svg viewBox="0 0 256 256" style={{ fill: "#A6CE39" }}>

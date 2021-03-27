@@ -6,11 +6,6 @@ const Input = require("antd/lib/input").default;
 
 const options = [
   {
-    label: "Literatura",
-    value: "literature",
-    key: "literature",
-  },
-  {
     label: "Autor",
     value: "authors",
     key: "authors",
@@ -34,6 +29,11 @@ const options = [
     label: "Institución",
     value: "institutions",
     key: "institutions",
+  },
+  {
+    label: "Literatura",
+    value: "literature",
+    key: "literature",
   },
 ];
 

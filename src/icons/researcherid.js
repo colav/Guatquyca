@@ -1,5 +1,3 @@
-import React from "react";
-
 const researcherid = () => {
   return (
     <svg viewBox="0 0 512 512" className="researcherid">
