@@ -23,9 +23,10 @@ const Departments = ({ currentURL, setCurrentURL }) => {
   } else if (state.isLoading) {
     return <LoadingCard />;
   }
+  console.log(state.data.institution[0].name);
   return (
     <div className="site-card-wrapper">
-      <Row gutter={[0, 10]}>
+      <Row gutter={[10, 10]}>
         <LogoU />
         <DepartmentsTitleCard
           title={state.data.name}

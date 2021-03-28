@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import AnyChart from "anychart-react";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
+const notification = require("antd/lib/notification").default;
 
 const NetworkChart = () => {
-  const [nodeInfo, setNodeInfo] = useState("Selecciona un nodo");
-
   var data = {
     nodes: [
       { id: "Kate Austin", height: "30" },
@@ -49,10 +48,16 @@ const NetworkChart = () => {
     ],
   };
 
-  const selectedNode = (e) => {
-    setTimeout(() => {
-      setNodeInfo(e.id);
-    }, 50);
+  let eCache = "";
+  const openNotification = (e) => {
+    if (e.index !== eCache.index) {
+      eCache = e;
+      notification.open({
+        duration: 10,
+        message: "Notification Title",
+        description: e.id,
+      });
+    }
   };
 
   const complexSettings = {
@@ -66,7 +71,7 @@ const NetworkChart = () => {
     },
     nodes: {
       selected: {
-        fill: selectedNode,
+        fill: openNotification,
       },
       fill: "#FBDD7E",
       stroke: "2px white",
@@ -91,13 +96,8 @@ const NetworkChart = () => {
   };
 
   return (
-    <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}>
-      <Card
-        title="Card title"
-        bodyStyle={{ padding: "10px" }}
-        hoverable
-        actions={[nodeInfo]}
-      >
+    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+      <Card title="Card title" bodyStyle={{ padding: "10px" }} hoverable>
         <Card
           bordered={false}
           type="inner"
@@ -106,7 +106,7 @@ const NetworkChart = () => {
               <AnyChart {...complexSettings} />
             </div>
           }
-          style={{ width: "100%", height: "400px" }}
+          style={{ width: "100%", height: "350px" }}
         ></Card>
       </Card>
     </Col>

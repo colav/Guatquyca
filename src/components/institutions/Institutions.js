@@ -28,31 +28,36 @@ const Authors = ({ currentURL, setCurrentURL }) => {
     return <LoadingCard />;
   }
   return (
-    <Row gutter={[0, 10]}>
-      {state.data.id === "60120afa4749273de6161883" ? (
-        <LogoU />
-      ) : (
-        <Col xs={0} sm={0} md={6} lg={5} xl={4} xxl={3}>
-          <Avatar
-            size={200}
-            alt="Logo Universidad"
-            src={<ReadOutlined style={{ color: "gray", fontSize: "80px" }} />}
-            preview="false"
-            style={{
-              backgroundColor: "white",
-              padding: 25,
-            }}
-          />
-        </Col>
-      )}
-      <InstitutionsTitleCard state={state.data} setCurrentURL={setCurrentURL} />
-      <TabListsCard
-        tabObjects={tabObjects}
-        tabContent={tabContent}
-        setCurrentURL={setCurrentURL}
-      />
-      <NetworkChart />
-    </Row>
+    <div className="site-card-wrapper">
+      <Row gutter={[10, 10]}>
+        {state.data.id === "60120afa4749273de6161883" ? (
+          <LogoU />
+        ) : (
+          <Col xs={0} sm={0} md={6} lg={5} xl={4} xxl={3}>
+            <Avatar
+              size={200}
+              alt="Logo Universidad"
+              src={<ReadOutlined style={{ color: "gray", fontSize: "80px" }} />}
+              preview="false"
+              style={{
+                backgroundColor: "white",
+                padding: 25,
+              }}
+            />
+          </Col>
+        )}
+        <InstitutionsTitleCard
+          state={state.data}
+          setCurrentURL={setCurrentURL}
+        />
+        <TabListsCard
+          tabObjects={tabObjects}
+          tabContent={tabContent}
+          setCurrentURL={setCurrentURL}
+        />
+        <NetworkChart />
+      </Row>
+    </div>
   );
 };
 

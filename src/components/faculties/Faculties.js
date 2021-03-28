@@ -25,7 +25,7 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
   }
   return (
     <div className="site-card-wrapper">
-      <Row gutter={[0, 10]}>
+      <Row gutter={[10, 10]}>
         <LogoU />
         <FacultyTitleCard
           title={state.data.name}

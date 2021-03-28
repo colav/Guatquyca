@@ -9,6 +9,12 @@ export const renderedAffiliation = (name, setCurrentURL) => {
           Universidad de Antioquia
         </Link>
       );
+    case "Universidad de Antioquia":
+      return (
+        <Link to={PATHUDEA} onClick={() => setCurrentURL(PATHUDEA)}>
+          Universidad de Antioquia
+        </Link>
+      );
     case "Unaula":
       return (
         <Link to={PATHUNAULA} onClick={() => setCurrentURL(PATHUNAULA)}>
