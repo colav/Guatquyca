@@ -3,7 +3,8 @@ import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "./LogoU";
-import TabListsCard from "./TabListsCard";
+import ProductionListCard from "../ProductionListCard";
+import TabListsCard from "../TabListsCard";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 const Row = require("antd/lib/row").default;
@@ -39,6 +40,7 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
           tabContent={tabContent}
           setCurrentURL={setCurrentURL}
         />
+        <ProductionListCard type={state.data.type} />
       </Row>
     </div>
   );

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import InstitutionsTitleCard from "./InstitutionsTitleCard";
-import TabListsCard from "../faculties/TabListsCard";
+import TabListsCard from "../TabListsCard";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 import NetworkChart from "../NetworkChart";
+import ProductionListCard from "../ProductionListCard";
 const Avatar = require("antd/lib/avatar").default;
 const Col = require("antd/lib/col").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
@@ -56,6 +57,7 @@ const Authors = ({ currentURL, setCurrentURL }) => {
           setCurrentURL={setCurrentURL}
         />
         <NetworkChart />
+        <ProductionListCard type={state.data.type} />
       </Row>
     </div>
   );

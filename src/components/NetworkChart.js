@@ -103,7 +103,10 @@ const NetworkChart = () => {
           type="inner"
           cover={
             <div id="container">
-              <AnyChart {...complexSettings} />
+              <AnyChart
+                {...complexSettings}
+                style={{ transformOrigin: "250px 250px" }}
+              />
             </div>
           }
           style={{ width: "100%", height: "350px" }}

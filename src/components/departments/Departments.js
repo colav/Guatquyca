@@ -3,7 +3,8 @@ import DepartmentsTitleCard from "./DepartmentsTitleCard";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
-import TabListsCard from "../faculties/TabListsCard";
+import ProductionListCard from "../ProductionListCard";
+import TabListsCard from "../TabListsCard";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 const Row = require("antd/lib/row").default;
@@ -23,7 +24,6 @@ const Departments = ({ currentURL, setCurrentURL }) => {
   } else if (state.isLoading) {
     return <LoadingCard />;
   }
-  console.log(state.data.institution[0].name);
   return (
     <div className="site-card-wrapper">
       <Row gutter={[10, 10]}>
@@ -39,6 +39,7 @@ const Departments = ({ currentURL, setCurrentURL }) => {
           tabContent={tabContent}
           setCurrentURL={setCurrentURL}
         />
+        <ProductionListCard type={state.data.type} />
       </Row>
     </div>
   );
