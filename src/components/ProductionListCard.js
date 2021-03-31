@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorWarning from "./ErrorWarning";
 import history from "../history";
+import AuthorsHorizontalList from "./AuthorsHorizontalList";
 import { APIRequest } from "../apis/clustercien";
 import { renderedTitle } from "../helpers/renderedTitle";
 import { CitationsIcon } from "../icons/citations";
@@ -11,7 +12,7 @@ const Space = require("antd/lib/space").default;
 const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
 const queryString = require("query-string");
 
-const ProductionListCard = ({ type }) => {
+const ProductionListCard = ({ type, setCurrenURL }) => {
   let parsed = queryString.parse(history.location.search);
   parsed["data"] = "production";
   const productionURL = `${history.location.pathname}?${queryString.stringify(
@@ -54,7 +55,7 @@ const ProductionListCard = ({ type }) => {
                 ]}
               >
                 <List.Item.Meta title={item.title} />
-                Autores: {item.authors[0].full_name}
+                Autores: {AuthorsHorizontalList(item.authors, setCurrenURL)}
               </List.Item>
             )}
           ></List>

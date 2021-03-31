@@ -39,7 +39,10 @@ const Groups = ({ currentURL, setCurrentURL }) => {
           tabContent={tabContent}
           setCurrentURL={setCurrentURL}
         />
-        <ProductionListCard type={state.data.type} />
+        <ProductionListCard
+          type={state.data.type}
+          setCurrentURL={setCurrentURL}
+        />
       </Row>
     </div>
   );
