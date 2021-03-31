@@ -8,6 +8,7 @@ import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 import NetworkChart from "../NetworkChart";
 import ProductionListCard from "../ProductionListCard";
+import URLBuilder from "../../helpers/URLBuilder";
 const Avatar = require("antd/lib/avatar").default;
 const Col = require("antd/lib/col").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
@@ -15,6 +16,10 @@ const Row = require("antd/lib/row").default;
 
 const Authors = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
+
+  window.addEventListener("popstate", () => {
+    setCurrentURL(URLBuilder);
+  });
 
   useEffect(() => {
     setUrl(currentURL);

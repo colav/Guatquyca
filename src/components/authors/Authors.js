@@ -4,11 +4,16 @@ import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import ProductionListCard from "../ProductionListCard";
+import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 const Row = require("antd/lib/row").default;
 
 const Authors = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
+
+  window.addEventListener("popstate", () => {
+    setCurrentURL(URLBuilder);
+  });
 
   useEffect(() => {
     setUrl(currentURL);

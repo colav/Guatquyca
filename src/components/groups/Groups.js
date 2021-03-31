@@ -5,12 +5,17 @@ import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import ProductionListCard from "../ProductionListCard";
 import TabListsCard from "../TabListsCard";
+import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 const Row = require("antd/lib/row").default;
 
 const Groups = ({ currentURL, setCurrentURL }) => {
   const [state, setUrl] = APIRequest(currentURL);
+
+  window.addEventListener("popstate", () => {
+    setCurrentURL(URLBuilder);
+  });
 
   useEffect(() => {
     setUrl(currentURL);
