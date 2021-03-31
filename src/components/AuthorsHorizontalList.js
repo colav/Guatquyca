@@ -18,12 +18,9 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
           {author.full_name}
         </Link>
       ))}
+      <Divider type="vertical" />
     </div>
   );
 };
 
 export default AuthorsHorizontalList;
-
-/* <Button type="link" key={author._id}>
-          {author.full_name}
-        </Button> */
