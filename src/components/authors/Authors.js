@@ -4,6 +4,7 @@ import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import ProductionListCard from "../ProductionListCard";
+import Sidebar from "../../layouts/Sidebar";
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 const Row = require("antd/lib/row").default;
