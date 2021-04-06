@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AuthorsHorizontalList from "./AuthorsHorizontalList";
+import DownloadCSVButton from "./DownloadCSVButton";
+import DownloadPDFButton from "./DownloadPDFButton";
 import ErrorWarning from "./ErrorWarning";
 import history from "../history";
 import { APIRequest } from "../apis/clustercien";
@@ -10,6 +12,7 @@ const Col = require("antd/lib/col").default;
 const List = require("antd/lib/list").default;
 const Space = require("antd/lib/space").default;
 const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const queryString = require("query-string");
 
 const ProductionListCard = ({ type, setCurrenURL }) => {
@@ -44,6 +47,16 @@ const ProductionListCard = ({ type, setCurrenURL }) => {
     return (
       <Col span={24}>
         <Card
+          actions={[
+            <DownloadCSVButton
+              data={state.data.data}
+              isLoading={state.isLoading}
+            />,
+            <DownloadPDFButton
+              data={state.data.data}
+              isLoading={state.isLoading}
+            />,
+          ]}
           title={`Producción ${renderedTitle(type)}`}
           loading={state.isLoading}
         >
@@ -77,7 +90,14 @@ const ProductionListCard = ({ type, setCurrenURL }) => {
                     </Space>,
                   ]}
                 >
-                  <List.Item.Meta title={item.title} />
+                  <List.Item.Meta
+                    title={item.title}
+                    description={
+                      <div>
+                        <ReadOutlined id={item._id} /> {item.source.name}
+                      </div>
+                    }
+                  />
                   Autores: {AuthorsHorizontalList(item.authors, setCurrenURL)}
                 </List.Item>
               )}

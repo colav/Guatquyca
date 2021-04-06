@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AnyChart from "anychart-react";
+import ErrorWarning from "./ErrorWarning";
+import history from "../history";
+import LoadingCard from "./LoadingCard";
+import { APIRequest } from "../apis/clustercien";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const notification = require("antd/lib/notification").default;
+const queryString = require("query-string");
 
 const NetworkChart = () => {
-  var data = {
+  let parsedGlobalURL = queryString.parse(history.location.search);
+  parsedGlobalURL["data"] = "citations";
+  const builtURL = `${history.location.pathname}?${queryString.stringify(
+    parsedGlobalURL
+  )}`;
+  const [productionURL, setProductionURL] = useState(builtURL);
+  const [state, setUrl] = APIRequest(builtURL);
+  let parsedLocalURL = queryString.parseUrl(productionURL);
+
+  useEffect(() => {
+    setUrl(productionURL);
+  }, [setUrl, productionURL]);
+
+  /*   var data = {
     nodes: [
       { id: "Kate Austin", height: "30" },
       { id: "Reece Gray" },
@@ -46,10 +64,17 @@ const NetworkChart = () => {
 
       { from: "Sawyer Mack", to: "Jamie Montoya", weight: 0.9, cited: "90" },
     ],
-  };
+  }; */
 
+  if (state.isError) {
+    return <ErrorWarning />;
+  } else if (state.isLoading) {
+    return <LoadingCard />;
+  }
+  /* console.log(state.data.data.network); */
   let eCache = "";
   const openNotification = (e) => {
+    console.log(e);
     if (e.index !== eCache.index) {
       eCache = e;
       notification.open({
@@ -63,7 +88,7 @@ const NetworkChart = () => {
   const complexSettings = {
     type: "graph",
     container: "container",
-    data: data,
+    data: state.data.data.network,
     background: {
       stroke: {
         color: "#EAEAE6",
@@ -74,30 +99,38 @@ const NetworkChart = () => {
         fill: openNotification,
       },
       fill: "#FBDD7E",
-      stroke: "2px white",
-      labels: {
+      stroke: "1px white",
+      tooltip: {
+        format: "{%title}",
+      },
+      /* labels: {
         fontSize: 12,
         fontColor: "#0F1A24",
-      },
+        format: "{%title}",
+      }, */
       hovered: {
         fill: "#FFC820",
         stroke: "#39658C",
       },
     },
     edges: {
-      stroke: (e) => `${data.edges[e.index].weight * 10} #eaeae6`,
+      /* stroke: (e) => `${data.edges[e.index].weight * 10} #eaeae6`, */
       tooltip: {
         format: "De: {%from}\nA: {%to}\nCitas: {%cited}",
       },
-      hovered: {
+      /* hovered: {
         stroke: (e) => `${data.edges[e.index].weight * 10} #39658C`,
-      },
+      }, */
     },
   };
-
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card title="Card title" bodyStyle={{ padding: "10px" }} hoverable>
+      <Card
+        /* loading={state.isLoading} */
+        title="Card title"
+        bodyStyle={{ padding: "10px" }}
+        hoverable
+      >
         <Card
           bordered={false}
           type="inner"
