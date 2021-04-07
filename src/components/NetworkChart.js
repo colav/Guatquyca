@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AnyChart from "anychart-react";
 import ErrorWarning from "./ErrorWarning";
-import history from "../history";
 import LoadingCard from "./LoadingCard";
-import { APIRequest } from "../apis/clustercien";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const notification = require("antd/lib/notification").default;
-const queryString = require("query-string");
 
-const NetworkChart = () => {
-  let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "citations";
-  const builtURL = `${history.location.pathname}?${queryString.stringify(
-    parsedGlobalURL
-  )}`;
-  const [productionURL, setProductionURL] = useState(builtURL);
-  const [state, setUrl] = APIRequest(builtURL);
-  let parsedLocalURL = queryString.parseUrl(productionURL);
-
-  useEffect(() => {
-    setUrl(productionURL);
-  }, [setUrl, productionURL]);
-
+const NetworkChart = ({ networkData, isError, isLoading }) => {
   /*   var data = {
     nodes: [
       { id: "Kate Austin", height: "30" },
@@ -66,20 +50,18 @@ const NetworkChart = () => {
     ],
   }; */
 
-  if (state.isError) {
+  if (isError) {
     return <ErrorWarning />;
-  } else if (state.isLoading) {
+  } else if (isLoading) {
     return <LoadingCard />;
   }
-  /* console.log(state.data.data.network); */
   let eCache = "";
   const openNotification = (e) => {
-    console.log(e);
     if (e.index !== eCache.index) {
       eCache = e;
       notification.open({
-        duration: 10,
-        message: "Notification Title",
+        duration: 8,
+        message: networkData.nodes[e.index].title,
         description: e.id,
       });
     }
@@ -87,8 +69,8 @@ const NetworkChart = () => {
 
   const complexSettings = {
     type: "graph",
-    container: "container",
-    data: state.data.data.network,
+    container: "NetworkChartContainer",
+    data: networkData,
     background: {
       stroke: {
         color: "#EAEAE6",
@@ -135,7 +117,7 @@ const NetworkChart = () => {
           bordered={false}
           type="inner"
           cover={
-            <div id="container">
+            <div id="NetworkChartContainer">
               <AnyChart
                 {...complexSettings}
                 style={{ transformOrigin: "250px 250px" }}

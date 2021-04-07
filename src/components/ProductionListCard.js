@@ -63,7 +63,7 @@ const ProductionListCard = ({ type, setCurrenURL }) => {
           <div id="productionListContainer">
             <List
               itemLayout="vertical"
-              size="large"
+              size="small"
               pagination={{
                 size: "small",
                 position: "bottom",

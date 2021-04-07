@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
+import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "./LogoU";
-import NetworkChart from "../NetworkChart";
 import ProductionListCard from "../ProductionListCard";
 import TabListsCard from "../TabListsCard";
 import URLBuilder from "../../helpers/URLBuilder";
@@ -41,7 +41,7 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
           subtitle={state.data.institution[0].name}
           setCurrentURL={setCurrentURL}
         />
-        <NetworkChart />
+        <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}

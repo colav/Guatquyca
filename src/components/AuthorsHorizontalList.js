@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import history from "../history";
-import { Link, Route, Router } from "react-router-dom";
+import { Link, Router } from "react-router-dom";
 import { APIKEY, DATA } from "../constants/routes";
 const Button = require("antd/lib/button").default;
 const Divider = require("antd/lib/divider").default;
