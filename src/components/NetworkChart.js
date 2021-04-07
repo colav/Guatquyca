@@ -50,11 +50,6 @@ const NetworkChart = ({ networkData, isError, isLoading }) => {
     ],
   }; */
 
-  if (isError) {
-    return <ErrorWarning />;
-  } else if (isLoading) {
-    return <LoadingCard />;
-  }
   let eCache = "";
   const openNotification = (e) => {
     if (e.index !== eCache.index) {
@@ -107,12 +102,7 @@ const NetworkChart = ({ networkData, isError, isLoading }) => {
   };
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card
-        /* loading={state.isLoading} */
-        title="Card title"
-        bodyStyle={{ padding: "10px" }}
-        hoverable
-      >
+      <Card title="Red de Citaciones" bodyStyle={{ padding: "10px" }} hoverable>
         <Card
           bordered={false}
           type="inner"

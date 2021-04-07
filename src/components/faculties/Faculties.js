@@ -9,6 +9,7 @@ import TabListsCard from "../TabListsCard";
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
+const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 
 const Faculties = ({ currentURL, setCurrentURL }) => {
@@ -28,7 +29,11 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
   if (state.isError) {
     return <ErrorWarning />;
   } else if (state.isLoading) {
-    return <LoadingCard />;
+    return (
+      <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+        <LoadingCard title={"Afiliaciones"} height={"431px"} />
+      </Col>
+    );
   }
   return (
     <div className="site-card-wrapper">

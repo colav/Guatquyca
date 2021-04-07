@@ -25,12 +25,7 @@ const YearlyCitationsChart = ({ data, isLoading }) => {
 
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card
-        loading={isLoading}
-        title="Citas"
-        bodyStyle={{ padding: "10px" }}
-        hoverable
-      >
+      <Card title="Citas" bodyStyle={{ padding: "10px" }} hoverable>
         <Card
           bordered={false}
           type="inner"
