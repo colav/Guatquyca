@@ -9,7 +9,6 @@ const Col = require("antd/lib/col").default;
 const queryString = require("query-string");
 
 const CitationsWrapper = () => {
-  const w = [24, 24, 12, 8, 8, 8];
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "citations";
   const builtURL = `${history.location.pathname}?${queryString.stringify(

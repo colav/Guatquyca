@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import InstitutionsTitleCard from "./InstitutionsTitleCard";
-import TabListsCard from "../TabListsCard";
+import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
+import InstitutionsTitleCard from "./InstitutionsTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
+import ProductionListCard from "../ProductionListCard";
+import TabListsCard from "../TabListsCard";
+import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
-import NetworkChart from "../NetworkChart";
-import ProductionListCard from "../ProductionListCard";
-import URLBuilder from "../../helpers/URLBuilder";
 const Avatar = require("antd/lib/avatar").default;
 const Col = require("antd/lib/col").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
@@ -56,12 +56,12 @@ const Authors = ({ currentURL, setCurrentURL }) => {
           state={state.data}
           setCurrentURL={setCurrentURL}
         />
+        <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
           setCurrentURL={setCurrentURL}
         />
-        <NetworkChart />
         <ProductionListCard
           type={state.data.type}
           setCurrenURL={setCurrentURL}

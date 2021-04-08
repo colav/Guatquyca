@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import GroupTitleCard from "./GroupsTitleCard";
 import LoadingCard from "../LoadingCard";
@@ -39,6 +40,7 @@ const Groups = ({ currentURL, setCurrentURL }) => {
           subtitle={state.data.institution[0].name}
           setCurrentURL={setCurrentURL}
         />
+        <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
