@@ -8,11 +8,15 @@ const notification = require("antd/lib/notification").default;
 
 const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
   const [authorsQuantity, setAuthorsQuantity] = useState(10);
-  const [disabled, setDisabled] = useState(false);
+  const [showingAll, setShowingAll] = useState(false);
 
   const onClick = () => {
-    setAuthorsQuantity(authorsList.length);
-    setDisabled(true);
+    if (showingAll === false) {
+      setAuthorsQuantity(authorsList.length);
+    } else {
+      setAuthorsQuantity(10);
+    }
+    setShowingAll(!showingAll);
   };
 
   const URL = (type, id) => {
@@ -77,8 +81,8 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
       ))}
       <Divider type="vertical" />
       {authorsList.length > 10 ? (
-        <Button onClick={onClick} type="dashed" disabled={disabled}>
-          Mostrar todos ({authorsList.length})
+        <Button onClick={onClick} type="dashed">
+          {showingAll ? "Mostrar menos" : `Mostrar todos ${authorsList.length}`}
         </Button>
       ) : (
         ""
