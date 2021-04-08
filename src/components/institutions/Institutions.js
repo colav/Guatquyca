@@ -64,7 +64,7 @@ const Authors = ({ currentURL, setCurrentURL }) => {
         />
         <ProductionListCard
           type={state.data.type}
-          setCurrenURL={setCurrentURL}
+          setCurrentURL={setCurrentURL}
         />
       </Row>
     </div>

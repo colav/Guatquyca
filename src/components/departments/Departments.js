@@ -48,7 +48,7 @@ const Departments = ({ currentURL, setCurrentURL }) => {
         />
         <ProductionListCard
           type={state.data.type}
-          setCurrenURL={setCurrentURL}
+          setCurrentURL={setCurrentURL}
         />
       </Row>
     </div>

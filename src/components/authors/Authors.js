@@ -28,7 +28,10 @@ const Authors = ({ currentURL, setCurrentURL }) => {
     <Row gutter={[10, 10]}>
       <LogoU />
       <AuthorsTitleCard state={state.data} setCurrentURL={setCurrentURL} />
-      <ProductionListCard type={state.data.type} setCurrenURL={setCurrentURL} />
+      <ProductionListCard
+        type={state.data.type}
+        setCurrentURL={setCurrentURL}
+      />
     </Row>
   );
 };

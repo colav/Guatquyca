@@ -15,7 +15,7 @@ const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const queryString = require("query-string");
 
-const ProductionListCard = ({ type, setCurrenURL }) => {
+const ProductionListCard = ({ type, setCurrentURL }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "production";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
@@ -98,7 +98,7 @@ const ProductionListCard = ({ type, setCurrenURL }) => {
                       </div>
                     }
                   />
-                  Autores: {AuthorsHorizontalList(item.authors, setCurrenURL)}
+                  Autores: {AuthorsHorizontalList(item.authors, setCurrentURL)}
                 </List.Item>
               )}
             ></List>
