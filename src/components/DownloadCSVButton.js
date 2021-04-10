@@ -49,9 +49,10 @@ const DownloadCSVButton = ({ data, isLoading }) => {
         download
       </a>
       <Button
-        type="link"
-        id="test"
         icon={<DownloadOutlined />}
+        type="dashed"
+        shape="round"
+        style={{ color: "#9D3715" }}
         loading={isLoading}
         onClick={onClick}
       >

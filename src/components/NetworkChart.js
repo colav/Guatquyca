@@ -11,7 +11,7 @@ const NetworkChart = ({ networkData }) => {
     if (e.index !== eCache.index) {
       eCache = e;
       notification.open({
-        duration: 8,
+        style: { width: 550, border: "2px solid #DCDCD5" },
         message: networkData.nodes[e.index].title,
         description: e.id,
       });

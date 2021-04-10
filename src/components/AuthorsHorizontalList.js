@@ -28,9 +28,11 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
 
   const openNotification = (author) => {
     notification.open({
+      style: { width: 450, border: "2px solid #DCDCD5" },
       message: (
         <Router history={history}>
           <Link
+            style={{ fontSize: 21 }}
             to={`/app/authors?${APIKEY}&${DATA}&id=${author._id}`}
             onClick={() =>
               setCurrentURL(`/app/authors?${APIKEY}&${DATA}&id=${author._id}`)
@@ -53,13 +55,14 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
       ),
       description: author.affiliations[0].branches.map((item) => (
         <Router key={item._id} history={history}>
+          <Divider style={{ margin: 2 }} />
           <Link
+            style={{ fontSize: 15 }}
             to={URL(item.type, item._id)}
             onClick={() => setCurrentURL(URL(item.type, item._id))}
           >
             {item.name}
           </Link>
-          <br />
         </Router>
       )),
       onClick: () => {

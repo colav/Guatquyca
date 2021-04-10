@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AuthorsHorizontalList from "./AuthorsHorizontalList";
 import DownloadCSVButton from "./DownloadCSVButton";
-import DownloadPDFButton from "./DownloadPDFButton";
+import DownloadJSONButton from "./DownloadJSONButton";
 import ErrorWarning from "./ErrorWarning";
 import history from "../history";
 import { APIRequest } from "../apis/clustercien";
@@ -52,7 +52,7 @@ const ProductionListCard = ({ type, setCurrentURL }) => {
               data={state.data.data}
               isLoading={state.isLoading}
             />,
-            <DownloadPDFButton
+            <DownloadJSONButton
               data={state.data.data}
               isLoading={state.isLoading}
             />,
