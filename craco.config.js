@@ -26,6 +26,7 @@ module.exports = {
               "@menu-item-color": "#DBE6F0",
               "@card-head-background": "#FFE1BB",
               "@link-color": "#9D3715",
+              "@tooltip-color": "#FFE1BB",
             },
             javascriptEnabled: true,
           },
