@@ -39,34 +39,44 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
     ));
   };
 
+  const renderedActions = [
+    Object.keys(state.faculty).length > 0 ? (
+      <Link
+        to={URL(state.faculty.type, state.faculty.id)}
+        onClick={() => setCurrentURL(URL(state.faculty.type, state.faculty.id))}
+      >
+        <TeamOutlined /> {state.faculty.name}
+      </Link>
+    ) : (
+      ""
+    ),
+    Object.keys(state.department).length > 0 ? (
+      <Link
+        to={URL(state.department.type, state.department.id)}
+        onClick={() =>
+          setCurrentURL(URL(state.department.type, state.department.id))
+        }
+      >
+        <TeamOutlined /> {state.department.name}
+      </Link>
+    ) : (
+      ""
+    ),
+    Object.keys(state.group).length > 0 ? (
+      <Link
+        to={URL(state.group.type, state.group.id)}
+        onClick={() => setCurrentURL(URL(state.group.type, state.group.id))}
+      >
+        <TeamOutlined /> {state.group.name}
+      </Link>
+    ) : (
+      ""
+    ),
+  ];
+
   return (
     <Col xs={24} sm={24} md={18} lg={19} xl={20} xxl={21}>
-      <Card
-        actions={[
-          <Link
-            to={URL(state.faculty.type, state.faculty.id)}
-            onClick={() =>
-              setCurrentURL(URL(state.faculty.type, state.faculty.id))
-            }
-          >
-            <TeamOutlined /> {state.faculty.name}
-          </Link>,
-          <Link
-            to={URL(state.department.type, state.department.id)}
-            onClick={() =>
-              setCurrentURL(URL(state.department.type, state.department.id))
-            }
-          >
-            <TeamOutlined /> {state.department.name}
-          </Link>,
-          <Link
-            to={URL(state.group.type, state.group.id)}
-            onClick={() => setCurrentURL(URL(state.group.type, state.group.id))}
-          >
-            <TeamOutlined /> {state.group.name}
-          </Link>,
-        ]}
-      >
+      <Card actions={renderedActions}>
         <Typography.Title level={2}>
           {state.full_name}{" "}
           {state.country ? (

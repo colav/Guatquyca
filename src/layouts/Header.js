@@ -5,7 +5,7 @@ const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 const Button = require("antd/lib/button").default;
 
-const Header = ({ setCurrentURL }) => {
+const Header = ({ props }) => {
   return (
     <Layout.Header
       style={{
@@ -22,7 +22,7 @@ const Header = ({ setCurrentURL }) => {
           </Button>
         </Col>
         <Col xs={24} sm={14} lg={12} xl={14}>
-          <SearchBar setCurrentURL={setCurrentURL} />
+          <SearchBar setCurrentURL={props.setCurrentURL} />
         </Col>
       </Row>
     </Layout.Header>

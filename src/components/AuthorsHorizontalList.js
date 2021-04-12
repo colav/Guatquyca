@@ -41,30 +41,37 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
             {author.full_name}
           </Link>
           <br />
-          <Link
-            to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`}
-            onClick={() =>
-              setCurrentURL(
-                `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`
-              )
-            }
-          >
-            {author.affiliations[0].name}
-          </Link>
+          {author.affiliations.length > 0 ? (
+            <Link
+              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`}
+              onClick={() =>
+                setCurrentURL(
+                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`
+                )
+              }
+            >
+              {author.affiliations[0].name}
+            </Link>
+          ) : (
+            ""
+          )}
         </Router>
       ),
-      description: author.affiliations[0].branches.map((item) => (
-        <Router key={item._id} history={history}>
-          <Divider style={{ margin: 2 }} />
-          <Link
-            style={{ fontSize: 15 }}
-            to={URL(item.type, item._id)}
-            onClick={() => setCurrentURL(URL(item.type, item._id))}
-          >
-            {item.name}
-          </Link>
-        </Router>
-      )),
+      description:
+        author.affiliations.length > 0
+          ? author.affiliations[0].branches.map((item) => (
+              <Router key={item._id} history={history}>
+                <Divider style={{ margin: 2 }} />
+                <Link
+                  style={{ fontSize: 15 }}
+                  to={URL(item.type, item._id)}
+                  onClick={() => setCurrentURL(URL(item.type, item._id))}
+                >
+                  {item.name}
+                </Link>
+              </Router>
+            ))
+          : "",
       onClick: () => {
         notification.destroy(author._id);
       },

@@ -12,16 +12,16 @@ import { tabListMaker } from "../../helpers/tabListMaker";
 const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 
-const Faculties = ({ currentURL, setCurrentURL }) => {
-  const [state, setUrl] = APIRequest(currentURL);
+const Faculties = ({ props }) => {
+  const [state, setUrl] = APIRequest(props.currentURL);
 
   window.addEventListener("popstate", () => {
-    setCurrentURL(URLBuilder);
+    props.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setUrl(currentURL);
-  }, [currentURL, setUrl]);
+    setUrl(props.currentURL);
+  }, [props.currentURL, setUrl]);
 
   const tabList = ["departments", "groups", "authors"];
   const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
@@ -44,17 +44,17 @@ const Faculties = ({ currentURL, setCurrentURL }) => {
           abbreviation={state.data.abbreviations}
           external_urls={state.data.external_urls}
           subtitle={state.data.institution[0].name}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
         <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
         <ProductionListCard
           type={state.data.type}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
       </Row>
     </div>

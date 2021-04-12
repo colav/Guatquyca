@@ -15,18 +15,18 @@ const List = require("antd/lib/list").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const queryString = require("query-string");
 
-const SearchResultList = ({ currentURL, setCurrentURL }) => {
-  const [state, setUrl] = APIRequest(currentURL);
-  const parsed = queryString.parse(currentURL);
+const SearchResultList = ({ props }) => {
+  const [state, setUrl] = APIRequest(props.currentURL);
+  const parsed = queryString.parse(props.currentURL);
 
   window.addEventListener("popstate", () => {
-    setCurrentURL(URLBuilder);
+    props.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setCurrentURL(URLBuilder);
-    setUrl(currentURL);
-  }, [currentURL, setUrl, setCurrentURL]);
+    props.setCurrentURL(URLBuilder);
+    setUrl(props.currentURL);
+  }, [props.currentURL, setUrl, props.setCurrentURL, props]);
 
   const renderedItemName = (item) => {
     if (!item.abbreviations || item.abbreviations.length === 0) {
@@ -38,7 +38,7 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
   };
 
   const onClick = (url) => {
-    setCurrentURL(url);
+    props.setCurrentURL(url);
   };
 
   const onPageChange = (page, pageSize) => {
@@ -51,7 +51,7 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
     history.push(
       `${history.location.pathname}?${queryString.stringify(newQuery)}`
     );
-    setCurrentURL(URLBuilder);
+    props.setCurrentURL(URLBuilder);
   };
 
   if (state.isError) {
@@ -114,7 +114,7 @@ const SearchResultList = ({ currentURL, setCurrentURL }) => {
               }
               description={renderedAffiliation(
                 item.affiliation ? item.affiliation.name : "",
-                setCurrentURL
+                props.setCurrentURL
               )}
             />
             {parsed.data === "authors" ? (

@@ -47,16 +47,20 @@ const ProductionListCard = ({ type, setCurrentURL }) => {
     return (
       <Col span={24}>
         <Card
-          actions={[
-            <DownloadCSVButton
-              data={state.data.data}
-              isLoading={state.isLoading}
-            />,
-            <DownloadJSONButton
-              data={state.data.data}
-              isLoading={state.isLoading}
-            />,
-          ]}
+          actions={
+            state.data.total_results > 0
+              ? [
+                  <DownloadCSVButton
+                    data={state.data.data}
+                    isLoading={state.isLoading}
+                  />,
+                  <DownloadJSONButton
+                    data={state.data.data}
+                    isLoading={state.isLoading}
+                  />,
+                ]
+              : ""
+          }
           title={`Producción ${renderedTitle(type)}`}
           loading={state.isLoading}
         >

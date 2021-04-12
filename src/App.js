@@ -17,13 +17,15 @@ const Layout = require("antd/lib/layout").default;
 
 const App = () => {
   const [currentURL, setCurrentURL] = useState(URLBuilder());
+  const [filters, setFilters] = useState([]);
+  const props = { currentURL, setCurrentURL, filters, setFilters };
 
   return (
     <Router history={history}>
       <ScrollToTop />
       <Route path="/app">
         <Layout>
-          <Header setCurrentURL={setCurrentURL} />
+          <Header props={props} />
           <Sidebar />
           <Layout.Content
             style={{
@@ -33,34 +35,22 @@ const App = () => {
             }}
           >
             <Route exact path="/app/search">
-              <SearchResultList
-                currentURL={currentURL}
-                setCurrentURL={setCurrentURL}
-              />
+              <SearchResultList props={props} />
             </Route>
             <Route exact path="/app/faculties">
-              <Faculties
-                currentURL={currentURL}
-                setCurrentURL={setCurrentURL}
-              />
+              <Faculties props={props} />
             </Route>
             <Route exact path="/app/departments">
-              <Departments
-                currentURL={currentURL}
-                setCurrentURL={setCurrentURL}
-              />
+              <Departments props={props} />
             </Route>
             <Route exact path="/app/groups">
-              <Groups currentURL={currentURL} setCurrentURL={setCurrentURL} />
+              <Groups props={props} />
             </Route>
             <Route exact path="/app/authors">
-              <Authors currentURL={currentURL} setCurrentURL={setCurrentURL} />
+              <Authors props={props} />
             </Route>
             <Route exact path="/app/institutions">
-              <Institutions
-                currentURL={currentURL}
-                setCurrentURL={setCurrentURL}
-              />
+              <Institutions props={props} />
             </Route>
             <Footer />
           </Layout.Content>

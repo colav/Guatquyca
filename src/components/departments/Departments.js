@@ -11,16 +11,16 @@ import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
 const Row = require("antd/lib/row").default;
 
-const Departments = ({ currentURL, setCurrentURL }) => {
-  const [state, setUrl] = APIRequest(currentURL);
+const Departments = ({ props }) => {
+  const [state, setUrl] = APIRequest(props.currentURL);
 
   window.addEventListener("popstate", () => {
-    setCurrentURL(URLBuilder);
+    props.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setUrl(currentURL);
-  }, [currentURL, setUrl]);
+    setUrl(props.currentURL);
+  }, [props.currentURL, setUrl]);
 
   const tabList = ["groups", "authors"];
   const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
@@ -38,17 +38,17 @@ const Departments = ({ currentURL, setCurrentURL }) => {
           title={state.data.name}
           external_urls={state.data.external_urls}
           subtitle={state.data.institution[0].name}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
         <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
         <ProductionListCard
           type={state.data.type}
-          setCurrentURL={setCurrentURL}
+          setCurrentURL={props.setCurrentURL}
         />
       </Row>
     </div>
