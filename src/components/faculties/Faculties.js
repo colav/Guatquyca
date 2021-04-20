@@ -12,16 +12,16 @@ import { tabListMaker } from "../../helpers/tabListMaker";
 const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 
-const Faculties = ({ props }) => {
-  const [state, setUrl] = APIRequest(props.currentURL);
+const Faculties = ({ core }) => {
+  const [state, setUrl] = APIRequest(core.currentURL);
 
   window.addEventListener("popstate", () => {
-    props.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setUrl(props.currentURL);
-  }, [props.currentURL, setUrl]);
+    setUrl(core.currentURL);
+  }, [core.currentURL, setUrl]);
 
   const tabList = ["departments", "groups", "authors"];
   const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
@@ -44,18 +44,15 @@ const Faculties = ({ props }) => {
           abbreviation={state.data.abbreviations}
           external_urls={state.data.external_urls}
           subtitle={state.data.institution[0].name}
-          setCurrentURL={props.setCurrentURL}
+          setCurrentURL={core.setCurrentURL}
         />
-        <CitationsWrapper />
+        {/* <CitationsWrapper /> */}
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
-          setCurrentURL={props.setCurrentURL}
+          setCurrentURL={core.setCurrentURL}
         />
-        <ProductionListCard
-          type={state.data.type}
-          setCurrentURL={props.setCurrentURL}
-        />
+        <ProductionListCard type={state.data.type} core={core} />
       </Row>
     </div>
   );

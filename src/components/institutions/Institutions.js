@@ -14,16 +14,16 @@ const Col = require("antd/lib/col").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const Row = require("antd/lib/row").default;
 
-const Authors = ({ props }) => {
-  const [state, setUrl] = APIRequest(props.currentURL);
+const Authors = ({ core }) => {
+  const [state, setUrl] = APIRequest(core.currentURL);
 
   window.addEventListener("popstate", () => {
-    props.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setUrl(props.currentURL);
-  }, [props.currentURL, setUrl]);
+    setUrl(core.currentURL);
+  }, [core.currentURL, setUrl]);
 
   const tabList = ["faculties", "departments"];
   const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
@@ -54,18 +54,15 @@ const Authors = ({ props }) => {
         )}
         <InstitutionsTitleCard
           state={state.data}
-          setCurrentURL={props.setCurrentURL}
+          setCurrentURL={core.setCurrentURL}
         />
         <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}
-          setCurrentURL={props.setCurrentURL}
+          setCurrentURL={core.setCurrentURL}
         />
-        <ProductionListCard
-          type={state.data.type}
-          setCurrentURL={props.setCurrentURL}
-        />
+        <ProductionListCard type={state.data.type} core={core} />
       </Row>
     </div>
   );

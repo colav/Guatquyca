@@ -15,18 +15,18 @@ const List = require("antd/lib/list").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const queryString = require("query-string");
 
-const SearchResultList = ({ props }) => {
-  const [state, setUrl] = APIRequest(props.currentURL);
-  const parsed = queryString.parse(props.currentURL);
+const SearchResultList = ({ core }) => {
+  const [state, setUrl] = APIRequest(core.currentURL);
+  const parsed = queryString.parse(core.currentURL);
 
   window.addEventListener("popstate", () => {
-    props.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    props.setCurrentURL(URLBuilder);
-    setUrl(props.currentURL);
-  }, [props.currentURL, setUrl, props.setCurrentURL, props]);
+    core.setCurrentURL(URLBuilder);
+    setUrl(core.currentURL);
+  }, [core.currentURL, setUrl, core.setCurrentURL, core]);
 
   const renderedItemName = (item) => {
     if (!item.abbreviations || item.abbreviations.length === 0) {
@@ -38,7 +38,7 @@ const SearchResultList = ({ props }) => {
   };
 
   const onClick = (url) => {
-    props.setCurrentURL(url);
+    core.setCurrentURL(url);
   };
 
   const onPageChange = (page, pageSize) => {
@@ -51,8 +51,14 @@ const SearchResultList = ({ props }) => {
     history.push(
       `${history.location.pathname}?${queryString.stringify(newQuery)}`
     );
-    props.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder);
   };
+
+  if (!state.isLoading) {
+    setTimeout(() => {
+      core.setFilters(state.data.filters);
+    }, 50);
+  }
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -114,7 +120,7 @@ const SearchResultList = ({ props }) => {
               }
               description={renderedAffiliation(
                 item.affiliation ? item.affiliation.name : "",
-                props.setCurrentURL
+                core.setCurrentURL
               )}
             />
             {parsed.data === "authors" ? (

@@ -3,7 +3,9 @@ import AnyChart from "anychart-react";
 import anychart from "anychart";
 import InfoButton from "./InfoButton";
 const Card = require("antd/lib/card").default;
+const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
+const DownloadOutlined = require("@ant-design/icons/DownloadOutlined").default;
 
 const YearlyCitationsChart = ({ data }) => {
   const chartData = Object.entries(data.yearly_citations);
@@ -16,6 +18,10 @@ const YearlyCitationsChart = ({ data }) => {
   series.normal().fill(["#50B100", "#ABF370"], 90);
   series.normal().stroke("#ABF370");
 
+  function pdf() {
+    chart.saveAsPdf();
+  }
+
   const gridStyle = {
     width: "50%",
     height: "40px",
@@ -25,12 +31,29 @@ const YearlyCitationsChart = ({ data }) => {
   };
 
   return (
-    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
       <Card
         title="Citas"
-        extra={
-          <InfoButton text={"Texto informativo para la tarjeta de citas"} />
-        }
+        extra={[
+          <InfoButton
+            key={1}
+            text={"Texto informativo para la tarjeta de citas"}
+          />,
+          " ",
+          <Button
+            key={2}
+            shape="round"
+            style={{
+              color: "#9D3715",
+              backgroundColor: "#FFE1BB",
+              border: "2px solid #063966",
+            }}
+            onClick={pdf}
+            icon={<DownloadOutlined />}
+          >
+            pdf
+          </Button>,
+        ]}
         bodyStyle={{ padding: "10px" }}
         hoverable
       >

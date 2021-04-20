@@ -9,16 +9,16 @@ import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 const Row = require("antd/lib/row").default;
 
-const Authors = ({ props }) => {
-  const [state, setUrl] = APIRequest(props.currentURL);
+const Authors = ({ core }) => {
+  const [state, setUrl] = APIRequest(core.currentURL);
 
   window.addEventListener("popstate", () => {
-    props.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder);
   });
 
   useEffect(() => {
-    setUrl(props.currentURL);
-  }, [props.currentURL, setUrl]);
+    setUrl(core.currentURL);
+  }, [core.currentURL, setUrl]);
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -28,15 +28,9 @@ const Authors = ({ props }) => {
   return (
     <Row gutter={[10, 10]}>
       <LogoU />
-      <AuthorsTitleCard
-        state={state.data}
-        setCurrentURL={props.setCurrentURL}
-      />
+      <AuthorsTitleCard state={state.data} setCurrentURL={core.setCurrentURL} />
       <CitationsWrapper />
-      <ProductionListCard
-        type={state.data.type}
-        setCurrentURL={props.setCurrentURL}
-      />
+      <ProductionListCard type={state.data.type} core={core} />
     </Row>
   );
 };

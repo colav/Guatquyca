@@ -1,18 +1,58 @@
 import React, { useState, useEffect } from "react";
+
+/* Components */
+import CountriesFilter from "../components/CountriesFilter";
+import YearsRangeFilter from "../components/YearsRangeFilter";
+
+/* Utilities */
+import history from "../history";
+const queryString = require("query-string");
+
+/* UI Library Components */
+const Button = require("antd/lib/button").default;
 const Layout = require("antd/lib/layout").default;
 const Menu = require("antd/lib/menu").default;
-const UserOutlined = require("@ant-design/icons/UserOutlined").default;
-const FilterOutlined = require("@ant-design/icons/FilterOutlined").default;
-const ToolOutlined = require("@ant-design/icons/ToolOutlined").default;
-const SettingOutlined = require("@ant-design/icons/SettingOutlined").default;
 
-const Sidebar = () => {
+/* Icons */
+const FilterOutlined = require("@ant-design/icons/FilterOutlined").default;
+
+const Sidebar = ({ core }, props) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [expanded, setExpanded] = useState(!collapsed);
+  const [years, setYears] = useState({});
+  const [countries, setCountries] = useState([]);
 
   useEffect(() => {
     let elem = document.querySelector(".ant-layout-content");
     collapsed ? (elem.style.opacity = 1) : (elem.style.opacity = 0.2);
   }, [collapsed]);
+
+  useEffect(() => {
+    if (!collapsed) {
+      setTimeout(() => setExpanded(!collapsed), 300);
+    } else {
+      setExpanded(!collapsed);
+    }
+  }, [collapsed]);
+
+  const onClick = () => {
+    let parsedQueryURL = queryString.parse(history.location.search);
+    let filteredURL = history.location.pathname;
+    if (Object.keys(years).length > 0) {
+      if ("start_year" && "end_year" in parsedQueryURL) {
+        parsedQueryURL["end_year"] = years.end_year;
+        parsedQueryURL["start_year"] = years.start_year;
+        filteredURL += `?${queryString.stringify(parsedQueryURL)}`;
+      } else {
+        filteredURL += `${history.location.search}&${queryString.stringify(
+          years
+        )}`;
+      }
+      history.push(filteredURL);
+      core.setCurrentURL(filteredURL);
+    }
+    setCollapsed(!collapsed);
+  };
 
   return (
     <Layout.Sider
@@ -20,38 +60,40 @@ const Sidebar = () => {
       collapsed={collapsed}
       onCollapse={() => setCollapsed(!collapsed)}
       collapsedWidth="50px"
-      style={{
-        overflow: "auto",
-        height: "100vh",
-        position: "fixed",
-        top: "80px",
-        zIndex: 2,
-        left: 0,
-        borderTop: "5px solid #EAEAE6",
-      }}
+      width="300"
     >
       <Menu
+        selectable={false}
+        triggerSubMenuAction="click"
         mode="inline"
         style={{
           borderRight: 0,
         }}
       >
-        <Menu.Item disabled="true" key="0">
-          <SettingOutlined style={{ fontSize: "18px", color: "#eaaf63" }} />
-        </Menu.Item>
-        <Menu.Item key="1">
-          <UserOutlined />
-          <span className="nav-text">Filtro 1</span>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <FilterOutlined />
-          <span className="nav-text">Filtro 2</span>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <ToolOutlined />
-          <span className="nav-text">Filtro 3</span>
-        </Menu.Item>
+        <div className="sidebar-title">
+          <FilterOutlined style={{ margin: "16px" }} />
+          {expanded ? "Filtros" : ""}
+        </div>
+        <CountriesFilter core={core} setCountries={setCountries} {...props} />
+        <YearsRangeFilter
+          core={core}
+          years={years}
+          setYears={setYears}
+          {...props}
+        />
       </Menu>
+      {expanded ? (
+        <Button
+          shape="round"
+          type="primary"
+          className="sidebar-button"
+          onClick={onClick}
+        >
+          Aplicar filtros
+        </Button>
+      ) : (
+        ""
+      )}
     </Layout.Sider>
   );
 };

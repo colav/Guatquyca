@@ -6,6 +6,10 @@
   padding-right: 5px;
 }
 
+.ant-menu-sub.ant-menu-inline {
+  background-color: #112130;
+}
+
 .ant-menu-inline-collapsed {
   width: 50px;
 }
@@ -72,14 +76,35 @@
   }
 }
 
-#NetworkChartContainer {
+#NetworkChartContainer,
+#YearlyCitationsContainer {
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-#YearlyCitationsContainer {
+.ant-layout-sider {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  top: 80px;
+  z-index: 2;
+  left: 0;
+  border-top: 5px solid #eaeae6;
+}
+
+.sidebar-title {
+  margin: 0;
+  height: 48px;
+  background: #14382b;
+  color: #eaaf63;
+}
+
+.sidebar-button {
+  width: 240px;
+  margin: 30px;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  bottom: 110px;
+  color: #162736;
+  font-weight: 600;
 }

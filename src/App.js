@@ -18,15 +18,15 @@ const Layout = require("antd/lib/layout").default;
 const App = () => {
   const [currentURL, setCurrentURL] = useState(URLBuilder());
   const [filters, setFilters] = useState([]);
-  const props = { currentURL, setCurrentURL, filters, setFilters };
+  const core = { currentURL, setCurrentURL, filters, setFilters };
 
   return (
     <Router history={history}>
       <ScrollToTop />
       <Route path="/app">
         <Layout>
-          <Header props={props} />
-          <Sidebar />
+          <Header core={core} />
+          <Sidebar core={core} />
           <Layout.Content
             style={{
               margin: "85px 10px 15px 60px",
@@ -35,22 +35,22 @@ const App = () => {
             }}
           >
             <Route exact path="/app/search">
-              <SearchResultList props={props} />
+              <SearchResultList core={core} />
             </Route>
             <Route exact path="/app/faculties">
-              <Faculties props={props} />
+              <Faculties core={core} />
             </Route>
             <Route exact path="/app/departments">
-              <Departments props={props} />
+              <Departments core={core} />
             </Route>
             <Route exact path="/app/groups">
-              <Groups props={props} />
+              <Groups core={core} />
             </Route>
             <Route exact path="/app/authors">
-              <Authors props={props} />
+              <Authors core={core} />
             </Route>
             <Route exact path="/app/institutions">
-              <Institutions props={props} />
+              <Institutions core={core} />
             </Route>
             <Footer />
           </Layout.Content>
