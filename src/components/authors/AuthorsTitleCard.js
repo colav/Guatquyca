@@ -1,16 +1,24 @@
 import React from "react";
+
+/* Constanst */
 import { APIKEY, DATA } from "../../constants/routes";
+
+/* Utilities */
 import { Link } from "react-router-dom";
 import { renderedAffiliation } from "../../helpers/renderedAffiliation";
+
+/* Icons */
 import orcid from "../../icons/orcid";
 import researcherid from "../../icons/researcherid";
 import scholar from "../../icons/scholar";
 import scopus from "../../icons/scopus";
+const TeamOutlined = require("@ant-design/icons/TeamOutlined").default;
+
+/* UI Library Components */
 const Button = require("antd/lib/button").default;
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const Space = require("antd/lib/space").default;
-const TeamOutlined = require("@ant-design/icons/TeamOutlined").default;
 const Typography = require("antd/lib/typography").default;
 
 const AuthorsTitleCard = ({ state, setCurrentURL }) => {
@@ -84,7 +92,7 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
               style={{ paddingBottom: "3px" }}
               alt={`flag of ${state.country}`}
               title={state.country}
-              src={`https://www.countryflags.io/${state.country_code}/flat/32.png`}
+              src={`https://flagcdn.com/28x21/${state.country_code.toLowerCase()}.png`}
             />
           ) : (
             ""

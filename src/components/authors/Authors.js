@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
+
+/* Components */
 import AuthorsTitleCard from "./AuthorsTitleCard";
 import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
 import ProductionListCard from "../ProductionListCard";
+
+/* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
+
+/* UI Library Components */
 const Row = require("antd/lib/row").default;
 
 const Authors = ({ core }) => {

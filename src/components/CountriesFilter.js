@@ -23,19 +23,24 @@ const CountriesFilter = (props) => {
     const countriesList = [];
     props.core.filters.countries.map((country) =>
       countriesList.push(
-        <Option key={country}>
+        <Option key={country.country_code}>
           <div>
             <img
-              alt={country}
-              src={`https://www.countryflags.io/${country}/flat/24.png`}
+              alt={country.country}
+              src={`https://flagcdn.com/20x15/${country.country_code.toLowerCase()}.png`}
             />{" "}
-            Nombre ({country})
+            {country.country} ({country.country_code})
           </div>
         </Option>
       )
     );
 
     setTimeout(() => setVisible(false), 2000);
+
+    const onChange = (e) => {
+      const countriesList = e.join(" ");
+      props.setCountries(countriesList);
+    };
 
     return (
       <SubMenu
@@ -59,6 +64,7 @@ const CountriesFilter = (props) => {
             style={{ width: "100%" }}
             placeholder="selecciona los países"
             showArrow={true}
+            onChange={onChange}
             /* defaultValue={countriesList} */
             optionLabelProp="label"
           >

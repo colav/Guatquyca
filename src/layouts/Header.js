@@ -3,13 +3,15 @@ import React from "react";
 /* Components */
 import SearchBar from "../components/SearchBar";
 
+/* Logos */
+import logo_colav_b from "../logos/logo_colav_b.svg";
+
 /* UI Library Components */
-const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
 const Layout = require("antd/lib/layout").default;
 const Row = require("antd/lib/row").default;
 
-const Header = ({ core }) => {
+const Header = ({ core, home, setHome }) => {
   return (
     <Layout.Header
       style={{
@@ -17,16 +19,30 @@ const Header = ({ core }) => {
         padding: 0,
         position: "fixed",
         zIndex: 1,
+        height: "auto",
       }}
     >
-      <Row align="middle">
-        <Col xs={0} sm={5} md={5} lg={5} xl={5}>
-          <Button type="primary" href="/app" style={{ marginLeft: "20px" }}>
-            Home
-          </Button>
+      <Row>
+        <Col
+          xs={12}
+          sm={7}
+          md={6}
+          style={{ padding: "0px 10px", width: "300px" }}
+        >
+          <a href="/app">
+            <img
+              src={logo_colav_b}
+              alt="Logotipo Colav"
+              className="logo-colav-header"
+            />
+          </a>
         </Col>
         <Col xs={24} sm={14} lg={12} xl={14}>
-          <SearchBar setCurrentURL={core.setCurrentURL} />
+          {!home ? (
+            <SearchBar setCurrentURL={core.setCurrentURL} setHome={setHome} />
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </Layout.Header>

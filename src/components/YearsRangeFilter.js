@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import history from "../history";
 
 /* Utilities */
+import history from "../history";
 import moment from "moment";
 import _ from "lodash";
 const queryString = require("query-string");
@@ -87,7 +87,7 @@ const YearsRangeFilter = (props) => {
             <CalendarOutlined style={{ color: "#B3FFB8" }} />
           </Tooltip>
         }
-        title="Rango de fechas"
+        title="Rango de años"
       >
         <Menu.Item>
           <RangePicker

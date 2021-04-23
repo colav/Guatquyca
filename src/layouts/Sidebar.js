@@ -20,11 +20,13 @@ const Sidebar = ({ core }, props) => {
   const [collapsed, setCollapsed] = useState(true);
   const [expanded, setExpanded] = useState(!collapsed);
   const [years, setYears] = useState({});
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState("");
 
   useEffect(() => {
     let elem = document.querySelector(".ant-layout-content");
+    let elem2 = document.querySelector(".ant-layout-footer");
     collapsed ? (elem.style.opacity = 1) : (elem.style.opacity = 0.2);
+    collapsed ? (elem2.style.opacity = 1) : (elem2.style.opacity = 0.5);
   }, [collapsed]);
 
   useEffect(() => {
@@ -50,7 +52,22 @@ const Sidebar = ({ core }, props) => {
       }
       history.push(filteredURL);
       core.setCurrentURL(filteredURL);
+    } else if (countries.length > 0) {
+      let parsedQueryURL = queryString.parse(history.location.search);
+      let filteredURL = history.location.pathname;
+      if ("country" in parsedQueryURL) {
+        parsedQueryURL["country"] = countries;
+        filteredURL += `?${queryString.stringify(parsedQueryURL)}`;
+      } else {
+        filteredURL += `?${queryString.stringify(
+          parsedQueryURL
+        )}&country=${countries}`;
+      }
+      history.push(filteredURL);
+      core.setCurrentURL(filteredURL);
     }
+    setCountries("");
+    setYears({});
     setCollapsed(!collapsed);
   };
 
@@ -84,6 +101,11 @@ const Sidebar = ({ core }, props) => {
       </Menu>
       {expanded ? (
         <Button
+          disabled={
+            countries.length === 0 && Object.keys(years).length === 0
+              ? true
+              : false
+          }
           shape="round"
           type="primary"
           className="sidebar-button"

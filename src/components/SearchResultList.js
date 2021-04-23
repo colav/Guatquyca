@@ -1,19 +1,29 @@
 import React, { useEffect } from "react";
+
+/* Components */
 import AuthorsKeywords from "./AuthorsKeywords";
 import ErrorWarning from "./ErrorWarning";
-import history from "../history";
 import LoadingCard from "./LoadingCard";
-import URLBuilder from "../helpers/URLBuilder";
+
+/* Constants */
 import { APIKEY, DATA, LOGOUDEA } from "../constants/routes";
+
+/* Utilities */
+import history from "../history";
+import URLBuilder from "../helpers/URLBuilder";
 import { APIRequest } from "../apis/clustercien";
 import { Link } from "react-router-dom";
 import { renderedAffiliation } from "../helpers/renderedAffiliation";
 import { renderedTitle } from "../helpers/renderedTitle";
+const queryString = require("query-string");
+
+/* UI Library Components */
 const Avatar = require("antd/lib/avatar").default;
 const Card = require("antd/lib/card").default;
 const List = require("antd/lib/list").default;
+
+/* Icons */
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
-const queryString = require("query-string");
 
 const SearchResultList = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);

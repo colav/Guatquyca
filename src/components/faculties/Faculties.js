@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+
+/* Components */
 import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
@@ -9,6 +11,8 @@ import TabListsCard from "../TabListsCard";
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
+
+/* UI Library Components */
 const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 
@@ -46,7 +50,7 @@ const Faculties = ({ core }) => {
           subtitle={state.data.institution[0].name}
           setCurrentURL={core.setCurrentURL}
         />
-        {/* <CitationsWrapper /> */}
+        <CitationsWrapper />
         <TabListsCard
           tabObjects={tabObjects}
           tabContent={tabContent}

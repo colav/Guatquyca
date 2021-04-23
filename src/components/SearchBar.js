@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+
+/* Utilities */
 import history from "../history";
+
+/* Constants */
 import { SEARCH, APIKEY } from "../constants/routes";
+
+/* UI Components */
 const Select = require("antd/lib/select").default;
 const Input = require("antd/lib/input").default;
 
@@ -37,10 +43,11 @@ const options = [
   },
 ];
 
-const SearchBar = ({ setCurrentURL }) => {
+const SearchBar = ({ setCurrentURL, setHome }) => {
   const [selected, setSelected] = useState(options[0]);
 
   const searchRequest = (input) => {
+    setHome(false);
     setCurrentURL(
       `${SEARCH}${APIKEY}&data=${selected.value}&max=10&page=1`.concat(
         input ? `&keywords=${input}` : ""

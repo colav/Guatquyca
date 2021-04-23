@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import history from "../history";
+
+/* Components */
 import ErrorWarning from "./ErrorWarning";
 import LoadingCard from "./LoadingCard";
-import NetworkChart from "./NetworkChart";
 import YearlyCitationsChart from "./YearlyCitationsChart";
+//import NetworkChart from "./NetworkChart";
+
+/* Utilities */
+import history from "../history";
 import { APIRequest } from "../apis/clustercien";
-const Col = require("antd/lib/col").default;
 const queryString = require("query-string");
+
+/* UI Library Components */
+const Col = require("antd/lib/col").default;
 
 const CitationsWrapper = () => {
   let parsedGlobalURL = queryString.parse(history.location.search);
@@ -26,32 +32,24 @@ const CitationsWrapper = () => {
   } else if (state.isLoading) {
     return (
       <>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+        <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <LoadingCard title={"Citas"} height={"431px"} />
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-          <LoadingCard title={"Red de Citaciones"} height={"431px"} />
         </Col>
       </>
     );
   }
-  const data = {
-    yearly_citations: state.data.data.yearly_citations,
-    citations: state.data.data.citations,
-    H5: state.data.data.H5,
-  };
   return (
     <>
       <YearlyCitationsChart
-        data={data}
+        data={state.data.data}
         isLoading={state.isLoading}
         isError={state.isError}
       />
-      <NetworkChart
+      {/* <NetworkChart
         networkData={state.data.data.network}
         isLoading={state.isLoading}
         isError={state.isError}
-      />
+      /> */}
     </>
   );
 };

@@ -83,14 +83,31 @@
   height: 100%;
 }
 
+.ant-layout-header {
+  @media (max-width: 575px) {
+    line-height: 60px;
+  }
+}
+
 .ant-layout-sider {
   overflow: auto;
   height: 100vh;
   position: fixed;
   top: 80px;
+  @media (max-width: 575px) {
+    top: 120px;
+  }
   z-index: 2;
   left: 0;
   border-top: 5px solid #eaeae6;
+}
+
+.ant-layout-content {
+  margin: 85px 10px 15px 60px;
+  @media (max-width: 575px) {
+    margin: 125px 10px 15px 60px;
+  }
+  transition: opacity 0.5s;
 }
 
 .sidebar-title {
@@ -107,4 +124,37 @@
   bottom: 110px;
   color: #162736;
   font-weight: 600;
+}
+
+.tAc {
+  text-align: center;
+}
+
+.footer-logo {
+  background-color: white;
+  width: 150px;
+  height: 50px;
+}
+
+.logo-colav-header {
+  width: 160px;
+}
+
+.grid-citations-card {
+  width: 33.3%;
+  @media (max-width: 575px) {
+    width: 100%;
+  }
+  height: 40px;
+  margin-top: 10px;
+  padding-top: 8px;
+  text-align: center;
+}
+
+.footer__logo {
+  transition: all ease-in-out 300ms;
+}
+
+.footer__logo:hover {
+  transform: scale(1.1, 1.1);
 }

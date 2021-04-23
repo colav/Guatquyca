@@ -1,11 +1,20 @@
 import React from "react";
+
+/* Libraries */
 import AnyChart from "anychart-react";
 import anychart from "anychart";
+
+/* Components */
 import InfoButton from "./InfoButton";
+import { Link } from "react-router-dom";
+
+/* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
-const DownloadOutlined = require("@ant-design/icons/DownloadOutlined").default;
+
+/* Icons */
+const FilePdfOutlined = require("@ant-design/icons/FilePdfOutlined").default;
 
 const YearlyCitationsChart = ({ data }) => {
   const chartData = Object.entries(data.yearly_citations);
@@ -21,38 +30,28 @@ const YearlyCitationsChart = ({ data }) => {
   function pdf() {
     chart.saveAsPdf();
   }
-
-  const gridStyle = {
-    width: "50%",
-    height: "40px",
-    marginTop: "10px",
-    paddingTop: "8px",
-    textAlign: "center",
-  };
-
   return (
     <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
       <Card
         title="Citas"
         extra={[
-          <InfoButton
-            key={1}
-            text={"Texto informativo para la tarjeta de citas"}
-          />,
-          " ",
           <Button
-            key={2}
-            shape="round"
+            key={1}
             style={{
               color: "#9D3715",
-              backgroundColor: "#FFE1BB",
-              border: "2px solid #063966",
+              backgroundColor: "#ffe9cc",
+              border: "none",
+              marginRight: "20px",
             }}
             onClick={pdf}
-            icon={<DownloadOutlined />}
+            icon={<FilePdfOutlined />}
           >
             pdf
           </Button>,
+          <InfoButton
+            key={2}
+            text={"Texto informativo para la tarjeta de citas"}
+          />,
         ]}
         bodyStyle={{ padding: "10px" }}
         hoverable
@@ -70,8 +69,15 @@ const YearlyCitationsChart = ({ data }) => {
             </div>
           }
         ></Card>
-        <Card.Grid style={gridStyle}>Citas Totales: {data.citations}</Card.Grid>
-        <Card.Grid style={gridStyle}>Índice H5: {data.H5}</Card.Grid>
+        <Card.Grid className="grid-citations-card">
+          Citas Totales: {data.citations}
+        </Card.Grid>
+        <Card.Grid className="grid-citations-card">
+          Índice H: {data.H}
+        </Card.Grid>
+        <Card.Grid className="grid-citations-card">
+          Índice H5: {data.H5}
+        </Card.Grid>
       </Card>
     </Col>
   );
