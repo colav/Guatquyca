@@ -1,5 +1,8 @@
 import React from "react";
 
+/* Utilities */
+import URLBuilder from "../helpers/URLBuilder";
+
 /* Components */
 import SearchBar from "../components/SearchBar";
 
@@ -13,6 +16,10 @@ const Typography = require("antd/lib/typography").default;
 const { Title } = Typography;
 
 const Home = ({ core, setHome }) => {
+  window.addEventListener("popstate", () => {
+    core.setCurrentURL(URLBuilder);
+  });
+
   setTimeout(() => {
     setHome(true);
   }, 1);

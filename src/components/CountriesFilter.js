@@ -19,7 +19,7 @@ const CountriesFilter = (props) => {
   const [visible, setVisible] = useState(true);
   const subMenuProps = _.omit(props, "core", "setCountries");
 
-  if (props.core.filters.countries) {
+  if (props.core.filters.countries && props.core.currentURL !== "/app") {
     const countriesList = [];
     props.core.filters.countries.map((country) =>
       countriesList.push(
@@ -35,7 +35,7 @@ const CountriesFilter = (props) => {
       )
     );
 
-    setTimeout(() => setVisible(false), 2000);
+    setTimeout(() => setVisible(false), 1000);
 
     const onChange = (e) => {
       const countriesList = e.join(" ");

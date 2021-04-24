@@ -31,7 +31,7 @@ const YearsRangeFilter = (props) => {
       );
     }
 
-    setTimeout(() => setVisible(false), 1200);
+    setTimeout(() => setVisible(false), 1000);
 
     const renderedDefaultValue = () => {
       if (

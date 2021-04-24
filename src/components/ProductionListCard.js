@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
+
+/* Components */
 import AuthorsHorizontalList from "./AuthorsHorizontalList";
 import DownloadCSVButton from "./DownloadCSVButton";
 import DownloadJSONButton from "./DownloadJSONButton";
 import ErrorWarning from "./ErrorWarning";
+import OpenAccessStatus from "./OpenAccessStatus";
+
+/* Utilities */
 import history from "../history";
 import { APIRequest } from "../apis/clustercien";
-import { CitationsIcon } from "../icons/citations";
 import { renderedTitle } from "../helpers/renderedTitle";
+
+/* Icons */
+import { CitationsIcon } from "../icons/citations";
+const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
+
+/* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const List = require("antd/lib/list").default;
 const Space = require("antd/lib/space").default;
-const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
-const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
+
+/* Utilities */
 const queryString = require("query-string");
 
 const ProductionListCard = ({ type, core }) => {
@@ -106,7 +117,18 @@ const ProductionListCard = ({ type, core }) => {
                 ]}
               >
                 <List.Item.Meta
-                  title={item.title}
+                  title={[
+                    item.title,
+                    " ",
+                    item.open_access_status ? (
+                      <OpenAccessStatus
+                        status={item.open_access_status}
+                        key={2}
+                      />
+                    ) : (
+                      ""
+                    ),
+                  ]}
                   description={
                     <div>
                       <ReadOutlined id={item._id} /> {item.source.name}

@@ -6,7 +6,6 @@ import anychart from "anychart";
 
 /* Components */
 import InfoButton from "./InfoButton";
-import { Link } from "react-router-dom";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
@@ -23,19 +22,26 @@ const YearlyCitationsChart = ({ data }) => {
   chart.background().stroke("#EAEAE6");
   chart.tooltip().format("Citas: {%y}");
   chart.tooltip().titleFormat("Año: {%x}");
+  chart.xAxis().labels().fontSize(12);
+  chart.xAxis().labels().rotation(-90);
+  chart.xAxis().labels().fontWeight(600);
+  chart.yAxis().labels().fontWeight(600);
   let series = chart.column(chartData);
   series.normal().fill(["#50B100", "#ABF370"], 90);
   series.normal().stroke("#ABF370");
+  series.labels(true);
+  chart.labels().fontSize(10);
 
   function pdf() {
     chart.saveAsPdf();
   }
   return (
-    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
+    <Col xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
       <Card
         title="Citas"
         extra={[
           <Button
+            size="small"
             key={1}
             style={{
               color: "#9D3715",

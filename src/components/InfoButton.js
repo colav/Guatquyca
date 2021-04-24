@@ -10,7 +10,7 @@ const InfoCircleOutlined = require("@ant-design/icons/InfoCircleOutlined")
 const InfoButton = ({ text }) => {
   return (
     <Tooltip placement="topRight" trigger="click" color="#39658C" title={text}>
-      <InfoCircleOutlined style={{ color: "#063966", fontSize: "21px" }} />
+      <InfoCircleOutlined style={{ color: "#063966", fontSize: "20px" }} />
     </Tooltip>
   );
 };

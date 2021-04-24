@@ -32,7 +32,7 @@ const CitationsWrapper = () => {
   } else if (state.isLoading) {
     return (
       <>
-        <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
+        <Col xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
           <LoadingCard title={"Citas"} height={"431px"} />
         </Col>
       </>
