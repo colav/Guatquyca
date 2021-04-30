@@ -1,18 +1,26 @@
 import React, { useEffect } from "react";
+
+/* Components */
 import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import InstitutionsTitleCard from "./InstitutionsTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
-import ProductionListCard from "../ProductionListCard";
+import ProductionWrapper from "../ProductionWrapper";
 import TabListsCard from "../TabListsCard";
+
+/* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
+
+/* UI Library Components */
 const Avatar = require("antd/lib/avatar").default;
 const Col = require("antd/lib/col").default;
-const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const Row = require("antd/lib/row").default;
+
+/* Icons */
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 
 const Authors = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
@@ -62,7 +70,7 @@ const Authors = ({ core }) => {
           tabContent={tabContent}
           setCurrentURL={core.setCurrentURL}
         />
-        <ProductionListCard type={state.data.type} core={core} />
+        <ProductionWrapper type={state.data.type} core={core} />
       </Row>
     </div>
   );

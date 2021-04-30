@@ -1,6 +1,7 @@
 export const APIKEY = "apikey=colavudea";
 export const SEARCH = "/app/search?";
 export const DATA = "data=info";
+export const TYPEDOC = "/app/documents";
 export const LOGOUDEA =
   "https://upload.wikimedia.org/wikipedia/commons/f/fb/Escudo-UdeA.svg";
 export const PATHUDEA =

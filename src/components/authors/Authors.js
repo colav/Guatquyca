@@ -6,7 +6,7 @@ import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
-import ProductionListCard from "../ProductionListCard";
+import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -36,7 +36,7 @@ const Authors = ({ core }) => {
       <LogoU />
       <AuthorsTitleCard state={state.data} setCurrentURL={core.setCurrentURL} />
       <CitationsWrapper />
-      <ProductionListCard type={state.data.type} core={core} />
+      <ProductionWrapper type={state.data.type} core={core} />
     </Row>
   );
 };

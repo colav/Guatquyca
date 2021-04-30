@@ -6,7 +6,7 @@ import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "./LogoU";
-import ProductionListCard from "../ProductionListCard";
+import ProductionWrapper from "../ProductionWrapper";
 import TabListsCard from "../TabListsCard";
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
@@ -56,7 +56,7 @@ const Faculties = ({ core }) => {
           tabContent={tabContent}
           setCurrentURL={core.setCurrentURL}
         />
-        <ProductionListCard type={state.data.type} core={core} />
+        <ProductionWrapper type={state.data.type} core={core} />
       </Row>
     </div>
   );

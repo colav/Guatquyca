@@ -6,14 +6,11 @@ import anychart from "anychart";
 
 /* Components */
 import InfoButton from "./InfoButton";
+import PDFDownloader from "./PDFDownloader";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
-const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
-
-/* Icons */
-const FilePdfOutlined = require("@ant-design/icons/FilePdfOutlined").default;
 
 const YearlyCitationsChart = ({ data }) => {
   const chartData = Object.entries(data.yearly_citations);
@@ -22,7 +19,7 @@ const YearlyCitationsChart = ({ data }) => {
   chart.background().stroke("#EAEAE6");
   chart.tooltip().format("Citas: {%y}");
   chart.tooltip().titleFormat("Año: {%x}");
-  chart.xAxis().labels().fontSize(12);
+  chart.xAxis().labels().fontSize(11);
   chart.xAxis().labels().rotation(-90);
   chart.xAxis().labels().fontWeight(600);
   chart.yAxis().labels().fontWeight(600);
@@ -32,35 +29,19 @@ const YearlyCitationsChart = ({ data }) => {
   series.labels(true);
   chart.labels().fontSize(10);
 
-  function pdf() {
-    chart.saveAsPdf();
-  }
   return (
     <Col xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
       <Card
         title="Citas"
+        bodyStyle={{ padding: "10px" }}
+        hoverable
         extra={[
-          <Button
-            size="small"
-            key={1}
-            style={{
-              color: "#9D3715",
-              backgroundColor: "#ffe9cc",
-              border: "none",
-              marginRight: "20px",
-            }}
-            onClick={pdf}
-            icon={<FilePdfOutlined />}
-          >
-            pdf
-          </Button>,
+          <PDFDownloader key={1} chart={chart} />,
           <InfoButton
             key={2}
             text={"Texto informativo para la tarjeta de citas"}
           />,
         ]}
-        bodyStyle={{ padding: "10px" }}
-        hoverable
       >
         <Card
           bordered={false}

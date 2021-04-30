@@ -1,14 +1,20 @@
 import React, { useEffect } from "react";
+
+/* Components */
 import CitationsWrapper from "../CitationsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import GroupTitleCard from "./GroupsTitleCard";
 import LoadingCard from "../LoadingCard";
 import LogoU from "../faculties/LogoU";
-import ProductionListCard from "../ProductionListCard";
+import ProductionWrapper from "../ProductionWrapper";
 import TabListsCard from "../TabListsCard";
+
+/* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
 import { tabListMaker } from "../../helpers/tabListMaker";
+
+/* UI Library Components */
 const Row = require("antd/lib/row").default;
 
 const Groups = ({ core }) => {
@@ -46,7 +52,7 @@ const Groups = ({ core }) => {
           tabContent={tabContent}
           setCurrentURL={core.setCurrentURL}
         />
-        <ProductionListCard type={state.data.type} core={core} />
+        <ProductionWrapper type={state.data.type} core={core} />
       </Row>
     </div>
   );
