@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 /* Components */
 import CitationsWrapper from "../CitationsWrapper";
+import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
 import LoadingCard from "../LoadingCard";
@@ -14,6 +15,7 @@ import { tabListMaker } from "../../helpers/tabListMaker";
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
+const Divider = require("antd/lib/divider").default;
 const Row = require("antd/lib/row").default;
 
 const Faculties = ({ core }) => {
@@ -56,6 +58,9 @@ const Faculties = ({ core }) => {
           tabContent={tabContent}
           setCurrentURL={core.setCurrentURL}
         />
+        {/* <Divider orientation="left">Coautorías</Divider> */}
+        <CoauthorsWrapper core={core} />
+        {/* <Divider orientation="left">Producción</Divider> */}
         <ProductionWrapper type={state.data.type} core={core} />
       </Row>
     </div>

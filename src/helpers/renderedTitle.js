@@ -4,6 +4,8 @@ export const renderedTitle = (name) => {
       return "Autores";
     case "author":
       return "del Autor";
+    case "coauthors":
+      return "Coautores";
     case "departments":
       return "Departamentos";
     case "department":

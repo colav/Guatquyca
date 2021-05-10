@@ -5,7 +5,7 @@ const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const notification = require("antd/lib/notification").default;
 
-const NetworkChart = ({ networkData }) => {
+const NetworkChart = ({ networkData, setup }) => {
   let eCache = "";
   const openNotification = (e) => {
     if (e.index !== eCache.index) {
@@ -34,13 +34,16 @@ const NetworkChart = ({ networkData }) => {
 
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card title="Red de Citaciones" bodyStyle={{ padding: "10px" }} hoverable>
+      <Card title={setup.title} bodyStyle={{ padding: "10px" }} hoverable>
         <Card
           bordered={false}
           type="inner"
           cover={
-            <div id="NetworkChartContainer">
-              <AnyChart container={"NetworkChartContainer"} instance={chart} />
+            <div id={`${setup.id}NetworkChartContainer`}>
+              <AnyChart
+                container={`${setup.id}NetworkChartContainer`}
+                instance={chart}
+              />
             </div>
           }
           style={{ width: "100%", height: "350px" }}

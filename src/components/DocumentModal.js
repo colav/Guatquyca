@@ -1,5 +1,8 @@
 import React from "react";
 
+/* Components */
+import AuthorsListOnModal from "./AuthorsListOnModal";
+
 /* Constants */
 import { TYPEDOC, DATA, APIKEY } from "../constants/routes";
 
@@ -13,29 +16,25 @@ const Spin = require("antd/lib/spin").default;
 const Typography = require("antd/lib/typography").default;
 
 /* UI Library Sub-components */
-const { Text, Paragraph } = Typography;
+const { Text, Paragraph, Link } = Typography;
 
 const DocumentModal = ({ documentID }) => {
   const builtURL = `${TYPEDOC}?${APIKEY}&${DATA}&id=${documentID}`;
   const [state] = APIRequest(builtURL);
   const [ellipsis] = React.useState(true);
 
-  const renderedAuthors = (authors) => {
-    return authors.map((author) =>
-      author.corresponding ? (
-        <Text key={author.id} underline>
-          {author.name},
-        </Text>
-      ) : (
-        <Text key={author.id}> {author.name}, </Text>
-      )
-    );
-  };
-
   const renderedExternalIDs = () => {
     return state.data.data.external_ids.map((item) => (
       <Descriptions.Item key={item.source} label={`${item.source} ID:`}>
         <Text copyable>{item.id}</Text>
+      </Descriptions.Item>
+    ));
+  };
+
+  const renderedExternalURLs = () => {
+    return state.data.data.external_urls.map((item) => (
+      <Descriptions.Item key={item.source} label="Link externo:">
+        <Link href={item.url}>{item.source}</Link>
       </Descriptions.Item>
     ));
   };
@@ -46,7 +45,7 @@ const DocumentModal = ({ documentID }) => {
     return (
       <div>
         <Text strong>Autores: </Text>
-        {renderedAuthors(state.data.data.authors)}
+        <AuthorsListOnModal authors={state.data.data.authors} />
         <Divider style={{ margin: "15px 0" }} />
         <Text strong>Abstract</Text>
         <Paragraph
@@ -83,6 +82,7 @@ const DocumentModal = ({ documentID }) => {
             {state.data.data.citations_count}
           </Descriptions.Item>
           {renderedExternalIDs()}
+          {renderedExternalURLs()}
         </Descriptions>
       </div>
     );

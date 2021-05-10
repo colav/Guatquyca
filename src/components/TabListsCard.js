@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+
+/* Utilities */
 import { Link } from "react-router-dom";
 import { APIKEY, DATA } from "../constants/routes";
+
+/* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const List = require("antd/lib/list").default;

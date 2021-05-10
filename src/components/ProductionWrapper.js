@@ -6,7 +6,9 @@ import DocumentModal from "./DocumentModal";
 import DownloadCSVButton from "./DownloadCSVButton";
 import DownloadJSONButton from "./DownloadJSONButton";
 import ErrorWarning from "./ErrorWarning";
+import LoadingCard from "./LoadingCard";
 import OpenAccessStatus from "./OpenAccessStatus";
+import VennChart from "./VennChart";
 
 /* Utilities */
 import history from "../history";
@@ -85,13 +87,25 @@ const ProductionWrapper = ({ type, core }) => {
   if (state.isError) {
     return <ErrorWarning />;
   }
+  if (state.isLoading) {
+    return (
+      <>
+        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+          <LoadingCard title="Open Access" height={"431px"} />
+        </Col>
+        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+          <LoadingCard title="Fuentes Bibliográficas" height={"431px"} />
+        </Col>
+        <Col xs={24}>
+          <LoadingCard title="Producción de la Facultad" height={"431px"} />
+        </Col>
+      </>
+    );
+  }
   return (
     <>
-      {!state.isLoading ? (
-        <OpenAccessChart data={state.data.open_access} />
-      ) : (
-        ""
-      )}
+      <OpenAccessChart data={state.data.open_access} />
+      <VennChart data={state.data.venn_source} />
       <Col span={24}>
         <Card
           extra={[
@@ -115,7 +129,6 @@ const ProductionWrapper = ({ type, core }) => {
               : ""
           }
           title={`Producción ${renderedTitle(type)}`}
-          loading={state.isLoading}
         >
           <div id="productionListContainer">
             <List
@@ -133,7 +146,7 @@ const ProductionWrapper = ({ type, core }) => {
               dataSource={state.data.data}
               renderItem={(item) => (
                 <List.Item
-                  key={item._id}
+                  key={item._id || item.id}
                   actions={[
                     <Space style={{ fontSize: 18 }}>
                       {React.createElement(CalendarOutlined)}
@@ -152,7 +165,11 @@ const ProductionWrapper = ({ type, core }) => {
                       <Link
                         key={1}
                         onClick={() =>
-                          docInfo(item.title, item._id, item.open_access_status)
+                          docInfo(
+                            item.title,
+                            item._id || item.id,
+                            item.open_access_status
+                          )
                         }
                       >
                         {item.title}
