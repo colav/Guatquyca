@@ -13,6 +13,7 @@ const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
+const Row = require("antd/lib/row").default;
 
 const CitationsWrapper = () => {
   let parsedGlobalURL = queryString.parse(history.location.search);
@@ -39,7 +40,7 @@ const CitationsWrapper = () => {
     );
   }
   return (
-    <>
+    <Row gutter={10}>
       <YearlyCitationsChart
         data={state.data.data}
         isLoading={state.isLoading}
@@ -50,7 +51,7 @@ const CitationsWrapper = () => {
         isLoading={state.isLoading}
         isError={state.isError}
       /> */}
-    </>
+    </Row>
   );
 };
 

@@ -13,6 +13,7 @@ const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
+const Row = require("antd/lib/row").default;
 
 const CoauthorsWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
@@ -27,7 +28,7 @@ const CoauthorsWrapper = ({ core }) => {
   }
   if (state.isLoading) {
     return (
-      <>
+      <Row gutter={10}>
         <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
           <LoadingCard
             title={"Red de coautoría - Instituciones"}
@@ -37,11 +38,11 @@ const CoauthorsWrapper = ({ core }) => {
         <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
           <LoadingCard title={"Coautores"} height={"431px"} />
         </Col>
-      </>
+      </Row>
     );
   }
   return (
-    <>
+    <Row gutter={10}>
       <NetworkChart
         networkData={state.data.data.institution_network}
         setup={{
@@ -53,7 +54,7 @@ const CoauthorsWrapper = ({ core }) => {
         data={state.data.data.coauthors}
         setCurrentURL={core.setCurrentURL}
       />
-    </>
+    </Row>
   );
 };
 

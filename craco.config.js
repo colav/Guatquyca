@@ -27,6 +27,8 @@ module.exports = {
               "@card-head-background": "#FFE1BB",
               "@link-color": "#9D3715",
               "@tooltip-color": "#FFE1BB",
+              "@tabs-card-head-background": "#DCDCD5",
+              "@border-color-split": "#DCDCD5",
             },
             javascriptEnabled: true,
           },

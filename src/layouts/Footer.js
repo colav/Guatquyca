@@ -17,10 +17,10 @@ const Footer = () => {
       style={{
         textAlign: "center",
         maxWidth: "100%",
-        borderRight: "10px solid #EAEAE6",
+        borderRight: "15px solid #EAEAE6",
         marginLeft: "50px",
-        borderLeft: "10px solid #EAEAE6",
-        borderBottom: "10px solid #EAEAE6",
+        borderLeft: "15px solid #EAEAE6",
+        borderBottom: "15px solid #EAEAE6",
       }}
     >
       <Row gutter={[100, 10]} justify="center" align="middle">

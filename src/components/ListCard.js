@@ -1,48 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 
 /* Utilities */
 import { Link } from "react-router-dom";
 import { APIKEY, DATA } from "../constants/routes";
+import { renderedTitle } from "../helpers/renderedTitle";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const List = require("antd/lib/list").default;
 
-const TabListsCard = ({ tabObjects, tabContent, setCurrentURL }) => {
-  const [selectedKey, setSelectedKey] = useState(tabObjects[0].key);
-  const onSelectedKey = (key) => {
-    const e = document.getElementById("listOverflowContainer");
-    e.scrollTop = 0;
-    setSelectedKey(key);
-  };
-
+const ListCard = ({ title, list, setCurrentURL }) => {
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card
-        style={{ height: "431px" }}
-        size="small"
-        tabList={tabObjects}
-        activeTabKey={selectedKey}
-        onTabChange={(key) => onSelectedKey(key)}
-      >
+      <Card style={{ height: "431px" }} title={renderedTitle(title)}>
         <div
-          style={{ height: "348px", overflow: "auto" }}
+          style={{ height: "323px", overflow: "auto" }}
           id="listOverflowContainer"
         >
           <List
             size="small"
-            dataSource={tabContent[selectedKey]}
+            dataSource={list}
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
                   id={item.id}
                   description={
                     <Link
-                      to={`/app/${selectedKey}?${APIKEY}&${DATA}&id=${item.id}`}
+                      to={`/app/${title}?${APIKEY}&${DATA}&id=${item.id}`}
                       onClick={() =>
                         setCurrentURL(
-                          `/app/${selectedKey}?${APIKEY}&${DATA}&id=${item.id}`
+                          `/app/${title}?${APIKEY}&${DATA}&id=${item.id}`
                         )
                       }
                     >
@@ -60,4 +48,4 @@ const TabListsCard = ({ tabObjects, tabContent, setCurrentURL }) => {
   );
 };
 
-export default TabListsCard;
+export default ListCard;

@@ -5,18 +5,21 @@ import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import FacultyTitleCard from "./FacultiesTitleCard";
-import LoadingCard from "../LoadingCard";
 import LogoU from "./LogoU";
 import ProductionWrapper from "../ProductionWrapper";
-import TabListsCard from "../TabListsCard";
+import ListCard from "../ListCard";
+
+/* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
-import { tabListMaker } from "../../helpers/tabListMaker";
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
-const Divider = require("antd/lib/divider").default;
 const Row = require("antd/lib/row").default;
+const Tabs = require("antd/lib/tabs").default;
+
+/* UI Library Sub-components */
+const { TabPane } = Tabs;
 
 const Faculties = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
@@ -29,41 +32,54 @@ const Faculties = ({ core }) => {
     setUrl(core.currentURL);
   }, [core.currentURL, setUrl]);
 
-  const tabList = ["departments", "groups", "authors"];
-  const { tabObjects, tabContent } = tabListMaker(tabList, state.data);
-
   if (state.isError) {
     return <ErrorWarning />;
   } else if (state.isLoading) {
-    return (
-      <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-        <LoadingCard title={"Afiliaciones"} height={"431px"} />
-      </Col>
-    );
+    return "";
   }
   return (
-    <div className="site-card-wrapper">
-      <Row gutter={[10, 10]}>
-        <LogoU />
-        <FacultyTitleCard
-          title={state.data.name}
-          abbreviation={state.data.abbreviations}
-          external_urls={state.data.external_urls}
-          subtitle={state.data.institution[0].name}
-          setCurrentURL={core.setCurrentURL}
-        />
-        <CitationsWrapper />
-        <TabListsCard
-          tabObjects={tabObjects}
-          tabContent={tabContent}
-          setCurrentURL={core.setCurrentURL}
-        />
-        {/* <Divider orientation="left">Coautorías</Divider> */}
-        <CoauthorsWrapper core={core} />
-        {/* <Divider orientation="left">Producción</Divider> */}
-        <ProductionWrapper type={state.data.type} core={core} />
-      </Row>
-    </div>
+    <Row gutter={[10, 15]}>
+      <LogoU />
+      <FacultyTitleCard
+        title={state.data.name}
+        abbreviation={state.data.abbreviations}
+        external_urls={state.data.external_urls}
+        subtitle={state.data.institution[0].name}
+        setCurrentURL={core.setCurrentURL}
+      />
+      <Col xs={24}>
+        <Tabs defaultActiveKey="1" type="card">
+          <TabPane tab="Citaciones" key="1" forceRender>
+            <CitationsWrapper />
+          </TabPane>
+          <TabPane tab="Afiliaciones" key="2">
+            <Row gutter={15}>
+              <ListCard
+                title={"departments"}
+                list={state.data.departments}
+                setCurrentURL={core.setCurrentURL}
+              />
+              <ListCard
+                title={"groups"}
+                list={state.data.groups}
+                setCurrentURL={core.setCurrentURL}
+              />
+              <ListCard
+                title={"authors"}
+                list={state.data.authors}
+                setCurrentURL={core.setCurrentURL}
+              />
+            </Row>
+          </TabPane>
+          <TabPane tab="Coautorías" key="3" forceRender>
+            <CoauthorsWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Producción" key="4" forceRender>
+            <ProductionWrapper type={state.data.type} core={core} />
+          </TabPane>
+        </Tabs>
+      </Col>
+    </Row>
   );
 };
 

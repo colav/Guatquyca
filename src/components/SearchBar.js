@@ -62,6 +62,7 @@ const SearchBar = ({ setCurrentURL, setHome }) => {
 
   return (
     <Input.Search
+      style={{ verticalAlign: "middle", padding: "0 5px" }}
       addonBefore={
         <Select
           options={options}

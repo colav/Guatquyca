@@ -36,7 +36,7 @@ const App = () => {
       <Layout>
         <Header core={core} home={home} setHome={setHome} />
         <Sidebar core={core} />
-        <Layout.Content style={{ minHeight: "90vh", position: "relative" }}>
+        <Layout.Content style={{ minHeight: "65vh", position: "relative" }}>
           <Route exact path="/app">
             <Home core={core} setHome={setHome} />
           </Route>

@@ -28,13 +28,13 @@ const YearlyCitationsChart = ({ data }) => {
   series.normal().stroke("#ABF370");
   series.labels(true);
   chart.labels().fontSize(10);
+  chart.labels().rotation(-90);
 
   return (
-    <Col xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
+    <Col span={24}>
       <Card
         title="Citas"
         bodyStyle={{ padding: "10px" }}
-        hoverable
         extra={[
           <PDFDownloader key={1} chart={chart} />,
           <InfoButton

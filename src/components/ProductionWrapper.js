@@ -27,6 +27,7 @@ const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const List = require("antd/lib/list").default;
 const Modal = require("antd/lib/modal").default;
+const Row = require("antd/lib/row").default;
 const Space = require("antd/lib/space").default;
 const Typography = require("antd/lib/typography").default;
 
@@ -89,7 +90,7 @@ const ProductionWrapper = ({ type, core }) => {
   }
   if (state.isLoading) {
     return (
-      <>
+      <Row gutter={[10, 10]}>
         <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
           <LoadingCard title="Open Access" height={"431px"} />
         </Col>
@@ -99,11 +100,11 @@ const ProductionWrapper = ({ type, core }) => {
         <Col xs={24}>
           <LoadingCard title="Producción de la Facultad" height={"431px"} />
         </Col>
-      </>
+      </Row>
     );
   }
   return (
-    <>
+    <Row gutter={[10, 10]}>
       <OpenAccessChart data={state.data.open_access} />
       <VennChart data={state.data.venn_source} />
       <Col span={24}>
@@ -198,7 +199,7 @@ const ProductionWrapper = ({ type, core }) => {
           </div>
         </Card>
       </Col>
-    </>
+    </Row>
   );
 };
 
