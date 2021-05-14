@@ -28,7 +28,7 @@ const CoauthorsWrapper = ({ core }) => {
   }
   if (state.isLoading) {
     return (
-      <Row gutter={10}>
+      <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
           <LoadingCard
             title={"Red de coautoría - Instituciones"}
@@ -42,16 +42,46 @@ const CoauthorsWrapper = ({ core }) => {
     );
   }
   return (
-    <Row gutter={10}>
-      <NetworkChart
-        networkData={state.data.data.institution_network}
-        setup={{
-          title: "Red de coautoría - Instituciones",
-          id: "coaInst_",
-        }}
-      />
+    <Row gutter={[15, 15]}>
+      {state.data.data.institution_network ||
+      state.data.data.institutions_network ? (
+        <NetworkChart
+          networkData={
+            state.data.data.institution_network ||
+            state.data.data.institutions_network
+          }
+          setup={{
+            title: "Red de coautoría - Instituciones",
+            id: "coaInst_",
+          }}
+        />
+      ) : (
+        ""
+      )}
+      {state.data.data.faculties_network ? (
+        <NetworkChart
+          networkData={state.data.data.faculties_network}
+          setup={{
+            title: "Red de coautoría - Facultades",
+            id: "coaFacu_",
+          }}
+        />
+      ) : (
+        ""
+      )}
+      {state.data.data.coauthors_network ? (
+        <NetworkChart
+          networkData={state.data.data.coauthors_network}
+          setup={{
+            title: "Red de coautoría - Autores",
+            id: "coaAuth_",
+          }}
+        />
+      ) : (
+        ""
+      )}
       <CoauthorsList
-        data={state.data.data.coauthors}
+        data={state.data.data.coauthors || state.data.data.institutions}
         setCurrentURL={core.setCurrentURL}
       />
     </Row>

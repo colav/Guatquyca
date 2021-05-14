@@ -37,7 +37,7 @@ const queryString = require("query-string");
 /* UI Library Sub-components */
 const { Link } = Typography;
 
-const ProductionWrapper = ({ type, core }) => {
+const ProductionWrapper = ({ type, core, setKey }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "production";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
@@ -90,7 +90,7 @@ const ProductionWrapper = ({ type, core }) => {
   }
   if (state.isLoading) {
     return (
-      <Row gutter={[10, 10]}>
+      <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
           <LoadingCard title="Open Access" height={"431px"} />
         </Col>
@@ -104,7 +104,7 @@ const ProductionWrapper = ({ type, core }) => {
     );
   }
   return (
-    <Row gutter={[10, 10]}>
+    <Row gutter={[15, 15]}>
       <OpenAccessChart data={state.data.open_access} />
       <VennChart data={state.data.venn_source} />
       <Col span={24}>
@@ -113,7 +113,7 @@ const ProductionWrapper = ({ type, core }) => {
             state.data.total_results
               ? state.data.total_results + " resultados"
               : null,
-            <SortProduction key={1} core={core} />,
+            <SortProduction key={1} core={core} setKey={setKey} />,
           ]}
           actions={
             state.data.total_results > 0

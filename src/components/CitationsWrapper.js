@@ -46,11 +46,6 @@ const CitationsWrapper = () => {
         isLoading={state.isLoading}
         isError={state.isError}
       />
-      {/* <NetworkChart
-        networkData={state.data.data.network}
-        isLoading={state.isLoading}
-        isError={state.isError}
-      /> */}
     </Row>
   );
 };

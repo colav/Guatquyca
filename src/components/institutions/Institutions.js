@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 /* Components */
 import CitationsWrapper from "../CitationsWrapper";
@@ -27,6 +27,7 @@ const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 
 const Institutions = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
+  const [key, setKey] = useState("1");
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
@@ -42,7 +43,7 @@ const Institutions = ({ core }) => {
     return "";
   }
   return (
-    <Row gutter={[10, 15]}>
+    <Row gutter={[15, 15]}>
       {state.data.id === "60120afa4749273de6161883" ? (
         <LogoU />
       ) : (
@@ -64,7 +65,7 @@ const Institutions = ({ core }) => {
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
-        <Tabs defaultActiveKey="1" type="card">
+        <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
           <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />
           </TabPane>
@@ -86,7 +87,11 @@ const Institutions = ({ core }) => {
             <CoauthorsWrapper core={core} />
           </TabPane>
           <TabPane tab="Producción" key="4" forceRender>
-            <ProductionWrapper type={state.data.type} core={core} />
+            <ProductionWrapper
+              type={state.data.type}
+              core={core}
+              setKey={setKey}
+            />
           </TabPane>
         </Tabs>
       </Col>

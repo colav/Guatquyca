@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 /* Components */
 import CitationsWrapper from "../CitationsWrapper";
@@ -23,6 +23,7 @@ const { TabPane } = Tabs;
 
 const Departments = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
+  const [key, setKey] = useState("1");
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
@@ -47,12 +48,12 @@ const Departments = ({ core }) => {
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
-        <Tabs defaultActiveKey="1" type="card">
+        <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
           <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />
           </TabPane>
           <TabPane tab="Afiliaciones" key="2">
-            <Row gutter={15}>
+            <Row gutter={[15, 15]}>
               <ListCard
                 title={"groups"}
                 list={state.data.groups}
@@ -69,7 +70,11 @@ const Departments = ({ core }) => {
             <CoauthorsWrapper core={core} />
           </TabPane>
           <TabPane tab="Producción" key="4" forceRender>
-            <ProductionWrapper type={state.data.type} core={core} />
+            <ProductionWrapper
+              type={state.data.type}
+              core={core}
+              setKey={setKey}
+            />
           </TabPane>
         </Tabs>
       </Col>

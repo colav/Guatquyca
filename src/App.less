@@ -66,6 +66,8 @@
 }
 
 #coaInst_NetworkChartContainer,
+#coaFacu_NetworkChartContainer,
+#coaAuth_NetworkChartContainer,
 #YearlyCitationsContainer,
 #OpenAccessChartContainer,
 #VennChartContainer {
@@ -112,7 +114,10 @@
   width: 240px;
   margin: 30px;
   position: absolute;
-  bottom: 110px;
+  bottom: 100px;
+  @media (max-width: 575px) {
+    bottom: 150px;
+  }
   color: #162736;
   font-weight: 600;
 }

@@ -1,9 +1,13 @@
 import React from "react";
+
+/* Utilities */
 import { renderedAffiliation } from "../../helpers/renderedAffiliation";
 import { renderedExternal_urls } from "../../helpers/renderedExternal_urls";
+
+/* UI Library Components */
 const Card = require("antd/lib/card").default;
-const Typography = require("antd/lib/typography").default;
 const Col = require("antd/lib/col").default;
+const Typography = require("antd/lib/typography").default;
 
 const FacultyTitleCard = ({
   title,

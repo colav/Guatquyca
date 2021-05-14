@@ -9,7 +9,7 @@ const Select = require("antd/lib/select").default;
 
 const { Option } = Select;
 
-const SortProduction = ({ core }) => {
+const SortProduction = ({ core, setKey }) => {
   function handleChange(value) {
     let parsedQueryURL = queryString.parse(history.location.search);
     let filteredURL = history.location.pathname;
@@ -21,6 +21,7 @@ const SortProduction = ({ core }) => {
     }
     history.push(filteredURL);
     core.setCurrentURL(filteredURL);
+    setKey("4");
   }
 
   return (
