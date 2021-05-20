@@ -1,6 +1,10 @@
 import React from "react";
+
+/* Libraries */
 import AnyChart from "anychart-react";
 import anychart from "anychart";
+
+/* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const notification = require("antd/lib/notification").default;
@@ -34,7 +38,12 @@ const NetworkChart = ({ networkData, setup }) => {
 
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card title={setup.title} bodyStyle={{ padding: "10px" }} hoverable>
+      <Card
+        size="small"
+        title={setup.title}
+        bodyStyle={{ padding: "10px" }}
+        hoverable
+      >
         <Card
           bordered={false}
           type="inner"

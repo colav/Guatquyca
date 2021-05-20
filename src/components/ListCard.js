@@ -13,9 +13,13 @@ const List = require("antd/lib/list").default;
 const ListCard = ({ title, list, setCurrentURL }) => {
   return (
     <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-      <Card style={{ height: "431px" }} title={renderedTitle(title)}>
+      <Card
+        size="small"
+        style={{ height: "431px" }}
+        title={renderedTitle(title)}
+      >
         <div
-          style={{ height: "323px", overflow: "auto" }}
+          style={{ height: "359px", overflow: "auto" }}
           id="listOverflowContainer"
         >
           <List

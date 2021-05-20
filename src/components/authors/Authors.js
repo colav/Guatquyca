@@ -5,7 +5,6 @@ import AuthorsTitleCard from "./AuthorsTitleCard";
 import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
-import LogoU from "../faculties/LogoU";
 import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
@@ -22,7 +21,7 @@ const { TabPane } = Tabs;
 
 const Authors = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
-  const [key, setKey] = useState("1");
+  const [key, setKey] = useState("0");
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
@@ -39,22 +38,21 @@ const Authors = ({ core }) => {
   }
   return (
     <Row gutter={[15, 15]}>
-      <LogoU />
       <AuthorsTitleCard state={state.data} setCurrentURL={core.setCurrentURL} />
       <Col xs={24}>
         <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
-          <TabPane tab="Citaciones" key="1" forceRender>
-            <CitationsWrapper />
-          </TabPane>
-          <TabPane tab="Coautorías" key="3" forceRender>
-            <CoauthorsWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Producción" key="4" forceRender>
+          <TabPane tab="Producción" key="0" forceRender>
             <ProductionWrapper
               type={state.data.type}
               core={core}
               setKey={setKey}
             />
+          </TabPane>
+          <TabPane tab="Citaciones" key="1" forceRender>
+            <CitationsWrapper />
+          </TabPane>
+          <TabPane tab="Coautorías" key="2" forceRender>
+            <CoauthorsWrapper core={core} />
           </TabPane>
         </Tabs>
       </Col>

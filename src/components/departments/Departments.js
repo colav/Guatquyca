@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 /* Components */
 import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
-import DepartmentsTitleCard from "./DepartmentsTitleCard";
+import CommonTitleCard from "../CommonTitleCard";
 import ErrorWarning from "../ErrorWarning";
-import LogoU from "../faculties/LogoU";
 import ProductionWrapper from "../ProductionWrapper";
 import ListCard from "../ListCard";
 
@@ -23,7 +22,7 @@ const { TabPane } = Tabs;
 
 const Departments = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
-  const [key, setKey] = useState("1");
+  const [key, setKey] = useState("0");
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
@@ -40,15 +39,22 @@ const Departments = ({ core }) => {
   }
   return (
     <Row gutter={[10, 15]}>
-      <LogoU />
-      <DepartmentsTitleCard
+      <CommonTitleCard
         title={state.data.name}
+        abbreviation={state.data.abbreviations}
         external_urls={state.data.external_urls}
-        subtitle={state.data.institution[0].name}
+        institution={state.data.institution}
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
         <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
+          <TabPane tab="Producción" key="0" forceRender>
+            <ProductionWrapper
+              type={state.data.type}
+              core={core}
+              setKey={setKey}
+            />
+          </TabPane>
           <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />
           </TabPane>
@@ -68,13 +74,6 @@ const Departments = ({ core }) => {
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Producción" key="4" forceRender>
-            <ProductionWrapper
-              type={state.data.type}
-              core={core}
-              setKey={setKey}
-            />
           </TabPane>
         </Tabs>
       </Col>

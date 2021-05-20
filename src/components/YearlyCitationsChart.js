@@ -6,7 +6,8 @@ import anychart from "anychart";
 
 /* Components */
 import InfoButton from "./InfoButton";
-import PDFDownloader from "./PDFDownloader";
+import ExportSVGAnyChart from "./ExportSVGAnyChart";
+import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
@@ -33,10 +34,12 @@ const YearlyCitationsChart = ({ data }) => {
   return (
     <Col span={24}>
       <Card
+        size="small"
         title="Citas"
         bodyStyle={{ padding: "10px" }}
         extra={[
-          <PDFDownloader key={1} chart={chart} />,
+          <ExportXLSXAnyChart key={0} chart={chart} />,
+          <ExportSVGAnyChart key={1} chart={chart} />,
           <InfoButton
             key={2}
             text={"Texto informativo para la tarjeta de citas"}

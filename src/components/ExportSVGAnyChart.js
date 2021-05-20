@@ -4,13 +4,10 @@ import React from "react";
 const Button = require("antd/lib/button").default;
 
 /* Icons */
-const FilePdfOutlined = require("@ant-design/icons/FilePdfOutlined").default;
+const FileImageOutlined =
+  require("@ant-design/icons/FileImageOutlined").default;
 
-const PDFDownloader = ({ chart }) => {
-  function pdf() {
-    chart.saveAsPdf();
-  }
-
+const ExportSVGAnyChart = ({ chart }) => {
   return (
     <Button
       size="small"
@@ -18,14 +15,14 @@ const PDFDownloader = ({ chart }) => {
         color: "#9D3715",
         backgroundColor: "#ffe9cc",
         border: "none",
-        marginRight: "20px",
+        marginRight: "10px",
       }}
-      onClick={pdf}
-      icon={<FilePdfOutlined />}
+      onClick={() => chart.saveAsSvg()}
+      icon={<FileImageOutlined />}
     >
-      pdf
+      svg
     </Button>
   );
 };
 
-export default PDFDownloader;
+export default ExportSVGAnyChart;

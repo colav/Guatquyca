@@ -5,7 +5,7 @@ import { VennDiagram, extractFromExpression } from "@upsetjs/react";
 
 /* Components */
 import InfoButton from "./InfoButton";
-import SVGDownloader from "./SVGDownloader";
+import ExportSVGUpSet from "./ExportSVGUpSet";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
@@ -18,40 +18,60 @@ const VennChart = ({ data }) => {
         { sets: ["Scholar"], cardinality: data.scholar, color: "#ffe682" },
         { sets: ["Scopus"], cardinality: data.scopus, color: "#ffa0f0" },
         { sets: ["Lens"], cardinality: data.lens, color: "#aac8ff" },
-        { sets: ["SciELO"], cardinality: 3, color: "#8cffe6" },
+        { sets: ["SciELO"], cardinality: data.scielo, color: "#8cffe6" },
         {
           sets: ["Scholar", "Scopus"],
-          cardinality: 4,
+          cardinality: data.scholar_scopus,
           color: "#ff907a",
         },
-        { sets: ["Scholar", "Lens"], cardinality: 5, color: "#aab482" },
-        { sets: ["Scholar", "SciELO"], cardinality: 6, color: "#8ce675" },
-        { sets: ["Scopus", "Lens"], cardinality: 7, color: "#aa7df0" },
-        { sets: ["Scopus", "SciELO"], cardinality: 8, color: "#8ca0d8" },
-        { sets: ["Lens", "SciELO"], cardinality: 9, color: "#5dc8e6" },
+        {
+          sets: ["Scholar", "Lens"],
+          cardinality: data.scholar_lens,
+          color: "#aab482",
+        },
+        {
+          sets: ["Scholar", "SciELO"],
+          cardinality: data.scholar_scielo,
+          color: "#8ce675",
+        },
+        {
+          sets: ["Scopus", "Lens"],
+          cardinality: data.lens_scopus,
+          color: "#aa7df0",
+        },
+        {
+          sets: ["Scopus", "SciELO"],
+          cardinality: data.scielo_scopus,
+          color: "#8ca0d8",
+        },
+        {
+          sets: ["Lens", "SciELO"],
+          cardinality: data.lens_scielo,
+          color: "#5dc8e6",
+        },
         {
           sets: ["Scholar", "Scopus", "Lens"],
-          cardinality: 10,
+          cardinality: data.scholar_lens_scopus,
           color: "#aa717a",
         },
         {
           sets: ["Scholar", "Scopus", "SciELO"],
-          cardinality: 11,
+          cardinality: data.scholar_scielo_scopus,
           color: "#8c906e",
         },
         {
           sets: ["Scholar", "Lens", "SciELO"],
-          cardinality: 12,
+          cardinality: data.scholar_lens_scielo,
           color: "#5db475",
         },
         {
           sets: ["Scopus", "Lens", "SciELO"],
-          cardinality: 13,
+          cardinality: data.lens_scielo_scopus,
           color: "#5d7dd8",
         },
         {
           sets: ["Scholar", "Scopus", "Lens", "SciELO"],
-          cardinality: 14,
+          cardinality: data.scholar_lens_scielo_scopus,
           color: "#5d716e",
         },
       ]),
@@ -61,13 +81,14 @@ const VennChart = ({ data }) => {
   const chart = document.getElementById("venn-chart");
 
   return (
-    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+    <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}>
       <Card
+        size="small"
         title="Fuentes Bibliográficas"
         bodyStyle={{ padding: "10px" }}
         hoverable
         extra={[
-          <SVGDownloader key={1} chart={chart} />,
+          <ExportSVGUpSet key={1} chart={chart} />,
           <InfoButton
             key={2}
             text={"Texto informativo para la tarjeta de Fuentes Bibliográficas"}
@@ -90,7 +111,7 @@ const VennChart = ({ data }) => {
               />
             </div>
           }
-          style={{ width: "100%", height: "350px" }}
+          style={{ width: "100%", height: "370px" }}
         ></Card>
       </Card>
     </Col>

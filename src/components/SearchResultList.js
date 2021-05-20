@@ -67,7 +67,7 @@ const SearchResultList = ({ core }) => {
   if (!state.isLoading) {
     setTimeout(() => {
       core.setFilters(state.data.filters);
-    }, 50);
+    }, 10);
   }
 
   if (state.isError) {

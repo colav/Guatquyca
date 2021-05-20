@@ -2,7 +2,8 @@ import React from "react";
 
 /* Components */
 import InfoButton from "./InfoButton";
-import PDFDownloader from "./PDFDownloader";
+import ExportSVGAnyChart from "./ExportSVGAnyChart";
+import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
 
 /* Libraries */
 import AnyChart from "anychart-react";
@@ -47,13 +48,15 @@ const OpenAccessChart = ({ data }) => {
   chart.background().stroke("#EAEAE6");
 
   return (
-    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+    <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}>
       <Card
+        size="small"
         title="Open Access"
         bodyStyle={{ padding: "10px" }}
         hoverable
         extra={[
-          <PDFDownloader key={1} chart={chart} />,
+          <ExportXLSXAnyChart key={0} chart={chart} />,
+          <ExportSVGAnyChart key={1} chart={chart} />,
           <InfoButton
             key={2}
             text={"Texto informativo para la tarjeta de Open Access"}
@@ -71,7 +74,7 @@ const OpenAccessChart = ({ data }) => {
               />
             </div>
           }
-          style={{ width: "100%", height: "350px" }}
+          style={{ width: "100%", height: "370px" }}
         ></Card>
       </Card>
     </Col>

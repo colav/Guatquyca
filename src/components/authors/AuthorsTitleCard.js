@@ -15,11 +15,18 @@ import scopus from "../../icons/scopus";
 const TeamOutlined = require("@ant-design/icons/TeamOutlined").default;
 
 /* UI Library Components */
+const Avatar = require("antd/lib/avatar").default;
 const Button = require("antd/lib/button").default;
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 const Space = require("antd/lib/space").default;
 const Typography = require("antd/lib/typography").default;
+
+/* Icons */
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
+
+/* UI Library Sub-components */
+const { Meta } = Card;
 
 const AuthorsTitleCard = ({ state, setCurrentURL }) => {
   const URL = (type, id) => {
@@ -83,25 +90,48 @@ const AuthorsTitleCard = ({ state, setCurrentURL }) => {
   ];
 
   return (
-    <Col xs={24} sm={24} md={18} lg={19} xl={20} xxl={21}>
-      <Card actions={renderedActions}>
-        <Typography.Title level={2}>
-          {state.full_name}{" "}
-          {state.country ? (
-            <img
-              style={{ paddingBottom: "3px" }}
-              alt={`flag of ${state.country}`}
-              title={state.country}
-              src={`https://flagcdn.com/28x21/${state.country_code.toLowerCase()}.png`}
+    <Col span={24}>
+      <Card actions={renderedActions} className="pattern">
+        <Meta
+          avatar={
+            <Avatar
+              size={{ xs: 60, sm: 60, md: 150, lg: 150, xl: 150, xxl: 150 }}
+              src={
+                state.logo ? (
+                  state.logo
+                ) : (
+                  <ReadOutlined style={{ color: "gray", fontSize: "40px" }} />
+                )
+              }
+              style={{
+                backgroundColor: "white",
+                padding: 10,
+                border: "1px solid lightgray",
+              }}
             />
-          ) : (
-            ""
-          )}
-        </Typography.Title>
-        <Space wrap>{renderedButtons(state.external_urls)}</Space>
-        <Typography.Title level={3}>
-          {renderedAffiliation(state.affiliation.name, setCurrentURL)}
-        </Typography.Title>
+          }
+          description={
+            <>
+              <Typography.Title level={2}>
+                {state.full_name}{" "}
+                {state.country ? (
+                  <img
+                    style={{ paddingBottom: "3px" }}
+                    alt={`flag of ${state.country}`}
+                    title={state.country}
+                    src={`https://flagcdn.com/28x21/${state.country_code.toLowerCase()}.png`}
+                  />
+                ) : (
+                  ""
+                )}
+              </Typography.Title>
+              <Space wrap>{renderedButtons(state.external_urls)}</Space>
+              <Typography.Title level={3}>
+                {renderedAffiliation(state.affiliation.name, setCurrentURL)}
+              </Typography.Title>
+            </>
+          }
+        />
       </Card>
     </Col>
   );

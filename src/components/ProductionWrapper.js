@@ -69,7 +69,7 @@ const ProductionWrapper = ({ type, core, setKey }) => {
       title: [
         title,
         " ",
-        status ? <OpenAccessStatus status={status} key={2} /> : "",
+        status ? <OpenAccessStatus status={status} key="0" /> : "",
       ],
       closable: true,
       icon: null,
@@ -82,7 +82,7 @@ const ProductionWrapper = ({ type, core, setKey }) => {
   if (!state.isLoading) {
     setTimeout(() => {
       core.setFilters(state.data.filters);
-    }, 50);
+    }, 10);
   }
 
   if (state.isError) {
@@ -91,10 +91,10 @@ const ProductionWrapper = ({ type, core, setKey }) => {
   if (state.isLoading) {
     return (
       <Row gutter={[15, 15]}>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+        <Col xs={24} sm={24} md={12}>
           <LoadingCard title="Open Access" height={"431px"} />
         </Col>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+        <Col xs={24} sm={24} md={12}>
           <LoadingCard title="Fuentes Bibliográficas" height={"431px"} />
         </Col>
         <Col xs={24}>
@@ -109,20 +109,23 @@ const ProductionWrapper = ({ type, core, setKey }) => {
       <VennChart data={state.data.venn_source} />
       <Col span={24}>
         <Card
+          size="small"
           extra={[
             state.data.total_results
-              ? state.data.total_results + " resultados"
+              ? state.data.total_results + " resultado(s)"
               : null,
-            <SortProduction key={1} core={core} setKey={setKey} />,
+            <SortProduction key="1" core={core} setKey={setKey} />,
           ]}
           actions={
             state.data.total_results > 0
               ? [
                   <DownloadCSVButton
+                    key="1"
                     data={state.data.data}
                     isLoading={state.isLoading}
                   />,
                   <DownloadJSONButton
+                    key="2"
                     data={state.data.data}
                     isLoading={state.isLoading}
                   />,
@@ -147,7 +150,7 @@ const ProductionWrapper = ({ type, core, setKey }) => {
               dataSource={state.data.data}
               renderItem={(item) => (
                 <List.Item
-                  key={item._id || item.id}
+                  key={item.id}
                   actions={[
                     <Space style={{ fontSize: 18 }}>
                       {React.createElement(CalendarOutlined)}
@@ -164,13 +167,9 @@ const ProductionWrapper = ({ type, core, setKey }) => {
                   <List.Item.Meta
                     title={[
                       <Link
-                        key={1}
+                        key=""
                         onClick={() =>
-                          docInfo(
-                            item.title,
-                            item._id || item.id,
-                            item.open_access_status
-                          )
+                          docInfo(item.title, item.id, item.open_access_status)
                         }
                       >
                         {item.title}
@@ -179,7 +178,7 @@ const ProductionWrapper = ({ type, core, setKey }) => {
                       item.open_access_status ? (
                         <OpenAccessStatus
                           status={item.open_access_status}
-                          key={2}
+                          key="2"
                         />
                       ) : (
                         ""
@@ -187,7 +186,7 @@ const ProductionWrapper = ({ type, core, setKey }) => {
                     ]}
                     description={
                       <div>
-                        <ReadOutlined id={item._id} /> {item.source.name}
+                        <ReadOutlined /> {item.source.name}
                       </div>
                     }
                   />

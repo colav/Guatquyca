@@ -7,14 +7,10 @@ import { exportSVG } from "@upsetjs/react";
 const Button = require("antd/lib/button").default;
 
 /* Icons */
-const FileImageOutlined = require("@ant-design/icons/FileImageOutlined")
-  .default;
+const FileImageOutlined =
+  require("@ant-design/icons/FileImageOutlined").default;
 
-const PDFDownloader = ({ chart }) => {
-  function svg() {
-    exportSVG(chart, { type: "svg" });
-  }
-
+const ExportSVGUpSet = ({ chart }) => {
   return (
     <Button
       size="small"
@@ -22,9 +18,9 @@ const PDFDownloader = ({ chart }) => {
         color: "#9D3715",
         backgroundColor: "#ffe9cc",
         border: "none",
-        marginRight: "20px",
+        marginRight: "10px",
       }}
-      onClick={svg}
+      onClick={() => exportSVG(chart, { type: "svg" })}
       icon={<FileImageOutlined />}
     >
       svg
@@ -32,4 +28,4 @@ const PDFDownloader = ({ chart }) => {
   );
 };
 
-export default PDFDownloader;
+export default ExportSVGUpSet;

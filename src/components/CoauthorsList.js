@@ -18,16 +18,17 @@ const CoauthorsList = ({ data, setCurrentURL }) => {
 
   if (type === "/app/institutions") {
     return (
-      <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+      <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
         <Card
+          size="small"
           title="Lista de Coautorías"
           bodyStyle={{ padding: "10px" }}
-          style={{ height: "431px" }}
+          style={{ height: "662px" }}
         >
           <Table
             rowKey="id"
             dataSource={data}
-            scroll={{ y: 220 }}
+            scroll={{ y: 470 }}
             bordered={true}
             pagination={{ size: "small" }}
           >
@@ -53,7 +54,6 @@ const CoauthorsList = ({ data, setCurrentURL }) => {
               dataIndex="count"
               key="count"
               width={130}
-              sorter={(a, b) => a.count - b.count}
             />
           </Table>
         </Card>
@@ -62,23 +62,24 @@ const CoauthorsList = ({ data, setCurrentURL }) => {
   }
 
   return (
-    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
       <Card
+        size="small"
         title="Lista de Coautorías"
         bodyStyle={{ padding: "10px" }}
-        style={{ height: "431px" }}
+        style={{ height: "662px" }}
       >
         <Table
-          rowKey="_id"
+          rowKey="id"
           dataSource={data}
-          scroll={{ y: 220 }}
+          scroll={{ y: 470 }}
           bordered={true}
           pagination={{ size: "small" }}
         >
           <Column
             title="Nombre"
             dataIndex={"full_name"}
-            key={"_id"}
+            key={"id"}
             render={(name, record) => (
               <Link
                 to={`/app/authors?${APIKEY}&${DATA}&id=${record._id}`}
@@ -97,7 +98,6 @@ const CoauthorsList = ({ data, setCurrentURL }) => {
             dataIndex="count"
             key="count"
             width={130}
-            sorter={(a, b) => a.count - b.count}
           />
         </Table>
       </Card>

@@ -33,9 +33,9 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
         <Router history={history}>
           <Link
             style={{ fontSize: 21 }}
-            to={`/app/authors?${APIKEY}&${DATA}&id=${author._id}`}
+            to={`/app/authors?${APIKEY}&${DATA}&id=${author.id}`}
             onClick={() =>
-              setCurrentURL(`/app/authors?${APIKEY}&${DATA}&id=${author._id}`)
+              setCurrentURL(`/app/authors?${APIKEY}&${DATA}&id=${author.id}`)
             }
           >
             {author.full_name}
@@ -43,10 +43,10 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
           <br />
           {author.affiliations.length > 0 ? (
             <Link
-              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`}
+              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}`}
               onClick={() =>
                 setCurrentURL(
-                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0]._id}`
+                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}`
                 )
               }
             >
@@ -60,12 +60,12 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
       description:
         author.affiliations.length > 0
           ? author.affiliations[0].branches.map((item) => (
-              <Router key={item._id} history={history}>
+              <Router key={item.id} history={history}>
                 <Divider style={{ margin: 2 }} />
                 <Link
                   style={{ fontSize: 15 }}
-                  to={URL(item.type, item._id)}
-                  onClick={() => setCurrentURL(URL(item.type, item._id))}
+                  to={URL(item.type, item.id)}
+                  onClick={() => setCurrentURL(URL(item.type, item.id))}
                 >
                   {item.name}
                 </Link>
@@ -73,7 +73,7 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
             ))
           : "",
       onClick: () => {
-        notification.destroy(author._id);
+        notification.destroy(author.id);
       },
     });
   };
@@ -82,7 +82,7 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
     <div>
       {authorsList.slice(0, authorsQuantity).map((author) => (
         <Button
-          key={author._id}
+          key={author.id}
           type="link"
           onClick={() => openNotification(author)}
         >

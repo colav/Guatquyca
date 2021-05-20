@@ -21,7 +21,7 @@ const SortProduction = ({ core, setKey }) => {
     }
     history.push(filteredURL);
     core.setCurrentURL(filteredURL);
-    setKey("4");
+    setKey("0");
   }
 
   return (
