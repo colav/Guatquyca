@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 /* Components */
+import APCInfoWrapper from "../APCInfoWrapper";
 import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import CommonTitleCard from "../CommonTitleCard";
@@ -74,6 +75,9 @@ const Institutions = ({ core }) => {
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
+          </TabPane>
+          <TabPane tab="APC" key="4" forceRender>
+            <APCInfoWrapper core={core} />
           </TabPane>
         </Tabs>
       </Col>

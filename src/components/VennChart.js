@@ -105,13 +105,13 @@ const VennChart = ({ data }) => {
                 sets={sets}
                 combinations={combinations}
                 width={390}
-                height={300}
+                height={290}
                 exportButtons={false}
                 textColor="#4f5a63"
               />
             </div>
           }
-          style={{ width: "100%", height: "370px" }}
+          style={{ width: "100%", height: "400px" }}
         ></Card>
       </Card>
     </Col>

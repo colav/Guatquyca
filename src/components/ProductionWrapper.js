@@ -5,6 +5,7 @@ import AuthorsHorizontalList from "./AuthorsHorizontalList";
 import DocumentModal from "./DocumentModal";
 import DownloadCSVButton from "./DownloadCSVButton";
 import DownloadJSONButton from "./DownloadJSONButton";
+import DoughnutChart from "./DoughnutChart";
 import ErrorWarning from "./ErrorWarning";
 import LoadingCard from "./LoadingCard";
 import OpenAccessStatus from "./OpenAccessStatus";
@@ -17,7 +18,6 @@ import { renderedTitle } from "../helpers/renderedTitle";
 
 /* Icons */
 import { CitationsIcon } from "../icons/citations";
-import OpenAccessChart from "./OpenAccessChart";
 import SortProduction from "./SortProduction";
 const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
@@ -105,7 +105,13 @@ const ProductionWrapper = ({ type, core, setKey }) => {
   }
   return (
     <Row gutter={[15, 15]}>
-      <OpenAccessChart data={state.data.open_access} />
+      <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}>
+        <DoughnutChart
+          data={state.data.open_access}
+          title="Open Access"
+          id="pro_oa_"
+        />
+      </Col>
       <VennChart data={state.data.venn_source} />
       <Col span={24}>
         <Card
