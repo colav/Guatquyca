@@ -16,36 +16,37 @@ const Col = require("antd/lib/col").default;
 const CoauthorsMap = ({ rawData }) => {
   const data = rawData.map((item) => ({
     id: item.country_code,
-    value: item.count,
+    value: item.log_count,
+    count: item.count,
+    name: item.country,
   }));
-
   let map = anychart.map();
   map.geoData(anychart.maps.world);
   const series = map.choropleth(data);
-  const ordinalScale = anychart.scales.ordinalColor([
-    { less: 50 },
-    { from: 51, to: 100 },
-    { from: 101, to: 300 },
-    { from: 301, to: 1000 },
-    { from: 1001, to: 2000 },
-    { from: 2001, to: 5000 },
-    { from: 5001, to: 10000 },
-    { from: 10001, to: 15000 },
-    { greater: 15001 },
-  ]);
-  ordinalScale.colors([
-    "#f7fcf0",
-    "#e0f3db",
-    "#ccebc5",
-    "#a8ddb5",
-    "#7bccc4",
-    "#4eb3d3",
-    "#2b8cbe",
-    "#0868ac",
-    "#084081",
-  ]);
-  series.colorScale(ordinalScale);
-  series.stroke("#000 .5");
+  series.tooltip().format("Total: {%count}\nID: {%id}");
+  series.colorScale(
+    anychart.scales.linearColor(
+      "#f7fcf0",
+      "#e0f3db",
+      "#ccebc5",
+      "#a8ddb5",
+      "#7bccc4",
+      "#4eb3d3",
+      "#2b8cbe",
+      "#0868ac",
+      "#084081"
+    )
+  );
+  const array = [0, "", "", "", 10000];
+  map.colorRange().enabled(true);
+  map.colorRange().length("100%");
+  map
+    .colorRange()
+    .labels()
+    .format((i) => array[i.index]);
+  map.listen("pointClick", function (e) {
+    map.zoomToFeature(e.point.get("id"));
+  });
 
   return (
     <Col xs={24} lg={16}>

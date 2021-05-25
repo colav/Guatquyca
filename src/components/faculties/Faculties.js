@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 /* Components */
 import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
-import ErrorWarning from "../ErrorWarning";
 import CommonTitleCard from "../CommonTitleCard";
-import ProductionWrapper from "../ProductionWrapper";
+import ErrorWarning from "../ErrorWarning";
 import ListCard from "../ListCard";
+import MediaWrapper from "../MediaWrapper";
+import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -44,6 +45,7 @@ const Faculties = ({ core }) => {
         abbreviation={state.data.abbreviations}
         external_urls={state.data.external_urls}
         institution={state.data.institution}
+        logo={state.data.institution[0].logo}
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
@@ -79,6 +81,9 @@ const Faculties = ({ core }) => {
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="4" forceRender>
+            <MediaWrapper />
           </TabPane>
         </Tabs>
       </Col>

@@ -12,34 +12,59 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const TreeMap = ({ rawData }) => {
-  const sum = parseInt(
-    Object.values(rawData).reduce((a, b) => a + b, 0),
-    10
-  ).toLocaleString("en");
-  const dataSet = [{ name: `Total: ${sum} USD`, children: [] }];
-  for (const key in rawData) {
-    dataSet[0].children.push({ name: key, value: rawData[key] });
+const TreeMap = ({ rawData, id, title }) => {
+  const sum = rawData.reduce((a, b) => a + b.value, 0).toLocaleString("en");
+  let dataSet = [
+    { id: "ALL", parent: null, name: `Total: ${sum} USD` },
+    { id: "Set A", parent: "ALL", name: "Set A" },
+    { id: "Set B", parent: "ALL", name: "Set B" },
+    { id: "Set C", parent: "ALL", name: "Set C" },
+  ];
+  const len = rawData.length;
+  for (let i = 0; i < len; i++) {
+    if (i < len / 5) {
+      dataSet.push({
+        id: i,
+        parent: "Set A",
+        name: rawData[i].name,
+        value: rawData[i].value,
+      });
+    } else if (i < (len / 5) * 3) {
+      dataSet.push({
+        id: i,
+        parent: "Set B",
+        name: rawData[i].name,
+        value: rawData[i].value,
+      });
+    } else {
+      dataSet.push({
+        id: i,
+        parent: "Set C",
+        name: rawData[i].name,
+        value: rawData[i].value,
+      });
+    }
   }
-  console.log(dataSet);
 
-  const chart = anychart.treeMap(dataSet, "as-tree");
-  var customColorScale = anychart.scales.linearColor();
+  let chart = anychart.treeMap(dataSet, "as-table");
+  let customColorScale = anychart.scales.linearColor();
   customColorScale.colors(["#00ccff", "#ffcc00"]);
-
-  // set the color scale as the color scale of the chart
+  chart.maxDepth(2);
+  chart.headers(true);
+  chart.normal().headers().fontWeight("bold");
   chart.colorScale(customColorScale);
   chart.colorRange().enabled(true);
   chart.colorRange().length("100%");
-
+  chart.background().stroke("#EAEAE6");
   chart
     .labels()
-    .format("{%name}\n{%value}{numDecimals:0,groupsSeparator:\\,} USD");
+    .format("{%name}\n{%value}{numDecimals:2,groupsSeparator:\\,} USD");
+  chart.tooltip().format("{%value}{numDecimals:2,groupsSeparator:\\,} USD");
 
   return (
     <Card
       size="small"
-      title={"Revistas"}
+      title={title}
       bodyStyle={{ padding: "10px" }}
       hoverable
       extra={[
@@ -55,8 +80,11 @@ const TreeMap = ({ rawData }) => {
         bordered={false}
         type="inner"
         cover={
-          <div id={`treemap_ChartContainer`}>
-            <AnyChart container={`treemap_ChartContainer`} instance={chart} />
+          <div id={`${id}treemap_ChartContainer`}>
+            <AnyChart
+              container={`${id}treemap_ChartContainer`}
+              instance={chart}
+            />
           </div>
         }
         style={{ width: "100%", height: "700px" }}

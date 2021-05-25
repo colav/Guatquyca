@@ -12,7 +12,7 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const DoughnutChart = ({ data, title, id, currency = false }) => {
+const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
   const bgColor = {
     hybrid: "#6448ff",
     green: "#25ff76",
@@ -78,7 +78,7 @@ const DoughnutChart = ({ data, title, id, currency = false }) => {
             <AnyChart container={`${id}ChartContainer`} instance={chart} />
           </div>
         }
-        style={{ width: "100%", height: "400px" }}
+        style={{ width: "100%", height: height }}
       ></Card>
     </Card>
   );

@@ -6,8 +6,9 @@ import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import CommonTitleCard from "../CommonTitleCard";
 import ErrorWarning from "../ErrorWarning";
-import ProductionWrapper from "../ProductionWrapper";
 import ListCard from "../ListCard";
+import MediaWrapper from "../MediaWrapper";
+import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -44,7 +45,7 @@ const Institutions = ({ core }) => {
         title={state.data.name}
         abbreviation={state.data.abbreviations}
         external_urls={state.data.external_urls}
-        institution={state.data.logo}
+        logo={state.data.logo}
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
@@ -78,6 +79,9 @@ const Institutions = ({ core }) => {
           </TabPane>
           <TabPane tab="APC" key="4" forceRender>
             <APCInfoWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="5" forceRender>
+            <MediaWrapper />
           </TabPane>
         </Tabs>
       </Col>

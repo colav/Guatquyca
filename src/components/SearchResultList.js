@@ -6,7 +6,7 @@ import ErrorWarning from "./ErrorWarning";
 import LoadingCard from "./LoadingCard";
 
 /* Constants */
-import { APIKEY, DATA, LOGOUDEA } from "../constants/routes";
+import { APIKEY, DATA } from "../constants/routes";
 
 /* Utilities */
 import history from "../history";
@@ -64,6 +64,16 @@ const SearchResultList = ({ core }) => {
     core.setCurrentURL(URLBuilder);
   };
 
+  const logoPathFinder = (item) => {
+    if (item.affiliation && item.affiliation.logo_url) {
+      return item.affiliation.logo_url;
+    } else if (item.logo) {
+      return item.logo;
+    } else {
+      return <ReadOutlined style={{ color: "gray", fontSize: "30px" }} />;
+    }
+  };
+
   if (!state.isLoading) {
     setTimeout(() => {
       core.setFilters(state.data.filters);
@@ -101,20 +111,7 @@ const SearchResultList = ({ core }) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Avatar
-                  shape="square"
-                  size={60}
-                  src={
-                    item.affiliation &&
-                    item.affiliation.id === "60120afa4749273de6161883" ? (
-                      LOGOUDEA
-                    ) : (
-                      <ReadOutlined
-                        style={{ color: "gray", fontSize: "30px" }}
-                      />
-                    )
-                  }
-                />
+                <Avatar shape="square" size={60} src={logoPathFinder(item)} />
               }
               title={
                 <Link
@@ -128,10 +125,15 @@ const SearchResultList = ({ core }) => {
                   {renderedItemName(item)}
                 </Link>
               }
-              description={renderedAffiliation(
-                item.affiliation ? item.affiliation.name : "",
-                core.setCurrentURL
-              )}
+              description={
+                item.affiliation
+                  ? renderedAffiliation(
+                      item.affiliation.name,
+                      item.affiliation.id,
+                      core.setCurrentURL
+                    )
+                  : ""
+              }
             />
             {parsed.data === "authors" ? (
               <AuthorsKeywords keywords={item.keywords} />

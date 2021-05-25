@@ -39,19 +39,21 @@ const APCInfoWrapper = ({ core }) => {
     const facultyData = {};
     for (const key in state.data.data.faculty) {
       let name = state.data.data.faculty[key].name;
-      facultyData[name.slice(12)] = state.data.data.faculty[key].value;
+      facultyData[name.replace("Facultad de", "Fac.")] =
+        state.data.data.faculty[key].value;
     }
 
     const departmentData = {};
     for (const key in state.data.data.department) {
-      departmentData[state.data.data.department[key].name] =
+      let name = state.data.data.department[key].name;
+      departmentData[name.replace("Departamento de", "Depto.")] =
         state.data.data.department[key].value;
     }
 
     return (
       <Row gutter={[15, 15]}>
         <LineChart rawData={state.data.data.yearly} />
-        <Col xs={24} sm={24} md={12} lg={8}>
+        <Col xs={24} sm={24} md={24} lg={8}>
           <DoughnutChart
             data={state.data.data.openaccess}
             title="Pagos de APC - tipo de acceso"
@@ -59,32 +61,37 @@ const APCInfoWrapper = ({ core }) => {
             currency={true}
           />
         </Col>
-        <Col xs={24} sm={24} md={12} lg={8}>
+        <Col xs={24} sm={24} md={12}>
           <DoughnutChart
             data={facultyData}
-            title="Pagos de APC - Facultad"
+            title="Pagos de APC - Facultades"
             id="apc_fa_"
             currency={true}
+            height={500}
           />
         </Col>
-        <Col xs={24} sm={24} md={12} lg={8}>
+        <Col xs={24} sm={24} md={12}>
           <DoughnutChart
             data={departmentData}
-            title="Pagos de APC - Departamento"
+            title="Pagos de APC - Departamentos"
             id="apc_de_"
             currency={true}
-          />
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={8}>
-          <DoughnutChart
-            data={state.data.data.publisher}
-            title="Pagos de APC - Revistas"
-            id="apc_pu_"
-            currency={true}
+            height={500}
           />
         </Col>
         <Col span={24}>
-          <TreeMap rawData={state.data.data.publisher} />
+          <TreeMap
+            rawData={state.data.data.group}
+            id="apc_gr_"
+            title="Pagos de APC - Grupos"
+          />
+        </Col>
+        <Col span={24}>
+          <TreeMap
+            rawData={state.data.data.publisher}
+            id="apc_pu_"
+            title="Pagos de APC - Editoriales"
+          />
         </Col>
       </Row>
     );

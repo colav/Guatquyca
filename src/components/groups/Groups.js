@@ -5,8 +5,9 @@ import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import CommonTitleCard from "../CommonTitleCard";
-import ProductionWrapper from "../ProductionWrapper";
 import ListCard from "../ListCard";
+import MediaWrapper from "../MediaWrapper";
+import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -69,6 +70,9 @@ const Groups = ({ core }) => {
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="4" forceRender>
+            <MediaWrapper />
           </TabPane>
         </Tabs>
       </Col>

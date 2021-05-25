@@ -15,22 +15,26 @@ const VennChart = ({ data }) => {
   const { sets, combinations } = useMemo(
     () =>
       extractFromExpression([
-        { sets: ["Scholar"], cardinality: data.scholar, color: "#ffe682" },
+        {
+          sets: ["Google Académico"],
+          cardinality: data.scholar,
+          color: "#ffe682",
+        },
         { sets: ["Scopus"], cardinality: data.scopus, color: "#ffa0f0" },
         { sets: ["Lens"], cardinality: data.lens, color: "#aac8ff" },
         { sets: ["SciELO"], cardinality: data.scielo, color: "#8cffe6" },
         {
-          sets: ["Scholar", "Scopus"],
+          sets: ["Google Académico", "Scopus"],
           cardinality: data.scholar_scopus,
           color: "#ff907a",
         },
         {
-          sets: ["Scholar", "Lens"],
+          sets: ["Google Académico", "Lens"],
           cardinality: data.scholar_lens,
           color: "#aab482",
         },
         {
-          sets: ["Scholar", "SciELO"],
+          sets: ["Google Académico", "SciELO"],
           cardinality: data.scholar_scielo,
           color: "#8ce675",
         },
@@ -50,17 +54,17 @@ const VennChart = ({ data }) => {
           color: "#5dc8e6",
         },
         {
-          sets: ["Scholar", "Scopus", "Lens"],
+          sets: ["Google Académico", "Scopus", "Lens"],
           cardinality: data.scholar_lens_scopus,
           color: "#aa717a",
         },
         {
-          sets: ["Scholar", "Scopus", "SciELO"],
+          sets: ["Google Académico", "Scopus", "SciELO"],
           cardinality: data.scholar_scielo_scopus,
           color: "#8c906e",
         },
         {
-          sets: ["Scholar", "Lens", "SciELO"],
+          sets: ["Google Académico", "Lens", "SciELO"],
           cardinality: data.scholar_lens_scielo,
           color: "#5db475",
         },
@@ -70,7 +74,7 @@ const VennChart = ({ data }) => {
           color: "#5d7dd8",
         },
         {
-          sets: ["Scholar", "Scopus", "Lens", "SciELO"],
+          sets: ["Google Académico", "Scopus", "Lens", "SciELO"],
           cardinality: data.scholar_lens_scielo_scopus,
           color: "#5d716e",
         },

@@ -5,6 +5,7 @@ import AuthorsTitleCard from "./AuthorsTitleCard";
 import CitationsWrapper from "../CitationsWrapper";
 import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
+import MediaWrapper from "../MediaWrapper";
 import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
@@ -53,6 +54,9 @@ const Authors = ({ core }) => {
           </TabPane>
           <TabPane tab="Coautorías" key="2" forceRender>
             <CoauthorsWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="3" forceRender>
+            <MediaWrapper />
           </TabPane>
         </Tabs>
       </Col>

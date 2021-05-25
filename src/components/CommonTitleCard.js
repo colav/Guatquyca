@@ -20,7 +20,8 @@ const CommonTitleCard = ({
   title,
   abbreviation,
   external_urls,
-  institution,
+  institution = false,
+  logo = false,
   setCurrentURL,
 }) => {
   return (
@@ -31,8 +32,8 @@ const CommonTitleCard = ({
             <Avatar
               size={{ xs: 60, sm: 60, md: 150, lg: 150, xl: 150, xxl: 150 }}
               src={
-                institution[0].logo || institution ? (
-                  institution[0].logo || institution
+                logo ? (
+                  logo
                 ) : (
                   <ReadOutlined style={{ color: "gray", fontSize: "40px" }} />
                 )
@@ -50,7 +51,13 @@ const CommonTitleCard = ({
                 {title} {abbreviation ? `(${abbreviation})` : ""}
               </Typography.Title>
               <Typography.Title level={3}>
-                {renderedAffiliation(institution[0].name, setCurrentURL)}
+                {institution
+                  ? renderedAffiliation(
+                      institution[0].name,
+                      institution[0].id,
+                      setCurrentURL
+                    )
+                  : ""}
               </Typography.Title>
             </>
           }
