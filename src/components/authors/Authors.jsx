@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+/* Wrappers */
+import CitationsWrapper from "../wrappers/CitationsWrapper";
+import CoauthorsWrapper from "../wrappers/CoauthorsWrapper";
+import MediaWrapper from "../wrappers/MediaWrapper";
+import ProductionWrapper from "../wrappers/ProductionWrapper";
+
 /* Components */
-import CitationsWrapper from "../CitationsWrapper";
-import CoauthorsWrapper from "../CoauthorsWrapper";
-import CommonTitleCard from "../CommonTitleCard";
+import AuthorsTitleCard from "./AuthorsTitleCard";
 import ErrorWarning from "../ErrorWarning";
-import ListCard from "../ListCard";
-import MediaWrapper from "../MediaWrapper";
-import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -21,7 +22,7 @@ const Tabs = require("antd/lib/tabs").default;
 /* UI Library Sub-components */
 const { TabPane } = Tabs;
 
-const Departments = ({ core }) => {
+const Authors = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
   const [key, setKey] = useState("0");
 
@@ -39,14 +40,8 @@ const Departments = ({ core }) => {
     return "";
   }
   return (
-    <Row gutter={[10, 15]}>
-      <CommonTitleCard
-        title={state.data.name}
-        abbreviation={state.data.abbreviations}
-        external_urls={state.data.external_urls}
-        institution={state.data.institution}
-        setCurrentURL={core.setCurrentURL}
-      />
+    <Row gutter={[15, 15]}>
+      <AuthorsTitleCard state={state.data} setCurrentURL={core.setCurrentURL} />
       <Col xs={24}>
         <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
           <TabPane tab="Producción" key="0" forceRender>
@@ -59,24 +54,10 @@ const Departments = ({ core }) => {
           <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />
           </TabPane>
-          <TabPane tab="Afiliaciones" key="2">
-            <Row gutter={[15, 15]}>
-              <ListCard
-                title={"groups"}
-                list={state.data.groups}
-                setCurrentURL={core.setCurrentURL}
-              />
-              <ListCard
-                title={"authors"}
-                list={state.data.authors}
-                setCurrentURL={core.setCurrentURL}
-              />
-            </Row>
-          </TabPane>
-          <TabPane tab="Coautorías" key="3" forceRender>
+          <TabPane tab="Coautorías" key="2" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="4" forceRender>
+          <TabPane tab="Noticias" key="3" forceRender>
             <MediaWrapper />
           </TabPane>
         </Tabs>
@@ -85,4 +66,4 @@ const Departments = ({ core }) => {
   );
 };
 
-export default Departments;
+export default Authors;

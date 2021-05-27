@@ -5,9 +5,9 @@ import AnyChart from "anychart-react";
 import anychart from "anychart";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGAnyChart from "./ExportSVGAnyChart";
-import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
+import InfoButton from "../InfoButton";
+import ExportSVGAnyChart from "../ExportSVGAnyChart";
+import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;

@@ -1,15 +1,17 @@
 import React from "react";
 
 /* Components */
-import ErrorWarning from "./ErrorWarning";
-import CoauthorsList from "./CoauthorsList";
-import CoauthorsMap from "./CoauthorsMap";
-import LoadingCard from "./LoadingCard";
-import NetworkChart from "./NetworkChart";
+import ErrorWarning from "../ErrorWarning";
+import CoauthorsList from "../CoauthorsList";
+import LoadingCard from "../LoadingCard";
+
+/* Charts */
+import MapChart from "../charts/MapChart";
+import NetworkChart from "../charts/NetworkChart";
 
 /* Utilities */
-import history from "../history";
-import { APIRequest } from "../apis/clustercien";
+import history from "../../history";
+import { APIRequest } from "../../apis/clustercien";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -45,7 +47,11 @@ const CoauthorsWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         {state.data.data.geo.length > 0 ? (
-          <CoauthorsMap rawData={state.data.data.geo} />
+          <MapChart
+            rawData={state.data.data.geo}
+            title="Alcance Geográfico"
+            id="coa_in_"
+          />
         ) : (
           ""
         )}
@@ -55,38 +61,44 @@ const CoauthorsWrapper = ({ core }) => {
         />
         {state.data.data.institution_network ||
         state.data.data.institutions_network ? (
-          <NetworkChart
-            networkData={
-              state.data.data.institution_network ||
-              state.data.data.institutions_network
-            }
-            setup={{
-              title: "Red de coautoría - Instituciones",
-              id: "coaInst_",
-            }}
-          />
+          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+            <NetworkChart
+              data={
+                state.data.data.institution_network ||
+                state.data.data.institutions_network
+              }
+              setup={{
+                title: "Red de coautoría - Instituciones",
+                id: "coa_in_",
+              }}
+            />
+          </Col>
         ) : (
           ""
         )}
         {state.data.data.faculties_network ? (
-          <NetworkChart
-            networkData={state.data.data.faculties_network}
-            setup={{
-              title: "Red de coautoría - Facultades",
-              id: "coaFacu_",
-            }}
-          />
+          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+            <NetworkChart
+              data={state.data.data.faculties_network}
+              setup={{
+                title: "Red de coautoría - Facultades",
+                id: "coa_fa_",
+              }}
+            />
+          </Col>
         ) : (
           ""
         )}
         {state.data.data.coauthors_network ? (
-          <NetworkChart
-            networkData={state.data.data.coauthors_network}
-            setup={{
-              title: "Red de coautoría - Autores",
-              id: "coaAuth_",
-            }}
-          />
+          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+            <NetworkChart
+              data={state.data.data.coauthors_network}
+              setup={{
+                title: "Red de coautoría - Autores",
+                id: "coa_au_",
+              }}
+            />
+          </Col>
         ) : (
           ""
         )}

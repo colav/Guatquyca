@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 
+/* Wrappers */
+import APCInfoWrapper from "../wrappers/APCInfoWrapper";
+import CitationsWrapper from "../wrappers/CitationsWrapper";
+import CoauthorsWrapper from "../wrappers/CoauthorsWrapper";
+import GraduatesWrapper from "../wrappers/GraduatesWrapper";
+import MediaWrapper from "../wrappers/MediaWrapper";
+import ProductionWrapper from "../wrappers/ProductionWrapper";
+
 /* Components */
-import APCInfoWrapper from "../APCInfoWrapper";
-import CitationsWrapper from "../CitationsWrapper";
-import CoauthorsWrapper from "../CoauthorsWrapper";
 import CommonTitleCard from "../CommonTitleCard";
 import ErrorWarning from "../ErrorWarning";
 import ListCard from "../ListCard";
-import MediaWrapper from "../MediaWrapper";
-import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
@@ -80,7 +83,10 @@ const Institutions = ({ core }) => {
           <TabPane tab="APC" key="4" forceRender>
             <APCInfoWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="5" forceRender>
+          <TabPane tab="Egresados" key="5" forceRender>
+            <GraduatesWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="6" forceRender>
             <MediaWrapper />
           </TabPane>
         </Tabs>

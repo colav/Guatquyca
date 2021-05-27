@@ -6,23 +6,22 @@ import anychart from "anychart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
-const Col = require("antd/lib/col").default;
 const notification = require("antd/lib/notification").default;
 
-const NetworkChart = ({ networkData, setup }) => {
+const NetworkChart = ({ data, setup }) => {
   let eCache = "";
   const openNotification = (e) => {
     if (e.index !== eCache.index) {
       eCache = e;
       notification.open({
         style: { width: 550, border: "2px solid #DCDCD5" },
-        message: networkData.nodes[e.index].title,
+        message: data.nodes[e.index].title,
         description: e.id,
       });
     }
   };
 
-  let chart = anychart.graph(networkData);
+  let chart = anychart.graph(data);
   chart.background().stroke("#EAEAE6");
   chart.nodes().fill("#FBDD7E");
   chart.nodes().hovered().fill("#FFC820");
@@ -37,28 +36,26 @@ const NetworkChart = ({ networkData, setup }) => {
   chart.edges().tooltip().format("De: {%from}\nA: {%to}\nCitas: {%cited}");
 
   return (
-    <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+    <Card
+      size="small"
+      title={setup.title}
+      bodyStyle={{ padding: "10px" }}
+      hoverable
+    >
       <Card
-        size="small"
-        title={setup.title}
-        bodyStyle={{ padding: "10px" }}
-        hoverable
-      >
-        <Card
-          bordered={false}
-          type="inner"
-          cover={
-            <div id={`${setup.id}NetworkChartContainer`}>
-              <AnyChart
-                container={`${setup.id}NetworkChartContainer`}
-                instance={chart}
-              />
-            </div>
-          }
-          style={{ width: "100%", height: "350px" }}
-        ></Card>
-      </Card>
-    </Col>
+        bordered={false}
+        type="inner"
+        cover={
+          <div id={`${setup.id}Network_ChartContainer`}>
+            <AnyChart
+              container={`${setup.id}Network_ChartContainer`}
+              instance={chart}
+            />
+          </div>
+        }
+        style={{ width: "100%", height: "350px" }}
+      ></Card>
+    </Card>
   );
 };
 

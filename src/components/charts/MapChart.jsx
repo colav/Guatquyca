@@ -5,54 +5,41 @@ import AnyChart from "anychart-react";
 import anychart from "anychart";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGAnyChart from "./ExportSVGAnyChart";
-import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
+import InfoButton from "../InfoButton";
+import ExportSVGAnyChart from "../ExportSVGAnyChart";
+import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const CoauthorsMap = ({ rawData }) => {
+const CoauthorsMap = ({ rawData, title, id, height = 500 }) => {
   const data = rawData.map((item) => ({
     id: item.country_code,
-    value: item.log_count,
-    count: item.count,
+    value: item.count,
     name: item.country,
   }));
-  let map = anychart.map();
-  map.geoData(anychart.maps.world);
-  const series = map.choropleth(data);
-  series.tooltip().format("Total: {%count}\nID: {%id}");
+  let map = anychart.map().geoData(anychart.maps.world);
+
+  let series = map.choropleth(data);
+  series.tooltip().format("Total: {%value}\nAlfa-2: {%id}");
   series.colorScale(
-    anychart.scales.linearColor(
-      "#f7fcf0",
-      "#e0f3db",
-      "#ccebc5",
-      "#a8ddb5",
-      "#7bccc4",
-      "#4eb3d3",
-      "#2b8cbe",
-      "#0868ac",
-      "#084081"
-    )
+    anychart.scales.linearColor("#f7fcf0", "#7bccc4", "#2b8cbe")
   );
-  const array = [0, "", "", "", 10000];
+  series.stroke("black 0.5");
+
   map.colorRange().enabled(true);
   map.colorRange().length("100%");
-  map
-    .colorRange()
-    .labels()
-    .format((i) => array[i.index]);
   map.listen("pointClick", function (e) {
     map.zoomToFeature(e.point.get("id"));
   });
+  map.background().stroke("#EAEAE6");
 
   return (
     <Col xs={24} lg={16}>
       <Card
         size="small"
-        title="Alcance Geográfico"
+        title={title}
         bodyStyle={{ padding: "10px" }}
         hoverable
         extra={[
@@ -68,11 +55,11 @@ const CoauthorsMap = ({ rawData }) => {
           bordered={false}
           type="inner"
           cover={
-            <div id="MapContainer">
-              <AnyChart container="MapContainer" instance={map} />
+            <div id={`${id}Map_ChartContainer`}>
+              <AnyChart container={`${id}Map_ChartContainer`} instance={map} />
             </div>
           }
-          style={{ width: "100%", height: "600px" }}
+          style={{ width: "100%", height: height }}
         ></Card>
       </Card>
     </Col>

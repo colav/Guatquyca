@@ -4,8 +4,8 @@ import React, { useMemo } from "react";
 import { VennDiagram, extractFromExpression } from "@upsetjs/react";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGUpSet from "./ExportSVGUpSet";
+import InfoButton from "../InfoButton";
+import ExportSVGUpSet from "../ExportSVGUpSet";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
@@ -16,12 +16,16 @@ const VennChart = ({ data }) => {
     () =>
       extractFromExpression([
         {
-          sets: ["Google Académico"],
-          cardinality: data.scholar,
+          sets: ["Scopus"],
+          cardinality: data.scopus,
           color: "#ffe682",
         },
-        { sets: ["Scopus"], cardinality: data.scopus, color: "#ffa0f0" },
-        { sets: ["Lens"], cardinality: data.lens, color: "#aac8ff" },
+        { sets: ["Lens"], cardinality: data.lens, color: "#ffa0f0" },
+        {
+          sets: ["Google Académico"],
+          cardinality: data.scholar,
+          color: "#aac8ff",
+        },
         { sets: ["SciELO"], cardinality: data.scielo, color: "#8cffe6" },
         {
           sets: ["Google Académico", "Scopus"],
@@ -108,10 +112,12 @@ const VennChart = ({ data }) => {
                 id="venn-chart"
                 sets={sets}
                 combinations={combinations}
-                width={390}
+                width={330}
                 height={290}
                 exportButtons={false}
                 textColor="#4f5a63"
+                fontSizes={{ valueLabel: "7px", setLabel: "13px" }}
+                strokeColor="white"
               />
             </div>
           }

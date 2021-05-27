@@ -1,9 +1,9 @@
 import React from "react";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGAnyChart from "./ExportSVGAnyChart";
-import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
+import InfoButton from "../InfoButton";
+import ExportSVGAnyChart from "../ExportSVGAnyChart";
+import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* Libraries */
 import AnyChart from "anychart-react";
@@ -54,6 +54,7 @@ const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
 
   chart.center().content(label);
   chart.background().stroke("#EAEAE6");
+  chart.outsideLabelsCriticalAngle(160);
 
   return (
     <Card
@@ -74,8 +75,11 @@ const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
         bordered={false}
         type="inner"
         cover={
-          <div id={`${id}ChartContainer`}>
-            <AnyChart container={`${id}ChartContainer`} instance={chart} />
+          <div id={`${id}Doughnut_ChartContainer`}>
+            <AnyChart
+              container={`${id}Doughnut_ChartContainer`}
+              instance={chart}
+            />
           </div>
         }
         style={{ width: "100%", height: height }}

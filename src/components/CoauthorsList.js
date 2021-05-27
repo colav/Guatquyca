@@ -13,7 +13,7 @@ const Table = require("antd/lib/table").default;
 /* UI Library Sub-components */
 const { Column } = Table;
 
-const CoauthorsList = ({ data, setCurrentURL }) => {
+const CoauthorsList = ({ data, setCurrentURL, height = 562 }) => {
   const type = history.location.pathname;
 
   if (type === "/app/institutions") {
@@ -23,12 +23,12 @@ const CoauthorsList = ({ data, setCurrentURL }) => {
           size="small"
           title="Lista de Coautorías"
           bodyStyle={{ padding: "10px" }}
-          style={{ height: "662px" }}
+          style={{ height: height }}
         >
           <Table
             rowKey="id"
             dataSource={data}
-            scroll={{ y: 470 }}
+            scroll={{ y: height - 192 }}
             bordered={true}
             pagination={{ size: "small" }}
           >

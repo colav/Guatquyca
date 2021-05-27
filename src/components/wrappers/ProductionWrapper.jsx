@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 /* Components */
-import AuthorsHorizontalList from "./AuthorsHorizontalList";
-import DocumentModal from "./DocumentModal";
-import DownloadCSVButton from "./DownloadCSVButton";
-import DownloadJSONButton from "./DownloadJSONButton";
-import DoughnutChart from "./DoughnutChart";
-import ErrorWarning from "./ErrorWarning";
-import LoadingCard from "./LoadingCard";
-import OpenAccessStatus from "./OpenAccessStatus";
-import VennChart from "./VennChart";
+import AuthorsHorizontalList from "../AuthorsHorizontalList";
+import DocumentModal from "../DocumentModal";
+import DownloadCSVButton from "../DownloadCSVButton";
+import DownloadJSONButton from "../DownloadJSONButton";
+import ErrorWarning from "../ErrorWarning";
+import LoadingCard from "../LoadingCard";
+import OpenAccessStatus from "../OpenAccessStatus";
+
+/* Charts */
+import DoughnutChart from "../charts/DoughnutChart";
+import VennChart from "../charts/VennChart";
 
 /* Utilities */
-import history from "../history";
-import { APIRequest } from "../apis/clustercien";
-import { renderedTitle } from "../helpers/renderedTitle";
+import history from "../../history";
+import { APIRequest } from "../../apis/clustercien";
+import { renderedTitle } from "../../helpers/renderedTitle";
 
 /* Icons */
-import { CitationsIcon } from "../icons/citations";
-import SortProduction from "./SortProduction";
+import { CitationsIcon } from "../../icons/citations";
+import SortProduction from "../SortProduction";
 const CalendarOutlined = require("@ant-design/icons/CalendarOutlined").default;
 const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 

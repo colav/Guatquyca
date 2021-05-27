@@ -7,10 +7,11 @@ const Empty = require("antd/lib/empty").default;
 const MediaWrapper = () => {
   return (
     <Card
+      size="small"
       title="Información de medios de comunicación"
       style={{ height: "400px" }}
     >
-      <Empty description={"En construcción."} style={{ marginTop: 65 }} />
+      <Empty description={"En construcción."} style={{ marginTop: 80 }} />
     </Card>
   );
 };

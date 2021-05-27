@@ -1,9 +1,9 @@
 import React from "react";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGAnyChart from "./ExportSVGAnyChart";
-import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
+import InfoButton from "../InfoButton";
+import ExportSVGAnyChart from "../ExportSVGAnyChart";
+import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* Libraries */
 import AnyChart from "anychart-react";
@@ -12,15 +12,15 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const TreeMap = ({ rawData, id, title }) => {
+const TreeMapChart = ({ rawData, id, title }) => {
   const sum = rawData.reduce((a, b) => a + b.value, 0).toLocaleString("en");
+  const len = rawData.length;
   let dataSet = [
     { id: "ALL", parent: null, name: `Total: ${sum} USD` },
     { id: "Set A", parent: "ALL", name: "Set A" },
     { id: "Set B", parent: "ALL", name: "Set B" },
     { id: "Set C", parent: "ALL", name: "Set C" },
   ];
-  const len = rawData.length;
   for (let i = 0; i < len; i++) {
     if (i < len / 5) {
       dataSet.push({
@@ -80,9 +80,9 @@ const TreeMap = ({ rawData, id, title }) => {
         bordered={false}
         type="inner"
         cover={
-          <div id={`${id}treemap_ChartContainer`}>
+          <div id={`${id}TreeMap_ChartContainer`}>
             <AnyChart
-              container={`${id}treemap_ChartContainer`}
+              container={`${id}TreeMap_ChartContainer`}
               instance={chart}
             />
           </div>
@@ -93,4 +93,4 @@ const TreeMap = ({ rawData, id, title }) => {
   );
 };
 
-export default TreeMap;
+export default TreeMapChart;

@@ -1,15 +1,17 @@
 import React from "react";
 
 /* Components */
-import DoughnutChart from "./DoughnutChart";
-import ErrorWarning from "./ErrorWarning";
-import LineChart from "./LineChart";
-import LoadingCard from "./LoadingCard";
-import TreeMap from "./TreeMap";
+import ErrorWarning from "../ErrorWarning";
+import LoadingCard from "../LoadingCard";
+
+/* Charts */
+import DoughnutChart from "../charts/DoughnutChart";
+import LineChart from "../charts/LineChart";
+import TreeMapChart from "../charts/TreeMapChart";
 
 /* Utilities */
-import history from "../history";
-import { APIRequest } from "../apis/clustercien";
+import history from "../../history";
+import { APIRequest } from "../../apis/clustercien";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -80,14 +82,14 @@ const APCInfoWrapper = ({ core }) => {
           />
         </Col>
         <Col span={24}>
-          <TreeMap
+          <TreeMapChart
             rawData={state.data.data.group}
             id="apc_gr_"
             title="Pagos de APC - Grupos"
           />
         </Col>
         <Col span={24}>
-          <TreeMap
+          <TreeMapChart
             rawData={state.data.data.publisher}
             id="apc_pu_"
             title="Pagos de APC - Editoriales"

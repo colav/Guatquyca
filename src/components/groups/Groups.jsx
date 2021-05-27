@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 
+/* Wrappers */
+import CitationsWrapper from "../wrappers/CitationsWrapper";
+import CoauthorsWrapper from "../wrappers/CoauthorsWrapper";
+import MediaWrapper from "../wrappers/MediaWrapper";
+import ProductionWrapper from "../wrappers/ProductionWrapper";
+
 /* Components */
-import CitationsWrapper from "../CitationsWrapper";
-import CoauthorsWrapper from "../CoauthorsWrapper";
 import ErrorWarning from "../ErrorWarning";
 import CommonTitleCard from "../CommonTitleCard";
 import ListCard from "../ListCard";
-import MediaWrapper from "../MediaWrapper";
-import ProductionWrapper from "../ProductionWrapper";
 
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";

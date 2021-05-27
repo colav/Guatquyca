@@ -5,9 +5,9 @@ import AnyChart from "anychart-react";
 import anychart from "anychart";
 
 /* Components */
-import InfoButton from "./InfoButton";
-import ExportSVGAnyChart from "./ExportSVGAnyChart";
-import ExportXLSXAnyChart from "./ExportXLSXAnyChart";
+import InfoButton from "../InfoButton";
+import ExportSVGAnyChart from "../ExportSVGAnyChart";
+import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
@@ -31,6 +31,7 @@ const LineChart = ({ rawData }) => {
   chart
     .tooltip()
     .format("Total: {%value}{numDecimals:2,groupsSeparator:\\,} USD");
+  chart.background().stroke("#EAEAE6");
 
   return (
     <Col xs={24} lg={16}>

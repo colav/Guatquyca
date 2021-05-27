@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 /* Components */
-import ErrorWarning from "./ErrorWarning";
-import LoadingCard from "./LoadingCard";
-import YearlyCitationsChart from "./YearlyCitationsChart";
-//import NetworkChart from "./NetworkChart";
+import ErrorWarning from "../ErrorWarning";
+import LoadingCard from "../LoadingCard";
+
+/* Charts */
+import YearlyCitationsChart from "../charts/YearlyCitationsChart";
 
 /* Utilities */
-import history from "../history";
-import { APIRequest } from "../apis/clustercien";
+import history from "../../history";
+import { APIRequest } from "../../apis/clustercien";
 const queryString = require("query-string");
 
 /* UI Library Components */
