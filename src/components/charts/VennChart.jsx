@@ -20,13 +20,13 @@ const VennChart = ({ data }) => {
           cardinality: data.scopus,
           color: "#ffe682",
         },
-        { sets: ["Lens"], cardinality: data.lens, color: "#ffa0f0" },
+        { sets: ["SciELO"], cardinality: data.scielo, color: "#ffa0f0" },
         {
           sets: ["Google Académico"],
           cardinality: data.scholar,
           color: "#aac8ff",
         },
-        { sets: ["SciELO"], cardinality: data.scielo, color: "#8cffe6" },
+        { sets: ["Lens"], cardinality: data.lens, color: "#8cffe6" },
         {
           sets: ["Google Académico", "Scopus"],
           cardinality: data.scholar_scopus,

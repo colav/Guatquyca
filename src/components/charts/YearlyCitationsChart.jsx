@@ -49,7 +49,7 @@ const YearlyCitationsChart = ({ data }) => {
         <Card
           bordered={false}
           type="inner"
-          style={{ width: "100%", height: "300px" }}
+          style={{ width: "100%", height: 316 }}
           cover={
             <div id="YearlyCitationsContainer">
               <AnyChart
@@ -59,15 +59,6 @@ const YearlyCitationsChart = ({ data }) => {
             </div>
           }
         ></Card>
-        <Card.Grid className="grid-citations-card">
-          Citas Totales: {data.citations}
-        </Card.Grid>
-        <Card.Grid className="grid-citations-card">
-          Índice H: {data.H}
-        </Card.Grid>
-        <Card.Grid className="grid-citations-card">
-          Índice H5: {data.H5}
-        </Card.Grid>
       </Card>
     </Col>
   );

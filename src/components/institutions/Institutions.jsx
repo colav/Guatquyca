@@ -65,16 +65,20 @@ const Institutions = ({ core }) => {
           </TabPane>
           <TabPane tab="Afiliaciones" key="2">
             <Row gutter={15}>
-              <ListCard
-                title={"departments"}
-                list={state.data.departments}
-                setCurrentURL={core.setCurrentURL}
-              />
-              <ListCard
-                title={"faculties"}
-                list={state.data.faculties}
-                setCurrentURL={core.setCurrentURL}
-              />
+              <Col xs={24} md={12}>
+                <ListCard
+                  title={"departments"}
+                  list={state.data.departments}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
+              <Col xs={24} md={12}>
+                <ListCard
+                  title={"faculties"}
+                  list={state.data.faculties}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
             </Row>
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>

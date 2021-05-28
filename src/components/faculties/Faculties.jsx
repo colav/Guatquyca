@@ -61,21 +61,27 @@ const Faculties = ({ core }) => {
           </TabPane>
           <TabPane tab="Afiliaciones" key="1">
             <Row gutter={[15, 15]}>
-              <ListCard
-                title={"departments"}
-                list={state.data.departments}
-                setCurrentURL={core.setCurrentURL}
-              />
-              <ListCard
-                title={"groups"}
-                list={state.data.groups}
-                setCurrentURL={core.setCurrentURL}
-              />
-              <ListCard
-                title={"authors"}
-                list={state.data.authors}
-                setCurrentURL={core.setCurrentURL}
-              />
+              <Col xs={24} md={8}>
+                <ListCard
+                  title={"departments"}
+                  list={state.data.departments}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
+              <Col xs={24} md={8}>
+                <ListCard
+                  title={"groups"}
+                  list={state.data.groups}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
+              <Col xs={24} md={8}>
+                <ListCard
+                  title={"authors"}
+                  list={state.data.authors}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
             </Row>
           </TabPane>
           <TabPane tab="Citaciones" key="2" forceRender>

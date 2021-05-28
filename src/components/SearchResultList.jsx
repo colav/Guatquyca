@@ -9,12 +9,13 @@ import LoadingCard from "./LoadingCard";
 import { APIKEY, DATA } from "../constants/routes";
 
 /* Utilities */
-import history from "../history";
 import URLBuilder from "../helpers/URLBuilder";
 import { APIRequest } from "../apis/clustercien";
 import { Link } from "react-router-dom";
+import { onPageChange } from "../helpers/onPageChange";
 import { renderedAffiliation } from "../helpers/renderedAffiliation";
 import { renderedTitle } from "../helpers/renderedTitle";
+import LiteratureSearchResList from "./LiteratureSearchResList";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -51,19 +52,6 @@ const SearchResultList = ({ core }) => {
     core.setCurrentURL(url);
   };
 
-  const onPageChange = (page, pageSize) => {
-    const parsed = queryString.parse(history.location.search);
-    const newQuery = {
-      ...parsed,
-      max: pageSize.toString(),
-      page: page.toString(),
-    };
-    history.push(
-      `${history.location.pathname}?${queryString.stringify(newQuery)}`
-    );
-    core.setCurrentURL(URLBuilder);
-  };
-
   const logoPathFinder = (item) => {
     if (item.affiliation && item.affiliation.logo_url) {
       return item.affiliation.logo_url;
@@ -83,10 +71,19 @@ const SearchResultList = ({ core }) => {
   if (state.isError) {
     return <ErrorWarning />;
   } else if (state.isLoading) {
-    return <LoadingCard />;
+    return <LoadingCard title={renderedTitle(parsed.data)} height={"431px"} />;
+  } else if (parsed.data === "literature" && !state.isLoading) {
+    return (
+      <LiteratureSearchResList
+        data={state.data}
+        parsed={parsed}
+        setCurrentURL={core.setCurrentURL}
+      />
+    );
   }
   return (
     <Card
+      size="small"
       title={renderedTitle(parsed.data)}
       extra={
         state.data.total_results || state.data.count
@@ -101,7 +98,8 @@ const SearchResultList = ({ core }) => {
           size: "small",
           position: "bottom",
           total: state.data.total_results || state.data.count,
-          onChange: onPageChange,
+          onChange: (page, pageSize) =>
+            onPageChange({ page, pageSize, setCurrentURL: core.setCurrentURL }),
           hideOnSinglePage: true,
           current: parsed.page ? parseInt(parsed.page) : 1,
           pageSize: parsed.max ? parsed.max : 100,
@@ -115,10 +113,10 @@ const SearchResultList = ({ core }) => {
               }
               title={
                 <Link
-                  to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`}
+                  to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`}
                   onClick={() =>
                     onClick(
-                      `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`
+                      `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`
                     )
                   }
                 >

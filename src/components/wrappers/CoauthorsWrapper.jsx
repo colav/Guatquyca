@@ -32,14 +32,8 @@ const CoauthorsWrapper = ({ core }) => {
   if (state.isLoading) {
     return (
       <Row gutter={[15, 15]}>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-          <LoadingCard
-            title={"Red de coautoría - Instituciones"}
-            height={"431px"}
-          />
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-          <LoadingCard title={"Coautores"} height={"431px"} />
+        <Col span={24}>
+          <LoadingCard title={"Información de Coautorías"} height={"431px"} />
         </Col>
       </Row>
     );
@@ -51,6 +45,7 @@ const CoauthorsWrapper = ({ core }) => {
             rawData={state.data.data.geo}
             title="Alcance Geográfico"
             id="coa_in_"
+            height={639}
           />
         ) : (
           ""
@@ -58,6 +53,7 @@ const CoauthorsWrapper = ({ core }) => {
         <CoauthorsList
           data={state.data.data.coauthors || state.data.data.institutions}
           setCurrentURL={core.setCurrentURL}
+          height={700}
         />
         {state.data.data.institution_network ||
         state.data.data.institutions_network ? (
@@ -67,10 +63,8 @@ const CoauthorsWrapper = ({ core }) => {
                 state.data.data.institution_network ||
                 state.data.data.institutions_network
               }
-              setup={{
-                title: "Red de coautoría - Instituciones",
-                id: "coa_in_",
-              }}
+              title="Red de coautoría - Instituciones"
+              id="coa_in_"
             />
           </Col>
         ) : (
@@ -80,10 +74,8 @@ const CoauthorsWrapper = ({ core }) => {
           <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
             <NetworkChart
               data={state.data.data.faculties_network}
-              setup={{
-                title: "Red de coautoría - Facultades",
-                id: "coa_fa_",
-              }}
+              title="Red de coautoría - Facultades"
+              id="coa_fa_"
             />
           </Col>
         ) : (
@@ -93,10 +85,8 @@ const CoauthorsWrapper = ({ core }) => {
           <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
             <NetworkChart
               data={state.data.data.coauthors_network}
-              setup={{
-                title: "Red de coautoría - Autores",
-                id: "coa_au_",
-              }}
+              title="Red de coautoría - Autores"
+              id="coa_au_"
             />
           </Col>
         ) : (

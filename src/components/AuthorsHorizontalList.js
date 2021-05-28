@@ -33,9 +33,11 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
         <Router history={history}>
           <Link
             style={{ fontSize: 21 }}
-            to={`/app/authors?${APIKEY}&${DATA}&id=${author.id}`}
+            to={`/app/authors?${APIKEY}&${DATA}&id=${author.id}&max=10&page=1`}
             onClick={() =>
-              setCurrentURL(`/app/authors?${APIKEY}&${DATA}&id=${author.id}`)
+              setCurrentURL(
+                `/app/authors?${APIKEY}&${DATA}&id=${author.id}&max=10&page=1`
+              )
             }
           >
             {author.full_name}
@@ -43,10 +45,10 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
           <br />
           {author.affiliations.length > 0 ? (
             <Link
-              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}`}
+              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}&max=10&page=1`}
               onClick={() =>
                 setCurrentURL(
-                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}`
+                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}&max=10&page=1`
                 )
               }
             >

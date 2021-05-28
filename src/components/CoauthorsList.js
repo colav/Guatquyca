@@ -38,10 +38,10 @@ const CoauthorsList = ({ data, setCurrentURL, height = 562 }) => {
               key={"id"}
               render={(name, record) => (
                 <Link
-                  to={`/app/institutions?${APIKEY}&${DATA}&id=${record.id}`}
+                  to={`/app/institutions?${APIKEY}&${DATA}&id=${record.id}&max=10&page=1`}
                   onClick={() =>
                     setCurrentURL(
-                      `/app/institutions?${APIKEY}&${DATA}&id=${record.id}`
+                      `/app/institutions?${APIKEY}&${DATA}&id=${record.id}&max=10&page=1`
                     )
                   }
                 >
@@ -67,12 +67,12 @@ const CoauthorsList = ({ data, setCurrentURL, height = 562 }) => {
         size="small"
         title="Lista de Coautorías"
         bodyStyle={{ padding: "10px" }}
-        style={{ height: "662px" }}
+        style={{ height: height }}
       >
         <Table
           rowKey="id"
           dataSource={data}
-          scroll={{ y: 470 }}
+          scroll={{ y: height - 192 }}
           bordered={true}
           pagination={{ size: "small" }}
         >

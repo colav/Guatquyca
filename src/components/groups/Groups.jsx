@@ -63,11 +63,13 @@ const Groups = ({ core }) => {
           </TabPane>
           <TabPane tab="Afiliaciones" key="2">
             <Row gutter={[15, 15]}>
-              <ListCard
-                title={"authors"}
-                list={state.data.authors}
-                setCurrentURL={core.setCurrentURL}
-              />
+              <Col span={24}>
+                <ListCard
+                  title={"authors"}
+                  list={state.data.authors}
+                  setCurrentURL={core.setCurrentURL}
+                />
+              </Col>
             </Row>
           </TabPane>
           <TabPane tab="Coautorías" key="3" forceRender>

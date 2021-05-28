@@ -22,6 +22,7 @@ import history from "./history";
 import "./App.less";
 
 /* UI Library Components */
+const BackTop = require("antd/lib/back-top").default;
 const Layout = require("antd/lib/layout").default;
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <Router history={history}>
       <ScrollToTop />
+      <BackTop />
       <Layout>
         <Header core={core} home={home} setHome={setHome} />
         <Sidebar core={core} />

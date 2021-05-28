@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 /* Components */
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
+import SingleStatistic from "../SingleStatistic";
 
 /* Charts */
 import YearlyCitationsChart from "../charts/YearlyCitationsChart";
@@ -33,20 +34,45 @@ const CitationsWrapper = () => {
     return <ErrorWarning />;
   } else if (state.isLoading) {
     return (
-      <>
-        <Col xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
-          <LoadingCard title={"Citas"} height={"431px"} />
+      <Row gutter={[15, 15]}>
+        <Col span={24}>
+          <LoadingCard title={"Información de citas"} height={"431px"} />
         </Col>
-      </>
+      </Row>
     );
   }
   return (
-    <Row gutter={10}>
-      <YearlyCitationsChart
-        data={state.data.data}
-        isLoading={state.isLoading}
-        isError={state.isError}
-      />
+    <Row gutter={[10, 10]}>
+      <Col xs={24} lg={5}>
+        <SingleStatistic
+          data={state.data.data.citations}
+          title="Citas Totales:"
+          margin={15}
+          icon="citations"
+          infoText="Texto informativo para la cantidad de citas totales."
+        />
+        <SingleStatistic
+          data={state.data.data.H}
+          title="Índice H:"
+          margin={15}
+          icon="line"
+          infoText="Texto informativo para el índice H"
+        />
+        <SingleStatistic
+          data={state.data.data.H5}
+          title="Índice H5:"
+          margin={15}
+          icon="line"
+          infoText="Texto informativo para el índice H5"
+        />
+      </Col>
+      <Col xs={24} lg={19}>
+        <YearlyCitationsChart
+          data={state.data.data}
+          isLoading={state.isLoading}
+          isError={state.isError}
+        />
+      </Col>
     </Row>
   );
 };
