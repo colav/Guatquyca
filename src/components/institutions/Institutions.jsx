@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 /* Wrappers */
 import APCInfoWrapper from "../wrappers/APCInfoWrapper";
@@ -27,7 +27,6 @@ const { TabPane } = Tabs;
 
 const Institutions = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
-  const [key, setKey] = useState("0");
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
@@ -52,13 +51,9 @@ const Institutions = ({ core }) => {
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
-        <Tabs defaultActiveKey={key} type="card" tabBarGutter={5} animated>
+        <Tabs defaultActiveKey={0} type="card" tabBarGutter={5} animated>
           <TabPane tab="Producción" key="0" forceRender>
-            <ProductionWrapper
-              type={state.data.type}
-              core={core}
-              setKey={setKey}
-            />
+            <ProductionWrapper core={core} />
           </TabPane>
           <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />

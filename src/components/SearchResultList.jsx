@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { onPageChange } from "../helpers/onPageChange";
 import { renderedAffiliation } from "../helpers/renderedAffiliation";
 import { renderedTitle } from "../helpers/renderedTitle";
-import LiteratureSearchResList from "./LiteratureSearchResList";
+import DocumentList from "./DocumentList";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -74,9 +74,10 @@ const SearchResultList = ({ core }) => {
     return <LoadingCard title={renderedTitle(parsed.data)} height={"431px"} />;
   } else if (parsed.data === "literature" && !state.isLoading) {
     return (
-      <LiteratureSearchResList
+      <DocumentList
         data={state.data}
-        parsed={parsed}
+        core={core}
+        parsedURL={parsed}
         setCurrentURL={core.setCurrentURL}
       />
     );

@@ -21,9 +21,41 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
 
   const URL = (type, id) => {
     if (type === "faculty") {
-      return `/app/faculties?${APIKEY}&${DATA}&id=${id}`;
+      return `/app/faculties?${APIKEY}&${DATA}&id=${id}&max=10&page=1`;
     }
-    return `/app/${type}s?${APIKEY}&${DATA}&id=${id}`;
+    return `/app/${type}s?${APIKEY}&${DATA}&id=${id}&max=10&page=1`;
+  };
+
+  const authorAffiliations = (affiliation) => {
+    if (affiliation.length > 0) {
+      return (
+        <Link
+          to={`/app/institutions?${APIKEY}&${DATA}&id=${affiliation[0].id}&max=10&page=1`}
+          onClick={() =>
+            setCurrentURL(
+              `/app/institutions?${APIKEY}&${DATA}&id=${affiliation[0].id}&max=10&page=1`
+            )
+          }
+        >
+          {affiliation[0].name}
+        </Link>
+      );
+    } else if (affiliation.name) {
+      return (
+        <Link
+          to={`/app/institutions?${APIKEY}&${DATA}&id=${affiliation.id}&max=10&page=1`}
+          onClick={() =>
+            setCurrentURL(
+              `/app/institutions?${APIKEY}&${DATA}&id=${affiliation.id}&max=10&page=1`
+            )
+          }
+        >
+          {affiliation.name}
+        </Link>
+      );
+    } else {
+      return "";
+    }
   };
 
   const openNotification = (author) => {
@@ -43,20 +75,7 @@ const AuthorsHorizontalList = (authorsList, setCurrentURL) => {
             {author.full_name}
           </Link>
           <br />
-          {author.affiliations.length > 0 ? (
-            <Link
-              to={`/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}&max=10&page=1`}
-              onClick={() =>
-                setCurrentURL(
-                  `/app/institutions?${APIKEY}&${DATA}&id=${author.affiliations[0].id}&max=10&page=1`
-                )
-              }
-            >
-              {author.affiliations[0].name}
-            </Link>
-          ) : (
-            ""
-          )}
+          {authorAffiliations(author.affiliations)}
         </Router>
       ),
       description:

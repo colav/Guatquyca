@@ -20,7 +20,7 @@ const Row = require("antd/lib/row").default;
 /* Utilities */
 const queryString = require("query-string");
 
-const ProductionWrapper = ({ type, core, setKey }) => {
+const ProductionWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "production";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
@@ -71,8 +71,6 @@ const ProductionWrapper = ({ type, core, setKey }) => {
         <DocumentList
           data={state.data}
           core={core}
-          type={type}
-          setKey={setKey}
           parsedURL={parsedGlobalURL}
         />
       </Col>

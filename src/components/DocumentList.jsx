@@ -9,7 +9,6 @@ import OpenAccessStatus from "./OpenAccessStatus";
 import SortProduction from "./SortProduction";
 
 /* Utilities */
-import { renderedTitle } from "../helpers/renderedTitle";
 import { onPageChange } from "../helpers/onPageChange";
 
 /* Icons */
@@ -27,7 +26,7 @@ const Typography = require("antd/lib/typography").default;
 /* UI Library Sub-components */
 const { Link } = Typography;
 
-const DocumentList = ({ data, core, type, setKey, parsedURL }) => {
+const DocumentList = ({ data, core, parsedURL }) => {
   const docInfo = (title, id, status) => {
     Modal.info({
       width: "1200px",
@@ -49,7 +48,7 @@ const DocumentList = ({ data, core, type, setKey, parsedURL }) => {
       size="small"
       extra={[
         data.total_results ? data.total_results + " resultado(s)" : null,
-        <SortProduction key="1" core={core} setKey={setKey} />,
+        <SortProduction key="1" core={core} />,
       ]}
       actions={
         data.total_results > 0
@@ -59,7 +58,7 @@ const DocumentList = ({ data, core, type, setKey, parsedURL }) => {
             ]
           : ""
       }
-      title={`Producción ${renderedTitle(type)}`}
+      title={"Artículos"}
     >
       <div id="productionListContainer">
         <List
