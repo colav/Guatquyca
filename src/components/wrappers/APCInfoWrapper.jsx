@@ -18,7 +18,7 @@ const queryString = require("query-string");
 const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 
-const APCInfoWrapper = ({ core }) => {
+const APCInfoWrapper = () => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "apc";
   const builtURL = `${history.location.pathname}?${queryString.stringify(

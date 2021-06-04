@@ -25,10 +25,10 @@ const ListCard = ({ title, list, setCurrentURL }) => {
                 id={item.id}
                 description={
                   <Link
-                    to={`/app/${title}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`}
+                    to={`/app/${title}?${APIKEY}&${DATA}&id=${item.id}`}
                     onClick={() =>
                       setCurrentURL(
-                        `/app/${title}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`
+                        `/app/${title}?${APIKEY}&${DATA}&id=${item.id}`
                       )
                     }
                   >

@@ -112,11 +112,11 @@ const VennChart = ({ data }) => {
                 id="venn-chart"
                 sets={sets}
                 combinations={combinations}
-                width={330}
+                width={370}
                 height={290}
                 exportButtons={false}
                 textColor="#4f5a63"
-                fontSizes={{ valueLabel: "7px", setLabel: "13px" }}
+                fontSizes={{ valueLabel: "8px", setLabel: "13px" }}
                 strokeColor="white"
               />
             </div>

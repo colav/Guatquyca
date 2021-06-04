@@ -31,9 +31,9 @@ const { Meta } = Card;
 const AuthorsTitleCard = ({ state, setCurrentURL }) => {
   const URL = (type, id) => {
     if (type === "faculty") {
-      return `/app/faculties?${APIKEY}&${DATA}&id=${id}&max=10&page=1`;
+      return `/app/faculties?${APIKEY}&${DATA}&id=${id}`;
     }
-    return `/app/${type}s?${APIKEY}&${DATA}&id=${id}&max=10&page=1`;
+    return `/app/${type}s?${APIKEY}&${DATA}&id=${id}`;
   };
 
   const iconList = {

@@ -9,18 +9,22 @@ const Select = require("antd/lib/select").default;
 
 const { Option } = Select;
 
-const SortProduction = ({ core }) => {
+const SortProduction = ({ parsedURL, setUrl, setProductionURL, core }) => {
   function handleChange(value) {
-    let parsedQueryURL = queryString.parse(history.location.search);
     let filteredURL = history.location.pathname;
-    if ("sort" in parsedQueryURL) {
-      parsedQueryURL["sort"] = value;
-      filteredURL += `?${queryString.stringify(parsedQueryURL)}`;
+    if ("sort" in parsedURL) {
+      parsedURL["sort"] = value;
+      filteredURL += `?${queryString.stringify(parsedURL)}`;
     } else {
-      filteredURL += `${history.location.search}&sort=${value}`;
+      filteredURL += `?${queryString.stringify(parsedURL)}&sort=${value}`;
     }
-    history.push(filteredURL);
-    core.setCurrentURL(filteredURL);
+    if (history.location.pathname === "/app/search") {
+      history.push(filteredURL);
+      core.setCurrentURL(filteredURL);
+    } else {
+      setProductionURL(filteredURL);
+      setUrl(filteredURL);
+    }
   }
 
   return (

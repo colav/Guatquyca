@@ -28,8 +28,6 @@ const CoauthorsMap = ({ rawData, title, id, height = 500 }) => {
   );
   series.stroke("black 0.5");
 
-  map.colorRange().enabled(true);
-  map.colorRange().length("100%");
   map.listen("pointClick", function (e) {
     map.zoomToFeature(e.point.get("id"));
   });

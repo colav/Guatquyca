@@ -13,5 +13,5 @@ export const onPageChange = ({ page, pageSize, setCurrentURL }) => {
   history.push(
     `${history.location.pathname}?${queryString.stringify(newQuery)}`
   );
-  setCurrentURL(URLBuilder);
+  setCurrentURL(URLBuilder());
 };

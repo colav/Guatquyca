@@ -23,7 +23,7 @@ export const renderedTitle = (name) => {
     case "institution":
       return "de la Institución";
     case "literature":
-      return "Literatura";
+      return "Artículos";
     default:
       return null;
   }

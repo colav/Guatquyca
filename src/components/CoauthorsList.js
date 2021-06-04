@@ -38,10 +38,10 @@ const CoauthorsList = ({ data, setCurrentURL, height = 562 }) => {
               key={"id"}
               render={(name, record) => (
                 <Link
-                  to={`/app/institutions?${APIKEY}&${DATA}&id=${record.id}&max=10&page=1`}
+                  to={`/app/institutions?${APIKEY}&${DATA}&id=${record.id}`}
                   onClick={() =>
                     setCurrentURL(
-                      `/app/institutions?${APIKEY}&${DATA}&id=${record.id}&max=10&page=1`
+                      `/app/institutions?${APIKEY}&${DATA}&id=${record.id}`
                     )
                   }
                 >

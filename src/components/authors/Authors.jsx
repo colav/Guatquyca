@@ -26,7 +26,7 @@ const Authors = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
 
   window.addEventListener("popstate", () => {
-    core.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder());
   });
 
   useEffect(() => {

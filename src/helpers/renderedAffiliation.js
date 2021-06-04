@@ -4,8 +4,8 @@ import { INSTITUTIONS_PATH } from "../constants/routes";
 export const renderedAffiliation = (name, id, setCurrentURL) => {
   return (
     <Link
-      to={`${INSTITUTIONS_PATH}${id}&max=10&page=1`}
-      onClick={() => setCurrentURL(`${INSTITUTIONS_PATH}${id}&max=10&page=1`)}
+      to={`${INSTITUTIONS_PATH}${id}`}
+      onClick={() => setCurrentURL(`${INSTITUTIONS_PATH}${id}`)}
     >
       {name === "University of Antioquia" ? "Universidad de Antioquia" : name}
     </Link>

@@ -16,6 +16,7 @@ import { onPageChange } from "../helpers/onPageChange";
 import { renderedAffiliation } from "../helpers/renderedAffiliation";
 import { renderedTitle } from "../helpers/renderedTitle";
 import DocumentList from "./DocumentList";
+import history from "../history";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -28,16 +29,15 @@ const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 
 const SearchResultList = ({ core }) => {
   const [state, setUrl] = APIRequest(core.currentURL);
-  const parsed = queryString.parse(core.currentURL);
+  const parsed = queryString.parse(history.location.search);
 
   window.addEventListener("popstate", () => {
-    core.setCurrentURL(URLBuilder);
+    core.setCurrentURL(URLBuilder());
   });
 
   useEffect(() => {
-    core.setCurrentURL(URLBuilder);
     setUrl(core.currentURL);
-  }, [core.currentURL, setUrl, core.setCurrentURL, core]);
+  }, [core.currentURL, setUrl]);
 
   const renderedItemName = (item) => {
     if (!item.abbreviations || item.abbreviations.length === 0) {
@@ -72,17 +72,16 @@ const SearchResultList = ({ core }) => {
     return <ErrorWarning />;
   } else if (state.isLoading) {
     return <LoadingCard title={renderedTitle(parsed.data)} height={"431px"} />;
-  } else if (parsed.data === "literature" && !state.isLoading) {
-    return (
-      <DocumentList
-        data={state.data}
-        core={core}
-        parsedURL={parsed}
-        setCurrentURL={core.setCurrentURL}
-      />
-    );
   }
-  return (
+  return parsed.data === "literature" ? (
+    <DocumentList
+      data={state.data}
+      core={core}
+      parsedURL={parsed}
+      onPageChange={onPageChange}
+      setCurrentURL={core.setCurrentURL}
+    />
+  ) : (
     <Card
       size="small"
       title={renderedTitle(parsed.data)}
@@ -114,10 +113,10 @@ const SearchResultList = ({ core }) => {
               }
               title={
                 <Link
-                  to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`}
+                  to={`/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`}
                   onClick={() =>
                     onClick(
-                      `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}&max=10&page=1`
+                      `/app/${parsed.data}?${APIKEY}&${DATA}&id=${item.id}`
                     )
                   }
                 >

@@ -25,9 +25,22 @@ const ProductionWrapper = ({ core }) => {
   parsedGlobalURL["data"] = "production";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
-  )}`;
-  const [productionURL] = useState(builtURL);
+  )}&max=10&page=1`;
+  const [productionURL, setProductionURL] = useState(builtURL);
   const [state, setUrl] = APIRequest(builtURL);
+  let parsedLocalURL = queryString.parseUrl(productionURL);
+
+  const onPageChange = ({ page, pageSize }) => {
+    let newQuery = {
+      ...parsedLocalURL.query,
+      max: pageSize.toString(),
+      page: page.toString(),
+    };
+    setProductionURL(
+      `${parsedLocalURL.url}?${queryString.stringify(newQuery)}`
+    );
+    window.scrollTo(0, 650);
+  };
 
   useEffect(() => {
     setUrl(productionURL);
@@ -46,13 +59,13 @@ const ProductionWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={12}>
-          <LoadingCard title="Open Access" height={"431px"} />
+          <LoadingCard title="Open Access" height={"461px"} />
         </Col>
         <Col xs={24} sm={24} md={12}>
-          <LoadingCard title="Fuentes Bibliográficas" height={"431px"} />
+          <LoadingCard title="Fuentes Bibliográficas" height={"461px"} />
         </Col>
         <Col xs={24}>
-          <LoadingCard title="Producción de la Facultad" height={"431px"} />
+          <LoadingCard title="Artículos" height={"450px"} />
         </Col>
       </Row>
     );
@@ -71,7 +84,10 @@ const ProductionWrapper = ({ core }) => {
         <DocumentList
           data={state.data}
           core={core}
-          parsedURL={parsedGlobalURL}
+          parsedURL={parsedLocalURL.query}
+          setProductionURL={setProductionURL}
+          onPageChange={onPageChange}
+          setUrl={setUrl}
         />
       </Col>
     </Row>
