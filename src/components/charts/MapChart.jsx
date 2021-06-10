@@ -13,18 +13,29 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const CoauthorsMap = ({ rawData, title, id, height = 500 }) => {
+const CoauthorsMap = ({ rawData, title, id, height = 360 }) => {
   const data = rawData.map((item) => ({
     id: item.country_code,
-    value: item.count,
+    value: item.log_count,
+    count: item.count,
     name: item.country,
   }));
   let map = anychart.map().geoData(anychart.maps.world);
 
   let series = map.choropleth(data);
-  series.tooltip().format("Total: {%value}\nAlfa-2: {%id}");
+  series.tooltip().format("Total: {%count}\nAlfa-2: {%id}");
   series.colorScale(
-    anychart.scales.linearColor("#f7fcf0", "#7bccc4", "#2b8cbe")
+    anychart.scales.linearColor(
+      "#f7fcf0",
+      "#e0f3db",
+      "#ccebc5",
+      "#a8ddb5",
+      "#7bccc4",
+      "#4eb3d3",
+      "#2b8cbe",
+      "#0868ac",
+      "#084081"
+    )
   );
   series.stroke("black 0.5");
 
@@ -52,12 +63,15 @@ const CoauthorsMap = ({ rawData, title, id, height = 500 }) => {
         <Card
           bordered={false}
           type="inner"
+          style={{ width: "100%", height: height }}
           cover={
-            <div id={`${id}Map_ChartContainer`}>
+            <div
+              id={`${id}Map_ChartContainer`}
+              style={{ width: "100%", height: height }}
+            >
               <AnyChart container={`${id}Map_ChartContainer`} instance={map} />
             </div>
           }
-          style={{ width: "100%", height: height }}
         ></Card>
       </Card>
     </Col>

@@ -8,7 +8,7 @@ import anychart from "anychart";
 const Card = require("antd/lib/card").default;
 const notification = require("antd/lib/notification").default;
 
-const NetworkChart = ({ data, title, id, height = 350 }) => {
+const NetworkChart = ({ data, title, id, height = 280 }) => {
   let eCache = "";
   const openNotification = (e) => {
     if (e.index !== eCache.index) {
@@ -40,15 +40,18 @@ const NetworkChart = ({ data, title, id, height = 350 }) => {
       <Card
         bordered={false}
         type="inner"
+        style={{ width: "100%", height: height }}
         cover={
-          <div id={`${id}Network_ChartContainer`}>
+          <div
+            id={`${id}Network_ChartContainer`}
+            style={{ width: "100%", height: height }}
+          >
             <AnyChart
               container={`${id}Network_ChartContainer`}
               instance={chart}
             />
           </div>
         }
-        style={{ width: "100%", height: height }}
       ></Card>
     </Card>
   );

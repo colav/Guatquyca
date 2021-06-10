@@ -26,7 +26,7 @@ const Header = ({ core, home, setHome }) => {
         <Col
           xs={12}
           sm={7}
-          md={6}
+          md={5}
           style={{ padding: "0px 10px", width: "300px" }}
         >
           <a href="/app">

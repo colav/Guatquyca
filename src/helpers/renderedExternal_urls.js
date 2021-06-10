@@ -3,7 +3,7 @@ const LinkOutlined = require("@ant-design/icons/LinkOutlined").default;
 const title = {
   website: "Sitio Web",
   gruplac: "GrupLAC",
-  scholar: "Google Scholar",
+  scholar: "Google Académico",
   wikipedia: "Wikipedia",
   site: "Sitio Web",
 };
@@ -14,7 +14,10 @@ export const renderedExternal_urls = (external_urls) => {
     for (let i = 0; i < external_urls.length; i++) {
       actionsList.push([
         <a href={external_urls[i].url} key={i}>
-          {title[external_urls[i].source]} <LinkOutlined />
+          {title[external_urls[i].source]
+            ? title[external_urls[i].source]
+            : external_urls[i].source}{" "}
+          <LinkOutlined />
         </a>,
       ]);
     }

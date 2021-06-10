@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import APCInfoWrapper from "../wrappers/APCInfoWrapper";
 import CitationsWrapper from "../wrappers/CitationsWrapper";
 import CoauthorsWrapper from "../wrappers/CoauthorsWrapper";
+import CollegesWrapper from "../wrappers/CollegesWrapper";
 import GraduatesWrapper from "../wrappers/GraduatesWrapper";
 import MediaWrapper from "../wrappers/MediaWrapper";
 import ProductionWrapper from "../wrappers/ProductionWrapper";
@@ -16,6 +17,8 @@ import ListCard from "../ListCard";
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
+import history from "../../history";
+const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -26,15 +29,20 @@ const Tabs = require("antd/lib/tabs").default;
 const { TabPane } = Tabs;
 
 const Institutions = ({ core }) => {
-  const [state, setUrl] = APIRequest(core.currentURL);
+  let parsedGlobalURL = queryString.parse(history.location.search);
+  parsedGlobalURL["data"] = "info";
+  const builtURL = `${history.location.pathname}?${queryString.stringify(
+    parsedGlobalURL
+  )}`;
+  const [state, setUrl] = APIRequest(builtURL);
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder());
   });
 
   useEffect(() => {
-    setUrl(core.currentURL);
-  }, [core.currentURL, setUrl]);
+    setUrl(builtURL);
+  }, [builtURL, setUrl]);
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -55,7 +63,7 @@ const Institutions = ({ core }) => {
           <TabPane tab="Producción" key="0" forceRender>
             <ProductionWrapper core={core} />
           </TabPane>
-          <TabPane tab="Citaciones" key="1" forceRender>
+          <TabPane tab="Citaciones" key="1">
             <CitationsWrapper />
           </TabPane>
           <TabPane tab="Afiliaciones" key="2">
@@ -82,10 +90,13 @@ const Institutions = ({ core }) => {
           <TabPane tab="APC" key="4" forceRender>
             <APCInfoWrapper core={core} />
           </TabPane>
-          <TabPane tab="Egresados" key="5" forceRender>
+          <TabPane tab="Egresados" key="5">
             <GraduatesWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="6" forceRender>
+          <TabPane tab="Colegios Invisibles" key="6">
+            <CollegesWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="7" forceRender>
             <MediaWrapper />
           </TabPane>
         </Tabs>

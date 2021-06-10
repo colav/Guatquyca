@@ -13,6 +13,8 @@ import ErrorWarning from "../ErrorWarning";
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
+import history from "../../history";
+const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -23,15 +25,20 @@ const Tabs = require("antd/lib/tabs").default;
 const { TabPane } = Tabs;
 
 const Authors = ({ core }) => {
-  const [state, setUrl] = APIRequest(core.currentURL);
+  let parsedGlobalURL = queryString.parse(history.location.search);
+  parsedGlobalURL["data"] = "info";
+  const builtURL = `${history.location.pathname}?${queryString.stringify(
+    parsedGlobalURL
+  )}`;
+  const [state, setUrl] = APIRequest(builtURL);
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder());
   });
 
   useEffect(() => {
-    setUrl(core.currentURL);
-  }, [core.currentURL, setUrl]);
+    setUrl(builtURL);
+  }, [builtURL, setUrl]);
 
   if (state.isError) {
     return <ErrorWarning />;

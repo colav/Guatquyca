@@ -79,15 +79,18 @@ const TreeMapChart = ({ rawData, id, title }) => {
       <Card
         bordered={false}
         type="inner"
+        style={{ width: "100%", height: "700px" }}
         cover={
-          <div id={`${id}TreeMap_ChartContainer`}>
+          <div
+            id={`${id}TreeMap_ChartContainer`}
+            style={{ width: "100%", height: "700px" }}
+          >
             <AnyChart
               container={`${id}TreeMap_ChartContainer`}
               instance={chart}
             />
           </div>
         }
-        style={{ width: "100%", height: "700px" }}
       ></Card>
     </Card>
   );

@@ -13,50 +13,52 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const YearlyCitationsChart = ({ data }) => {
-  const chartData = Object.entries(data.yearly_citations);
-
-  let chart = anychart.column();
-  chart.background().stroke("#EAEAE6");
-  chart.tooltip().format("Citas: {%y}");
-  chart.tooltip().titleFormat("Año: {%x}");
+const LineChart = ({ rawData, id = "" }) => {
+  const data = [];
+  for (const key in rawData) {
+    data.push({ x: key, value: rawData[key] });
+  }
+  const chart = anychart.line();
+  let series = chart.line(data);
+  series.markers(true);
+  series.stroke("3 #ABF370");
   chart.xAxis().labels().fontSize(11);
   chart.xAxis().labels().rotation(-90);
   chart.xAxis().labels().fontWeight(600);
   chart.yAxis().labels().fontWeight(600);
-  let series = chart.column(chartData);
-  series.normal().fill(["#50B100", "#ABF370"], 90);
-  series.normal().stroke("#ABF370");
-  series.labels(true);
-  chart.labels().fontSize(10);
-  chart.labels().rotation(-90);
+  chart.yAxis().title("(USD)");
+  chart.xAxis().title("Año");
+  chart
+    .tooltip()
+    .format("Total: {%value}{numDecimals:2,groupsSeparator:\\,} USD");
+  chart.background().stroke("#EAEAE6");
 
   return (
-    <Col span={24}>
+    <Col xs={24} lg={16}>
       <Card
         size="small"
-        title="Citas"
+        title="Pagos de APC por año"
         bodyStyle={{ padding: "10px" }}
         extra={[
           <ExportXLSXAnyChart key={0} chart={chart} />,
           <ExportSVGAnyChart key={1} chart={chart} />,
           <InfoButton
             key={2}
-            text={"Texto informativo para la tarjeta de citas"}
+            text={"Texto informativo para la tarjeta de pagos APC"}
           />,
         ]}
       >
         <Card
           bordered={false}
           type="inner"
-          style={{ width: "100%", height: 316 }}
+          style={{ width: "100%", height: "400px" }}
           cover={
             <div
-              id="YearlyCitationsContainer"
-              style={{ width: "100%", height: 316 }}
+              id={`${id}Line_ChartContainer`}
+              style={{ width: "100%", height: "400px" }}
             >
               <AnyChart
-                container={"YearlyCitationsContainer"}
+                container={`${id}Line_ChartContainer`}
                 instance={chart}
               />
             </div>
@@ -67,4 +69,4 @@ const YearlyCitationsChart = ({ data }) => {
   );
 };
 
-export default YearlyCitationsChart;
+export default LineChart;

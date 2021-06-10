@@ -14,6 +14,8 @@ import ListCard from "../ListCard";
 /* Utilities */
 import URLBuilder from "../../helpers/URLBuilder";
 import { APIRequest } from "../../apis/clustercien";
+import history from "../../history";
+const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -24,15 +26,20 @@ const Tabs = require("antd/lib/tabs").default;
 const { TabPane } = Tabs;
 
 const Faculties = ({ core }) => {
-  const [state, setUrl] = APIRequest(core.currentURL);
+  let parsedGlobalURL = queryString.parse(history.location.search);
+  parsedGlobalURL["data"] = "info";
+  const builtURL = `${history.location.pathname}?${queryString.stringify(
+    parsedGlobalURL
+  )}`;
+  const [state, setUrl] = APIRequest(builtURL);
 
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder());
   });
 
   useEffect(() => {
-    setUrl(core.currentURL);
-  }, [core.currentURL, setUrl]);
+    setUrl(builtURL);
+  }, [builtURL, setUrl]);
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -51,7 +58,7 @@ const Faculties = ({ core }) => {
       />
       <Col xs={24}>
         <Tabs defaultActiveKey={0} type="card" tabBarGutter={5} animated>
-          <TabPane tab="Producción" key="0" forceRender>
+          <TabPane tab="Producción" key="0" /* forceRender */>
             <ProductionWrapper core={core} />
           </TabPane>
           <TabPane tab="Afiliaciones" key="1">
@@ -79,13 +86,13 @@ const Faculties = ({ core }) => {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tab="Citaciones" key="2" forceRender>
+          <TabPane tab="Citaciones" key="2" /* forceRender */>
             <CitationsWrapper />
           </TabPane>
-          <TabPane tab="Coautorías" key="3" forceRender>
+          <TabPane tab="Coautorías" key="3" /* forceRender */>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="4" forceRender>
+          <TabPane tab="Noticias" key="4" /* forceRender */>
             <MediaWrapper />
           </TabPane>
         </Tabs>

@@ -20,6 +20,7 @@ const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
     closed: "#b4b4b4",
     bronze: "#f3663f",
   };
+
   const dataSet = [];
   for (const key in data) {
     dataSet.push({ x: key, value: data[key], fill: bgColor[key] });
@@ -74,15 +75,18 @@ const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
       <Card
         bordered={false}
         type="inner"
+        style={{ width: "100%", height: height }}
         cover={
-          <div id={`${id}Doughnut_ChartContainer`}>
+          <div
+            id={`${id}Doughnut_ChartContainer`}
+            style={{ width: "100%", height: height }}
+          >
             <AnyChart
               container={`${id}Doughnut_ChartContainer`}
               instance={chart}
             />
           </div>
         }
-        style={{ width: "100%", height: height }}
       ></Card>
     </Card>
   );

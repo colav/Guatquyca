@@ -4,7 +4,7 @@ import React from "react";
 import DoughnutChart from "../charts/DoughnutChart";
 import MapChart from "../charts/MapChart";
 import NetworkChart from "../charts/NetworkChart";
-import WordCloudChart from "../charts/WordCloudChart";
+import WordCloudChartCard from "../charts/WordCloudChartCard";
 
 /* Components */
 import ErrorWarning from "../ErrorWarning";
@@ -62,7 +62,7 @@ const GraduatesWrapper = () => {
           height={540}
         />
         <Col xs={24} lg={12}>
-          <WordCloudChart
+          <WordCloudChartCard
             data={state.data.data.word_cloud}
             title="Palabras"
             id="gra_in_"

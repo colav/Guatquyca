@@ -6,7 +6,7 @@ import LoadingCard from "../LoadingCard";
 
 /* Charts */
 import DoughnutChart from "../charts/DoughnutChart";
-import LineChart from "../charts/LineChart";
+import LineChartCard from "../charts/LineChartCard";
 import TreeMapChart from "../charts/TreeMapChart";
 
 /* Utilities */
@@ -54,7 +54,7 @@ const APCInfoWrapper = () => {
 
     return (
       <Row gutter={[15, 15]}>
-        <LineChart rawData={state.data.data.yearly} />
+        <LineChartCard rawData={state.data.data.yearly} />
         <Col xs={24} sm={24} md={24} lg={8}>
           <DoughnutChart
             data={state.data.data.openaccess}
