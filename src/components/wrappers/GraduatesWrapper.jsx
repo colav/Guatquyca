@@ -7,6 +7,7 @@ import NetworkChart from "../charts/NetworkChart";
 import WordCloudChartCard from "../charts/WordCloudChartCard";
 
 /* Components */
+import CollegeCard from "../CollegeCard";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import SingleStatistic from "../SingleStatistic";
@@ -18,9 +19,10 @@ const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
+const Divider = require("antd/lib/divider").default;
 const Row = require("antd/lib/row").default;
 
-const GraduatesWrapper = () => {
+const GraduatesWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "graduates";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
@@ -57,18 +59,11 @@ const GraduatesWrapper = () => {
         </Col>
         <MapChart
           rawData={state.data.data.geo}
-          title="Pendiente"
+          title="Organizaciones - Egresados"
           id="gra_in_"
           height={540}
         />
         <Col xs={24} lg={12}>
-          <WordCloudChartCard
-            data={state.data.data.word_cloud}
-            title="Palabras"
-            id="gra_in_"
-          />
-        </Col>
-        <Col xs={24} sm={24} lg={12}>
           <NetworkChart
             data={state.data.data.countries_network}
             title="Red de coautoría - Países"
@@ -76,14 +71,15 @@ const GraduatesWrapper = () => {
             height={400}
           />
         </Col>
-        <Col xs={24}>
+        <Col xs={24} lg={12}>
           <NetworkChart
             data={state.data.data.institutions_network}
             title="Red de coautoría - Instituciones"
             id="gra_in_"
-            height={500}
+            height={400}
           />
         </Col>
+        <CollegeCard data={state.data.data.colleges} core={core} />
       </Row>
     );
   }

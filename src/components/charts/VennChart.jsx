@@ -20,7 +20,7 @@ const VennChart = ({ data }) => {
           cardinality: data.scopus,
           color: "#ffe682",
         },
-        { sets: ["SciELO"], cardinality: data.scielo, color: "#ffa0f0" },
+        { sets: ["Web of Science"], cardinality: data.wos, color: "#ffa0f0" },
         {
           sets: ["Google Académico"],
           cardinality: data.scholar,
@@ -38,8 +38,8 @@ const VennChart = ({ data }) => {
           color: "#aab482",
         },
         {
-          sets: ["Google Académico", "SciELO"],
-          cardinality: data.scholar_scielo,
+          sets: ["Google Académico", "Web of Science"],
+          cardinality: data.scholar_wos,
           color: "#8ce675",
         },
         {
@@ -48,13 +48,13 @@ const VennChart = ({ data }) => {
           color: "#aa7df0",
         },
         {
-          sets: ["Scopus", "SciELO"],
-          cardinality: data.scielo_scopus,
+          sets: ["Scopus", "Web of Science"],
+          cardinality: data.wos_scopus,
           color: "#8ca0d8",
         },
         {
-          sets: ["Lens", "SciELO"],
-          cardinality: data.lens_scielo,
+          sets: ["Lens", "Web of Science"],
+          cardinality: data.lens_wos,
           color: "#5dc8e6",
         },
         {
@@ -63,23 +63,23 @@ const VennChart = ({ data }) => {
           color: "#aa717a",
         },
         {
-          sets: ["Google Académico", "Scopus", "SciELO"],
-          cardinality: data.scholar_scielo_scopus,
+          sets: ["Google Académico", "Scopus", "Web of Science"],
+          cardinality: data.scholar_wos_scopus,
           color: "#8c906e",
         },
         {
-          sets: ["Google Académico", "Lens", "SciELO"],
-          cardinality: data.scholar_lens_scielo,
+          sets: ["Google Académico", "Lens", "Web of Science"],
+          cardinality: data.scholar_lens_wos,
           color: "#5db475",
         },
         {
-          sets: ["Scopus", "Lens", "SciELO"],
-          cardinality: data.lens_scielo_scopus,
+          sets: ["Scopus", "Lens", "Web of Science"],
+          cardinality: data.lens_wos_scopus,
           color: "#5d7dd8",
         },
         {
-          sets: ["Google Académico", "Scopus", "Lens", "SciELO"],
-          cardinality: data.scholar_lens_scielo_scopus,
+          sets: ["Google Académico", "Scopus", "Lens", "Web of Science"],
+          cardinality: data.scholar_lens_wos_scopus,
           color: "#5d716e",
         },
       ]),
