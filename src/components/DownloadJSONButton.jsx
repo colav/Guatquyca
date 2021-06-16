@@ -2,6 +2,7 @@ import React from "react";
 
 /* Utilities */
 import history from "../history";
+import _ from "lodash";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -11,7 +12,7 @@ const Button = require("antd/lib/button").default;
 const DownloadOutlined = require("@ant-design/icons/DownloadOutlined").default;
 
 const DownloadJSONButton = ({ parsedURL }) => {
-  let URL = { ...parsedURL };
+  let URL = _.omit(parsedURL, ["max", "page"]);
   URL["data"] = "json";
   let JSON_URL = `http://clustercien.udea.edu.co:8888${
     history.location.pathname
