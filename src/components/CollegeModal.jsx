@@ -17,7 +17,7 @@ const Row = require("antd/lib/row").default;
 const Col = require("antd/lib/col").default;
 const Spin = require("antd/lib/spin").default;
 
-const CollegeModal = ({ id, core }) => {
+const CollegeModal = ({ id, core, parent }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
   parsedGlobalURL["data"] = "college";
   const builtURL = `${history.location.pathname}?${queryString.stringify(
@@ -27,7 +27,7 @@ const CollegeModal = ({ id, core }) => {
 
   if (state.isLoading) {
     return <Spin />;
-  } else
+  } else if (parent === "col") {
     return (
       <Row gutter={[5, 5]}>
         <MapChart
@@ -55,6 +55,7 @@ const CollegeModal = ({ id, core }) => {
         </Col>
       </Row>
     );
+  }
 };
 
 export default CollegeModal;

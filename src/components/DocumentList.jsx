@@ -64,8 +64,8 @@ const DocumentList = ({
         actions={
           data.total_results > 0
             ? [
-                <DownloadCSVButton key="1" data={data.data} />,
-                <DownloadJSONButton key="2" data={data.data} />,
+                <DownloadCSVButton key="1" parsedURL={parsedURL} />,
+                <DownloadJSONButton key="2" parsedURL={parsedURL} />,
               ]
             : ""
         }

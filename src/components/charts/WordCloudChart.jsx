@@ -7,7 +7,7 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const WordCloudChart = ({ data, id }) => {
+const WordCloudChart = ({ data, id, height = 200 }) => {
   let chart = anychart.tagCloud(data);
   chart
     .tooltip()
@@ -20,10 +20,10 @@ const WordCloudChart = ({ data, id }) => {
     <Card
       bordered={false}
       type="inner"
-      style={{ width: "100%", height: "140px" }}
+      style={{ width: "100%", height: height }}
       cover={
         <div
-          style={{ width: "100%", height: "140px" }}
+          style={{ width: "100%", height: height }}
           id={`${id}WordCloud_ChartContainer`}
         >
           <AnyChart

@@ -4,10 +4,9 @@ import React from "react";
 import DoughnutChart from "../charts/DoughnutChart";
 import MapChart from "../charts/MapChart";
 import NetworkChart from "../charts/NetworkChart";
-import WordCloudChartCard from "../charts/WordCloudChartCard";
 
 /* Components */
-import CollegeCard from "../CollegeCard";
+import CollegesTable from "../CollegesTable";
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import SingleStatistic from "../SingleStatistic";
@@ -19,7 +18,6 @@ const queryString = require("query-string");
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
-const Divider = require("antd/lib/divider").default;
 const Row = require("antd/lib/row").default;
 
 const GraduatesWrapper = ({ core }) => {
@@ -49,6 +47,7 @@ const GraduatesWrapper = ({ core }) => {
             data={state.data.data.papers_count}
             title="Producción total:"
             margin={15}
+            infoText="Descripción de la producción total"
           />
           <DoughnutChart
             data={state.data.data.count_by_type}
@@ -79,7 +78,13 @@ const GraduatesWrapper = ({ core }) => {
             height={400}
           />
         </Col>
-        <CollegeCard data={state.data.data.colleges} core={core} />
+        <Col span={24}>
+          <CollegesTable
+            data={state.data.data.colleges}
+            core={core}
+            parent="gra"
+          />
+        </Col>
       </Row>
     );
   }

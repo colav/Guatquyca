@@ -3,7 +3,7 @@ import React from "react";
 /* Components */
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
-import CollegeCard from "../CollegeCard";
+import CollegesTable from "../CollegesTable";
 
 /* Utilities */
 import history from "../../history";
@@ -37,7 +37,7 @@ const CollegesWrapper = ({ core }) => {
       </Row>
     );
   } else {
-    return <CollegeCard data={state.data.data} core={core} />;
+    return <CollegesTable data={state.data.data} core={core} parent="col" />;
   }
 };
 

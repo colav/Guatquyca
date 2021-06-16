@@ -18,9 +18,10 @@ const ExpandAltOutlined =
 
 const CollegeCard = ({ data, core }) => {
   const gridStyle = {
-    width: "50%",
+    width: "10%",
     textAlign: "center",
     padding: "10px",
+    height: "100px",
   };
 
   const onClick = (id) => {
@@ -38,7 +39,7 @@ const CollegeCard = ({ data, core }) => {
   return (
     <Row gutter={[15, 15]}>
       {data.map((college, i) => (
-        <Col xs={24} md={12} lg={8} key={college.icid}>
+        <Col span={24} key={college.icid}>
           <Card
             size="small"
             actions={[
@@ -48,9 +49,13 @@ const CollegeCard = ({ data, core }) => {
             ]}
           >
             <Card.Grid
-              style={{ width: "100%", height: "156px", padding: "10px" }}
+              style={{ width: "40%", height: "100px", padding: "10px" }}
             >
-              <WordCloudChart data={data[i].words} id={`wc_col_in_${i}`} />
+              <WordCloudChart
+                data={data[i].words}
+                id={`wc_col_in_${i}`}
+                height={84}
+              />
             </Card.Grid>
             <Card.Grid style={gridStyle}>
               Citas totales:
@@ -63,11 +68,12 @@ const CollegeCard = ({ data, core }) => {
               {college.papers_count}
             </Card.Grid>
             <Card.Grid
-              style={{ width: "100%", height: "216px", padding: "10px" }}
+              style={{ width: "40%", height: "100px", padding: "10px" }}
             >
               <LineChartNoCard
                 rawData={data[i].yearly_papers}
                 id={`col_in_${i}`}
+                height={84}
               />
             </Card.Grid>
           </Card>
