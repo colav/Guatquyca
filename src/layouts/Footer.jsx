@@ -10,6 +10,12 @@ const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
 const Layout = require("antd/lib/layout").default;
 const Divider = require("antd/lib/divider").default;
+const Button = require("antd/lib/button").default;
+
+/* Icons */
+const GithubOutlined = require("@ant-design/icons/GithubOutlined").default;
+const MailOutlined = require("@ant-design/icons/MailOutlined").default;
+const LinkOutlined = require("@ant-design/icons/LinkOutlined").default;
 
 const Footer = () => {
   return (
@@ -53,16 +59,50 @@ const Footer = () => {
           </a>
         </Col>
       </Row>
-      <Row gutter={[5, 5]} justify="center" align="middle">
+      <Row gutter={[5, 5]}>
         <Divider style={{ marginTop: "20px" }} />
         <Col xs={24} md={8}>
-          Colav App Versión 1.0.0
+          Encuéntranos en:
+          <br />
+          <Button
+            type="link"
+            href="https://github.com/colav"
+            icon={<GithubOutlined />}
+          >
+            @colav
+          </Button>
+          <br />
+          <Button
+            type="link"
+            href="http://colav.udea.edu.co/"
+            icon={<LinkOutlined />}
+          >
+            Web
+          </Button>
+          <br />
+          <Button
+            type="link"
+            href="mailto:grupocolav@udea.edu.co"
+            icon={<MailOutlined />}
+          >
+            Contacto
+          </Button>
         </Col>
         <Col xs={24} md={8}>
+          Legales:
+          <br />
+          Política de datos
+          <br />
+          Política de privacidad
+          <br />
+          FAQ
+        </Col>
+        <Col xs={24} md={8}>
+          CoLaV App Versión 0.9.1
+          <br />
+          Última actualización: 16/06/2021
+          <br />
           Hecho en Colombia
-        </Col>
-        <Col xs={24} md={8}>
-          Licencia MIT
         </Col>
       </Row>
     </Layout.Footer>
