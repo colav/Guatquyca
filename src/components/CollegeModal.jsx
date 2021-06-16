@@ -6,6 +6,7 @@ import CoauthorsList from "./CoauthorsList";
 /* Charts */
 import MapChart from "./charts/MapChart";
 import NetworkChart from "./charts/NetworkChart";
+import WordCloudChartCard from "./charts/WordCloudChartCard";
 
 /* Utilities */
 import history from "../history";
@@ -19,7 +20,9 @@ const Spin = require("antd/lib/spin").default;
 
 const CollegeModal = ({ id, core, parent }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "college";
+  parent === "col"
+    ? (parsedGlobalURL["data"] = "college")
+    : (parsedGlobalURL["data"] = "graduates_college");
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}&icid=${id}`;
@@ -51,6 +54,27 @@ const CollegeModal = ({ id, core, parent }) => {
             data={state.data.data.coauthors_network}
             title="Red de Coautorías"
             id="col_co_"
+          />
+        </Col>
+      </Row>
+    );
+  } else if (parent === "gra") {
+    return (
+      <Row gutter={[5, 5]}>
+        <Col xs={24} md={12}>
+          <NetworkChart
+            data={state.data.data.coauthors_network}
+            title="Red de Coautorías"
+            id="col_co_"
+            height={400}
+          />
+        </Col>
+        <Col xs={24} md={12}>
+          <WordCloudChartCard
+            data={state.data.data.word_cloud}
+            title="Nube de palabras"
+            id="col_gra_mod"
+            height={400}
           />
         </Col>
       </Row>

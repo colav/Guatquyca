@@ -42,8 +42,9 @@ const CollegesTable = ({ data, core, parent }) => {
         dataIndex={"words"}
         key={"words"}
         align="center"
+        width={"35%"}
         render={(data, obj, i) => (
-          <WordCloudChart data={data} id={`wc_${parent}_in_${i}`} height={84} />
+          <WordCloudChart data={data} id={`wc_${parent}_in_${i}`} height={90} />
         )}
       />
       <Column
@@ -51,21 +52,21 @@ const CollegesTable = ({ data, core, parent }) => {
         dataIndex="cites_count"
         key="cites_count"
         align="center"
-        width={140}
+        width={"10%"}
       />
       <Column
         title="Artículos de la institución"
         dataIndex="papers_count"
         key="papers_count"
         align="center"
-        width={140}
+        width={"10%"}
       />
       <Column
         title="Total de artículos"
         dataIndex="total_papers"
         key="total_papers"
         align="center"
-        width={140}
+        width={"10%"}
       />
       <Column
         title="Artículos por año"
@@ -73,12 +74,13 @@ const CollegesTable = ({ data, core, parent }) => {
         key="yearly_papers"
         align="center"
         render={(data, obj, i) => (
-          <LineChart rawData={data} id={`lc_${parent}_in_${i}`} height={84} />
+          <LineChart rawData={data} id={`lc_${parent}_in_${i}`} height={90} />
         )}
       />
       <Column
         align="center"
         key="button"
+        width={"5%"}
         render={(data, obj) => (
           <Button type="primary" onClick={() => onClick(obj.icid)}>
             Ver más

@@ -15,6 +15,8 @@ const WordCloudChart = ({ data, id, height = 200 }) => {
   chart.angles([0]);
   chart.background().stroke("#EAEAE6");
   chart.scale(anychart.scales.log());
+  chart.normal().fontWeight(600);
+  chart.textSpacing(0.5);
 
   return (
     <Card

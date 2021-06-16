@@ -35,20 +35,20 @@ const Footer = () => {
           </a>
         </Col>
         <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
-          <a href="https://www.uexternado.edu.co/">
-            <img
-              className="footer__logo"
-              src={logo_uec}
-              alt="Logotipo Universidad Externado de Colombia"
-            />
-          </a>
-        </Col>
-        <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
           <a href="https://www.unaula.edu.co/">
             <img
               className="footer__logo"
               src={logo_unaula}
               alt="Logotipo Universidad Autónoma Latinoamericana"
+            />
+          </a>
+        </Col>
+        <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
+          <a href="https://www.uexternado.edu.co/">
+            <img
+              className="footer__logo"
+              src={logo_uec}
+              alt="Logotipo Universidad Externado de Colombia"
             />
           </a>
         </Col>
