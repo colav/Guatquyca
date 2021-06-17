@@ -59,7 +59,7 @@ const Faculties = ({ core }) => {
       />
       <Col xs={24}>
         <Tabs defaultActiveKey={0} type="card" tabBarGutter={5} animated>
-          <TabPane tab="Producción" key="0" /* forceRender */>
+          <TabPane tab="Producción" key="0" forceRender>
             <ProductionWrapper core={core} />
           </TabPane>
           <TabPane tab="Afiliaciones" key="1">
@@ -87,16 +87,16 @@ const Faculties = ({ core }) => {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tab="Citaciones" key="2" /* forceRender */>
+          <TabPane tab="Citaciones" key="2" forceRender>
             <CitationsWrapper />
           </TabPane>
-          <TabPane tab="Coautorías" key="3" /* forceRender */>
+          <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
           <TabPane tab="Colegios Invisibles" key="4">
             <CollegesWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="5" /* forceRender */>
+          <TabPane tab="Noticias" key="5">
             <MediaWrapper />
           </TabPane>
         </Tabs>

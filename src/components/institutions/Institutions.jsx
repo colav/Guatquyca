@@ -63,7 +63,7 @@ const Institutions = ({ core }) => {
           <TabPane tab="Producción" key="0" forceRender>
             <ProductionWrapper core={core} />
           </TabPane>
-          <TabPane tab="Citaciones" key="1">
+          <TabPane tab="Citaciones" key="1" forceRender>
             <CitationsWrapper />
           </TabPane>
           <TabPane tab="Afiliaciones" key="2">
@@ -96,7 +96,7 @@ const Institutions = ({ core }) => {
           <TabPane tab="Colegios Invisibles" key="6">
             <CollegesWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="7" forceRender>
+          <TabPane tab="Noticias" key="7">
             <MediaWrapper />
           </TabPane>
         </Tabs>

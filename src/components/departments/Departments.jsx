@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 /* Wrappers */
 import CitationsWrapper from "../wrappers/CitationsWrapper";
 import CoauthorsWrapper from "../wrappers/CoauthorsWrapper";
+import CollegesWrapper from "../wrappers/CollegesWrapper";
 import MediaWrapper from "../wrappers/MediaWrapper";
 import ProductionWrapper from "../wrappers/ProductionWrapper";
 
@@ -84,7 +85,10 @@ const Departments = ({ core }) => {
           <TabPane tab="Coautorías" key="3" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="4" forceRender>
+          <TabPane tab="Colegios Invisibles" key="4">
+            <CollegesWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Noticias" key="5">
             <MediaWrapper />
           </TabPane>
         </Tabs>

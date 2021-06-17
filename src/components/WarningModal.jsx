@@ -6,9 +6,9 @@ export const WarningModal = () => {
     title: "Estamos generando tu archivo",
     content: `Por favor no refresques la página ni navegues fuera de ella,
     este proceso puede llegar a tardar varios minutos...
-    Una vez esté listo tu navegador abrirá una ventana.`,
+    Una vez esté listo, tu navegador abrirá una ventana.`,
   });
   setTimeout(() => {
     modal.destroy();
-  }, 4000);
+  }, 7000);
 };

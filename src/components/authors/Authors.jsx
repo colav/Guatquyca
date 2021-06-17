@@ -59,7 +59,7 @@ const Authors = ({ core }) => {
           <TabPane tab="Coautorías" key="2" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="3" forceRender>
+          <TabPane tab="Noticias" key="3">
             <MediaWrapper />
           </TabPane>
         </Tabs>
