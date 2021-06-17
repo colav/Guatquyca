@@ -62,6 +62,7 @@ const SearchBar = ({ setCurrentURL, setHome }) => {
 
   return (
     <Input.Search
+      allowClear
       style={{ verticalAlign: "middle", padding: "0 5px" }}
       addonBefore={
         <Select
@@ -73,7 +74,7 @@ const SearchBar = ({ setCurrentURL, setHome }) => {
         />
       }
       placeholder={"Ingresa palabra clave"}
-      onSearch={searchRequest}
+      onSearch={(input) => (input !== "" ? searchRequest(input) : "")}
       enterButton
       size="large"
     />
