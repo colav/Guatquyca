@@ -1,5 +1,8 @@
 import React from "react";
 
+/* Components */
+import { WarningModal } from "./WarningModal";
+
 /* Utilities */
 import history from "../history";
 import _ from "lodash";
@@ -25,6 +28,7 @@ const DownloadJSONButton = ({ parsedURL }) => {
       shape="round"
       style={{ color: "#9D3715" }}
       href={JSON_URL}
+      onClick={WarningModal}
     >
       JSON
     </Button>
