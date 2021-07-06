@@ -12,7 +12,14 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
+const DoughnutChart = ({
+  data,
+  title,
+  id,
+  currency = false,
+  height = 400,
+  infoText,
+}) => {
   const bgColor = {
     hybrid: "#6448ff",
     green: "#25ff76",
@@ -66,10 +73,7 @@ const DoughnutChart = ({ data, title, id, currency = false, height = 400 }) => {
       extra={[
         <ExportXLSXAnyChart key={0} chart={chart} />,
         <ExportSVGAnyChart key={1} chart={chart} />,
-        <InfoButton
-          key={2}
-          text={"Texto informativo para la tarjeta de Open Access"}
-        />,
+        <InfoButton key={2} text={infoText} title={title} />,
       ]}
     >
       <Card

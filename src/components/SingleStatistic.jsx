@@ -5,7 +5,9 @@ import InfoButton from "./InfoButton";
 
 /* Icons */
 import { CitationsIcon } from "../icons/citations";
+const DatabaseOutlined = require("@ant-design/icons/DatabaseOutlined").default;
 const FileOutlined = require("@ant-design/icons/FileOutlined").default;
+const ShareAltOutlined = require("@ant-design/icons/ShareAltOutlined").default;
 const LineChartOutlined =
   require("@ant-design/icons/LineChartOutlined").default;
 
@@ -26,6 +28,8 @@ const SingleStatistic = ({
   const prefixIcon = {
     file: <FileOutlined />,
     line: <LineChartOutlined />,
+    db: <DatabaseOutlined />,
+    share: <ShareAltOutlined />,
     citations: React.createElement(CitationsIcon),
   };
 
@@ -42,7 +46,7 @@ const SingleStatistic = ({
           />
         </Col>
         <Col span={3}>
-          <InfoButton text={infoText} />
+          {infoText ? <InfoButton text={infoText} title={title} /> : ""}
         </Col>
       </Row>
     </Card>

@@ -13,7 +13,7 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const LineChart = ({ rawData, id = "" }) => {
+const LineChart = ({ rawData, id = "", infoText }) => {
   const data = [];
   for (const key in rawData) {
     data.push({ x: key, value: rawData[key] });
@@ -42,10 +42,7 @@ const LineChart = ({ rawData, id = "" }) => {
         extra={[
           <ExportXLSXAnyChart key={0} chart={chart} />,
           <ExportSVGAnyChart key={1} chart={chart} />,
-          <InfoButton
-            key={2}
-            text={"Texto informativo para la tarjeta de pagos APC"}
-          />,
+          <InfoButton key={2} text={infoText} title="Pagos de APC por año" />,
         ]}
       >
         <Card

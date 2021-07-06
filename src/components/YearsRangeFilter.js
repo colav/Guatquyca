@@ -109,7 +109,7 @@ const YearsRangeFilter = (props) => {
       {...subMenuProps}
       disabled
       icon={<CalendarOutlined />}
-      title="Rango de Fechas"
+      title="Rango de años"
     />
   );
 };

@@ -2,10 +2,14 @@ import React from "react";
 
 /*  Components */
 import CollegeModal from "./CollegeModal";
+import InfoButton from "./InfoButton";
 
 /* Charts */
 import LineChart from "./charts/LineChart";
 import WordCloudChart from "./charts/WordCloudChart";
+
+/* Utilities */
+import { infoTexts } from "../helpers/infoTexts";
 
 /* UI Library Components */
 const Button = require("antd/lib/button").default;
@@ -38,7 +42,14 @@ const CollegesTable = ({ data, core, parent }) => {
       pagination={{ size: "small", hideOnSinglePage: true }}
     >
       <Column
-        title="Colegio Invisible"
+        title={[
+          "Colegio Invisible  ",
+          <InfoButton
+            text={infoTexts.InvCol}
+            title="Colegio Invisible"
+            key="infbtn"
+          />,
+        ]}
         dataIndex={"words"}
         key={"words"}
         align="center"
@@ -48,28 +59,56 @@ const CollegesTable = ({ data, core, parent }) => {
         )}
       />
       <Column
-        title="Total de citas"
+        title={[
+          "Total de citas  ",
+          <InfoButton
+            text={infoTexts.InvColCit}
+            title="Total de citas"
+            key="infbtn"
+          />,
+        ]}
         dataIndex="cites_count"
         key="cites_count"
         align="center"
         width={"10%"}
       />
       <Column
-        title="Artículos de la institución"
+        title={[
+          "Artículos de la institución  ",
+          <InfoButton
+            text={infoTexts.InvColArtIns}
+            title="Artículos de la institución"
+            key="infbtn"
+          />,
+        ]}
         dataIndex="papers_count"
         key="papers_count"
         align="center"
         width={"10%"}
       />
       <Column
-        title="Total de artículos"
+        title={[
+          "Total de artículos  ",
+          <InfoButton
+            text={infoTexts.InvColArtTot}
+            title="Total de artículos"
+            key="infbtn"
+          />,
+        ]}
         dataIndex="total_papers"
         key="total_papers"
         align="center"
         width={"10%"}
       />
       <Column
-        title="Artículos por año"
+        title={[
+          "Artículos por año  ",
+          <InfoButton
+            text={infoTexts.InvColArtYea}
+            title="Artículos por año"
+            key="infbtn"
+          />,
+        ]}
         dataIndex="yearly_papers"
         key="yearly_papers"
         align="center"

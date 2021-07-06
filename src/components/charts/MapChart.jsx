@@ -13,7 +13,7 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const CoauthorsMap = ({ rawData, title, id, height = 360 }) => {
+const CoauthorsMap = ({ rawData, title, id, height = 360, infoText }) => {
   const data = rawData.map((item) => ({
     id: item.country_code,
     value: item.log_count,
@@ -54,10 +54,7 @@ const CoauthorsMap = ({ rawData, title, id, height = 360 }) => {
         extra={[
           <ExportXLSXAnyChart key={0} chart={map} />,
           <ExportSVGAnyChart key={1} chart={map} />,
-          <InfoButton
-            key={2}
-            text={"Texto informativo para la tarjeta mapa de coautorías"}
-          />,
+          <InfoButton key={2} text={infoText} title={title} />,
         ]}
       >
         <Card

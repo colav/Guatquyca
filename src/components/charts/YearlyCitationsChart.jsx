@@ -13,7 +13,7 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const YearlyCitationsChart = ({ data }) => {
+const YearlyCitationsChart = ({ data, infoText }) => {
   const chartData = Object.entries(data.yearly_citations);
 
   let chart = anychart.column();
@@ -40,10 +40,7 @@ const YearlyCitationsChart = ({ data }) => {
         extra={[
           <ExportXLSXAnyChart key={0} chart={chart} />,
           <ExportSVGAnyChart key={1} chart={chart} />,
-          <InfoButton
-            key={2}
-            text={"Texto informativo para la tarjeta de citas"}
-          />,
+          <InfoButton key={2} text={infoText} title="Citas" />,
         ]}
       >
         <Card

@@ -14,6 +14,7 @@ import SingleStatistic from "../SingleStatistic";
 /* Utilities */
 import history from "../../history";
 import { APIRequest } from "../../apis/clustercien";
+import { infoTexts } from "../../helpers/infoTexts";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -47,20 +48,22 @@ const GraduatesWrapper = ({ core }) => {
             data={state.data.data.papers_count}
             title="Producción total:"
             margin={15}
-            infoText="Descripción de la producción total"
+            infoText={infoTexts.TotalProduction}
           />
           <DoughnutChart
             data={state.data.data.count_by_type}
             title="Egresados por tipo de organización"
             id="gra_ty_"
             height={409}
+            infoText={infoTexts.GraduatesOrg}
           />
         </Col>
         <MapChart
           rawData={state.data.data.geo}
-          title="Organizaciones - Egresados"
+          title="Localización de egresados autores"
           id="gra_in_"
           height={540}
+          infoText={infoTexts.GraduatesGeo}
         />
         <Col xs={24} lg={12}>
           <NetworkChart

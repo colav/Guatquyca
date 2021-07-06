@@ -11,6 +11,7 @@ import YearlyCitationsChart from "../charts/YearlyCitationsChart";
 /* Utilities */
 import history from "../../history";
 import { APIRequest } from "../../apis/clustercien";
+import { infoTexts } from "../../helpers/infoTexts";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -49,21 +50,21 @@ const CitationsWrapper = () => {
           title="Citas Totales:"
           margin={15}
           icon="citations"
-          infoText="Texto informativo para la cantidad de citas totales."
+          infoText={infoTexts.TotalCitations}
         />
         <SingleStatistic
           data={state.data.data.H}
           title="Índice H:"
           margin={15}
           icon="line"
-          infoText="Texto informativo para el índice H"
+          infoText={infoTexts.HIndex}
         />
         <SingleStatistic
           data={state.data.data.H5}
           title="Índice H5:"
           margin={15}
           icon="line"
-          infoText="Texto informativo para el índice H5"
+          infoText={infoTexts.H5Index}
         />
       </Col>
       <Col xs={24} lg={19}>
@@ -71,6 +72,7 @@ const CitationsWrapper = () => {
           data={state.data.data}
           isLoading={state.isLoading}
           isError={state.isError}
+          infoText={infoTexts.YearlyCitations}
         />
       </Col>
     </Row>

@@ -12,6 +12,7 @@ import TreeMapChart from "../charts/TreeMapChart";
 /* Utilities */
 import history from "../../history";
 import { APIRequest } from "../../apis/clustercien";
+import { infoTexts } from "../../helpers/infoTexts";
 const queryString = require("query-string");
 
 /* UI Library Components */
@@ -54,13 +55,17 @@ const APCInfoWrapper = () => {
 
     return (
       <Row gutter={[15, 15]}>
-        <LineChartCard rawData={state.data.data.yearly} />
+        <LineChartCard
+          rawData={state.data.data.yearly}
+          infoText={infoTexts.YearlyAPC}
+        />
         <Col xs={24} sm={24} md={24} lg={8}>
           <DoughnutChart
             data={state.data.data.openaccess}
             title="Pagos de APC - tipo de acceso"
             id="apc_oa_"
             currency={true}
+            infoText={infoTexts.AccessAPC}
           />
         </Col>
         <Col xs={24} sm={24} md={12}>
@@ -70,6 +75,7 @@ const APCInfoWrapper = () => {
             id="apc_fa_"
             currency={true}
             height={500}
+            infoText={infoTexts.FacultyAPC}
           />
         </Col>
         <Col xs={24} sm={24} md={12}>
@@ -79,6 +85,7 @@ const APCInfoWrapper = () => {
             id="apc_de_"
             currency={true}
             height={500}
+            infoText={infoTexts.DepartmentAPC}
           />
         </Col>
         <Col span={24}>
@@ -86,6 +93,7 @@ const APCInfoWrapper = () => {
             rawData={state.data.data.group}
             id="apc_gr_"
             title="Pagos de APC - Grupos"
+            infoText={infoTexts.GroupAPC}
           />
         </Col>
         <Col span={24}>
@@ -93,6 +101,7 @@ const APCInfoWrapper = () => {
             rawData={state.data.data.publisher}
             id="apc_pu_"
             title="Pagos de APC - Editoriales"
+            infoText={infoTexts.PublisherAPC}
           />
         </Col>
       </Row>

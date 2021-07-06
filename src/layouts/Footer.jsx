@@ -1,9 +1,12 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 /* Logos */
 import logo_udea from "../logos/logo_udea.svg";
 import logo_uec from "../logos/logo_uec.svg";
 import logo_unaula from "../logos/logo_unaula.svg";
+import logo_colav from "../logos/logo_colav.svg";
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -15,7 +18,6 @@ const Button = require("antd/lib/button").default;
 /* Icons */
 const GithubOutlined = require("@ant-design/icons/GithubOutlined").default;
 const MailOutlined = require("@ant-design/icons/MailOutlined").default;
-const LinkOutlined = require("@ant-design/icons/LinkOutlined").default;
 
 const Footer = () => {
   return (
@@ -62,7 +64,16 @@ const Footer = () => {
       <Row gutter={[5, 5]}>
         <Divider style={{ marginTop: "20px" }} />
         <Col xs={24} md={8}>
-          Encuéntranos en:
+          <div style={{ marginBottom: "5px" }}>
+            <b>Producto desarrollado por:</b>
+          </div>
+          <a href="http://colav.udea.edu.co/">
+            <img
+              src={logo_colav}
+              alt="Logotipo Colav"
+              style={{ maxWidth: "120px", margin: "5px" }}
+            />
+          </a>
           <br />
           <Button
             type="link"
@@ -74,14 +85,6 @@ const Footer = () => {
           <br />
           <Button
             type="link"
-            href="http://colav.udea.edu.co/"
-            icon={<LinkOutlined />}
-          >
-            Web
-          </Button>
-          <br />
-          <Button
-            type="link"
             href="mailto:grupocolav@udea.edu.co"
             icon={<MailOutlined />}
           >
@@ -89,16 +92,22 @@ const Footer = () => {
           </Button>
         </Col>
         <Col xs={24} md={8}>
-          Legales:
+          <div style={{ marginBottom: "10px" }}>
+            <b>ImpactU:</b>
+          </div>
+          <Link to="/app/about">Acerca de ImpactU</Link>
           <br />
-          Política de datos
+          <Link to="/app/participants">Instituciones participantes</Link>
           <br />
-          Política de privacidad
+          <Link to="/app/help">Ayuda</Link>
           <br />
-          FAQ
+          <Link to="/app/api">API</Link>
         </Col>
         <Col xs={24} md={8}>
-          CoLaV App Versión 0.9.1
+          <div style={{ marginBottom: "10px" }}>
+            <b>Información:</b>
+          </div>
+          ImpactU Versión 0.9.1
           <br />
           Última actualización: 16/06/2021
           <br />

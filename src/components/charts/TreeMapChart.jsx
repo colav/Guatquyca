@@ -12,7 +12,7 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const TreeMapChart = ({ rawData, id, title }) => {
+const TreeMapChart = ({ rawData, id, title, infoText }) => {
   const sum = rawData.reduce((a, b) => a + b.value, 0).toLocaleString("en");
   const len = rawData.length;
   let dataSet = [
@@ -70,10 +70,7 @@ const TreeMapChart = ({ rawData, id, title }) => {
       extra={[
         <ExportXLSXAnyChart key={0} chart={chart} />,
         <ExportSVGAnyChart key={1} chart={chart} />,
-        <InfoButton
-          key={2}
-          text={"Texto informativo para la tarjeta de Open Access"}
-        />,
+        <InfoButton key={2} text={infoText} title={title} />,
       ]}
     >
       <Card

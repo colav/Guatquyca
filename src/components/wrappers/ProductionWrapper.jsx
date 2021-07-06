@@ -12,6 +12,7 @@ import VennChart from "../charts/VennChart";
 /* Utilities */
 import history from "../../history";
 import { APIRequest } from "../../apis/clustercien";
+import { infoTexts } from "../../helpers/infoTexts";
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -77,9 +78,13 @@ const ProductionWrapper = ({ core }) => {
           data={state.data.open_access}
           title="Open Access"
           id="pro_oa_"
+          infoText={infoTexts.OpenAccess}
         />
       </Col>
-      <VennChart data={state.data.venn_source} />
+      <VennChart
+        data={state.data.venn_source}
+        infoText={infoTexts.BiblioSource}
+      />
       <Col span={24}>
         <DocumentList
           data={state.data}

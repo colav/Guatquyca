@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 /* Components */
+import About from "./components/About";
 import Authors from "./components/authors/Authors";
 import Departments from "./components/departments/Departments";
 import Faculties from "./components/faculties/Faculties";
@@ -9,6 +10,7 @@ import Groups from "./components/groups/Groups";
 import Header from "./layouts/Header";
 import Home from "./layouts/Home";
 import Institutions from "./components/institutions/Institutions";
+import Participants from "./components/Participants";
 import SearchResultList from "./components/SearchResultList";
 import Sidebar from "./layouts/Sidebar";
 import ScrollToTop from "./helpers/ScrollToTop";
@@ -59,6 +61,12 @@ const App = () => {
           </Route>
           <Route exact path="/app/institutions">
             <Institutions core={core} />
+          </Route>
+          <Route exact path="/app/about">
+            <About />
+          </Route>
+          <Route exact path="/app/participants">
+            <Participants />
           </Route>
         </Layout.Content>
       </Layout>

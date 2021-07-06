@@ -11,7 +11,7 @@ import ExportSVGUpSet from "../ExportSVGUpSet";
 const Card = require("antd/lib/card").default;
 const Col = require("antd/lib/col").default;
 
-const VennChart = ({ data }) => {
+const VennChart = ({ data, infoText }) => {
   const { sets, combinations } = useMemo(
     () =>
       extractFromExpression([
@@ -97,10 +97,7 @@ const VennChart = ({ data }) => {
         hoverable
         extra={[
           <ExportSVGUpSet key={1} chart={chart} />,
-          <InfoButton
-            key={2}
-            text={"Texto informativo para la tarjeta de Fuentes Bibliográficas"}
-          />,
+          <InfoButton key={2} text={infoText} title="Fuentes Bibliográficas" />,
         ]}
       >
         <Card
