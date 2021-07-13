@@ -5,9 +5,11 @@ import InfoButton from "./InfoButton";
 
 /* Icons */
 import { CitationsIcon } from "../icons/citations";
-const DatabaseOutlined = require("@ant-design/icons/DatabaseOutlined").default;
+const ReadOutlined = require("@ant-design/icons/ReadOutlined").default;
 const FileOutlined = require("@ant-design/icons/FileOutlined").default;
 const ShareAltOutlined = require("@ant-design/icons/ShareAltOutlined").default;
+const UserOutlined = require("@ant-design/icons/UserOutlined").default;
+const BankOutlined = require("@ant-design/icons/BankOutlined").default;
 const LineChartOutlined =
   require("@ant-design/icons/LineChartOutlined").default;
 
@@ -18,6 +20,7 @@ const Row = require("antd/lib/row").default;
 const Statistic = require("antd/lib/statistic").default;
 
 const SingleStatistic = ({
+  loading,
   data,
   title,
   margin = 0,
@@ -28,8 +31,10 @@ const SingleStatistic = ({
   const prefixIcon = {
     file: <FileOutlined />,
     line: <LineChartOutlined />,
-    db: <DatabaseOutlined />,
+    source: <ReadOutlined />,
     share: <ShareAltOutlined />,
+    user: <UserOutlined />,
+    institution: <BankOutlined />,
     citations: React.createElement(CitationsIcon),
   };
 
@@ -38,6 +43,7 @@ const SingleStatistic = ({
       <Row>
         <Col span={21}>
           <Statistic
+            loading={loading}
             title={title}
             value={data}
             valueStyle={{ color: "#3f8600" }}

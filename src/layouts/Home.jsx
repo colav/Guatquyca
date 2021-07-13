@@ -10,6 +10,9 @@ import SingleStatistic from "../components/SingleStatistic";
 /* Logos */
 import logo_impactU_azul from "../logos/logo_impactU_azul.svg";
 
+/* Utilities */
+import { APIRequest } from "../apis/clustercien";
+
 /* UI Library Components */
 const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
@@ -21,6 +24,9 @@ const Typography = require("antd/lib/typography").default;
 const { Title } = Typography;
 
 const Home = ({ core, setHome }) => {
+  const [state] = APIRequest("/app/ourdata?apikey=colavudea");
+
+  console.log(state);
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
   });
@@ -67,25 +73,36 @@ const Home = ({ core, setHome }) => {
           justify="space-around"
           style={{ textAlign: "initial", margin: "20px 0 40px" }}
         >
-          <Col xs={24} md={6}>
+          <Col xs={24} md={5}>
             <SingleStatistic
-              title="Artículos capturados para Colombia:"
+              loading={state.isLoading}
+              title="Autores:"
+              icon="user"
+              data={state.data.authors}
+            />
+          </Col>
+          <Col xs={24} md={5}>
+            <SingleStatistic
+              loading={state.isLoading}
+              title="Instituciones:"
+              icon="institution"
+              data={state.data.institutions}
+            />
+          </Col>
+          <Col xs={24} md={5}>
+            <SingleStatistic
+              loading={state.isLoading}
+              title="Documentos:"
               icon="file"
-              data="50000"
+              data={state.data.documents}
             />
           </Col>
-          <Col xs={24} md={6}>
+          <Col xs={24} md={5}>
             <SingleStatistic
-              title="Registros totales de las bases de datos:"
-              icon="db"
-              data="50000"
-            />
-          </Col>
-          <Col xs={24} md={6}>
-            <SingleStatistic
-              title="Vínculos entre documentos:"
-              icon="share"
-              data="50000"
+              loading={state.isLoading}
+              title="Revistas:"
+              icon="source"
+              data={state.data.sources}
             />
           </Col>
         </Row>
