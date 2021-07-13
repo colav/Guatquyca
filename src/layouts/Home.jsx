@@ -26,7 +26,6 @@ const { Title } = Typography;
 const Home = ({ core, setHome }) => {
   const [state] = APIRequest("/app/ourdata?apikey=colavudea");
 
-  console.log(state);
   window.addEventListener("popstate", () => {
     core.setCurrentURL(URLBuilder);
   });
