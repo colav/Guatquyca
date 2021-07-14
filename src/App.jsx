@@ -14,7 +14,7 @@ import Participants from "./components/Participants";
 import SearchResultList from "./components/SearchResultList";
 import Sidebar from "./layouts/Sidebar";
 import ScrollToTop from "./helpers/ScrollToTop";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import { URLBuilder } from "./helpers/URLBuilder";
 
 /* Utilities */
@@ -41,6 +41,9 @@ const App = () => {
         <Header core={core} home={home} setHome={setHome} />
         <Sidebar core={core} />
         <Layout.Content style={{ minHeight: "65vh", position: "relative" }}>
+          <Route exact path="/">
+            <Redirect to="/app" />
+          </Route>
           <Route exact path="/app">
             <Home core={core} setHome={setHome} />
           </Route>

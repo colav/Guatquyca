@@ -17,7 +17,6 @@ import { APIRequest } from "../apis/clustercien";
 const Button = require("antd/lib/button").default;
 const Col = require("antd/lib/col").default;
 const Row = require("antd/lib/row").default;
-const Space = require("antd/lib/space").default;
 const Typography = require("antd/lib/typography").default;
 
 /* UI Library Sub-components*/
@@ -106,20 +105,28 @@ const Home = ({ core, setHome }) => {
           </Col>
         </Row>
       </Col>
-      <Space style={{ margin: "40px" }} size="large" wrap>
-        <Button size="large" className="btn_home" href="/app/about">
-          Acerca de ImpactU
-        </Button>
-        <Button size="large" className="btn_home" href="/app/participants">
-          Instituciones Participantes
-        </Button>
-        <Button size="large" className="btn_home" href="/app/help">
-          Ayuda
-        </Button>
-        <Button size="large" className="btn_home" href="/app/api">
-          API
-        </Button>
-      </Space>
+      <Row gutter={[20, 20]} justify="center" align="middle">
+        <Col xs={24} md={8} xl={6}>
+          <Button size="large" className="btn_home" href="/app/about">
+            Acerca de ImpactU
+          </Button>
+        </Col>
+        <Col xs={24} md={8} xl={6}>
+          <Button size="large" className="btn_home" href="/app/participants">
+            Instituciones Participantes
+          </Button>
+        </Col>
+        <Col xs={24} md={8} xl={6}>
+          <Button size="large" className="btn_home" href="/app/help">
+            Ayuda
+          </Button>
+        </Col>
+        <Col xs={24} md={8} xl={6}>
+          <Button size="large" className="btn_home" href="/app/api">
+            API
+          </Button>
+        </Col>
+      </Row>
     </Row>
   );
 };
