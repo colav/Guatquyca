@@ -58,11 +58,8 @@ const Faculties = ({ core }) => {
         setCurrentURL={core.setCurrentURL}
       />
       <Col xs={24}>
-        <Tabs defaultActiveKey={0} type="card" tabBarGutter={5} animated>
-          <TabPane tab="Producción" key="0" forceRender>
-            <ProductionWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Afiliaciones" key="1">
+        <Tabs defaultActiveKey={"affiliations"} type="card" tabBarGutter={5}>
+          <TabPane tab="Afiliaciones" key="affiliations">
             <Row gutter={[15, 15]}>
               <Col xs={24} md={8}>
                 <ListCard
@@ -87,16 +84,19 @@ const Faculties = ({ core }) => {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tab="Citaciones" key="2" forceRender>
+          <TabPane tab="Producción" key="production" forceRender>
+            <ProductionWrapper core={core} />
+          </TabPane>
+          <TabPane tab="Citaciones" key="citations" forceRender>
             <CitationsWrapper />
           </TabPane>
-          <TabPane tab="Coautorías" key="3" forceRender>
+          <TabPane tab="Coautorías" key="coauthors" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Colegios Invisibles" key="4">
+          <TabPane tab="Colegios Invisibles" key="colleges">
             <CollegesWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="5">
+          <TabPane tab="Noticias" key="news">
             <MediaWrapper />
           </TabPane>
         </Tabs>

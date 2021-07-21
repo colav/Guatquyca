@@ -49,17 +49,22 @@ const Authors = ({ core }) => {
     <Row gutter={[15, 15]}>
       <AuthorsTitleCard state={state.data} setCurrentURL={core.setCurrentURL} />
       <Col xs={24}>
-        <Tabs defaultActiveKey={0} type="card" tabBarGutter={5} animated>
-          <TabPane tab="Producción" key="0" forceRender>
+        <Tabs
+          defaultActiveKey={"production"}
+          type="card"
+          tabBarGutter={5}
+          animated
+        >
+          <TabPane tab="Producción" key="production" forceRender>
             <ProductionWrapper core={core} />
           </TabPane>
-          <TabPane tab="Citaciones" key="1" forceRender>
+          <TabPane tab="Citaciones" key="citations" forceRender>
             <CitationsWrapper />
           </TabPane>
-          <TabPane tab="Coautorías" key="2" forceRender>
+          <TabPane tab="Coautorías" key="coauthors" forceRender>
             <CoauthorsWrapper core={core} />
           </TabPane>
-          <TabPane tab="Noticias" key="3">
+          <TabPane tab="Noticias" key="news">
             <MediaWrapper />
           </TabPane>
         </Tabs>
