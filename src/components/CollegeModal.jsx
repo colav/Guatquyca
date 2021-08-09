@@ -35,7 +35,7 @@ const CollegeModal = ({ id, core, parent }) => {
       <Row gutter={[5, 5]}>
         <MapChart
           rawData={state.data.data.geo}
-          title="Pendiente"
+          title="Mapa de colaboración"
           id="col_in_"
         />
         <CoauthorsList

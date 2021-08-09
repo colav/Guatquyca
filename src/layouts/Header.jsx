@@ -4,7 +4,7 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 
 /* Logos */
-import logo_impactU from "../logos/logo_impactU.svg";
+import logo_impactU_B from "../logos/logo_impactU_B.svg";
 
 /* UI Library Components */
 const Col = require("antd/lib/col").default;
@@ -23,15 +23,10 @@ const Header = ({ core, home, setHome }) => {
       }}
     >
       <Row>
-        <Col
-          xs={12}
-          sm={7}
-          md={5}
-          style={{ padding: "0px 10px", width: "300px" }}
-        >
+        <Col xs={12} sm={7} md={6}>
           <a href="/app">
             <img
-              src={logo_impactU}
+              src={logo_impactU_B}
               alt="Logotipo Colav"
               className="logo-colav-header"
             />
