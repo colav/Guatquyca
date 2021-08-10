@@ -168,7 +168,11 @@ const Home = ({ core, setHome }) => {
           </Button>
         </Col>
         <Col xs={24} md={8} xl={6}>
-          <Button size="large" className="btn_home" href="/app/api">
+          <Button
+            size="large"
+            className="btn_home"
+            href="http://impactu.colav.co:8888/apidoc/index.html"
+          >
             API
           </Button>
         </Col>
