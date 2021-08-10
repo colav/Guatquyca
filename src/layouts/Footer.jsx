@@ -101,7 +101,12 @@ const Footer = () => {
           <br />
           <Link to="/app/help">Ayuda</Link>
           <br />
-          <Link to="/app/api">API</Link>
+          <Link
+            to={{ pathname: "http://impactu.colav.co:8888/apidoc/index.html" }}
+            target="_blank"
+          >
+            API
+          </Link>
         </Col>
         <Col xs={24} md={8}>
           <div style={{ marginBottom: "10px" }}>
