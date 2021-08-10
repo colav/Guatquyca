@@ -34,7 +34,7 @@ const Footer = () => {
       <Row gutter={[100, 10]} justify="center" align="middle">
         <Col span={24}>Una colaboración entre:</Col>
         <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
-          <a href="http://www.udea.edu.co/">
+          <a href="http://www.udea.edu.co/" target="_blank" rel="noreferrer">
             <img
               className="footer__logo"
               src={logo_udea}
@@ -43,7 +43,7 @@ const Footer = () => {
           </a>
         </Col>
         <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
-          <a href="https://www.unaula.edu.co/">
+          <a href="https://www.unaula.edu.co/" target="_blank" rel="noreferrer">
             <img
               className="footer__logo"
               src={logo_unaula}
@@ -52,7 +52,11 @@ const Footer = () => {
           </a>
         </Col>
         <Col xs={24} md={8} style={{ maxWidth: "400px" }}>
-          <a href="https://www.uexternado.edu.co/">
+          <a
+            href="https://www.uexternado.edu.co/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <img
               className="footer__logo"
               src={logo_uec}
@@ -67,7 +71,7 @@ const Footer = () => {
           <div style={{ marginBottom: "5px" }}>
             <b>Producto desarrollado por:</b>
           </div>
-          <a href="http://colav.udea.edu.co/">
+          <a href="http://colav.udea.edu.co/" target="_blank" rel="noreferrer">
             <img
               src={logo_colav}
               alt="Logotipo Colav"
@@ -79,6 +83,8 @@ const Footer = () => {
             type="link"
             href="https://github.com/colav"
             icon={<GithubOutlined />}
+            target="_blank"
+            rel="noreferrer"
           >
             @colav
           </Button>
@@ -104,6 +110,7 @@ const Footer = () => {
           <Link
             to={{ pathname: "http://impactu.colav.co:8888/apidoc/index.html" }}
             target="_blank"
+            rel="noreferrer"
           >
             API
           </Link>

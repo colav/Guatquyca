@@ -70,7 +70,7 @@ const About = () => {
           {<Text strong>ImpactU</Text>} es un proyecto creado y desarrollado por
           el{" "}
           {
-            <Link strong href="http://colav.udea.edu.co">
+            <Link strong href="http://colav.udea.edu.co" target="_blank">
               Colav
             </Link>
           }{" "}

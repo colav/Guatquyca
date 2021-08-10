@@ -4,13 +4,16 @@ export const infoTexts = {
   OpenAccess: (
     <div>
       A partir de los datos disponibles en{" "}
-      <a href="https://unpaywall.org/">Unpaywall</a> se clasifican los artículos
-      que tienen alguna caracterización de su circulación: gold (disponible con
-      pago y sin pago de APC), green (disponible en repositorios institucionales
-      y temáticos), hybrid (acceso cerrado y pago de APC) y bronze (acceso
-      abierto en el sitio web). Este indicador permite tomar decisiones respecto
-      a las políticas institucionales de pagos de APC o el diseño de estrategias
-      de circulación de los resultados investigativos.
+      <a href="https://unpaywall.org/" target="_blank" rel="noreferrer">
+        Unpaywall
+      </a>{" "}
+      se clasifican los artículos que tienen alguna caracterización de su
+      circulación: gold (disponible con pago y sin pago de APC), green
+      (disponible en repositorios institucionales y temáticos), hybrid (acceso
+      cerrado y pago de APC) y bronze (acceso abierto en el sitio web). Este
+      indicador permite tomar decisiones respecto a las políticas
+      institucionales de pagos de APC o el diseño de estrategias de circulación
+      de los resultados investigativos.
       <img
         style={{ width: "100%", marginTop: "15px" }}
         src={openAccess}
@@ -50,7 +53,11 @@ export const infoTexts = {
       en sus formas de producción.
       <br />
       Más información:{" "}
-      <a href="https://www.pnas.org/content/102/46/16569?pagewanted=all">
+      <a
+        href="https://www.pnas.org/content/102/46/16569?pagewanted=all"
+        target="_blank"
+        rel="noreferrer"
+      >
         An index to quantify an individual's scientific research output
       </a>
     </div>
@@ -65,7 +72,11 @@ export const infoTexts = {
       reciente.
       <br />
       Más información:{" "}
-      <a href="https://scholar.google.com/intl/es/scholar/metrics.html#metrics">
+      <a
+        href="https://scholar.google.com/intl/es/scholar/metrics.html#metrics"
+        target="_blank"
+        rel="noreferrer"
+      >
         Google Scholar Metrics
       </a>
     </div>

@@ -34,8 +34,14 @@ const Participants = () => {
           <ul>
             <li>
               Comunidad de desarrolladores:{" "}
-              <a href="https://github.com/colav">https://github.com/colav</a> La
-              comunidad de desarrollo crea softwares abiertos para captura,
+              <a
+                href="https://github.com/colav"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://github.com/colav
+              </a>{" "}
+              La comunidad de desarrollo crea softwares abiertos para captura,
               análisis y visualización de información.
             </li>
             <br />
@@ -53,17 +59,29 @@ const Participants = () => {
               evaluación de la producción de conocimiento universitaria.
               <ul>
                 <li>
-                  <a href="https://latmetricas.wordpress.com/">
+                  <a
+                    href="https://latmetricas.wordpress.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Latmétricas 2021
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.youtube.com/watch?v=bbMw0evYD94">
+                  <a
+                    href="https://www.youtube.com/watch?v=bbMw0evYD94"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Transformative Metrics 2020
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.clacso.org/conversatorio-metricas-de-vinculacion-universidad-entorno/">
+                  <a
+                    href="https://www.clacso.org/conversatorio-metricas-de-vinculacion-universidad-entorno/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     FOLEC-CLACSO
                   </a>
                 </li>

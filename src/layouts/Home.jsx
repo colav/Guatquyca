@@ -173,6 +173,7 @@ const Home = ({ core, setHome }) => {
             className="btn_home"
             href="http://impactu.colav.co:8888/apidoc/index.html"
             target="_blank"
+            rel="noreferrer"
           >
             API
           </Button>
