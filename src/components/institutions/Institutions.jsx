@@ -64,15 +64,15 @@ const Institutions = ({ core }) => {
             <Row gutter={15}>
               <Col xs={24} md={8}>
                 <ListCard
-                  title={"departments"}
-                  list={state.data.departments}
+                  title={"faculties"}
+                  list={state.data.faculties}
                   setCurrentURL={core.setCurrentURL}
                 />
               </Col>
               <Col xs={24} md={8}>
                 <ListCard
-                  title={"faculties"}
-                  list={state.data.faculties}
+                  title={"departments"}
+                  list={state.data.departments}
                   setCurrentURL={core.setCurrentURL}
                 />
               </Col>
