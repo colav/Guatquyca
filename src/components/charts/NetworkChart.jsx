@@ -9,6 +9,12 @@ const Card = require("antd/lib/card").default;
 const notification = require("antd/lib/notification").default;
 
 const NetworkChart = ({ data, title, id, height = 280 }) => {
+  /* data.nodes.map((node) => (node["height"] = node["height"] * 50));
+  data.edges.map(
+    (edge) => (edge["normal"] = { stroke: `${edge["weight"] * 100} #b9b9ac` })
+  );
+  console.log(data.edges); */
+  data.nodes.map((node) => (node.height = node.height * 50));
   let eCache = "";
   const openNotification = (e) => {
     if (e.index !== eCache.index) {
@@ -29,10 +35,6 @@ const NetworkChart = ({ data, title, id, height = 280 }) => {
   chart.nodes().stroke("0.5px white");
   chart.nodes().hovered().stroke("#39658C");
   chart.nodes().tooltip().format("{%title}");
-  /* chart
-    .edges()
-    .normal()
-    .stroke((e) => `${networkData.edges[e.index].weight * 10} #eaeae6`); */
   chart.edges().tooltip().format("De: {%from}\nA: {%to}\nCitas: {%cited}");
 
   return (

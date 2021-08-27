@@ -55,38 +55,25 @@ const CoauthorsWrapper = ({ core }) => {
           setCurrentURL={core.setCurrentURL}
           height={700}
         />
-        {state.data.data.institution_network ||
-        state.data.data.institutions_network ? (
-          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
+        {state.data.data.coauthors_network ? (
+          <Col span={24}>
             <NetworkChart
-              data={
-                state.data.data.institution_network ||
-                state.data.data.institutions_network
-              }
-              title="Red de coautoría - Instituciones"
-              id="coa_in_"
+              data={state.data.data.coauthors_network}
+              title="Red de coautoría - Autores"
+              id="coa_au_"
+              height={600}
             />
           </Col>
         ) : (
           ""
         )}
+
         {state.data.data.faculties_network ? (
           <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
             <NetworkChart
               data={state.data.data.faculties_network}
               title="Red de coautoría - Facultades"
               id="coa_fa_"
-            />
-          </Col>
-        ) : (
-          ""
-        )}
-        {state.data.data.coauthors_network ? (
-          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8}>
-            <NetworkChart
-              data={state.data.data.coauthors_network}
-              title="Red de coautoría - Autores"
-              id="coa_au_"
             />
           </Col>
         ) : (
