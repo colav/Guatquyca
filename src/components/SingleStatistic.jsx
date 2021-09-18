@@ -23,6 +23,7 @@ const SingleStatistic = ({
   loading,
   data,
   title,
+  height = null,
   margin = 0,
   icon,
   suffix = null,
@@ -39,20 +40,21 @@ const SingleStatistic = ({
   };
 
   return (
-    <Card style={{ marginBottom: margin }}>
+    <Card
+      title={title}
+      size="small"
+      style={{ marginBottom: margin, height: height }}
+      extra={[<InfoButton key={2} text={infoText} title={title} />]}
+    >
       <Row>
         <Col span={21}>
           <Statistic
             loading={loading}
-            title={title}
             value={data}
             valueStyle={{ color: "#3f8600" }}
             prefix={prefixIcon[icon]}
             suffix={suffix}
           />
-        </Col>
-        <Col span={3}>
-          {infoText ? <InfoButton text={infoText} title={title} /> : ""}
         </Col>
       </Row>
     </Card>

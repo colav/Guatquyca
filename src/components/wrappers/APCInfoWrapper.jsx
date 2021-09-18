@@ -94,6 +94,7 @@ const APCInfoWrapper = () => {
             id="apc_gr_"
             title="Pagos de APC - Grupos"
             infoText={infoTexts.GroupAPC}
+            usd={true}
           />
         </Col>
         <Col span={24}>
@@ -102,6 +103,7 @@ const APCInfoWrapper = () => {
             id="apc_pu_"
             title="Pagos de APC - Editoriales"
             infoText={infoTexts.PublisherAPC}
+            usd={true}
           />
         </Col>
       </Row>

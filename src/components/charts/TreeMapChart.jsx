@@ -12,11 +12,18 @@ import anychart from "anychart";
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
 
-const TreeMapChart = ({ rawData, id, title, infoText }) => {
+const TreeMapChart = ({
+  rawData,
+  id,
+  title,
+  infoText,
+  usd = false,
+  height = 700,
+}) => {
   const sum = rawData.reduce((a, b) => a + b.value, 0).toLocaleString("en");
   const len = rawData.length;
   let dataSet = [
-    { id: "ALL", parent: null, name: `Total: ${sum} USD` },
+    { id: "ALL", parent: null, name: `Total: ${sum} ${usd ? "USD" : ""}` },
     { id: "Set A", parent: "ALL", name: "Set A" },
     { id: "Set B", parent: "ALL", name: "Set B" },
     { id: "Set C", parent: "ALL", name: "Set C" },
@@ -58,8 +65,12 @@ const TreeMapChart = ({ rawData, id, title, infoText }) => {
   chart.background().stroke("#EAEAE6");
   chart
     .labels()
-    .format("{%name}\n{%value}{numDecimals:2,groupsSeparator:\\,} USD");
-  chart.tooltip().format("{%value}{numDecimals:2,groupsSeparator:\\,} USD");
+    .format(
+      `{%name}\n{%value}{numDecimals:2,groupsSeparator:\\,} ${usd ? "USD" : ""}`
+    );
+  chart
+    .tooltip()
+    .format(`{%value}{numDecimals:2,groupsSeparator:\\,} ${usd ? "USD" : ""}`);
 
   return (
     <Card
@@ -76,11 +87,11 @@ const TreeMapChart = ({ rawData, id, title, infoText }) => {
       <Card
         bordered={false}
         type="inner"
-        style={{ width: "100%", height: "700px" }}
+        style={{ width: "100%", height: height }}
         cover={
           <div
             id={`${id}TreeMap_ChartContainer`}
-            style={{ width: "100%", height: "700px" }}
+            style={{ width: "100%", height: height }}
           >
             <AnyChart
               container={`${id}TreeMap_ChartContainer`}

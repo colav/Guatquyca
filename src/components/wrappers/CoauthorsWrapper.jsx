@@ -41,12 +41,14 @@ const CoauthorsWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         {state.data.data.geo.length > 0 ? (
-          <MapChart
-            rawData={state.data.data.geo}
-            title="Alcance Geográfico"
-            id="coa_in_"
-            height={639}
-          />
+          <Col xs={24} xl={16}>
+            <MapChart
+              rawData={state.data.data.geo}
+              title="Alcance Geográfico"
+              id="coa_in_"
+              height={639}
+            />
+          </Col>
         ) : (
           ""
         )}
@@ -56,7 +58,7 @@ const CoauthorsWrapper = ({ core }) => {
           height={700}
         />
         {state.data.data.coauthors_network ? (
-          <Col xs={24} lg={12}>
+          <Col xs={24} xl={12}>
             <GraphChart
               data={state.data.data.coauthors_network}
               title="Red de coautoría - Autores"
@@ -67,7 +69,7 @@ const CoauthorsWrapper = ({ core }) => {
           ""
         )}
         {state.data.data.institution_network ? (
-          <Col xs={24} lg={12}>
+          <Col xs={24} xl={12}>
             <GraphChart
               data={state.data.data.institution_network}
               title="Red de coautoría - Instituciones"

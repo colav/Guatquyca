@@ -11,7 +11,6 @@ import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
 
 /* UI Library Components */
 const Card = require("antd/lib/card").default;
-const Col = require("antd/lib/col").default;
 
 const CoauthorsMap = ({ rawData, title, id, height = 360, infoText }) => {
   const data = rawData.map((item) => ({
@@ -45,7 +44,7 @@ const CoauthorsMap = ({ rawData, title, id, height = 360, infoText }) => {
   map.background().stroke("#EAEAE6");
 
   return (
-    <Col xs={24} lg={16}>
+    <>
       <Card
         size="small"
         title={title}
@@ -71,7 +70,7 @@ const CoauthorsMap = ({ rawData, title, id, height = 360, infoText }) => {
           }
         ></Card>
       </Card>
-    </Col>
+    </>
   );
 };
 

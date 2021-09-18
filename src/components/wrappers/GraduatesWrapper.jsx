@@ -4,6 +4,7 @@ import React from "react";
 import DoughnutChart from "../charts/DoughnutChart";
 import MapChart from "../charts/MapChart";
 import NetworkChart from "../charts/NetworkChart";
+import TreeMapChart from "../charts/TreeMapChart";
 
 /* Components */
 import CollegesTable from "../CollegesTable";
@@ -43,28 +44,69 @@ const GraduatesWrapper = ({ core }) => {
   } else {
     return (
       <Row gutter={[15, 15]}>
-        <Col xs={24} lg={8}>
-          <SingleStatistic
-            data={state.data.data.papers_count}
-            title="Producción total:"
-            margin={15}
-            infoText={infoTexts.TotalProduction}
-          />
+        <Col xs={24} lg={6}>
           <DoughnutChart
-            data={state.data.data.count_by_type}
-            title="Egresados por tipo de organización"
-            id="gra_ty_"
-            height={409}
+            data={state.data.data.count_by_level}
+            title="Egresados por nivel"
+            id="gra_pro_"
+            height={400}
             infoText={infoTexts.GraduatesOrg}
           />
         </Col>
-        <MapChart
-          rawData={state.data.data.geo}
-          title="Localización de egresados autores"
-          id="gra_in_"
-          height={540}
-          infoText={infoTexts.GraduatesGeo}
-        />
+        <Col xs={24} lg={6}>
+          <DoughnutChart
+            data={state.data.data.count_by_type}
+            title="Egresados por tipo de organización"
+            id="gra_lev_"
+            height={400}
+            infoText={infoTexts.GraduatesOrg}
+          />
+        </Col>
+        <Col xs={24} lg={12}>
+          <MapChart
+            rawData={state.data.data.geo}
+            title="Localización de egresados autores"
+            id="gra_in_"
+            height={400}
+            infoText={infoTexts.GraduatesGeo}
+          />
+        </Col>
+        <Col span={24}>
+          <TreeMapChart
+            rawData={state.data.data.count_by_program}
+            id="gra_pro_"
+            title="Egresados por programa"
+            infoText=""
+            height={500}
+          />
+        </Col>
+
+        <Col xs={24} lg={8}>
+          <SingleStatistic
+            data={state.data.data.papers_count}
+            title="Producción total"
+            margin={15}
+            icon="file"
+            infoText={infoTexts.TotalProduction}
+          />
+          <DoughnutChart
+            data={state.data.data.products_by_level}
+            title="Producción por nivel educativo"
+            id="gra_pro_lev"
+            height={459}
+            infoText={infoTexts.GraduatesOrg}
+          />
+        </Col>
+        <Col xs={24} lg={16}>
+          <TreeMapChart
+            rawData={state.data.data.products_by_program}
+            id="gra_products_"
+            title="Productos por programa"
+            infoText=""
+            height={578}
+          />
+        </Col>
+
         <Col xs={24} lg={12}>
           <NetworkChart
             data={state.data.data.countries_network}

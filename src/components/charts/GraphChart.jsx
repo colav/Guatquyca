@@ -4,6 +4,9 @@ import React from "react";
 import Graphin, { Behaviors, GraphinContext } from "@antv/graphin";
 import { Tooltip } from "@antv/graphin-components";
 
+/* Components */
+import GraphLayoutSelector from "../GraphLayoutSelector";
+
 /* UI Library Components */
 const Button = require("antd/lib/button").default;
 const Card = require("antd/lib/card").default;
@@ -13,37 +16,41 @@ const notification = require("antd/lib/notification").default;
 const { ZoomCanvas, ActivateRelations, Hoverable } = Behaviors;
 
 const GraphChart = ({ data, title, type, height = 500 }) => {
+  let algo = "";
+  const len = data.nodes.length;
+  len > 50 ? (algo = "forceAtlas2") : (algo = "force");
+  const [layout, setLayout] = React.useState(algo);
+
   // Node interaction - click.
   const ClickBehavior = () => {
     const { graph } = React.useContext(GraphinContext);
 
-    React.useEffect(() => {
-      const handleClick = (evt) => {
-        const node = evt.item;
-        const model = node.getModel();
-        const btn = (
-          <Button
-            type="primary"
-            href={`/app/${type}?apikey=colavudea&data=info&id=${model.id}`}
-          >
-            Ir al perfil
-          </Button>
-        );
+    const handleClick = (evt) => {
+      console.log(evt);
+      const node = evt.item;
+      const model = node.getModel();
+      const btn = (
+        <Button
+          type="primary"
+          href={`/app/${type}?apikey=colavudea&data=info&id=${model.id}`}
+        >
+          Ir al perfil
+        </Button>
+      );
 
-        notification.open({
-          style: { width: 550, border: "2px solid #DCDCD5" },
-          message: model.style.label.value,
-          description: (
-            <>
-              <p>{model.affiliation}</p>
-              <p>Grado: {model.degree}</p>
-            </>
-          ),
-          btn,
-        });
-      };
-      graph.on("node:click", handleClick);
-    }, [graph]);
+      notification.open({
+        style: { width: 550, border: "2px solid #DCDCD5" },
+        message: model.style.label.value,
+        description: (
+          <>
+            <p>{model.affiliation}</p>
+            <p>Grado: {model.degree}</p>
+          </>
+        ),
+        btn,
+      });
+    };
+    graph.on("node:click", handleClick);
     return null;
   };
 
@@ -55,6 +62,9 @@ const GraphChart = ({ data, title, type, height = 500 }) => {
         stroke: "#3996C8",
         fill: "#52C5E6",
         fillOpacity: 0.7,
+      },
+      label: {
+        fontSize: 8,
       },
     },
   };
@@ -71,7 +81,7 @@ const GraphChart = ({ data, title, type, height = 500 }) => {
     },
   };
 
-  //
+  // Tooltip
   const CustomTooltip = () => {
     const { tooltip } = React.useContext(GraphinContext);
     let context = tooltip.edge;
@@ -86,23 +96,29 @@ const GraphChart = ({ data, title, type, height = 500 }) => {
     );
   };
 
-  let algo = "";
-  data.nodes.length > 20 ? (algo = "forceAtlas2") : (algo = "force");
-
   return (
-    <Card size="small" title={title} bodyStyle={{ padding: "10px" }} hoverable>
+    <Card
+      size="small"
+      title={title}
+      bodyStyle={{ padding: "10px" }}
+      hoverable
+      extra={
+        <GraphLayoutSelector layout={layout} setLayout={setLayout} len={len} />
+      }
+    >
       <Graphin
         data={data}
-        layout={{ type: algo }}
+        layout={{ type: layout }}
         defaultNode={defaultNode}
         defaultEdge={defaultEdge}
         height={height}
         fitView={true}
+        fitCenter={true}
       >
         <ClickBehavior />
         <Hoverable bindType="node" />
         <ZoomCanvas enableOptimize />
-        <ActivateRelations trigger="click" />
+        <ActivateRelations />
         <Tooltip bindType="edge">
           <CustomTooltip />
         </Tooltip>

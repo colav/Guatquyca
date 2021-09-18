@@ -51,6 +51,7 @@ const CitationsWrapper = () => {
           margin={15}
           icon="citations"
           infoText={infoTexts.TotalCitations}
+          height={116}
         />
         <SingleStatistic
           data={state.data.data.H}
@@ -58,6 +59,7 @@ const CitationsWrapper = () => {
           margin={15}
           icon="line"
           infoText={infoTexts.HIndex}
+          height={116}
         />
         <SingleStatistic
           data={state.data.data.H5}
@@ -65,6 +67,7 @@ const CitationsWrapper = () => {
           margin={15}
           icon="line"
           infoText={infoTexts.H5Index}
+          height={116}
         />
       </Col>
       <Col xs={24} lg={19}>
