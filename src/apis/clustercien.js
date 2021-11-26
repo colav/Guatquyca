@@ -1,6 +1,8 @@
 import { useReducer, useEffect, useState } from "react";
 import { get } from "axios";
 
+import { BASE_URL } from "../constants/routes";
+
 const initialState = {
   isLoading: true,
   isError: false,
@@ -45,7 +47,7 @@ export const APIRequest = (initialUrl) => {
       dispatch({ type: "FETCH_INIT" });
 
       try {
-        const result = await get(`http://clustercien.udea.edu.co:8888${url}`);
+        const result = await get(`${BASE_URL}${url}`);
 
         if (!didCancel) {
           dispatch({ type: "FETCH_SUCCESS", payload: result.data });
