@@ -1,30 +1,30 @@
-import React from "react";
+import React from 'react';
 
 /* Charts */
-import DoughnutChart from "../charts/DoughnutChart";
-import MapChart from "../charts/MapChart";
-import NetworkChart from "../charts/NetworkChart";
-import TreeMapChart from "../charts/TreeMapChart";
+import DoughnutChart from '../charts/DoughnutChart';
+import MapChart from '../charts/MapChart';
+import NetworkChart from '../charts/NetworkChart';
+import TreeMapChart from '../charts/TreeMapChart';
 
 /* Components */
-import CollegesTable from "../CollegesTable";
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
-import SingleStatistic from "../SingleStatistic";
+import CollegesTable from '../CollegesTable';
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
+import SingleStatistic from '../SingleStatistic';
 
 /* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-import { infoTexts } from "../../helpers/infoTexts";
-const queryString = require("query-string");
+import history from '../../history';
+import { APIRequest } from '../../apis/clustercien';
+import { infoTexts } from '../../helpers/infoTexts';
+const queryString = require('query-string');
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+const Col = require('antd/lib/col').default;
+const Row = require('antd/lib/row').default;
 
 const GraduatesWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "graduates";
+  parsedGlobalURL['data'] = 'graduates';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}`;
@@ -37,7 +37,7 @@ const GraduatesWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         <Col span={24}>
-          <LoadingCard title={"Información de egresados"} height={"431px"} />
+          <LoadingCard title={'Información de egresados'} height={'431px'} />
         </Col>
       </Row>
     );

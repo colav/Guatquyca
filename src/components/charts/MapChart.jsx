@@ -1,77 +1,90 @@
-import React from "react";
+import React from 'react';
 
 /* Libraries */
-import AnyChart from "anychart-react";
-import anychart from "anychart";
+import { AreaMap } from '@ant-design/charts';
 
-/* Components */
-import InfoButton from "../InfoButton";
-import ExportSVGAnyChart from "../ExportSVGAnyChart";
-import ExportXLSXAnyChart from "../ExportXLSXAnyChart";
+/* UI Library Compoments */
+import { Card } from 'antd';
 
-/* UI Library Components */
-const Card = require("antd/lib/card").default;
+/* Componentes */
+import InfoButton from '../infoButton';
+import MapLegendMaker from '../../utils/MapLegendMaker';
 
-const CoauthorsMap = ({ rawData, title, id, height = 360, infoText }) => {
-  const data = rawData.map((item) => ({
-    id: item.country_code,
-    value: item.log_count,
-    count: item.count,
-    name: item.country,
-  }));
-  let map = anychart.map().geoData(anychart.maps.world);
+const MapChart = ({ data, title = '', height = 600, type }) => {
+  const max = Math.max(
+    ...data.features.map((item) => item.properties.count)
+  ).toString();
 
-  let series = map.choropleth(data);
-  series.tooltip().format("Total: {%count}\nAlfa-2: {%id}");
-  series.colorScale(
-    anychart.scales.linearColor(
-      "#f7fcf0",
-      "#e0f3db",
-      "#ccebc5",
-      "#a8ddb5",
-      "#7bccc4",
-      "#4eb3d3",
-      "#2b8cbe",
-      "#0868ac",
-      "#084081"
-    )
-  );
-  series.stroke("black 0.5");
-
-  map.listen("pointClick", function (e) {
-    map.zoomToFeature(e.point.get("id"));
-  });
-  map.background().stroke("#EAEAE6");
+  const config = {
+    map: {
+      type: 'mapbox',
+      style: 'blank',
+    },
+    source: {
+      data: data,
+      parser: {
+        type: 'geojson',
+      },
+    },
+    autoFit: true,
+    color: {
+      field: 'log_count',
+      value: [
+        '#f7fcf0',
+        '#e0f3db',
+        '#ccebc5',
+        '#a8ddb5',
+        '#7bccc4',
+        '#4eb3d3',
+        '#2b8cbe',
+        '#0868ac',
+        '#084081',
+      ],
+      scale: { type: 'quantize' },
+    },
+    style: {
+      opacity: 1,
+      stroke: '#ccc',
+      lineWidth: 0.6,
+      lineOpacity: 1,
+    },
+    state: {
+      active: {
+        stroke: 'white',
+        lineWidth: 1.5,
+        lineOpacity: 0.8,
+      },
+    },
+    tooltip: {
+      items: [
+        { field: 'name', alias: 'País' },
+        { field: 'count', alias: 'Cantidad' },
+      ],
+    },
+    zoom: {
+      position: 'bottomright',
+    },
+    legend: {
+      position: 'bottomleft',
+      customContent: (title, items) => {
+        return MapLegendMaker(items, max);
+      },
+    },
+  };
 
   return (
-    <>
-      <Card
-        size="small"
-        title={title}
-        bodyStyle={{ padding: "10px" }}
-        hoverable
-        extra={[
-          <ExportXLSXAnyChart key={0} chart={map} />,
-          <ExportSVGAnyChart key={1} chart={map} />,
-          <InfoButton key={2} text={infoText} title={title} />,
-        ]}
-      >
-        <Card
-          bordered={false}
-          type="inner"
-          style={{ width: "100%", height: height }}
-          cover={
-            <div
-              id={`${id}Map_ChartContainer`}
-              style={{ width: "100%", height: height }}
-            >
-              <AnyChart container={`${id}Map_ChartContainer`} instance={map} />
-            </div>
-          }
-        ></Card>
-      </Card>
-    </>
+    <Card
+      size="small"
+      title={title}
+      headStyle={{ backgroundColor: '#003e65', color: 'white' }}
+      bodyStyle={{ padding: '10px', height: height }}
+      extra={<InfoButton title={title} type={type} />}
+    >
+      <div className="chart">
+        <AreaMap {...config} />
+      </div>
+    </Card>
   );
 };
 
-export default CoauthorsMap;
+export default MapChart;

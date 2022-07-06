@@ -1,40 +1,71 @@
-import React from "react";
+import React from 'react';
 
 /* Libraries */
-import AnyChart from "anychart-react";
-import anychart from "anychart";
+import { WordCloud } from '@ant-design/charts';
 
 /* UI Library Components */
-const Card = require("antd/lib/card").default;
+import { Card, Badge } from 'antd';
 
-const WordCloudChart = ({ data, id, height = 200 }) => {
-  let chart = anychart.tagCloud(data);
-  chart
-    .tooltip()
-    .format("Frecuencia: {%value}\nPorcentaje del total: {%yPercentOfTotal}%");
-  chart.angles([0]);
-  chart.background().stroke("#EAEAE6");
-  chart.scale(anychart.scales.log());
-  chart.normal().fontWeight(600);
-  chart.textSpacing(0.5);
+/* Componentes */
+import InfoButton from '../infoButton';
+
+/* Utilities */
+import { useHistory } from 'react-router-dom';
+
+const WordCloudChart = ({ title, data, core }) => {
+  const history = useHistory();
+  let config = {
+    data: data,
+    wordField: 'name',
+    weightField: 'products',
+    colorField: 'name',
+    wordStyle: {
+      fontFamily: 'Verdana',
+      fontSize: [20, 100],
+      rotation: 0,
+    },
+    tooltip: {
+      customContent: (title, datum) => {
+        return (
+          <>
+            <h3 style={{ margin: '10px 0' }}>
+              <Badge color={datum[0]?.color} />
+              {datum[0]?.name}
+            </h3>
+            <h4>Productos: &emsp; {datum[0]?.data?.datum?.products}</h4>
+            <h4>Citaciones: &emsp; {datum[0]?.data?.datum?.citations}</h4>
+          </>
+        );
+      },
+    },
+    random: function random() {
+      return 0.5;
+    },
+  };
 
   return (
     <Card
-      bordered={false}
-      type="inner"
-      style={{ width: "100%", height: height }}
-      cover={
-        <div
-          style={{ width: "100%", height: height }}
-          id={`${id}WordCloud_ChartContainer`}
-        >
-          <AnyChart
-            container={`${id}WordCloud_ChartContainer`}
-            instance={chart}
-          />
-        </div>
-      }
-    ></Card>
+      size="small"
+      title={title}
+      headStyle={{ backgroundColor: '#003e65', color: 'white' }}
+      bodyStyle={{ padding: '10px', height: '420px' }}
+      hoverable
+      extra={<InfoButton title="Temas" type={'subjects'} />}
+    >
+      <div className="chart">
+        <WordCloud
+          {...config}
+          onReady={(plot) => {
+            plot.on('plot:click', (evt) => {
+              if (evt.data) {
+                history.push(`/app/subjects?id=${evt.data.data.datum.id}`);
+                core.setURL(`/app/subjects?id=${evt.data.data.datum.id}`);
+              }
+            });
+          }}
+        />
+      </div>
+    </Card>
   );
 };
 

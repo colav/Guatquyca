@@ -1,26 +1,25 @@
-import React from "react";
+import React from 'react';
 
 /* Components */
-import ErrorWarning from "../ErrorWarning";
-import CoauthorsList from "../CoauthorsList";
-import LoadingCard from "../LoadingCard";
+import ErrorWarning from '../ErrorWarning';
+import CoauthorsList from '../CoauthorsList';
+import LoadingCard from '../LoadingCard';
 
 /* Charts */
-import MapChart from "../charts/MapChart";
-import GraphChart from "../charts/GraphChart";
-
-/* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-const queryString = require("query-string");
+import MapChart from '../charts/MapChart';
+import GraphChart from '../charts/GraphChart';
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+import { Col, Row } from 'antd';
+
+/* Utilities */
+import history from '../../history';
+import { APIRequest } from '../../apis/clustercien';
+const queryString = require('query-string');
 
 const CoauthorsWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "coauthors";
+  parsedGlobalURL['data'] = 'coauthors';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}`;
@@ -33,7 +32,7 @@ const CoauthorsWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         <Col span={24}>
-          <LoadingCard title={"Información de Coautorías"} height={"431px"} />
+          <LoadingCard title={'Información de Coautorías'} height={'431px'} />
         </Col>
       </Row>
     );
@@ -50,7 +49,7 @@ const CoauthorsWrapper = ({ core }) => {
             />
           </Col>
         ) : (
-          ""
+          ''
         )}
         <CoauthorsList
           data={state.data.data.coauthors || state.data.data.institutions}
@@ -66,7 +65,7 @@ const CoauthorsWrapper = ({ core }) => {
             />
           </Col>
         ) : (
-          ""
+          ''
         )}
         {state.data.data.institution_network ? (
           <Col xs={24} xl={12}>
@@ -77,7 +76,7 @@ const CoauthorsWrapper = ({ core }) => {
             />
           </Col>
         ) : (
-          ""
+          ''
         )}
       </Row>
     );

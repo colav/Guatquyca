@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 /* Components */
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
-import SingleStatistic from "../SingleStatistic";
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
+import SingleStatistic from '../SingleStatistic';
 
 /* Charts */
-import YearlyCitationsChart from "../charts/YearlyCitationsChart";
-
-/* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-import { infoTexts } from "../../helpers/infoTexts";
-const queryString = require("query-string");
+import YearlyCitationsChart from '../charts/YearlyCitationsChart';
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+import { Col, Row } from 'antd';
+
+/* Utilities */
+import history from '../../history';
+import { APIRequest } from '../../apis/clustercien';
+import { infoTexts } from '../../helpers/infoTexts';
+const queryString = require('query-string');
 
 const CitationsWrapper = () => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "citations";
+  parsedGlobalURL['data'] = 'citations';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}`;
@@ -37,7 +36,7 @@ const CitationsWrapper = () => {
     return (
       <Row gutter={[15, 15]}>
         <Col span={24}>
-          <LoadingCard title={"Información de citas"} height={"431px"} />
+          <LoadingCard title={'Información de citas'} height={'431px'} />
         </Col>
       </Row>
     );

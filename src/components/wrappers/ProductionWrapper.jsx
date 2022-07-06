@@ -1,29 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 /* Components */
-import DocumentList from "../DocumentList";
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
+import DocumentList from '../DocumentList';
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
 
 /* Charts */
-import DoughnutChart from "../charts/DoughnutChart";
-import VennChart from "../charts/VennChart";
-
-/* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-import { infoTexts } from "../../helpers/infoTexts";
+import DoughnutChart from '../charts/DoughnutChart';
+import VennChart from '../charts/VennChart';
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+import { Col, Row } from 'antd';
 
 /* Utilities */
-const queryString = require("query-string");
+import history from '../../history';
+import { APIRequest } from '../../apis/clustercien';
+import { infoTexts } from '../../helpers/infoTexts';
+
+/* Utilities */
+const queryString = require('query-string');
 
 const ProductionWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "production";
+  parsedGlobalURL['data'] = 'production';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}&max=10&page=1`;
@@ -60,13 +59,13 @@ const ProductionWrapper = ({ core }) => {
     return (
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={12}>
-          <LoadingCard title="Open Access" height={"461px"} />
+          <LoadingCard title="Open Access" height={'461px'} />
         </Col>
         <Col xs={24} sm={24} md={12}>
-          <LoadingCard title="Fuentes Bibliográficas" height={"461px"} />
+          <LoadingCard title="Fuentes Bibliográficas" height={'461px'} />
         </Col>
         <Col xs={24}>
-          <LoadingCard title="Artículos" height={"450px"} />
+          <LoadingCard title="Artículos" height={'450px'} />
         </Col>
       </Row>
     );

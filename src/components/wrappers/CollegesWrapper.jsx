@@ -1,22 +1,21 @@
-import React from "react";
+import React from 'react';
 
 /* Components */
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
-import CollegesTable from "../CollegesTable";
-
-/* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-const queryString = require("query-string");
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
+import CollegesTable from '../CollegesTable';
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+import { Col, Row } from 'antd';
+
+/* Utilities */
+import history from '../../history';
+import { APIRequest } from '../../apis/clustercien';
+const queryString = require('query-string');
 
 const CollegesWrapper = ({ core }) => {
   let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "colleges";
+  parsedGlobalURL['data'] = 'colleges';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}`;
@@ -30,8 +29,8 @@ const CollegesWrapper = ({ core }) => {
       <Row gutter={[15, 15]}>
         <Col span={24}>
           <LoadingCard
-            title={"Información de los Colegios Invisibles"}
-            height={"431px"}
+            title={'Información de los Colegios Invisibles'}
+            height={'431px'}
           />
         </Col>
       </Row>

@@ -1,7 +1,5 @@
-import { useReducer, useEffect, useState } from "react";
-import { get } from "axios";
-
-import { BASE_URL } from "../constants/routes";
+import { useReducer, useEffect, useState } from 'react';
+import { get } from 'axios';
 
 const initialState = {
   isLoading: true,
@@ -11,20 +9,20 @@ const initialState = {
 
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_INIT":
+    case 'FETCH_INIT':
       return {
         ...state,
         isLoading: true,
         isError: false,
       };
-    case "FETCH_SUCCESS":
+    case 'FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: action.payload,
       };
-    case "FETCH_FAILURE":
+    case 'FETCH_FAILURE':
       return {
         ...state,
         isLoading: false,
@@ -44,17 +42,17 @@ export const APIRequest = (initialUrl) => {
     let didCancel = false;
 
     const fetchData = async () => {
-      dispatch({ type: "FETCH_INIT" });
+      dispatch({ type: 'FETCH_INIT' });
 
       try {
-        const result = await get(`${BASE_URL}${url}`);
+        const result = await get(`${process.env.REACT_APP_API_URL}${url}`);
 
         if (!didCancel) {
-          dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+          dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: "FETCH_FAILURE" });
+          dispatch({ type: 'FETCH_FAILURE' });
         }
       }
     };

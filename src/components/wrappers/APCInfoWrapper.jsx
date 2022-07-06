@@ -1,31 +1,33 @@
-import React from "react";
+import React from 'react';
 
 /* Components */
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
 
 /* Charts */
-import DoughnutChart from "../charts/DoughnutChart";
-import LineChartCard from "../charts/LineChartCard";
-import TreeMapChart from "../charts/TreeMapChart";
-
-/* Utilities */
-import history from "../../history";
-import { APIRequest } from "../../apis/clustercien";
-import { infoTexts } from "../../helpers/infoTexts";
-const queryString = require("query-string");
+import DoughnutChart from '../charts/DoughnutChart';
+import LineChartCard from '../charts/LineChartCard';
+import TreeMapChart from '../charts/TreeMapChart';
 
 /* UI Library Components */
-const Col = require("antd/lib/col").default;
-const Row = require("antd/lib/row").default;
+import { Col, Row } from 'antd';
+
+/* Utilities */
+import { useLocation } from 'react-router-dom';
+import { APIRequest } from '../../apis/clustercien';
+import { infoTexts } from '../../helpers/infoTexts';
+const queryString = require('query-string');
 
 const APCInfoWrapper = () => {
-  let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL["data"] = "apc";
+  const location = useLocation();
+  const [state] = APIRequest(`${location.pathname}${location.search}&data=apc`);
+
+  /* let parsedGlobalURL = queryString.parse(history.location.search);
+  parsedGlobalURL['data'] = 'apc';
   const builtURL = `${history.location.pathname}?${queryString.stringify(
     parsedGlobalURL
   )}`;
-  const [state] = APIRequest(builtURL);
+  const [state] = APIRequest(builtURL); */
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -34,7 +36,7 @@ const APCInfoWrapper = () => {
     return (
       <Row gutter={[15, 15]}>
         <Col span={24}>
-          <LoadingCard title={"Pagos de APC por año"} height={"431px"} />
+          <LoadingCard title={'Pagos de APC por año'} height={'431px'} />
         </Col>
       </Row>
     );
@@ -42,14 +44,14 @@ const APCInfoWrapper = () => {
     const facultyData = {};
     for (const key in state.data.data.faculty) {
       let name = state.data.data.faculty[key].name;
-      facultyData[name.replace("Facultad de", "Fac.")] =
+      facultyData[name.replace('Facultad de', 'Fac.')] =
         state.data.data.faculty[key].value;
     }
 
     const departmentData = {};
     for (const key in state.data.data.department) {
       let name = state.data.data.department[key].name;
-      departmentData[name.replace("Departamento de", "Depto.")] =
+      departmentData[name.replace('Departamento de', 'Depto.')] =
         state.data.data.department[key].value;
     }
 

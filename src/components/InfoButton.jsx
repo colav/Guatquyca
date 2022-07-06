@@ -1,21 +1,28 @@
-import React from "react";
+import React from 'react';
 
 /* UI Library Components */
-const Modal = require("antd/lib/modal").default;
+import { Modal } from 'antd';
 
 /* Icons */
-const InfoCircleOutlined =
-  require("@ant-design/icons/InfoCircleOutlined").default;
+import { InfoCircleOutlined } from '@ant-design/icons';
 
-const InfoButton = ({ text, title = "Información" }) => {
+/* Utitlites */
+import { infoText } from '../utils/infoText';
+
+const InfoButton = ({ title = 'Información', type }) => {
   const info = () => {
-    Modal.info({ title: title, content: text, width: "700px" });
+    Modal.info({
+      title: title,
+      content: infoText[type],
+      width: '700px',
+      maskClosable: true,
+    });
   };
 
   return (
     <InfoCircleOutlined
       onClick={info}
-      style={{ color: "#063966", fontSize: "20px" }}
+      style={{ color: '#063966', fontSize: '20px' }}
     />
   );
 };
