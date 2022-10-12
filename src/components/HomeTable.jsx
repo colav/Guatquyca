@@ -32,8 +32,23 @@ const HomeTable = () => {
     },
     {
       key: '6',
-      search: 'Literatura',
+      search: 'Productos',
       example: 'dark matter',
+    },
+    {
+      key: '7',
+      search: 'Proyectos',
+      example: 'ejemplo',
+    },
+    {
+      key: '8',
+      search: 'Convenios',
+      example: 'ejemplo',
+    },
+    {
+      key: '9',
+      search: 'Emprendimientos',
+      example: 'ejemplo',
     },
   ];
 

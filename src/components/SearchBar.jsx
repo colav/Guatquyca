@@ -33,9 +33,24 @@ const OPTIONS = [
     key: 'institutions',
   },
   {
-    label: 'Literatura',
+    label: 'Productos',
     value: 'literature',
     key: 'literature',
+  },
+  {
+    label: 'Proyectos',
+    value: 'projects',
+    key: 'projects',
+  },
+  {
+    label: 'Convenios',
+    value: 'agreements',
+    key: 'agreements',
+  },
+  {
+    label: 'Emprendimientos',
+    value: 'entrepreneurship',
+    key: 'entrepreneurship',
   },
 ];
 
@@ -50,7 +65,7 @@ const SearchBar = () => {
       )
     ); */
     navigate(
-      `/app/search?data=${selected.value}&max=10&page=1`.concat(
+      `/app/search?data=${selected.value}&max=10&page=1&sort=citations`.concat(
         input ? `&keywords=${input}` : ''
       )
     );
@@ -64,7 +79,8 @@ const SearchBar = () => {
           labelInValue="true"
           defaultValue={OPTIONS[0]}
           onSelect={setSelected}
-          dropdownMatchSelectWidth={127}
+          dropdownMatchSelectWidth={137}
+          listHeight={300}
         />
       }
       placeholder={'Búsqueda por palabra clave'}

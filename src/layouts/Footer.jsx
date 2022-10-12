@@ -95,7 +95,7 @@ const Footer = () => {
           <Link to="/app/help">Ayuda</Link>
           <br />
           <a
-            href="http://impactu.colav.co:8888/apidoc/index.html"
+            href="http://impactu.colav.co:8080/apidoc/index.html"
             target="_blank"
             rel="noreferrer"
           >
@@ -106,9 +106,9 @@ const Footer = () => {
           <div style={{ marginBottom: '10px' }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 2.0.1
+          ImpactU Versión 2.0.2
           <br />
-          Última actualización: 26/05/2022
+          Última actualización: 11/10/2022
           <br />
           Hecho en Colombia
         </Col>

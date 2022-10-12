@@ -36,8 +36,8 @@ const Home = ({ core }) => {
       <Row justify="space-around" align="middle">
         <Col flex sm={24} xl={10} xxl={8}>
           <div id="home__head--title">
-            <Title>Bienvenido a ImpactU</Title>
-            <Title level={2}>
+            <Title style={{ marginBottom: '15px' }}>Bienvenido a ImpactU</Title>
+            <Title level={2} style={{ marginTop: 0 }}>
               Métricas sobre la producción universitaria y su relación con el
               entorno en Colombia.
             </Title>
@@ -46,13 +46,14 @@ const Home = ({ core }) => {
         <Col
           sm={24}
           xl={12}
-          xxl={10}
+          xxl={12}
           style={{ margin: '20px 5px 0 5px', textAlign: 'center' }}
         >
           <Card size="small" style={{ borderRadius: '10px' }} hoverable>
             <Title level={4}>
               La información puede ser consultada por autores, instituciones,
-              facultades, departamentos, grupos de investigación o productos.
+              facultades, departamentos, grupos de investigación, productos,
+              proyectos, convenios y emprendimientos.
             </Title>
             <div className="searchbar--container">
               <SearchBar core={core} />
@@ -64,8 +65,8 @@ const Home = ({ core }) => {
               style={{ textAlign: 'left', padding: '0 16px', marginBottom: 0 }}
             >
               * Los indicadores aquí presentados buscan cumplir con los
-              principios de métricas responsables, para mayor información por
-              favor sigue este{' '}
+              principios de métricas responsables, para más información sigue
+              este{' '}
               <Link
                 to="/app/metrics"
                 /*  onClick={() => core.setURL('/app/metrics')} */

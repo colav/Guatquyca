@@ -9,6 +9,7 @@ import FilterDrawer from './layouts/FilterDrawer';
 /* Modules */
 import About from './components/modules/About';
 import Home from './components/modules/Home';
+import Institutions from './components/modules/Institutions';
 import Metrics from './components/modules/Metrics';
 import Participants from './components/modules/Participants';
 import SearchResult from './components/modules/SearchResult';
@@ -38,6 +39,10 @@ function App() {
             <Route path="/app/participants" element={<Participants />} />
             <Route path="/app/about" element={<About />} />
             <Route path="/app/search" element={<SearchResult core={core} />} />
+            <Route
+              path="/app/institutions"
+              element={<Institutions core={core} />}
+            />
           </Routes>
         </Layout.Content>
       </Layout>

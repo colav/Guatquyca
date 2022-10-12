@@ -27,10 +27,6 @@ a {
   padding: 7px 0 7px 10px;
 }
 
-.ant-input-group-addon {
-  border-radius: 4px;
-}
-
 .ant-input-group-wrapper {
   vertical-align: middle;
   padding: 0 5px;
@@ -91,6 +87,30 @@ a {
   min-height: 70vh;
   position: relative;
   margin: 15px;
+}
+
+.pattern {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background-size: cover;
+  background-image: url(/src/media/pattern.svg);
+}
+
+.first-category-tabs--container {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.first-category-tabs {
+  border-radius: 0 0 15px 15px;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.list-card--container {
+  height: 359px;
+  overflow: auto;
 }
 
 /* ----- SIDEBAR ----- */
@@ -174,5 +194,71 @@ a {
     font-weight: 600;
     text-shadow: none;
     margin: 20px 0 0 0;
+  }
+}
+
+/* ----- UI LIBRARY OVERWRITE ----- */
+
+.white-text {
+  color: white;
+  display: inline;
+}
+
+.ant-avatar > img {
+  object-fit: contain;
+}
+
+.ant-tabs-nav {
+  border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+.ant-card-head {
+  background-color: #e6e8e8;
+  color: #184571;
+}
+
+h2.ant-typography {
+  color: #053d4b;
+}
+
+/* Spinner */
+
+.loading-card__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 370px;
+  background: rgb(240, 242, 245);
+  background: linear-gradient(
+    180deg,
+    rgba(240, 242, 245, 1) 0%,
+    rgba(226, 230, 236, 1) 100%
+  );
+}
+
+#loading-text {
+  margin-top: 20px;
+  color: rgb(128, 128, 128);
+}
+
+.rotate-center {
+  margin: 0 auto;
+  width: 25px;
+  height: 25px;
+  animation: rotate-scale-up 2.5s ease-in-out infinite both;
+}
+
+@keyframes rotate-scale-up {
+  0% {
+    transform: scale(1) rotateZ(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(2) rotateZ(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotateZ(450deg);
+    opacity: 0.2;
   }
 }

@@ -1,46 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 /* Wrappers */
-import APCInfoWrapper from '../wrappers/APCInfoWrapper';
-import CitationsWrapper from '../wrappers/CitationsWrapper';
-import CoauthorsWrapper from '../wrappers/CoauthorsWrapper';
-import CollegesWrapper from '../wrappers/CollegesWrapper';
-import GraduatesWrapper from '../wrappers/GraduatesWrapper';
-import MediaWrapper from '../wrappers/MediaWrapper';
-import ProductionWrapper from '../wrappers/ProductionWrapper';
+import AffiliationWrapper from '../wrappers/AffiliationWrapper';
+import ExtensionWrapper from '../wrappers/ExtensionWrapper';
+import ResearchWrapper from '../wrappers/ResearchWrapper';
+import CooperationWrapper from '../wrappers/CooperationWrapper';
 
 /* Components */
 import CommonTitleCard from '../CommonTitleCard';
 import ErrorWarning from '../ErrorWarning';
-import ListCard from '../ListCard';
+/* import ListCard from '../ListCard'; */
 
 /* UI Library Components */
-import { Col, Row, Tabs } from 'antd';
+import { Col, Menu, Row, Tabs } from 'antd';
 
 /* Utilities */
-import URLBuilder from '../../helpers/URLBuilder';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { APIRequest } from '../../apis/clustercien';
-import history from '../../history';
-const queryString = require('query-string');
+import FirstCategoryTabs from '../FirstCategoryTabs';
+/* const queryString = require('query-string'); */
 
 /* UI Library Sub-components */
 const { TabPane } = Tabs;
 
 const Institutions = ({ core }) => {
-  let parsedGlobalURL = queryString.parse(history.location.search);
-  parsedGlobalURL['data'] = 'info';
-  const builtURL = `${history.location.pathname}?${queryString.stringify(
-    parsedGlobalURL
-  )}`;
-  const [state, setUrl] = APIRequest(builtURL);
+  const location = useLocation();
+  const [currentTab, setCurrentTab] = useState('affiliations');
+  const [state, setUrl] = APIRequest(
+    `${location.pathname}${location.search}&apikey=colavudea&data=info`
+  );
 
-  window.addEventListener('popstate', () => {
-    core.setCurrentURL(URLBuilder());
-  });
-
-  useEffect(() => {
-    setUrl(builtURL);
-  }, [builtURL, setUrl]);
+  const items = [
+    {
+      label: 'Afiliaciones',
+      key: 'affiliations',
+    },
+    { label: 'Investigación', key: 'research' },
+    { label: 'Extensión', key: 'extension' },
+    { label: 'Cooperación', key: 'cooperation' },
+  ];
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -48,45 +46,51 @@ const Institutions = ({ core }) => {
     return '';
   }
   return (
-    <Row gutter={[15, 15]}>
-      <CommonTitleCard
-        title={state.data.name}
-        abbreviation={state.data.abbreviations}
-        external_urls={state.data.external_urls}
-        logo={state.data.logo}
-        setCurrentURL={core.setCurrentURL}
-      />
-      <Col xs={24}>
-        <Tabs defaultActiveKey={'affiliations'} type="card" tabBarGutter={5}>
-          <TabPane tab="Afiliaciones" key="affiliations">
-            <Row gutter={15}>
-              <Col xs={24} md={8}>
-                <ListCard
-                  title={'faculties'}
-                  list={state.data.faculties}
-                  setCurrentURL={core.setCurrentURL}
-                />
-              </Col>
-              <Col xs={24} md={8}>
-                <ListCard
-                  title={'departments'}
-                  list={state.data.departments}
-                  setCurrentURL={core.setCurrentURL}
-                />
-              </Col>
-              <Col xs={24} md={8}>
-                <ListCard
-                  title={'groups'}
-                  list={state.data.groups}
-                  setCurrentURL={core.setCurrentURL}
-                />
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tab="Producción" key="production" forceRender>
-            <ProductionWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Citaciones" key="citations" forceRender>
+    <>
+      <Row gutter={[15, 15]}>
+        <CommonTitleCard
+          title={state.data.name}
+          abbreviation={state.data.abbreviations}
+          external_urls={state.data.external_urls}
+          logo={state.data.logo}
+          setCurrentURL={core.setCurrentURL}
+        />
+      </Row>
+      <FirstCategoryTabs items={items} setCurrentTab={setCurrentTab} />
+      {currentTab === 'affiliations' ? (
+        <AffiliationWrapper data={state.data} />
+      ) : (
+        ''
+      )}
+      {currentTab === 'research' ? <ResearchWrapper core={core} /> : ''}
+      {currentTab === 'extension' ? <ExtensionWrapper /> : ''}
+      {currentTab === 'cooperation' ? <CooperationWrapper /> : ''}
+      {/* <Tabs
+            defaultActiveKey={'production'}
+            type="card"
+            tabBarGutter={5}
+            items={[
+              {
+                label: 'Productos',
+                key: 'products',
+                children: <ProductionWrapper core={core} />,
+              },
+              {
+                label: 'Proyectos',
+                key: 'projects',
+                children: '',
+              },
+              {
+                label: 'Noticias',
+                key: 'news',
+                children: '',
+              },
+            ]}
+          /> */}
+      {/* <TabPane tab="Producción" key="production" forceRender>
+              <ProductionWrapper core={core} />
+            </TabPane> */}
+      {/* <TabPane tab="Citaciones" key="citations" forceRender>
             <CitationsWrapper />
           </TabPane>
           <TabPane tab="Coautorías" key="coauthors" forceRender>
@@ -103,10 +107,8 @@ const Institutions = ({ core }) => {
           </TabPane>
           <TabPane tab="Noticias" key="news">
             <MediaWrapper />
-          </TabPane>
-        </Tabs>
-      </Col>
-    </Row>
+          </TabPane> */}
+    </>
   );
 };
 

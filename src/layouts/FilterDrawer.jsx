@@ -57,7 +57,7 @@ const FilterDrawer = ({ core }) => {
         placement={'left'}
         style={{ zIndex: 1002 }}
         onClose={onClose}
-        visible={visible}
+        open={visible}
         /* bodyStyle={{ padding: 0 }} */
         footer={
           <Button size="large" /* onClick={onClick} */>Limpiar Filtros</Button>
