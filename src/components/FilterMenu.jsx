@@ -78,6 +78,8 @@ const FilterMenu = ({ core, onClose }) => {
     onClose();
   }; */
 
+  const filters = { start_year: 1990, end_year: 2020 };
+
   useEffect(() => {
     //core.setFilters(null);
     setInstitutions('');
@@ -86,98 +88,164 @@ const FilterMenu = ({ core, onClose }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [core.URL]);
 
+  const items = [
+    {
+      label: 'Rango de años',
+      key: '0',
+      children: [
+        {
+          label: 'Año de inicio',
+          key: '0-0',
+          children: [
+            {
+              label: (
+                <div style={{ width: '100%' }}>
+                  <YearsRangeFilter filters={filters} />
+                </div>
+              ),
+              key: '0-0-0',
+            },
+          ],
+        },
+        {
+          label: 'Año de finalización',
+          key: '0-1',
+          children: [
+            {
+              label: <YearsRangeFilter filters={filters} />,
+              key: '0-1-0',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Institución',
+      key: '1',
+      children: [
+        {
+          label: 'Tipo',
+          key: '1-0',
+          children: [
+            { label: 'Empresa', key: '1-0-0' },
+            { label: 'Gobierno', key: '1-0-1' },
+            { label: 'Universidad', key: '1-0-2' },
+            { label: 'Otras', key: '1-0-3' },
+          ],
+        },
+        {
+          label: 'Origen',
+          key: '1-1',
+          children: [
+            { label: 'Nacional', key: '1-1-0' },
+            { label: 'Extranjera', key: '1-1-1' },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Facultad',
+      key: '2',
+    },
+    {
+      label: 'Departamento',
+      key: '3',
+    },
+    {
+      label: 'Grupo de investigación',
+      key: '4',
+    },
+    {
+      label: 'Investigador Principal',
+      key: '5',
+    },
+    {
+      label: 'País',
+      key: '6',
+    },
+    {
+      label: 'Tipo de Producto',
+      key: '7',
+      children: [
+        {
+          label: 'Generación de conocimiento',
+          key: '7-0',
+          children: [
+            { label: 'Artículo de Investigación', key: '7-0-0' },
+            { label: 'Libro', key: '7-0-1' },
+            { label: 'etc.', key: '7-0-2' },
+          ],
+        },
+        {
+          label: 'Técnico o tecnológico',
+          key: '7-1',
+          children: [
+            { label: 'Secreto Industrial', key: '7-1-0' },
+            { label: 'etc', key: '7-1-1' },
+          ],
+        },
+        {
+          label: 'Apropiación Social',
+          key: '7-2',
+          children: [
+            { label: 'Libro de divulgación', key: '7-2-0' },
+            { label: 'etc', key: '7-2-1' },
+          ],
+        },
+        {
+          label: 'Formación',
+          key: '7-3',
+          children: [
+            { label: 'Trabajo de grado', key: '7-3-0' },
+            { label: 'Tesis de maestría', key: '7-3-1' },
+            { label: 'etc', key: '7-3-2' },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Acceso',
+      key: '8',
+      children: [
+        {
+          label: 'Cerrado',
+          key: '8-0',
+        },
+        {
+          label: 'Abierto',
+          key: '8-1',
+          children: [
+            { label: 'Dorado', key: '8-1-0' },
+            { label: 'Verde', key: '8-1-1' },
+            { label: 'Bronce', key: '8-1-2' },
+            { label: 'Híbrido', key: '8-1-3' },
+            { label: 'Sin identificar', key: '8-1-4' },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Bases de dato de origen',
+      key: '9',
+      children: [
+        { label: 'WoS', key: '9-0' },
+        { label: 'Scopus', key: '9-1' },
+        { label: 'Scienti', key: '9-2' },
+        { label: 'Lens', key: '9-3' },
+        { label: 'Scielo', key: '9-4' },
+        { label: 'D-Space', key: '9-5' },
+      ],
+    },
+  ];
+
   return (
     <Menu
       mode="inline"
       openKeys={openKeys}
+      items={items}
       onOpenChange={onOpenChange}
       selectable={false}
-    >
-      {core.filters?.institutions ? (
-        <SubMenu
-          key="institutions"
-          title="Instituciones"
-          icon={<BankOutlined />}
-        >
-          <Menu.Item key="1" style={{ height: 'auto' }}>
-            <FilterMultipleSelect
-              list={core.filters?.institutions}
-              setFilter={setInstitutions}
-            />
-            <div className="filter__button">
-              <Button
-                size="small"
-                type="primary"
-                /*  onClick={() => onClick('institutions')} */
-                disabled={institutions ? false : true}
-              >
-                Aplicar Filtro
-              </Button>
-            </div>
-          </Menu.Item>
-        </SubMenu>
-      ) : (
-        <SubMenu
-          key="institutions"
-          title="Instituciones"
-          icon={<BankOutlined />}
-          disabled={true}
-        />
-      )}
-      {core.filters?.groups ? (
-        <SubMenu key="groups" title="Grupos" icon={<TeamOutlined />}>
-          <Menu.Item key="2" style={{ height: 'auto' }}>
-            <FilterMultipleSelect
-              list={core.filters?.groups}
-              setFilter={setGroups}
-            />
-            <div className="filter__button">
-              <Button
-                size="small"
-                type="primary"
-                /* onClick={() => onClick('groups')} */
-                disabled={groups ? false : true}
-              >
-                Aplicar Filtro
-              </Button>
-            </div>
-          </Menu.Item>
-        </SubMenu>
-      ) : (
-        <SubMenu
-          key="groups"
-          title="Grupos"
-          icon={<TeamOutlined />}
-          disabled={true}
-        />
-      )}
-      {core.filters?.start_year ? (
-        <SubMenu key="years" title="Rango de años" icon={<CalendarOutlined />}>
-          <Menu.Item key="3" style={{ height: 'auto' }}>
-            {core.filters?.start_year && (
-              <YearsRangeFilter filters={core.filters} setYears={setYears} />
-            )}
-            <div className="filter__button">
-              <Button
-                size="small"
-                type="primary"
-                /* onClick={() => onClick('years')} */
-                disabled={years ? false : true}
-              >
-                Aplicar Filtro
-              </Button>
-            </div>
-          </Menu.Item>
-        </SubMenu>
-      ) : (
-        <SubMenu
-          key="years"
-          title="Rango de años"
-          icon={<CalendarOutlined />}
-          disabled={true}
-        />
-      )}
-    </Menu>
+    />
   );
 };
 

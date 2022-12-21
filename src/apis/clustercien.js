@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useState } from 'react';
-import { get } from 'axios';
+import axios from 'axios';
 
 const initialState = {
   isLoading: true,
@@ -45,7 +45,9 @@ export const APIRequest = (initialUrl) => {
       dispatch({ type: 'FETCH_INIT' });
 
       try {
-        const result = await get(`${process.env.REACT_APP_API_URL}${url}`);
+        const result = await axios.get(
+          `${process.env.REACT_APP_API_URL}${url}`
+        );
 
         if (!didCancel) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data });

@@ -1,5 +1,8 @@
 import React from 'react';
 
+/* Wrappers */
+import ChartsWrapper from '../wrappers/ChartsWrapper';
+
 /* Components */
 import DocumentList from '../DocumentList';
 import ErrorWarning from '../ErrorWarning';
@@ -21,7 +24,12 @@ const ProductsTab = ({ core }) => {
   if (state.isLoading) {
     return <LoadingCard />;
   }
-  return <DocumentList data={state.data} core={core} />;
+  return (
+    <>
+      <ChartsWrapper />
+      <DocumentList data={state.data} core={core} />
+    </>
+  );
 };
 
 export default ProductsTab;

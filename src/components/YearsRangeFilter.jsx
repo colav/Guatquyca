@@ -14,7 +14,7 @@ const YearsRangeFilter = ({ filters, setYears }) => {
   /* const history = useHistory();
   const URL = new URLSearchParams(history.location.search); */
 
-  const renderedDefaultValue = () => {
+  /*   const renderedDefaultValue = () => {
     if (URL.has('start_year') && URL.has('end_year')) {
       return [
         moment(URL.get('start_year'), 'YYYY'),
@@ -26,7 +26,7 @@ const YearsRangeFilter = ({ filters, setYears }) => {
         moment(filters.end_year, 'YYYY'),
       ];
     }
-  };
+  }; */
 
   const onChange = (moment, years) => {
     setYears({ start_year: years[0], end_year: years[1] });
@@ -48,7 +48,7 @@ const YearsRangeFilter = ({ filters, setYears }) => {
         allowEmpty
         format="YYYY"
         size="large"
-        defaultValue={renderedDefaultValue}
+        /* defaultValue={renderedDefaultValue} */
         onChange={onChange}
         disabledDate={disabledDate}
       />

@@ -13,14 +13,13 @@ import { LinkOutlined } from '@ant-design/icons';
 
 /* Utils */
 import { Link } from 'react-router-dom';
-import { APIRequest } from '../../apis/clustercien';
+/* import { APIRequest } from '../../apis/clustercien'; */
 
 /* UI Library Sub-components*/
 const { Title } = Typography;
 
 const Home = ({ core }) => {
-  const [state] = APIRequest('/app/ourdata?apikey=colavudea');
-  console.log(state);
+  /* const [state] = APIRequest('/app/ourdata?apikey=colavudea'); */
   useEffect(() => {
     document.title = 'ImpactU';
     core.setHome(true);
@@ -67,10 +66,7 @@ const Home = ({ core }) => {
               * Los indicadores aquí presentados buscan cumplir con los
               principios de métricas responsables, para más información sigue
               este{' '}
-              <Link
-                to="/app/metrics"
-                /*  onClick={() => core.setURL('/app/metrics')} */
-              >
+              <Link to="/app/metrics">
                 enlace <LinkOutlined />
               </Link>
               .

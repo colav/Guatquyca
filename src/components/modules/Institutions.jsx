@@ -9,7 +9,6 @@ import CooperationWrapper from '../wrappers/CooperationWrapper';
 /* Components */
 import CommonTitleCard from '../CommonTitleCard';
 import ErrorWarning from '../ErrorWarning';
-/* import ListCard from '../ListCard'; */
 
 /* UI Library Components */
 import { Col, Menu, Row, Tabs } from 'antd';
@@ -18,7 +17,10 @@ import { Col, Menu, Row, Tabs } from 'antd';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { APIRequest } from '../../apis/clustercien';
 import FirstCategoryTabs from '../FirstCategoryTabs';
-/* const queryString = require('query-string'); */
+import LoadingCard from '../LoadingCard';
+
+/* Charts */
+import MapChart from '../charts/MapChart';
 
 /* UI Library Sub-components */
 const { TabPane } = Tabs;
@@ -43,7 +45,7 @@ const Institutions = ({ core }) => {
   if (state.isError) {
     return <ErrorWarning />;
   } else if (state.isLoading) {
-    return '';
+    return <LoadingCard />;
   }
   return (
     <>
@@ -57,6 +59,7 @@ const Institutions = ({ core }) => {
         />
       </Row>
       <FirstCategoryTabs items={items} setCurrentTab={setCurrentTab} />
+      {/* <MapChart /> */}
       {currentTab === 'affiliations' ? (
         <AffiliationWrapper data={state.data} />
       ) : (
@@ -65,49 +68,6 @@ const Institutions = ({ core }) => {
       {currentTab === 'research' ? <ResearchWrapper core={core} /> : ''}
       {currentTab === 'extension' ? <ExtensionWrapper /> : ''}
       {currentTab === 'cooperation' ? <CooperationWrapper /> : ''}
-      {/* <Tabs
-            defaultActiveKey={'production'}
-            type="card"
-            tabBarGutter={5}
-            items={[
-              {
-                label: 'Productos',
-                key: 'products',
-                children: <ProductionWrapper core={core} />,
-              },
-              {
-                label: 'Proyectos',
-                key: 'projects',
-                children: '',
-              },
-              {
-                label: 'Noticias',
-                key: 'news',
-                children: '',
-              },
-            ]}
-          /> */}
-      {/* <TabPane tab="Producción" key="production" forceRender>
-              <ProductionWrapper core={core} />
-            </TabPane> */}
-      {/* <TabPane tab="Citaciones" key="citations" forceRender>
-            <CitationsWrapper />
-          </TabPane>
-          <TabPane tab="Coautorías" key="coauthors" forceRender>
-            <CoauthorsWrapper core={core} />
-          </TabPane>
-          <TabPane tab="APC" key="apc" forceRender>
-            <APCInfoWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Egresados" key="graduates">
-            <GraduatesWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Colegios Invisibles" key="colleges">
-            <CollegesWrapper core={core} />
-          </TabPane>
-          <TabPane tab="Noticias" key="news">
-            <MediaWrapper />
-          </TabPane> */}
     </>
   );
 };

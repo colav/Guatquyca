@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /* Libraries */
 import { Pie } from '@ant-design/charts';
 
 /* UI Library Components */
-import { Card, Empty } from 'antd';
-
-/* Componentes */
-import InfoButton from '../infoButton';
+import { Card, Empty, Select } from 'antd';
 
 const PieChart = ({ title, type = 'open_access' }) => {
-  const data = [
+  const [data, setData] = useState([
     { type: 'gold', value: Math.floor(Math.random() * 40 + 10) },
     { type: 'hybrid', value: Math.floor(Math.random() * 40 + 10) },
     { type: 'green', value: Math.floor(Math.random() * 40 + 10) },
     { type: 'closed', value: Math.floor(Math.random() * 40 + 10) },
     { type: 'bronze', value: Math.floor(Math.random() * 40 + 10) },
-  ];
+  ]);
   const bgColor = {
     hybrid: '#6448ff',
     green: '#25ff76',
@@ -79,22 +76,52 @@ const PieChart = ({ title, type = 'open_access' }) => {
     },
   };
 
-  let config = type === 'compendium' ? config_a : config_b;
+  const handleChange = () => {
+    setData([
+      { type: 'Masculino', value: Math.floor(Math.random() * 40 + 10) },
+      { type: 'Femenino', value: Math.floor(Math.random() * 40 + 10) },
+    ]);
+  };
 
   return (
     <Card
       size="small"
-      title={title}
+      title="Categórica por numérica"
       headStyle={{ backgroundColor: '#003e65', color: 'white' }}
       bodyStyle={{ padding: '10px', height: '420px' }}
       hoverable
       extra={
-        type !== 'compendium' && <InfoButton title={title} type={'openAcces'} />
+        <Select
+          size="small"
+          defaultValue="a"
+          style={{
+            width: 420,
+          }}
+          onChange={handleChange}
+          options={[
+            {
+              value: 'a',
+              label: 'Tipo de Acceso',
+            },
+            {
+              value: 'b',
+              label: 'Cantidad de productos por facultad',
+            },
+            {
+              value: 'c',
+              label: 'Cantidad de productos por sexo',
+            },
+            {
+              value: 'd',
+              label: 'Cantidad de productos por grupo',
+            },
+          ]}
+        />
       }
     >
       <div className="chart">
         {data.length > 0 ? (
-          <Pie {...config} />
+          <Pie {...config_a} />
         ) : (
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
