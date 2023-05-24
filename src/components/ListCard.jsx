@@ -1,19 +1,20 @@
-import React from 'react';
+import React from "react";
 
 /* Utilities */
-import { Link } from 'react-router-dom';
-import { titles } from '../utils/titles';
+import { Link } from "react-router-dom";
+import { TITLES } from "../utils/constants";
 
 /* UI Library Components */
-import { Card, List } from 'antd';
+import { Card, List } from "antd";
 
 const ListCard = ({ type, list }) => {
   return (
     <Card
       hoverable
       size="small"
-      style={{ height: '431px' }}
-      title={titles[type]}
+      headStyle={{ backgroundColor: "#003e65", color: "white" }}
+      bodyStyle={{ padding: "10px" }}
+      title={TITLES[type]}
     >
       <div className="list-card--container">
         <List
@@ -24,9 +25,7 @@ const ListCard = ({ type, list }) => {
               <List.Item.Meta
                 id={item.id}
                 description={
-                  <Link
-                    to={`/app/${type}?apikey=colavudea&data=info&id=${item.id}`}
-                  >
+                  <Link to={`/app/${type}?data=info&id=${item.id}`}>
                     {item.full_name}
                     {item.name}
                   </Link>

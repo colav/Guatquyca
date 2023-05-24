@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 
 /* Images */
-import graf01 from '../../media/graf01.png';
+import graf01 from "../../media/graf01.png";
 
 /* Logos */
-import doaj from '../../media/doaj.svg';
-import google from '../../media/google.svg';
-import lens from '../../media/lens.svg';
-import ma from '../../media/ma.svg';
-import scielo from '../../media/scielo.svg';
-import scopus from '../../media/scopus.svg';
-import unpayw from '../../media/unpaywall.svg';
-import wos from '../../media/wos.svg';
+import doaj from "../../media/doaj.svg";
+import google from "../../media/google.svg";
+import lens from "../../media/lens.svg";
+import ma from "../../media/ma.svg";
+import scielo from "../../media/scielo.svg";
+import scopus from "../../media/scopus.svg";
+import unpayw from "../../media/unpaywall.svg";
+import wos from "../../media/wos.svg";
 
 /* UI Library Components */
-import { Col, Divider, Image, Row, Typography } from 'antd';
+import { Col, Divider, Image, Row, Typography } from "antd";
 
 /* UI Library Sub-components*/
 const { Title, Paragraph, Link, Text } = Typography;
@@ -32,9 +32,9 @@ const About = () => {
 
   return (
     <Row gutter={[20, 20]} justify="center">
-      <Col xs={24} md={16} style={{ marginTop: '40px' }}>
-        <Title level={3}>Acerca de ImpactU</Title>
-        <Divider style={{ marginBottom: '10px' }} />
+      <Col xs={24} md={16}>
+        <Title level={2}>Acerca de ImpactU</Title>
+        <Divider />
       </Col>
       <Col xs={24} md={9}>
         <Paragraph>
@@ -49,7 +49,7 @@ const About = () => {
           gutter={[20, 20]}
           justify="space-around"
           align="middle"
-          style={{ marginTop: '30px' }}
+          style={{ marginTop: "30px" }}
         >
           {renderedLogos()}
         </Row>
@@ -59,19 +59,19 @@ const About = () => {
         </Paragraph>
       </Col>
       <Col xs={24} md={7}>
-        <Image src={graf01} style={{ maxWidth: '600px' }} />
+        <Image src={graf01} style={{ maxWidth: "600px" }} />
       </Col>
-      <Col xs={24} md={16} style={{ marginTop: '0px' }}>
+      <Col xs={24} md={16} style={{ marginTop: "0px" }}>
         <Paragraph>
           {<Text strong>ImpactU</Text>} es un proyecto creado y desarrollado por
-          el{' '}
+          el{" "}
           {
             <Link strong href="http://colav.udea.edu.co" target="_blank">
               Colav
             </Link>
-          }{' '}
+          }{" "}
           de la {<Text strong>Universidad de Antioquia</Text>} en colaboración
-          con la {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{' '}
+          con la {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{" "}
           {<Text strong>Universidad Externado de Colombia.</Text>} Su propósito
           es acercarse a un modelo de métricas responsables con los principios
           de multidimensionalidad en donde se identifican diferentes niveles
@@ -107,8 +107,8 @@ const About = () => {
         <br />
         <Paragraph>
           Inicialmente la plataforma está adaptada para la consulta en detalle
-          de la {<Text strong>Universidad de Antioquia</Text>},{' '}
-          {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{' '}
+          de la {<Text strong>Universidad de Antioquia</Text>},{" "}
+          {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{" "}
           {<Text strong>Universidad Externado de Colombia</Text>}, pero contiene
           todos los datos disponibles de la producción Colombiana disponibles en
           las bases utilizadas en esta etapa. El instrumento es de fácil

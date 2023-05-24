@@ -1,31 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 /* Components */
-import SearchBar from '../components/SearchBar';
+import SearchBar from "../components/SearchBar";
 
 /* Logos */
-import logo_impactU_B from '../media/logo_impactU_B.svg';
+import logo_impactU_B from "../media/logo_impactU_B.svg";
 
 /* UI Library Components */
-const Col = require('antd/lib/col').default;
-const Layout = require('antd/lib/layout').default;
-const Row = require('antd/lib/row').default;
+import { Col, Layout, Row } from "antd";
 
 const Header = ({ core }) => {
   return (
     <Layout.Header id="layout--header">
-      <Row>
-        <Col xs={24} sm={7} md={6} id="header--logo_container">
+      <Row align={"middle"} justify={"center"}>
+        <Col xs={24} sm={24} md={8} lg={6} id="header--logo_container">
           <Link to="/app">
             <img
               src={logo_impactU_B}
               alt="Logotipo ImpactU"
-              id="header__logo"
+              id="header--logo"
             />
           </Link>
         </Col>
-        <Col xs={24} sm={14} lg={12} xl={13}>
+        <Col xs={24} sm={24} md={16} lg={12}>
           {!core.home && (
             <SearchBar
               setCurrentURL={core.setCurrentURL}
@@ -33,6 +31,7 @@ const Header = ({ core }) => {
             />
           )}
         </Col>
+        <Col xs={0} lg={6} />
       </Row>
     </Layout.Header>
   );

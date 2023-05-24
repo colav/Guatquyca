@@ -4,7 +4,7 @@ import React from 'react';
 import { WarningModal } from './WarningModal';
 
 /* UI Library Components */
-import { Button } from 'antd';
+import { Button, ConfigProvider } from 'antd';
 
 /* Icons */
 import DownloadOutlined from '@ant-design/icons';
@@ -26,16 +26,23 @@ const DownloadCSVButton = () => {
   }?${queryString.stringify(URL)}`; */
 
   return (
+    <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: '#9D3715',
+      },
+    }}
+  >
     <Button
       icon={<DownloadOutlined />}
       type="dashed"
       shape="round"
-      style={{ color: '#9D3715' }}
       href={'/app' /* CSV_URL */}
       onClick={WarningModal}
     >
       CSV
     </Button>
+    </ConfigProvider>
   );
 };
 

@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
 /* Components */
-import AuthorsListOnModal from './AuthorsListOnModal';
+import AuthorsListOnModal from "./AuthorsListOnModal";
 
 /* Utilities */
-import { APIRequest } from '../apis/clustercien';
+import { APIRequest } from "../apis/clustercien";
 
 /* UI Library Components */
-import { Divider, Descriptions, Spin, Typography } from 'antd';
+import { Divider, Descriptions, Spin, Typography } from "antd";
 
 /* UI Library Sub-components */
 const { Text, Paragraph, Link } = Typography;
 
 const DocumentModal = ({ documentID }) => {
-  const [state] = APIRequest(`/app/documents?&data=info&id=${documentID}`);
+  const [state] = APIRequest(`/app/work?section=info&id=${documentID}`);
   const [ellipsis] = React.useState(true);
 
   const renderedExternalIDs = () => {
@@ -21,7 +21,7 @@ const DocumentModal = ({ documentID }) => {
       <Descriptions.Item key={item.source} label={`${item.source}:`}>
         {item.url && (
           <>
-            URL:{' '}
+            URL:{" "}
             <a href={item.url} target="_blank" rel="noreferrer">
               Abrir en nueva pestaña
             </a>
@@ -50,16 +50,16 @@ const DocumentModal = ({ documentID }) => {
       <div>
         <Text strong>Autores: </Text>
         <AuthorsListOnModal authors={state.data.data.authors} />
-        <Divider style={{ margin: '15px 0' }} />
+        <Divider style={{ margin: "15px 0" }} />
         <Text strong>Abstract</Text>
         <Paragraph
           ellipsis={
-            ellipsis ? { rows: 3, expandable: true, symbol: 'Más' } : false
+            ellipsis ? { rows: 3, expandable: true, symbol: "Más" } : false
           }
         >
           {state.data.data.abstract}
         </Paragraph>
-        <Divider style={{ margin: '15px 0' }} />
+        <Divider style={{ margin: "15px 0" }} />
         <Descriptions bordered column={{ lg: 3, md: 2, sm: 2, xs: 1 }}>
           <Descriptions.Item label="Revista:">
             {state.data.data.source.name}
@@ -67,7 +67,7 @@ const DocumentModal = ({ documentID }) => {
           <Descriptions.Item label="pISSN:">
             {state.data.data.source?.serials?.pissn && (
               <Text copyable>
-                {state.data.data.source?.serials?.pissn || 'No disponible'}
+                {state.data.data.source?.serials?.pissn || "No disponible"}
               </Text>
             )}
           </Descriptions.Item>

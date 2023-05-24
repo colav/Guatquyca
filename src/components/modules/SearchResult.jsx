@@ -1,55 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from "react";
 
 /* Components */
-import ErrorWarning from '../ErrorWarning';
-import LoadingCard from '../LoadingCard';
-import EntityList from '../EntityList';
+import ErrorWarning from "../ErrorWarning";
+import LoadingCard from "../LoadingCard";
+import AffiliationList from "../searchLists/AffiliationList";
+import EntityList from "../searchLists/EntityList";
+import PersonList from "../searchLists/PersonList";
 
 /* Utilities */
-import { APIRequest } from '../../apis/clustercien';
-import { useNavigate } from 'react-router';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { APIRequest } from "../../apis/clustercien";
+import { useLocation, useSearchParams } from "react-router-dom";
 
-const SearchResult = ({ core }) => {
+/* Constants */
+import { CHECKLIST } from "../../utils/constants";
+
+const SearchResult = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [pagination, setPagination] = useState({ max: 10, page: 1 });
-  const [sort, setSort] = useState('citations');
-  const [state, setUrl] = APIRequest(
-    `${location.pathname}${location.search}&apikey=colavudea`
-  );
-
+  const [state, setUrl] = APIRequest(`${location.pathname}${location.search}`);
   const [searchParams] = useSearchParams();
-  const type = searchParams.get('data');
-
-  const tools = { sort, setSort, pagination, setPagination };
+  const type =
+    searchParams.get("type") === null
+      ? searchParams.get("data")
+      : searchParams.get("type");
 
   useEffect(() => {
-    document.title = 'Resultados de Búsqueda - ImpactU';
+    document.title = "Resultados de Búsqueda - ImpactU";
   }, []);
 
   useEffect(() => {
-    setUrl(`${location.pathname}${location.search}&apikey=colavudea`);
+    setUrl(`${location.pathname}${location.search}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-
-  useEffect(() => {
-    setPagination({ max: 10, page: 1 });
-  }, [sort]);
-
-  /*   useEffect(() => {
-    navigate(
-      `${location.pathname}?data=${type}&max=${pagination.max}&page=${pagination.page}&sort=${sort}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]); */
 
   if (state.isError) {
     return <ErrorWarning />;
   } else if (state.isLoading) {
     return <LoadingCard />;
+  } else if (type === "person") {
+    return <PersonList data={state.data} type={type} />;
+  } else if (CHECKLIST.AFFILIATIONENTITIES.includes(type)) {
+    return <EntityList data={state.data} type={type} />;
   }
-  return <EntityList data={state.data} type={type} tools={tools} />;
+  return <EntityList data={state.data} type={type} />;
 };
 
 export default SearchResult;

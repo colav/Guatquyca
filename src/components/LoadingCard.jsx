@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 /* Logo */
-import { ReactComponent as LogoSpinner } from '../media/logo_spinner.svg';
+import { ReactComponent as LogoSpinner } from "../media/logo_spinner.svg";
 
-const LoadingCard = () => {
+const LoadingCard = ({ height = "70vh" }) => {
   return (
-    <div className="loading-card__container">
+    <div className="loading-card__container" style={{ height: height }}>
       <div>
         <div className="rotate-center">
           <LogoSpinner />

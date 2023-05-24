@@ -1,33 +1,16 @@
-import React from 'react';
+import React from "react";
 
 /* Wrappers */
-import ChartsWrapper from '../wrappers/ChartsWrapper';
+import ChartsWrapper from "../wrappers/ChartsWrapper";
 
 /* Components */
-import DocumentList from '../DocumentList';
-import ErrorWarning from '../ErrorWarning';
-import LoadingCard from '../LoadingCard';
+import DocumentList from "../DocumentList";
 
-/* Utilities */
-import { APIRequest } from '../../apis/clustercien';
-import { useLocation } from 'react-router-dom';
-
-const ProductsTab = ({ core }) => {
-  const location = useLocation();
-  const [state, setUrl] = APIRequest(
-    `${location.pathname}${location.search}&apikey=colavudea&data=production`
-  );
-
-  if (state.isError) {
-    return <ErrorWarning />;
-  }
-  if (state.isLoading) {
-    return <LoadingCard />;
-  }
+const ProductsTab = () => {
   return (
     <>
       <ChartsWrapper />
-      <DocumentList data={state.data} core={core} />
+      <DocumentList />
     </>
   );
 };
