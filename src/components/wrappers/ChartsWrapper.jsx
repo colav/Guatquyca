@@ -5,7 +5,7 @@ import { Col, Row } from "antd";
 
 /* Charts */
 import MapChart from "../charts/MapChart";
-import StackedColumnChart from "../charts/StackedColumnChart";
+import StackedColumnHandler from "../charts/StackedColumnHandler";
 import PieChart from "../charts/PieChart";
 import GraphChart from "../charts/GraphChart";
 import Graph from "../charts/Graph";
@@ -14,7 +14,7 @@ const ChartsWrapper = () => {
   return (
     <Row gutter={[15, 15]}>
       <Col xs={24} lg={12}>
-        <StackedColumnChart />
+        <StackedColumnHandler />
       </Col>
       <Col xs={24} lg={12}>
         <PieChart />
