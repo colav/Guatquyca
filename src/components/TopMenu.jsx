@@ -19,8 +19,8 @@ const TopMenu = ({ current, setCurrent }) => {
   const items = [
     { label: "Afiliaciones", key: "affiliations" },
     { label: "Investigación", key: "research" },
-    { label: "Extensión", key: "extension" },
-    { label: "Cooperación", key: "cooperation" },
+    { label: "Extensión", key: "extension", disabled: true },
+    { label: "Cooperación", key: "cooperation", disabled: true },
   ];
 
   const defaultTab = {

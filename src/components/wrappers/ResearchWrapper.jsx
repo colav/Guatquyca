@@ -40,11 +40,13 @@ const ResearchWrapper = () => {
       label: "Proyectos",
       key: "projects",
       children: <ProjectsTab />,
+      disabled: true,
     },
     {
       label: "Noticias",
       key: "news",
       children: <NewsTab />,
+      disabled: true,
     },
   ];
 
