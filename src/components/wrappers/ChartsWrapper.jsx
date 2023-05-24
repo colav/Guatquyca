@@ -7,8 +7,7 @@ import { Col, Row } from "antd";
 import MapChartHandler from "../charts/MapChartHandler";
 import StackedColumnHandler from "../charts/StackedColumnHandler";
 import PieChart from "../charts/PieChart";
-import GraphChart from "../charts/GraphChart";
-import Graph from "../charts/Graph";
+import GraphChartHandler from "../charts/GraphChartHandler";
 
 const ChartsWrapper = () => {
   return (
@@ -20,7 +19,7 @@ const ChartsWrapper = () => {
         <PieChart />
       </Col>
       <Col xs={24} lg={12}>
-        <Graph />
+        <GraphChartHandler />
       </Col>
       <Col xs={24} lg={12}>
         <MapChartHandler />
