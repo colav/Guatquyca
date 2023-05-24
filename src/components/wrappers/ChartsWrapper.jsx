@@ -4,7 +4,7 @@ import React from "react";
 import { Col, Row } from "antd";
 
 /* Charts */
-import MapChart from "../charts/MapChart";
+import MapChartHandler from "../charts/MapChartHandler";
 import StackedColumnHandler from "../charts/StackedColumnHandler";
 import PieChart from "../charts/PieChart";
 import GraphChart from "../charts/GraphChart";
@@ -23,7 +23,7 @@ const ChartsWrapper = () => {
         <Graph />
       </Col>
       <Col xs={24} lg={12}>
-        <MapChart />
+        <MapChartHandler />
       </Col>
     </Row>
   );
