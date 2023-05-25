@@ -38,17 +38,17 @@ const HomeTable = () => {
     {
       key: "7",
       search: "Proyectos",
-      example: "",
+      example: "Módulo en desarrollo",
     },
     {
       key: "8",
       search: "Convenios",
-      example: "",
+      example: "Módulo en desarrollo",
     },
     {
       key: "9",
       search: "Emprendimientos",
-      example: "",
+      example: "Módulo en desarrollo",
     },
   ];
 

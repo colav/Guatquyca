@@ -19,20 +19,14 @@ const PLOTLIST = [
     value: "title_words",
   },
   { label: "Citas acumuladas de las facultades", value: "citations_faculty" },
-  {
-    label: "Cantidad de artículos de las facultades",
-    value: "products_faculty",
-  },
+  { label: "Artículos de las facultades", value: "products_faculty" },
   { label: "Gastos de APC proyectado según facultad", value: "apc_faculty" },
   { label: "Índice H de las facultades", value: "h_faculty" },
   {
     label: "Citas acumuladas de los departamentos",
     value: "citations_department",
   },
-  {
-    label: "Cantidad de artículos de los departamentos",
-    value: "products_department",
-  },
+  { label: "Artículos de los departamentos", value: "products_department" },
   {
     label: "Gastos de APC proyectado según departamento",
     value: "apc_department",
@@ -43,7 +37,7 @@ const PLOTLIST = [
     value: "citations_group",
   },
   {
-    label: "Cantidad de artículos de los grupos de investigación",
+    label: "Artículos de los grupos de investigación",
     value: "products_group",
   },
   {
@@ -51,37 +45,28 @@ const PLOTLIST = [
     value: "apc_group",
   },
   { label: "Índice H de los grupos de investigación", value: "h_group" },
+  { label: "Artículos según editorial", value: "products_publisher" },
+  { label: "Artículos según temas", value: "products_subject" },
   {
-    label: "Cantidad de artículos según editorial",
-    value: "products_publisher",
-  },
-  { label: "Número de artículos según temas", value: "products_subject" },
-  {
-    label: "Número de productos según base de datos de origen",
+    label: "Productos según base de datos de origen",
     value: "products_database",
   },
-  { label: "Número de artículos según su acceso", value: "products_oa" },
+  { label: "Artículos según tipo de acceso abierto", value: "products_oa" },
+  { label: "Productos según sexo", value: "products_sex" },
   {
-    label: "Número de artículos según tipo de acceso abierto",
-    value: "products_oa",
-  },
-  { label: "Cantidad de productos según sexo", value: "products_sex" },
-  {
-    label: "Cantidad de productos según rango de edad de los autores",
+    label: "Productos según rango de edad de los autores",
     value: "products_age",
   },
   {
-    label: "Cantidad de artículos según categoría asignada en el Scienti",
+    label: "Artículos según categoría asignada en el Scienti",
     value: "scienti_rank",
   },
   {
-    label:
-      "Cantidad de artículos en revistas rankeadas en cuartiles de Scimago",
+    label: "Artículos en revistas rankeadas en cuartiles de Scimago",
     value: "scimago_rank",
   },
   {
-    label:
-      "Cantidad de artículos publicados en revistas de la misma institución a la que pertenece el autor",
+    label: "Artículos en revistas de la misma institución del autor",
     value: "published_institution",
   },
 ];
@@ -127,7 +112,7 @@ const PieChartHandler = () => {
         ) : state.data.plot.length > 5 ? (
           <TreemapChart data={state.data.plot} />
         ) : (
-          <PieChart data={state.data.plot} />
+          <PieChart data={state.data.plot} content={state.data?.openSum} />
         )}
         {state.isError ? <ErrorWarning /> : ""}
       </div>

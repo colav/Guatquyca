@@ -10,6 +10,7 @@ const TreemapChart = ({ data }) => {
       children: data,
     },
     colorField: "name",
+    legend: { layout: "horizontal", position: "top" },
   };
 
   return <Treemap {...config} />;

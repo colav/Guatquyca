@@ -41,21 +41,25 @@ const OPTIONS = [
     label: "Productos",
     value: "literature",
     key: "literature",
+    disabled: true,
   },
   {
     label: "Proyectos",
     value: "projects",
     key: "projects",
+    disabled: true,
   },
   {
     label: "Convenios",
     value: "agreements",
     key: "agreements",
+    disabled: true,
   },
   {
     label: "Emprendimientos",
     value: "entrepreneurship",
     key: "entrepreneurship",
+    disabled: true,
   },
 ];
 

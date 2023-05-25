@@ -9,7 +9,7 @@ const StackedColumnChart = ({ data }) => {
     xField: "x",
     yField: "y",
     appendPadding: [10, 10, 10, 10],
-    legend: { layout: "vertical", position: "right" },
+    legend: { layout: "horizontal", position: "top" },
     columnWidthRatio: 0.6,
     columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
     xAxis: {
@@ -18,6 +18,7 @@ const StackedColumnChart = ({ data }) => {
         style: { fontSize: 11 },
       },
     },
+    slider: { start: 0, end: 0.5 },
   };
 
   let config_stacked = {
@@ -27,7 +28,6 @@ const StackedColumnChart = ({ data }) => {
     yField: "y",
     seriesField: "type",
     appendPadding: [10, 10, 10, 10],
-    legend: { layout: "vertical", position: "right" },
     columnWidthRatio: 0.6,
     columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
     xAxis: {
@@ -36,10 +36,8 @@ const StackedColumnChart = ({ data }) => {
         style: { fontSize: 11 },
       },
     },
-    legend: {
-      layout: "horizontal",
-      position: "bottom",
-    },
+    legend: { layout: "horizontal", position: "top" },
+    slider: { start: 0, end: 0.5 },
   };
 
   let config = config_normal;

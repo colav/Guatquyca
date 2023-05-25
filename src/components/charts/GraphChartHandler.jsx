@@ -43,7 +43,7 @@ const GraphChartHandler = () => {
           size="small"
           defaultValue={selectedPlot}
           style={{
-            width: 520,
+            width: 420,
           }}
           onChange={handleChange}
           options={PLOTLIST}

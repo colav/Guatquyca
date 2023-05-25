@@ -3,7 +3,7 @@ import React from "react";
 /* Libraries */
 import { Pie } from "@ant-design/charts";
 
-const PieChart = ({ data }) => {
+const PieChart = ({ data, content = null }) => {
   let config = {
     appendPadding: 20,
     data: data,
@@ -15,6 +15,7 @@ const PieChart = ({ data }) => {
     label: {
       type: "spider",
       content: "{value} / {percentage}",
+      style: { fontSize: 14 },
     },
     interactions: [{ type: "element-active" }],
   };

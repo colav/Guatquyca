@@ -32,29 +32,16 @@ const PLOTLIST = [
   },
   { label: "Cantidad de citas anuales", value: "year_citations" },
   { label: "Gastos anuales en APC", value: "year_apc" },
+  { label: "Artículos anuales en acceso abierto y cerrado", value: "year_oa" },
   {
-    label: "Número anual de artículos en acceso abierto y cerrado",
-    value: "year_oa",
-  },
-  {
-    label:
-      "Número de articulos anuales publicados en las editoriales más usadas",
+    label: "Articulos anuales publicados en las editoriales más usadas",
     value: "year_publisher",
   },
   {
     label: "Índice H anual según datos de citación de Google Scholar",
     value: "year_h",
   },
-  {
-    label:
-      "Número anual de productos según categorización de investigadores Minciencias",
-    value: "year_researcher",
-  },
-  {
-    label:
-      "Número anual de productos según categorización de grupos de investigación Minciencias",
-    value: "year_group",
-  },
+  { label: "Productos anuales por investigadores", value: "year_researcher" },
 ];
 
 const StackedColumnHandler = () => {

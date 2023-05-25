@@ -14,11 +14,11 @@ import { useLocation } from "react-router-dom";
 
 const PLOTLIST = [
   {
-    label: "Número de coautorías según país de afiliación",
+    label: "Coautorías según país de afiliación",
     value: "collaboration_worldmap",
   },
   {
-    label: "Cantidad de coautorías según departamento colombiano de afiliación",
+    label: "Coautorías según afiliación territorial departamental",
     value: "collaboration_colombiamap",
   },
 ];
@@ -44,6 +44,7 @@ const MapChartHandler = () => {
       size="small"
       headStyle={{ backgroundColor: "#003e65", color: "white" }}
       bodyStyle={{ padding: "10px", height: "420px" }}
+      hoverable
       extra={
         <Select
           size="small"

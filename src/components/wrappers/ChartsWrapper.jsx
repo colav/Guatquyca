@@ -16,10 +16,10 @@ const ChartsWrapper = () => {
         <StackedColumnHandler />
       </Col>
       <Col xs={24} lg={12}>
-        <PieChartHandler />
+        <GraphChartHandler />
       </Col>
       <Col xs={24} lg={12}>
-        <GraphChartHandler />
+        <PieChartHandler />
       </Col>
       <Col xs={24} lg={12}>
         <MapChartHandler />
