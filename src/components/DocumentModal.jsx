@@ -2,12 +2,14 @@ import React from "react";
 
 /* Components */
 import AuthorsListOnModal from "./AuthorsListOnModal";
+import ErrorWarning from "./ErrorWarning";
+import LoadingCard from "./LoadingCard";
 
 /* Utilities */
 import { APIRequest } from "../apis/clustercien";
 
 /* UI Library Components */
-import { Divider, Descriptions, Spin, Typography } from "antd";
+import { Divider, Descriptions, Typography } from "antd";
 
 /* UI Library Sub-components */
 const { Text, Paragraph, Link } = Typography;
@@ -44,52 +46,70 @@ const DocumentModal = ({ documentID }) => {
   };
 
   if (state.isLoading) {
-    return <Spin />;
+    return <LoadingCard />;
+  } else if (state.isError) {
+    return <ErrorWarning />;
   } else
     return (
       <div>
         <Text strong>Autores: </Text>
-        <AuthorsListOnModal authors={state.data.data.authors} />
+        {<AuthorsListOnModal authors={state.data.data.authors} />}
         <Divider style={{ margin: "15px 0" }} />
-        <Text strong>Abstract</Text>
+        <Text strong>Abstract:</Text>
         <Paragraph
           ellipsis={
             ellipsis ? { rows: 3, expandable: true, symbol: "Más" } : false
           }
         >
-          {state.data.data.abstract}
+          {state.data.data.abstract || "No disponible"}
         </Paragraph>
         <Divider style={{ margin: "15px 0" }} />
         <Descriptions bordered column={{ lg: 3, md: 2, sm: 2, xs: 1 }}>
           <Descriptions.Item label="Revista:">
-            {state.data.data.source.name}
-          </Descriptions.Item>
-          <Descriptions.Item label="pISSN:">
-            {state.data.data.source?.serials?.pissn && (
-              <Text copyable>
-                {state.data.data.source?.serials?.pissn || "No disponible"}
-              </Text>
-            )}
-          </Descriptions.Item>
-          <Descriptions.Item label="eISSN:">
-            {state.data.data.source?.serials?.eissn && (
-              <Text copyable>{state.data.data.source?.serials?.eissn}</Text>
-            )}
-          </Descriptions.Item>
-          <Descriptions.Item label="Publicado:">
-            {state.data.data.year_published}
-          </Descriptions.Item>
-          <Descriptions.Item label="Volumen:">
-            {state.data.data.volume}
-          </Descriptions.Item>
-          <Descriptions.Item label="Issue:">
-            {state.data.data.issue}
+            {state.data.data.source.name.name}
           </Descriptions.Item>
           <Descriptions.Item label="Idioma:">
-            {state.data.data.language}
+            {state.data.data.source.name.lang || "No disponible"}
+          </Descriptions.Item>
+          <Descriptions.Item label="Volumen:">
+            {state.data.data.volume || "No disponible"}
+          </Descriptions.Item>
+          <Descriptions.Item label="Publicado:">
+            {state.data.data.year_published || "No disponible"}
+          </Descriptions.Item>
+          <Descriptions.Item label="Issue:">
+            {state.data.data.issue || "No disponible"}
+          </Descriptions.Item>
+          <Descriptions.Item label="pISSN:">
+            <Text>
+              {state.data.data.source?.serials?.pissn || "No disponible"}
+            </Text>
+          </Descriptions.Item>
+          <Descriptions.Item label="ISSN:">
+            <Text>
+              {state.data.data.source?.serials?.issn || "No disponible"}
+            </Text>
+          </Descriptions.Item>
+          <Descriptions.Item label="Scimago:">
+            <Text>
+              {state.data.data.source?.serials?.scimago || "No disponible"}
+            </Text>
+          </Descriptions.Item>
+          <Descriptions.Item label="Openalex:">
+            {state.data.data.source?.serials?.openalex ? (
+              <a
+                href={state.data.data.source?.serials?.openalex}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {state.data.data.source?.serials?.openalex}
+              </a>
+            ) : (
+              "No disponible"
+            )}
           </Descriptions.Item>
           <Descriptions.Item label="Citaciones:">
-            {state.data.data.citations_count}
+            {state.data.data.citations_count || "No disponible"}
           </Descriptions.Item>
           {renderedExternalIDs()}
           {renderedExternalURLs()}

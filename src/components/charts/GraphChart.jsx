@@ -1,43 +1,76 @@
-import React from "react";
-import Graphin, { Behaviors, GraphinContext } from "@antv/graphin";
+import React, { useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
-/* Library Sub-components */
-const { ZoomCanvas, ActivateRelations, Hoverable } = Behaviors;
+/* Libraries */
+import G6 from "@antv/g6";
 
-const Graph = ({ data }) => {
-  const defaultNode = {
-    type: "graphin-circle",
-    style: {
-      keyshape: {
-        stroke: "#3996C8",
-        fill: "#52C5E6",
-        fillOpacity: 0.7,
-      },
-      label: {
-        fontSize: 8,
-      },
-    },
-  };
+const GraphChart = ({ data }) => {
+  const ref = useRef(null);
+  const { innerWidth } = window;
 
-  const defaultEdge = {
-    type: "graphin-line",
-    style: {
-      keyshape: {
-        type: "poly",
-        poly: { distance: 30 },
-        endArrow: null,
-        stroke: "#e8e7e3",
-      },
-    },
-  };
+  useEffect(() => {
+    let graph = null;
+    if (!graph) {
+      graph = new G6.Graph({
+        container: ReactDOM.findDOMNode(ref.current),
+        width: innerWidth / 2 - 57,
+        height: 396,
+        modes: {
+          default: [
+            {
+              type: "zoom-canvas",
+              enableOptimize: true,
+              optimizeZoom: 0.9,
+            },
+            {
+              type: "drag-canvas",
+              enableOptimize: true,
+            },
+            {
+              type: "tooltip",
+              formatText(model) {
+                return `Grado: ${model.degree}`;
+              },
+            },
+            {
+              type: "edge-tooltip",
+              formatText(model) {
+                return `${model.coauthorships} ${
+                  model.coauthorships > 1 ? "coautorías" : "coautoría"
+                }`;
+              },
+            },
+          ],
+        },
+        layout: {
+          type: data?.nodes?.length > 220 ? "forceAtlas2" : "gForce",
+          preventOverlap: true,
+        },
+        defaultNode: {
+          style: { stroke: "#00A283", fill: "#873bf4", fillOpacity: 0.6 },
+          labelCfg: {
+            style: { fontSize: 8 },
+            position: "bottom",
+            offset: 1,
+          },
+        },
+        defaultEdge: {
+          style: {
+            stroke: "#e8e7e3",
+          },
+        },
+      });
+    }
+    graph.data(data);
+    graph.render();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
-    <Graphin data={data} defaultNode={defaultNode} defaultEdge={defaultEdge}>
-      <Hoverable bindType="node" />
-      <ZoomCanvas enableOptimize />
-      <ActivateRelations />
-    </Graphin>
+    <div className="chart">
+      <div ref={ref}></div>
+    </div>
   );
 };
 
-export default Graph;
+export default GraphChart;

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 /* UI Library Components */
 import { Button, Tooltip } from "antd";
 
-const AuthorsHorizontalList = (authorsList) => {
+const AuthorsHorizontalList = ({ authorsList }) => {
   const [authorsQuantity, setAuthorsQuantity] = useState(10);
   const [showingAll, setShowingAll] = useState(false);
 

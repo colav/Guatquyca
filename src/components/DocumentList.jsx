@@ -15,7 +15,7 @@ import { CitationsIcon } from "../media/icons/citations";
 import { CalendarOutlined, ReadOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
-import { Card, List, Modal, Pagination, Space, Typography } from "antd";
+import { App, Card, List, Pagination, Space, Typography } from "antd";
 
 /* Utilities */
 import { APIRequest } from "../apis/clustercien";
@@ -34,6 +34,8 @@ const DocumentList = () => {
     )
   );
 
+  const { modal } = App.useApp();
+
   useEffect(() => {
     setUrl(
       `${location.pathname}${location.search}&page=${pagination.page}&max_results=${pagination.max}`.replace(
@@ -45,17 +47,18 @@ const DocumentList = () => {
   }, [pagination]);
 
   const docInfo = (title, id, status) => {
-    Modal.info({
+    modal.warning({
       width: "1200px",
       title: [
         title,
         " ",
         status ? <OpenAccessStatus status={status} key="0" /> : "",
       ],
-      closable: true,
       icon: null,
       okText: "Cerrar",
       content: <DocumentModal documentID={id} />,
+      destroyOnClose: true,
+      maskClosable: true,
       onOk() {},
     });
   };
@@ -149,7 +152,7 @@ const DocumentList = () => {
                 </div>
               }
             />
-            Autores: {AuthorsHorizontalList(item.authors)}
+            Autores: {<AuthorsHorizontalList authorsList={item.authors} />}
           </List.Item>
         )}
       />
@@ -158,100 +161,3 @@ const DocumentList = () => {
 };
 
 export default DocumentList;
-
-/* 
-
-  if (state.data.data.length && state.data.data[0].title) {
-    return; 
-      <Card
-        size="small"
-        extra={[
-          data.total_results ? data.total_results + " resultado(s)" : null,
-          <SortProduction
-            key="1"
-            parsedURL={parsedURL}
-            setProductionURL={setProductionURL}
-            setUrl={setUrl}
-            core={core}
-          />,
-        ]}
-        actions={
-          data.total_results > 0
-            ? [
-                <DownloadCSVButton key="1" parsedURL={parsedURL} />,
-                <DownloadJSONButton key="2" parsedURL={parsedURL} />,
-              ]
-            : ""
-        }
-        title={"Artículos"}
-      >
-        <div id="productionListContainer">
-          <List
-            itemLayout="vertical"
-            size="small"
-            pagination={{
-              size: "small",
-              position: "bottom",
-              total: data.total_results,
-              onChange: (page, pageSize) =>
-                onPageChange({
-                  page,
-                  pageSize,
-                  setCurrentURL: core.setCurrentURL,
-                }),
-              hideOnSinglePage: true,
-              current: parseInt(parsedURL.page),
-              pageSize: parsedURL.max,
-            }}
-            dataSource={data.data}
-            renderItem={(item) => (
-              <List.Item
-                key={item.id}
-                actions={[
-                  <Space style={{ fontSize: 18 }}>
-                    {React.createElement(CalendarOutlined)}
-                    Publicado: {item.year_published}
-                  </Space>,
-                  <Space style={{ fontSize: 18 }}>
-                    {React.createElement(CitationsIcon)}
-                    {item.citations_count === 1
-                      ? `${item.citations_count} citación`
-                      : `${item.citations_count} citaciones`}
-                  </Space>,
-                ]}
-              >
-                <List.Item.Meta
-                  title={[
-                    <Link
-                      key="1"
-                      onClick={() =>
-                        docInfo(item.title, item.id, item.open_access_status)
-                      }
-                    >
-                      {item.title}
-                    </Link>,
-                    " ",
-                    item.open_access_status ? (
-                      <OpenAccessStatus
-                        status={item.open_access_status}
-                        key="2"
-                      />
-                    ) : (
-                      ""
-                    ),
-                  ]}
-                  description={
-                    <div>
-                      <ReadOutlined /> {item.source.name}
-                    </div>
-                  }
-                />
-                Autores:{" "}
-                {AuthorsHorizontalList(item.authors, core.setCurrentURL)}
-              </List.Item>
-            )}
-          ></List>
-        </div>
-      </Card>
-    );
-    */

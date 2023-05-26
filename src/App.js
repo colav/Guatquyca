@@ -15,7 +15,7 @@ import SearchResult from "./components/modules/SearchResult";
 
 /* UI Library Components */
 import DisclaimerModal from "./components/DisclaimerModal";
-import { Layout, FloatButton, ConfigProvider } from "antd";
+import { App, Layout, FloatButton, ConfigProvider } from "antd";
 
 /* Utils */
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -25,12 +25,12 @@ import Affiliation from "./components/modules/AffiliationRouter";
 /* UI Library Sub-components */
 const { BackTop } = FloatButton;
 
-function App() {
+function MyApp() {
   const [home, setHome] = useState(false);
   const core = { /* URL, setURL, filters, setFilters, */ home, setHome };
 
   return (
-    <>
+    <App>
       <ConfigProvider
         theme={{
           token: {
@@ -65,8 +65,8 @@ function App() {
         </Layout>
         <Footer />
       </ConfigProvider>
-    </>
+    </App>
   );
 }
 
-export default App;
+export default MyApp;
