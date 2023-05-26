@@ -90,7 +90,6 @@ const PieChartHandler = () => {
   return (
     <Card
       size="small"
-      title="Pendiente"
       headStyle={{ backgroundColor: "#003e65", color: "white" }}
       bodyStyle={{ padding: "10px", height: "420px" }}
       hoverable
