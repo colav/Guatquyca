@@ -12,6 +12,7 @@ import isni from "../media/icons/isni";
 import fundref from "../media/icons/fundref";
 import ucas from "../media/icons/ucas";
 import ukprn from "../media/icons/ukprn";
+import researchgate from "../media/icons/researchgate";
 import { UserOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
@@ -20,6 +21,10 @@ import wikidata from "../media/icons/wikidata";
 
 const ExternalProfiles = ({ idsList }) => {
   const external = {
+    researchgate: {
+      icon: researchgate(),
+      URL: "https://www.researchgate.net/profile/",
+    },
     orcid: { icon: orcid(), URL: "https://orcid.org/" },
     scholar: {
       icon: scholar(),
