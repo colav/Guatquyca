@@ -1,30 +1,19 @@
-import React from "react";
+import React from 'react';
 
 /* Icons */
-import { BankOutlined } from "@ant-design/icons";
+import { BankOutlined } from '@ant-design/icons';
 
 /* UI Library Components */
-import { Typography, Tooltip } from "antd";
+import { Typography, Tooltip } from 'antd';
 
 /* Utilities */
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const AffiliationLinks = ({ affList }) => {
   const dateBuilder = (unixTimestamp) => {
     return unixTimestamp === -1
-      ? "No disponible"
+      ? 'No disponible'
       : new Date(parseInt(unixTimestamp) * 1000).toLocaleDateString();
-  };
-
-  const TooltipBuilder = ({ start_date, end_date }) => {
-    <Tooltip
-      title={
-        <>
-          <div>Fecha de inicio: {dateBuilder(start_date)}</div>
-          <div>Fecha de finalización: {dateBuilder(end_date)}</div>
-        </>
-      }
-    />;
   };
 
   return (
@@ -32,12 +21,12 @@ const AffiliationLinks = ({ affList }) => {
       <Typography.Title
         className="bold"
         level={4}
-        style={{ margin: 0, color: "gray" }}
+        style={{ margin: 0, color: 'gray' }}
       >
         <BankOutlined /> Afiliaciones:
       </Typography.Title>
       {affList.map((item) => {
-        if (item.types[0]?.type === "group") {
+        if (item.types[0]?.type === 'group') {
           return (
             <div key={item.id}>
               <Tooltip
@@ -59,7 +48,7 @@ const AffiliationLinks = ({ affList }) => {
               </Tooltip>
             </div>
           );
-        } else if (item.types[0]?.type === "department") {
+        } else if (item.types[0]?.type === 'department') {
           return (
             <div key={item.id}>
               <Tooltip
@@ -81,7 +70,7 @@ const AffiliationLinks = ({ affList }) => {
               </Tooltip>
             </div>
           );
-        } else if (item.types[0]?.type === "faculty") {
+        } else if (item.types[0]?.type === 'faculty') {
           return (
             <div key={item.id}>
               <Tooltip

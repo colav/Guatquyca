@@ -9,10 +9,6 @@ import { Button, ConfigProvider } from 'antd';
 /* Icons */
 import DownloadOutlined from '@ant-design/icons';
 
-/* Utilities */
-import _ from 'lodash';
-import { useLocation } from 'react-router-dom';
-
 const DownloadCSVButton = () => {
   /*  const location = useLocation();
   let URL = _.omit(parsedURL, ['max', 'page']);
@@ -27,21 +23,21 @@ const DownloadCSVButton = () => {
 
   return (
     <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: '#9D3715',
-      },
-    }}
-  >
-    <Button
-      icon={<DownloadOutlined />}
-      type="dashed"
-      shape="round"
-      href={'/app' /* CSV_URL */}
-      onClick={WarningModal}
+      theme={{
+        token: {
+          colorPrimary: '#9D3715',
+        },
+      }}
     >
-      CSV
-    </Button>
+      <Button
+        icon={<DownloadOutlined />}
+        type="dashed"
+        shape="round"
+        href={'/app' /* CSV_URL */}
+        onClick={WarningModal}
+      >
+        CSV
+      </Button>
     </ConfigProvider>
   );
 };

@@ -1,16 +1,15 @@
-import React from "react";
+import React from 'react';
 
 /* Components */
-import AuthorsListOnModal from "./AuthorsListOnModal";
-import AuthorsHorizontalList from "./AuthorsHorizontalList";
-import ErrorWarning from "./ErrorWarning";
-import LoadingCard from "./LoadingCard";
+import AuthorsHorizontalList from './AuthorsHorizontalList';
+import ErrorWarning from './ErrorWarning';
+import LoadingCard from './LoadingCard';
 
 /* Utilities */
-import { APIRequest } from "../apis/colav";
+import { APIRequest } from '../apis/colav';
 
 /* UI Library Components */
-import { Divider, Descriptions, Typography } from "antd";
+import { Divider, Descriptions, Typography } from 'antd';
 
 /* UI Library Sub-components */
 const { Text, Paragraph, Link } = Typography;
@@ -24,7 +23,7 @@ const DocumentModal = ({ documentID }) => {
       <Descriptions.Item key={item.source} label={`${item.source}:`}>
         {item.url && (
           <>
-            URL:{" "}
+            URL:{' '}
             <a href={item.url} target="_blank" rel="noreferrer">
               Abrir en nueva pestaña
             </a>
@@ -55,45 +54,45 @@ const DocumentModal = ({ documentID }) => {
       <div>
         <Text strong>Autores: </Text>
         {<AuthorsHorizontalList authors={state.data.data.authors} />}
-        <Divider style={{ margin: "15px 0" }} />
+        <Divider style={{ margin: '15px 0' }} />
         <Text strong>Abstract:</Text>
         <Paragraph
           ellipsis={
-            ellipsis ? { rows: 3, expandable: true, symbol: "Más" } : false
+            ellipsis ? { rows: 3, expandable: true, symbol: 'Más' } : false
           }
         >
-          {state.data.data.abstract || "No disponible"}
+          {state.data.data.abstract || 'No disponible'}
         </Paragraph>
-        <Divider style={{ margin: "15px 0" }} />
+        <Divider style={{ margin: '15px 0' }} />
         <Descriptions bordered column={{ lg: 3, md: 2, sm: 2, xs: 1 }}>
           <Descriptions.Item label="Revista:">
             {state.data.data.source.name.name}
           </Descriptions.Item>
           <Descriptions.Item label="Idioma:">
-            {state.data.data.source.name.lang || "No disponible"}
+            {state.data.data.source.name.lang || 'No disponible'}
           </Descriptions.Item>
           <Descriptions.Item label="Volumen:">
-            {state.data.data.volume || "No disponible"}
+            {state.data.data.volume || 'No disponible'}
           </Descriptions.Item>
           <Descriptions.Item label="Publicado:">
-            {state.data.data.year_published || "No disponible"}
+            {state.data.data.year_published || 'No disponible'}
           </Descriptions.Item>
           <Descriptions.Item label="Issue:">
-            {state.data.data.issue || "No disponible"}
+            {state.data.data.issue || 'No disponible'}
           </Descriptions.Item>
           <Descriptions.Item label="pISSN:">
             <Text>
-              {state.data.data.source?.serials?.pissn || "No disponible"}
+              {state.data.data.source?.serials?.pissn || 'No disponible'}
             </Text>
           </Descriptions.Item>
           <Descriptions.Item label="ISSN:">
             <Text>
-              {state.data.data.source?.serials?.issn || "No disponible"}
+              {state.data.data.source?.serials?.issn || 'No disponible'}
             </Text>
           </Descriptions.Item>
           <Descriptions.Item label="Scimago:">
             <Text>
-              {state.data.data.source?.serials?.scimago || "No disponible"}
+              {state.data.data.source?.serials?.scimago || 'No disponible'}
             </Text>
           </Descriptions.Item>
           <Descriptions.Item label="Openalex:">
@@ -106,11 +105,11 @@ const DocumentModal = ({ documentID }) => {
                 {state.data.data.source?.serials?.openalex}
               </a>
             ) : (
-              "No disponible"
+              'No disponible'
             )}
           </Descriptions.Item>
           <Descriptions.Item label="Citaciones:">
-            {state.data.data.citations_count || "No disponible"}
+            {state.data.data.citations_count || 'No disponible'}
           </Descriptions.Item>
           {renderedExternalIDs()}
           {renderedExternalURLs()}

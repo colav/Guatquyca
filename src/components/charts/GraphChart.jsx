@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
 /* Libraries */
-import G6 from "@antv/g6";
+import G6 from '@antv/g6';
 
 const GraphChart = ({ data }) => {
   const ref = useRef(null);
@@ -18,29 +18,29 @@ const GraphChart = ({ data }) => {
         modes: {
           default: [
             {
-              type: "drag-node",
+              type: 'drag-node',
               enableOptimize: true,
             },
             {
-              type: "zoom-canvas",
+              type: 'zoom-canvas',
               enableOptimize: true,
               optimizeZoom: 0.9,
             },
             {
-              type: "drag-canvas",
+              type: 'drag-canvas',
               enableOptimize: true,
             },
             {
-              type: "tooltip",
+              type: 'tooltip',
               formatText(model) {
                 return `Grado: ${model.degree}`;
               },
             },
             {
-              type: "edge-tooltip",
+              type: 'edge-tooltip',
               formatText(model) {
                 return `${model.coauthorships} ${
-                  model.coauthorships > 1 ? "coautorías" : "coautoría"
+                  model.coauthorships > 1 ? 'coautorías' : 'coautoría'
                 }`;
               },
             },
@@ -49,7 +49,7 @@ const GraphChart = ({ data }) => {
         fitCenter: true,
         fitView: true,
         layout: {
-          type: "gForce",
+          type: 'gForce',
           nodeStrength: 1000,
           edgeStrength: 200,
           workerEnabled: true,
@@ -58,16 +58,16 @@ const GraphChart = ({ data }) => {
           gravity: 20,
         },
         defaultNode: {
-          style: { stroke: "#620dd9", fill: "#873bf4", fillOpacity: 0.6 },
+          style: { stroke: '#620dd9', fill: '#873bf4', fillOpacity: 0.6 },
           labelCfg: {
             style: { fontSize: 8 },
-            position: "bottom",
+            position: 'bottom',
             offset: 1,
           },
         },
         defaultEdge: {
           style: {
-            stroke: "#e8e7e3",
+            stroke: '#e8e7e3',
           },
         },
       });

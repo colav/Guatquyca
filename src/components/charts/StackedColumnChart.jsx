@@ -1,17 +1,20 @@
-import React from "react";
+import React from 'react';
 
 /* Libraries */
-import { Column } from "@ant-design/charts";
+import { Column } from '@ant-design/charts';
+
+/* UI Library Components */
+import { Empty } from 'antd';
 
 const StackedColumnChart = ({ data }) => {
   let config_normal = {
     data: data,
-    xField: "x",
-    yField: "y",
+    xField: 'x',
+    yField: 'y',
     appendPadding: [10, 10, 10, 10],
-    legend: { layout: "horizontal", position: "top" },
+    legend: { layout: 'horizontal', position: 'top' },
     columnWidthRatio: 0.6,
-    columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
+    columnBackground: { style: { fill: 'rgba(0,0,0,0.1)' } },
     xAxis: {
       label: {
         autoRotate: false,
@@ -24,19 +27,19 @@ const StackedColumnChart = ({ data }) => {
   let config_stacked = {
     data: data,
     isStack: true,
-    xField: "x",
-    yField: "y",
-    seriesField: "type",
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'type',
     appendPadding: [10, 10, 10, 10],
     columnWidthRatio: 0.6,
-    columnBackground: { style: { fill: "rgba(0,0,0,0.1)" } },
+    columnBackground: { style: { fill: 'rgba(0,0,0,0.1)' } },
     xAxis: {
       label: {
         autoRotate: false,
         style: { fontSize: 11 },
       },
     },
-    legend: { layout: "horizontal", position: "top" },
+    legend: { layout: 'horizontal', position: 'top' },
     slider: { start: 0, end: 0.5 },
   };
 
@@ -51,7 +54,14 @@ const StackedColumnChart = ({ data }) => {
         <Column {...config} />
       </div>
     );
-  }
+  } else
+    return (
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description="Datos insuficientes"
+        style={{ marginTop: '100px' }}
+      />
+    );
 };
 
 export default StackedColumnChart;

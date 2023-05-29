@@ -1,32 +1,31 @@
-import React from "react";
+import React from 'react';
 
 /* Components */
-import AffiliationLinks from "../AffiliationLinks";
-import ExternalProfiles from "../ExternalProfiles";
-import ExternalURL from "../ExternalURL";
-import SortSearchResults from "../SortSearchResults";
+import ExternalProfiles from '../ExternalProfiles';
+import ExternalURL from '../ExternalURL';
+import SortSearchResults from '../SortSearchResults';
 
 /* Hooks */
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 /* Icons */
-import { FileOutlined } from "@ant-design/icons";
-import { CitationsIcon } from "../../media/icons/citations";
+import { FileOutlined } from '@ant-design/icons';
+import { CitationsIcon } from '../../media/icons/citations';
 
 /* UI Library Components */
-import { Avatar, Card, Col, List, Row, Statistic, Typography } from "antd";
+import { Avatar, Card, Col, List, Row, Statistic, Typography } from 'antd';
 
 /* Utilities */
-import { Link } from "react-router-dom";
-import { TITLES } from "../../utils/constants";
+import { Link } from 'react-router-dom';
+import { TITLES } from '../../utils/constants';
 
 const EntityList = ({ data, type, tools }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pagination = {
-    max: parseInt(searchParams.get("max")),
-    page: parseInt(searchParams.get("page")),
+    max: parseInt(searchParams.get('max')),
+    page: parseInt(searchParams.get('page')),
   };
 
   const onPageChange = ({ page, pageSize }) => {
@@ -40,14 +39,14 @@ const EntityList = ({ data, type, tools }) => {
     <Row align="center">
       <Col span={24}>
         <Card
-          headStyle={{ backgroundColor: "#003e65", color: "white" }}
-          bodyStyle={{ padding: "10px 0 10px 10px" }}
+          headStyle={{ backgroundColor: '#003e65', color: 'white' }}
+          bodyStyle={{ padding: '10px 0 10px 10px' }}
           title={TITLES[type]}
           extra={
             <div>
               <p className="white-text">
-                {data.total_results}{" "}
-                {data.total_results === 1 ? "resultado" : "resultados"}
+                {data.total_results}{' '}
+                {data.total_results === 1 ? 'resultado' : 'resultados'}
               </p>
               <SortSearchResults tools={tools} key="1" />
             </div>
@@ -58,8 +57,8 @@ const EntityList = ({ data, type, tools }) => {
             size="large"
             dataSource={data.data}
             pagination={{
-              size: "small",
-              position: "bottom",
+              size: 'small',
+              position: 'bottom',
               total: data.total_results,
               onChange: (page, pageSize) =>
                 onPageChange({
@@ -97,21 +96,21 @@ const EntityList = ({ data, type, tools }) => {
                         to={`/app/affiliation?type=${type}&id=${item._id}&section=affiliations`}
                       >
                         {item.name}
-                      </Link>{" "}
+                      </Link>{' '}
                       {item.addresses?.length ? (
                         <img
-                          style={{ paddingBottom: "3px" }}
+                          style={{ paddingBottom: '3px' }}
                           alt={`flag of ${item.addresses[0]?.country}`}
                           title={item.addresses[0]?.country}
                           src={`https://flagcdn.com/28x21/${item.addresses[0]?.country_code.toLowerCase()}.png`}
                         />
                       ) : (
-                        ""
+                        ''
                       )}
                     </>
                   }
                   description={
-                    <Row align={"top"} gutter={[30, 10]}>
+                    <Row align={'top'} gutter={[30, 10]}>
                       <Col xs={24} lg={6}>
                         <ExternalURL URLList={item.external_urls} />
                       </Col>
@@ -122,15 +121,15 @@ const EntityList = ({ data, type, tools }) => {
                         <Typography.Title
                           className="bold"
                           level={4}
-                          style={{ margin: 0, color: "gray" }}
+                          style={{ margin: 0, color: 'gray' }}
                         >
-                          {React.createElement(FileOutlined)} Publicaciones:{" "}
+                          {React.createElement(FileOutlined)} Publicaciones:{' '}
                         </Typography.Title>
                         <Statistic
                           value={
                             item.papers_count ||
                             item.products_count ||
-                            "No disponible"
+                            'No disponible'
                           }
                         />
                       </Col>
@@ -138,12 +137,12 @@ const EntityList = ({ data, type, tools }) => {
                         <Typography.Title
                           className="bold"
                           level={4}
-                          style={{ margin: 0, color: "gray" }}
+                          style={{ margin: 0, color: 'gray' }}
                         >
-                          {React.createElement(CitationsIcon)} Citado:{" "}
+                          {React.createElement(CitationsIcon)} Citado:{' '}
                         </Typography.Title>
                         <Statistic
-                          value={item.citations_count || "No disponible"}
+                          value={item.citations_count || 'No disponible'}
                         />
                       </Col>
                     </Row>

@@ -1,10 +1,9 @@
 {
   "name": "guatquyca",
-  "version": "2.0.6",
+  "version": "2.1.0a",
   "private": true,
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
-    "@antv/graphin": "^2.7.16",
     "antd": "^5.5.1",
     "axios": "^1.4.0",
     "react": "^18.2.0",
