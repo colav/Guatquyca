@@ -93,7 +93,11 @@ const EntityList = ({ data, type, tools }) => {
                     <>
                       <Link
                         className="searchResult--link"
-                        to={`/app/affiliation?type=${type}&id=${item._id}&section=affiliations`}
+                        to={
+                          type === 'group'
+                            ? `/app/affiliation?type=${type}&id=${item._id}&section=research`
+                            : `/app/affiliation?type=${type}&id=${item._id}&section=affiliations`
+                        }
                       >
                         {item.name}
                       </Link>{' '}

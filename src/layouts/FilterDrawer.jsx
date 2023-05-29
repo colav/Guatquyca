@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 /* UI Library Components */
-import { Drawer, Button, ConfigProvider } from "antd";
+import { Drawer, Button, ConfigProvider } from 'antd';
 
 /* Icons */
-import { FilterOutlined } from "@ant-design/icons";
+import { FilterOutlined } from '@ant-design/icons';
 
 /* Components */
-import FilterMenu from "../components/FilterMenu";
+import FilterMenu from '../components/FilterMenu';
 
 /* Utilities */
 /* import { useHistory } from 'react-router-dom'; */
@@ -43,7 +43,7 @@ const FilterDrawer = ({ core }) => {
       <ConfigProvider
         theme={{
           token: {
-            borderRadius: "0 0 8px 8px",
+            borderRadius: '0 0 8px 8px',
           },
         }}
       >
@@ -58,11 +58,11 @@ const FilterDrawer = ({ core }) => {
         </Button>
       </ConfigProvider>
       <Drawer
-        headerStyle={{ backgroundColor: "#f0f2f5" }}
-        bodyStyle={{ backgroundColor: "#fafbfc", padding: 0 }}
-        footerStyle={{ backgroundColor: "#f0f2f5", textAlign: "right" }}
+        headerStyle={{ backgroundColor: '#f0f2f5' }}
+        bodyStyle={{ backgroundColor: '#fafbfc', padding: 0 }}
+        footerStyle={{ backgroundColor: '#f0f2f5', textAlign: 'right' }}
         title="Filtros"
-        placement={"left"}
+        placement={'left'}
         zIndex={1001}
         onClose={onClose}
         open={visible}
@@ -71,6 +71,7 @@ const FilterDrawer = ({ core }) => {
         }
       >
         <FilterMenu core={core} onClose={onClose} />
+        <div>Texto</div>
       </Drawer>
     </>
   );

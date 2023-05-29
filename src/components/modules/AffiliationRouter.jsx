@@ -1,17 +1,26 @@
-import React from "react";
+import React from 'react';
 
 /* Hooks */
-import { useSearchParams } from "react-router-dom";
-import Institutions from "./Institutions";
+import { useSearchParams } from 'react-router-dom';
+import Institutions from './Institutions';
+import Departments from './Departments';
+import Groups from './Groups';
+import Faculties from './Faculties';
 
-const AffiliationRouter = ({ core }) => {
+const AffiliationRouter = () => {
   const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
+  const type = searchParams.get('type');
 
-  if (type === "institution") {
-    return <Institutions core={core} />;
+  if (type === 'institution') {
+    return <Institutions />;
+  } else if (type === 'department') {
+    return <Departments />;
+  } else if (type === 'group') {
+    return <Groups />;
+  } else if (type === 'faculty') {
+    return <Faculties />;
   }
-  return "Ruta no conectada";
+  return 'Ruta no conectada';
 };
 
 export default AffiliationRouter;

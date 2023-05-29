@@ -67,7 +67,11 @@ const CommonTitleCard = () => {
               </Typography.Title>
               <Row align={'top'} gutter={[30, 10]}>
                 <Col xs={24} lg={6}>
-                  <ExternalURL URLList={state.data.data.external_urls} />
+                  {state.data.data.external_urls.length ? (
+                    <ExternalURL URLList={state.data.data.external_urls} />
+                  ) : (
+                    ''
+                  )}
                 </Col>
               </Row>
             </>

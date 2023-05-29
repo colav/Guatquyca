@@ -1,30 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 /* Components */
-import FilterMultipleSelect from './FilterMultipleSelect';
 import YearsRangeFilter from './YearsRangeFilter';
 
 /* UI Library Components */
-import { Button, Menu } from 'antd';
-
-/* Icons */
-import {
-  BankOutlined,
-  TeamOutlined,
-  CalendarOutlined,
-} from '@ant-design/icons';
-
-/* Utilities */
-/* import { useHistory } from 'react-router-dom'; */
-
-/* UI Library Sub-components */
-const { SubMenu } = Menu;
+import { Menu } from 'antd';
 
 const FilterMenu = ({ core, onClose }) => {
-  /* const history = useHistory(); */
-  const [institutions, setInstitutions] = useState('');
-  const [groups, setGroups] = useState('');
-  const [years, setYears] = useState('');
   const rootSubmenuKeys = ['institutions', 'groups', 'years'];
   const [openKeys, setOpenKeys] = React.useState(['']);
 
@@ -80,18 +62,11 @@ const FilterMenu = ({ core, onClose }) => {
 
   const filters = { start_year: 1990, end_year: 2020 };
 
-  useEffect(() => {
-    //core.setFilters(null);
-    setInstitutions('');
-    setGroups('');
-    setYears('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [core.URL]);
-
   const items = [
     {
       label: 'Rango de años',
       key: '0',
+      disabled: true,
       children: [
         {
           label: 'Año de inicio',
@@ -122,6 +97,7 @@ const FilterMenu = ({ core, onClose }) => {
     {
       label: 'Institución',
       key: '1',
+      disabled: true,
       children: [
         {
           label: 'Tipo',
@@ -145,26 +121,32 @@ const FilterMenu = ({ core, onClose }) => {
     },
     {
       label: 'Facultad',
+      disabled: true,
       key: '2',
     },
     {
       label: 'Departamento',
+      disabled: true,
       key: '3',
     },
     {
       label: 'Grupo de investigación',
+      disabled: true,
       key: '4',
     },
     {
       label: 'Investigador Principal',
+      disabled: true,
       key: '5',
     },
     {
       label: 'País',
+      disabled: true,
       key: '6',
     },
     {
       label: 'Tipo de Producto',
+      disabled: true,
       key: '7',
       children: [
         {
@@ -206,6 +188,7 @@ const FilterMenu = ({ core, onClose }) => {
     {
       label: 'Acceso',
       key: '8',
+      disabled: true,
       children: [
         {
           label: 'Cerrado',
@@ -227,6 +210,7 @@ const FilterMenu = ({ core, onClose }) => {
     {
       label: 'Bases de dato de origen',
       key: '9',
+      disabled: true,
       children: [
         { label: 'WoS', key: '9-0' },
         { label: 'Scopus', key: '9-1' },
