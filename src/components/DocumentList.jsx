@@ -9,6 +9,7 @@ import DownloadCSVButton from "./DownloadCSVButton";
 import DownloadJSONButton from "./DownloadJSONButton";
 import OpenAccessStatus from "./OpenAccessStatus";
 import SortProduction from "./SortProduction";
+import SubjectsTags from "./SubjectsTags";
 
 /* Icons */
 import { CitationsIcon } from "../media/icons/citations";
@@ -152,7 +153,8 @@ const DocumentList = () => {
                 </div>
               }
             />
-            Autores: {<AuthorsHorizontalList authors={item.authors} />}
+            Autores: <AuthorsHorizontalList authors={item.authors} />
+            Temas: <SubjectsTags subjectsList={item.subjects} />
           </List.Item>
         )}
       />

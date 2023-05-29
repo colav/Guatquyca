@@ -19,6 +19,7 @@ import { App, Card, List, Pagination, Space, Typography } from "antd";
 
 /* Utilities */
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import SubjectsTags from "../SubjectsTags";
 
 /* UI Library Sub-components */
 const { Link } = Typography;
@@ -63,8 +64,7 @@ const WorkList = ({ data }) => {
     <Card
       style={{ marginTop: "15px" }}
       headStyle={{ backgroundColor: "#003e65", color: "white" }}
-      title={"Artículos"}
-      size="small"
+      title={"Productos"}
       extra={
         data.total_results === 1
           ? `${data.total_results} resultado`
@@ -131,6 +131,7 @@ const WorkList = ({ data }) => {
               }
             />
             Autores: {<AuthorsHorizontalList authors={item.authors} />}
+            Temas: <SubjectsTags subjectsList={item.subjects} />
           </List.Item>
         )}
       />
