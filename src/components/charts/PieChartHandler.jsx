@@ -10,7 +10,7 @@ import TreemapChart from "./TreemapChart";
 import { Card, Select } from "antd";
 
 /* Utilities */
-import { APIRequest } from "../../apis/clustercien";
+import { APIRequest } from "../../apis/colav";
 import { useLocation } from "react-router-dom";
 
 const PLOTLIST = [
@@ -73,7 +73,7 @@ const PLOTLIST = [
 
 const PieChartHandler = () => {
   const location = useLocation();
-  const [selectedPlot, setSelectedPlot] = useState("citations_faculty");
+  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST[0].value);
   const [state, setUrl] = APIRequest(
     `${location.pathname}${location.search}&plot=${selectedPlot}`
   );

@@ -39,9 +39,8 @@ const OPTIONS = [
   },
   {
     label: "Productos",
-    value: "literature",
-    key: "literature",
-    disabled: true,
+    value: "work",
+    key: "work",
   },
   {
     label: "Proyectos",

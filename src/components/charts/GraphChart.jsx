@@ -18,6 +18,10 @@ const GraphChart = ({ data }) => {
         modes: {
           default: [
             {
+              type: "drag-node",
+              enableOptimize: true,
+            },
+            {
               type: "zoom-canvas",
               enableOptimize: true,
               optimizeZoom: 0.9,
@@ -42,12 +46,19 @@ const GraphChart = ({ data }) => {
             },
           ],
         },
+        fitCenter: true,
+        fitView: true,
         layout: {
-          type: data?.nodes?.length > 220 ? "forceAtlas2" : "gForce",
+          type: "gForce",
+          nodeStrength: 1000,
+          edgeStrength: 200,
+          workerEnabled: true,
+          gpuEnabled: true,
           preventOverlap: true,
+          gravity: 20,
         },
         defaultNode: {
-          style: { stroke: "#00A283", fill: "#873bf4", fillOpacity: 0.6 },
+          style: { stroke: "#620dd9", fill: "#873bf4", fillOpacity: 0.6 },
           labelCfg: {
             style: { fontSize: 8 },
             position: "bottom",

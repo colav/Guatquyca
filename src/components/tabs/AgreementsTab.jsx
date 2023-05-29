@@ -5,7 +5,7 @@ import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 
 /* Utilities */
-import { APIRequest } from "../../apis/clustercien";
+import { APIRequest } from "../../apis/colav";
 import { useLocation } from "react-router-dom";
 
 const AgreementsTab = () => {

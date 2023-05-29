@@ -9,7 +9,7 @@ import GraphChart from "./GraphChart";
 import { Card, Select } from "antd";
 
 /* Utilities */
-import { APIRequest } from "../../apis/clustercien";
+import { APIRequest } from "../../apis/colav";
 import { useLocation } from "react-router-dom";
 
 const PLOTLIST = [

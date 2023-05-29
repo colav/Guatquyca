@@ -2,11 +2,12 @@ import React from "react";
 
 /* Components */
 import AuthorsListOnModal from "./AuthorsListOnModal";
+import AuthorsHorizontalList from "./AuthorsHorizontalList";
 import ErrorWarning from "./ErrorWarning";
 import LoadingCard from "./LoadingCard";
 
 /* Utilities */
-import { APIRequest } from "../apis/clustercien";
+import { APIRequest } from "../apis/colav";
 
 /* UI Library Components */
 import { Divider, Descriptions, Typography } from "antd";
@@ -53,7 +54,7 @@ const DocumentModal = ({ documentID }) => {
     return (
       <div>
         <Text strong>Autores: </Text>
-        {<AuthorsListOnModal authors={state.data.data.authors} />}
+        {<AuthorsHorizontalList authors={state.data.data.authors} />}
         <Divider style={{ margin: "15px 0" }} />
         <Text strong>Abstract:</Text>
         <Paragraph

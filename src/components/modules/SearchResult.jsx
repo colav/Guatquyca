@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 /* Components */
 import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
-import AffiliationList from "../searchLists/AffiliationList";
+import WorkList from "../searchLists/WorkList";
 import EntityList from "../searchLists/EntityList";
 import PersonList from "../searchLists/PersonList";
 
 /* Utilities */
-import { APIRequest } from "../../apis/clustercien";
+import { APIRequest } from "../../apis/colav";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 /* Constants */
@@ -30,7 +30,7 @@ const SearchResult = () => {
   useEffect(() => {
     setUrl(`${location.pathname}${location.search}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location.search]);
 
   if (state.isError) {
     return <ErrorWarning />;
@@ -40,8 +40,9 @@ const SearchResult = () => {
     return <PersonList data={state.data} type={type} />;
   } else if (CHECKLIST.AFFILIATIONENTITIES.includes(type)) {
     return <EntityList data={state.data} type={type} />;
+  } else if (type === "work" && state.data?.data[0]?.title) {
+    return <WorkList data={state.data} />;
   }
-  return <EntityList data={state.data} type={type} />;
 };
 
 export default SearchResult;

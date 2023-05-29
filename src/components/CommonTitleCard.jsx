@@ -15,7 +15,7 @@ import { ReadOutlined } from "@ant-design/icons";
 import ExternalURL from "./ExternalURL";
 
 /* Utilities */
-import { APIRequest } from "../apis/clustercien";
+import { APIRequest } from "../apis/colav";
 
 /* UI Library Sub-components */
 const { Meta } = Card;

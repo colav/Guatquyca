@@ -1,50 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 /* Components */
-import ErrorWarning from "./ErrorWarning";
-import LoadingCard from "./LoadingCard";
-import AuthorsHorizontalList from "./AuthorsHorizontalList";
-import DocumentModal from "./DocumentModal";
-import DownloadCSVButton from "./DownloadCSVButton";
-import DownloadJSONButton from "./DownloadJSONButton";
-import OpenAccessStatus from "./OpenAccessStatus";
-import SortProduction from "./SortProduction";
+import ErrorWarning from "../ErrorWarning";
+import LoadingCard from "../LoadingCard";
+import AuthorsHorizontalList from "../AuthorsHorizontalList";
+import DocumentModal from "../DocumentModal";
+import DownloadCSVButton from "../DownloadCSVButton";
+import DownloadJSONButton from "../DownloadJSONButton";
+import OpenAccessStatus from "../OpenAccessStatus";
+import SortProduction from "../SortProduction";
 
 /* Icons */
-import { CitationsIcon } from "../media/icons/citations";
+import { CitationsIcon } from "../../media/icons/citations";
 import { CalendarOutlined, ReadOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
 import { App, Card, List, Pagination, Space, Typography } from "antd";
 
 /* Utilities */
-import { APIRequest } from "../apis/colav";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 /* UI Library Sub-components */
 const { Link } = Typography;
 
-const DocumentList = () => {
+const WorkList = ({ data }) => {
   const location = useLocation();
-  const [pagination, setPagination] = useState({ page: 1, max: 10 });
-  const [state, setUrl] = APIRequest(
-    `${location.pathname}${location.search}&page=${pagination.page}&max_results=${pagination.max}`.replace(
-      "type=institution&",
-      ""
-    )
-  );
-
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const pagination = {
+    max: parseInt(searchParams.get("max")),
+    page: parseInt(searchParams.get("page")),
+  };
+  const keywords = searchParams.get("keywords");
   const { modal } = App.useApp();
 
-  useEffect(() => {
-    setUrl(
-      `${location.pathname}${location.search}&page=${pagination.page}&max_results=${pagination.max}`.replace(
-        "type=institution&",
-        ""
-      )
+  const onPageChange = ({ page, max }) => {
+    navigate(
+      `${location.pathname}?data=work&max=${max}&page=${page}${
+        keywords ? `&keywords=${keywords}` : ""
+      }`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]);
+    window.scrollTo(0, 0);
+  };
 
   const docInfo = (title, id, status) => {
     modal.warning({
@@ -62,25 +59,6 @@ const DocumentList = () => {
       onOk() {},
     });
   };
-
-  const onPageChange = ({ page, pageSize }) => {
-    setPagination({ page: page, max: pageSize });
-  };
-
-  if (state.isError) {
-    return <ErrorWarning />;
-  } else if (state.isLoading) {
-    return (
-      <Card
-        style={{ marginTop: "15px" }}
-        headStyle={{ backgroundColor: "#003e65", color: "white" }}
-        title={"Artículos"}
-        size="small"
-      >
-        <LoadingCard />
-      </Card>
-    );
-  }
   return (
     <Card
       style={{ marginTop: "15px" }}
@@ -88,9 +66,9 @@ const DocumentList = () => {
       title={"Artículos"}
       size="small"
       extra={
-        state.data.total_results === 1
-          ? `${state.data.total_results} resultado`
-          : `${state.data.total_results} resultados`
+        data.total_results === 1
+          ? `${data.total_results} resultado`
+          : `${data.total_results} resultados`
       }
     >
       <List
@@ -100,11 +78,11 @@ const DocumentList = () => {
           <div style={{ textAlign: "end" }}>
             <Pagination
               size="small"
-              total={state.data.total_results}
-              onChange={(page, pageSize) =>
+              total={data.total_results}
+              onChange={(page, max) =>
                 onPageChange({
                   page,
-                  pageSize,
+                  max,
                 })
               }
               current={pagination.page}
@@ -112,7 +90,7 @@ const DocumentList = () => {
             />
           </div>
         }
-        dataSource={state.data.data}
+        dataSource={data.data}
         renderItem={(item) => (
           <List.Item
             key={item.id}
@@ -123,9 +101,9 @@ const DocumentList = () => {
               </Space>,
               <Space style={{ fontSize: 18 }}>
                 {React.createElement(CitationsIcon)}
-                {item.citations_count[0].count === 1
-                  ? `${item.citations_count[0].count} citación`
-                  : `${item.citations_count[0].count} citaciones`}
+                {item?.citations_count[0]?.count === 1
+                  ? `${item?.citations_count[0]?.count} citación`
+                  : `${item?.citations_count[0]?.count} citaciones`}
               </Space>,
             ]}
           >
@@ -160,4 +138,4 @@ const DocumentList = () => {
   );
 };
 
-export default DocumentList;
+export default WorkList;
