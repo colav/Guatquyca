@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 /* Wrappers */
-import AffiliationWrapper from '../wrappers/AffiliationWrapper';
 import ExtensionWrapper from '../wrappers/ExtensionWrapper';
 import ResearchWrapper from '../wrappers/ResearchWrapper';
 import CooperationWrapper from '../wrappers/CooperationWrapper';

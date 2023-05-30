@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 /* Wrappers */
-import AffiliationWrapper from '../wrappers/AffiliationWrapper';
+import AffiliationWrapperFaculty from '../wrappers/AffiliationWrapperFaculty';
 import ExtensionWrapper from '../wrappers/ExtensionWrapper';
 import ResearchWrapper from '../wrappers/ResearchWrapper';
 import CooperationWrapper from '../wrappers/CooperationWrapper';
@@ -30,7 +30,7 @@ const Faculties = () => {
         <CommonTitleCard />
       </Row>
       <TopMenu current={current} setCurrent={setCurrent} affiliations={true} />
-      {current === 'affiliations' ? <AffiliationWrapper /> : ''}
+      {current === 'affiliations' ? <AffiliationWrapperFaculty /> : ''}
       {current === 'research' ? <ResearchWrapper /> : ''}
       {current === 'extension' ? <ExtensionWrapper /> : ''}
       {current === 'cooperation' ? <CooperationWrapper /> : ''}

@@ -95,7 +95,7 @@ const EntityList = ({ data, type, tools }) => {
                         className="searchResult--link"
                         to={
                           type === 'group'
-                            ? `/app/affiliation?type=${type}&id=${item._id}&section=research`
+                            ? `/app/affiliation?type=${type}&id=${item._id}&section=research&tab=products`
                             : `/app/affiliation?type=${type}&id=${item._id}&section=affiliations`
                         }
                       >

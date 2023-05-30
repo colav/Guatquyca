@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 /* Components */
-import ErrorWarning from "../ErrorWarning";
-import LoadingCard from "../LoadingCard";
-import MapChart from "./MapChart";
+import ErrorWarning from '../ErrorWarning';
+import LoadingCard from '../LoadingCard';
+import MapChart from './MapChart';
 
 /* UI Library Components */
-import { Card, Select } from "antd";
+import { Card, Select } from 'antd';
 
 /* Utilities */
-import { APIRequest } from "../../apis/colav";
-import { useLocation } from "react-router-dom";
+import { APIRequest } from '../../apis/colav';
+import { useLocation } from 'react-router-dom';
 
 const PLOTLIST = [
   {
-    label: "Coautorías según país de afiliación",
-    value: "collaboration_worldmap",
+    label: 'Coautorías según país de afiliación',
+    value: 'collaboration_worldmap',
   },
   {
-    label: "Coautorías según afiliación territorial departamental",
-    value: "collaboration_colombiamap",
+    label: 'Coautorías según afiliación territorial departamental',
+    value: 'collaboration_colombiamap',
   },
 ];
 
 const MapChartHandler = () => {
   const location = useLocation();
-  const [selectedPlot, setSelectedPlot] = useState("collaboration_worldmap");
+  const [selectedPlot, setSelectedPlot] = useState('collaboration_worldmap');
   const [state, setUrl] = APIRequest(
     `${location.pathname}${location.search}&plot=${selectedPlot}`
   );
@@ -42,8 +42,8 @@ const MapChartHandler = () => {
   return (
     <Card
       size="small"
-      headStyle={{ backgroundColor: "#003e65", color: "white" }}
-      bodyStyle={{ padding: "10px", height: "420px" }}
+      headStyle={{ backgroundColor: '#003e65', color: 'white' }}
+      bodyStyle={{ padding: '10px', height: '420px' }}
       hoverable
       extra={
         <Select
@@ -59,11 +59,11 @@ const MapChartHandler = () => {
     >
       <div className="chart">
         {state.isLoading ? (
-          <LoadingCard height={"100%"} />
+          <LoadingCard height={'100%'} />
         ) : (
           <MapChart data={state.data.plot} />
         )}
-        {state.isError ? <ErrorWarning /> : ""}
+        {state.isError ? <ErrorWarning /> : ''}
       </div>
     </Card>
   );

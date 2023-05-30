@@ -71,7 +71,9 @@ const FilterDrawer = ({ core }) => {
         }
       >
         <FilterMenu core={core} onClose={onClose} />
-        <div>Texto</div>
+        <p style={{ margin: '15px' }}>
+          Filtros disponibles en una próxima actualización
+        </p>
       </Drawer>
     </>
   );

@@ -26,7 +26,13 @@ const ListCard = ({ type, list }) => {
                 <List.Item.Meta
                   id={item.id}
                   description={
-                    <Link to={`/app/${type}?data=info&id=${item.id}`}>
+                    <Link
+                      to={
+                        type === 'group'
+                          ? `/app/affiliation?type=${type}&section=research&tab=products&id=${item.id}`
+                          : `/app/affiliation?type=${type}&section=affiliations&id=${item.id}`
+                      }
+                    >
                       {item.full_name}
                       {item.name}
                     </Link>
