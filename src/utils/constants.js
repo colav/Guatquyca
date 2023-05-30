@@ -217,6 +217,10 @@ export const PLOTLIST_PIE = {
   ],
   department: [
     {
+      label: "20 palabras más usuales en los títulos de la producción",
+      value: "title_words",
+    },
+    {
       label: "Citas acumuladas de los grupos de investigación",
       value: "citations_group",
     },

@@ -20,7 +20,7 @@ const PieChartHandler = () => {
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
   const location = useLocation();
-  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_PIE[type][1].value);
+  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_PIE[type][0].value);
   const [state, setUrl] = APIRequest(
     `${location.pathname}${location.search}&plot=${selectedPlot}`
   );
