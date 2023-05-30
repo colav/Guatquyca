@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 /* Wrappers */
+import AffiliationWrapper from "../wrappers/AffiliationWrapper";
 import ExtensionWrapper from "../wrappers/ExtensionWrapper";
 import ResearchWrapper from "../wrappers/ResearchWrapper";
 import CooperationWrapper from "../wrappers/CooperationWrapper";
@@ -15,20 +16,19 @@ import TopMenu from "../TopMenu";
 /* UI Library Components */
 import { Row } from "antd";
 
-const Groups = () => {
+const Person = () => {
   const [searchParams] = useSearchParams();
   const [current, setCurrent] = useState(searchParams.get("section"));
 
   useEffect(() => {
-    document.title = "Grupos - ImpactU";
+    document.title = "Autores - ImpactU";
   }, []);
-
   return (
     <>
       <Row gutter={[15, 15]}>
-        <CommonTitleCard />
+        <CommonTitleCard type={"person"} />
       </Row>
-      <TopMenu current={current} setCurrent={setCurrent} />
+      <TopMenu current={current} setCurrent={setCurrent} affiliations={false} />
       {current === "research" ? <ResearchWrapper /> : ""}
       {current === "extension" ? <ExtensionWrapper /> : ""}
       {current === "cooperation" ? <CooperationWrapper /> : ""}
@@ -36,4 +36,4 @@ const Groups = () => {
   );
 };
 
-export default Groups;
+export default Person;

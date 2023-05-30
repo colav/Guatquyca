@@ -30,7 +30,11 @@ const ExternalURL = ({ URLList }) => {
             (item, idx) =>
               item.source !== "mag" && (
                 <div key={idx}>
-                  <a href={item.url} target="_blank" rel="noreferrer">
+                  <a
+                    href={item.url || item.id}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {renderedName(item.source)}
                   </a>
                 </div>

@@ -125,6 +125,28 @@ export const PLOTLIST_STACKED = {
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
   ],
+  person: [
+    {
+      label:
+        "Evolución anual de la producción según la clasificación del Scienti",
+      value: "year_type",
+    },
+    { label: "Cantidad de citas anuales", value: "year_citations" },
+    { label: "Gastos anuales en APC", value: "year_apc" },
+    {
+      label: "Artículos anuales en acceso abierto y cerrado",
+      value: "year_oa",
+    },
+    {
+      label: "Articulos anuales publicados en las editoriales más usadas",
+      value: "year_publisher",
+    },
+    {
+      label: "Índice H anual según datos de citación de Openalex",
+      value: "year_h",
+    },
+    { label: "Productos anuales por investigadores", value: "year_researcher" },
+  ],
 };
 
 export const PLOTLIST_PIE = {
@@ -312,6 +334,35 @@ export const PLOTLIST_PIE = {
       value: "published_institution",
     },
   ],
+  person: [
+    {
+      label: "20 palabras más usuales en los títulos de la producción",
+      value: "title_words",
+    },
+    { label: "Artículos según editorial", value: "products_publisher" },
+    { label: "Artículos según temas", value: "products_subject" },
+    {
+      label: "Productos según base de datos de origen",
+      value: "products_database",
+    },
+    { label: "Artículos según tipo de acceso abierto", value: "products_oa" },
+    {
+      label: "Productos según rango de edad de los autores",
+      value: "products_age",
+    },
+    {
+      label: "Artículos según categoría asignada en el Scienti",
+      value: "scienti_rank",
+    },
+    {
+      label: "Artículos en revistas rankeadas en cuartiles de Scimago",
+      value: "scimago_rank",
+    },
+    {
+      label: "Artículos en revistas de la misma institución del autor",
+      value: "published_institution",
+    },
+  ],
 };
 
 export const PLOTLIST_MAP = [
@@ -325,6 +376,9 @@ export const PLOTLIST_MAP = [
   },
 ];
 
-export const PLOTLIST_GRAPH = [
-  { label: "Coautoría institucional", value: "collaboration_network" },
-];
+export const PLOTLIST_GRAPH = {
+  institution: [
+    { label: "Coautoría institucional", value: "collaboration_network" },
+  ],
+  person: [{ label: "Coautoría personal", value: "collaboration_network" }],
+};

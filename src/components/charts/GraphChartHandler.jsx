@@ -13,9 +13,11 @@ import { Card, Select } from "antd";
 
 /* Utilities */
 import { APIRequest } from "../../apis/colav";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const GraphChartHandler = () => {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type") || "person";
   const location = useLocation();
   const [selectedPlot, setSelectedPlot] = useState("collaboration_network");
   const [state, setUrl] = APIRequest(
@@ -45,7 +47,7 @@ const GraphChartHandler = () => {
             width: 420,
           }}
           onChange={handleChange}
-          options={PLOTLIST_GRAPH}
+          options={PLOTLIST_GRAPH[type]}
         />
       }
     >

@@ -100,7 +100,7 @@ const PersonList = ({ data, type, tools }) => {
                     <>
                       <Link
                         className="searchResult--link"
-                        to={`/app/${type}?id=${item._id}`}
+                        to={`/app/${type}?id=${item._id}&section=research&tab=products`}
                       >
                         {item.name || item.full_name}
                       </Link>

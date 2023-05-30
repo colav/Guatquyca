@@ -18,7 +18,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 const PieChartHandler = () => {
   const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
+  const type = searchParams.get("type") || "person";
   const location = useLocation();
   const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_PIE[type][0].value);
   const [state, setUrl] = APIRequest(

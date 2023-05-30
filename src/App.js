@@ -21,6 +21,7 @@ import { App, Layout, FloatButton, ConfigProvider } from "antd";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./utils/ScrollToTop";
 import Affiliation from "./components/modules/AffiliationRouter";
+import Person from "./components/modules/Person";
 
 /* UI Library Sub-components */
 const { BackTop } = FloatButton;
@@ -51,6 +52,7 @@ function MyApp() {
               <Route path="/app" element={<Home core={core} />} />
               <Route path="/app/metrics" element={<Metrics core={core} />} />
               <Route path="/app/participants" element={<Participants />} />
+              <Route path="/app/person" element={<Person />} />
               <Route path="/app/about" element={<About />} />
               <Route
                 path="/app/search"

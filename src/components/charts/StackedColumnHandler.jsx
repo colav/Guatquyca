@@ -17,7 +17,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 const StackedColumnHandler = () => {
   const [searchParams] = useSearchParams();
-  const type = searchParams.get("type");
+  const type = searchParams.get("type") || "person";
   const location = useLocation();
   const [selectedPlot, setSelectedPlot] = useState(
     PLOTLIST_STACKED[type][0].value
