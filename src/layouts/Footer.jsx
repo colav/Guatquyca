@@ -106,14 +106,14 @@ const Footer = () => {
           <br />
           <Link to="/app/participants">Instituciones participantes</Link>
           <br />
-          <Link to="/app/help">Ayuda</Link>
+          <Link to="/app/open-source">Código Abierto</Link>
           <br />
           <a
-            href="http://impactu.colav.co:8080/apidoc/index.html"
+            href="http://apis.colav.co/apidoc/index.html"
             target="_blank"
             rel="noreferrer"
           >
-            API
+            Datos Abiertos
           </a>
         </Col>
         <Col xs={24} md={8}>

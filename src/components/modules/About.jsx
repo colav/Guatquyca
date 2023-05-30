@@ -20,6 +20,7 @@ import { Col, Divider, Image, Row, Typography } from "antd";
 const { Title, Paragraph, Link, Text } = Typography;
 
 const About = () => {
+  document.title = "Acerca de ImpactU";
   const logos = [wos, scopus, ma, lens, doaj, scielo, google, unpayw];
 
   const renderedLogos = () => {

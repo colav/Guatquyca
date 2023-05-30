@@ -1,21 +1,23 @@
-import React from 'react';
+import React from "react";
 
 /* UI Library Components */
-import { Col, Divider, Row, Typography } from 'antd';
+import { Col, Divider, Row, Typography } from "antd";
 
 /* UI Library Sub-components*/
 const { Title, Paragraph, Text } = Typography;
 
 const Participants = () => {
+  document.title = "Instituciones participantes - ImpactU";
+
   return (
     <Row gutter={[20, 20]} justify="center">
-      <Col xs={24} md={16} style={{ marginTop: '40px' }}>
+      <Col xs={24} md={16} style={{ marginTop: "40px" }}>
         <Title level={3}>Instituciones participantes</Title>
-        <Divider style={{ marginBottom: '10px' }} />
+        <Divider style={{ marginBottom: "10px" }} />
         <Paragraph>
-          {<Text strong>ImpactU</Text>} es producto de una alianza entre la{' '}
-          {<Text strong>Universidad de Antioquia</Text>},{' '}
-          {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{' '}
+          {<Text strong>ImpactU</Text>} es producto de una alianza entre la{" "}
+          {<Text strong>Universidad de Antioquia</Text>},{" "}
+          {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{" "}
           {<Text strong>Universidad Externado de Colombia</Text>}. En este
           proyecto participan diversos grupos de investigación y dependencias
           administrativas de estas universidades en la consolidación de un
@@ -30,14 +32,14 @@ const Participants = () => {
         <Paragraph>
           <ul>
             <li>
-              Comunidad de desarrolladores:{' '}
+              Comunidad de desarrolladores:{" "}
               <a
                 href="https://github.com/colav"
                 target="_blank"
                 rel="noreferrer"
               >
                 https://github.com/colav
-              </a>{' '}
+              </a>{" "}
               La comunidad de desarrollo crea softwares abiertos para captura,
               análisis y visualización de información.
             </li>
@@ -45,7 +47,7 @@ const Participants = () => {
             <li>
               Alianzas estratégicas cooperativas: Se desarrollan convenios
               bilaterales y multilaterales para el desarrollo de proyectos
-              específicos en el marco de la plataforma{' '}
+              específicos en el marco de la plataforma{" "}
               {<Text strong>ImpactU</Text>}.
             </li>
             <br />

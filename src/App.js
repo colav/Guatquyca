@@ -12,6 +12,7 @@ import Home from "./components/modules/Home";
 import Metrics from "./components/modules/Metrics";
 import Participants from "./components/modules/Participants";
 import SearchResult from "./components/modules/SearchResult";
+import OpenSource from "./components/modules/OpenSource";
 
 /* UI Library Components */
 import DisclaimerModal from "./components/DisclaimerModal";
@@ -49,6 +50,7 @@ function MyApp() {
             <Routes>
               <Route path="/" element={<Navigate replace to="/app" />} />
               <Route path="/app" element={<Home setHome={setHome} />} />
+              <Route path="/app/open-source" element={<OpenSource />} />
               <Route path="/app/metrics" element={<Metrics />} />
               <Route path="/app/participants" element={<Participants />} />
               <Route path="/app/person" element={<Person />} />
