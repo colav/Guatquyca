@@ -9,7 +9,7 @@ import GraphChart from "./GraphChart";
 import { PLOTLIST_GRAPH } from "../../utils/constants";
 
 /* UI Library Components */
-import { Card, Select } from "antd";
+import { Card, Empty, Select } from "antd";
 
 /* Utilities */
 import { APIRequest } from "../../apis/colav";
@@ -54,8 +54,14 @@ const GraphChartHandler = () => {
       <div className="chart">
         {state.isLoading ? (
           <LoadingCard height={"100%"} />
-        ) : (
+        ) : state.data.plot !== null ? (
           <GraphChart data={state.data.plot} />
+        ) : (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="Datos insuficientes"
+            style={{ marginTop: "100px" }}
+          />
         )}
         {state.isError ? <ErrorWarning /> : ""}
       </div>
