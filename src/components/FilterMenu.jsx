@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 /* Components */
-import YearsRangeFilter from './YearsRangeFilter';
+import YearsRangeFilter from "./YearsRangeFilter";
 
 /* UI Library Components */
-import { Menu } from 'antd';
+import { Menu } from "antd";
 
-const FilterMenu = ({ core, onClose }) => {
-  const rootSubmenuKeys = ['institutions', 'groups', 'years'];
-  const [openKeys, setOpenKeys] = React.useState(['']);
+const FilterMenu = () => {
+  const rootSubmenuKeys = ["institutions", "groups", "years"];
+  const [openKeys, setOpenKeys] = React.useState([""]);
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -64,160 +64,160 @@ const FilterMenu = ({ core, onClose }) => {
 
   const items = [
     {
-      label: 'Rango de años',
-      key: '0',
+      label: "Rango de años",
+      key: "0",
       disabled: true,
       children: [
         {
-          label: 'Año de inicio',
-          key: '0-0',
+          label: "Año de inicio",
+          key: "0-0",
           children: [
             {
               label: (
-                <div style={{ width: '100%' }}>
+                <div style={{ width: "100%" }}>
                   <YearsRangeFilter filters={filters} />
                 </div>
               ),
-              key: '0-0-0',
+              key: "0-0-0",
             },
           ],
         },
         {
-          label: 'Año de finalización',
-          key: '0-1',
+          label: "Año de finalización",
+          key: "0-1",
           children: [
             {
               label: <YearsRangeFilter filters={filters} />,
-              key: '0-1-0',
+              key: "0-1-0",
             },
           ],
         },
       ],
     },
     {
-      label: 'Institución',
-      key: '1',
+      label: "Institución",
+      key: "1",
       disabled: true,
       children: [
         {
-          label: 'Tipo',
-          key: '1-0',
+          label: "Tipo",
+          key: "1-0",
           children: [
-            { label: 'Empresa', key: '1-0-0' },
-            { label: 'Gobierno', key: '1-0-1' },
-            { label: 'Universidad', key: '1-0-2' },
-            { label: 'Otras', key: '1-0-3' },
+            { label: "Empresa", key: "1-0-0" },
+            { label: "Gobierno", key: "1-0-1" },
+            { label: "Universidad", key: "1-0-2" },
+            { label: "Otras", key: "1-0-3" },
           ],
         },
         {
-          label: 'Origen',
-          key: '1-1',
+          label: "Origen",
+          key: "1-1",
           children: [
-            { label: 'Nacional', key: '1-1-0' },
-            { label: 'Extranjera', key: '1-1-1' },
+            { label: "Nacional", key: "1-1-0" },
+            { label: "Extranjera", key: "1-1-1" },
           ],
         },
       ],
     },
     {
-      label: 'Facultad',
+      label: "Facultad",
       disabled: true,
-      key: '2',
+      key: "2",
     },
     {
-      label: 'Departamento',
+      label: "Departamento",
       disabled: true,
-      key: '3',
+      key: "3",
     },
     {
-      label: 'Grupo de investigación',
+      label: "Grupo de investigación",
       disabled: true,
-      key: '4',
+      key: "4",
     },
     {
-      label: 'Investigador Principal',
+      label: "Investigador Principal",
       disabled: true,
-      key: '5',
+      key: "5",
     },
     {
-      label: 'País',
+      label: "País",
       disabled: true,
-      key: '6',
+      key: "6",
     },
     {
-      label: 'Tipo de Producto',
+      label: "Tipo de Producto",
       disabled: true,
-      key: '7',
+      key: "7",
       children: [
         {
-          label: 'Generación de conocimiento',
-          key: '7-0',
+          label: "Generación de conocimiento",
+          key: "7-0",
           children: [
-            { label: 'Artículo de Investigación', key: '7-0-0' },
-            { label: 'Libro', key: '7-0-1' },
-            { label: 'etc.', key: '7-0-2' },
+            { label: "Artículo de Investigación", key: "7-0-0" },
+            { label: "Libro", key: "7-0-1" },
+            { label: "etc.", key: "7-0-2" },
           ],
         },
         {
-          label: 'Técnico o tecnológico',
-          key: '7-1',
+          label: "Técnico o tecnológico",
+          key: "7-1",
           children: [
-            { label: 'Secreto Industrial', key: '7-1-0' },
-            { label: 'etc', key: '7-1-1' },
+            { label: "Secreto Industrial", key: "7-1-0" },
+            { label: "etc", key: "7-1-1" },
           ],
         },
         {
-          label: 'Apropiación Social',
-          key: '7-2',
+          label: "Apropiación Social",
+          key: "7-2",
           children: [
-            { label: 'Libro de divulgación', key: '7-2-0' },
-            { label: 'etc', key: '7-2-1' },
+            { label: "Libro de divulgación", key: "7-2-0" },
+            { label: "etc", key: "7-2-1" },
           ],
         },
         {
-          label: 'Formación',
-          key: '7-3',
+          label: "Formación",
+          key: "7-3",
           children: [
-            { label: 'Trabajo de grado', key: '7-3-0' },
-            { label: 'Tesis de maestría', key: '7-3-1' },
-            { label: 'etc', key: '7-3-2' },
+            { label: "Trabajo de grado", key: "7-3-0" },
+            { label: "Tesis de maestría", key: "7-3-1" },
+            { label: "etc", key: "7-3-2" },
           ],
         },
       ],
     },
     {
-      label: 'Acceso',
-      key: '8',
+      label: "Acceso",
+      key: "8",
       disabled: true,
       children: [
         {
-          label: 'Cerrado',
-          key: '8-0',
+          label: "Cerrado",
+          key: "8-0",
         },
         {
-          label: 'Abierto',
-          key: '8-1',
+          label: "Abierto",
+          key: "8-1",
           children: [
-            { label: 'Dorado', key: '8-1-0' },
-            { label: 'Verde', key: '8-1-1' },
-            { label: 'Bronce', key: '8-1-2' },
-            { label: 'Híbrido', key: '8-1-3' },
-            { label: 'Sin identificar', key: '8-1-4' },
+            { label: "Dorado", key: "8-1-0" },
+            { label: "Verde", key: "8-1-1" },
+            { label: "Bronce", key: "8-1-2" },
+            { label: "Híbrido", key: "8-1-3" },
+            { label: "Sin identificar", key: "8-1-4" },
           ],
         },
       ],
     },
     {
-      label: 'Bases de dato de origen',
-      key: '9',
+      label: "Bases de dato de origen",
+      key: "9",
       disabled: true,
       children: [
-        { label: 'WoS', key: '9-0' },
-        { label: 'Scopus', key: '9-1' },
-        { label: 'Scienti', key: '9-2' },
-        { label: 'Lens', key: '9-3' },
-        { label: 'Scielo', key: '9-4' },
-        { label: 'D-Space', key: '9-5' },
+        { label: "WoS", key: "9-0" },
+        { label: "Scopus", key: "9-1" },
+        { label: "Scienti", key: "9-2" },
+        { label: "Lens", key: "9-3" },
+        { label: "Scielo", key: "9-4" },
+        { label: "D-Space", key: "9-5" },
       ],
     },
   ];

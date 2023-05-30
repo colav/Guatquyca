@@ -28,7 +28,6 @@ const { BackTop } = FloatButton;
 
 function MyApp() {
   const [home, setHome] = useState(false);
-  const core = { /* URL, setURL, filters, setFilters, */ home, setHome };
 
   return (
     <App>
@@ -43,25 +42,19 @@ function MyApp() {
         <DisclaimerModal />
         <BackTop />
         <ScrollToTop />
-        <FilterDrawer core={core} />
+        <FilterDrawer />
         <Layout>
-          <Header core={core} />
+          <Header home={home} />
           <Layout.Content id="layout--content">
             <Routes>
               <Route path="/" element={<Navigate replace to="/app" />} />
-              <Route path="/app" element={<Home core={core} />} />
-              <Route path="/app/metrics" element={<Metrics core={core} />} />
+              <Route path="/app" element={<Home setHome={setHome} />} />
+              <Route path="/app/metrics" element={<Metrics />} />
               <Route path="/app/participants" element={<Participants />} />
               <Route path="/app/person" element={<Person />} />
               <Route path="/app/about" element={<About />} />
-              <Route
-                path="/app/search"
-                element={<SearchResult core={core} />}
-              />
-              <Route
-                path="/app/affiliation"
-                element={<Affiliation core={core} />}
-              />
+              <Route path="/app/search" element={<SearchResult />} />
+              <Route path="/app/affiliation" element={<Affiliation />} />
             </Routes>
           </Layout.Content>
         </Layout>

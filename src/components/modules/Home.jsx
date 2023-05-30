@@ -18,13 +18,13 @@ import { Link } from "react-router-dom";
 /* UI Library Sub-components*/
 const { Title } = Typography;
 
-const Home = ({ core }) => {
+const Home = ({ setHome }) => {
   /* const [state] = APIRequest('/app/ourdata?'); */
   useEffect(() => {
     document.title = "ImpactU";
-    core.setHome(true);
+    setHome(true);
     return () => {
-      core.setHome(false);
+      setHome(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,7 +55,7 @@ const Home = ({ core }) => {
               proyectos, convenios y emprendimientos.
             </Title>
             <div className="searchbar--container">
-              <SearchBar core={core} />
+              <SearchBar />
             </div>
             <div id="home__table--container">
               <HomeTable />

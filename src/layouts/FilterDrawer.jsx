@@ -12,7 +12,7 @@ import FilterMenu from "../components/FilterMenu";
 /* Utilities */
 /* import { useHistory } from 'react-router-dom'; */
 
-const FilterDrawer = ({ core }) => {
+const FilterDrawer = () => {
   /* const history = useHistory(); */
   const [visible, setVisible] = useState(false);
 
@@ -72,7 +72,7 @@ const FilterDrawer = ({ core }) => {
           </Button>
         }
       >
-        <FilterMenu core={core} onClose={onClose} />
+        <FilterMenu onClose={onClose} />
         <p style={{ margin: "15px" }}>
           Filtros disponibles en una próxima actualización
         </p>
