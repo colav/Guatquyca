@@ -5,16 +5,15 @@ import ErrorWarning from "../ErrorWarning";
 import LoadingCard from "../LoadingCard";
 import GraphChart from "./GraphChart";
 
+/* Constants */
+import { PLOTLIST_GRAPH } from "../../utils/constants";
+
 /* UI Library Components */
 import { Card, Select } from "antd";
 
 /* Utilities */
 import { APIRequest } from "../../apis/colav";
 import { useLocation } from "react-router-dom";
-
-const PLOTLIST = [
-  { label: "Coautoría institucional", value: "collaboration_network" },
-];
 
 const GraphChartHandler = () => {
   const location = useLocation();
@@ -46,7 +45,7 @@ const GraphChartHandler = () => {
             width: 420,
           }}
           onChange={handleChange}
-          options={PLOTLIST}
+          options={PLOTLIST_GRAPH}
         />
       }
     >
