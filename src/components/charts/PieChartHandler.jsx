@@ -55,7 +55,7 @@ const PieChartHandler = () => {
       <div className="chart">
         {state.isLoading ? (
           <LoadingCard height={"100%"} />
-        ) : state.data.plot.length > 5 ? (
+        ) : state.data.plot?.length > 5 ? (
           <TreemapChart data={state.data.plot} />
         ) : (
           <PieChart data={state.data.plot} content={state.data?.openSum} />

@@ -50,7 +50,9 @@ export const APIRequest = (initialUrl) => {
         );
 
         if (!didCancel) {
-          dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+          if (result.status === 204) {
+            dispatch({ type: "FETCH_FAILURE" });
+          } else dispatch({ type: "FETCH_SUCCESS", payload: result.data });
         }
       } catch (error) {
         if (!didCancel) {
