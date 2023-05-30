@@ -21,7 +21,7 @@ const AuthorsHorizontalList = ({ authors }) => {
           <div>
             <Link
               style={{ fontSize: 15, textDecoration: "underline" }}
-              to={`/app/person?id=${author.id}`}
+              to={`/app/person?id=${author.id}&section=research&tab=products`}
             >
               {author.full_name}
             </Link>
@@ -32,7 +32,7 @@ const AuthorsHorizontalList = ({ authors }) => {
                 <div key={item.id}>
                   <Link
                     className="affiliation--link"
-                    to={`/app/affiliations?type=group&id=${item.id}`}
+                    to={`/app/affiliation?type=group&id=${item.id}&section=research&tab=products`}
                   >
                     • {item.name}
                   </Link>
@@ -43,7 +43,7 @@ const AuthorsHorizontalList = ({ authors }) => {
                 <div key={item.id}>
                   <Link
                     className="affiliation--link"
-                    to={`/app/affiliations?type=department&id=${item.id}`}
+                    to={`/app/affiliation?type=department&id=${item.id}&section=affiliations`}
                   >
                     • {item.name}
                   </Link>
@@ -54,7 +54,7 @@ const AuthorsHorizontalList = ({ authors }) => {
                 <div key={item.id}>
                   <Link
                     className="affiliation--link"
-                    to={`/app/affiliations?type=faculty&id=${item.id}`}
+                    to={`/app/affiliation?type=faculty&id=${item.id}&section=affiliations`}
                   >
                     • {item.name}
                   </Link>
@@ -65,7 +65,7 @@ const AuthorsHorizontalList = ({ authors }) => {
                 <div key={item.id}>
                   <Link
                     className="affiliation--link"
-                    to={`/app/affiliations?type=institution&id=${item.id}`}
+                    to={`/app/affiliation?type=institution&id=${item.id}&section=affiliations`}
                   >
                     • {item.name}
                   </Link>
