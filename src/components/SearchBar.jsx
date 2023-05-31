@@ -21,16 +21,19 @@ const OPTIONS = [
     label: "Departamento",
     value: "department",
     key: "department",
+    disabled: true,
   },
   {
     label: "Facultad",
     value: "faculty",
     key: "faculty",
+    disabled: true,
   },
   {
     label: "Grupo",
     value: "group",
     key: "group",
+    disabled: true,
   },
   {
     label: "Institución",
