@@ -45,7 +45,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de Openalex",
+      label: "Índice H anual según datos de citación de OpenAlex",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
@@ -67,7 +67,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de Openalex",
+      label: "Índice H anual según datos de citación de OpenAlex",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
@@ -93,7 +93,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de Openalex",
+      label: "Índice H anual según datos de citación de OpenAlex",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
@@ -120,7 +120,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de Openalex",
+      label: "Índice H anual según datos de citación de OpenAlex",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
@@ -142,7 +142,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de Openalex",
+      label: "Índice H anual según datos de citación de OpenAlex",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },

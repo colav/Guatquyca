@@ -1,17 +1,14 @@
 import React from "react";
 
-/* Images */
-import graf01 from "../../media/graf01.png";
-
 /* Logos */
 import doaj from "../../media/doaj.svg";
 import google from "../../media/google.svg";
-import lens from "../../media/lens.svg";
-import ma from "../../media/ma.svg";
-import scielo from "../../media/scielo.svg";
 import scopus from "../../media/scopus.svg";
 import unpayw from "../../media/unpaywall.svg";
 import wos from "../../media/wos.svg";
+import openalex from "../../media/openalex.png";
+import scimago from "../../media/scimago.svg";
+import dspace from "../../media/dspace.png";
 
 /* UI Library Components */
 import { Col, Divider, Image, Row, Typography } from "antd";
@@ -21,11 +18,11 @@ const { Title, Paragraph, Link, Text } = Typography;
 
 const About = () => {
   document.title = "Acerca de ImpactU";
-  const logos = [wos, scopus, ma, lens, doaj, scielo, google, unpayw];
+  const logos = [openalex, doaj, scimago, unpayw, dspace, google];
 
   const renderedLogos = () => {
     return logos.map((logo) => (
-      <Col xs={24} md={10} key={logo}>
+      <Col style={{ textAlign: "center" }} xs={24} md={8} key={logo}>
         <Image preview={false} src={logo} />
       </Col>
     ));
@@ -37,7 +34,7 @@ const About = () => {
         <Title level={2}>Acerca de ImpactU</Title>
         <Divider />
       </Col>
-      <Col xs={24} md={9}>
+      <Col xs={24} md={16}>
         <Paragraph>
           {<Text strong>ImpactU</Text>} es una plataforma colaborativa regional
           para la creación de modelos que evidencien la vinculación de la
@@ -54,67 +51,122 @@ const About = () => {
         >
           {renderedLogos()}
         </Row>
+        <br />
         <Paragraph>
-          Además de algunos portales de noticias y bases de datos internas de
-          las Universidades que colaboran.
+          Datos estadísticos bajo las licencias obtenidas por las Universidades
+          participantes de:
         </Paragraph>
-      </Col>
-      <Col xs={24} md={7}>
-        <Image src={graf01} style={{ maxWidth: "600px" }} />
+        <Row
+          gutter={[20, 20]}
+          justify="space-around"
+          align="middle"
+          style={{ marginTop: "30px" }}
+        >
+          <Col style={{ textAlign: "center" }} xs={24} md={8} key={wos}>
+            <Image preview={false} src={wos} />
+          </Col>
+          <Col style={{ textAlign: "center" }} xs={24} md={8} key={scopus}>
+            <Image preview={false} src={scopus} />
+          </Col>
+        </Row>
+        <br />
+        <Paragraph>
+          Así como también los Datos Abiertos de Minciencias y las bases de
+          datos internas de las Universidades que colaboran.
+        </Paragraph>
+        <Divider style={{ marginBottom: "10px" }} />
       </Col>
       <Col xs={24} md={16} style={{ marginTop: "0px" }}>
         <Paragraph>
-          {<Text strong>ImpactU</Text>} es un proyecto creado y desarrollado por
-          el{" "}
+          {<Text strong>ImpactU</Text>} es una plataforma creada y desarrollada
+          por el{" "}
           {
             <Link strong href="http://colav.udea.edu.co" target="_blank">
               Colav
             </Link>
           }{" "}
           de la {<Text strong>Universidad de Antioquia</Text>} en colaboración
-          con la {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{" "}
-          {<Text strong>Universidad Externado de Colombia.</Text>} Su propósito
-          es acercarse a un modelo de métricas responsables con los principios
-          de multidimensionalidad en donde se identifican diferentes niveles
-          organizacionales, se mezclan diferentes bases de datos para
-          desfragmentar la información universitaria dispersa, y se observan
-          diferentes aspectos de la producción especialmente orientados a la
-          vinculación con el entorno; diálogo entre instrumentos de evaluación y
-          métricas y tomadores de decisiones; pertinencia institucional;
-          apertura de datos e infraestructuras; y conciencia geográfica de
-          situación para la investigación en relación con la docencia y la
-          extensión, desde el Sur Global y Latinoamérica en particular.
+          con la {<Text strong>Universidad Autónoma Latinoamericana</Text>}, la{" "}
+          {<Text strong>Universidad Externado de Colombia</Text>} y la{" "}
+          {<Text strong>Universidad del Valle.</Text>} Su propósito es
+          desarrollar herramientas para implementar modelos de métricas
+          responsables con el principio de multidimensionalidad y robustez de la
+          información para:
         </Paragraph>
+        <ul>
+          <li>
+            Identificar la producción diversa de diferentes niveles
+            organizacionales (autores, dependencias académicas y grupos)
+          </li>
+          <li>
+            Desfragmentar la información institucional respecto a los resultados
+            de investigación en relación con otras misiones universitarias y el
+            entorno a partir de múltiples bases de datos internas y externas que
+            muestren en conjunto todas las formas diversas de producir
+            conocimiento.
+          </li>
+          <li>
+            Generar diálogos instrumentos de evaluación y métricas y tomadores
+            de decisiones que den cuenta de los resultados institucionales
+            generados en el tiempo y respondan a los objetivos institucionales y
+            las demandas externas.
+          </li>
+          <li>
+            Apertura de datos e infraestructuras computacionales para promover
+            una comunidad analítica alrededor de las universidades y sus aportes
+            a la sociedad.
+          </li>
+        </ul>
         <Paragraph>
           Esta propuesta se plantea tres tipos de estrategias metodológicas:
-          trabajo colaborativo entre administrativos e investigadores para
-          definir un marco más preciso de métricas pertinentes a las
-          instituciones, la constitución de una comunidad de desarrollo para
-          proveer la infraestructura necesaria (
-          {<Link href="http://www.github.com/colav">GitHub @Colav</Link>}),
-          comunidades para el diseño de métricas adecuadas a la toma de
-          decisiones.
         </Paragraph>
+        <ul>
+          <li>
+            La planeación de modelos de infraestructura de hardware para el
+            procesamiento de datos y visualización de la información que
+            permitan desarrollar una gobernanza institucional sobre su
+            información.
+          </li>
+          <li>
+            La ampliación de una comunidad de desarrollo para proveer la
+            infraestructura en software necesaria (
+            <a
+              href={"http://www.github.com/colav"}
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub @Colav
+            </a>
+            ) para el procesamiento de datos masivos institucionales y en
+            relación con el mundo.
+          </li>
+          <li>
+            Identificar los aspectos relevantes a la gestión institucional de la
+            investigación en relación con las otras misiones universitarias y el
+            entorno para mejorar los procesos de evaluación y mejoramiento
+            continuo con datos adecuados e indicadores pertinentes.
+          </li>
+        </ul>
         <Title level={5}>
           El espíritu del proyecto es colaborativo y está abierto a que los
-          usuarios de la plataforma no sólo para que consulten su información,
-          sino también, para que puedan usar y ayudar en la creación de
-          softwares que la alimenten y enriquezcan. Así mismo, al ser un
-          proyecto experimental, hay espacio para alianzas temporales o
-          estratégicas con distintas instituciones para resolver problemas
-          asociados con modelos métricos que puedan adecuarse a las necesidades
-          de los tomadores de decisiones.
+          usuarios de la plataforma no solo consulten su información, sino
+          también, para que puedan usar y ayudar en la creación de softwares que
+          la alimenten y enriquezcan. Al ser un proyecto experimental, hay
+          espacio para alianzas temporales o estratégicas con distintas
+          instituciones para resolver problemas asociados con modelos métricos
+          que puedan adecuarse a las necesidades de los tomadores de decisiones.
         </Title>
         <br />
         <Paragraph>
           Inicialmente la plataforma está adaptada para la consulta en detalle
           de la {<Text strong>Universidad de Antioquia</Text>},{" "}
-          {<Text strong>Universidad Autónoma Latinoamericana</Text>} y la{" "}
-          {<Text strong>Universidad Externado de Colombia</Text>}, pero contiene
-          todos los datos disponibles de la producción Colombiana disponibles en
-          las bases utilizadas en esta etapa. El instrumento es de fácil
-          escalabilidad a otras instituciones nacionales con algunos datos
-          mínimos de los docentes vinculados a cada entidad.
+          {<Text strong>Universidad Autónoma Latinoamericana</Text>}, la{" "}
+          {<Text strong>Universidad Externado de Colombia</Text>} y la{" "}
+          {<Text strong>Universidad del Valle</Text>}, pero contiene todos los
+          datos disponibles de la producción Colombiana disponibles en las bases
+          utilizadas. El instrumento es de fácil escalabilidad a otras
+          instituciones nacionales con algunos datos mínimos de los docentes
+          vinculados a cada entidad.
         </Paragraph>
       </Col>
     </Row>

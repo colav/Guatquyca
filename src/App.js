@@ -10,7 +10,7 @@ import FilterDrawer from "./layouts/FilterDrawer";
 import About from "./components/modules/About";
 import Home from "./components/modules/Home";
 import Metrics from "./components/modules/Metrics";
-import Participants from "./components/modules/Participants";
+import Principles from "./components/modules/Principles";
 import SearchResult from "./components/modules/SearchResult";
 import OpenSource from "./components/modules/OpenSource";
 
@@ -52,7 +52,7 @@ function MyApp() {
               <Route path="/app" element={<Home setHome={setHome} />} />
               <Route path="/app/open-source" element={<OpenSource />} />
               <Route path="/app/metrics" element={<Metrics />} />
-              <Route path="/app/participants" element={<Participants />} />
+              <Route path="/app/principles" element={<Principles />} />
               <Route path="/app/person" element={<Person />} />
               <Route path="/app/about" element={<About />} />
               <Route path="/app/search" element={<SearchResult />} />

@@ -104,7 +104,7 @@ const Footer = () => {
           </div>
           <Link to="/app/about">Acerca de ImpactU</Link>
           <br />
-          <Link to="/app/participants">Instituciones participantes</Link>
+          <Link to="/app/principles">Principios</Link>
           <br />
           <Link to="/app/open-source">Código Abierto</Link>
           <br />
@@ -120,7 +120,7 @@ const Footer = () => {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 2.1.2a
+          ImpactU Versión 2.1.3a
           <br />
           Última actualización: 30/05/2023
           <br />
