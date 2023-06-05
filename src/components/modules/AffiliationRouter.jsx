@@ -5,11 +5,9 @@ import { useSearchParams } from "react-router-dom";
 
 /* Components */
 import Institutions from "./Institutions";
-/* import Departments from './Departments';
-import Groups from './Groups';
-import Faculties from './Faculties'; */
-
-import Sorry from "./Sorry";
+import Departments from "./Departments";
+import Groups from "./Groups";
+import Faculties from "./Faculties";
 
 const AffiliationRouter = () => {
   const [searchParams] = useSearchParams();
@@ -18,11 +16,11 @@ const AffiliationRouter = () => {
   if (type === "institution") {
     return <Institutions />;
   } else if (type === "department") {
-    return <Sorry />;
+    return <Departments />;
   } else if (type === "group") {
-    return <Sorry />;
+    return <Groups />;
   } else if (type === "faculty") {
-    return <Sorry />;
+    return <Faculties />;
   }
   return "Ruta no conectada";
 };

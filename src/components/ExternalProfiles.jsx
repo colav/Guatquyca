@@ -64,7 +64,8 @@ const ExternalProfiles = ({ idsList }) => {
         item.source !== "mag" &&
         item.source !== "orgref" &&
         item.source !== "nit" &&
-        item.source !== "minciencias" && (
+        item.source !== "minciencias" &&
+        item.source !== "hesa" && (
           <a
             href={URLMaker(item.source, item.id)}
             key={item.source}
