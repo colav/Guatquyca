@@ -99,7 +99,10 @@ export const PLOTLIST_STACKED = {
     { label: "Productos anuales por investigadores", value: "year_researcher" },
   ],
   faculty: [
-    { label: "Índice H de las facultades", value: "h_faculty" },
+    {
+      label: "Producción de los departamentos según tipo de producto",
+      value: "department_type",
+    },
     {
       label: "Producción por grupos de investigación según tipo de producto",
       value: "group_type",
@@ -120,7 +123,7 @@ export const PLOTLIST_STACKED = {
       value: "year_publisher",
     },
     {
-      label: "Índice H anual según datos de citación de OpenAlex",
+      label: "Índice H anual según datos de citación de Google Scholar",
       value: "year_h",
     },
     { label: "Productos anuales por investigadores", value: "year_researcher" },
