@@ -1,6 +1,6 @@
 {
   "name": "guatquyca",
-  "version": "2.1.3a",
+  "version": "2.1.4a",
   "private": true,
   "dependencies": {
     "@ant-design/charts": "^1.4.2",

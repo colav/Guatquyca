@@ -285,7 +285,6 @@ export const PLOTLIST_PIE = {
       label: "20 palabras más usuales en los títulos de la producción",
       value: "title_words",
     },
-    { label: "Índice H de las facultades", value: "h_faculty" },
     {
       label: "Citas acumuladas de los departamentos",
       value: "citations_department",
