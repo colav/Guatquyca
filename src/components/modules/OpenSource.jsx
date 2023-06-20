@@ -1,10 +1,10 @@
 import React from "react";
 
 /* UI Library Components*/
-import { Col, Divider, Image, Row, Table, Typography } from "antd";
+import { Col, Divider, Row, Table, Typography } from "antd";
 
 /* UI Library Sub-components*/
-const { Title, Paragraph, Link, Text } = Typography;
+const { Title } = Typography;
 
 const OpenSource = () => {
   document.title = "Código Abierto - ImpactU";

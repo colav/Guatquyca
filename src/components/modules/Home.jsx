@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 /* UI Library Sub-components*/
 const { Title } = Typography;
 
-const Home = ({ setHome }) => {
+const Home = ({ home, setHome }) => {
   /* const [state] = APIRequest('/app/ourdata?'); */
   useEffect(() => {
     document.title = "ImpactU";
@@ -55,7 +55,7 @@ const Home = ({ setHome }) => {
               proyectos, convenios y emprendimientos.
             </Title>
             <div className="searchbar--container">
-              <SearchBar />
+              <SearchBar home={home} />
             </div>
             <div id="home__table--container">
               <HomeTable />

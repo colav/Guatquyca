@@ -13,6 +13,8 @@ import Metrics from "./components/modules/Metrics";
 import Principles from "./components/modules/Principles";
 import SearchResult from "./components/modules/SearchResult";
 import OpenSource from "./components/modules/OpenSource";
+import Person from "./components/modules/Person";
+import Test from "./components/modules/Test";
 
 /* UI Library Components */
 import DisclaimerModal from "./components/DisclaimerModal";
@@ -22,7 +24,6 @@ import { App, Layout, FloatButton, ConfigProvider } from "antd";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./utils/ScrollToTop";
 import Affiliation from "./components/modules/AffiliationRouter";
-import Person from "./components/modules/Person";
 
 /* UI Library Sub-components */
 const { BackTop } = FloatButton;
@@ -49,7 +50,10 @@ function MyApp() {
           <Layout.Content id="layout--content">
             <Routes>
               <Route path="/" element={<Navigate replace to="/app" />} />
-              <Route path="/app" element={<Home setHome={setHome} />} />
+              <Route
+                path="/app"
+                element={<Home home={home} setHome={setHome} />}
+              />
               <Route path="/app/open-source" element={<OpenSource />} />
               <Route path="/app/metrics" element={<Metrics />} />
               <Route path="/app/principles" element={<Principles />} />
@@ -57,6 +61,7 @@ function MyApp() {
               <Route path="/app/about" element={<About />} />
               <Route path="/app/search" element={<SearchResult />} />
               <Route path="/app/affiliation" element={<Affiliation />} />
+              <Route path="/app/test" element={<Test />} />
             </Routes>
           </Layout.Content>
         </Layout>
