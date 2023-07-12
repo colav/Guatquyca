@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 /* UI Components */
-import { AutoComplete, Row, Col, InputNumber, Radio } from "antd";
+import { AutoComplete, Row, Col, InputNumber, Radio } from 'antd';
 
 /* Utilities */
-import { APIRequest } from "../../apis/colav";
-import { ElasticAPIRequest } from "../../apis/elastic";
+import { APIRequest } from '../../apis/colav';
+import { ElasticAPIRequest } from '../../apis/elastic';
 
 const Test = () => {
   const [state, setUrl] = APIRequest(
     `/app/search?data=affiliations&type=institution&max=5&page=1`
   );
-  const [max, setMax] = useState("5");
-  const [input, setInput] = useState("");
+  const [max, setMax] = useState('5');
+  const [input, setInput] = useState('');
   const [elasticState, setElasticInput] = ElasticAPIRequest(input, max);
-  const [api, setApi] = useState("mongo");
+  const [api, setApi] = useState('mongo');
   const [options, setOptions] = useState([]);
 
   const onSelect = (event) => {
@@ -34,29 +34,29 @@ const Test = () => {
   };
 
   useEffect(() => {
-    if (input === "") {
+    if (input === '') {
       setUrl(`/app/search?data=affiliations&type=institution&max=5&page=1`);
-    } else if (api === "mongo" && input.slice(-1) !== " ") {
+    } else if (api === 'mongo' && input.slice(-1) !== ' ') {
       setUrl(
         `/app/search?data=affiliations&type=institution&max=${max}&page=1&keywords=${input}`
       );
-    } else if (api === "elastic" && input.slice(-1) !== " ") {
+    } else if (api === 'elastic' && input.slice(-1) !== ' ') {
       setElasticInput(input, max);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, max]);
 
   useEffect(() => {
-    if (api === "mongo") {
+    if (api === 'mongo') {
       setOptions(
         state.data?.data?.map((item, i) => {
           return { value: item.name, id: item._id, key: i };
         })
       );
     } else {
-      console.log(elasticState.data.suggest["affiliation-suggest"][0].options);
+      console.log(elasticState.data);
       setOptions(
-        elasticState.data?.suggest["affiliation-suggest"][0]?.options?.map(
+        elasticState.data?.suggest['affiliation-suggest'][0]?.options?.map(
           (item, i) => {
             return {
               value: item._source.name,
@@ -67,41 +67,42 @@ const Test = () => {
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, elasticState]);
 
   return (
     <>
-      <Row justify={"center"} align={"middle"}>
+      <Row justify={'center'} align={'middle'}>
         <p>BD a consultar:</p>
         <Radio.Group
           onChange={onRadioChange}
           value={api}
-          style={{ marginLeft: "20px" }}
+          style={{ marginLeft: '20px' }}
         >
-          <Radio value={"mongo"}>Mongo</Radio>
-          <Radio value={"elastic"}>Elastic</Radio>
+          <Radio value={'mongo'}>Mongo</Radio>
+          <Radio value={'elastic'}>Elastic</Radio>
         </Radio.Group>
       </Row>
-      <Row justify={"center"} align={"middle"}>
+      <Row justify={'center'} align={'middle'}>
         <p>Cantidad máxima de resultados: (1-50)</p>
-        <Col style={{ width: "40px", marginLeft: "20px" }}>
+        <Col style={{ width: '40px', marginLeft: '20px' }}>
           <InputNumber
             min={1}
             max={50}
             defaultValue={5}
             onChange={onInputChange}
-            style={{ textAlign: "center" }}
+            style={{ textAlign: 'center' }}
           />
         </Col>
       </Row>
-      <Row justify={"center"} align={"middle"}>
+      <Row justify={'center'} align={'middle'}>
         <Col span={8}>
           <AutoComplete
             options={options}
             onSearch={(input) => onSearch(input)}
             onSelect={(event) => onSelect(event)}
             style={{
-              width: "100%",
+              width: '100%',
             }}
           />
         </Col>

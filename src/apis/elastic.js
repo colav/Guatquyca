@@ -1,5 +1,5 @@
-import { useReducer, useEffect, useState } from "react";
-import axios from "axios";
+import { useReducer, useEffect, useState } from 'react';
+import axios from 'axios';
 
 const initialState = {
   isLoading: true,
@@ -9,20 +9,20 @@ const initialState = {
 
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_INIT":
+    case 'FETCH_INIT':
       return {
         ...state,
         isLoading: true,
         isError: false,
       };
-    case "FETCH_SUCCESS":
+    case 'FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: action.payload,
       };
-    case "FETCH_FAILURE":
+    case 'FETCH_FAILURE':
       return {
         ...state,
         isLoading: false,
@@ -34,7 +34,6 @@ const dataFetchReducer = (state, action) => {
 };
 
 export const ElasticAPIRequest = (input, size) => {
-  console.log(size);
   const [elasticInput, setElasticInput] = useState(input);
   const [elasticState, dispatch] = useReducer(dataFetchReducer, initialState);
 
@@ -42,18 +41,18 @@ export const ElasticAPIRequest = (input, size) => {
     let didCancel = false;
 
     const fetchData = async () => {
-      dispatch({ type: "FETCH_INIT" });
+      dispatch({ type: 'FETCH_INIT' });
 
       try {
         console.log(elasticInput);
         const result = await axios.post(
-          "http://colav.co:9200/colombia_affiliations_names/_search",
+          'http://colav.co:9200/colombia_affiliations_names/_search',
           {
             suggest: {
-              "affiliation-suggest": {
+              'affiliation-suggest': {
                 prefix: elasticInput,
                 completion: {
-                  field: "suggest",
+                  field: 'suggest',
                   size: size,
                   fuzzy: {
                     fuzziness: 2,
@@ -64,20 +63,20 @@ export const ElasticAPIRequest = (input, size) => {
           },
           {
             auth: {
-              username: "elastic",
-              password: "0colav*",
+              username: 'elastic',
+              password: '0colav*',
             },
           }
         );
 
         if (!didCancel) {
           if (result.status === 204) {
-            dispatch({ type: "FETCH_FAILURE" });
-          } else dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+            dispatch({ type: 'FETCH_FAILURE' });
+          } else dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: "FETCH_FAILURE" });
+          dispatch({ type: 'FETCH_FAILURE' });
         }
       }
     };
@@ -87,6 +86,7 @@ export const ElasticAPIRequest = (input, size) => {
     return () => {
       didCancel = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elasticInput]);
 
   return [elasticState, setElasticInput];
