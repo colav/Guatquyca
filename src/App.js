@@ -33,7 +33,7 @@ function MyApp() {
   const [home, setHome] = useState(false);
 
   ReactGA.initialize('G-W7EXCCG79F');
-  ReactGA.pageview(document.location.pathname);
+  ReactGA.send({hitType:"pageview", page: document.location.pathname});
 
   return (
     <App>
