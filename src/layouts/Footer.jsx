@@ -120,9 +120,9 @@ const Footer = () => {
           <div style={{ marginBottom: '10px' }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 2.1.5a
+          ImpactU Versión 2.1.9a
           <br />
-          Última actualización: 12/07/2023
+          Última actualización: 13/09/2023
           <br />
           Hecho en Colombia
         </Col>

@@ -12,7 +12,7 @@ import { Col, Row } from 'antd';
 import { APIRequest } from '../../apis/colav';
 import { useLocation } from 'react-router-dom';
 
-const AffiliationWrapperFaculty = () => {
+const AffiliationWrapperGroup = () => {
   const location = useLocation();
   const [state] = APIRequest(`${location.pathname}${location.search}`);
 
@@ -23,17 +23,11 @@ const AffiliationWrapperFaculty = () => {
   }
   return (
     <Row gutter={15}>
-      <Col xs={24} md={8}>
-        <ListCard type={'department'} list={state.data.departments} />
-      </Col>
-      <Col xs={24} md={8}>
-        <ListCard type={'group'} list={state.data.groups} />
-      </Col>
-      <Col xs={24} md={8}>
+      <Col span={24}>
         <ListCard type={'person'} list={state.data.authors} />
       </Col>
     </Row>
   );
 };
 
-export default AffiliationWrapperFaculty;
+export default AffiliationWrapperGroup;

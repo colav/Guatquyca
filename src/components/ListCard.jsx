@@ -28,8 +28,8 @@ const ListCard = ({ type, list }) => {
                   description={
                     <Link
                       to={
-                        type === 'group'
-                          ? `/app/affiliation?type=${type}&section=research&tab=products&id=${item.id}`
+                        type === 'person'
+                          ? `/app/person?id=${item.id}&section=research&tab=products`
                           : `/app/affiliation?type=${type}&section=affiliations&id=${item.id}`
                       }
                     >

@@ -23,8 +23,11 @@ const AffiliationWrapperDepartment = () => {
   }
   return (
     <Row gutter={15}>
-      <Col span={24}>
-        <ListCard type={'faculty'} list={state.data.faculties} />
+      <Col span={12}>
+        <ListCard type={'group'} list={state.data.groups} />
+      </Col>
+      <Col span={12}>
+        <ListCard type={'person'} list={state.data.authors} />
       </Col>
     </Row>
   );
