@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 /* Components */
-import ErrorWarning from './ErrorWarning';
-import LoadingCard from './LoadingCard';
-import AuthorsHorizontalList from './AuthorsHorizontalList';
-import DocumentModal from './DocumentModal';
-import OpenAccessStatus from './OpenAccessStatus';
-import SubjectsTags from './SubjectsTags';
+import ErrorWarning from "./ErrorWarning";
+import LoadingCard from "./LoadingCard";
+import AuthorsHorizontalList from "./AuthorsHorizontalList";
+import DocumentModal from "./DocumentModal";
+import OpenAccessStatus from "./OpenAccessStatus";
+import SubjectsTags from "./SubjectsTags";
 
 /* Icons */
-import { CitationsIcon } from '../media/icons/citations';
-import { CalendarOutlined, ReadOutlined } from '@ant-design/icons';
+import { CitationsIcon } from "../media/icons/citations";
+import { CalendarOutlined, ReadOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
-import { App, Card, Empty, List, Pagination, Space, Typography } from 'antd';
+import { App, Card, Empty, List, Pagination, Space, Typography } from "antd";
 
 /* Utilities */
-import { APIRequest } from '../apis/colav';
-import { useLocation } from 'react-router-dom';
+import { APIRequest } from "../apis/colav";
+import { useLocation } from "react-router-dom";
 
 /* UI Library Sub-components */
 const { Link } = Typography;
@@ -40,14 +40,14 @@ const DocumentList = () => {
 
   const docInfo = (title, id, status) => {
     modal.warning({
-      width: '1200px',
+      width: "1200px",
       title: [
         title,
-        ' ',
-        status ? <OpenAccessStatus status={status} key="0" /> : '',
+        " ",
+        status ? <OpenAccessStatus status={status} key="0" /> : "",
       ],
       icon: null,
-      okText: 'Cerrar',
+      okText: "Cerrar",
       content: <DocumentModal documentID={id} />,
       destroyOnClose: true,
       maskClosable: true,
@@ -64,9 +64,9 @@ const DocumentList = () => {
   } else if (state.isLoading) {
     return (
       <Card
-        style={{ marginTop: '15px' }}
-        headStyle={{ backgroundColor: '#003e65', color: 'white' }}
-        title={'Artículos'}
+        style={{ marginTop: "15px" }}
+        headStyle={{ backgroundColor: "#003e65", color: "white" }}
+        title={"Artículos"}
         size="small"
       >
         <LoadingCard />
@@ -75,28 +75,29 @@ const DocumentList = () => {
   }
   return (
     <Card
-      style={{ marginTop: '15px' }}
-      headStyle={{ backgroundColor: '#003e65', color: 'white' }}
-      title={'Artículos'}
+      style={{ marginTop: "15px" }}
+      headStyle={{ backgroundColor: "#003e65", color: "white" }}
+      title={"Artículos"}
       size="small"
       extra={
-        state.data.total_results === 1
-          ? `${state.data.total_results} resultado`
-          : `${state.data.total_results} resultados`
+        <p style={{ color: "white" }}>
+          {state.data.total_results}{" "}
+          {state.data.total_results === 1 ? "resultado" : "resultados"}
+        </p>
       }
     >
       {state.data.total_results === 0 ? (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description="Datos insuficientes"
-          style={{ marginTop: '100px' }}
+          style={{ marginTop: "100px" }}
         />
       ) : (
         <List
           itemLayout="vertical"
           size="small"
           footer={
-            <div style={{ textAlign: 'end' }}>
+            <div style={{ textAlign: "end" }}>
               <Pagination
                 size="small"
                 total={state.data.total_results}
@@ -138,14 +139,14 @@ const DocumentList = () => {
                   >
                     {item.title}
                   </Link>,
-                  ' ',
+                  " ",
                   item.open_access_status ? (
                     <OpenAccessStatus
                       status={item.open_access_status}
                       key="2"
                     />
                   ) : (
-                    ''
+                    ""
                   ),
                 ]}
                 description={

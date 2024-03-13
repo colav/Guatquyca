@@ -3,9 +3,7 @@ import React from "react";
 /* Logos */
 import doaj from "../../media/doaj.svg";
 import google from "../../media/google.svg";
-import scopus from "../../media/scopus.svg";
 import unpayw from "../../media/unpaywall.svg";
-import wos from "../../media/wos.svg";
 import openalex from "../../media/openalex.png";
 import scimago from "../../media/scimago.svg";
 import dspace from "../../media/dspace.png";
@@ -50,24 +48,6 @@ const About = () => {
           style={{ marginTop: "30px" }}
         >
           {renderedLogos()}
-        </Row>
-        <br />
-        <Paragraph>
-          Datos estadísticos bajo las licencias obtenidas por las Universidades
-          participantes de:
-        </Paragraph>
-        <Row
-          gutter={[20, 20]}
-          justify="space-around"
-          align="middle"
-          style={{ marginTop: "30px" }}
-        >
-          <Col style={{ textAlign: "center" }} xs={24} md={8} key={wos}>
-            <Image preview={false} src={wos} />
-          </Col>
-          <Col style={{ textAlign: "center" }} xs={24} md={8} key={scopus}>
-            <Image preview={false} src={scopus} />
-          </Col>
         </Row>
         <br />
         <Paragraph>

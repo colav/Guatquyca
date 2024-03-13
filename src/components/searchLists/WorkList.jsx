@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 
 /* Components */
-import AuthorsHorizontalList from '../AuthorsHorizontalList';
-import DocumentModal from '../DocumentModal';
-import OpenAccessStatus from '../OpenAccessStatus';
+import AuthorsHorizontalList from "../AuthorsHorizontalList";
+import DocumentModal from "../DocumentModal";
+import OpenAccessStatus from "../OpenAccessStatus";
 
 /* Icons */
-import { CitationsIcon } from '../../media/icons/citations';
-import { CalendarOutlined, ReadOutlined } from '@ant-design/icons';
+import { CitationsIcon } from "../../media/icons/citations";
+import { CalendarOutlined, ReadOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
-import { App, Card, List, Pagination, Space, Typography } from 'antd';
+import { App, Card, List, Pagination, Space, Typography } from "antd";
 
 /* Utilities */
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import SubjectsTags from '../SubjectsTags';
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import SubjectsTags from "../SubjectsTags";
 
 /* UI Library Sub-components */
 const { Link } = Typography;
@@ -24,16 +24,16 @@ const WorkList = ({ data }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pagination = {
-    max: parseInt(searchParams.get('max')),
-    page: parseInt(searchParams.get('page')),
+    max: parseInt(searchParams.get("max")),
+    page: parseInt(searchParams.get("page")),
   };
-  const keywords = searchParams.get('keywords');
+  const keywords = searchParams.get("keywords");
   const { modal } = App.useApp();
 
   const onPageChange = ({ page, max }) => {
     navigate(
       `${location.pathname}?data=work&max=${max}&page=${page}${
-        keywords ? `&keywords=${keywords}` : ''
+        keywords ? `&keywords=${keywords}` : ""
       }`
     );
     window.scrollTo(0, 0);
@@ -41,14 +41,14 @@ const WorkList = ({ data }) => {
 
   const docInfo = (title, id, status) => {
     modal.warning({
-      width: '1200px',
+      width: "1200px",
       title: [
         title,
-        ' ',
-        status ? <OpenAccessStatus status={status} key="0" /> : '',
+        " ",
+        status ? <OpenAccessStatus status={status} key="0" /> : "",
       ],
       icon: null,
-      okText: 'Cerrar',
+      okText: "Cerrar",
       content: <DocumentModal documentID={id} />,
       destroyOnClose: true,
       maskClosable: true,
@@ -57,20 +57,21 @@ const WorkList = ({ data }) => {
   };
   return (
     <Card
-      style={{ marginTop: '15px' }}
-      headStyle={{ backgroundColor: '#003e65', color: 'white' }}
-      title={'Productos'}
+      style={{ marginTop: "15px" }}
+      headStyle={{ backgroundColor: "#003e65", color: "white" }}
+      title={"Productos"}
       extra={
-        data.total_results === 1
-          ? `${data.total_results} resultado`
-          : `${data.total_results} resultados`
+        <p style={{ color: "white" }}>
+          {data.total_results}{" "}
+          {data.total_results === 1 ? "resultado" : "resultados"}
+        </p>
       }
     >
       <List
         itemLayout="vertical"
         size="small"
         footer={
-          <div style={{ textAlign: 'end' }}>
+          <div style={{ textAlign: "end" }}>
             <Pagination
               size="small"
               total={data.total_results}
@@ -112,11 +113,11 @@ const WorkList = ({ data }) => {
                 >
                   {item.title}
                 </Link>,
-                ' ',
+                " ",
                 item.open_access_status ? (
                   <OpenAccessStatus status={item.open_access_status} key="2" />
                 ) : (
-                  ''
+                  ""
                 ),
               ]}
               description={
