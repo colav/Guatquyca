@@ -1,0 +1,31 @@
+#header {
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  height: auto;
+  line-height: 80px;
+  background-color: #3b72a1;
+  font-size: 16px;
+  box-shadow: 0 5px 10px rgba(15, 15, 20, 0.25), 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+#logo_container {
+  height: 80px;
+}
+
+#logo {
+  padding: 15px 15px 10px 15px;
+}
+
+#searchbar {
+  display: flex;
+  padding: 0 8px;
+  margin: 10px 0;
+}
+
+@media (max-width: 767px) {
+  #logo_container {
+    text-align: center;
+  }
+}

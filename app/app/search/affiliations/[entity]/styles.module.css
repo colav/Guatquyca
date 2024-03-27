@@ -1,0 +1,10 @@
+#white_text {
+  color: white;
+  display: inline;
+  font-size: 17px;
+}
+
+.searchresults_titles {
+  margin: 0 !important;
+  color: gray !important;
+}
