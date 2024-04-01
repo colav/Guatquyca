@@ -32,8 +32,8 @@ export default function ColumnChart({ data }) {
     interaction: {
       tooltip: {
         render: (event, { title, items }) =>
-          items.map((item) => (
-            <div className={styles.font}>
+          items.map((item, index) => (
+            <div key={index} className={styles.font}>
               <p className={styles.title}>
                 <span
                   style={{ backgroundColor: item.color }}
