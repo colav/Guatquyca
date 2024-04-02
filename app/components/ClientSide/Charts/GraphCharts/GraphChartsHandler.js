@@ -73,7 +73,7 @@ export default function GraphChartsHandler({ entity }) {
         ) : state.isLoading ? (
           <Loading height="100%" />
         ) : (
-          <GraphChart data={state.data.plot} />
+          <GraphChart data={state.data.plot} entity={entity} />
         )}
       </div>
     </Card>

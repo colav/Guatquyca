@@ -16,7 +16,7 @@ import { Empty } from "antd";
  * @param {Object[]} data - The data to display in the graph chart. Each object should have 'log_count', 'NOMBRE_DPT', 'name', and 'count' properties.
  * @returns {JSX.Element} If data is not provided, an Empty component is returned. Otherwise, a div that will contain the graph chart is returned.
  */
-const GraphChart = ({ data }) => {
+const GraphChart = ({ data, entity }) => {
   if (!data) {
     return (
       <Empty
@@ -29,12 +29,14 @@ const GraphChart = ({ data }) => {
   const ref = React.useRef(null);
   const { innerWidth } = window;
   let graph = null;
+  const divisor = innerWidth < 768 ? 1 : entity === "person" ? 3 : 2;
+  const width = innerWidth / divisor - 54;
 
   useEffect(() => {
     if (!graph) {
       graph = new G6.Graph({
         container: ReactDOM.findDOMNode(ref.current),
-        width: innerWidth / 2 - 54,
+        width: width,
         height: 400,
         renderer: "svg",
         modes: {
