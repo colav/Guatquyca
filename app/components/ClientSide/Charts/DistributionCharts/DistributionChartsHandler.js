@@ -54,9 +54,7 @@ export default function DistributionChartsHandler({ entity }) {
         <Select
           size="small"
           defaultValue={selectedPlot}
-          style={{
-            width: "420px",
-          }}
+          className={styles.select}
           onChange={handleChange}
           options={PLOTLIST_STACKED[entity]}
         />

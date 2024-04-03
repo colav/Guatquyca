@@ -56,9 +56,7 @@ export default function MapChartsHandler() {
         <Select
           size="small"
           defaultValue={selectedPlot}
-          style={{
-            width: "420px",
-          }}
+          className={styles.select}
           onChange={handleChange}
           options={PLOTLIST_MAP}
         />

@@ -25,3 +25,13 @@
   border-radius: 50%;
   margin-right: 6px;
 }
+
+.select {
+  width: 420px;
+}
+
+@media screen and (max-width: 915px) {
+  .select {
+    width: 320px;
+  }
+}

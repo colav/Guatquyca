@@ -55,9 +55,7 @@ export default function PercentageChartsHandler({ entity, sum = 0 }) {
         <Select
           size="small"
           defaultValue={selectedPlot}
-          style={{
-            width: "420px",
-          }}
+          className={styles.select}
           onChange={handleChange}
           options={PLOTLIST_PIE[entity]}
         />
