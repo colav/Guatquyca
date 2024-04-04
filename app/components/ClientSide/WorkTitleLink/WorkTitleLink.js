@@ -40,12 +40,15 @@ export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
     };
 
     return (
-      <a
-        type="link"
-        onClick={() => showModal(workTitle, workID, openAccessStatus)}
-      >
-        {workTitle}
-      </a>
+      <>
+        <a
+          type="link"
+          onClick={() => showModal(workTitle, workID, openAccessStatus)}
+        >
+          {workTitle}
+        </a>
+        {openAccessStatus ? <OpenAccessStatus status={openAccessStatus} /> : ""}
+      </>
     );
   };
 
