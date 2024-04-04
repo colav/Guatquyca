@@ -8,15 +8,12 @@ const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
   ssr: false,
 });
 
-/* UI Library Components */
-import { Empty } from "antd";
-
 /**
  * PieChart is a client-side function component that displays a pie chart.
  *
  * @param {Object[]} data - The data to display in the pie chart. Each object should have a 'value' and a 'name' property.
  * @param {number} sum - The total value of all data points. This is displayed in the center of the pie chart.
- * @returns {JSX.Element} A Pie chart if data is available, otherwise an Empty component.
+ * @returns {JSX.Element} A Pie chart component.
  */
 export default function PieChart({ data, sum }) {
   const config = {
@@ -62,13 +59,5 @@ export default function PieChart({ data, sum }) {
     tooltip: false,
   };
 
-  return data && data.length ? (
-    <Pie {...config} />
-  ) : (
-    <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description="Datos insuficientes"
-      style={{ marginTop: "170px" }}
-    />
-  );
+  return <Pie {...config} />;
 }

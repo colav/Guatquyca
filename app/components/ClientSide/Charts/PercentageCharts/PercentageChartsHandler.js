@@ -18,19 +18,19 @@ import URLBuilder from "@/lib/URLBuilder";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Card, Select } from "antd";
+import { Card, Select, Empty } from "antd";
 
 /**
  * PercentageChartsHandler is a client-side function component that handles the selection and display of different percentage charts.
  *
  * @param {Object} entity - The entity for which the percentage chart is being displayed.
- * @param {number} sum - The total sum of the data values. Defaults to 0.
  *
  * @returns {JSX.Element} A Card component containing a Select component for choosing the percentage chart and either a PieChart or TreemapChart component for displaying the chosen chart.
  * If the API request is loading, a Loading component is displayed.
  * If the API request has an error, an Error component is displayed.
+ * If there is no data for the plot, an Empty component is displayed.
  */
-export default function PercentageChartsHandler({ entity, sum = 0 }) {
+export default function PercentageChartsHandler({ entity }) {
   const [selectedPlot, setSelectedPlot] = useState(
     PLOTLIST_PIE[entity][0].value
   );
@@ -41,6 +41,22 @@ export default function PercentageChartsHandler({ entity, sum = 0 }) {
   const handleChange = (value) => {
     setSelectedPlot(value);
     setUrl(URLBuilder(pathname, { plot: value }));
+  };
+
+  const renderChart = () => {
+    if (state.isError) return <Error height="100%" />;
+    if (state.isLoading) return <Loading height="100%" />;
+    if (!state.data.plot)
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="Datos insuficientes"
+          style={{ marginTop: "170px" }}
+        />
+      );
+    if (state.data.plot.length > 5)
+      return <TreemapChart data={state.data.plot} />;
+    return <PieChart data={state.data.plot} sum={state.data.sum} />;
   };
 
   return (
@@ -61,17 +77,7 @@ export default function PercentageChartsHandler({ entity, sum = 0 }) {
         />
       }
     >
-      <div className={styles.chart}>
-        {state.isError ? (
-          <Error height="100%" />
-        ) : state.isLoading ? (
-          <Loading height="100%" />
-        ) : state.data.plot?.length > 5 ? (
-          <TreemapChart data={state.data.plot} />
-        ) : (
-          <PieChart data={state.data.plot} sum={sum} />
-        )}
-      </div>
+      <div className={styles.chart}>{renderChart()}</div>
     </Card>
   );
 }

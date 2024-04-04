@@ -25,7 +25,7 @@ import { Empty } from "antd";
  *
  * @param {Object[]} data - The data to display in the Treemap chart. Each object should have a 'value' and a 'name' property.
  * @param {number} sum - The total value of all data points. This is displayed in the center of the Treemap chart.
- * @returns {JSX.Element} A Treemap chart if data is available, otherwise an Empty component.
+ * @returns {JSX.Element} A Treemap chart component.
  */
 export default function TreemapChart({ data }) {
   const config = {
@@ -57,13 +57,5 @@ export default function TreemapChart({ data }) {
     },
   };
 
-  return data && data.length ? (
-    <Treemap {...config} />
-  ) : (
-    <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description="Datos insuficientes"
-      style={{ marginTop: "170px" }}
-    />
-  );
+  return <Treemap {...config} />;
 }

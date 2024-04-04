@@ -17,7 +17,7 @@ import URLBuilder from "@/lib/URLBuilder";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Card, Select } from "antd";
+import { Card, Empty, Select } from "antd";
 import ColumnChart from "./ColumnChart";
 
 /**
@@ -42,6 +42,22 @@ export default function DistributionChartsHandler({ entity }) {
     setUrl(URLBuilder(pathname, { plot: value }));
   };
 
+  const renderChart = () => {
+    if (state.isError) return <Error height="100%" />;
+    if (state.isLoading) return <Loading height="100%" />;
+    if (!state.data.plot)
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="Datos insuficientes"
+          style={{ marginTop: "170px" }}
+        />
+      );
+    if (state.data?.plot[0]?.type)
+      return <StackedColumnChart data={state.data.plot} />;
+    return <ColumnChart data={state.data.plot} />;
+  };
+
   return (
     <Card
       size="small"
@@ -60,17 +76,7 @@ export default function DistributionChartsHandler({ entity }) {
         />
       }
     >
-      <div className={styles.chart}>
-        {state.isError ? (
-          <Error height="100%" />
-        ) : state.isLoading ? (
-          <Loading height="100%" />
-        ) : state.data.plot != null && state.data?.plot[0]?.type ? (
-          <StackedColumnChart data={state.data.plot} />
-        ) : (
-          <ColumnChart data={state.data.plot} />
-        )}
-      </div>
+      <div className={styles.chart}>{renderChart()}</div>
     </Card>
   );
 }
