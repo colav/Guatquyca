@@ -5,26 +5,29 @@ import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalLis
 import Error from "@/app/app/error";
 import Loading from "@/app/app/loading";
 
+/* Icons */
+import { ReadOutlined } from "@ant-design/icons";
+
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 
-/* UI Library Components */
-import { Divider, Descriptions, Typography } from "antd";
+/* Styles */
+import style from "./styles.module.css";
 
-/* UI Library Sub-components */
-const { Text, Paragraph } = Typography;
+/* UI Library Components */
+import { Divider, Descriptions } from "antd";
 
 /**
- * DocumentModal is a client-side function component that fetches and displays information about a document.
+ * DocumentModal is a function client-side component that displays detailed information about a document.
  *
- * @param {string} documentID - The ID of the document to fetch and display information for.
+ * @param {string} documentID - The ID of the document.
  *
- * @returns {JSX.Element} If the API request is loading, a Loading component is displayed.
- * If the API request has an error, an Error component is displayed.
- * Otherwise, a div containing the document's authors, abstract, and other details is displayed.
+ * @returns {JSX.Element} A Modal containing the document's information.
+ * If an error occurs while fetching the document's information, an Error component is returned.
+ * If the document's information is still loading, a Loading component is returned.
  */
 export default function DocumentModal({ documentID }) {
   const URL = URLBuilder(`/app/work/${documentID}`, { section: "info" });
@@ -32,79 +35,85 @@ export default function DocumentModal({ documentID }) {
 
   if (state.isError) {
     return <Error />;
-  } else if (state.isLoading) {
-    return <Loading />;
-  } else {
-    const {
-      authors,
-      abstract,
-      source,
-      language,
-      volume,
-      year_published,
-      issue,
-      citations_count,
-      external_ids,
-      external_urls,
-    } = state.data.data;
-
-    return (
-      <div>
-        <Text strong>Autores: </Text>
-        {<AuthorsHorizontalList authors={authors} />}
-        <Divider style={{ margin: "15px 0" }} />
-        <Text strong>Abstract:</Text>
-        <Paragraph>{abstract || "No disponible"}</Paragraph>
-        <Divider style={{ margin: "15px 0" }} />
-        <Descriptions bordered column={{ lg: 3, md: 2, sm: 2, xs: 1 }}>
-          <Descriptions.Item label="Revista:">
-            {source?.name && source?.serials?.openalex ? (
-              <div>
-                {source.name}
-                <br />
-                <a
-                  href={source.serials.openalex}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {source.serials.openalex}
-                </a>
-              </div>
-            ) : (
-              "No disponible"
-            )}
-          </Descriptions.Item>
-          <Descriptions.Item label="Idioma:">
-            {language || "No disponible"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Volumen:">
-            {volume || "No disponible"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Publicado:">
-            {year_published || "No disponible"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Issue:">
-            {issue || "No disponible"}
-          </Descriptions.Item>
-          <Descriptions.Item label="pISSN:">
-            <Text>{source?.serials?.pissn || "No disponible"}</Text>
-          </Descriptions.Item>
-          <Descriptions.Item label="ISSN:">
-            <Text>{source?.serials?.issn || "No disponible"}</Text>
-          </Descriptions.Item>
-          <Descriptions.Item label="Scimago:">
-            <Text>{source?.serials?.scimago || "No disponible"}</Text>
-          </Descriptions.Item>
-          <Descriptions.Item label="Scienti:">
-            <Text>{source?.serials?.scienti || "No disponible"}</Text>
-          </Descriptions.Item>
-          <Descriptions.Item label="Citaciones:">
-            {citations_count || "No disponible"}
-          </Descriptions.Item>
-          {RenderedExternalIDs(external_ids)}
-          {RenderedExternalURLs(external_urls)}
-        </Descriptions>
-      </div>
-    );
   }
+
+  if (state.isLoading) {
+    return <Loading />;
+  }
+
+  const {
+    authors,
+    abstract,
+    year_published,
+    language,
+    citations_count,
+    source,
+    volume,
+    issue,
+    external_ids,
+    external_urls,
+  } = state.data.data;
+  const { name, serials } = source || {};
+  const { pissn, issn, scimago, scienti, openalex } = serials || {};
+
+  const articleItems = [
+    {
+      key: "1",
+      label: "Año de publicación",
+      children: year_published || "No disponible",
+    },
+    { key: "2", label: "Idioma", children: language || "No disponible" },
+    {
+      key: "3",
+      label: "Citaciones",
+      children: citations_count || "No disponible",
+    },
+  ];
+
+  const sourceItems = [
+    { key: "4", label: "Revista", children: name || "No disponible" },
+    { key: "5", label: "Volumen", children: volume || "No disponible" },
+    { key: "6", label: "Issue", children: issue || "No disponible" },
+    { key: "7", label: "pISSN", children: pissn || "No disponible" },
+    { key: "8", label: "ISSN", children: issn || "No disponible" },
+    { key: "9", label: "Scimago", children: scimago || "No disponible" },
+    { key: "10", label: "Scienti", children: scienti || "No disponible" },
+    {
+      key: "11",
+      label: "OpenAlex",
+      children: openalex ? (
+        <a href={openalex} target="_blank" rel="noreferrer">
+          {openalex}
+        </a>
+      ) : (
+        "No disponible"
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <h4 className={style.margin_5}>Autores: </h4>
+      {authors.length ? (
+        <AuthorsHorizontalList authors={authors} />
+      ) : (
+        "No disponible"
+      )}
+      <h4 className={style.margin_5}>Abstract:</h4>
+      <p>{abstract || "No disponible"}</p>
+      <Descriptions items={articleItems} />
+      <Descriptions
+        bordered
+        size="small"
+        items={RenderedExternalIDs(external_ids).concat(
+          RenderedExternalURLs(external_urls)
+        )}
+      />
+      <Divider className={style.margin_15} />
+      <h4 className={style.margin_5}>
+        <ReadOutlined /> Información de la Revista:
+      </h4>
+      <Descriptions items={sourceItems} />
+    </div>
+  );
 }

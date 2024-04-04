@@ -4,6 +4,9 @@
 import DocumentModal from "../DocumentModal/DocumentModal";
 import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
 
+/* Icons */
+import { FileOutlined } from "@ant-design/icons";
+
 /* UI Library Components */
 import { App } from "antd";
 
@@ -26,9 +29,11 @@ export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
       modal.warning({
         width: "1200px",
         title: [
+          <FileOutlined key="0" />,
+          " ",
           title,
           " ",
-          status && <OpenAccessStatus status={status} key="0" />,
+          status && <OpenAccessStatus status={status} key="1" />,
         ],
         icon: null,
         okText: "Cerrar",
