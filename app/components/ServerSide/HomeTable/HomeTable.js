@@ -23,12 +23,12 @@ export default function HomeTable() {
     },
     {
       key: "3",
-      search: "Facultad",
+      search: "Unidades Académicas",
       example: '"Facultad de Medicina"',
     },
     {
       key: "4",
-      search: "Departamento",
+      search: "Subunidades Académicas",
       example: '"Instituto de Física"',
     },
     {

@@ -20,24 +20,24 @@ const OPTIONS = [
     key: "person",
   },
   {
-    label: "Departamento",
-    value: "department",
-    key: "department",
+    label: "Institución",
+    value: "institution",
+    key: "institution",
   },
   {
-    label: "Facultad",
+    label: "Unidad Académica",
     value: "faculty",
     key: "faculty",
+  },
+  {
+    label: "Subunidad Académica",
+    value: "department",
+    key: "department",
   },
   {
     label: "Grupo",
     value: "group",
     key: "group",
-  },
-  {
-    label: "Institución",
-    value: "institution",
-    key: "institution",
   },
   {
     label: "Productos",
@@ -79,7 +79,7 @@ export default function SearchBar() {
       labelInValue="true"
       defaultValue={OPTIONS[0]}
       onSelect={setSelected}
-      popupMatchSelectWidth={158}
+      popupMatchSelectWidth={215}
       listHeight={380}
     />
   );
