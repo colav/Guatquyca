@@ -5,6 +5,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 /* UI Components */
 import { ConfigProvider } from "antd";
 import Foot from "./components/ServerSide/Footer/Footer";
+import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,6 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
           href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
@@ -46,6 +46,7 @@ export default function RootLayout({ children }) {
           }}
         >
           <AntdRegistry>
+            <BackToTop />
             <div id="content_container">{children}</div>
             <Foot />
           </AntdRegistry>
