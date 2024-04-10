@@ -10,7 +10,6 @@ import styles from "./styles.module.css";
 import { Button, Tooltip } from "antd";
 
 export default function APIButton({ pathname }) {
-  console.log(pathname);
   return (
     <Tooltip title="Ver en la API - JSON">
       <Button
