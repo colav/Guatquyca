@@ -127,7 +127,7 @@ export default function About() {
           </li>
           <li>
             La ampliación de una comunidad de desarrollo para proveer la
-            infraestructura en software necesaria (
+            infraestructura en <i>software</i> necesaria (
             <a
               href={"http://www.github.com/colav"}
               target="_blank"
@@ -148,11 +148,12 @@ export default function About() {
         <h3>
           El espíritu del proyecto es colaborativo y está abierto a que los
           usuarios de la plataforma no solo consulten su información, sino
-          también, para que puedan usar y ayudar en la creación de softwares que
-          la alimenten y enriquezcan. Al ser un proyecto experimental, hay
-          espacio para alianzas temporales o estratégicas con distintas
-          instituciones para resolver problemas asociados con modelos métricos
-          que puedan adecuarse a las necesidades de los tomadores de decisiones.
+          también, para que puedan usar y ayudar en la creación de{" "}
+          <i>softwares</i> que la alimenten y enriquezcan. Al ser un proyecto
+          experimental, hay espacio para alianzas temporales o estratégicas con
+          distintas instituciones para resolver problemas asociados con modelos
+          métricos que puedan adecuarse a las necesidades de los tomadores de
+          decisiones.
         </h3>
         <br />
         <p>

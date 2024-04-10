@@ -231,8 +231,8 @@ export default function OpenSource() {
         <h1>Código Abierto</h1>
         <Divider />
         <h2>
-          Softwares desarrollados en código abierto que soportan la operación de
-          ImpactU:
+          <i>Softwares</i> desarrollados en código abierto que soportan la
+          operación de ImpactU:
         </h2>
         <br />
         <Table

@@ -118,6 +118,8 @@ export default function Foot() {
           </div>
           <Link href="/app/about">Acerca de ImpactU</Link>
           <br />
+          <Link href="/app/manual">Manual de usuario</Link>
+          <br />
           <Link href="/app/principles">Principios</Link>
           <br />
           <Link href="/app/open-source">Código Abierto</Link>
@@ -134,11 +136,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.0.2-beta
+          ImpactU Versión 3.1.0-beta
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 04/04/2024
+          Interfaz de Usuario: 10/04/2024
           <br />
           Base de Datos: 02/04/2024
           <br />

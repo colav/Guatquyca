@@ -37,6 +37,34 @@
   text-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
 }
 
+/* Call to action section */
+.margin_top_50 {
+  margin-top: 50px;
+}
+
+#cta {
+  min-height: 600px;
+  padding: 0 20px;
+  background: linear-gradient(to bottom, #fff8ec, #f5f5f5, #e7f8f8);
+}
+
+#manual_cover {
+  box-shadow: #9d9d97 6px 6px 20px;
+  border-right: 4px solid #d3d3d3;
+  border-bottom: 3px solid #bebeb6;
+}
+
+#impact {
+  color: #39658c;
+  font-weight: 700;
+}
+
+#u {
+  color: #ffaa00;
+  font-weight: 700;
+}
+/* End of call to action section */
+
 @media (max-width: 576px) {
   #banner {
     display: none;
@@ -52,6 +80,12 @@
 
   #head_title h2 {
     font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  #cta {
+    text-align: center;
   }
 }
 

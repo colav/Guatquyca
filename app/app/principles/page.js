@@ -30,9 +30,9 @@ export default function Principles() {
         </p>
         <h3>Código abierto y Notebooks abiertos:</h3>
         <p>
-          Todo el software necesario para el desarrollo de ImpactU es creado en
-          colaboración y está abierto a todas las instituciones que deseen
-          adaptarlo. Visita:{" "}
+          Todo el <i>software</i> necesario para el desarrollo de ImpactU es
+          creado en colaboración y está abierto a todas las instituciones que
+          deseen adaptarlo. Visita:{" "}
           <a href={"https://github.com/colav"} target="_blank" rel="noreferrer">
             https://github.com/colav
           </a>
