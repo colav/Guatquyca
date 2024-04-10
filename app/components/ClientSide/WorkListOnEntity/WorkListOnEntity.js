@@ -24,6 +24,7 @@ import { usePathname } from "next/navigation";
 import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
+import APIButton from "../APIButton/APIButton";
 
 /**
  * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
@@ -65,6 +66,7 @@ export default function WorkListOnEntity() {
             setUrl={setUrl}
           />
           <CSVButton pathname={pathname} />
+          <APIButton pathname={pathname} />
         </div>
       }
     >

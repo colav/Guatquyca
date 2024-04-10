@@ -1,10 +1,10 @@
-#csv_button {
+#api_button {
   margin-left: 12px;
   color: white !important;
   background-color: rgb(69, 172, 216);
 }
 
-#csv_button:hover {
+#api_button:hover {
   background-color: rgb(134, 212, 245);
 }
 
