@@ -46,7 +46,7 @@ export default function Tres() {
             investigativa.
           </p>
           <p className={styles.point_list}>
-            2.3. Para ambas instancias cada universidad deberá delegar un
+            2.3. Para ambas instancias cada universidad deberá delegar unos
             responsables, quienes serán los encargados de ser el puente de
             comunicación con el equipo de <b id={styles.impact}>Impact</b>
             <b id={styles.u}>U</b> y las necesidades de su institución.
