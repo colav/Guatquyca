@@ -1,7 +1,8 @@
 /* Components */
+import DisclaimerModal from "@/app/components/ClientSide/DisclaimerModal/DisclaimerModal";
+import Head from "@/app/components/ServerSide/Header/Header";
 import HomeTable from "@/app/components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "@/app/components/ClientSide/SearchBar/SearchBar";
-import Head from "@/app/components/ServerSide/Header/Header";
 
 /* Icons */
 import { DownloadOutlined, LinkOutlined } from "@ant-design/icons";
@@ -20,16 +21,19 @@ export default function Home() {
   return (
     <>
       <Head />
+      <DisclaimerModal />
       <div id={styles.content_container}>
-        <Image
-          priority={true}
-          src={"/media/banner.svg"}
-          alt="Colav texture"
-          width={1920}
-          height={1080}
-          id={styles.banner}
-        />
         <Row justify="space-around">
+          <Col span={24}>
+            <Image
+              priority={true}
+              src={"/media/banner.svg"}
+              alt="Colav texture"
+              width={1920}
+              height={1080}
+              id={styles.banner}
+            />
+          </Col>
           <Col flex sm={24} xl={10} xxl={8}>
             <div id={styles.head_title}>
               <h1 style={{ marginBottom: "15px", fontSize: "38px" }}>
