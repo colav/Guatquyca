@@ -53,6 +53,7 @@ export default function WorkListOnEntity() {
         header: { backgroundColor: "#003e65", color: "white" },
         body: { padding: "10px 0 10px 10px" },
       }}
+      id="work_list"
       title="Productos"
       extra={
         <div>

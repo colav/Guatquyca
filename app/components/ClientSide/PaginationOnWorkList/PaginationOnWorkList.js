@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 /* Next */
 import { usePathname } from "next/navigation";
 
@@ -30,6 +32,17 @@ export default function PaginationOnWorkList({
 }) {
   const pathname = usePathname();
 
+  const [topPosition, setTopPosition] = useState(0);
+
+  useEffect(() => {
+    const topElement = document.getElementById("work_list");
+    if (topElement) {
+      setTopPosition(
+        topElement.getBoundingClientRect().top + window.pageYOffset
+      );
+    }
+  }, []);
+
   /**
    * Function to handle changes in the Pagination component.
    *
@@ -42,7 +55,7 @@ export default function PaginationOnWorkList({
     const URL = URLBuilder(pathname, newQueryParams);
     setUrl(URL);
     window.scrollTo({
-      top: 300,
+      top: topPosition - 110,
       behavior: "smooth",
     });
   };
