@@ -27,6 +27,7 @@ a {
 a:hover {
   color: #46b3b3 !important;
   font-weight: 600 !important;
+  letter-spacing: -0.12px;
   text-decoration: underline !important;
 }
 
