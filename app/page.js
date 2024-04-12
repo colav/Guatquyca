@@ -21,7 +21,6 @@ export default function Home() {
   return (
     <>
       <Head />
-      <DisclaimerModal />
       <div id={styles.content_container}>
         <Row justify="space-around">
           <Col span={24}>
