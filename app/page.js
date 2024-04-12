@@ -1,5 +1,4 @@
 /* Components */
-import DisclaimerModal from "@/app/components/ClientSide/DisclaimerModal/DisclaimerModal";
 import Head from "@/app/components/ServerSide/Header/Header";
 import HomeTable from "@/app/components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "@/app/components/ClientSide/SearchBar/SearchBar";

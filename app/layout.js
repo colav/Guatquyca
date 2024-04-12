@@ -4,9 +4,9 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 /* UI Components */
 import { ConfigProvider } from "antd";
-import Foot from "./components/ServerSide/Footer/Footer";
 import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
 import DisclaimerModal from "./components/ClientSide/DisclaimerModal/DisclaimerModal";
+import Foot from "./components/ServerSide/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,7 +49,6 @@ export default function RootLayout({ children }) {
           <AntdRegistry>
             <BackToTop />
             <DisclaimerModal />
-
             <div id="content_container">{children}</div>
             <Foot />
           </AntdRegistry>
