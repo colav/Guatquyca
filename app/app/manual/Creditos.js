@@ -97,30 +97,30 @@ export default function Creditos() {
         <li>Cesar Alonso Valenzuela Toledo, Universidad del Valle</li>
         <li>Luz Piedad Arrigui Fragua, Universidad del Valle</li>
         <li>Pau Torres Pachón, Universidad Externado de Colombia</li>
-        <li>Alejandro Balanzó, Universidad Externado de Colombia</li>
+        <li>Alejandro Balanzó Guzmán, Universidad Externado de Colombia</li>
       </ul>
       <br />
       <p className={styles.normal_text}>
         <b>Diseño y diagramación</b>
       </p>
       <ul className={styles.normal_text}>
-        <li>Luis Miguel Vargas, Desarrollador Front-End</li>
+        <li>Luis Miguel Vargas Guevara, Desarrollador Front-End</li>
       </ul>
       <br />
       <p className={styles.normal_text}>
         <b>Equipo de Desarrollo Computacional</b>
       </p>
       <ul className={styles.normal_text}>
-        <li>Diego Restrepo, Director de Desarrollo</li>
-        <li>Omar Andrés Zapata, Desarrollador Full-Stack senior</li>
-        <li>Luis Miguel Vargas, Desarrollador Front-End senior</li>
+        <li>Diego Restrepo Quintero, Director de Desarrollo</li>
+        <li>Omar Andrés Zapata Mesa, Desarrollador Full-Stack senior</li>
+        <li>Luis Miguel Vargas Guevara, Desarrollador Front-End senior</li>
         <li>
           Darío Cristopher Peña Salamanca, Universidad Externado de Colombia
         </li>
         <li>Federico Vergara Gómez, Desarrollador ETL</li>
         <li>Simón García Luján, Desarrollador Back-End</li>
-        <li>Ana Karina Lourido, Universidad del Valle</li>
-        <li>Fidel Palacios, Universidad del Valle</li>
+        <li>Ana Karina Lourido Jurado, Universidad del Valle</li>
+        <li>Fidel Herney Palacios Cualcialpud, Universidad del Valle</li>
       </ul>
       <br />
       <Image
