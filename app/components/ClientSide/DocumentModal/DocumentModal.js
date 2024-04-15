@@ -19,6 +19,7 @@ import style from "./styles.module.css";
 
 /* UI Library Components */
 import { Divider, Descriptions } from "antd";
+import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -48,10 +49,12 @@ export default function DocumentModal({ documentID }) {
     language,
     citations_count,
     source,
+    subjects,
     volume,
     issue,
     external_ids,
     external_urls,
+    openalex_url,
   } = state.data.data;
   const { name, serials } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
@@ -68,6 +71,17 @@ export default function DocumentModal({ documentID }) {
       label: "Citaciones",
       children: citations_count || "No disponible",
     },
+    {
+      key: "4",
+      label: "Perfil OpenAlex",
+      children: openalex_url ? (
+        <a href={openalex_url} target="_blank" rel="noreferrer">
+          {openalex_url}
+        </a>
+      ) : (
+        "No disponible"
+      ),
+    },
   ];
 
   const sourceItems = [
@@ -80,7 +94,7 @@ export default function DocumentModal({ documentID }) {
     { key: "10", label: "Scienti", children: scienti || "No disponible" },
     {
       key: "11",
-      label: "OpenAlex",
+      label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
           {openalex}
@@ -99,6 +113,8 @@ export default function DocumentModal({ documentID }) {
       ) : (
         "No disponible"
       )}
+      <h4 className={style.margin_5}>Temas: </h4>
+      <SubjectsTags subjectsList={subjects} />
       <h4 className={style.margin_5}>Abstract:</h4>
       <p>{abstract || "No disponible"}</p>
       <Descriptions items={articleItems} />
