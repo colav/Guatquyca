@@ -1,4 +1,5 @@
 /* Components */
+import DisclaimerModal from "./components/ClientSide/DisclaimerModal/DisclaimerModal";
 import Head from "@/app/components/ServerSide/Header/Header";
 import HomeTable from "@/app/components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "@/app/components/ClientSide/SearchBar/SearchBar";
@@ -19,6 +20,7 @@ import { Card, Col, Row } from "antd";
 export default function Home() {
   return (
     <>
+      <DisclaimerModal />
       <Head />
       <div id={styles.content_container}>
         <Row justify="space-around">
