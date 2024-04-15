@@ -71,17 +71,6 @@ export default function DocumentModal({ documentID }) {
       label: "Citaciones",
       children: citations_count || "No disponible",
     },
-    {
-      key: "4",
-      label: "Perfil OpenAlex",
-      children: openalex_url ? (
-        <a href={openalex_url} target="_blank" rel="noreferrer">
-          {openalex_url}
-        </a>
-      ) : (
-        "No disponible"
-      ),
-    },
   ];
 
   const sourceItems = [
