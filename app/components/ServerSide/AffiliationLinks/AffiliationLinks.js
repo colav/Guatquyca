@@ -7,53 +7,61 @@ import dateBuilder from "@/lib/dateBuilder";
 /* Next */
 import Link from "next/link";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { Tooltip } from "antd";
 
 /**
- * AffiliationLinks is a function component that displays a list of affiliations.
- * It maps over the affList and creates a Tooltip component for each affiliation.
- * The Tooltip component displays the start and end dates of the affiliation.
- * Each affiliation is a link that navigates to the affiliations section of the corresponding type and ID.
+ * `AffiliationLinks` is a server-side functional component that renders a list of affiliation links.
  *
- * @param {Array} affList - The list of affiliations to display.
- * @returns {JSX.Element} A list of Tooltip components for each affiliation.
+ * @param {Object[]} affList - The list of affiliations to be displayed. Each object in the array represents an affiliation and should have the following properties: `id`, `start_date`, `end_date`, `types`, and `name`.
+ * @param {boolean} person - A flag indicating whether the affiliations are for a person. If `true`, additional information (start and end dates) will be displayed in a tooltip for each affiliation.
+ *
+ * @returns {JSX.Element} A list of affiliation links. If `person` is `true`, each link is wrapped in a tooltip displaying the start and end dates of the affiliation. If `affList` is not provided or is an empty array, the component returns a paragraph with the text "No disponible".
  */
-export default function AffiliationLinks({ affList }) {
+export default function AffiliationLinks({ affList, person = false }) {
   const ENTITIES = ["group", "department", "faculty"];
+
   return (
     <>
       <h2 style={{ margin: 0, color: "gray" }}>
         <BankOutlined /> Afiliaciones:
       </h2>
-      {affList.length > 0
-        ? affList.map((item) => {
+      {affList && affList.length > 0 ? (
+        affList.map(({ id, start_date, end_date, types, name }) => {
+          const entityType = ENTITIES.includes(types[0]?.type)
+            ? types[0]?.type
+            : "institution";
+          const linkHref = `/app/affiliation/${entityType}/${id}/affiliations`;
+
+          if (person) {
             return (
-              <div key={item.id}>
+              <div key={id}>
                 <Tooltip
                   title={
                     <>
-                      <div>Fecha de inicio: {dateBuilder(item.start_date)}</div>
-                      <div>
-                        Fecha de finalización: {dateBuilder(item.end_date)}
-                      </div>
+                      <div>Fecha de inicio: {dateBuilder(start_date)}</div>
+                      <div>Fecha de finalización: {dateBuilder(end_date)}</div>
                     </>
                   }
                 >
-                  <Link
-                    href={`/app/affiliation/${
-                      ENTITIES.includes(item.types[0]?.type)
-                        ? item.types[0]?.type
-                        : "institution"
-                    }/${item.id}/affiliations`}
-                  >
-                    {item.name}
-                  </Link>
+                  <Link href={linkHref}>{name}</Link>
                 </Tooltip>
               </div>
             );
-          })
-        : "No disponible"}
+          } else {
+            return (
+              <div key={id}>
+                <Link href={linkHref}>{name}</Link>
+              </div>
+            );
+          }
+        })
+      ) : (
+        <p className={styles.noData}>No disponible</p>
+      )}
     </>
   );
 }

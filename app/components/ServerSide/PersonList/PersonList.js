@@ -71,7 +71,10 @@ export default async function PersonList({ searchParams }) {
                     </Link>
                   </Col>
                   <Col xs={24} md={6}>
-                    <AffiliationLinks affList={item.affiliations} />
+                    <AffiliationLinks
+                      affList={item.affiliations}
+                      person={true}
+                    />
                   </Col>
                   <Col xs={24} md={6}>
                     <ExternalProfiles idsList={item.external_ids} />

@@ -1,4 +1,5 @@
 /* Components */
+import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
 import CitationsCount from "../CitationsCount/CitationsCount";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
 import ExternalURL from "@/app/components/ServerSide/ExternalURL/ExternalURL";
@@ -84,15 +85,23 @@ export default async function EntityList({ searchParams, entity }) {
                       )}
                     </>
                   </Col>
-                  <Col xs={24} md={6}>
-                    <ExternalURL URLList={item.external_urls} />
-                  </Col>
-                  <Col xs={24} md={6}>
-                    <ExternalProfiles
-                      idsList={item.external_ids}
-                      entity="group"
-                    />
-                  </Col>
+                  {entity === "institution" ? (
+                    <>
+                      <Col xs={24} md={6}>
+                        <ExternalURL URLList={item.external_urls} />
+                      </Col>
+                      <Col xs={24} md={6}>
+                        <ExternalProfiles
+                          idsList={item.external_ids}
+                          entity="group"
+                        />
+                      </Col>
+                    </>
+                  ) : (
+                    <Col xs={24} md={6}>
+                      <AffiliationLinks affList={item.affiliations} />
+                    </Col>
+                  )}
                   <CitationsCount citations_count={item.citations_count} />
                   <ProductsCount products_count={item.products_count} />
                 </Row>
