@@ -57,7 +57,6 @@ export default async function WorkList({ searchParams }) {
               workID={item.id}
               openAccessStatus={item.open_access_status}
             />
-            <br />
             {item.source.name ? <Source sourceName={item.source.name} /> : ""}
             Autores: <AuthorsHorizontalList authors={item.authors} />
             {item.subjects.length > 0 && (

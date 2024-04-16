@@ -65,7 +65,7 @@ export default function CommonTitleCard({ data, entity }) {
             <ExternalURL URLList={external_urls} />
           </Col>
           <Col xs={12} md={10} lg={8} xl={6} xxl={5}>
-            <ExternalProfiles idsList={external_ids} />
+            <ExternalProfiles idsList={external_ids} entity={entity} />
           </Col>
           <CitationsCount citations_count={citations_count} />
           <ProductsCount products_count={products_count} />

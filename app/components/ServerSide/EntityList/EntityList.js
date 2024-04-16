@@ -85,22 +85,25 @@ export default async function EntityList({ searchParams, entity }) {
                       )}
                     </>
                   </Col>
-                  {entity === "institution" ? (
-                    <>
-                      <Col xs={24} md={6}>
-                        <ExternalURL URLList={item.external_urls} />
-                      </Col>
-                      <Col xs={24} md={6}>
-                        <ExternalProfiles
-                          idsList={item.external_ids}
-                          entity="group"
-                        />
-                      </Col>
-                    </>
-                  ) : (
+                  {entity === "institution" && (
+                    <Col xs={24} md={6}>
+                      <ExternalURL URLList={item.external_urls} />
+                    </Col>
+                  )}
+                  {entity != "institution" && (
                     <Col xs={24} md={6}>
                       <AffiliationLinks affList={item.affiliations} />
                     </Col>
+                  )}
+                  {entity === "institution" || entity === "group" ? (
+                    <Col xs={24} md={6}>
+                      <ExternalProfiles
+                        idsList={item.external_ids}
+                        entity="group"
+                      />
+                    </Col>
+                  ) : (
+                    ""
                   )}
                   <CitationsCount citations_count={item.citations_count} />
                   <ProductsCount products_count={item.products_count} />
