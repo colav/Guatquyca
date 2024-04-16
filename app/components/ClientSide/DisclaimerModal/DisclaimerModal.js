@@ -3,6 +3,9 @@
 /* React */
 import React from "react";
 
+/* Icons */
+import { GithubOutlined } from "@ant-design/icons";
+
 /* Styles */
 import styles from "./styles.module.css";
 
@@ -52,12 +55,17 @@ export default function DisclaimerModal() {
               y aún requiere de trabajo posterior, agradecemos todos los
               comentarios que pueda hacer en{" "}
               <a
-                href="https://forms.gle/mroVGTkddM1QEL9q9"
+                href="https://github.com/colav/impactu/issues"
                 target="_blank"
                 rel="noreferrer"
               >
-                este formulario.
+                nuestro repositorio de GitHub <GithubOutlined />
               </a>{" "}
+              a través de la opción{" "}
+              <b>
+                <i>New issue</i>
+              </b>
+              .
             </p>
           </>
         ),
