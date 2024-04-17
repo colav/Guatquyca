@@ -13,7 +13,8 @@ import ukprn from "../../icons/ukprn";
 import gruplac from "../../icons/gruplac";
 import researchgate from "../../icons/researchgate";
 import wikidata from "../../icons/wikidata";
-import { UserOutlined } from "@ant-design/icons";
+import wikipedia from "../../icons/wikipedia";
+import { LinkOutlined, UserOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -29,6 +30,11 @@ import { Button, Space } from "antd";
  * @param {Array} idsList - The list of external profiles to display.
  */
 export default function ExternalProfiles({ idsList, entity }) {
+  const uniqueIdsList = idsList.filter(
+    (currentItem, currentIndex, array) =>
+      array.findIndex((item) => item.source === currentItem.source) ===
+      currentIndex
+  );
   const external = {
     researchgate: {
       icon: researchgate(),
@@ -71,6 +77,19 @@ export default function ExternalProfiles({ idsList, entity }) {
       icon: ukprn(),
       URL: "https://www.ukrlp.co.uk/ukrlp/ukrlp_provider.page_pls_provDetails?x=&pv_status=VERIFIED&pv_vis_code=L&pn_p_id=",
     },
+    site: {
+      icon: (
+        <LinkOutlined
+          style={{
+            fontSize: "28px",
+            verticalAlign: "bottom",
+            color: "#328181",
+          }}
+        />
+      ),
+      URL: null,
+    },
+    wikipedia: { icon: wikipedia(), URL: null },
   };
 
   /**
@@ -98,24 +117,30 @@ export default function ExternalProfiles({ idsList, entity }) {
    * @param {Array} idsList - The list of external profiles to display.
    * @returns {Array} - The list of buttons for each external profile.
    */
-  const renderedButtons = (idsList) => {
-    return idsList.map(
-      (item) =>
-        item.source !== "mag" &&
-        item.source !== "orgref" &&
-        item.source !== "nit" &&
-        item.source !== "minciencias" &&
-        item.source !== "hesa" && (
+  const renderedButtons = (uniqueIdsList) => {
+    const excludedSources = [
+      "mag",
+      "orgref",
+      "nit",
+      "minciencias",
+      "hesa",
+      "grid",
+    ];
+
+    return uniqueIdsList.map((item) => {
+      if (!excludedSources.includes(item.source)) {
+        return (
           <a
-            href={URLMaker(item.source, item.id)}
+            href={item.url || URLMaker(item.source, item.id)}
             key={item.source}
             target="_blank"
             rel="noreferrer"
           >
             <Button type="link" icon={external[item.source]?.icon} />
           </a>
-        )
-    );
+        );
+      }
+    });
   };
 
   return (
@@ -123,8 +148,8 @@ export default function ExternalProfiles({ idsList, entity }) {
       <h2 style={{ margin: 0, color: "gray" }}>
         <UserOutlined /> Perfil externo:
       </h2>
-      {idsList?.length > 0 ? (
-        <Space wrap>{renderedButtons(idsList)}</Space>
+      {uniqueIdsList?.length > 0 ? (
+        <Space wrap>{renderedButtons(uniqueIdsList)}</Space>
       ) : (
         <p className={styles.noData}>No disponible</p>
       )}

@@ -61,12 +61,14 @@ export default function CommonTitleCard({ data, entity }) {
         </Row>
         <AffilliationParser affiliations={affiliations} />
         <Row>
-          <Col xs={12} md={10} lg={8} xl={6} xxl={5}>
-            <ExternalURL URLList={external_urls} />
-          </Col>
-          <Col xs={12} md={10} lg={8} xl={6} xxl={5}>
-            <ExternalProfiles idsList={external_ids} entity={entity} />
-          </Col>
+          {entity !== "faculty" && entity !== "department" && (
+            <Col xs={12} md={10} lg={8} xl={6}>
+              <ExternalProfiles
+                idsList={external_ids.concat(external_urls)}
+                entity={entity}
+              />
+            </Col>
+          )}
           <CitationsCount citations_count={citations_count} />
           <ProductsCount products_count={products_count} />
         </Row>
