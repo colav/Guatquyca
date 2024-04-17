@@ -28,6 +28,33 @@ export default function Glosario() {
       </li>
       <li>
         <b>
+          <b>Ciencia Abierta</b>:
+        </b>{" "}
+        “Se define como un constructo inclusivo que combina diversos movimientos
+        y prácticas con el fin de que los conocimientos científicos multilingües
+        estén abiertamente disponibles y sean accesibles para todos, así como
+        reutilizables por todos, se incrementen las colaboraciones científicas y
+        el intercambio de información en beneficio de la ciencia y la sociedad,
+        y se abran los procesos de creación, evaluación y comunicación de los
+        conocimientos científicos a los agentes sociales más allá de la
+        comunidad científica tradicional. La ciencia abierta comprende todas las
+        disciplinas científicas y todos los aspectos de las prácticas
+        académicas, incluidas las ciencias básicas y aplicadas, las ciencias
+        naturales y sociales y las humanidades, y se basa en los siguientes
+        pilares clave: conocimiento científico abierto, infraestructuras de la
+        ciencia abierta, comunicación científica, participación abierta de los
+        agentes sociales y diálogo abierto con otros sistemas de conocimiento."
+        UNESCO (2021). Recomendación sobre la Ciencia Abierta.{" "}
+        <a
+          href="https://unesdoc.unesco.org/ark:/48223/pf0000379949_spa"
+          target="_blank"
+          rel="noreferrer"
+        >
+          https://unesdoc.unesco.org/ark:/48223/pf0000379949_spa
+        </a>
+      </li>
+      <li>
+        <b>
           Data <i>storytelling</i>:
         </b>{" "}
         Es el proceso de convertir los datos en narraciones que puedan ser

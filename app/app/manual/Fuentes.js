@@ -13,20 +13,6 @@ export default function Fuentes() {
     <>
       <ul className={styles.normal_text}>
         <li>
-          Vélez Cuartas, G., Uribe-Tirado, A., Restrepo-Quintero, D.,
-          Ochoa-Gutierrez, J., Pallares, C., Gómez-Molina, H. F., Suárez-Tamayo,
-          M., & Calle, J. (2019). Hacia un modelo de medición de la ciencia
-          desde el Sur Global: Métricas responsables. Palabra Clave (La Plata),
-          8(2), e068-e068.{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://doi.org/10.24215/18539912e068"
-          >
-            https://doi.org/10.24215/18539912e068
-          </a>
-        </li>
-        <li>
           DORA (2012). San Francisco Declaration on Research Assessment.
           Disponible en:{" "}
           <a target="_blank" rel="noreferrer" href="https://sfdora.org/read/">
@@ -45,25 +31,13 @@ export default function Fuentes() {
           </a>
         </li>
         <li>
-          Tejada, M.A., Chalela, S., & Pallares, C. (2021). ABC de las Métricas
-          Responsables. Consorcio Colombia. Disponible en:{" "}
+          Observatorio Distrital en Salud. Métricas responsables. Disponible en:{" "}
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://www.youtube.com/watch?v=bVfaRX0AFJc&t=3551s"
+            href="https://sds-investigacion.azurewebsites.net/app/metrics"
           >
-            https://www.youtube.com/watch?v=bVfaRX0AFJc&t=3551s
-          </a>
-        </li>
-        <li>
-          Wilsdon, J. (2016). The metric tide: The independent review of the
-          role of metrics in research assessment & management. (p. 180).{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://responsiblemetrics.org/the-metric-tide/"
-          >
-            https://responsiblemetrics.org/the-metric-tide/
+            https://sds-investigacion.azurewebsites.net/app/metrics
           </a>
         </li>
         <li>
@@ -76,13 +50,39 @@ export default function Fuentes() {
           1; not peer reviewed]. F1000Research 2019,
         </li>
         <li>
-          Observatorio Distrital en Salud. Métricas responsables. Disponible en:{" "}
+          Tejada, M.A., Chalela, S., & Pallares, C. (2021). ABC de las Métricas
+          Responsables. Consorcio Colombia. Disponible en:{" "}
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://sds-investigacion.azurewebsites.net/app/metrics"
+            href="https://www.youtube.com/watch?v=bVfaRX0AFJc&t=3551s"
           >
-            https://sds-investigacion.azurewebsites.net/app/metrics
+            https://www.youtube.com/watch?v=bVfaRX0AFJc&t=3551s
+          </a>
+        </li>
+        <li>
+          Vélez Cuartas, G., Uribe-Tirado, A., Restrepo-Quintero, D.,
+          Ochoa-Gutierrez, J., Pallares, C., Gómez-Molina, H. F., Suárez-Tamayo,
+          M., & Calle, J. (2019). Hacia un modelo de medición de la ciencia
+          desde el Sur Global: Métricas responsables. Palabra Clave (La Plata),
+          8(2), e068-e068.{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://doi.org/10.24215/18539912e068"
+          >
+            https://doi.org/10.24215/18539912e068
+          </a>
+        </li>
+        <li>
+          Wilsdon, J. (2016). The metric tide: The independent review of the
+          role of metrics in research assessment & management. (p. 180).{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://responsiblemetrics.org/the-metric-tide/"
+          >
+            https://responsiblemetrics.org/the-metric-tide/
           </a>
         </li>
       </ul>
