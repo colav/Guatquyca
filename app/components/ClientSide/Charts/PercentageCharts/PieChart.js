@@ -20,11 +20,16 @@ export default function PieChart({ data, sum }) {
     data,
     angleField: "value",
     colorField: "name",
-    radius: 0.9,
-    innerRadius: 0.5,
+    radius: 0.85,
+    innerRadius: 0.45,
     label: {
       text: (d) => `${d.value} / ${d.percentage}%`,
-      position: "spider",
+      position: "outside",
+      transform: [
+        {
+          type: "overlapDodgeY",
+        },
+      ],
     },
     legend: {
       color: {
