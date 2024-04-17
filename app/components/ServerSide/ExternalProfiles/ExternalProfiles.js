@@ -145,7 +145,7 @@ export default function ExternalProfiles({ idsList, entity }) {
 
   return (
     <>
-      <h2 style={{ margin: 0, color: "gray" }}>
+      <h2 style={{ margin: "0 0 8px 0", color: "gray" }}>
         <UserOutlined /> Perfil externo:
       </h2>
       {uniqueIdsList?.length > 0 ? (

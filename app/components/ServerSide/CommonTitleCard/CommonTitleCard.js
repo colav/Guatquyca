@@ -64,7 +64,7 @@ export default function CommonTitleCard({ data, entity }) {
           {entity !== "faculty" && entity !== "department" && (
             <Col xs={12} md={10} lg={8} xl={6}>
               <ExternalProfiles
-                idsList={external_ids.concat(external_urls)}
+                idsList={(external_ids || []).concat(external_urls || [])}
                 entity={entity}
               />
             </Col>

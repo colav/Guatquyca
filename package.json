@@ -1,6 +1,6 @@
 {
   "name": "guatquyca",
-  "version": "3.1.1-beta",
+  "version": "3.1.2-beta",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,8 +14,8 @@
     "@ant-design/maps": "^1.0.8",
     "@ant-design/nextjs-registry": "^1.0.0",
     "@antv/g6": "^4.8.24",
-    "antd": "^5.15.4",
-    "next": "^14.1.4",
+    "antd": "^5.16.2",
+    "next": "^14.2.1",
     "react": "^18",
     "react-dom": "^18"
   }
