@@ -12,3 +12,7 @@
   font-size: 18px;
   vertical-align: sub;
 }
+
+.fitContent {
+  display: contents;
+}
