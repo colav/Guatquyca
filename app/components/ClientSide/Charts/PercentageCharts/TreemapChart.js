@@ -41,8 +41,8 @@ export default function TreemapChart({ data }) {
     interaction: {
       tooltip: {
         render: (event, { title, items }) =>
-          items.map((item) => (
-            <div className={styles.font}>
+          items.map((item, i) => (
+            <div key={i} className={styles.font}>
               <p className={styles.title}>
                 <span
                   style={{ backgroundColor: item.color }}
