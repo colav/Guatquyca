@@ -20,7 +20,7 @@ import { Avatar, Col, Row, Card } from "antd";
 import styles from "./styles.module.css";
 
 /* Utilities */
-import { TITLES } from "@/lib/constants";
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 
 /**
  * PersonList is an asynchronous function server component that fetches a list of persons
@@ -40,16 +40,10 @@ export default async function PersonList({ searchParams }) {
         header: { backgroundColor: "#003e65", color: "white" },
         body: { padding: "10px 0 10px 10px" },
       }}
-      title={TITLES["person"]}
-      extra={
-        <div>
-          <p id={styles.white_text}>
-            {data.total_results}{" "}
-            {data.total_results === 1 ? "resultado" : "resultados"}
-          </p>
-          <SortSearchResults searchParams={searchParams} />
-        </div>
-      }
+      title={`${data.total_results} ${
+        data.total_results === 1 ? SINGULAR_TITLES["person"] : TITLES["person"]
+      }`}
+      extra={<SortSearchResults searchParams={searchParams} />}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (

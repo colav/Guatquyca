@@ -21,7 +21,7 @@ import styles from "./styles.module.css";
 import { Avatar, Card, Col, Row } from "antd";
 
 /* Utilities */
-import { TITLES } from "@/lib/constants";
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import Flag from "../Flag/Flag";
 
 /**
@@ -42,16 +42,10 @@ export default async function EntityList({ searchParams, entity }) {
         header: { backgroundColor: "#003e65", color: "white" },
         body: { padding: "10px 0 10px 10px" },
       }}
-      title={TITLES[entity]}
-      extra={
-        <div>
-          <p id={styles.white_text}>
-            {data.total_results}{" "}
-            {data.total_results === 1 ? "resultado" : "resultados"}
-          </p>
-          <SortSearchResults searchParams={searchParams} />
-        </div>
-      }
+      title={`${data.total_results} ${
+        data.total_results === 1 ? SINGULAR_TITLES[entity] : TITLES[entity]
+      }`}
+      extra={<SortSearchResults searchParams={searchParams} />}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
