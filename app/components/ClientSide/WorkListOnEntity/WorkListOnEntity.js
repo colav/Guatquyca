@@ -17,7 +17,7 @@ import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Card } from "antd";
+import { Card, Row } from "antd";
 
 /* Utilities */
 import { usePathname } from "next/navigation";
@@ -50,17 +50,13 @@ export default function WorkListOnEntity() {
     <Card
       size="small"
       styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 10px 10px" },
+        header: { backgroundColor: "#003e65", color: "white", padding: "6px" },
+        body: { padding: "10px 0 5px 5px" },
       }}
       id="work_list"
-      title="Productos"
+      title={`${state?.data?.total_results} Productos`}
       extra={
-        <div>
-          <p id={styles.white_text}>
-            {state?.data?.total_results}{" "}
-            {state?.data?.total_results === 1 ? "resultado" : "resultados"}
-          </p>
+        <div style={{ display: "flex" }}>
           <SortWorkList
             queryParams={queryParams}
             setQueryParams={setQueryParams}

@@ -51,7 +51,7 @@ export default function GraphChartsHandler({ entity }) {
     <Card
       size="small"
       styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
+        header: { backgroundColor: "#003e65", color: "white", padding: "6px" },
         body: { padding: "10px", height: "420px" },
       }}
       hoverable

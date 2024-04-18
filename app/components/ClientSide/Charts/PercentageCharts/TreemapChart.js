@@ -17,9 +17,6 @@ import { PALETTE } from "@/lib/constants";
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Library Components */
-import { Empty } from "antd";
-
 /**
  * TreemapChart is a client-side function component that displays a Treemap chart.
  *

@@ -60,9 +60,9 @@ export default function CommonTitleCard({ data, entity }) {
           </h1>
         </Row>
         <AffilliationParser affiliations={affiliations} />
-        <Row>
+        <Row gutter={[20, 20]} style={{ marginTop: "20px" }}>
           {entity !== "faculty" && entity !== "department" && (
-            <Col xs={12} md={10} lg={8} xl={6}>
+            <Col xs={24} md={10} lg={8} xl={6}>
               <ExternalProfiles
                 idsList={(external_ids || []).concat(external_urls || [])}
                 entity={entity}
