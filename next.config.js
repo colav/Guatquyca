@@ -4,15 +4,6 @@ const nextConfig = {
   env: {
     CLIENT_API: "https://apis.impactu.colav.co/",
   },
-  async redirects() {
-    return [
-      {
-        source: "/app",
-        destination: "/",
-        permanent: true,
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;
