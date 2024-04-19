@@ -28,7 +28,6 @@ const GraphChart = ({ data, entity }) => {
   }
   const ref = React.useRef(null);
   const { innerWidth } = window;
-  console.log(innerWidth);
   let graph = null;
   const divisor = innerWidth < 768 ? 1 : 2;
   const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88);
