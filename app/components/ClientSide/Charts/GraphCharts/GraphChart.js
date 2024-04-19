@@ -28,9 +28,10 @@ const GraphChart = ({ data, entity }) => {
   }
   const ref = React.useRef(null);
   const { innerWidth } = window;
+  console.log(innerWidth);
   let graph = null;
-  const divisor = innerWidth < 768 ? 1 : entity === "person" ? 3 : 2;
-  const width = innerWidth / divisor - 54;
+  const divisor = innerWidth < 768 ? 1 : 2;
+  const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88);
 
   useEffect(() => {
     if (!graph) {
