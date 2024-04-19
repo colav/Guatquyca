@@ -1,6 +1,9 @@
+"use client";
+
 /* Next */
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 
 import SearchBar from "../../ClientSide/SearchBar/SearchBar";
 
@@ -36,7 +39,9 @@ export default function HeadSearch() {
           </Link>
         </Col>
         <Col xs={24} sm={24} md={15} lg={12} id={styles.searchbar}>
-          <SearchBar />
+          <Suspense>
+            <SearchBar />
+          </Suspense>
         </Col>
         <Col xs={0} lg={4} xl={6} />
       </Row>
