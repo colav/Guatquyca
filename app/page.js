@@ -1,3 +1,6 @@
+/* React */
+import { Suspense } from "react";
+
 /* Components */
 import DisclaimerModal from "./components/ClientSide/DisclaimerModal/DisclaimerModal";
 import Head from "@/app/components/ServerSide/Header/Header";
@@ -54,7 +57,9 @@ export default function Home() {
                 emprendimientos.
               </h3>
               <div id={"searchbar_container"}>
-                <SearchBar />
+                <Suspense>
+                  <SearchBar />
+                </Suspense>
               </div>
               <div id={styles.table_container}>
                 <HomeTable />
