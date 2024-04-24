@@ -48,12 +48,18 @@ export default function SearchBar() {
       return OPTIONS[OPTIONS_INDEX[params.entity]];
     }
     if (pathname.slice(0, 11) === "/app/search") {
-      return pathname.split("/search/")[1].split("?")[0];
+      const type = pathname.split("/search/")[1].split("?")[0];
+      return {
+        label: type === "person" ? "Autor" : "Productos",
+        value: type,
+        key: type,
+      };
     }
     return OPTIONS[0];
   };
 
   const [selected, setSelected] = useState(getDefaultValue());
+  console.log(selected);
 
   const selectBefore = (
     <Select
