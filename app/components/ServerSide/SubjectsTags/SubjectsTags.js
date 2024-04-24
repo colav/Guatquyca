@@ -15,7 +15,7 @@ export default function SubjectsTags({ subjectsList }) {
   return (
     <div className={styles.subjectsTags_container}>
       <Space size={[0, 8]} wrap>
-        {subjectsList.map((subject) => {
+        {subjectsList[0].subjects.map((subject) => {
           return (
             <Tag bordered={false} key={subject.id}>
               {subject.name}
