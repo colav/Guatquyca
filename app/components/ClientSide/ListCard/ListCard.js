@@ -42,6 +42,7 @@ export default function ListCard({ type, list }) {
                   id={item.id}
                   description={
                     <Link
+                      prefetch={false}
                       href={
                         type === "person"
                           ? `/app/person/${item.id}/research/products`
