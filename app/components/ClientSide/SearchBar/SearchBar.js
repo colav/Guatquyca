@@ -59,7 +59,6 @@ export default function SearchBar() {
   };
 
   const [selected, setSelected] = useState(getDefaultValue());
-  console.log(selected);
 
   const selectBefore = (
     <Select
