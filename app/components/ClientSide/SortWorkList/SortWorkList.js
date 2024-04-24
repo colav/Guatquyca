@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Select } from "antd";
+import { Select, Tooltip } from "antd";
 
 /**
  * SortWorkList is a client-side component for sorting a work list based on a selected criteria.
@@ -32,15 +32,18 @@ export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
   };
 
   return (
-    <Select
-      size="small"
-      className={styles.sort_select}
-      value={queryParams.sort || "citations"}
-      onChange={onChange}
-      options={[
-        { value: "citations", label: "Más citado" },
-        { value: "year", label: "Más reciente" },
-      ]}
-    />
+    <Tooltip title="Ordenar">
+      <Select
+        size="small"
+        className={styles.sort_select}
+        value={queryParams.sort || "citations"}
+        onChange={onChange}
+        options={[
+          { value: "citations", label: "Más citado" },
+          { value: "year", label: "Más reciente" },
+          { value: "alphabetical", label: "Alfabético" },
+        ]}
+      />
+    </Tooltip>
   );
 }

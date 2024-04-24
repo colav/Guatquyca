@@ -7,7 +7,7 @@ import URLBuilder from "@/lib/URLBuilder";
 import { useRouter, usePathname } from "next/navigation";
 
 /* UI Library Components */
-import { Select } from "antd";
+import { Select, Tooltip } from "antd";
 
 /**
  * SortSearchResults is a "client-side" function component that displays a select input to sort the search results.
@@ -29,6 +29,7 @@ export default function SortSearchResults({ searchParams, works = false }) {
     works: [
       { value: "citations", label: "Más citado" },
       { value: "year", label: "Más reciente" },
+      { value: "alphabetical", label: "Alfabético" },
     ],
     entities: [
       { value: "citations", label: "Más citado" },
@@ -37,12 +38,14 @@ export default function SortSearchResults({ searchParams, works = false }) {
   };
 
   return (
-    <Select
-      size="small"
-      style={{ width: 155, marginLeft: "20px" }}
-      value={searchParams.sort || "citations"}
-      onChange={onChange}
-      options={works ? OPTIONS.works : OPTIONS.entities}
-    />
+    <Tooltip title="Ordenar">
+      <Select
+        size="small"
+        style={{ width: 155, marginLeft: "20px" }}
+        value={searchParams.sort || "citations"}
+        onChange={onChange}
+        options={works ? OPTIONS.works : OPTIONS.entities}
+      />
+    </Tooltip>
   );
 }
