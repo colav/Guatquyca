@@ -103,7 +103,11 @@ export default function DocumentModal({ documentID }) {
         "No disponible"
       )}
       <h4 className={style.margin_5}>Temas: </h4>
-      <SubjectsTags subjectsList={subjects} />
+      {subjects.length ? (
+        <SubjectsTags subjectsList={subjects} />
+      ) : (
+        "No disponible"
+      )}
       <h4 className={style.margin_5}>Abstract:</h4>
       <p>{abstract || "No disponible"}</p>
       <Descriptions items={articleItems} />
