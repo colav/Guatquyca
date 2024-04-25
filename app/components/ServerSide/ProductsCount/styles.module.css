@@ -1,0 +1,10 @@
+.title {
+  margin: 0 0 8px 0;
+  color: gray;
+}
+
+.text {
+  font-weight: 500;
+  color: rgb(82, 99, 126);
+  font-size: 18px;
+}

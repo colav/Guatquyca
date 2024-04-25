@@ -1,0 +1,8 @@
+.subjectsTags_container {
+  margin: 8px 15px;
+}
+
+.subjectsTags_container span {
+  color: rgb(176, 147, 69);
+  font-size: 14px;
+}

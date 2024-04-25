@@ -1,65 +1,36 @@
-# Guatquyca
-
-Muisca word that refers to "the sky" or the "city from above" - Presentation layer (UI) build with React for Colav's web application.
-
-## Table of Contents
-
-- [Guatquyca](#guatquyca)
-  - [Table of Contents](#table-of-contents)
-  - [Getting Started](#getting-started)
-  - [Directory Files Description](#directory-files-description)
-  - [Dependencies](#dependencies)
-    - [Runtime](#runtime)
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-To run this project in your local machine you need to follow this steps:
+First, run the development server:
 
-1. git clone this repository.
-
-```
-git clone https://github.com/colav/guatquyca.git
-```
-
-2. Get into your local copy of the repository.
-
-```
-user@ubuntu:~$ cd guatquyca
-user@ubuntu:/guatquyca$
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-3. Install the required node_modules for the React.js components by running the next command in your terminal:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```
-user@ubuntu:/guatquyca$ npm install
-added 1652 packages from 788 contributors and audited 1659 packages in 45.108s
-found 0 vulnerabilities
-user@ubuntu:/guatquyca$
-```
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-4. Inside the root folder run the comand "npm start":
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-```
-user@ubuntu:/guatquyca$ npm start
-> appnode@0.1.0 start user@ubuntu:/guatquyca$
-> react-scripts start
-...
-Starting the development server...
-```
+## Learn More
 
-5. Go to your browser, it should be loading the webpage on the http://localhost:3000/app
+To learn more about Next.js, take a look at the following resources:
 
-## Directory Files Description
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-| **File / Directory** | **Description** |
-| -------------------- | --------------- |
-|                      |                 |
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Dependencies
+## Deploy on Vercel
 
-### Runtime
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- react
-- react-router-dom
-- axios
-- antd (Ant Design)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

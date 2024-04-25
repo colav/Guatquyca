@@ -1,0 +1,16 @@
+.hr {
+  background-color: rgb(226, 230, 241);
+  border: none;
+  height: 1px;
+  margin-right: 50px;
+}
+
+.ul {
+  list-style-type: none;
+}
+
+#white_text {
+  color: white;
+  display: inline;
+  font-size: 17px;
+}
