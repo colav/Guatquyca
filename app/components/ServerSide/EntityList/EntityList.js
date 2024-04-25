@@ -53,7 +53,7 @@ export default async function EntityList({ searchParams, entity }) {
             <Row>
               <Col style={{ width: "80px" }}>
                 <Avatar
-                  src={item.logo.length === 0 ? null : item.logo}
+                  src={item.logo?.length === 0 ? null : item.logo}
                   shape="square"
                   className="avatar"
                   size={64}
