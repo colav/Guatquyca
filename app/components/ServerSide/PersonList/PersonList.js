@@ -47,7 +47,7 @@ export default async function PersonList({ searchParams }) {
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
-          <li key={item._id}>
+          <li key={item.id}>
             <Row>
               <Col style={{ width: "80px" }}>
                 <Avatar shape="square" className="avatar" size={64}>
@@ -59,7 +59,7 @@ export default async function PersonList({ searchParams }) {
                   <Col span={24} style={{ marginBottom: "7px" }}>
                     <Link
                       className="searchResult_link"
-                      href={`/app/person/${item._id}/research/products`}
+                      href={`/app/person/${item.id}/research/products`}
                     >
                       {item.full_name}
                     </Link>

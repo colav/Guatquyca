@@ -49,7 +49,7 @@ export default async function EntityList({ searchParams, entity }) {
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
-          <li key={item._id}>
+          <li key={item.id}>
             <Row>
               <Col style={{ width: "80px" }}>
                 <Avatar
@@ -67,7 +67,7 @@ export default async function EntityList({ searchParams, entity }) {
                     <>
                       <Link
                         className="searchResult_link"
-                        href={`/app/affiliation/${entity}/${item._id}/affiliations`}
+                        href={`/app/affiliation/${entity}/${item.id}/affiliations`}
                       >
                         {item.name}
                       </Link>{" "}
