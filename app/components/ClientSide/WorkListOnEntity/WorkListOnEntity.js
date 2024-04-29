@@ -7,6 +7,7 @@ import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalLis
 import Error from "@/app/app/error";
 import Loading from "@/app/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
+import ProductTypeTags from "../../ServerSide/ProductTypeTags/ProductTypeTags";
 import SortWorkList from "../SortWorkList/SortWorkList";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
@@ -35,7 +36,7 @@ export default function WorkListOnEntity() {
   const [queryParams, setQueryParams] = useState({
     max: 10,
     page: 1,
-    sort: "citations",
+    sort: "citations-",
   });
   const pathname = usePathname();
   const URL = URLBuilder(pathname, queryParams);
@@ -70,6 +71,7 @@ export default function WorkListOnEntity() {
       <ul className={styles.ul}>
         {state.data.data.map((item) => (
           <li key={item.id}>
+            <ProductTypeTags productsTypeList={item.product_type} />
             <WorkTitleLink
               workTitle={item.title}
               workID={item.id}

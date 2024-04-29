@@ -75,7 +75,7 @@ export default function SearchBar() {
     const path = AFFILIATIONLIST.includes(selected.value)
       ? `/app/search/affiliations/${selected.value}`
       : `/app/search/${selected.value}`;
-    const queryParams = `?max=10&page=1&sort=citations${
+    const queryParams = `?max=10&page=1&sort=citations-${
       input ? `&keywords=${input}` : ""
     }`;
     router.push(path + queryParams);
