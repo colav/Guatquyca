@@ -26,6 +26,7 @@ import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 
 /**
  * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
@@ -55,7 +56,11 @@ export default function WorkListOnEntity() {
         body: { padding: "10px 0 5px 5px" },
       }}
       id="work_list"
-      title={`${state?.data?.total_results} Productos`}
+      title={`${state?.data?.total_results} ${
+        state?.data?.total_results === 1
+          ? SINGULAR_TITLES["works"]
+          : TITLES["works"]
+      }`}
       extra={
         <div style={{ display: "flex" }}>
           <SortWorkList
