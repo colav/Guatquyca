@@ -35,9 +35,9 @@ export default function Fuentes() {
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://sds-investigacion.azurewebsites.net/app/metrics"
+            href="https://sds-investigacion.azurewebsites.net/metrics"
           >
-            https://sds-investigacion.azurewebsites.net/app/metrics
+            https://sds-investigacion.azurewebsites.net/metrics
           </a>
         </li>
         <li>

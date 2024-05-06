@@ -30,7 +30,7 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
  * @returns {JSX.Element} A Card component that displays the list of persons.
  */
 export default async function PersonList({ searchParams }) {
-  const URL = URLBuilder("app/search/person", searchParams);
+  const URL = URLBuilder("/app/search/person", searchParams);
   const data = await getData(URL);
 
   return (
@@ -59,7 +59,7 @@ export default async function PersonList({ searchParams }) {
                   <Col span={24} style={{ marginBottom: "7px" }}>
                     <Link
                       className="searchResult_link"
-                      href={`/app/person/${item.id}/research/products`}
+                      href={`/person/${item.id}/research/products`}
                     >
                       {item.full_name}
                     </Link>

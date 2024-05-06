@@ -4,8 +4,8 @@ import { useState } from "react";
 
 /* Components */
 import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import Loading from "@/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
 import ProductTypeTags from "../../ServerSide/ProductTypeTags/ProductTypeTags";
 import SortWorkList from "../SortWorkList/SortWorkList";
@@ -13,6 +13,9 @@ import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
+
+/* Icons */
+import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -40,7 +43,7 @@ export default function WorkListOnEntity() {
     sort: "citations-",
   });
   const pathname = usePathname();
-  const URL = URLBuilder(pathname, queryParams);
+  const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
 
   if (state.isError) {
@@ -76,17 +79,18 @@ export default function WorkListOnEntity() {
       <ul className={styles.ul}>
         {state.data.data.map((item) => (
           <li key={item.id}>
-            <ProductTypeTags productsTypeList={item.product_type} />
+            {/* <ProductTypeTags productsTypeList={item.product_type} /> */}
             <WorkTitleLink
               workTitle={item.title}
               workID={item.id}
               openAccessStatus={item.open_access_status}
             />
             {item.source.name ? <Source sourceName={item.source.name} /> : ""}
-            Autores: <AuthorsHorizontalList authors={item.authors} />
+            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <AuthorsHorizontalList authors={item.authors} />
             {item.subjects.length > 0 && (
               <div>
-                Temas:
+                <TagsOutlined className={styles.gray} /> Temas:
                 <SubjectsTags subjectsList={item.subjects} />
               </div>
             )}

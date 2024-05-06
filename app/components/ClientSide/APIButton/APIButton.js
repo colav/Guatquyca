@@ -16,7 +16,7 @@ export default function APIButton({ pathname }) {
         type="primary"
         icon={<LinkOutlined id={styles.icon} />}
         size="small"
-        href={`${process.env.CLIENT_API}api${pathname.slice(4)}`}
+        href={`${process.env.NEXT_PUBLIC_CLIENT_API}${pathname}`}
         target="_blank"
         id={styles.api_button}
       >

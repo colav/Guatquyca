@@ -1,3 +1,6 @@
+/* Icons */
+import { TagsOutlined, TeamOutlined } from "@ant-design/icons";
+
 /* Components */
 import AuthorsHorizontalList from "../../ClientSide/AuthorsHorizontalList/AuthorsHorizontalList";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
@@ -28,7 +31,7 @@ import styles from "./styles.module.css";
  * @returns {JSX.Element} A Card component that displays the list of works.
  */
 export default async function WorkList({ searchParams }) {
-  const URL = URLBuilder("app/search/works", searchParams);
+  const URL = URLBuilder("/app/search/works", searchParams);
   const data = await getData(URL);
 
   return (
@@ -52,10 +55,11 @@ export default async function WorkList({ searchParams }) {
               openAccessStatus={item.open_access_status}
             />
             {item.source.name ? <Source sourceName={item.source.name} /> : ""}
-            Autores: <AuthorsHorizontalList authors={item.authors} />
+            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <AuthorsHorizontalList authors={item.authors} />
             {item.subjects.length > 0 && (
               <div>
-                Temas:
+                <TagsOutlined className={styles.gray} /> Temas:
                 <SubjectsTags subjectsList={item.subjects} />
               </div>
             )}

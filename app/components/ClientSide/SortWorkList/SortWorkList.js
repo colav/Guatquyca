@@ -27,7 +27,7 @@ export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
   const onChange = (value) => {
     const newQueryParams = { ...queryParams, sort: value };
     setQueryParams(newQueryParams);
-    const URL = URLBuilder(pathname, newQueryParams);
+    const URL = URLBuilder(`/app/${pathname}`, newQueryParams);
     setUrl(URL);
   };
 

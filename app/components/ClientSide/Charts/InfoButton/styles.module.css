@@ -1,0 +1,17 @@
+#info_button {
+  margin-left: 2px;
+  background-color: rgb(69, 199, 216);
+}
+
+#info_button:hover {
+  background-color: rgb(134, 212, 245);
+}
+
+.i {
+  font-size: 21px;
+  font-weight: 600;
+  font-family: serif;
+  line-height: 21px;
+  padding-right: 1px;
+  text-shadow: 2px 2px 3px rgb(73, 130, 154);
+}

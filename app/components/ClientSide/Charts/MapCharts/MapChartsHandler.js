@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 /* Components */
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import InfoButton from "../InfoButton/InfoButton";
+import Loading from "@/app/loading";
 
 /* lib */
 import { PLOTLIST_MAP } from "@/lib/constants";
@@ -34,14 +35,14 @@ const MapChart = dynamic(() => import("./MapChart"), {
  * If the API request has an error, an Error component is displayed.
  */
 export default function MapChartsHandler() {
-  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_MAP[0].value);
+  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_MAP[0]);
   const pathname = usePathname();
-  const URL = URLBuilder(pathname, { plot: selectedPlot });
+  const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
   const [state, setUrl] = APIRequest(URL);
 
-  const handleChange = (value) => {
-    setSelectedPlot(value);
-    setUrl(URLBuilder(pathname, { plot: value }));
+  const handleChange = (value, option) => {
+    setSelectedPlot(option);
+    setUrl(URLBuilder(`/app${pathname}`, { plot: option.value }));
   };
 
   return (
@@ -52,6 +53,7 @@ export default function MapChartsHandler() {
         body: { padding: "10px", height: "420px" },
       }}
       hoverable
+      /* title={<InfoButton label={selectedPlot.label} text={selectedPlot.text} />} */
       extra={
         <Select
           size="small"

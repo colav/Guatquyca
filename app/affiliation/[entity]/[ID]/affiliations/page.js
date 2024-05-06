@@ -20,7 +20,7 @@ import { SINGULAR } from "@/lib/constants";
  * fetched data to display a ListCard component for each item.
  */
 export default async function Page({ params }) {
-  const URL = `app/affiliation/${params.entity}/${params.ID}/affiliations`;
+  const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const data = await getData(URL);
   // Filter out any keys that have a falsy value
   const keys = Object.keys(data).filter((key) => data[key]);

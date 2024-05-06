@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 /* Components */
 import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
-import Loading from "../../loading";
+import Loading from "@/app/loading";
 
 export const metadata = {
   title: "Resultados de Búsqueda - ImpactU",

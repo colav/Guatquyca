@@ -116,13 +116,13 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>ImpactU:</b>
           </div>
-          <Link href="/app/about">Acerca de ImpactU</Link>
+          <Link href="/about">Acerca de ImpactU</Link>
           <br />
-          <Link href="/app/manual">Manual de usuario</Link>
+          <Link href="/manual">Manual de usuario</Link>
           <br />
-          <Link href="/app/principles">Principios</Link>
+          <Link href="/principles">Principios</Link>
           <br />
-          <Link href="/app/open-source">Código Abierto</Link>
+          <Link href="/open-source">Código Abierto</Link>
           <br />
           <a
             href="http://apis.colav.co/apidoc/index.html"
@@ -136,11 +136,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.1.3-beta
+          ImpactU Versión 3.2.0-beta
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 24/04/2024
+          Interfaz de Usuario: 06/05/2024
           <br />
           Base de Datos: 02/04/2024
           <br />

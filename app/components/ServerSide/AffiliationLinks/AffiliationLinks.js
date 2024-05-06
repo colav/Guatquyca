@@ -34,7 +34,7 @@ export default function AffiliationLinks({ affList, person = false }) {
           const entityType = ENTITIES.includes(types[0]?.type)
             ? types[0]?.type
             : "institution";
-          const linkHref = `/app/affiliation/${entityType}/${id}/affiliations`;
+          const linkHref = `/affiliation/${entityType}/${id}/affiliations`;
 
           if (person) {
             return (

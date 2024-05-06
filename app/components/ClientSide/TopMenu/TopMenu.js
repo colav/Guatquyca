@@ -52,8 +52,8 @@ export default function TopMenu({ person = false, currentTab }) {
    */
   const onSelect = ({ key }) => {
     const path = person
-      ? `/app/person/${ID}/${key}/${defaultTab[key]}`
-      : `/app/affiliation/${entity}/${ID}/${key}${
+      ? `/person/${ID}/${key}/${defaultTab[key]}`
+      : `/affiliation/${entity}/${ID}/${key}${
           defaultTab[key] ? "/" + defaultTab[key] : ""
         }`;
     router.push(path);

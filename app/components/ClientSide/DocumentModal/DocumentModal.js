@@ -2,11 +2,11 @@
 
 /* Components */
 import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import Loading from "@/app/loading";
 
 /* Icons */
-import { ReadOutlined } from "@ant-design/icons";
+import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
 
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
@@ -96,13 +96,17 @@ export default function DocumentModal({ documentID }) {
 
   return (
     <div>
-      <h4 className={style.margin_5}>Autores: </h4>
+      <h4 className={style.margin_5}>
+        <TeamOutlined /> Autores:{" "}
+      </h4>
       {authors.length ? (
         <AuthorsHorizontalList authors={authors} />
       ) : (
         "No disponible"
       )}
-      <h4 className={style.margin_5}>Temas: </h4>
+      <h4 className={style.margin_5}>
+        <TagsOutlined /> Temas:{" "}
+      </h4>
       {subjects.length ? (
         <SubjectsTags subjectsList={subjects} />
       ) : (

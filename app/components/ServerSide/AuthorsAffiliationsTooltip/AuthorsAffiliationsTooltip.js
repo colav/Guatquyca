@@ -17,7 +17,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
     <>
       <div>
         <div>
-          <Link href={`/app/person/${id}/research/products`}>{full_name}</Link>
+          <Link href={`/person/${id}/research/products`}>{full_name}</Link>
         </div>
         {affiliations.map((item) => {
           const { id, name, types } = item;
@@ -26,16 +26,16 @@ export default function AuthorsAffiliationsTooltip({ author }) {
 
           switch (type) {
             case "group":
-              link = `/app/affiliation/group/${id}/research/products`;
+              link = `/affiliation/group/${id}/research/products`;
               break;
             case "department":
-              link = `/app/affiliation/department/${id}/affiliations`;
+              link = `/affiliation/department/${id}/affiliations`;
               break;
             case "faculty":
-              link = `/app/affiliation/faculty/${id}/affiliations`;
+              link = `/affiliation/faculty/${id}/affiliations`;
               break;
             default:
-              link = `/app/affiliation/institution/${id}/affiliations`;
+              link = `/affiliation/institution/${id}/affiliations`;
           }
 
           return (

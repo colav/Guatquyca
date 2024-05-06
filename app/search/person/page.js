@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 /* Components */
-import Loading from "@/app/app/loading";
+import Loading from "@/app/loading";
 import PersonList from "@/app/components/ServerSide/PersonList/PersonList";
 
 export const metadata = {
