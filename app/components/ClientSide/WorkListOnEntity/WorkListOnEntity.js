@@ -79,7 +79,7 @@ export default function WorkListOnEntity() {
       <ul className={styles.ul}>
         {state.data.data.map((item) => (
           <li key={item.id}>
-            {/* <ProductTypeTags productsTypeList={item.product_type} /> */}
+            <ProductTypeTags productsTypeList={item.product_type} />
             <WorkTitleLink
               workTitle={item.title}
               workID={item.id}
