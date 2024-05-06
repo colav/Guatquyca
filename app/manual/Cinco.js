@@ -44,9 +44,9 @@ export default function Cinco() {
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://impactu.colav.co/app/principles"
+          href="https://impactu.colav.co/principles"
         >
-          https://impactu.colav.co/app/principles
+          https://impactu.colav.co/principles
         </a>
       </p>
     </>

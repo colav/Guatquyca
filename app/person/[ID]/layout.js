@@ -17,7 +17,7 @@ export const metadata = {
  * @returns {JSX.Element} A fragment containing a div with the CommonTitleCard component and the child components.
  */
 export default async function PersonLayout({ params, children }) {
-  const URL = `app/person/${params.ID}`;
+  const URL = `/app/person/${params.ID}`;
   const data = await getData(URL);
 
   return (

@@ -15,7 +15,7 @@ export default function CSVFetcher({ pathname }) {
   }-${date.getDate()}`;
 
   useEffect(() => {
-    fetch(`${process.env.CLIENT_API}${pathname}/csv`, {
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/app${pathname}/csv`, {
       signal: abortController.current.signal,
     })
       .then((response) => response.blob())

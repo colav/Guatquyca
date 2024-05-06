@@ -19,7 +19,7 @@ export default function AffilliationParser({ affiliations }) {
     <Row className={styles.row} key={i}>
       <Link
         className={styles.link}
-        href={`/app/affiliation/${
+        href={`/affiliation/${
           affiliation?.types?.[0]?.type.toLowerCase() === "education"
             ? "institution"
             : affiliation?.types?.[0]?.type

@@ -9,7 +9,7 @@ import styles from "./styles.module.css";
  *
  * @param {string} height - The height of the loading card. Defaults to "70vh".
  */
-export default function Loading({ height = "70vh" }) {
+export default function Loading({ height = "80vh" }) {
   return (
     <div className={styles.state_card__container} style={{ height: height }}>
       <div>

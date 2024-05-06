@@ -43,7 +43,7 @@ export default function ResearchTabs({ activeTab }) {
    * @param {string} activeKey - The selected tab's key.
    */
   const handleTabChange = (activeKey) => {
-    router.push(`/app/person/${ID}/research/${activeKey}`);
+    router.push(`/person/${ID}/research/${activeKey}`);
   };
 
   return (

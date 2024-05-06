@@ -32,7 +32,7 @@ import Flag from "../Flag/Flag";
  * @returns {JSX.Element} A List component containing the entities. The List has a pagination control at the bottom.
  */
 export default async function EntityList({ searchParams, entity }) {
-  const URL = URLBuilder(`app/search/affiliations/${entity}`, searchParams);
+  const URL = URLBuilder(`/app/search/affiliations/${entity}`, searchParams);
   const data = await getData(URL);
 
   return (
@@ -67,7 +67,7 @@ export default async function EntityList({ searchParams, entity }) {
                     <>
                       <Link
                         className="searchResult_link"
-                        href={`/app/affiliation/${entity}/${item.id}/affiliations`}
+                        href={`/affiliation/${entity}/${item.id}/affiliations`}
                       >
                         {item.name}
                       </Link>{" "}

@@ -33,10 +33,11 @@ a:hover {
 
 #content_container {
   min-height: 75vh;
+  margin: 15px;
 }
 
 .margin_15 {
-  margin: 15px;
+  margin: -15px;
 }
 
 #searchbar_container {

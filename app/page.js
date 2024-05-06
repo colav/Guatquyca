@@ -3,9 +3,8 @@ import { Suspense } from "react";
 
 /* Components */
 import DisclaimerModal from "./components/ClientSide/DisclaimerModal/DisclaimerModal";
-import Head from "@/app/components/ServerSide/Header/Header";
-import HomeTable from "@/app/components/ServerSide/HomeTable/HomeTable";
-import SearchBar from "@/app/components/ClientSide/SearchBar/SearchBar";
+import HomeTable from "./components/ServerSide/HomeTable/HomeTable";
+import SearchBar from "./components/ClientSide/SearchBar/SearchBar";
 
 /* Icons */
 import { DownloadOutlined, LinkOutlined } from "@ant-design/icons";
@@ -24,8 +23,7 @@ export default function Home() {
   return (
     <>
       <DisclaimerModal />
-      <Head />
-      <div id={styles.content_container}>
+      <div id={styles.content_container} className="margin_15">
         <Row justify="space-around">
           <Col span={24}>
             <Image
@@ -68,7 +66,7 @@ export default function Home() {
                 * Los indicadores aquí presentados buscan cumplir con los
                 principios de métricas responsables, para más información sigue
                 este{" "}
-                <Link href="/app/metrics">
+                <Link href="/metrics">
                   enlace.
                   <LinkOutlined />
                 </Link>
@@ -106,9 +104,7 @@ export default function Home() {
           </a>
           <div style={{ marginTop: "20px" }}>
             <LinkOutlined />{" "}
-            <Link href="/app/manual">
-              O visita nuestro manual en línea aquí.
-            </Link>
+            <Link href="/manual">O visita nuestro manual en línea aquí.</Link>
           </div>
         </Col>
       </Row>

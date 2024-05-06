@@ -22,7 +22,6 @@ import { Pagination, Row } from "antd";
 export default function PaginationController({ totalItems, searchParams }) {
   const router = useRouter();
   const pathname = usePathname();
-
   /**
    * onChange is a function that gets called when the page or page size changes.
    *

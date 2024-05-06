@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 /* Utilities */
-import Loading from "@/app/app/loading";
+import Loading from "@/app/loading";
 import EntityList from "@/app/components/ServerSide/EntityList/EntityList";
 
 export const metadata = {

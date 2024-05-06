@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 /* Components */
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import InfoButton from "../InfoButton/InfoButton";
+import Loading from "@/app/loading";
 import PieChart from "./PieChart";
 import TreemapChart from "./TreemapChart";
 
@@ -31,16 +32,14 @@ import { Card, Select, Empty } from "antd";
  * If there is no data for the plot, an Empty component is displayed.
  */
 export default function PercentageChartsHandler({ entity }) {
-  const [selectedPlot, setSelectedPlot] = useState(
-    PLOTLIST_PIE[entity][0].value
-  );
+  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_PIE[entity][0]);
   const pathname = usePathname();
-  const URL = URLBuilder(pathname, { plot: selectedPlot });
+  const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
   const [state, setUrl] = APIRequest(URL);
 
-  const handleChange = (value) => {
-    setSelectedPlot(value);
-    setUrl(URLBuilder(pathname, { plot: value }));
+  const handleChange = (value, option) => {
+    setSelectedPlot(option);
+    setUrl(URLBuilder(`/app${pathname}`, { plot: option.value }));
   };
 
   const renderChart = () => {
@@ -67,6 +66,7 @@ export default function PercentageChartsHandler({ entity }) {
         body: { padding: "10px", height: "420px" },
       }}
       hoverable
+      /* title={<InfoButton label={selectedPlot.label} text={selectedPlot.text} />} */
       extra={
         <Select
           size="small"

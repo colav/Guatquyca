@@ -4,14 +4,18 @@ import { useState } from "react";
 
 /* Components */
 import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import Loading from "@/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
+import ProductTypeTags from "../../ServerSide/ProductTypeTags/ProductTypeTags";
 import SortWorkList from "../SortWorkList/SortWorkList";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
+
+/* Icons */
+import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -25,6 +29,7 @@ import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 
 /**
  * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
@@ -35,10 +40,10 @@ export default function WorkListOnEntity() {
   const [queryParams, setQueryParams] = useState({
     max: 10,
     page: 1,
-    sort: "citations",
+    sort: "citations-",
   });
   const pathname = usePathname();
-  const URL = URLBuilder(pathname, queryParams);
+  const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
 
   if (state.isError) {
@@ -54,7 +59,11 @@ export default function WorkListOnEntity() {
         body: { padding: "10px 0 5px 5px" },
       }}
       id="work_list"
-      title={`${state?.data?.total_results} Productos`}
+      title={`${state?.data?.total_results} ${
+        state?.data?.total_results === 1
+          ? SINGULAR_TITLES["works"]
+          : TITLES["works"]
+      }`}
       extra={
         <div style={{ display: "flex" }}>
           <SortWorkList
@@ -70,16 +79,18 @@ export default function WorkListOnEntity() {
       <ul className={styles.ul}>
         {state.data.data.map((item) => (
           <li key={item.id}>
+            {/* <ProductTypeTags productsTypeList={item.product_type} /> */}
             <WorkTitleLink
               workTitle={item.title}
               workID={item.id}
               openAccessStatus={item.open_access_status}
             />
             {item.source.name ? <Source sourceName={item.source.name} /> : ""}
-            Autores: <AuthorsHorizontalList authors={item.authors} />
+            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <AuthorsHorizontalList authors={item.authors} />
             {item.subjects.length > 0 && (
               <div>
-                Temas:
+                <TagsOutlined className={styles.gray} /> Temas:
                 <SubjectsTags subjectsList={item.subjects} />
               </div>
             )}

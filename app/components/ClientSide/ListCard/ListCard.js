@@ -45,8 +45,8 @@ export default function ListCard({ type, list }) {
                       prefetch={false}
                       href={
                         type === "person"
-                          ? `/app/person/${item.id}/research/products`
-                          : `/app/affiliation/${type}/${item.id}/affiliations`
+                          ? `/person/${item.id}/research/products`
+                          : `/affiliation/${type}/${item.id}/affiliations`
                       }
                     >
                       {item.full_name}

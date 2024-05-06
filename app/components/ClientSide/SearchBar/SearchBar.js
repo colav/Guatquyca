@@ -47,7 +47,7 @@ export default function SearchBar() {
     if (params.entity) {
       return OPTIONS[OPTIONS_INDEX[params.entity]];
     }
-    if (pathname.slice(0, 11) === "/app/search") {
+    if (pathname.slice(0, 7) === "/search") {
       const type = pathname.split("/search/")[1].split("?")[0];
       return {
         label: type === "person" ? "Autor" : "Productos",
@@ -73,9 +73,9 @@ export default function SearchBar() {
 
   const searchRequest = (input) => {
     const path = AFFILIATIONLIST.includes(selected.value)
-      ? `/app/search/affiliations/${selected.value}`
-      : `/app/search/${selected.value}`;
-    const queryParams = `?max=10&page=1&sort=citations${
+      ? `/search/affiliations/${selected.value}`
+      : `/search/${selected.value}`;
+    const queryParams = `?max=10&page=1&sort=citations-${
       input ? `&keywords=${input}` : ""
     }`;
     router.push(path + queryParams);

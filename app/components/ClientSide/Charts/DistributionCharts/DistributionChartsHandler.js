@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 /* Components */
-import Error from "@/app/app/error";
-import Loading from "@/app/app/loading";
+import Error from "@/app/error";
+import InfoButton from "../InfoButton/InfoButton";
+import Loading from "@/app/loading";
 import StackedColumnChart from "./StackedColumnChart";
 
 /* lib */
@@ -30,16 +31,14 @@ import ColumnChart from "./ColumnChart";
  * If the API request has an error, an Error component is displayed.
  */
 export default function DistributionChartsHandler({ entity }) {
-  const [selectedPlot, setSelectedPlot] = useState(
-    PLOTLIST_STACKED[entity][0].value
-  );
+  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_STACKED[entity][0]);
   const pathname = usePathname();
-  const URL = URLBuilder(pathname, { plot: selectedPlot });
+  const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
   const [state, setUrl] = APIRequest(URL);
 
-  const handleChange = (value) => {
-    setSelectedPlot(value);
-    setUrl(URLBuilder(pathname, { plot: value }));
+  const handleChange = (value, option) => {
+    setSelectedPlot(option);
+    setUrl(URLBuilder(`/app${pathname}`, { plot: option.value }));
   };
 
   const renderChart = () => {
@@ -62,10 +61,16 @@ export default function DistributionChartsHandler({ entity }) {
     <Card
       size="small"
       styles={{
-        header: { backgroundColor: "#003e65", color: "white", padding: "6px" },
+        header: {
+          backgroundColor: "#003e65",
+          color: "white",
+          padding: "6px",
+          overflow: "visible",
+        },
         body: { padding: "10px", height: "420px" },
       }}
       hoverable
+      /* title={<InfoButton label={selectedPlot.label} text={selectedPlot.text} />} */
       extra={
         <Select
           size="small"

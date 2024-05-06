@@ -1,13 +1,13 @@
 /* Components */
-import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
-import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
+import ListCard from "@/components/ClientSide/ListCard/ListCard";
+import TopMenu from "@/components/ClientSide/TopMenu/TopMenu";
 
 /* UI Library Components */
 import { Col, Row } from "antd";
 
 /* Utilities */
 import { SINGULAR } from "@/lib/constants";
-import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
+import ResearchTabs from "@/components/ClientSide/ResearchTabs/ResearchTabs";
 
 /**
  * Page is an asynchronous function component that fetches data based on provided parameters and displays it using

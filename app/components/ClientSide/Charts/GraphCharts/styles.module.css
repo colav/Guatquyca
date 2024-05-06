@@ -5,11 +5,11 @@
 }
 
 .select {
-  width: 420px;
+  width: 450px;
 }
 
 @media screen and (max-width: 915px) {
   .select {
-    width: 320px;
+    width: 298px;
   }
 }

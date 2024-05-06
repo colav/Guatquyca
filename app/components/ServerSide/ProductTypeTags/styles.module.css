@@ -1,0 +1,9 @@
+.productTypeTags_container {
+  margin: 8px 15px;
+  float: right;
+}
+
+.productTypeTags_container span {
+  color: rgb(80, 176, 69);
+  font-size: 14px;
+}

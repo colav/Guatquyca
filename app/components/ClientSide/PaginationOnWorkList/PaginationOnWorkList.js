@@ -52,7 +52,7 @@ export default function PaginationOnWorkList({
   const onChange = (page, pageSize) => {
     const newQueryParams = { ...queryParams, page: page, max: pageSize };
     setQueryParams(newQueryParams);
-    const URL = URLBuilder(pathname, newQueryParams);
+    const URL = URLBuilder(`/app${pathname}`, newQueryParams);
     setUrl(URL);
     window.scrollTo({
       top: topPosition - 110,
