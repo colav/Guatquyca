@@ -24,7 +24,7 @@ import styles from "./styles.module.css";
 import { Card, Row } from "antd";
 
 /* Utilities */
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
@@ -37,13 +37,23 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
  * @returns {JSX.Element} A list of works on an entity, with pagination and sorting options.
  */
 export default function WorkListOnEntity() {
-  const [queryParams, setQueryParams] = useState({
+  const query = useSearchParams();
+  const queryItems = query.entries();
+  let initialQueryParams = {
     max: 10,
     page: 1,
     sort: "citations-",
-  });
+  };
+
+  for (let [key, value] of queryItems) {
+    initialQueryParams[key] = value;
+  }
+
+  const [queryParams, setQueryParams] = useState(initialQueryParams);
+
   const pathname = usePathname();
   const URL = URLBuilder(`/app${pathname}`, queryParams);
+  /* console.log(URL); */
   const [state, setUrl] = APIRequest(URL);
 
   if (state.isError) {
@@ -72,7 +82,7 @@ export default function WorkListOnEntity() {
             setUrl={setUrl}
           />
           <CSVButton pathname={pathname} />
-          <APIButton pathname={pathname} />
+          <APIButton pathname={pathname} queryParams={queryParams} />
         </div>
       }
     >
