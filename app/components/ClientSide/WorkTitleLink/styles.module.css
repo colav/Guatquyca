@@ -1,0 +1,9 @@
+#title > div,
+#title > span {
+  display: contents !important;
+}
+
+#modal_title > div,
+#modal_title > span {
+  display: contents !important;
+}
