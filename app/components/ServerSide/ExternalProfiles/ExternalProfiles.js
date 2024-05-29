@@ -49,7 +49,7 @@ export default function ExternalProfiles({ idsList, entity }) {
       icon: scopus(),
       URL: "https://www.scopus.com/authid/detail.uri?authorId=",
     },
-    linkedin: { icon: linkedin(), URL: null },
+    linkedin: { icon: linkedin(), URL: "https://www.linkedin.com/in/" },
     scienti:
       entity === "group"
         ? {

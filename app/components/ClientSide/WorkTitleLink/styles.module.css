@@ -1,9 +1,3 @@
-#title > div,
-#title > span {
-  display: contents !important;
-}
-
-#modal_title > div,
-#modal_title > span {
-  display: contents !important;
+.title_container {
+  display: flex;
 }

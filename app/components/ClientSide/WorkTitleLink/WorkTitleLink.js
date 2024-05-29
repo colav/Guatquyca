@@ -1,6 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
+const AltMetric = dynamic(() => import("../AltMetric/AltMetric"), {
+  ssr: false,
+});
+
 /* Components */
+/* import AltMetric from "../AltMetric/AltMetric"; */
 import DocumentModal from "../DocumentModal/DocumentModal";
 import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
 
@@ -8,7 +15,7 @@ import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus
 import { FileOutlined } from "@ant-design/icons";
 
 /* Styles */
-/* import styles from "./styles.module.css"; */
+import styles from "./styles.module.css";
 
 /* UI Library Components */
 import { App } from "antd";
@@ -29,7 +36,12 @@ import MathJax from "@/lib/mathjax";
  * The TitleModal component is a link with the title of the work.
  * When the link is clicked, a modal is shown with information about the work.
  */
-export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
+export default function WorkTitleLink({
+  workTitle,
+  workID,
+  openAccessStatus,
+  doi,
+}) {
   const decodedWorkTitle = he.decode(workTitle);
 
   const TitleModal = () => {
@@ -38,7 +50,7 @@ export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
       modal.warning({
         width: "1200px",
         title: (
-          <div /* id={styles.modal_title} */>
+          <div>
             <MathJax />
             <FileOutlined /> {decodedWorkTitle}
             {status && <OpenAccessStatus status={status} />}
@@ -55,22 +67,21 @@ export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
     };
 
     return (
-      <>
+      <div className={styles.title_container}>
         <a
           type="link"
-          /* id={styles.title} */
           onClick={() => showModal(decodedWorkTitle, workID, openAccessStatus)}
         >
           {decodedWorkTitle}
         </a>
-        {openAccessStatus ? <OpenAccessStatus status={openAccessStatus} /> : ""}
-      </>
+        {openAccessStatus && <OpenAccessStatus status={openAccessStatus} />}
+        {doi && <AltMetric doi={doi} />}
+      </div>
     );
   };
 
   return (
     <App>
-      <MathJax />
       <TitleModal />
     </App>
   );

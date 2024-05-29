@@ -1,0 +1,10 @@
+.gray {
+  color: gray !important;
+}
+
+.hr {
+  background-color: rgb(226, 230, 241);
+  border: none;
+  height: 1px;
+  margin-right: 50px;
+}

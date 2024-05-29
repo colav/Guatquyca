@@ -21,7 +21,7 @@ export default function OpenAccessStatus({ status }) {
     hybrid: { label: "Híbrido", color: "geekblue" },
     green: { label: "Verde", color: "green" },
     gold: { label: "Dorado", color: "gold" },
-    closed: { label: "Cerrado", color: "gray" },
+    closed: { label: "Cerrado", color: "default" },
     bronze: { label: "Bronce", color: "volcano" },
   };
 
@@ -30,7 +30,7 @@ export default function OpenAccessStatus({ status }) {
       <Tag
         icon={React.createElement(open_access_icon)}
         color={OA_STATUS[status].color}
-        className={styles.OATag}
+        id={styles.OATag}
       >
         {status === "closed" ? "Acceso Cerrado" : "Acceso Abierto"}
       </Tag>
