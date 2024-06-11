@@ -142,7 +142,7 @@ export default function Foot() {
           <br />
           Interfaz de Usuario: 28/05/2024
           <br />
-          Base de Datos: 28/05/2024
+          Base de Datos: 08/06/2024
           <br />
           Hecho en Colombia
         </Col>
