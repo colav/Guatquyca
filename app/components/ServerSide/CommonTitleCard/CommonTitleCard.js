@@ -14,6 +14,7 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 import CitationsCount from "../CitationsCount/CitationsCount";
 import AffilliationParser from "../AffiliationParser/AffiliationParser";
 import Flag from "../Flag/Flag";
+import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
 /**
  * CommonTitleCard is a "server-side" function component that displays a title card with an avatar, a title,
@@ -61,7 +62,12 @@ export default function CommonTitleCard({ data, entity }) {
         </Row>
         <AffilliationParser affiliations={affiliations} />
         <Row gutter={[20, 20]} style={{ marginTop: "20px" }}>
-          {entity !== "faculty" && entity !== "department" && (
+          {entity === "person" && (
+            <Col xs={24} md={10} lg={8} xl={6}>
+              <AuthorsExternalProfiles profilesList={external_ids} />
+            </Col>
+          )}{" "}
+          {entity === "institution" && (
             <Col xs={24} md={10} lg={8} xl={6}>
               <ExternalProfiles
                 idsList={(external_ids || []).concat(external_urls || [])}
