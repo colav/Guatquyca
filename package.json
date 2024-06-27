@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "serve": "npx http-server --port 3000 out"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/charts": "^2.1.0",
