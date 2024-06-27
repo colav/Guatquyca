@@ -18,10 +18,10 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm ci
+      - name: Build app
+        run: npm run build
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: run next build and start
-        run: npm run build && npm run start
       - name: Run Playwright tests
         run: npx playwright test
       - uses: actions/upload-artifact@v4
