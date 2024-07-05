@@ -1,7 +1,7 @@
 // @ts-check
-const { test, expect } = require("@playwright/test");
+import { test, expect } from "@playwright/test";
 
-test.describe("navigation", () => {
+test.describe("Testing ImpactU Homepage", () => {
   test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test to ensure a fresh state.
     await page.goto("/");
@@ -32,5 +32,18 @@ test.describe("navigation", () => {
 
     // Verify the downloaded file's name matches the expected PDF filename.
     expect(await download.suggestedFilename()).toBe("Manual ImpactU.pdf");
+  });
+
+  // Verify the Scroll to Top button is visible when the page is at the bottom.
+  test("scroll to top button is working", async ({ page }) => {
+    // Scroll the footer into view, forcing the button "Scroll to Top" to appear.
+    await page.getByText("Una colaboración entre:").scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: "vertical-align-top" }).click();
+
+    // Check if the page has scrolled to the top
+    // Wait for the text to be visible on the screen
+    await expect(
+      page.getByText("La información puede ser consultada por autores")
+    ).toBeInViewport();
   });
 });
