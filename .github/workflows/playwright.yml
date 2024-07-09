@@ -40,6 +40,3 @@ jobs:
           port: 22
           user: ci-front
           key: ${{ secrets.SSH_KEY }}
-        shell: bash
-        run: |
-          echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
