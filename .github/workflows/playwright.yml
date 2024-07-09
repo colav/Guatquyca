@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test home.spec.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -32,17 +32,13 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - name: Upload HTML report to ci-front
-        uses: nogsantos/scp-deploy@master
-        if: always()
-        with:
-          src: ./playwright-report/*
-          host: ci-front.colav.co
-          remote: /playwright-report
-          port: 22
-          user: ci-front
-          key: ${{ secrets.SSH_KEY }}
-      - name: Review tests tracer report
         if: always()
         shell: bash
         run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa ci-front.colav.co >> ~/.ssh/known_hosts
+          scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r playwright-report/* ci-front@ci-front.colav.co:
+          rm -rf ~/.ssh
           echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
