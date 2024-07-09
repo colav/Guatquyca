@@ -4,6 +4,7 @@ on:
     branches: [next_develop]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 env:
   NEXT_PUBLIC_CLIENT_API: ${{ secrets.NEXT_PUBLIC_CLIENT_API }}
   API_URL: ${{ secrets.API_URL }}
