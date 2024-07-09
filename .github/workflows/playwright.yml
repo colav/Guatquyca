@@ -33,6 +33,7 @@ jobs:
           retention-days: 30
       - name: Upload HTML report to ci-front
         uses: nogsantos/scp-deploy@master
+        if: always()
         with:
           src: ./playwright-report/*
           host: ci-front.colav.co
@@ -40,3 +41,8 @@ jobs:
           port: 22
           user: ci-front
           key: ${{ secrets.SSH_KEY }}
+      - name: Review tests tracer report
+        if: always()
+        shell: bash
+        run: |
+          echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
