@@ -1,13 +1,5 @@
-/* Icons */
-import { TagsOutlined, TeamOutlined } from "@ant-design/icons";
-
 /* Components */
-import AuthorsHorizontalList from "../../ClientSide/AuthorsHorizontalList/AuthorsHorizontalList";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
-import Source from "../Source/Source";
-import SubjectsTags from "../SubjectsTags/SubjectsTags";
-import WorksInfo from "../../ClientSide/WorksInfo/WorksInfo";
-import WorkTitleLink from "../../ClientSide/WorkTitleLink/WorkTitleLink";
 import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
@@ -19,9 +11,13 @@ import { Card } from "antd";
 
 /* Utilities */
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import MathJax from "@/lib/mathjax";
+import Script from "next/script";
+import UseCleanupAltmetric from "@/lib/UseCleanupAltmetric";
 
 /* Styles */
 import styles from "./styles.module.css";
+import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /**
  * WorkList is an asynchronous function server component that fetches a list of works based
@@ -46,29 +42,12 @@ export default async function WorkList({ searchParams }) {
       }`}
       extra={<SortSearchResults searchParams={searchParams} works={true} />}
     >
+      <UseCleanupAltmetric />
+      <MathJax />
+      <Script src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js" />
       <ul className={styles.ul}>
         {data.data.map((item) => (
-          <li key={item.id}>
-            <WorkTitleLink
-              workTitle={item.title}
-              workID={item.id}
-              openAccessStatus={item.open_access_status}
-            />
-            {item.source.name ? <Source sourceName={item.source.name} /> : ""}
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsHorizontalList authors={item.authors} />
-            {item.subjects.length > 0 && (
-              <div>
-                <TagsOutlined className={styles.gray} /> Temas:
-                <SubjectsTags subjectsList={item.subjects} />
-              </div>
-            )}
-            <WorksInfo
-              citationsCount={item.citations_count}
-              yearPublished={item.year_published}
-            />
-            <hr className={styles.hr} />
-          </li>
+          <WorkItem key={item.id} item={item} />
         ))}
       </ul>
       <PaginationController

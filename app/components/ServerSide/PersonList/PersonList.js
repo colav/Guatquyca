@@ -1,7 +1,7 @@
 /* Components */
 import AffiliationLinks from "@/app/components/ServerSide/AffiliationLinks/AffiliationLinks";
 import CitationsCount from "../CitationsCount/CitationsCount";
-import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
+import AuthorsExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/AuthorsExternalProfiles";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
@@ -71,7 +71,7 @@ export default async function PersonList({ searchParams }) {
                     />
                   </Col>
                   <Col xs={24} md={6}>
-                    <ExternalProfiles idsList={item.external_ids} />
+                    <AuthorsExternalProfiles profilesList={item.external_ids} />
                   </Col>
                   <CitationsCount citations_count={item.citations_count} />
                   <ProductsCount products_count={item.products_count} />

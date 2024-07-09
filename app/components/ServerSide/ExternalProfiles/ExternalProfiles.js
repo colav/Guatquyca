@@ -1,9 +1,5 @@
 /* Icons */
 import openalex from "../../icons/openalex";
-import orcid from "../../icons/orcid";
-import scholar from "../../icons/scholar";
-import scopus from "../../icons/scopus";
-import linkedin from "../../icons/linkedin";
 import ror from "../../icons/ror";
 import cvlac from "../../icons/cvlac";
 import isni from "../../icons/isni";
@@ -11,7 +7,6 @@ import fundref from "../../icons/fundref";
 import ucas from "../../icons/ucas";
 import ukprn from "../../icons/ukprn";
 import gruplac from "../../icons/gruplac";
-import researchgate from "../../icons/researchgate";
 import wikidata from "../../icons/wikidata";
 import wikipedia from "../../icons/wikipedia";
 import { LinkOutlined, UserOutlined } from "@ant-design/icons";
@@ -35,21 +30,8 @@ export default function ExternalProfiles({ idsList, entity }) {
       array.findIndex((item) => item.source === currentItem.source) ===
       currentIndex
   );
+
   const external = {
-    researchgate: {
-      icon: researchgate(),
-      URL: "https://www.researchgate.net/profile/",
-    },
-    orcid: { icon: orcid(), URL: "https://orcid.org/" },
-    scholar: {
-      icon: scholar(),
-      URL: "https://scholar.google.com/citations?user=",
-    },
-    scopus: {
-      icon: scopus(),
-      URL: "https://www.scopus.com/authid/detail.uri?authorId=",
-    },
-    linkedin: { icon: linkedin(), URL: null },
     scienti:
       entity === "group"
         ? {
@@ -60,15 +42,14 @@ export default function ExternalProfiles({ idsList, entity }) {
             icon: cvlac(),
             URL: "https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=",
           },
-    minciencias: {
-      icon: cvlac(),
-      URL: "https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=",
-    },
     openalex: { icon: openalex(), URL: null },
     ror: { icon: ror(), URL: null },
     wikidata: { icon: wikidata(), URL: "https://www.wikidata.org/wiki/" },
     isni: { icon: isni(), URL: "https://isni.org/isni/" },
-    fundref: { icon: fundref(), URL: "https://search.crossref.org/funding?q=" },
+    fundref: {
+      icon: fundref(),
+      URL: "https://search.crossref.org/search/funders?from_ui=yes&id=",
+    },
     ucas: {
       icon: ucas(),
       URL: "https://www.ucas.com/explore/search/providers?query=",
@@ -136,7 +117,11 @@ export default function ExternalProfiles({ idsList, entity }) {
             target="_blank"
             rel="noreferrer"
           >
-            <Button type="link" icon={external[item.source]?.icon} />
+            <Button
+              style={{ alignItems: "flex-start", padding: "0" }}
+              type="link"
+              icon={external[item.source]?.icon}
+            />
           </a>
         );
       }
@@ -149,7 +134,7 @@ export default function ExternalProfiles({ idsList, entity }) {
         <UserOutlined /> Perfil externo:
       </h2>
       {uniqueIdsList?.length > 0 ? (
-        <Space wrap>{renderedButtons(uniqueIdsList)}</Space>
+        <Space size={[6, 10]}>{renderedButtons(uniqueIdsList)}</Space>
       ) : (
         <p className={styles.noData}>No disponible</p>
       )}

@@ -1,14 +1,28 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
+const AltMetric = dynamic(() => import("../AltMetric/AltMetric"), {
+  ssr: false,
+});
+
 /* Components */
+/* import AltMetric from "../AltMetric/AltMetric"; */
 import DocumentModal from "../DocumentModal/DocumentModal";
 import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
 
 /* Icons */
 import { FileOutlined } from "@ant-design/icons";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { App } from "antd";
+
+/* Utils */
+import he from "he";
+import MathJax from "@/lib/mathjax";
 
 /**
  * WorkTitleLink is a client-side function component that displays a link with the title of a work.
@@ -22,19 +36,27 @@ import { App } from "antd";
  * The TitleModal component is a link with the title of the work.
  * When the link is clicked, a modal is shown with information about the work.
  */
-export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
+export default function WorkTitleLink({
+  workTitle,
+  workID,
+  openAccessStatus,
+  doi,
+}) {
+  const decodedWorkTitle = he.decode(workTitle);
+
   const TitleModal = () => {
     const { modal } = App.useApp();
     const showModal = (title, id, status) => {
       modal.warning({
         width: "1200px",
-        title: [
-          <FileOutlined key="0" />,
-          " ",
-          title,
-          " ",
-          status && <OpenAccessStatus status={status} key="1" />,
-        ],
+        title: (
+          <div>
+            <MathJax />
+            <FileOutlined /> {decodedWorkTitle}
+            {status && <OpenAccessStatus status={status} />}
+          </div>
+        ),
+        zIndex: 199,
         icon: null,
         okText: "Cerrar",
         content: <DocumentModal documentID={id} />,
@@ -45,15 +67,16 @@ export default function WorkTitleLink({ workTitle, workID, openAccessStatus }) {
     };
 
     return (
-      <>
+      <div className={styles.title_container}>
         <a
           type="link"
-          onClick={() => showModal(workTitle, workID, openAccessStatus)}
+          onClick={() => showModal(decodedWorkTitle, workID, openAccessStatus)}
         >
-          {workTitle}
+          {decodedWorkTitle}
         </a>
-        {openAccessStatus ? <OpenAccessStatus status={openAccessStatus} /> : ""}
-      </>
+        {openAccessStatus && <OpenAccessStatus status={openAccessStatus} />}
+        {doi && <AltMetric doi={doi} />}
+      </div>
     );
   };
 

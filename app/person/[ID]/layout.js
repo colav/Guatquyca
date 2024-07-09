@@ -23,7 +23,7 @@ export default async function PersonLayout({ params, children }) {
   return (
     <>
       <div>
-        <CommonTitleCard data={data.data} />
+        <CommonTitleCard data={data.data} entity="person" />
       </div>
       {children}
     </>

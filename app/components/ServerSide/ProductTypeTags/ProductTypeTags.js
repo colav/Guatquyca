@@ -12,7 +12,24 @@ import { Tag, Tooltip } from "antd";
  * @returns {JSX.Element} A div containing a spaced component, which in turn contains a list of Tag components.
  */
 export default function SubjectsTags({ productsTypeList }) {
+  if (!productsTypeList) return null;
   return (
+    <div className={styles.productTypeTags_container}>
+      <Tooltip
+        title={`Fuente: ${productsTypeList.source}`}
+        key={productsTypeList.name}
+      >
+        <Tag bordered={false}>
+          {productsTypeList.name === "article"
+            ? "Artículo"
+            : productsTypeList.name}
+        </Tag>
+      </Tooltip>
+    </div>
+  );
+}
+
+/*
     <div className={styles.productTypeTags_container}>
       {productsTypeList.map((type, i) => {
         return (
@@ -24,5 +41,4 @@ export default function SubjectsTags({ productsTypeList }) {
         );
       })}
     </div>
-  );
-}
+    */

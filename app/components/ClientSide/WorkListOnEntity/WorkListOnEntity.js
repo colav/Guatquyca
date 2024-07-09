@@ -3,33 +3,28 @@
 import { useState } from "react";
 
 /* Components */
-import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
-import ProductTypeTags from "../../ServerSide/ProductTypeTags/ProductTypeTags";
 import SortWorkList from "../SortWorkList/SortWorkList";
-import Source from "../../ServerSide/Source/Source";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
-import WorksInfo from "../WorksInfo/WorksInfo";
-import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
-
-/* Icons */
-import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
+import WorkItem from "../WorkItem/WorkItem";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Card, Row } from "antd";
+import { Card } from "antd";
 
 /* Utilities */
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import MathJax from "@/lib/mathjax";
 import URLBuilder from "@/lib/URLBuilder";
 import { APIRequest } from "@/lib/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import Script from "next/script";
+import UseCleanupAltmetric from "@/lib/UseCleanupAltmetric";
 
 /**
  * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
@@ -37,11 +32,20 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
  * @returns {JSX.Element} A list of works on an entity, with pagination and sorting options.
  */
 export default function WorkListOnEntity() {
-  const [queryParams, setQueryParams] = useState({
+  const query = useSearchParams();
+  const queryItems = query.entries();
+  let initialQueryParams = {
     max: 10,
     page: 1,
     sort: "citations-",
-  });
+  };
+
+  for (let [key, value] of queryItems) {
+    initialQueryParams[key] = value;
+  }
+
+  const [queryParams, setQueryParams] = useState(initialQueryParams);
+
   const pathname = usePathname();
   const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
@@ -72,34 +76,16 @@ export default function WorkListOnEntity() {
             setUrl={setUrl}
           />
           <CSVButton pathname={pathname} />
-          <APIButton pathname={pathname} />
+          <APIButton pathname={pathname} queryParams={queryParams} />
         </div>
       }
     >
+      <UseCleanupAltmetric />
+      <MathJax />
+      <Script src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js" />
       <ul className={styles.ul}>
         {state.data.data.map((item) => (
-          <li key={item.id}>
-            <ProductTypeTags productsTypeList={item.product_type} />
-            <WorkTitleLink
-              workTitle={item.title}
-              workID={item.id}
-              openAccessStatus={item.open_access_status}
-            />
-            {item.source.name ? <Source sourceName={item.source.name} /> : ""}
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsHorizontalList authors={item.authors} />
-            {item.subjects.length > 0 && (
-              <div>
-                <TagsOutlined className={styles.gray} /> Temas:
-                <SubjectsTags subjectsList={item.subjects} />
-              </div>
-            )}
-            <WorksInfo
-              citationsCount={item.citations_count}
-              yearPublished={item.year_published}
-            />
-            <hr className={styles.hr} />
-          </li>
+          <WorkItem key={item.id} item={item} />
         ))}
       </ul>
       <PaginationOnWorkList
