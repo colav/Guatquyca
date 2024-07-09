@@ -31,3 +31,15 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: Upload HTML report to ci-front
+        uses: nogsantos/scp-deploy@master
+        with:
+          src: ./playwright-report/*
+          host: ci-front.colav.co
+          remote: /playwright-report
+          port: 22
+          user: ci-front
+          key: ${{ secrets.SSH_KEY }}
+        shell: bash
+        run: |
+          echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
