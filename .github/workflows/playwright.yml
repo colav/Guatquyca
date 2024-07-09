@@ -35,10 +35,6 @@ jobs:
         if: always()
         shell: bash
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa ci-front.colav.co >> ~/.ssh/known_hosts
-          scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r playwright-report/* ci-front@ci-front.colav.co:
-          rm -rf ~/.ssh
+          sudo apt install -y sshpass
+          sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/* ci-front@ci-front.colav.co: 
           echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
