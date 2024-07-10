@@ -2,6 +2,13 @@
   margin: 5px 0;
 }
 
-.margin_15 {
-  margin: 15px 0;
+.margin_10 {
+  margin: 10px 0 !important;
+}
+
+.source_container {
+  background-color: rgba(0, 0, 0, 0.02);
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 2px;
 }

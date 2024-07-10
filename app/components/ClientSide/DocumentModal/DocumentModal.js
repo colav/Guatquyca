@@ -18,8 +18,9 @@ import { APIRequest } from "@/lib/clientAPI";
 import style from "./styles.module.css";
 
 /* UI Library Components */
-import { Divider, Descriptions } from "antd";
+import { Col, Divider, Descriptions, Row } from "antd";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
+import SCImago from "../SCImago/SCImago";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -55,6 +56,7 @@ export default function DocumentModal({ documentID }) {
     external_ids,
     external_urls,
     openalex_url,
+    scimago_quartile,
   } = state.data.data;
   const { name, serials } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
@@ -74,15 +76,14 @@ export default function DocumentModal({ documentID }) {
   ];
 
   const sourceItems = [
-    { key: "4", label: "Revista", children: name || "No disponible" },
+    { key: "4", label: "Revista", children: name || "No disponible", span: 3 },
     { key: "5", label: "Volumen", children: volume || "No disponible" },
     { key: "6", label: "Issue", children: issue || "No disponible" },
     { key: "7", label: "pISSN", children: pissn || "No disponible" },
     { key: "8", label: "ISSN", children: issn || "No disponible" },
-    { key: "9", label: "Scimago", children: scimago || "No disponible" },
-    { key: "10", label: "Scienti", children: scienti || "No disponible" },
+    { key: "9", label: "Scienti", children: scienti || "No disponible" },
     {
-      key: "11",
+      key: "10",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
@@ -114,6 +115,11 @@ export default function DocumentModal({ documentID }) {
       )}
       <h4 className={style.margin_5}>Abstract:</h4>
       <p>{abstract || "No disponible"}</p>
+      <div
+        className="altmetric-embed"
+        data-badge-type="donut"
+        data-="10.1038/nature15393"
+      ></div>
       <Descriptions items={articleItems} />
       <Descriptions
         bordered
@@ -122,11 +128,24 @@ export default function DocumentModal({ documentID }) {
           RenderedExternalURLs(external_urls)
         )}
       />
-      <Divider className={style.margin_15} />
-      <h4 className={style.margin_5}>
-        <ReadOutlined /> Información de la Revista:
-      </h4>
-      <Descriptions items={sourceItems} />
+      <Divider className={style.margin_10} />
+      <div className={style.source_container}>
+        <h4 className={style.margin_5}>
+          <ReadOutlined /> Información de la Revista:
+        </h4>
+        <Row>
+          {scimago ? (
+            <>
+              <SCImago scimago={scimago} />
+              <Col xs={24} md={19}>
+                <Descriptions items={sourceItems} />
+              </Col>
+            </>
+          ) : (
+            <Descriptions items={sourceItems} />
+          )}
+        </Row>
+      </div>
     </div>
   );
 }
