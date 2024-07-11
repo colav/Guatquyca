@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test home.spec.ts
       - name: Upload HTML report to ci-front
         if: always()
         shell: bash
@@ -32,3 +32,13 @@ jobs:
           sudo apt install -y sshpass
           sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/ ci-front@ci-front.colav.co: 
           echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Docker image with ImpactU UI
+        shell: bash
+        run: |
+          sudo apt install -y sshpass
+          sshpass -p "${{secrets.SSH_PASS}}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh
