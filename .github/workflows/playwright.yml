@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test home.spec.js
+        run: npx playwright test
       - name: Upload HTML report to ci-front
         if: always()
         shell: bash
