@@ -6,7 +6,7 @@ export default function SCImago({ scimago }) {
       <a
         target="_blank"
         rel="noreferrer"
-        href={`https://www.scimagojr.com/journalsearch.php?q=${scimago}&amp;tip=sid&amp;exact=no`}
+        href={`https://www.scimagojr.com/journalsearch.php?q=${scimago}&tip=sid&clean=0`}
         title="SCImago Journal &amp; Country Rank"
       >
         <img
