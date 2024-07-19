@@ -120,8 +120,9 @@ export default function DocumentModal({ documentID }) {
         data-badge-type="donut"
         data-="10.1038/nature15393"
       ></div>
-      <Descriptions items={articleItems} />
+      <Descriptions size="small" items={articleItems} />
       <Descriptions
+        column={5}
         bordered
         size="small"
         items={RenderedExternalIDs(external_ids).concat(

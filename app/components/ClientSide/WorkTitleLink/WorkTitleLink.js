@@ -1,18 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const AltMetric = dynamic(() => import("../AltMetric/AltMetric"), {
-  ssr: false,
-});
-
 /* Components */
-/* import AltMetric from "../AltMetric/AltMetric"; */
 import DocumentModal from "../DocumentModal/DocumentModal";
 import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
 
 /* Icons */
-import { FileOutlined } from "@ant-design/icons";
+import { FileOutlined, FileTextOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -47,8 +40,8 @@ export default function WorkTitleLink({
   const TitleModal = () => {
     const { modal } = App.useApp();
     const showModal = (title, id, status) => {
-      modal.warning({
-        width: "1200px",
+      modal.confirm({
+        width: "1500px",
         title: (
           <div>
             <MathJax />
@@ -62,6 +55,12 @@ export default function WorkTitleLink({
         content: <DocumentModal documentID={id} />,
         destroyOnClose: true,
         maskClosable: true,
+        cancelText: "JSON",
+        cancelButtonProps: {
+          icon: <FileTextOutlined />,
+          href: `${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${id}?section=info`,
+          target: "_blank",
+        },
         onOk() {},
       });
     };
@@ -75,7 +74,6 @@ export default function WorkTitleLink({
           {decodedWorkTitle}
         </a>
         {openAccessStatus && <OpenAccessStatus status={openAccessStatus} />}
-        {doi && <AltMetric doi={doi} />}
       </div>
     );
   };
