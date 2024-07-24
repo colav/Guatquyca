@@ -1,5 +1,4 @@
 /* Components */
-import ExternalURL from "../ExternalURL/ExternalURL";
 import ExternalProfiles from "../ExternalProfiles/ExternalProfiles";
 
 /* Icons */
@@ -67,7 +66,7 @@ export default function CommonTitleCard({ data, entity }) {
               <AuthorsExternalProfiles profilesList={external_ids} />
             </Col>
           )}{" "}
-          {entity === "institution" && (
+          {(entity === "institution" || entity === "group") && (
             <Col xs={24} md={10} lg={8} xl={6}>
               <ExternalProfiles
                 idsList={(external_ids || []).concat(external_urls || [])}
