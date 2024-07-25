@@ -2,18 +2,20 @@
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 
+/* Hooks */
+import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
+
 /* lib */
-import getData from "@/lib/api";
-import URLBuilder from "@/lib/URLBuilder";
+import getData from "@/lib/APIS/api";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* UI Library Components */
 import { Card } from "antd";
 
 /* Utilities */
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
-import MathJax from "@/lib/mathjax";
+import MathJax from "@/lib/Utils/mathjax";
 import Script from "next/script";
-import UseCleanupAltmetric from "@/lib/UseCleanupAltmetric";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -45,6 +47,7 @@ export default async function WorkList({ searchParams }) {
       <UseCleanupAltmetric />
       <MathJax />
       <Script src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js" />
+      <Script src="https://badge.dimensions.ai/badge.js" />
       <ul className={styles.ul}>
         {data.data.map((item) => (
           <WorkItem key={item.id} item={item} />

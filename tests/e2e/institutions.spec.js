@@ -101,9 +101,7 @@ test.describe("Testing Institutions entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Verify that the search results contain "Universidad de Antioquia".
-    await expect(
-      page.getByText("Universidad de Antioquia", { exact: true })
-    ).toBeVisible();
+    await expect(page.getByText("Universidad de Antioquia")).toBeVisible();
 
     // Click on the link for "Universidad de Antioquia" to navigate to its profile page.
     await page
@@ -111,6 +109,8 @@ test.describe("Testing Institutions entity", () => {
       .click();
 
     // Verify that the profile page for "Universidad de Antioquia" is displayed.
-    await expect(page.getByText("Universidad de Antioquia")).toBeVisible();
+    await expect(
+      page.getByText("Universidad de Antioquia", { exact: true })
+    ).toBeVisible();
   });
 });

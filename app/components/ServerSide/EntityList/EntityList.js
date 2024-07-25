@@ -8,8 +8,8 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
-import getData from "@/lib/api";
-import URLBuilder from "@/lib/URLBuilder";
+import getData from "@/lib/APIS/api";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";
@@ -55,7 +55,7 @@ export default async function EntityList({ searchParams, entity }) {
                 <Avatar
                   src={item.logo?.length === 0 ? null : item.logo}
                   shape="square"
-                  className="avatar"
+                  id={styles.avatar}
                   size={64}
                 >
                   {item.name?.charAt(0)}

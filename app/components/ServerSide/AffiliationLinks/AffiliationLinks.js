@@ -2,7 +2,7 @@
 import { BankOutlined } from "@ant-design/icons";
 
 /* lib */
-import dateBuilder from "@/lib/dateBuilder";
+import dateBuilder from "@/lib/Utils/dateBuilder";
 
 /* Next */
 import Link from "next/link";

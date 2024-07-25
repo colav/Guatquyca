@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /* lib */
-import URLBuilder from "@/lib/URLBuilder";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";

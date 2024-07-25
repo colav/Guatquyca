@@ -20,3 +20,14 @@
   color: rgb(82, 99, 126);
   font-size: 18px;
 }
+
+#avatar {
+  margin-top: 7px;
+  font-size: 26px !important;
+  font-weight: 600;
+  border: 1px solid #e0e0e0;
+}
+
+#avatar > img {
+  object-fit: contain;
+}

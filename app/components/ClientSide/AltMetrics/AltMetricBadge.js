@@ -15,14 +15,14 @@ import styles from "./styles.module.css";
  * every time the component mounts. The badge is created with the given DOI and appended to the component's root element.
  * If the Altmetric embed script is loaded, it initializes the new badge.
  */
-export default function AltMetric({ doi }) {
+export default function AltMetricBadge({ doi }) {
   const badgeRef = useRef();
 
   useEffect(() => {
     const badge = document.createElement("div");
     badge.className = "altmetric-embed";
     badge.setAttribute("data-doi", doi);
-    badge.setAttribute("data-badge-popover", "bottom");
+    badge.setAttribute("data-badge-popover", "top");
     badge.setAttribute("data-link-target", "_blank");
     badge.setAttribute("data-hide-less-than", "1");
     badgeRef.current.appendChild(badge);

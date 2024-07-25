@@ -17,14 +17,14 @@ import { Card } from "antd";
 
 /* Utilities */
 import { usePathname, useSearchParams } from "next/navigation";
-import MathJax from "@/lib/mathjax";
-import URLBuilder from "@/lib/URLBuilder";
-import { APIRequest } from "@/lib/clientAPI";
+import MathJax from "@/lib/Utils/mathjax";
+import URLBuilder from "@/lib/Utils/URLBuilder";
+import { APIRequest } from "@/lib/APIS/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import Script from "next/script";
-import UseCleanupAltmetric from "@/lib/UseCleanupAltmetric";
+import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
 
 /**
  * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
@@ -82,6 +82,7 @@ export default function WorkListOnEntity() {
     >
       <UseCleanupAltmetric />
       <MathJax />
+      <Script src="https://badge.dimensions.ai/badge.js" />
       <Script src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js" />
       <ul className={styles.ul}>
         {state.data.data.map((item) => (

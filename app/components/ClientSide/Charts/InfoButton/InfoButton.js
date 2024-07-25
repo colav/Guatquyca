@@ -16,12 +16,12 @@ export default function InfoButton({ label, text }) {
         okText: "Cerrar",
         centered: true,
         maskClosable: true,
-        width: "600px",
+        width: "800px",
       });
     };
 
     return (
-      <Tooltip title="Información">
+      <Tooltip color="white" title="Información">
         <Button
           id={styles.info_button}
           type="primary"

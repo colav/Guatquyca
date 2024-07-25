@@ -1,13 +1,14 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+/* import { Suspense } from "react"; */
 
 /* UI Components */
 import { ConfigProvider } from "antd";
 import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
 import Foot from "./components/ServerSide/Footer/Footer";
 import HeadSearch from "./components/ServerSide/Header/HeaderSearchBar";
-import FilterPanel from "./components/ClientSide/FilterPanel/FilterPanel";
+/* import FilterPanel from "./components/ClientSide/FilterPanel/FilterPanel"; */
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,7 +51,9 @@ export default function RootLayout({ children }) {
           <AntdRegistry>
             <BackToTop />
             <HeadSearch />
-            {/* <FilterPanel /> */}
+            {/* <Suspense>
+              <FilterPanel />
+            </Suspense> */}
             <div id="content_container">{children}</div>
             <Foot />
           </AntdRegistry>

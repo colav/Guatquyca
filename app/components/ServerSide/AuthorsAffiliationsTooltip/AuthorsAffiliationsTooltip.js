@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 /* Components */
-import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
+import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.
@@ -17,7 +17,13 @@ export default function AuthorsAffiliationsTooltip({ author }) {
     <>
       <div>
         <div>
-          <Link href={`/person/${id}/research/products`}>{full_name}</Link>
+          {id ? (
+            <Link href={`/person/${id}/research/products`}>{full_name}</Link>
+          ) : (
+            <span style={{ color: "black" }}>
+              <b>{full_name}</b>
+            </span>
+          )}
         </div>
         {affiliations.map((item) => {
           const { id, name, types } = item;
@@ -46,7 +52,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
         })}
       </div>
       <div>
-        <ExternalProfiles idsList={external_ids} />
+        <AuthorsExternalProfiles profilesList={external_ids} />
       </div>
     </>
   );

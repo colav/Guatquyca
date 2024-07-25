@@ -1,7 +1,7 @@
 "use client";
 
 /* Components */
-import URLBuilder from "@/lib/URLBuilder";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Icons */
 import { LinkOutlined } from "@ant-design/icons";

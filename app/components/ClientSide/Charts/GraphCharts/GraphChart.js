@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useRef } from "react";
 
 /* Libraries */
-import G6 from "@antv/g6";
+import { Graph } from "@antv/g6";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -13,10 +12,73 @@ import { Empty } from "antd";
 /**
  * GraphChart is a client-side function component that displays a graph chart.
  *
- * @param {Object[]} data - The data to display in the graph chart. Each object should have 'log_count', 'NOMBRE_DPT', 'name', and 'count' properties.
+ * @param {Object[]} data - The data to display in the graph chart.
  * @returns {JSX.Element} If data is not provided, an Empty component is returned. Otherwise, a div that will contain the graph chart is returned.
  */
-const GraphChart = ({ data, entity }) => {
+const GraphChart = ({ data }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!data || !containerRef.current) return;
+
+    const { innerWidth } = window;
+    const divisor = innerWidth < 768 ? 1 : 2;
+    const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88);
+
+    const graph = new Graph({
+      container: containerRef.current,
+      data,
+      width,
+      height: 400,
+      layout: {
+        type: "force-atlas2",
+        kr: 15,
+        preventOverlap: true,
+        workerEnabled: true,
+        mode: "linlog",
+      },
+      autoFit: "view",
+      animation: false,
+      behaviors: ["zoom-canvas", "drag-canvas", "drag-element"],
+      zoomRange: [0.1, 5],
+      node: {
+        style: {
+          size: (datum) => datum.size,
+          labelText: (datum) => datum.label,
+          fill: "#873bf4",
+          fillOpacity: 0.6,
+          stroke: "#620dd9",
+          lineWidth: 1,
+          labelFontSize: 6,
+        },
+      },
+      edge: {
+        style: { stroke: "#e8e7e3", lineWidth: (datum) => datum.size },
+      },
+      plugins: [
+        {
+          type: "tooltip",
+          container: (datum) => {
+            return;
+          },
+          getContent: (e, items) => {
+            const { coauthorships, degree } = items[0];
+            const label = coauthorships ? "Coautorías:" : "Grado:";
+            const value = coauthorships || degree;
+
+            return `<div style="display: flex; justify-content: space-between;">
+                      <span style="font-size: 13px;">${label}</span>
+                      <span style="margin-left: 2em; font-size: 13px;">${value}</span>
+                    </div>`;
+          },
+        },
+      ],
+    });
+    graph.render();
+
+    return () => graph.destroy();
+  }, []);
+
   if (!data) {
     return (
       <Empty
@@ -26,79 +88,8 @@ const GraphChart = ({ data, entity }) => {
       />
     );
   }
-  const ref = React.useRef(null);
-  const { innerWidth } = window;
-  let graph = null;
-  const divisor = innerWidth < 768 ? 1 : 2;
-  const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88);
 
-  useEffect(() => {
-    if (!graph) {
-      graph = new G6.Graph({
-        container: ReactDOM.findDOMNode(ref.current),
-        width: width,
-        height: 400,
-        renderer: "svg",
-        modes: {
-          default: [
-            {
-              type: "drag-node",
-              enableOptimize: true,
-            },
-            {
-              type: "zoom-canvas",
-              enableOptimize: true,
-              optimizeZoom: 0.9,
-            },
-            {
-              type: "drag-canvas",
-              enableOptimize: true,
-            },
-            {
-              type: "tooltip",
-              formatText(model) {
-                return `Grado: ${model.degree}`;
-              },
-            },
-            {
-              type: "edge-tooltip",
-              formatText(model) {
-                return `${model.coauthorships} ${
-                  model.coauthorships > 1 ? "coautorías" : "coautoría"
-                }`;
-              },
-            },
-          ],
-        },
-        fitCenter: true,
-        fitView: true,
-        layout: {
-          type: "gForce",
-          nodeStrength: 1000,
-          edgeStrength: 200,
-          workerEnabled: true,
-          gpuEnabled: true,
-          preventOverlap: true,
-          gravity: 20,
-        },
-        defaultNode: {
-          style: { stroke: "#620dd9", fill: "#873bf4", fillOpacity: 0.6 },
-          labelCfg: {
-            style: { fontSize: 8 },
-            position: "bottom",
-            offset: 1,
-          },
-        },
-        defaultEdge: {
-          style: {
-            stroke: "#e8e7e3",
-          },
-        },
-      });
-      graph.data(data);
-      graph.render();
-    }
-  }, []);
-  return <div ref={ref} className={styles.graph}></div>;
+  return <div ref={containerRef} className={styles.graph}></div>;
 };
+
 export default GraphChart;

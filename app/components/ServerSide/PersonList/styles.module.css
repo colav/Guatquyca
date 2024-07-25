@@ -14,3 +14,9 @@
   display: inline;
   font-size: 17px;
 }
+
+#avatar {
+  border: 1px solid lightgray;
+  font-size: 26px !important;
+  font-weight: 600;
+}

@@ -1,0 +1,44 @@
+#altmetric {
+  margin: 2px 10px 0;
+  height: 24px;
+}
+
+.st0 {
+  fill: #ffffff;
+}
+.st1 {
+  fill: url(#SVGID_1_);
+}
+.st2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+.st3 {
+  fill: #a6a6a6;
+}
+.st4 {
+  fill: #141414;
+}
+.st5 {
+  fill: #727272;
+}
+
+#tooltip {
+  width: 320px;
+}
+
+.tooltipContainer {
+  display: flex;
+}
+
+.tooltipContainer > span {
+  line-height: 20px;
+  align-items: center;
+  margin-left: 5px;
+}
+
+#paperbuzz_link {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

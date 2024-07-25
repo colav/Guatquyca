@@ -2,7 +2,7 @@
 import { AreaMap } from "@ant-design/maps";
 
 /* lib */
-import MapLegendMaker from "@/lib/MapLegendMaker";
+import MapLegendMaker from "@/lib/Utils/MapLegendMaker";
 import { MAP_PALETTE } from "@/lib/constants";
 
 /**
