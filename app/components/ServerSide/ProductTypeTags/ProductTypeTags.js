@@ -19,7 +19,14 @@ export default function SubjectsTags({ productsTypeList }) {
         title={`Fuente: ${productsTypeList.source}`}
         key={productsTypeList.name}
       >
-        <Tag bordered={false}>
+        <Tag
+          bordered={false}
+          style={{
+            width: "115px",
+            textWrap: "wrap",
+            textAlign: "center",
+          }}
+        >
           {productsTypeList.name === "article"
             ? "Artículo"
             : productsTypeList.name}
@@ -28,17 +35,3 @@ export default function SubjectsTags({ productsTypeList }) {
     </div>
   );
 }
-
-/*
-    <div className={styles.productTypeTags_container}>
-      {productsTypeList.map((type, i) => {
-        return (
-          <Tooltip title={`Fuente: ${type.source}`} key={type.name + i}>
-            <Tag bordered={false}>
-              {type.name === "article" ? "Artículo" : type.name}
-            </Tag>
-          </Tooltip>
-        );
-      })}
-    </div>
-    */

@@ -7,8 +7,8 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
-import getData from "@/lib/api";
-import URLBuilder from "@/lib/URLBuilder";
+import getData from "@/lib/APIS/api";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";
@@ -50,8 +50,8 @@ export default async function PersonList({ searchParams }) {
           <li key={item.id}>
             <Row>
               <Col style={{ width: "80px" }}>
-                <Avatar shape="square" className="avatar" size={64}>
-                  {item.full_name?.charAt(0)}
+                <Avatar shape="square" id={styles.avatar} size={64}>
+                  {item.logo || item.full_name?.charAt(0)}
                 </Avatar>
               </Col>
               <Col span={22}>

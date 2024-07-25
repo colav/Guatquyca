@@ -11,8 +11,8 @@ import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
-import URLBuilder from "@/lib/URLBuilder";
-import { APIRequest } from "@/lib/clientAPI";
+import URLBuilder from "@/lib/Utils/URLBuilder";
+import { APIRequest } from "@/lib/APIS/clientAPI";
 
 /* Styles */
 import style from "./styles.module.css";

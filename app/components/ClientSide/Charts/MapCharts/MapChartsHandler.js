@@ -10,8 +10,8 @@ import Loading from "@/app/loading";
 
 /* lib */
 import { PLOTLIST_MAP } from "@/lib/constants";
-import { APIRequest } from "@/lib/clientAPI";
-import URLBuilder from "@/lib/URLBuilder";
+import { APIRequest } from "@/lib/APIS/clientAPI";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";

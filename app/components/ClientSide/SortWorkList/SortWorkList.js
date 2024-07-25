@@ -1,7 +1,7 @@
 "use client";
 
 /* lib */
-import URLBuilder from "@/lib/URLBuilder";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Next */
 import { usePathname } from "next/navigation";

@@ -3,7 +3,7 @@ import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 
 /* Lib */
-import getData from "@/lib/api";
+import getData from "@/lib/APIS/api";
 
 /* UI Library Components */
 import { Col, Row } from "antd";

@@ -15,7 +15,7 @@ import { App } from "antd";
 
 /* Utils */
 import he from "he";
-import MathJax from "@/lib/mathjax";
+import MathJax from "@/lib/Utils/mathjax";
 
 /**
  * WorkTitleLink is a client-side function component that displays a link with the title of a work.

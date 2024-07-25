@@ -2,7 +2,7 @@
 import CommonTitleCard from "@/app/components/ServerSide/CommonTitleCard/CommonTitleCard";
 
 /* Utilities */
-import getData from "@/lib/api";
+import getData from "@/lib/APIS/api";
 
 export const metadata = {
   title: `Perfil de Autor - ImpactU`,
