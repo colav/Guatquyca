@@ -1,5 +1,10 @@
 /* Components */
+import AffilliationParser from "../AffiliationParser/AffiliationParser";
+import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
+import CitationsCount from "../CitationsCount/CitationsCount";
 import ExternalProfiles from "../ExternalProfiles/ExternalProfiles";
+import Flag from "../Flag/Flag";
+import ProductsCount from "../ProductsCount/ProductsCount";
 
 /* Icons */
 import { ReadOutlined } from "@ant-design/icons";
@@ -9,11 +14,6 @@ import { Avatar, Col, Row } from "antd";
 
 /* styles */
 import styles from "./styles.module.css";
-import ProductsCount from "../ProductsCount/ProductsCount";
-import CitationsCount from "../CitationsCount/CitationsCount";
-import AffilliationParser from "../AffiliationParser/AffiliationParser";
-import Flag from "../Flag/Flag";
-import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
 /**
  * CommonTitleCard is a "server-side" function component that displays a title card with an avatar, a title,
@@ -43,6 +43,7 @@ export default function CommonTitleCard({ data, entity }) {
     <Row id={styles.pattern}>
       <Col id={styles.col}>
         <Avatar
+          shape="square"
           size={150}
           src={
             logo || <ReadOutlined style={{ color: "gray", fontSize: "40px" }} />
