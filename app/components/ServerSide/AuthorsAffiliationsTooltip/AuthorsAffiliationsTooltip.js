@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 /* Components */
-import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
+import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.
@@ -46,7 +46,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
         })}
       </div>
       <div>
-        <ExternalProfiles idsList={external_ids} />
+        <AuthorsExternalProfiles profilesList={external_ids} />
       </div>
     </>
   );
