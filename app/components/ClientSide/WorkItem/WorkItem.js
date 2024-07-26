@@ -1,73 +1,78 @@
 /* Components */
 import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
-import ProductTypeTags from "../../ServerSide/ProductTypeTags/ProductTypeTags";
+import InvisibleContainer from "./InvisibleContainer";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
+
+/* Constants */
+import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
 import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
-import { Col, Row } from "antd";
+
+/* UI Library Components */
+import Ribbon from "antd/lib/badge/Ribbon";
 
 export default function WorkItem({ item }) {
   return (
-    <li key={item.id}>
-      <Row justify="center">
-        <Col
-          xs={24}
-          sm={6}
-          md={4}
-          lg={3}
-          xl={3}
-          xxl={2}
-          style={{ borderRight: "1px solid lightgray" }}
-        >
-          <ProductTypeTags productsTypeList={item.product_type} />
-        </Col>
-        <Col
-          xs={24}
-          sm={18}
-          md={20}
-          lg={21}
-          xl={21}
-          xxl={22}
-          style={{ paddingLeft: "15px" }}
-        >
-          <WorkTitleLink
-            workTitle={item.title}
-            workID={item.id}
-            openAccessStatus={item.open_access_status}
-            doi={
-              item.external_ids.find(
-                (externalId) => externalId.source === "doi"
-              )?.id
-            }
-          />
-          {item.source.name && <Source sourceName={item.source.name} />}
-          <TeamOutlined className={styles.gray} /> Autores:{" "}
-          <AuthorsHorizontalList authors={item.authors} />
-          {item.subjects.length > 0 && (
-            <div>
-              <TagsOutlined className={styles.gray} /> Temas:
-              <SubjectsTags subjectsList={item.subjects} />
-            </div>
-          )}
-          <WorksInfo
-            citationsCount={item.citations_count}
-            yearPublished={item.year_published}
-            doi={
-              item.external_ids.find(
-                (externalId) => externalId.source === "doi"
-              )?.id
-            }
-          />
-        </Col>
-      </Row>
-      <hr className={styles.hr} />
-    </li>
+    <>
+      <InvisibleContainer source={item.product_type.source} />
+      <Ribbon
+        text={PRODUCT_TYPES[item.product_type?.name] || item.product_type?.name}
+        color="#ff6a45"
+        placement="start"
+        style={{
+          boxShadow:
+            "8px -8px 6px rgba(255, 240, 240, 0.3)," +
+            "2px 2px 8px rgba(255, 116, 69, 0.3)," +
+            "5px 8px 16px rgba(255, 106, 69, 0.1)," +
+            "4px 4px 3px rgba(255, 56, 69, 0.15)",
+          width: "110px",
+          textWrap: "wrap",
+          textAlign: "center",
+          fontSize: "15px",
+          lineHeight: "1.1",
+        }}
+        className={styles.ribbon}
+      >
+        <li key={item.id} className={styles.work_item}>
+          <div className={styles.work_container}>
+            <WorkTitleLink
+              workTitle={item.title}
+              workID={item.id}
+              openAccessStatus={item.open_access_status}
+              doi={
+                item.external_ids.find(
+                  (externalId) => externalId.source === "doi"
+                )?.id
+              }
+            />
+            {item.source.name && <Source sourceName={item.source.name} />}
+            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <AuthorsHorizontalList authors={item.authors} />
+            {item.subjects.length > 0 && (
+              <div>
+                <TagsOutlined className={styles.gray} /> Temas:
+                <SubjectsTags subjectsList={item.subjects} />
+              </div>
+            )}
+            <WorksInfo
+              citationsCount={item.citations_count}
+              yearPublished={item.year_published}
+              doi={
+                item.external_ids.find(
+                  (externalId) => externalId.source === "doi"
+                )?.id
+              }
+            />
+          </div>
+        </li>
+      </Ribbon>
+    </>
   );
 }
