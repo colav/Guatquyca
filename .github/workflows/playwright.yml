@@ -33,27 +33,15 @@ jobs:
       #     sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/ ci-front@ci-front.colav.co:
       #     echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
 
-  merge:
-    if: github.event_name == 'pull_request'
-    needs: test
+  queue:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - name: Merge pull request
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const pullRequest = context.payload.pull_request;
-            if (pullRequest) {
-              await github.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pullRequest.number,
-                merge_method: 'merge'
-              });
-            }
+      - name: Trigger deployment
+        run: echo "Merged PR detected, triggering deployment."
 
   deploy:
-    needs: [test]
+    needs: [test, queue]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy Docker image with ImpactU UI
