@@ -1,6 +1,7 @@
 /* Components */
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
+import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /* Hooks */
 import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
@@ -19,7 +20,6 @@ import Script from "next/script";
 
 /* Styles */
 import styles from "./styles.module.css";
-import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /**
  * WorkList is an asynchronous function server component that fetches a list of works based
@@ -37,7 +37,7 @@ export default async function WorkList({ searchParams }) {
       size="small"
       styles={{
         header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 10px 10px" },
+        body: { padding: "10px 0 5px 0" },
       }}
       title={`${data.total_results} ${
         data.total_results === 1 ? SINGULAR_TITLES["works"] : TITLES["works"]

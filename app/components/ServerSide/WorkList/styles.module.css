@@ -1,12 +1,12 @@
-.hr {
-  background-color: rgb(226, 230, 241);
-  border: none;
-  height: 1px;
-  margin-right: 50px;
-}
-
 .ul {
   list-style-type: none;
+  padding-left: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .ul {
+    margin-top: 0;
+  }
 }
 
 #white_text {
