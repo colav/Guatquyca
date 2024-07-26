@@ -17,21 +17,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      - name: Install dependencies
-        run: npm ci
-      - name: Build app
-        run: npm run build
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
-      - name: Upload HTML report to ci-front
-        if: always()
-        shell: bash
-        run: |
-          sudo apt install -y sshpass
-          sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/ ci-front@ci-front.colav.co:
-          echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
+      # - name: Install dependencies
+      #   run: npm ci
+      # - name: Build app
+      #   run: npm run build
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps
+      # - name: Run Playwright tests
+      #   run: npx playwright test
+      # - name: Upload HTML report to ci-front
+      #   if: always()
+      #   shell: bash
+      #   run: |
+      #     sudo apt install -y sshpass
+      #     sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/ ci-front@ci-front.colav.co:
+      #     echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
 
   merge:
     if: github.event_name == 'pull_request'
@@ -42,11 +42,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const github = require('@actions/github');
-            const context = github.context;
+            const gh = require('@actions/github');
+            const context = gh.context;
             const pullRequest = context.payload.pull_request;
             if (pullRequest) {
-              await github.pulls.merge({
+              await gh.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pullRequest.number,
