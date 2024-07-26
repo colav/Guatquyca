@@ -44,4 +44,5 @@ jobs:
             echo "BRANCH_NAME=${{ github.base_ref }}" >> $GITHUB_ENV
           else
             echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          fi
           sshpass -p "${{secrets.SSH_PASS}}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh ${{ env.BRANCH_NAME }}
