@@ -42,11 +42,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const gh = require('@actions/github');
-            const context = gh.context;
             const pullRequest = context.payload.pull_request;
             if (pullRequest) {
-              await gh.pulls.merge({
+              await github.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pullRequest.number,
