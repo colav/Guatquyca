@@ -4,6 +4,7 @@ on:
     branches: [next_develop]
   pull_request:
     branches: [main, master]
+    types: [opened, closed]
   workflow_dispatch:
 env:
   NEXT_PUBLIC_CLIENT_API: ${{ secrets.NEXT_PUBLIC_CLIENT_API }}
@@ -33,7 +34,7 @@ jobs:
       #     sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/ ci-front@ci-front.colav.co:
       #     echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
 
-  queue:
+  merge:
     if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +42,7 @@ jobs:
         run: echo "Merged PR detected, triggering deployment."
 
   deploy:
-    needs: [test, queue]
+    needs: [test, merge]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy Docker image with ImpactU UI
