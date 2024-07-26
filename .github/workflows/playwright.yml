@@ -41,4 +41,8 @@ jobs:
         shell: bash
         run: |
           sudo apt install -y sshpass
-          sshpass -p "${{secrets.SSH_PASS}}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh ${{ github.base_ref }}
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+           BRANCH_NAME=${{ github.base_ref }}
+          else
+            BRANCH_NAME=${GITHUB_REF##*/}
+          sshpass -p "${{secrets.SSH_PASS}}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh $BRANCH_NAME
