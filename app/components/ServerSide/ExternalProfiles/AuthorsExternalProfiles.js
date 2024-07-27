@@ -1,3 +1,6 @@
+/* Components */
+import MultipleProfilesHandler from "./MultipleProfilesHandler";
+
 /* Icons */
 import cvlac from "../../icons/cvlac";
 import linkedin from "../../icons/linkedin";
@@ -14,7 +17,6 @@ import styles from "./styles.module.css";
 
 /* UI Library Components */
 import { Button, Space } from "antd";
-import OpenalexProfilesHandler from "./OpenalexProfilesHandler";
 
 const iconList = {
   researchgate: { icon: researchgate() },
@@ -43,9 +45,20 @@ export default function AuthorsExternalProfiles({ profilesList }) {
     (profile) => profile.source === "openalex"
   );
 
+  const scholarProfiles = profilesList
+    .filter((profile) => profile.source === "scholar")
+    .filter(
+      (profile, index, self) =>
+        index === self.findIndex((p) => p.id === profile.id)
+    );
+
   const uniqueProfilesList = profilesList.reduce((acc, current) => {
     const existingProfile = acc.find((item) => item.source === current.source);
-    if (!existingProfile && current.source !== "openalex") {
+    if (
+      !existingProfile &&
+      current.source !== "openalex" &&
+      current.source !== "scholar"
+    ) {
       return acc.concat([current]);
     } else {
       return acc;
@@ -82,7 +95,16 @@ export default function AuthorsExternalProfiles({ profilesList }) {
         <Space wrap>
           {renderedButtons(profilesList)}
           {openalexProfiles.length > 0 && (
-            <OpenalexProfilesHandler openalexProfiles={openalexProfiles} />
+            <MultipleProfilesHandler
+              profiles={openalexProfiles}
+              source="OpenAlex"
+            />
+          )}
+          {scholarProfiles.length > 0 && (
+            <MultipleProfilesHandler
+              profiles={scholarProfiles}
+              source="Google Scholar"
+            />
           )}
         </Space>
       ) : (
