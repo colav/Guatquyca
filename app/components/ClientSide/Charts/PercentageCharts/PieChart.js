@@ -1,5 +1,6 @@
 "use client";
 
+import Error from "@/app/error";
 /* Next */
 import dynamic from "next/dynamic";
 
@@ -16,6 +17,7 @@ const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
  * @returns {JSX.Element} A Pie chart component.
  */
 export default function PieChart({ data, sum }) {
+  if (!data || !data.length) return <Error height={400} />;
   const config = {
     data,
     angleField: "value",
