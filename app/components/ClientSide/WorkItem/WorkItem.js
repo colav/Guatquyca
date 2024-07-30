@@ -21,7 +21,7 @@ import Ribbon from "antd/lib/badge/Ribbon";
 export default function WorkItem({ item }) {
   return (
     <>
-      <InvisibleContainer source={item.product_type.source} />
+      <InvisibleContainer source={item.product_type?.source} />
       <Ribbon
         text={PRODUCT_TYPES[item.product_type?.name] || item.product_type?.name}
         color="#ff6a45"
@@ -37,6 +37,7 @@ export default function WorkItem({ item }) {
           textAlign: "center",
           fontSize: "15px",
           lineHeight: "1.1",
+          display: item.product_type ? "block" : "none",
         }}
         className={styles.ribbon}
       >

@@ -31,11 +31,9 @@ const GraphChart = ({ data }) => {
       width,
       height: 400,
       layout: {
-        type: "force-atlas2",
-        kr: 15,
+        type: "fruchterman",
         preventOverlap: true,
         workerEnabled: true,
-        mode: "linlog",
       },
       autoFit: "view",
       animation: false,
