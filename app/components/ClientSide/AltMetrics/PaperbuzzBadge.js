@@ -8,7 +8,7 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 
 /* SVG Component */
-import PaperbuzzSVG from "./PaperbuzzSVG";
+import PaperbuzzIMG from "./PaperbuzzIMG";
 
 /* UI Library Components */
 import { ConfigProvider, Tooltip, Image, Divider, Row, Col } from "antd";
@@ -92,7 +92,7 @@ export default function PaperbuzzBadge({ doi }) {
         color="white"
       >
         <div>
-          <PaperbuzzSVG score={score} />
+          <PaperbuzzIMG score={score} />
         </div>
       </Tooltip>
     </ConfigProvider>
