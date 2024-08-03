@@ -34,17 +34,23 @@ export default function Dimensions({ doi }) {
   const doiPath = extractDoiPath(doi);
 
   useEffect(() => {
-    const badge = document.createElement("span");
-    badge.className = "__dimensions_badge_embed__";
-    badge.setAttribute("data-doi", doiPath);
-    badge.setAttribute("data-hide-zero-citations", "true");
-    badge.setAttribute("data-legend", "hover-top");
-    badge.setAttribute("data-style", "large_rectangle");
-    badgeRef.current.appendChild(badge);
+    const randomDelay = Math.random() * (2000 - 500) + 500;
 
-    if (window.__dimensions_embed) {
-      window.__dimensions_embed.addBadges(badgeRef.current);
-    }
+    const timer = setTimeout(() => {
+      const badge = document.createElement("span");
+      badge.className = "__dimensions_badge_embed__";
+      badge.setAttribute("data-doi", doiPath);
+      badge.setAttribute("data-hide-zero-citations", "true");
+      badge.setAttribute("data-legend", "hover-top");
+      badge.setAttribute("data-style", "large_rectangle");
+      badgeRef.current.appendChild(badge);
+
+      if (window.__dimensions_embed) {
+        window.__dimensions_embed.addBadges(badgeRef.current);
+      }
+    }, randomDelay);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return <span ref={badgeRef} id={styles.dimensions}></span>;
