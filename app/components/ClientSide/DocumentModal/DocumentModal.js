@@ -1,7 +1,7 @@
 "use client";
 
 /* Components */
-import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
+import AuthorsListOnModal from "../AuthorsHorizontalList/AuthorsListOnModal";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
 
@@ -55,10 +55,8 @@ export default function DocumentModal({ documentID }) {
     issue,
     external_ids,
     external_urls,
-    openalex_url,
-    scimago_quartile,
   } = state.data.data;
-  const { name, serials } = source || {};
+  const { name, serials, scimago_quartile } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
 
   const articleItems = [
@@ -76,14 +74,19 @@ export default function DocumentModal({ documentID }) {
   ];
 
   const sourceItems = [
-    { key: "4", label: "Revista", children: name || "No disponible", span: 3 },
-    { key: "5", label: "Volumen", children: volume || "No disponible" },
-    { key: "6", label: "Issue", children: issue || "No disponible" },
-    { key: "7", label: "pISSN", children: pissn || "No disponible" },
-    { key: "8", label: "ISSN", children: issn || "No disponible" },
-    { key: "9", label: "Scienti", children: scienti || "No disponible" },
+    { key: "4", label: "Revista", children: name || "No disponible" },
     {
-      key: "10",
+      key: "5",
+      label: "Cuartil año de publicación",
+      children: scimago_quartile || "No disponible",
+    },
+    { key: "6", label: "Volumen", children: volume || "No disponible" },
+    { key: "7", label: "Issue", children: issue || "No disponible" },
+    { key: "8", label: "pISSN", children: pissn || "No disponible" },
+    { key: "9", label: "ISSN", children: issn || "No disponible" },
+    { key: "10", label: "Scienti", children: scienti || "No disponible" },
+    {
+      key: "11",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
@@ -101,7 +104,7 @@ export default function DocumentModal({ documentID }) {
         <TeamOutlined /> Autores:{" "}
       </h4>
       {authors.length ? (
-        <AuthorsHorizontalList authors={authors} />
+        <AuthorsListOnModal authors={authors} />
       ) : (
         "No disponible"
       )}

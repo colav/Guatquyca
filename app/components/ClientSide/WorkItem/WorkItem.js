@@ -1,5 +1,5 @@
 /* Components */
-import AuthorsHorizontalList from "../AuthorsHorizontalList/AuthorsHorizontalList";
+import AuthorsListOnList from "../AuthorsHorizontalList/AuthorsListOnList";
 import InvisibleContainer from "./InvisibleContainer";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
@@ -55,7 +55,11 @@ export default function WorkItem({ item }) {
             />
             {item.source.name && <Source sourceName={item.source.name} />}
             <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsHorizontalList authors={item.authors} />
+            <AuthorsListOnList
+              authors={item.authors}
+              authors_count={item.num_authors}
+              workID={item.id}
+            />
             {item.subjects.length > 0 && (
               <div>
                 <TagsOutlined className={styles.gray} /> Temas:

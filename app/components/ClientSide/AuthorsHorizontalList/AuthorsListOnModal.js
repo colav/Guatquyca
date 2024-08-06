@@ -16,7 +16,7 @@ import { Button, Tooltip } from "antd";
  * @param {Object[]} authors - An array of author objects. Each object should have an 'id' and 'full_name' property.
  * @returns {JSX.Element} A div containing a list of authors and a "Show More" button if necessary.
  */
-export default function AuthorsHorizontalList({ authors }) {
+export default function AuthorsListOnModal({ authors }) {
   const [authorsQuantity, setAuthorsQuantity] = useState(10);
   const [showingAll, setShowingAll] = useState(false);
 
