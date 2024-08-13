@@ -27,16 +27,16 @@ export default function ProductsOnEntityPage({ params }) {
       {params.entity === "institution" ? (
         <div>
           <Row gutter={15} style={{ marginBottom: "15px" }}>
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <DistributionChartsHandler entity={params.entity} />
             </Col>
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <PercentageChartsHandler entity={params.entity} />
             </Col>
-            {/* <Col xs={24} sm={24} md={8}>
+            <Col xs={24} sm={24} md={8}>
               <MapChartsHandler entity={params.entity} />
-            </Col> */}
-            {/* <Col xs={24} sm={24} md={12}>
+            </Col>
+            {/* <Col xs={24} sm={24} md={8}>
               <GraphChartsHandler entity={params.entity} />
             </Col> */}
           </Row>
@@ -44,15 +44,15 @@ export default function ProductsOnEntityPage({ params }) {
       ) : (
         <div>
           <Row gutter={[15, 15]} style={{ marginBottom: "15px" }}>
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <DistributionChartsHandler entity={params.entity} />
             </Col>
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <PercentageChartsHandler entity={params.entity} />
             </Col>
-            {/* <Col xs={24} sm={24} md={8}>
+            <Col xs={24} sm={24} md={8}>
               <MapChartsHandler entity={params.entity} />
-            </Col> */}
+            </Col>
           </Row>
         </div>
       )}
