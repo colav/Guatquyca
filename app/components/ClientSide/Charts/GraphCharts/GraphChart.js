@@ -22,8 +22,10 @@ const GraphChart = ({ data }) => {
     if (!data || !containerRef.current) return;
 
     const { innerWidth } = window;
-    const divisor = innerWidth < 768 ? 1 : 2;
-    const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88);
+    /* const divisor = innerWidth < 768 ? 1 : 2; */
+    /* const width = innerWidth / divisor - (innerWidth > 768 ? 54 : 88); */
+    const divisor = innerWidth < 768 ? 1 : 3;
+    const width = innerWidth / divisor - (innerWidth > 768 ? 50 : 88);
 
     const graph = new Graph({
       container: containerRef.current,
