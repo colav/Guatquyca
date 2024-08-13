@@ -34,7 +34,7 @@ export default function Dimensions({ doi }) {
   const doiPath = extractDoiPath(doi);
 
   useEffect(() => {
-    const randomDelay = Math.random() * (2000 - 500) + 500;
+    const randomDelay = Math.random() * (3500 - 2000) + 2000;
 
     const timer = setTimeout(() => {
       const badge = document.createElement("span");
