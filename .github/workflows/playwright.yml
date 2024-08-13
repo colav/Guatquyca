@@ -11,6 +11,7 @@ env:
   API_URL: ${{ secrets.API_URL }}
 jobs:
   test:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +36,7 @@ jobs:
           echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
 
   merge:
+    needs: [test]
     if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:

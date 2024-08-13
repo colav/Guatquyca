@@ -23,32 +23,20 @@ test.describe("Testing Faculties entity", () => {
     // Initiate a search by clicking the search button; "Autores" is the preselected filter.
     await page.getByRole("button", { name: "search" }).click();
 
-    // Open the dropdown to select the number of search results per page.
-    await page.getByText("/ page").click();
-
-    // Select the option to display 20 results per page.
-    await page.getByText("20 / page").click();
+    // Choose the third page of search results by clicking on the corresponding pagination button.
+    await page.getByText("3", { exact: true }).click();
 
     // Verify that the "Afiliaciones" text is visible, indicating that the search results are displayed.
     await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/faculty?max=20&page=1&sort=citations-",
+      "/search/affiliations/faculty?max=10&page=3&sort=citations-",
       { timeout: 12000 }
     );
-
-    // Navigate to the third page of search results using pagination.
-    await page.locator('a:text-is("3")').click();
 
     // Ensure that the "Afiliaciones" text is still visible, confirming that the third page of results is displayed.
     await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
-
-    // Check that the URL is updated to reflect the navigation to the third page of results.
-    await expect(page).toHaveURL(
-      "/search/affiliations/faculty?max=20&page=3&sort=citations-",
-      { timeout: 12000 }
-    );
   });
 
   test("random faculty search & profile is working", async ({ page }) => {

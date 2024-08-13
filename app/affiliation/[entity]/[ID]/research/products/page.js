@@ -36,7 +36,7 @@ export default function ProductsOnEntityPage({ params }) {
             <Col xs={24} sm={24} md={8}>
               <MapChartsHandler entity={params.entity} />
             </Col>
-            {/* <Col xs={24} sm={24} md={12}>
+            {/* <Col xs={24} sm={24} md={8}>
               <GraphChartsHandler entity={params.entity} />
             </Col> */}
           </Row>

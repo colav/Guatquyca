@@ -52,7 +52,7 @@ export default function PieChart({ data, sum }) {
       {
         type: "text",
         style: {
-          text: `Total:\n${sum.toString()}`,
+          text: sum ? `Total:\n${sum.toString()}` : null,
           x: "50%",
           y: "50%",
           textAlign: "center",

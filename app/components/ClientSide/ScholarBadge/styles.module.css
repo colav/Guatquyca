@@ -1,35 +1,21 @@
-.st0 {
-  fill: #ffffff;
+.container {
+  position: relative;
+  width: 124px;
+  height: 22px;
 }
 
-.st1 {
-  fill: url(#SVGID_1_);
+.numberContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 51px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.st2 {
+.score {
   font-size: 13px;
   font-weight: 500;
-}
-
-.st3 {
-  fill: #a6a6a6;
-}
-
-.st4 {
-  fill: #3f3f3f;
-}
-.st5 {
-  opacity: 0.7;
-}
-.st6 {
-  fill: #4285f4;
-}
-.st7 {
-  fill: #356ac3;
-}
-.st8 {
-  fill: #a0c3ff;
-}
-.st9 {
-  fill: #76a7fa;
+  color: black;
 }

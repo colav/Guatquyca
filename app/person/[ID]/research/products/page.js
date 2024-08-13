@@ -26,18 +26,16 @@ export default function ProductsOnPersonPage({ params }) {
       <TopMenu person={true} currentTab={"research"} />
       <ResearchTabs activeTab="products" />
       <Row gutter={[15, 15]} style={{ marginBottom: "15px" }}>
-        <Col xs={24} sm={24} md={12}>
+        <Col xs={24} sm={24} md={8}>
           <DistributionChartsHandler entity="person" />
         </Col>
-        <Col xs={24} sm={24} md={12}>
+        <Col xs={24} sm={24} md={8}>
           <PercentageChartsHandler entity="person" />
         </Col>
-      </Row>
-      <Row gutter={[15, 15]} style={{ marginBottom: "15px" }}>
-        <Col xs={24} sm={24} md={12}>
+        {/* <Col xs={24} sm={24} md={12}>
           <MapChartsHandler entity="person" />
-        </Col>
-        <Col xs={24} sm={24} md={12}>
+        </Col> */}
+        <Col xs={24} sm={24} md={8}>
           <GraphChartsHandler entity="person" />
         </Col>
       </Row>

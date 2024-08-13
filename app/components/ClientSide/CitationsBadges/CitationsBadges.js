@@ -33,7 +33,7 @@ export default function CitationsBadges({
   });
 
   return (
-    <div>
+    <>
       {showTitle && (
         <div style={{ marginBottom: "7px" }}>
           <CitationsIcon aria-label="Citations Icon" /> Citaciones:
@@ -55,6 +55,6 @@ export default function CitationsBadges({
           </Col>
         )}
       </Row>
-    </div>
+    </>
   );
 }

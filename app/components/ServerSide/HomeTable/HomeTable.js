@@ -14,7 +14,7 @@ export default function HomeTable() {
     {
       key: "1",
       search: "Autor",
-      example: '"Francisco Javier Lopera Restrepo"',
+      example: '"Diego Alejandro Restrepo"',
     },
     {
       key: "2",
@@ -24,7 +24,7 @@ export default function HomeTable() {
     {
       key: "3",
       search: "Unidades Académicas",
-      example: '"Facultad de Medicina"',
+      example: '"Facultad de Ciencias Exactas y Naturales"',
     },
     {
       key: "4",
