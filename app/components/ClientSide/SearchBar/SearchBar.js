@@ -72,13 +72,22 @@ export default function SearchBar() {
   );
 
   const searchRequest = (input) => {
-    const path = AFFILIATIONLIST.includes(selected.value)
-      ? `/search/affiliations/${selected.value}`
-      : `/search/${selected.value}`;
-    const queryParams = `?max=10&page=1&sort=citations-${
-      input ? `&keywords=${input}` : ""
-    }`;
-    router.push(path + queryParams);
+    const getPath = (value) => {
+      return AFFILIATIONLIST.includes(value)
+        ? `/search/affiliations/${value}`
+        : `/search/${value}`;
+    };
+
+    const getQueryParams = (value, input) => {
+      const sortType = value === "works" ? "citations-" : "products-";
+      const keywords = input ? `&keywords=${input}` : "";
+      return `?max=10&page=1&sort=${sortType}${keywords}`;
+    };
+
+    const path = getPath(selected.value);
+    const queryParams = getQueryParams(selected.value, input);
+
+    router.push(`${path}${queryParams}`);
   };
 
   return (

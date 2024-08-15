@@ -32,8 +32,8 @@ export default function SortSearchResults({ searchParams, works = false }) {
       { value: "alphabetical", label: "Alfabético" },
     ],
     entities: [
-      { value: "citations-", label: "Más citado" },
       { value: "products-", label: "Mayor producción" },
+      { value: "citations-", label: "Más citado" },
     ],
   };
 
