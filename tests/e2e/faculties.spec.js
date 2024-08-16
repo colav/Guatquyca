@@ -1,6 +1,14 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
 
+import { PLOTLIST_STACKED, PLOTLIST_PIE, PLOTLIST_MAP } from "@/lib/constants";
+
+const allPlots = [
+  ...PLOTLIST_STACKED.institution,
+  ...PLOTLIST_PIE.institution,
+  ...PLOTLIST_MAP,
+];
+
 test.describe("Testing Faculties entity", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the home page before each test to ensure a consistent starting point.
@@ -20,18 +28,39 @@ test.describe("Testing Faculties entity", () => {
   });
 
   test("Faculties search result pagination is working", async ({ page }) => {
-    // Initiate a search by clicking the search button; "Autores" is the preselected filter.
+    // Initiate a search by clicking the search button
     await page.getByRole("button", { name: "search" }).click();
+
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
 
     // Choose the third page of search results by clicking on the corresponding pagination button.
     await page.getByText("3", { exact: true }).click();
 
-    // Verify that the "Afiliaciones" text is visible, indicating that the search results are displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/faculty?max=10&page=3&sort=citations-",
+      "/search/affiliations/faculty?max=10&page=3&sort=products-",
       { timeout: 12000 }
     );
 
@@ -39,8 +68,10 @@ test.describe("Testing Faculties entity", () => {
     await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
   });
 
-  test("random faculty search & profile is working", async ({ page }) => {
-    // Click on the search button without entering any keywords. Assumes "Autores" is the default prefilter.
+  test("random faculty search, profile page and product list displays correctly", async ({
+    page,
+  }) => {
+    // Click on the search button without entering any keywords.
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Unidades académicas" to appear and store its content.
@@ -62,7 +93,7 @@ test.describe("Testing Faculties entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/faculty?max=10&page=${randomPage}&sort=citations-`
+      `/search/affiliations/faculty?max=10&page=${randomPage}&sort=products-`
     );
 
     // Wait for the search results to ensure the page has loaded.
@@ -84,7 +115,7 @@ test.describe("Testing Faculties entity", () => {
     await expect(page.getByText(facultyName)).toBeVisible();
   });
 
-  test("Faculties search with keyword, & profile is working", async ({
+  test("Faculties search by keyword, profile page and product list displays correctly", async ({
     page,
   }) => {
     // Fill the search bar with the faculty name "Facultad de Ciencias Exactas y Naturales"
@@ -112,5 +143,72 @@ test.describe("Testing Faculties entity", () => {
     await expect(
       page.getByText("Facultad de Ciencias Exactas y Naturales")
     ).toBeVisible();
+  });
+
+  test("verify successful API responses for Facultad de Ciencias Exactas y Naturales's metrics", async ({
+    page,
+  }) => {
+    // Set the timeout for this test to 6 minutes
+    test.setTimeout(60 * 1000 * 6);
+
+    // Navigate to the search results page for the keyword "Facultad de Ciencias Exactas y Naturales".
+    await page.goto(
+      '/search/affiliations/faculty?max=10&page=1&sort=products-&keywords="Facultad%20de%20Ciencias%20Exactas%20y%20Naturales"'
+    );
+
+    // Verify that the search results contain Facultad de Ciencias Exactas y Naturales".
+    await expect(
+      page.getByText("Facultad de Ciencias Exactas y Naturales")
+    ).toBeVisible();
+
+    // Find the link element
+    const linkElement = await page.getByRole("link", {
+      name: "Facultad de Ciencias Exactas y Naturales",
+      exact: true,
+    });
+
+    // Extract the href attribute
+    const href = await linkElement.getAttribute("href");
+
+    // Use a regex to extract the ID from the URL
+    const idMatch = href.match(/faculty\/([a-zA-Z0-9]+)\//);
+    if (!idMatch) {
+      throw new Error("Faculty ID not found in the URL");
+    }
+    const facultyId = idMatch[1];
+
+    async function fetchAndMeasure(item) {
+      // Construct the API URL
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/faculty/${facultyId}/research/products?plot=${item.value}`;
+      console.log(`API call for "${item.label}" Fetched at the URL: ${apiUrl}`);
+
+      // Measure the time taken for the API to respond
+      const startTime = Date.now(); // Start timing
+      const response = await fetch(apiUrl);
+      const endTime = Date.now(); // End timing
+      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
+
+      // Check if the response status is not 200
+      if (response.status !== 200) {
+        throw new Error(
+          `API responded with status code: ${response.status} for "${item.label}"`
+        );
+      }
+
+      // Add the time taken for the API to respond to the browser report
+      test.info().annotations.push({
+        type: `API response time for "${item.label}"`,
+        description: `${responseTime} seconds`,
+      });
+    }
+
+    async function runSequentially(allPlots) {
+      for (const item of allPlots) {
+        await fetchAndMeasure(item);
+      }
+    }
+
+    // Run the requests sequentially
+    await runSequentially(allPlots);
   });
 });

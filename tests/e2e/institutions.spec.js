@@ -1,6 +1,19 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
 
+import {
+  PLOTLIST_STACKED,
+  PLOTLIST_PIE,
+  PLOTLIST_MAP,
+  PLOTLIST_GRAPH,
+} from "@/lib/constants";
+
+const allPlots = [
+  ...PLOTLIST_STACKED.institution,
+  ...PLOTLIST_PIE.institution,
+  ...PLOTLIST_MAP,
+];
+
 test.describe("Testing Institutions entity", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the home page before each test to ensure a consistent starting point.
@@ -17,8 +30,20 @@ test.describe("Testing Institutions entity", () => {
   });
 
   test("institutions search result pagination is working", async ({ page }) => {
-    // Initiate a search by clicking the search button. Assumes "Autores" is the preselected filter.
+    // Initiate a search by clicking the search button.
     await page.getByRole("button", { name: "search" }).click();
+
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
 
     // Open the dropdown to select the number of search results per page.
     await page.getByText("/ page").click();
@@ -26,18 +51,42 @@ test.describe("Testing Institutions entity", () => {
     // Select the option to display 20 results per page.
     await page.getByText("20 / page").click();
 
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
+
     // Verify that the URL is updated to reflect the new parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/institution?max=20&page=1&sort=citations-",
+      "/search/affiliations/institution?max=20&page=1&sort=products-",
       { timeout: 12000 }
     );
 
     // Navigate to the fifth page of search results using pagination.
     await page.locator('a:text-is("5")').click();
 
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
+
     // Confirm that the URL is updated to reflect the navigation to the fifth page of results.
     await expect(page).toHaveURL(
-      "/search/affiliations/institution?max=20&page=5&sort=citations-",
+      "/search/affiliations/institution?max=20&page=5&sort=products-",
       { timeout: 12000 }
     );
 
@@ -45,8 +94,10 @@ test.describe("Testing Institutions entity", () => {
     await expect(page.getByText("Perfil externo").nth(0)).toBeVisible();
   });
 
-  test("random institution search & profile is working", async ({ page }) => {
-    // Initiate a search by clicking the search button without entering any keywords. Assumes "Autores" is the default prefilter.
+  test("random institution search, profile page and product list displays correctly", async ({
+    page,
+  }) => {
+    // Initiate a search by clicking the search button without entering any keywords.
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Instituciones" to appear and store its content.
@@ -69,7 +120,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/institution?max=10&page=${randomPage}&sort=citations-`
+      `/search/affiliations/institution?max=10&page=${randomPage}&sort=products-`
     );
 
     // Wait for the search results to ensure the page has loaded.
@@ -91,7 +142,7 @@ test.describe("Testing Institutions entity", () => {
     await expect(page.getByText(institutionName)).toBeVisible();
   });
 
-  test("institutions search with keyword, & profile is working", async ({
+  test("institutions search by keyword, profile page and product list displays correctly", async ({
     page,
   }) => {
     // Fill the search bar with the keyword "Antioquia".
@@ -110,7 +161,78 @@ test.describe("Testing Institutions entity", () => {
 
     // Verify that the profile page for "Universidad de Antioquia" is displayed.
     await expect(
-      page.getByText("Universidad de Antioquia", { exact: true })
+      page.getByText("Unidades académicas", { exact: true })
     ).toBeVisible();
+
+    // Click on the research menu item to navigate to the research section of the profile.
+    await page.getByRole("menuitem", { name: "Investigación" }).click();
+
+    // Check that the production list is visible on the research page.
+    await expect(page.getByText(/^\d+ Productos$/)).toBeVisible();
+  });
+
+  test("verify successful API responses for UdeA's metrics", async ({
+    page,
+  }) => {
+    // Set the timeout for this test to 6 minutes
+    test.setTimeout(60 * 1000 * 6);
+
+    // Navigate to the search results page for the keyword "Antioquia".
+    await page.goto(
+      "/search/affiliations/institution?max=10&page=1&sort=products-&keywords=Antioquia"
+    );
+
+    // Verify that the search results contain "Universidad de Antioquia".
+    await expect(page.getByText("Universidad de Antioquia")).toBeVisible();
+
+    // Find the link element
+    const linkElement = await page.getByRole("link", {
+      name: "Universidad de Antioquia",
+      exact: true,
+    });
+
+    // Extract the href attribute
+    const href = await linkElement.getAttribute("href");
+
+    // Use a regex to extract the ID from the URL
+    const idMatch = href.match(/institution\/([a-zA-Z0-9]+)\//);
+    if (!idMatch) {
+      throw new Error("Institution ID not found in the URL");
+    }
+    const institutionId = idMatch[1];
+
+    async function fetchAndMeasure(item) {
+      // Construct the API URL
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/institution/${institutionId}/research/products?plot=${item.value}`;
+      console.log(`API call for "${item.label}" Fetched at the URL: ${apiUrl}`);
+
+      // Measure the time taken for the API to respond
+      const startTime = Date.now(); // Start timing
+      const response = await fetch(apiUrl);
+      const endTime = Date.now(); // End timing
+      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
+
+      // Check if the response status is not 200
+      if (response.status !== 200) {
+        throw new Error(
+          `API responded with status code: ${response.status} for "${item.label}"`
+        );
+      }
+
+      // Add the time taken for the API to respond to the browser report
+      test.info().annotations.push({
+        type: `API response time for "${item.label}"`,
+        description: `${responseTime} seconds`,
+      });
+    }
+
+    async function runSequentially(allPlots) {
+      for (const item of allPlots) {
+        await fetchAndMeasure(item);
+      }
+    }
+
+    // Run the requests sequentially
+    await runSequentially(allPlots);
   });
 });

@@ -49,7 +49,7 @@ test.describe("Testing Works entity", () => {
   });
 
   test("random works search & profile is working", async ({ page }) => {
-    // Click on the Search button without entering any keyword; "Autores" is the default prefilter
+    // Click on the Search button without entering any keyword.
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Productos" to appear and store its content
@@ -100,6 +100,11 @@ test.describe("Testing Works entity", () => {
     await expect(page.getByRole("dialog").getByText(worksName)).toBeVisible({
       timeout: 10000,
     });
+
+    // Veryfy that the text "Abstract" is visible on the work modal
+    await expect(
+      page.getByRole("heading", { name: "Abstract:" })
+    ).toBeVisible();
   });
 
   test("Works search with keyword, & profile are working", async ({ page }) => {
