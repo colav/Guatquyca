@@ -40,7 +40,11 @@ export default function PaperbuzzBadge({ doi }) {
           return (
             <div key={sourceId} className={styles.tooltipContainer}>
               <Image
-                src={iconUrl}
+                src={
+                  sourceId === "facultyopinions"
+                    ? "/media/H1Connect.jpg"
+                    : iconUrl
+                }
                 alt={`Logo of ${displayName}`}
                 width={16}
                 height={16}

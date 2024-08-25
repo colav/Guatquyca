@@ -64,6 +64,11 @@ export default function PaperbuzzInfoButton() {
       source: "F1000",
       weight: 1,
     },
+    {
+      key: "10",
+      source: "Faculty Opinions",
+      weight: 1,
+    },
   ];
 
   return (
