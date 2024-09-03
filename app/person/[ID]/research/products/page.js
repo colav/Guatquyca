@@ -4,13 +4,13 @@ import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 /* UI Library Components */
 import { Col, Row } from "antd";
 
-/* Utilities */
+/* Components */
+import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
 import WorkListOnEntity from "@/app/components/ClientSide/WorkListOnEntity/WorkListOnEntity";
-import DistributionChartsHandler from "@/app/components/ClientSide/Charts/DistributionCharts/DistributionChartsHandler";
-import PercentageChartsHandler from "@/app/components/ClientSide/Charts/PercentageCharts/PercentageChartsHandler";
-import MapChartsHandler from "@/app/components/ClientSide/Charts/MapCharts/MapChartsHandler";
-import GraphChartsHandler from "@/app/components/ClientSide/Charts/GraphCharts/GraphChartsHandler";
+
+/* Utilities */
+import plotListFilter from "@/lib/Utils/plotListFilter";
 
 /**
  * ProductsOnPersonPage is a server-side function component for displaying the products on a person page.
@@ -21,22 +21,18 @@ import GraphChartsHandler from "@/app/components/ClientSide/Charts/GraphCharts/G
  * It also contains a set of charts rendered by the DistributionChartsHandler, PercentageChartsHandler, MapChartsHandler, and GraphChartsHandler components.
  */
 export default function ProductsOnPersonPage({ params }) {
+  const filteredPlots = plotListFilter("person");
+
   return (
     <div>
       <TopMenu person={true} currentTab={"research"} />
       <ResearchTabs activeTab="products" />
-      <Row gutter={[15, 15]} style={{ marginBottom: "15px" }}>
-        <Col xs={24} sm={24} md={8}>
-          <DistributionChartsHandler entity="person" />
+      <Row gutter={15} style={{ marginBottom: "15px" }}>
+        <Col xs={24} sm={24} md={12}>
+          <ChartsHandler plotlist={filteredPlots.slice(0, 4)} />
         </Col>
-        <Col xs={24} sm={24} md={8}>
-          <PercentageChartsHandler entity="person" />
-        </Col>
-        {/* <Col xs={24} sm={24} md={12}>
-          <MapChartsHandler entity="person" />
-        </Col> */}
-        <Col xs={24} sm={24} md={8}>
-          <GraphChartsHandler entity="person" />
+        <Col xs={24} sm={24} md={12}>
+          <ChartsHandler plotlist={filteredPlots.slice(4, 8)} />
         </Col>
       </Row>
       <WorkListOnEntity params={params} />

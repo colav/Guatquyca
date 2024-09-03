@@ -3,9 +3,6 @@ import React, { useEffect, useRef } from "react";
 /* Libraries */
 import { Graph } from "@antv/g6";
 
-/* Styles */
-import styles from "./styles.module.css";
-
 /* UI Library Components */
 import { Empty } from "antd";
 
@@ -89,7 +86,7 @@ const GraphChart = ({ data }) => {
     );
   }
 
-  return <div ref={containerRef} className={styles.graph}></div>;
+  return <div ref={containerRef}></div>;
 };
 
 export default GraphChart;
