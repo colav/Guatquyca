@@ -63,7 +63,7 @@ test.describe("Testing Groups entity", () => {
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/group?max=20&page=1&sort=products-",
+      "/search/affiliations/group?max=20&page=1&sort=products_desc",
       { timeout: 12000 }
     );
 
@@ -87,7 +87,7 @@ test.describe("Testing Groups entity", () => {
 
     // Check that the URL is updated to reflect the navigation to the third page of results.
     await expect(page).toHaveURL(
-      "/search/affiliations/group?max=20&page=3&sort=products-",
+      "/search/affiliations/group?max=20&page=3&sort=products_desc",
       { timeout: 12000 }
     );
   });
@@ -110,7 +110,7 @@ test.describe("Testing Groups entity", () => {
 
     // Navigate to the randomly selected page of search results
     await page.goto(
-      `/search/affiliations/group?max=10&page=${randomPage}&sort=products-`
+      `/search/affiliations/group?max=10&page=${randomPage}&sort=products_desc`
     );
 
     // Wait for the search results, specifically for the text "Grupos", to ensure the page has loaded
@@ -174,7 +174,7 @@ test.describe("Testing Groups entity", () => {
 
     // Navigate to the search results page for the keyword "Epidemiología".
     await page.goto(
-      "/search/affiliations/group?max=10&page=1&sort=products-&keywords=Epidemiología"
+      "/search/affiliations/group?max=10&page=1&sort=products_desc&keywords=Epidemiología"
     );
 
     // Verify that the search results contain "Epidemiología".

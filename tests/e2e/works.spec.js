@@ -31,7 +31,7 @@ test.describe("Testing Works entity", () => {
 
     // Ensure the URL reflects the selected option for 20 results per page, on the first page
     await expect(page).toHaveURL(
-      "/search/works?max=20&page=1&sort=citations-",
+      "/search/works?max=20&page=1&sort=citations_desc",
       { timeout: 12000 }
     );
 
@@ -43,7 +43,7 @@ test.describe("Testing Works entity", () => {
 
     // Confirm the URL is updated to reflect the navigation to the third page of results
     await expect(page).toHaveURL(
-      "/search/works?max=20&page=3&sort=citations-",
+      "/search/works?max=20&page=3&sort=citations_desc",
       { timeout: 12000 }
     );
   });
@@ -67,7 +67,9 @@ test.describe("Testing Works entity", () => {
     const randomPage = Math.floor(Math.random() * (numberOfWorks / 10)) + 1;
 
     // Navigate to the randomly selected page of search results
-    await page.goto(`/search/works?max=10&page=${randomPage}&sort=citations-`);
+    await page.goto(
+      `/search/works?max=10&page=${randomPage}&sort=citations_desc`
+    );
 
     // Wait for the search results, specifically for the text "Autores", to ensure the page has loaded
     await page.waitForSelector("text=Autores");

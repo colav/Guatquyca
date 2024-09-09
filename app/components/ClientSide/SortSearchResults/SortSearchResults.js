@@ -27,13 +27,13 @@ export default function SortSearchResults({ searchParams, works = false }) {
 
   const OPTIONS = {
     works: [
-      { value: "citations-", label: "Más citado" },
-      { value: "year-", label: "Más reciente" },
-      { value: "alphabetical", label: "Alfabético" },
+      { value: "citations_desc", label: "Más citado" },
+      { value: "year_desc", label: "Más reciente" },
+      { value: "alphabetical_asc", label: "Alfabético" },
     ],
     entities: [
-      { value: "products-", label: "Mayor producción" },
-      { value: "citations-", label: "Más citado" },
+      { value: "products_desc", label: "Mayor producción" },
+      { value: "citations_desc", label: "Más citado" },
     ],
   };
 
@@ -42,7 +42,7 @@ export default function SortSearchResults({ searchParams, works = false }) {
       <Select
         size="small"
         style={{ width: 155, marginLeft: "20px" }}
-        value={searchParams.sort || "citations-"}
+        value={searchParams.sort || "citations_desc"}
         onChange={onChange}
         options={works ? OPTIONS.works : OPTIONS.entities}
       />

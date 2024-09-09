@@ -65,7 +65,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Verify that the URL is updated to reflect the new parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/institution?max=20&page=1&sort=products-",
+      "/search/affiliations/institution?max=20&page=1&sort=products_desc",
       { timeout: 12000 }
     );
 
@@ -86,7 +86,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Confirm that the URL is updated to reflect the navigation to the fifth page of results.
     await expect(page).toHaveURL(
-      "/search/affiliations/institution?max=20&page=5&sort=products-",
+      "/search/affiliations/institution?max=20&page=5&sort=products_desc",
       { timeout: 12000 }
     );
 
@@ -120,7 +120,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/institution?max=10&page=${randomPage}&sort=products-`
+      `/search/affiliations/institution?max=10&page=${randomPage}&sort=products_desc`
     );
 
     // Wait for the search results to ensure the page has loaded.
@@ -179,7 +179,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Navigate to the search results page for the keyword "Antioquia".
     await page.goto(
-      "/search/affiliations/institution?max=10&page=1&sort=products-&keywords=Antioquia"
+      "/search/affiliations/institution?max=10&page=1&sort=products_desc&keywords=Antioquia"
     );
 
     // Verify that the search results contain "Universidad de Antioquia".

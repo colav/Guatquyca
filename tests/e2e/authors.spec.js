@@ -64,7 +64,7 @@ test.describe("Testing Authors entity", () => {
 
     // Confirm that the URL reflects the search parameters for displaying 50 results per page.
     await expect(page).toHaveURL(
-      "/search/person?max=50&page=1&sort=products-",
+      "/search/person?max=50&page=1&sort=products_desc",
       { timeout: 12000 }
     );
 
@@ -88,7 +88,7 @@ test.describe("Testing Authors entity", () => {
 
     // Check that the URL is updated to reflect the navigation to the fifth page of results.
     await expect(page).toHaveURL(
-      "/search/person?max=50&page=5&sort=products-",
+      "/search/person?max=50&page=5&sort=products_desc",
       { timeout: 12000 }
     );
   });
@@ -112,7 +112,9 @@ test.describe("Testing Authors entity", () => {
     const randomPage = Math.floor(Math.random() * (numberOfAuthors / 10)) + 1;
 
     // Navigate to the randomly selected page of search results.
-    await page.goto(`/search/person?max=10&page=${randomPage}&sort=products-`);
+    await page.goto(
+      `/search/person?max=10&page=${randomPage}&sort=products_desc`
+    );
 
     // Wait for the search results to ensure the page has loaded.
     await page.waitForSelector("text=Autores");
@@ -179,7 +181,7 @@ test.describe("Testing Authors entity", () => {
 
     // Navigate to the search results page for the keyword "Diego Alejandro Restrepo".
     await page.goto(
-      '/search/person?max=10&page=1&sort=products-&keywords="Diego%20Alejandro%20Restrepo"'
+      '/search/person?max=10&page=1&sort=products_desc&keywords="Diego%20Alejandro%20Restrepo"'
     );
 
     // Verify that the search results contain "Diego Alejandro Restrepo Quintero".

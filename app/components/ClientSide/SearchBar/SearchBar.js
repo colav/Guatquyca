@@ -79,7 +79,7 @@ export default function SearchBar() {
     };
 
     const getQueryParams = (value, input) => {
-      const sortType = value === "works" ? "citations-" : "products-";
+      const sortType = value === "works" ? "citations_desc" : "products_desc";
       const keywords = input ? `&keywords=${input}` : "";
       return `?max=10&page=1&sort=${sortType}${keywords}`;
     };
