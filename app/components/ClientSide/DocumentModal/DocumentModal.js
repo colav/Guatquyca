@@ -32,8 +32,7 @@ import SCImago from "../SCImago/SCImago";
  * If the document's information is still loading, a Loading component is returned.
  */
 export default function DocumentModal({ documentID }) {
-  const URL = URLBuilder(`/app/work/${documentID}`, { section: "info" });
-  const [state] = APIRequest(URL);
+  const [state] = APIRequest(`/app/work/${documentID}`);
 
   if (state.isError) {
     return <Error />;
