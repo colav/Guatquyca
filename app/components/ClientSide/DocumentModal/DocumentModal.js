@@ -2,8 +2,11 @@
 
 /* Components */
 import AuthorsListOnModal from "../AuthorsHorizontalList/AuthorsListOnModal";
+import CitationsBadges from "../CitationsBadges/CitationsBadges";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
+import SCImago from "../SCImago/SCImago";
+import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 
 /* Icons */
 import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
@@ -11,7 +14,6 @@ import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
-import URLBuilder from "@/lib/Utils/URLBuilder";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 
 /* Styles */
@@ -19,8 +21,6 @@ import style from "./styles.module.css";
 
 /* UI Library Components */
 import { Col, Divider, Descriptions, Row } from "antd";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
-import SCImago from "../SCImago/SCImago";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -68,7 +68,17 @@ export default function DocumentModal({ documentID }) {
     {
       key: "3",
       label: "Citaciones",
-      children: citations_count || "No disponible",
+      children: citations_count ? (
+        <CitationsBadges
+          citationsCount={citations_count}
+          doi={
+            external_ids.find((externalId) => externalId.source === "doi")?.id
+          }
+          showTitle={true}
+        />
+      ) : (
+        "No disponible"
+      ),
     },
   ];
 
