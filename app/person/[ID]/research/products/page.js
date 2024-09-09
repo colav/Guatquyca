@@ -6,8 +6,8 @@ import { Col, Row } from "antd";
 
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
+import ProductsList from "@/app/components/ClientSide/InvestigationLists/ProductsList";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
-import WorkListOnEntity from "@/app/components/ClientSide/WorkListOnEntity/WorkListOnEntity";
 
 /* Utilities */
 import plotListFilter from "@/lib/Utils/plotListFilter";
@@ -26,7 +26,7 @@ export default function ProductsOnPersonPage({ params }) {
   return (
     <div>
       <TopMenu person={true} currentTab={"research"} />
-      <ResearchTabs activeTab="products" />
+      <ResearchTabs activeTab="products" entity={"person"} />
       <Row gutter={15} style={{ marginBottom: "15px" }}>
         <Col xs={24} sm={24} md={12}>
           <ChartsHandler plotlist={filteredPlots.slice(0, 4)} />
@@ -35,7 +35,7 @@ export default function ProductsOnPersonPage({ params }) {
           <ChartsHandler plotlist={filteredPlots.slice(4, 8)} />
         </Col>
       </Row>
-      <WorkListOnEntity params={params} />
+      <ProductsList params={params} />
     </div>
   );
 }

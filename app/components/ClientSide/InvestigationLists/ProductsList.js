@@ -27,17 +27,17 @@ import Script from "next/script";
 import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
 
 /**
- * WorkListOnEntity is a client-side function component for displaying a list of works on an entity.
+ * ProductsList is a client-side function component for displaying a list of works on an entity.
  *
  * @returns {JSX.Element} A list of works on an entity, with pagination and sorting options.
  */
-export default function WorkListOnEntity() {
+export default function ProductsList() {
   const query = useSearchParams();
   const queryItems = query.entries();
   let initialQueryParams = {
     max: 10,
     page: 1,
-    sort: "citations-",
+    sort: "citations_desc",
   };
 
   for (let [key, value] of queryItems) {

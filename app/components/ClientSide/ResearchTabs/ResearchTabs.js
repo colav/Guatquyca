@@ -14,7 +14,7 @@ import { Tabs } from "antd";
  *
  * @returns {JSX.Element} A Tabs component from Ant Design library that contains a set of tabs for navigating between different research-related pages.
  */
-export default function ResearchTabs({ activeTab }) {
+export default function ResearchTabs({ activeTab, entity }) {
   const router = useRouter();
   const { ID } = useParams();
 
@@ -24,6 +24,11 @@ export default function ResearchTabs({ activeTab }) {
       key: "products",
     },
     {
+      label: "Patentes",
+      key: "patents",
+      disabled: true,
+    },
+    {
       label: "Proyectos",
       key: "projects",
       disabled: true,
@@ -31,6 +36,11 @@ export default function ResearchTabs({ activeTab }) {
     {
       label: "Noticias",
       key: "news",
+      disabled: true,
+    },
+    {
+      label: "Otros",
+      key: "other_works",
       disabled: true,
     },
   ];
@@ -43,7 +53,9 @@ export default function ResearchTabs({ activeTab }) {
    * @param {string} activeKey - The selected tab's key.
    */
   const handleTabChange = (activeKey) => {
-    router.push(`/person/${ID}/research/${activeKey}`);
+    entity === "person"
+      ? router.push(`/person/${ID}/research/${activeKey}`)
+      : router.push(`/affiliation/${entity}/${ID}/research/${activeKey}`);
   };
 
   return (

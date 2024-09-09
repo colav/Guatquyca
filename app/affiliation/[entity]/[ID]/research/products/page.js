@@ -1,8 +1,8 @@
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
+import ProductsList from "@/app/components/ClientSide/InvestigationLists/ProductsList";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
-import WorkListOnEntity from "@/app/components/ClientSide/WorkListOnEntity/WorkListOnEntity";
 
 /* UI Library Components */
 import { Col, Row } from "antd";
@@ -25,7 +25,7 @@ export default function ProductsOnEntityPage({ params }) {
   return (
     <div>
       <TopMenu currentTab={"research"} />
-      <ResearchTabs activeTab="products" />
+      <ResearchTabs activeTab="products" entity={params.entity} />
       <div>
         <Row gutter={15} style={{ marginBottom: "15px" }}>
           <Col xs={24} sm={24} md={12}>
@@ -36,7 +36,7 @@ export default function ProductsOnEntityPage({ params }) {
           </Col>
         </Row>
       </div>
-      <WorkListOnEntity params={params} />
+      <ProductsList params={params} />
     </div>
   );
 }
