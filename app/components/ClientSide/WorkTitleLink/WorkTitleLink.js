@@ -58,7 +58,7 @@ export default function WorkTitleLink({
         cancelText: "JSON",
         cancelButtonProps: {
           icon: <FileTextOutlined />,
-          href: `${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${id}?section=info`,
+          href: `${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${id}`,
           target: "_blank",
         },
         onOk() {},
