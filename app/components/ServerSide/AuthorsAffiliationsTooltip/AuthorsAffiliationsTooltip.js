@@ -4,6 +4,9 @@ import Link from "next/link";
 /* Components */
 import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
+/* lib */
+import { APIRequest } from "@/lib/APIS/clientAPI";
+
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.
  *
@@ -11,8 +14,15 @@ import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles
  * @returns {JSX.Element} A fragment containing the author's name and a list of their affiliations.
  */
 export default function AuthorsAffiliationsTooltip({ author }) {
-  const { id, full_name, affiliations, external_ids } = author;
+  const [state] = APIRequest(`/app/person/${author.id}`);
+  const { id, full_name } = author;
 
+  if (state.isError) {
+    return "No hay información disponible";
+  }
+  if (state.isLoading) {
+    return <p style={{ color: "black" }}>Cargando información...</p>;
+  }
   return (
     <>
       <div>
@@ -25,7 +35,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
             </span>
           )}
         </div>
-        {affiliations.map((item) => {
+        {state.data.data.affiliations.map((item) => {
           const { id, name, types } = item;
           const type = types[0]?.type;
           let link;
@@ -52,7 +62,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
         })}
       </div>
       <div>
-        <AuthorsExternalProfiles profilesList={external_ids} />
+        <AuthorsExternalProfiles profilesList={state.data.data.external_ids} />
       </div>
     </>
   );
