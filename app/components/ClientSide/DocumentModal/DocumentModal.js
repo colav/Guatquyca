@@ -65,21 +65,6 @@ export default function DocumentModal({ documentID }) {
       children: year_published || "No disponible",
     },
     { key: "2", label: "Idioma", children: language || "No disponible" },
-    {
-      key: "3",
-      label: "Citaciones",
-      children: citations_count ? (
-        <CitationsBadges
-          citationsCount={citations_count}
-          doi={
-            external_ids.find((externalId) => externalId.source === "doi")?.id
-          }
-          showTitle={true}
-        />
-      ) : (
-        "No disponible"
-      ),
-    },
   ];
 
   const sourceItems = [
@@ -127,11 +112,15 @@ export default function DocumentModal({ documentID }) {
       )}
       <h4 className={style.margin_5}>Abstract:</h4>
       <p>{abstract || "No disponible"}</p>
-      <div
-        className="altmetric-embed"
-        data-badge-type="donut"
-        data-="10.1038/nature15393"
-      ></div>
+      {citations_count.length && (
+        <CitationsBadges
+          citationsCount={citations_count}
+          doi={
+            external_ids.find((externalId) => externalId.source === "doi")?.id
+          }
+          showTitle={true}
+        />
+      )}
       <Descriptions size="small" items={articleItems} />
       <Descriptions
         column={5}
