@@ -21,7 +21,7 @@ export default function AuthorsAffiliationsTooltip({ author }) {
     return "No hay información disponible";
   }
   if (state.isLoading) {
-    return <p style={{ color: "black" }}>Cargando información...</p>;
+    return null;
   }
   return (
     <>

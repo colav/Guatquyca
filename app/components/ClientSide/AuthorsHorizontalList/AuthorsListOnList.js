@@ -28,6 +28,7 @@ export default function AuthorsListOnList({ authors, authors_count, workID }) {
     <div>
       {authorsList.map((author) => (
         <Tooltip
+          overlayStyle={{ width: "300px" }}
           title={<AuthorsAffiliationsTooltip author={author} />}
           color="white"
           trigger="click"
