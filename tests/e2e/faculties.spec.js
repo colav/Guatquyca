@@ -1,13 +1,9 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
 
-import { PLOTLIST_STACKED, PLOTLIST_PIE, PLOTLIST_MAP } from "@/lib/constants";
+import { PLOTS_BY_ENTITY } from "@/lib/constants";
 
-const allPlots = [
-  ...PLOTLIST_STACKED.institution,
-  ...PLOTLIST_PIE.institution,
-  ...PLOTLIST_MAP,
-];
+const plotlist = PLOTS_BY_ENTITY.faculty;
 
 test.describe("Testing Faculties entity", () => {
   test.beforeEach(async ({ page }) => {
@@ -202,13 +198,13 @@ test.describe("Testing Faculties entity", () => {
       });
     }
 
-    async function runSequentially(allPlots) {
-      for (const item of allPlots) {
+    async function runSequentially(plotlist) {
+      for (const item of plotlist) {
         await fetchAndMeasure(item);
       }
     }
 
     // Run the requests sequentially
-    await runSequentially(allPlots);
+    await runSequentially(plotlist);
   });
 });
