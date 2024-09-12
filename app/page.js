@@ -107,6 +107,25 @@ export default function Home() {
             <Link href="/manual">O visita nuestro manual en línea aquí.</Link>
           </div>
         </Col>
+        <Row justify={"center"} className={styles.margin_top_50}>
+          <Col xs={24} md={16} style={{ textAlign: "center" }}>
+            <h1>
+              Si deseas mejorar tus datos institucionales en{" "}
+              <b id={styles.impact}>Impact</b>
+              <b id={styles.u}>U</b>, puedes ponerte en contacto con nosotros:
+              grupocolav@udea.edu.co.
+            </h1>
+            <br />
+            <DownloadOutlined />{" "}
+            <a
+              href="/files/Formato_Obtencion_Datos_Institucionales.pdf"
+              download="Formato_Obtencion_Datos_Institucionales.pdf"
+            >
+              Descarga nuestro formato para la obtención de información básica
+              institucional.
+            </a>
+          </Col>
+        </Row>
       </Row>
     </>
   );
