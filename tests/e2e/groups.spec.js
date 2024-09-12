@@ -196,8 +196,8 @@ test.describe("Testing Groups entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/group/${groupId}/research/products?plot=${item.value}`;
-      console.log(`API call for "${item.label}" Fetched at the URL: ${apiUrl}`);
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/group/${groupId}/research/products?plot=${item}`;
+      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
@@ -208,13 +208,13 @@ test.describe("Testing Groups entity", () => {
       // Check if the API response status is not 200
       if (response.status !== 200) {
         throw new Error(
-          `API responded with status code: ${response.status} for "${item.label}"`
+          `API responded with status code: ${response.status} for "${item}"`
         );
       }
 
       // Add the time taken for the API to respond to the browser report
       test.info().annotations.push({
-        type: `API response time for "${item.label}"`,
+        type: `API response time for "${item}"`,
         description: `${responseTime} seconds`,
       });
     }
