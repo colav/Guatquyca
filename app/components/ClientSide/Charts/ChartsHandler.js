@@ -72,7 +72,7 @@ export default function ChartsHandler({ plotlist }) {
         return state.data.plot.length > 5 ? (
           <TreemapChart data={state.data.plot} />
         ) : (
-          <PieChart data={state.data.plot} />
+          <PieChart data={state.data.plot} sum={state.data.sum} />
         );
       case "distribution":
         return state.data?.plot[0]?.type ? (
