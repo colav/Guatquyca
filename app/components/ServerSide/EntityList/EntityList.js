@@ -1,8 +1,8 @@
 /* Components */
 import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
 import CitationsCount from "../CitationsCount/CitationsCount";
+import ClientLogger from "@/lib/Utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
-import ExternalURL from "@/app/components/ServerSide/ExternalURL/ExternalURL";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
@@ -33,7 +33,7 @@ import Flag from "../Flag/Flag";
  */
 export default async function EntityList({ searchParams, entity }) {
   const URL = URLBuilder(`/app/search/affiliations/${entity}`, searchParams);
-  const data = await getData(URL);
+  const { data, fullUrl } = await getData(URL);
 
   return (
     <Card
@@ -107,6 +107,7 @@ export default async function EntityList({ searchParams, entity }) {
         totalItems={data.total_results}
         searchParams={searchParams}
       />
+      <ClientLogger url={fullUrl} />
     </Card>
   );
 }

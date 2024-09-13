@@ -1,7 +1,8 @@
 /* Components */
 import AffiliationLinks from "@/app/components/ServerSide/AffiliationLinks/AffiliationLinks";
-import CitationsCount from "../CitationsCount/CitationsCount";
 import AuthorsExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/AuthorsExternalProfiles";
+import CitationsCount from "../CitationsCount/CitationsCount";
+import ClientLogger from "@/lib/Utils/clientLogger";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
@@ -31,7 +32,7 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
  */
 export default async function PersonList({ searchParams }) {
   const URL = URLBuilder("/app/search/person", searchParams);
-  const data = await getData(URL);
+  const { data, fullUrl } = await getData(URL);
 
   return (
     <Card
@@ -86,6 +87,7 @@ export default async function PersonList({ searchParams }) {
         totalItems={data.total_results}
         searchParams={searchParams}
       />
+      <ClientLogger url={fullUrl} />
     </Card>
   );
 }

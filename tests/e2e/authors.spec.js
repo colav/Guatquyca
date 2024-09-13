@@ -198,7 +198,6 @@ test.describe("Testing Authors entity", () => {
     async function fetchAndMeasure(item) {
       // Construct the API URL
       const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/person/${personId}/research/products?plot=${item}`;
-      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
@@ -228,11 +227,7 @@ test.describe("Testing Authors entity", () => {
     }
 
     async function runSequentially(plotlist) {
-      console.log(plotlist);
-
       for (const item of plotlist) {
-        console.log(item);
-
         await fetchAndMeasure(item);
       }
     }

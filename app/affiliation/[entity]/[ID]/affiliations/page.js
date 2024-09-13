@@ -1,4 +1,5 @@
 /* Components */
+import ClientLogger from "@/lib/Utils/clientLogger";
 import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 
@@ -21,12 +22,13 @@ import { SINGULAR } from "@/lib/constants";
  */
 export default async function Page({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
-  const data = await getData(URL);
+  const { data, fullUrl } = await getData(URL);
   // Filter out any keys that have a falsy value
   const keys = Object.keys(data).filter((key) => data[key]);
 
   return (
     <>
+      <ClientLogger url={fullUrl} />
       <TopMenu currentTab="affiliations" />
       <Row style={{ marginTop: "15px" }} gutter={15}>
         {keys.map((item) => (

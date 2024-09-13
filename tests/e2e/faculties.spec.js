@@ -176,7 +176,6 @@ test.describe("Testing Faculties entity", () => {
     async function fetchAndMeasure(item) {
       // Construct the API URL
       const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/faculty/${facultyId}/research/products?plot=${item}`;
-      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
