@@ -30,7 +30,7 @@ export default function WorkItem({ item }) {
     textAlign: "center",
     fontSize: "15px",
     lineHeight: "1.1",
-    display: item.product_types ? "block" : "none",
+    display: item.product_types?.length > 0 ? "block" : "none",
   };
 
   return (
