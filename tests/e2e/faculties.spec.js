@@ -175,8 +175,7 @@ test.describe("Testing Faculties entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const clientApi = process.env.NEXT_PUBLIC_CLIENT_API;
-      const apiUrl = `${clientApi}/app/affiliation/faculty/${facultyId}/research/products?plot=${item}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/faculty/${facultyId}/research/products?plot=${item}`;
       console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
@@ -188,7 +187,7 @@ test.describe("Testing Faculties entity", () => {
       // Check if the response status is not 200
       if (response.status !== 200) {
         throw new Error(
-          `API responded with status code: ${response.status} for "${item}"`
+          `Fetch failed with status: ${response.status} ${response.statusText} for "${item}"`
         );
       }
 

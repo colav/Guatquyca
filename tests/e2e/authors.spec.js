@@ -210,29 +210,22 @@ test.describe("Testing Authors entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const clientApi = process.env.NEXT_PUBLIC_CLIENT_API;
-      const apiUrl = `${clientApi}/app/person/${personId}/research/products?plot=${item}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/person/${personId}/research/products?plot=${item}`;
       console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
       const response = await fetch(apiUrl);
 
-      // Check if the response status is not ok (i.e., not in the range 200-299)
-      if (!response.ok) {
-        throw new Error(
-          `Fetch failed with status: ${response.status} ${response.statusText}`
-        );
-      }
-      const endTime = Date.now(); // End timing
-      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
-
       // Check if the response status is not 200
       if (response.status !== 200) {
         throw new Error(
-          `API responded with status code: ${response.status} for "${item}"`
+          `Fetch failed with status: ${response.status} ${response.statusText} for "${item}"`
         );
       }
+
+      const endTime = Date.now(); // End timing
+      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
 
       // Add the time taken for the API to respond to the browser report
       test.info().annotations.push({
