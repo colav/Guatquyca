@@ -40,7 +40,7 @@ test.describe("Testing Faculties entity", () => {
     });
 
     // Choose the third page of search results by clicking on the corresponding pagination button.
-    await page.getByText("3", { exact: true }).click();
+    await page.getByRole("listitem", { name: "3" }).locator("a").click();
 
     // Code snippet to capture API responses with error codes after navigation.
     page.on("response", (response) => {
