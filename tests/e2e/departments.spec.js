@@ -145,7 +145,7 @@ test.describe("Testing Departments entity", () => {
     // Fill the search bar with the specific department name "Instituto de Física"
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill("Instituto de Física");
+      .fill('"Instituto de Física"');
 
     // Initiate the search by clicking the search button
     await page.getByRole("button", { name: "search" }).click();
@@ -208,7 +208,9 @@ test.describe("Testing Departments entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/department/${departmentId}/research/products?plot=${item}`;
+      const clientApi = process.env.NEXT_PUBLIC_CLIENT_API;
+      const apiUrl = `${clientApi}/app/affiliation/department/${departmentId}/research/products?plot=${item}`;
+      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing

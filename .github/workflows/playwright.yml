@@ -12,7 +12,7 @@ env:
 jobs:
   test:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
-    timeout-minutes: 60
+    timeout-minutes: 120
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

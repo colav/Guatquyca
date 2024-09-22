@@ -49,7 +49,7 @@ module.exports = defineConfig({
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: { ...devices["Desktop Safari"], deviceScaleFactor: 1 },
     },
 
     /* Test against mobile viewports. */

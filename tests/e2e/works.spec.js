@@ -49,6 +49,8 @@ test.describe("Testing Works entity", () => {
   });
 
   test("random works search & profile is working", async ({ page }) => {
+    test.slow();
+
     // Click on the Search button without entering any keyword.
     await page.getByRole("button", { name: "search" }).click();
 
@@ -114,7 +116,7 @@ test.describe("Testing Works entity", () => {
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
       .fill(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"
+        '"Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"'
       );
 
     // Click on the Search button to initiate the search

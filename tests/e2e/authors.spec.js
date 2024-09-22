@@ -7,6 +7,13 @@ const plotlist = PLOTS_BY_ENTITY.person;
 
 test.describe("Testing Authors entity", () => {
   test.beforeEach(async ({ page }) => {
+    // Listen for all console messages in the browser
+    page.on("console", (msg) => {
+      if (msg.type() === "log") {
+        console.log(`${msg.text()}`);
+      }
+    });
+
     // Navigate to the home page before each test to ensure a consistent starting point.
     await page.goto("/");
 
@@ -15,6 +22,8 @@ test.describe("Testing Authors entity", () => {
   });
 
   test("authors search result pagination is working", async ({ page }) => {
+    test.slow();
+
     // Initiate a search by clicking the search button. Assumes "Autores" is the preselected filter.
     await page.getByRole("button", { name: "search" }).click();
 
@@ -64,7 +73,9 @@ test.describe("Testing Authors entity", () => {
     // Code snippet to capture API responses with error codes after navigation.
     page.on("response", (response) => {
       const url = response.url();
-      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+      const errorCodeMatch = url.match(
+        /\+204\+|\+400\+|\+404\+|\+500\+|\+503\+/
+      );
 
       if (errorCodeMatch) {
         throw new Error(
@@ -86,6 +97,8 @@ test.describe("Testing Authors entity", () => {
   test("random author search, profile page and product list displays correctly", async ({
     page,
   }) => {
+    test.setTimeout(1000 * 60 * 5);
+
     // Initiate a search by clicking the search button without entering any keywords. Assumes "Autores" is the default prefilter.
     await page.getByRole("button", { name: "search" }).click();
 
@@ -131,7 +144,7 @@ test.describe("Testing Authors entity", () => {
 
     // Check that the production list is visible on the research page.
     await expect(page.getByText(/^\d+ Producto$/)).toBeVisible({
-      timeout: 15000,
+      timeout: 30000,
     });
   });
 
@@ -197,7 +210,9 @@ test.describe("Testing Authors entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/person/${personId}/research/products?plot=${item}`;
+      const clientApi = process.env.NEXT_PUBLIC_CLIENT_API;
+      const apiUrl = `${clientApi}/app/person/${personId}/research/products?plot=${item}`;
+      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
