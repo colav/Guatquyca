@@ -26,12 +26,10 @@ export default function ResearchTabs({ activeTab, entity }) {
     {
       label: "Patentes",
       key: "patents",
-      disabled: true,
     },
     {
       label: "Proyectos",
       key: "projects",
-      disabled: true,
     },
     {
       label: "Noticias",
@@ -41,7 +39,6 @@ export default function ResearchTabs({ activeTab, entity }) {
     {
       label: "Otros",
       key: "other_works",
-      disabled: true,
     },
   ];
 

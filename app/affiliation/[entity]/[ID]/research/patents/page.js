@@ -17,7 +17,7 @@ export default function PatentsEntityPage({ params }) {
     <div>
       <TopMenu currentTab={"research"} />
       <ResearchTabs activeTab="patents" entity={params.entity} />
-      <PatentsList params={params} />
+      <PatentsList />
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function ProductsOnEntityPage({ params }) {
           </Col>
         </Row>
       </div>
-      <ProductsList params={params} />
+      <ProductsList />
     </div>
   );
 }

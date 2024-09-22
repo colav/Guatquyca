@@ -34,6 +34,8 @@ export default function ProjectsList() {
   const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
 
+  console.log(state.data);
+
   if (state.isError) {
     return <Error />;
   } else if (state.isLoading) {
