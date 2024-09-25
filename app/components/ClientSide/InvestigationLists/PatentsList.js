@@ -7,6 +7,18 @@ import { usePathname, useSearchParams } from "next/navigation";
 /* Components */
 import Error from "@/app/error";
 import Loading from "@/app/loading";
+import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
+import PatentItem from "../PatentItem/PatentItem";
+import SortWorkList from "../SortWorkList/SortWorkList";
+
+/* Constants */
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+
+/* Styles */
+import styles from "./styles.module.css";
+
+/* UI Library Components */
+import { Card } from "antd";
 
 /* Utilities */
 import URLBuilder from "@/lib/Utils/URLBuilder";
@@ -23,6 +35,7 @@ export default function PatentsList() {
   let initialQueryParams = {
     max: 10,
     page: 1,
+    sort: "alphabetical_asc",
   };
 
   for (let [key, value] of queryItems) {
@@ -35,12 +48,42 @@ export default function PatentsList() {
   const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
 
-  console.log(state.data);
-
   if (state.isError) {
     return <Error />;
   } else if (state.isLoading) {
     return <Loading />;
   }
-  return <p>Patentes</p>;
+  return (
+    <Card
+      size="small"
+      styles={{
+        header: { backgroundColor: "#003e65", color: "white" },
+        body: { padding: "10px 0 5px 0" },
+      }}
+      title={`${state?.data?.total_results} ${
+        state?.data?.total_results === 1
+          ? SINGULAR_TITLES["patent"]
+          : TITLES["patents"]
+      }`}
+      extra={
+        <SortWorkList
+          queryParams={queryParams}
+          setQueryParams={setQueryParams}
+          setUrl={setUrl}
+        />
+      }
+    >
+      <ul className={styles.ul}>
+        {state.data.data.map((item) => (
+          <PatentItem key={item.id} item={item} />
+        ))}
+      </ul>
+      <PaginationOnWorkList
+        totalItems={state.data.total_results}
+        queryParams={queryParams}
+        setQueryParams={setQueryParams}
+        setUrl={setUrl}
+      />
+    </Card>
+  );
 }

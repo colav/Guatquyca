@@ -16,7 +16,7 @@ import { Select, Tooltip } from "antd";
  * @param {boolean} works - A boolean to determine if the search results are works or entities.
  * @returns {JSX.Element} A Select component.
  */
-export default function SortSearchResults({ searchParams, works = false }) {
+export default function SortSearchResults({ searchParams, type = "entities" }) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -26,6 +26,8 @@ export default function SortSearchResults({ searchParams, works = false }) {
   };
 
   const OPTIONS = {
+    patents: [{ value: "alphabetical_asc", label: "Alfabético" }],
+    projects: [{ value: "alphabetical_asc", label: "Alfabético" }],
     works: [
       { value: "citations_desc", label: "Más citado" },
       { value: "year_desc", label: "Más reciente" },
@@ -44,7 +46,7 @@ export default function SortSearchResults({ searchParams, works = false }) {
         style={{ width: 155, marginLeft: "20px" }}
         value={searchParams.sort || "citations_desc"}
         onChange={onChange}
-        options={works ? OPTIONS.works : OPTIONS.entities}
+        options={OPTIONS[type]}
       />
     </Tooltip>
   );

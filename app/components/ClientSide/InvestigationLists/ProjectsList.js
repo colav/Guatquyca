@@ -1,15 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
 import Loading from "@/app/loading";
+import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
+import ProjectItem from "../ProjectItem/ProjectItem";
+import SortWorkList from "../SortWorkList/SortWorkList";
 
 /* Utilities */
-import { usePathname, useSearchParams } from "next/navigation";
 import URLBuilder from "@/lib/Utils/URLBuilder";
 import { APIRequest } from "@/lib/APIS/clientAPI";
+
+/* Constants */
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+
+/* Styles */
+import styles from "./styles.module.css";
+
+/* UI Library Components */
+import { Card } from "antd";
 
 /**
  * ProjectsList is a client-side function component for displaying a list of works on an entity.
@@ -22,6 +34,7 @@ export default function ProjectsList() {
   let initialQueryParams = {
     max: 10,
     page: 1,
+    sort: "alphabetical_asc",
   };
 
   for (let [key, value] of queryItems) {
@@ -34,12 +47,42 @@ export default function ProjectsList() {
   const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
 
-  console.log(state.data);
-
   if (state.isError) {
     return <Error />;
   } else if (state.isLoading) {
     return <Loading />;
   }
-  return <p>Proyectos</p>;
+  return (
+    <Card
+      size="small"
+      styles={{
+        header: { backgroundColor: "#003e65", color: "white" },
+        body: { padding: "10px 0 5px 0" },
+      }}
+      title={`${state?.data?.total_results} ${
+        state?.data?.total_results === 1
+          ? SINGULAR_TITLES["project"]
+          : TITLES["projects"]
+      }`}
+      extra={
+        <SortWorkList
+          queryParams={queryParams}
+          setQueryParams={setQueryParams}
+          setUrl={setUrl}
+        />
+      }
+    >
+      <ul className={styles.ul}>
+        {state.data.data.map((item) => (
+          <ProjectItem key={item.id} item={item} />
+        ))}
+      </ul>
+      <PaginationOnWorkList
+        totalItems={state.data.total_results}
+        queryParams={queryParams}
+        setQueryParams={setQueryParams}
+        setUrl={setUrl}
+      />
+    </Card>
+  );
 }

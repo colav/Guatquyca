@@ -17,7 +17,7 @@ export default function OtherWorksOnEntityPage({ params }) {
     <div>
       <TopMenu currentTab={"research"} />
       <ResearchTabs activeTab="other_works" entity={params.entity} />
-      <OtherWorksList params={params} />
+      <OtherWorksList />
     </div>
   );
 }

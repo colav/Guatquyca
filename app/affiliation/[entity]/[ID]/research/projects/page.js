@@ -17,7 +17,7 @@ export default function ProjectsEntityPage({ params }) {
     <div>
       <TopMenu currentTab={"research"} />
       <ResearchTabs activeTab="projects" entity={params.entity} />
-      <ProjectsList params={params} />
+      <ProjectsList />
     </div>
   );
 }

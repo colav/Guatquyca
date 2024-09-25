@@ -1,6 +1,8 @@
 "use client";
 
+/* Hooks */
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
@@ -9,6 +11,9 @@ import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
 import SortWorkList from "../SortWorkList/SortWorkList";
 import WorkItem from "../WorkItem/WorkItem";
 
+/* Constants */
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+
 /* Styles */
 import styles from "./styles.module.css";
 
@@ -16,13 +21,11 @@ import styles from "./styles.module.css";
 import { Card } from "antd";
 
 /* Utilities */
-import { usePathname, useSearchParams } from "next/navigation";
 import MathJax from "@/lib/Utils/mathjax";
 import URLBuilder from "@/lib/Utils/URLBuilder";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import Script from "next/script";
 import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
 

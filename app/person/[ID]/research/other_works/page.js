@@ -11,12 +11,12 @@ import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
  * @returns {JSX.Element} A fragment that contains a TopMenu component and a Row component that maps over the
  * fetched data to display a ListCard component for each item.
  */
-export default async function OtherWorksOnPersonPage({ params }) {
+export default async function OtherWorksOnPersonPage() {
   return (
     <>
       <TopMenu person={true} currentTab="research" />
       <ResearchTabs activeTab="other_works" entity={"person"} />
-      <OtherWorksList params={params} />
+      <OtherWorksList />
     </>
   );
 }

@@ -50,7 +50,7 @@ export default function SearchBar() {
     if (pathname.slice(0, 7) === "/search") {
       const type = pathname.split("/search/")[1].split("?")[0];
       return {
-        label: type === "person" ? "Autor" : "Productos",
+        label: type === "person" ? "Autor" : OPTIONS[OPTIONS_INDEX[type]].label,
         value: type,
         key: type,
       };
@@ -61,14 +61,25 @@ export default function SearchBar() {
   const [selected, setSelected] = useState(getDefaultValue());
 
   const selectBefore = (
-    <Select
-      options={OPTIONS}
-      labelInValue="true"
-      defaultValue={getDefaultValue()}
-      onSelect={setSelected}
-      popupMatchSelectWidth={215}
-      listHeight={380}
-    />
+    <ConfigProvider
+      theme={{
+        components: {
+          Select: {
+            optionPadding: "3px 6px",
+            optionHeight: 24,
+          },
+        },
+      }}
+    >
+      <Select
+        options={OPTIONS}
+        labelInValue="true"
+        defaultValue={getDefaultValue()}
+        onSelect={setSelected}
+        popupMatchSelectWidth={215}
+        listHeight={380}
+      />
+    </ConfigProvider>
   );
 
   const searchRequest = (input) => {
@@ -78,8 +89,16 @@ export default function SearchBar() {
         : `/search/${value}`;
     };
 
+    const sortTypeMap = {
+      works: "citations_desc",
+      patents: "alphabetical_asc",
+      projects: "alphabetical_asc",
+      other_works: "alphabetical_asc",
+      default: "products_desc",
+    };
+
     const getQueryParams = (value, input) => {
-      const sortType = value === "works" ? "citations_desc" : "products_desc";
+      const sortType = sortTypeMap[value] || sortTypeMap.default;
       const keywords = input ? `&keywords=${input}` : "";
       return `?max=10&page=1&sort=${sortType}${keywords}`;
     };
