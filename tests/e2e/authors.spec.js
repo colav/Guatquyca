@@ -143,7 +143,7 @@ test.describe("Testing Authors entity", () => {
     await expect(page.getByRole("heading", { name: authorName })).toBeVisible();
 
     // Check that the production list is visible on the research page.
-    await expect(page.getByText(/^\d+ Producto$/)).toBeVisible({
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible({
       timeout: 30000,
     });
   });
@@ -173,7 +173,7 @@ test.describe("Testing Authors entity", () => {
     await expect(page.getByText("Proyectos", { exact: true })).toBeVisible();
 
     // Check that the production list is visible on the research page.
-    await expect(page.getByText(/^\d+ Productos$/)).toBeVisible();
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible();
   });
 
   test("verify successful API responses for Diego Alejandro Restrepo's author metrics", async ({

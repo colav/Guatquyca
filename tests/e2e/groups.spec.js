@@ -159,7 +159,7 @@ test.describe("Testing Groups entity", () => {
     await page.getByRole("menuitem", { name: "Investigación" }).click();
 
     // Check that the production list is visible on the research page.
-    await expect(page.getByText(/^\d+ Productos$/)).toBeVisible();
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible();
   });
 
   test("verify successful API responses for Epidemiología's metrics", async ({

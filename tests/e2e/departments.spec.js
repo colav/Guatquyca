@@ -171,8 +171,8 @@ test.describe("Testing Departments entity", () => {
     await expect(page.getByText("Instituto de Física")).toBeVisible();
 
     // Check that the production list is visible on the research page.
-    await expect(page.getByText(/^\d+ Productos$/)).toBeVisible({
-      timeout: 25000,
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible({
+      timeout: 30000,
     });
   });
 

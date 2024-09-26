@@ -135,10 +135,21 @@ test.describe("Testing Faculties entity", () => {
       })
       .click();
 
+    // Verify that the profile page for "Facultad de Ciencias Exactas y Naturales" is displayed.
+    await expect(page.getByText("Autores", { exact: true })).toBeVisible();
+
+    // Click on the research menu item to navigate to the research section of the profile.
+    await page.getByRole("menuitem", { name: "Investigación" }).click();
+
     // Confirm that the faculty's profile page displays the name "Facultad de Ciencias Exactas y Naturales"
     await expect(
       page.getByText("Facultad de Ciencias Exactas y Naturales")
     ).toBeVisible();
+
+    // Check that the production list is visible on the research page.
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible({
+      timeout: 30000,
+    });
   });
 
   test("verify successful API responses for Facultad de Ciencias Exactas y Naturales's metrics", async ({

@@ -30,8 +30,8 @@ export default async function ProjectsList({ searchParams }) {
       }}
       title={`${data.total_results} ${
         data.total_results === 1
-          ? SINGULAR_TITLES["patents"]
-          : TITLES["patents"]
+          ? SINGULAR_TITLES["project"]
+          : TITLES["projects"]
       }`}
       extra={<SortSearchResults searchParams={searchParams} type="projects" />}
     >
