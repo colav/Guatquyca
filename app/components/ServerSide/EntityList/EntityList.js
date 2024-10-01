@@ -45,7 +45,7 @@ export default async function EntityList({ searchParams, entity }) {
       title={`${data.total_results} ${
         data.total_results === 1 ? SINGULAR_TITLES[entity] : TITLES[entity]
       }`}
-      extra={<SortSearchResults searchParams={searchParams} />}
+      /* extra={<SortSearchResults searchParams={searchParams} />} */
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (

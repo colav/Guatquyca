@@ -10,7 +10,7 @@ import Loading from "@/app/loading";
 import StackedColumnChart from "./StackedColumnChart";
 
 /* lib */
-import { PLOTLIST_STACKED } from "@/lib/constants";
+import { PLOTLIST_STACKED, HIDE, FOUNDERS } from "@/lib/constants";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import URLBuilder from "@/lib/Utils/URLBuilder";
 
@@ -30,8 +30,14 @@ import ColumnChart from "./ColumnChart";
  * If the API request is loading, a Loading component is displayed.
  * If the API request has an error, an Error component is displayed.
  */
-export default function DistributionChartsHandler({ entity }) {
-  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_STACKED[entity][0]);
+export default function DistributionChartsHandler({ entity, ID }) {
+  const filteredOptions = PLOTLIST_STACKED[entity].filter(
+    (item) => !HIDE.includes(item.value)
+  );
+
+  const [selectedPlot, setSelectedPlot] = useState(
+    FOUNDERS.includes(ID) ? PLOTLIST_STACKED[entity][0] : filteredOptions[1]
+  );
   const pathname = usePathname();
   const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
   const [state, setUrl] = APIRequest(URL);
@@ -42,9 +48,9 @@ export default function DistributionChartsHandler({ entity }) {
   };
 
   const renderChart = () => {
-    if (state.isError) return <Error height="100%" />;
+    /* if (state.isError) return <Error height="100%" />; */
     if (state.isLoading) return <Loading height="100%" />;
-    if (!state.data.plot)
+    if (!state.data.plot || state.isError)
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -77,7 +83,9 @@ export default function DistributionChartsHandler({ entity }) {
           defaultValue={selectedPlot}
           className={styles.select}
           onChange={handleChange}
-          options={PLOTLIST_STACKED[entity]}
+          options={
+            FOUNDERS.includes(ID) ? PLOTLIST_STACKED[entity] : filteredOptions
+          }
         />
       }
     >

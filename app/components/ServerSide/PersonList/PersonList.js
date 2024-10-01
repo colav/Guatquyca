@@ -43,7 +43,7 @@ export default async function PersonList({ searchParams }) {
       title={`${data.total_results} ${
         data.total_results === 1 ? SINGULAR_TITLES["person"] : TITLES["person"]
       }`}
-      extra={<SortSearchResults searchParams={searchParams} />}
+      /* extra={<SortSearchResults searchParams={searchParams} />} */
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (

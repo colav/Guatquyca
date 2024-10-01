@@ -1,4 +1,5 @@
 /* Components */
+import EmptyAffiliations from "@/app/components/ClientSide/EmptyAffiliations/EmptyAffiliations";
 import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 
@@ -22,18 +23,21 @@ import { SINGULAR } from "@/lib/constants";
 export default async function Page({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const data = await getData(URL);
-  // Filter out any keys that have a falsy value
-  const keys = Object.keys(data).filter((key) => data[key]);
+  const keys = Object.keys(data).filter((key) => data[key].length > 0);
 
   return (
     <>
       <TopMenu currentTab="affiliations" />
-      <Row style={{ marginTop: "15px" }} gutter={15}>
-        {keys.map((item) => (
-          <Col xs={24} md={24 / keys.length} key={item}>
-            <ListCard type={SINGULAR[item]} list={data[item]} />
-          </Col>
-        ))}
+      <Row style={{ marginTop: "15px" }} gutter={15} justify="center">
+        {keys.length === 0 ? (
+          <EmptyAffiliations />
+        ) : (
+          keys.map((item) => (
+            <Col xs={24} md={24 / keys.length} key={item}>
+              <ListCard type={SINGULAR[item]} list={data[item]} />
+            </Col>
+          ))
+        )}
       </Row>
     </>
   );

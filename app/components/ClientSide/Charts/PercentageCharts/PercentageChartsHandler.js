@@ -11,7 +11,7 @@ import PieChart from "./PieChart";
 import TreemapChart from "./TreemapChart";
 
 /* lib */
-import { PLOTLIST_PIE } from "@/lib/constants";
+import { PLOTLIST_PIE, HIDE, FOUNDERS } from "@/lib/constants";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import URLBuilder from "@/lib/Utils/URLBuilder";
 
@@ -31,8 +31,14 @@ import { Card, Select, Empty } from "antd";
  * If the API request has an error, an Error component is displayed.
  * If there is no data for the plot, an Empty component is displayed.
  */
-export default function PercentageChartsHandler({ entity }) {
-  const [selectedPlot, setSelectedPlot] = useState(PLOTLIST_PIE[entity][0]);
+export default function PercentageChartsHandler({ entity, ID }) {
+  const filteredOptions = PLOTLIST_PIE[entity].filter(
+    (item) => !HIDE.includes(item.value)
+  );
+
+  const [selectedPlot, setSelectedPlot] = useState(
+    FOUNDERS.includes(ID) ? PLOTLIST_PIE[entity][0] : filteredOptions[0]
+  );
   const pathname = usePathname();
   const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
   const [state, setUrl] = APIRequest(URL);
@@ -43,9 +49,9 @@ export default function PercentageChartsHandler({ entity }) {
   };
 
   const renderChart = () => {
-    if (state.isError) return <Error height="100%" />;
+    /* if (state.isError) return <Error height="100%" />; */
     if (state.isLoading) return <Loading height="100%" />;
-    if (!state.data.plot)
+    if (!state.data.plot || state.isError || state.data.plot.length === 0)
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -73,7 +79,9 @@ export default function PercentageChartsHandler({ entity }) {
           defaultValue={selectedPlot}
           className={styles.select}
           onChange={handleChange}
-          options={PLOTLIST_PIE[entity]}
+          options={
+            FOUNDERS.includes(ID) ? PLOTLIST_PIE[entity] : filteredOptions
+          }
         />
       }
     >

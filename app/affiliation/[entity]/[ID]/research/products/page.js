@@ -28,13 +28,16 @@ export default function ProductsOnEntityPage({ params }) {
         <div>
           <Row gutter={15} style={{ marginBottom: "15px" }}>
             <Col xs={24} sm={24} md={8}>
-              <DistributionChartsHandler entity={params.entity} />
+              <DistributionChartsHandler
+                entity={params.entity}
+                ID={params.ID}
+              />
             </Col>
             <Col xs={24} sm={24} md={8}>
-              <PercentageChartsHandler entity={params.entity} />
+              <PercentageChartsHandler entity={params.entity} ID={params.ID} />
             </Col>
             <Col xs={24} sm={24} md={8}>
-              <MapChartsHandler entity={params.entity} />
+              <MapChartsHandler entity={params.entity} ID={params.ID} />
             </Col>
             {/* <Col xs={24} sm={24} md={8}>
               <GraphChartsHandler entity={params.entity} />
