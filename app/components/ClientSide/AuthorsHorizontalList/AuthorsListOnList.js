@@ -45,7 +45,7 @@ export default function AuthorsListOnList({ authors, authors_count, workID }) {
           <Button type="link">{author.full_name}</Button>
         </Tooltip>
       ))}
-      {authors_count && (
+      {authors_count > 10 && (
         <ShowMoreAPICall
           authors={authors}
           setAuthorsList={setAuthorsList}
