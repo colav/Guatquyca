@@ -54,7 +54,7 @@ export default function ProjectItem({ item }) {
             <TeamOutlined className={styles.gray} /> Autores:{" "}
             <AuthorsListOnList
               authors={item.authors}
-              authors_count={item.num_authors}
+              authors_count={item.authors_count}
               workID={item.id}
             />
           </div>

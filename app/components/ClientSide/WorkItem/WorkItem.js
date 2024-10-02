@@ -66,7 +66,7 @@ export default function WorkItem({ item }) {
             <TeamOutlined className={styles.gray} /> Autores:{" "}
             <AuthorsListOnList
               authors={item.authors}
-              authors_count={item.num_authors}
+              authors_count={item.authors_count}
               workID={item.id}
             />
             {item.subjects.length > 0 && (
