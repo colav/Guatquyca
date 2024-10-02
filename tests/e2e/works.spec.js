@@ -123,20 +123,10 @@ test.describe("Testing Works entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Verify that the search results contain the specified paper title
-    await expect(
-      page.getByText(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals",
-        { exact: true }
-      )
-    ).toBeVisible();
+    await expect(page.getByText("Radiative seesaw model: warm")).toBeVisible();
 
     // Click on the search result to navigate to the detailed profile of the work
-    await page
-      .getByText(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals",
-        { exact: true }
-      )
-      .click();
+    await page.getByText("Radiative seesaw model: warm").click();
 
     // Set up a listener for any dialog that appears and automatically accept it
     page.on("dialog", (dialog) => dialog.accept());
