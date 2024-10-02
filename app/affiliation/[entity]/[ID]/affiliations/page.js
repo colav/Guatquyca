@@ -23,7 +23,11 @@ import { SINGULAR } from "@/lib/constants";
 export default async function Page({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const data = await getData(URL);
-  const keys = Object.keys(data).filter((key) => data[key].length > 0);
+  let keys = Object.keys(data).filter((key) => data[key].length > 0);
+
+  if (params.ID === "66b583a37102ee7e0fcda11d") {
+    keys = keys.filter((key) => key !== "departments");
+  }
 
   return (
     <>
