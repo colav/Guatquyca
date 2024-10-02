@@ -9,12 +9,13 @@ import InfoButton from "./InfoButton/InfoButton";
 import Loading from "@/app/loading";
 
 /* Charts */
-import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
 import ColumnChart from "./DistributionCharts/ColumnChart";
+import GraphChart from "./GraphCharts/GraphChart";
+import MapChart from "./MapCharts/MapChart";
+import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
 import PieChart from "./PercentageCharts/PieChart";
 import TreemapChart from "./PercentageCharts/TreemapChart";
-import MapChart from "./MapCharts/MapChart";
-import GraphChart from "./GraphCharts/GraphChart";
+import VennChart from "./SetCharts/VennChart";
 
 /* lib */
 import { APIRequest } from "@/lib/APIS/clientAPI";
@@ -69,7 +70,7 @@ export default function ChartsHandler({ plotlist }) {
       case "graph":
         return <GraphChart data={state.data.plot} />;
       case "percentage":
-        return state.data.plot.length > 5 ? (
+        return state.data.plot.length > 6 ? (
           <TreemapChart data={state.data.plot} />
         ) : (
           <PieChart data={state.data.plot} sum={state.data.sum} />
@@ -80,6 +81,8 @@ export default function ChartsHandler({ plotlist }) {
         ) : (
           <ColumnChart data={state.data.plot} />
         );
+      case "set":
+        return <VennChart data={state.data.plot} />;
       default:
         return null;
     }
