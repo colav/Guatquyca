@@ -23,6 +23,7 @@ export default function OpenAccessStatus({ status }) {
     gold: { label: "Dorado", color: "gold" },
     closed: { label: "Cerrado", color: "default" },
     bronze: { label: "Bronce", color: "volcano" },
+    diamond: { label: "Diamante", color: "cyan" },
   };
 
   return (
