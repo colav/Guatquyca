@@ -21,7 +21,12 @@ import { Select, Tooltip } from "antd";
  *
  * @returns {JSX.Element} A dropdown menu to sort the work list by citations or year.
  */
-export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
+export default function SortWorkList({
+  queryParams,
+  setQueryParams,
+  setUrl,
+  type = "works",
+}) {
   const pathname = usePathname();
 
   const onChange = (value) => {
@@ -31,6 +36,17 @@ export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
     setUrl(URL);
   };
 
+  const OPTIONS = {
+    patents: [{ value: "alphabetical_asc", label: "Alfabético" }],
+    projects: [{ value: "alphabetical_asc", label: "Alfabético" }],
+    other_works: [{ value: "alphabetical_asc", label: "Alfabético" }],
+    works: [
+      { value: "citations_desc", label: "Más citado" },
+      { value: "year_desc", label: "Más reciente" },
+      { value: "alphabetical_asc", label: "Alfabético" },
+    ],
+  };
+
   return (
     <Tooltip title="Ordenar">
       <Select
@@ -38,11 +54,7 @@ export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
         className={styles.sort_select}
         value={queryParams.sort || "citations_desc"}
         onChange={onChange}
-        options={[
-          { value: "citations_desc", label: "Más citado" },
-          { value: "year_desc", label: "Más reciente" },
-          { value: "alphabetical_asc", label: "Alfabético" },
-        ]}
+        options={OPTIONS[type]}
       />
     </Tooltip>
   );

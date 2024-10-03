@@ -52,37 +52,42 @@ export default function ProjectsList() {
   } else if (state.isLoading) {
     return <Loading />;
   }
-  return (
-    <Card
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${state?.data?.total_results} ${
-        state?.data?.total_results === 1
-          ? SINGULAR_TITLES["project"]
-          : TITLES["projects"]
-      }`}
-      extra={
-        <SortWorkList
+  if (!state.data.data.length) {
+    return <EmptyCard text="No hay Proyectos disponibles para esta entidad." />;
+  } else {
+    return (
+      <Card
+        size="small"
+        styles={{
+          header: { backgroundColor: "#003e65", color: "white" },
+          body: { padding: "10px 0 5px 0" },
+        }}
+        title={`${state?.data?.total_results} ${
+          state?.data?.total_results === 1
+            ? SINGULAR_TITLES["project"]
+            : TITLES["projects"]
+        }`}
+        extra={
+          <SortWorkList
+            queryParams={queryParams}
+            setQueryParams={setQueryParams}
+            setUrl={setUrl}
+            type="projects"
+          />
+        }
+      >
+        <ul className={styles.ul}>
+          {state.data.data.map((item) => (
+            <ProjectItem key={item.id} item={item} />
+          ))}
+        </ul>
+        <PaginationOnWorkList
+          totalItems={state.data.total_results}
           queryParams={queryParams}
           setQueryParams={setQueryParams}
           setUrl={setUrl}
         />
-      }
-    >
-      <ul className={styles.ul}>
-        {state.data.data.map((item) => (
-          <ProjectItem key={item.id} item={item} />
-        ))}
-      </ul>
-      <PaginationOnWorkList
-        totalItems={state.data.total_results}
-        queryParams={queryParams}
-        setQueryParams={setQueryParams}
-        setUrl={setUrl}
-      />
-    </Card>
-  );
+      </Card>
+    );
+  }
 }

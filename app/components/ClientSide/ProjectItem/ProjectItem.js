@@ -46,9 +46,9 @@ export default function ProjectItem({ item }) {
         style={ribbonStyles}
         className={styles.ribbon}
       >
-        <li key={item.id} className={styles.work_item}>
-          <div className={styles.work_container}>
-            <div>
+        <li key={item.id} className={styles.project_item}>
+          <div className={styles.project_container}>
+            <div className={styles.project_title}>
               <b>{item.title}</b>
             </div>
             <TeamOutlined className={styles.gray} /> Autores:{" "}

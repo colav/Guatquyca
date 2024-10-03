@@ -43,7 +43,7 @@ export default async function WorkList({ searchParams }) {
       title={`${data.total_results} ${
         data.total_results === 1 ? SINGULAR_TITLES["works"] : TITLES["works"]
       }`}
-      extra={<SortSearchResults searchParams={searchParams} works={true} />}
+      extra={<SortSearchResults searchParams={searchParams} type="works" />}
     >
       <UseCleanupAltmetric />
       <MathJax />

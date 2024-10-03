@@ -6,7 +6,7 @@ import InvisibleContainer from "./InvisibleContainer";
 import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
-import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
+import { TeamOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -46,9 +46,9 @@ export default function OtherWorkItem({ item }) {
         style={ribbonStyles}
         className={styles.ribbon}
       >
-        <li key={item.id} className={styles.work_item}>
-          <div className={styles.work_container}>
-            <div>
+        <li key={item.id} className={styles.otherWork_item}>
+          <div className={styles.otherWork_container}>
+            <div className={styles.otherWork_title}>
               <b>{item.title}</b>
             </div>
             <TeamOutlined className={styles.gray} /> Autores:{" "}
