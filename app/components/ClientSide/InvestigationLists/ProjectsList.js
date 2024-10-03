@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
+import EmptyCard from "../EmptyCard/EmptyCard";
 import Loading from "@/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
 import ProjectItem from "../ProjectItem/ProjectItem";
