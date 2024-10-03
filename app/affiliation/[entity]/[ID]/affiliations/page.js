@@ -34,7 +34,11 @@ export default async function AffiliationsPage({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const { data, fullUrl } = await getData(URL);
 
-  const keys = Object.keys(data).filter((key) => data[key].length > 0);
+  /* let keys = Object.keys(data).filter((key) => data[key].length > 0); */
+  let keys = Object.keys(data).filter((key) => data[key]);
+  if (params.ID === "66f6f44899b6ea475f3be52f") {
+    keys = keys.filter((key) => key !== "departments");
+  }
 
   return (
     <>
