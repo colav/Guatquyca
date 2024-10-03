@@ -36,12 +36,12 @@ export default function SortWorkList({ queryParams, setQueryParams, setUrl }) {
       <Select
         size="small"
         className={styles.sort_select}
-        value={queryParams.sort || "citations-"}
+        value={queryParams.sort || "citations_desc"}
         onChange={onChange}
         options={[
-          { value: "citations-", label: "Más citado" },
-          { value: "year-", label: "Más reciente" },
-          { value: "alphabetical", label: "Alfabético" },
+          { value: "citations_desc", label: "Más citado" },
+          { value: "year_desc", label: "Más reciente" },
+          { value: "alphabetical_asc", label: "Alfabético" },
         ]}
       />
     </Tooltip>

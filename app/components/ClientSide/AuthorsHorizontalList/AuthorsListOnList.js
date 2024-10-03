@@ -28,7 +28,16 @@ export default function AuthorsListOnList({ authors, authors_count, workID }) {
     <div>
       {authorsList.map((author) => (
         <Tooltip
-          title={<AuthorsAffiliationsTooltip author={author} />}
+          overlayStyle={{ width: "300px" }}
+          title={
+            author.id ? (
+              <AuthorsAffiliationsTooltip author={author} />
+            ) : (
+              <div style={{ color: "black" }}>
+                Este autor no tiene información adicional.
+              </div>
+            )
+          }
           color="white"
           trigger="click"
           key={author.id}
@@ -36,7 +45,7 @@ export default function AuthorsListOnList({ authors, authors_count, workID }) {
           <Button type="link">{author.full_name}</Button>
         </Tooltip>
       ))}
-      {authors_count && (
+      {authors_count > 10 && (
         <ShowMoreAPICall
           authors={authors}
           setAuthorsList={setAuthorsList}

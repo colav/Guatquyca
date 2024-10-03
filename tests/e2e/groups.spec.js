@@ -1,6 +1,10 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
 
+import { PLOTS_BY_ENTITY } from "@/lib/constants";
+
+const plotlist = PLOTS_BY_ENTITY.group;
+
 test.describe("Testing Groups entity", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the home page to ensure a consistent starting point for each test.
@@ -17,8 +21,20 @@ test.describe("Testing Groups entity", () => {
   });
 
   test("Groups search result pagination is working", async ({ page }) => {
-    // Initiate a search with the default prefilter (Autores) by clicking the search button.
+    // Initiate a search by clicking the search button.
     await page.getByRole("button", { name: "search" }).click();
+
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
 
     // Open the dropdown to select the number of search results displayed per page.
     await page.getByText("/ page").click();
@@ -26,30 +42,54 @@ test.describe("Testing Groups entity", () => {
     // Select to display 20 results per page from the dropdown options.
     await page.getByText("20 / page").click();
 
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
+
     // Verify that "Afiliaciones" text is visible, indicating that the search results are displayed.
     await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
-      "/search/affiliations/group?max=20&page=1&sort=citations-",
+      "/search/affiliations/group?max=20&page=1&sort=products_desc",
       { timeout: 12000 }
     );
 
     // Navigate to the third page of the search results using pagination.
     await page.locator('a:text-is("3")').click();
 
+    // Code snippet to capture API responses with error codes after navigation.
+    page.on("response", (response) => {
+      const url = response.url();
+      const errorCodeMatch = url.match(/\+204\+|\+404\+|\+500\+|\+503\+/);
+
+      if (errorCodeMatch) {
+        throw new Error(
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+        );
+      }
+    });
+
     // Ensure that "Afiliaciones" text is still visible, confirming that the third page of results is displayed.
     await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
 
     // Check that the URL is updated to reflect the navigation to the third page of results.
     await expect(page).toHaveURL(
-      "/search/affiliations/group?max=20&page=3&sort=citations-",
+      "/search/affiliations/group?max=20&page=3&sort=products_desc",
       { timeout: 12000 }
     );
   });
 
   test("random group search & profile is working", async ({ page }) => {
-    // Click on the Search button without entering any keyword; "Autores" is the default prefilter
+    // Initiate a search by clicking the search button without entering any keywords.
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Grupos" to appear and store its content
@@ -66,7 +106,7 @@ test.describe("Testing Groups entity", () => {
 
     // Navigate to the randomly selected page of search results
     await page.goto(
-      `/search/affiliations/group?max=10&page=${randomPage}&sort=citations-`
+      `/search/affiliations/group?max=10&page=${randomPage}&sort=products_desc`
     );
 
     // Wait for the search results, specifically for the text "Grupos", to ensure the page has loaded
@@ -88,7 +128,7 @@ test.describe("Testing Groups entity", () => {
     await expect(page.getByText(groupName)).toBeVisible();
   });
 
-  test("Groups search with keyword, & profile are working", async ({
+  test("group search by keyword, profile page and product list displays correctly", async ({
     page,
   }) => {
     // Fill the search bar with the keyword "Epidemiología"
@@ -112,9 +152,80 @@ test.describe("Testing Groups entity", () => {
       })
       .click();
 
-    // Confirm that the group's profile page displays the name "Epidemiología"
+    // Verify that the profile page for "Epidemiología" is displayed.
+    await expect(page.getByText("Autores", { exact: true })).toBeVisible();
+
+    // Click on the research menu item to navigate to the research section of the profile.
+    await page.getByRole("menuitem", { name: "Investigación" }).click();
+
+    // Check that the production list is visible on the research page.
+    await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible();
+  });
+
+  test("verify successful API responses for Epidemiología's metrics", async ({
+    page,
+  }) => {
+    // Set the timeout for this test to 6 minutes
+    test.setTimeout(60 * 1000 * 6);
+
+    // Navigate to the search results page for the keyword "Epidemiología".
+    await page.goto(
+      "/search/affiliations/group?max=10&page=1&sort=products_desc&keywords=Epidemiología"
+    );
+
+    // Verify that the search results contain "Epidemiología".
     await expect(
       page.getByText("Epidemiología", { exact: true })
     ).toBeVisible();
+
+    // Find the link element
+    const linkElement = await page.getByRole("link", {
+      name: "Epidemiología",
+      exact: true,
+    });
+
+    // Extract the href attribute
+    const href = await linkElement.getAttribute("href");
+
+    // Use a regex to extract the ID from the URL
+    const idMatch = href.match(/group\/([a-zA-Z0-9]+)\//);
+    if (!idMatch) {
+      throw new Error("Group ID not found in the URL");
+    }
+    const groupId = idMatch[1];
+
+    async function fetchAndMeasure(item) {
+      // Construct the API URL
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/group/${groupId}/research/products?plot=${item}`;
+      console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
+
+      // Measure the time taken for the API to respond
+      const startTime = Date.now(); // Start timing
+      const response = await fetch(apiUrl);
+      const endTime = Date.now(); // End timing
+      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
+
+      // Check if the response status is not 200
+      if (response.status !== 200) {
+        throw new Error(
+          `Fetch failed with status: ${response.status} ${response.statusText} for "${item}"`
+        );
+      }
+
+      // Add the time taken for the API to respond to the browser report
+      test.info().annotations.push({
+        type: `API response time for "${item}"`,
+        description: `${responseTime} seconds`,
+      });
+    }
+
+    async function runSequentially(plotlist) {
+      for (const item of plotlist) {
+        await fetchAndMeasure(item);
+      }
+    }
+
+    // Run the requests sequentially
+    await runSequentially(plotlist);
   });
 });

@@ -2,8 +2,11 @@
 
 /* Components */
 import AuthorsListOnModal from "../AuthorsHorizontalList/AuthorsListOnModal";
+import CitationsBadges from "../CitationsBadges/CitationsBadges";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
+import SCImago from "../SCImago/SCImago";
+import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 
 /* Icons */
 import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
@@ -11,7 +14,6 @@ import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
-import URLBuilder from "@/lib/Utils/URLBuilder";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 
 /* Styles */
@@ -19,8 +21,6 @@ import style from "./styles.module.css";
 
 /* UI Library Components */
 import { Col, Divider, Descriptions, Row } from "antd";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
-import SCImago from "../SCImago/SCImago";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -32,8 +32,7 @@ import SCImago from "../SCImago/SCImago";
  * If the document's information is still loading, a Loading component is returned.
  */
 export default function DocumentModal({ documentID }) {
-  const URL = URLBuilder(`/app/work/${documentID}`, { section: "info" });
-  const [state] = APIRequest(URL);
+  const [state] = APIRequest(`/app/work/${documentID}`);
 
   if (state.isError) {
     return <Error />;
@@ -66,11 +65,6 @@ export default function DocumentModal({ documentID }) {
       children: year_published || "No disponible",
     },
     { key: "2", label: "Idioma", children: language || "No disponible" },
-    {
-      key: "3",
-      label: "Citaciones",
-      children: citations_count || "No disponible",
-    },
   ];
 
   const sourceItems = [
@@ -118,11 +112,15 @@ export default function DocumentModal({ documentID }) {
       )}
       <h4 className={style.margin_5}>Abstract:</h4>
       <p>{abstract || "No disponible"}</p>
-      <div
-        className="altmetric-embed"
-        data-badge-type="donut"
-        data-="10.1038/nature15393"
-      ></div>
+      {citations_count.length && (
+        <CitationsBadges
+          citationsCount={citations_count}
+          doi={
+            external_ids.find((externalId) => externalId.source === "doi")?.id
+          }
+          showTitle={true}
+        />
+      )}
       <Descriptions size="small" items={articleItems} />
       <Descriptions
         column={5}

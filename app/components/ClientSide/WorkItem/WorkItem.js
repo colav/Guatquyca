@@ -19,26 +19,35 @@ import styles from "./styles.module.css";
 import Ribbon from "antd/lib/badge/Ribbon";
 
 export default function WorkItem({ item }) {
+  const ribbonStyles = {
+    boxShadow:
+      "8px -8px 6px rgba(255, 240, 240, 0.3)," +
+      "2px 2px 8px rgba(255, 116, 69, 0.3)," +
+      "5px 8px 16px rgba(255, 106, 69, 0.1)," +
+      "4px 4px 3px rgba(255, 56, 69, 0.15)",
+    width: "110px",
+    textWrap: "wrap",
+    textAlign: "center",
+    fontSize: "15px",
+    lineHeight: "1.1",
+    display: item.product_types?.length > 0 ? "block" : "none",
+  };
+
   return (
     <>
-      <InvisibleContainer source={item.product_type?.source} />
+      <InvisibleContainer
+        source={item.product_types?.length > 0 && item.product_types[0].source}
+      />
       <Ribbon
-        text={PRODUCT_TYPES[item.product_type?.name] || item.product_type?.name}
+        text={
+          item.product_types?.length > 0
+            ? PRODUCT_TYPES[item.product_types[0]?.name] ||
+              item.product_types[0]?.name
+            : ""
+        }
         color="#ff6a45"
         placement="start"
-        style={{
-          boxShadow:
-            "8px -8px 6px rgba(255, 240, 240, 0.3)," +
-            "2px 2px 8px rgba(255, 116, 69, 0.3)," +
-            "5px 8px 16px rgba(255, 106, 69, 0.1)," +
-            "4px 4px 3px rgba(255, 56, 69, 0.15)",
-          width: "110px",
-          textWrap: "wrap",
-          textAlign: "center",
-          fontSize: "15px",
-          lineHeight: "1.1",
-          display: item.product_type ? "block" : "none",
-        }}
+        style={ribbonStyles}
         className={styles.ribbon}
       >
         <li key={item.id} className={styles.work_item}>
@@ -57,7 +66,7 @@ export default function WorkItem({ item }) {
             <TeamOutlined className={styles.gray} /> Autores:{" "}
             <AuthorsListOnList
               authors={item.authors}
-              authors_count={item.num_authors}
+              authors_count={item.authors_count}
               workID={item.id}
             />
             {item.subjects.length > 0 && (

@@ -27,13 +27,14 @@ import styles from "./styles.module.css";
 export default function CommonTitleCard({ data, entity }) {
   const {
     logo,
-    name,
     addresses,
     external_urls,
     external_ids,
     affiliations,
     citations_count,
     products_count,
+    name,
+    full_name,
   } = data;
 
   const country = addresses?.[0]?.country;
@@ -54,7 +55,7 @@ export default function CommonTitleCard({ data, entity }) {
       <Col xs={24} md={14} lg={18}>
         <Row>
           <h1 id={styles.title}>
-            {name}{" "}
+            {full_name || name}{" "}
             {entity === "institution" && (
               <Flag country={country} countryCode={countryCode} />
             )}

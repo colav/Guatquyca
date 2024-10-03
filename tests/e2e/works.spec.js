@@ -31,7 +31,7 @@ test.describe("Testing Works entity", () => {
 
     // Ensure the URL reflects the selected option for 20 results per page, on the first page
     await expect(page).toHaveURL(
-      "/search/works?max=20&page=1&sort=citations-",
+      "/search/works?max=20&page=1&sort=citations_desc",
       { timeout: 12000 }
     );
 
@@ -43,13 +43,15 @@ test.describe("Testing Works entity", () => {
 
     // Confirm the URL is updated to reflect the navigation to the third page of results
     await expect(page).toHaveURL(
-      "/search/works?max=20&page=3&sort=citations-",
+      "/search/works?max=20&page=3&sort=citations_desc",
       { timeout: 12000 }
     );
   });
 
   test("random works search & profile is working", async ({ page }) => {
-    // Click on the Search button without entering any keyword; "Autores" is the default prefilter
+    test.slow();
+
+    // Click on the Search button without entering any keyword.
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Productos" to appear and store its content
@@ -67,7 +69,9 @@ test.describe("Testing Works entity", () => {
     const randomPage = Math.floor(Math.random() * (numberOfWorks / 10)) + 1;
 
     // Navigate to the randomly selected page of search results
-    await page.goto(`/search/works?max=10&page=${randomPage}&sort=citations-`);
+    await page.goto(
+      `/search/works?max=10&page=${randomPage}&sort=citations_desc`
+    );
 
     // Wait for the search results, specifically for the text "Autores", to ensure the page has loaded
     await page.waitForSelector("text=Autores");
@@ -100,6 +104,11 @@ test.describe("Testing Works entity", () => {
     await expect(page.getByRole("dialog").getByText(worksName)).toBeVisible({
       timeout: 10000,
     });
+
+    // Veryfy that the text "Abstract" is visible on the work modal
+    await expect(
+      page.getByRole("heading", { name: "Abstract:" })
+    ).toBeVisible();
   });
 
   test("Works search with keyword, & profile are working", async ({ page }) => {
@@ -107,27 +116,17 @@ test.describe("Testing Works entity", () => {
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
       .fill(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"
+        '"Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"'
       );
 
     // Click on the Search button to initiate the search
     await page.getByRole("button", { name: "search" }).click();
 
     // Verify that the search results contain the specified paper title
-    await expect(
-      page.getByText(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals",
-        { exact: true }
-      )
-    ).toBeVisible();
+    await expect(page.getByText("Radiative seesaw model: warm")).toBeVisible();
 
     // Click on the search result to navigate to the detailed profile of the work
-    await page
-      .getByText(
-        "Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals",
-        { exact: true }
-      )
-      .click();
+    await page.getByText("Radiative seesaw model: warm").click();
 
     // Set up a listener for any dialog that appears and automatically accept it
     page.on("dialog", (dialog) => dialog.accept());

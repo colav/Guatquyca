@@ -50,7 +50,7 @@ export default function SearchBar() {
     if (pathname.slice(0, 7) === "/search") {
       const type = pathname.split("/search/")[1].split("?")[0];
       return {
-        label: type === "person" ? "Autor" : "Productos",
+        label: type === "person" ? "Autor" : OPTIONS[OPTIONS_INDEX[type]].label,
         value: type,
         key: type,
       };
@@ -61,24 +61,52 @@ export default function SearchBar() {
   const [selected, setSelected] = useState(getDefaultValue());
 
   const selectBefore = (
-    <Select
-      options={OPTIONS}
-      labelInValue="true"
-      defaultValue={getDefaultValue()}
-      onSelect={setSelected}
-      popupMatchSelectWidth={215}
-      listHeight={380}
-    />
+    <ConfigProvider
+      theme={{
+        components: {
+          Select: {
+            optionPadding: "3px 6px",
+            optionHeight: 24,
+          },
+        },
+      }}
+    >
+      <Select
+        options={OPTIONS}
+        labelInValue="true"
+        defaultValue={getDefaultValue()}
+        onSelect={setSelected}
+        popupMatchSelectWidth={215}
+        listHeight={380}
+      />
+    </ConfigProvider>
   );
 
   const searchRequest = (input) => {
-    const path = AFFILIATIONLIST.includes(selected.value)
-      ? `/search/affiliations/${selected.value}`
-      : `/search/${selected.value}`;
-    const queryParams = `?max=10&page=1&sort=citations-${
-      input ? `&keywords=${input}` : ""
-    }`;
-    router.push(path + queryParams);
+    const getPath = (value) => {
+      return AFFILIATIONLIST.includes(value)
+        ? `/search/affiliations/${value}`
+        : `/search/${value}`;
+    };
+
+    const sortTypeMap = {
+      works: "citations_desc",
+      patents: "alphabetical_asc",
+      projects: "alphabetical_asc",
+      other_works: "alphabetical_asc",
+      default: "products_desc",
+    };
+
+    const getQueryParams = (value, input) => {
+      const sortType = sortTypeMap[value] || sortTypeMap.default;
+      const keywords = input ? `&keywords=${input}` : "";
+      return `?max=10&page=1&sort=${sortType}${keywords}`;
+    };
+
+    const path = getPath(selected.value);
+    const queryParams = getQueryParams(selected.value, input);
+
+    router.push(`${path}${queryParams}`);
   };
 
   return (

@@ -1,4 +1,5 @@
 /* Components */
+import ClientLogger from "@/lib/Utils/clientLogger";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 import WorkItem from "../../ClientSide/WorkItem/WorkItem";
@@ -10,6 +11,9 @@ import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
 import getData from "@/lib/APIS/api";
 import URLBuilder from "@/lib/Utils/URLBuilder";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { Card } from "antd";
 
@@ -17,9 +21,6 @@ import { Card } from "antd";
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import MathJax from "@/lib/Utils/mathjax";
 import Script from "next/script";
-
-/* Styles */
-import styles from "./styles.module.css";
 
 /**
  * WorkList is an asynchronous function server component that fetches a list of works based
@@ -30,7 +31,7 @@ import styles from "./styles.module.css";
  */
 export default async function WorkList({ searchParams }) {
   const URL = URLBuilder("/app/search/works", searchParams);
-  const data = await getData(URL);
+  const { data, fullUrl } = await getData(URL);
 
   return (
     <Card
@@ -57,6 +58,7 @@ export default async function WorkList({ searchParams }) {
         totalItems={data.total_results}
         searchParams={searchParams}
       />
+      <ClientLogger url={fullUrl} />
     </Card>
   );
 }

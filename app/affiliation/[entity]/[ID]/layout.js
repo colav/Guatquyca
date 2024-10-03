@@ -1,4 +1,5 @@
 /* Components */
+import ClientLogger from "@/lib/Utils/clientLogger";
 import CommonTitleCard from "@/app/components/ServerSide/CommonTitleCard/CommonTitleCard";
 
 /* Utilities */
@@ -17,10 +18,11 @@ export const metadata = {
  */
 export default async function EntityPage({ params, children }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}`;
-  const data = await getData(URL);
+  const { data, fullUrl } = await getData(URL);
 
   return (
     <>
+      <ClientLogger url={fullUrl} />
       <div>
         <CommonTitleCard data={data.data} entity={params.entity} />
       </div>

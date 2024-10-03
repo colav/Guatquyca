@@ -5,7 +5,7 @@ const { defineConfig, devices } = require("@playwright/test");
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+require("dotenv").config({ path: "./.env.local" });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -23,7 +23,7 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  timeout: 60 * 1000,
+  timeout: 30 * 1000,
   expect: {
     timeout: 10 * 1000,
   },
@@ -49,7 +49,7 @@ module.exports = defineConfig({
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: { ...devices["Desktop Safari"], deviceScaleFactor: 1 },
     },
 
     /* Test against mobile viewports. */

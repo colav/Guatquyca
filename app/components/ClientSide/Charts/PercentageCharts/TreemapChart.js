@@ -28,7 +28,7 @@ export default function TreemapChart({ data }) {
   const config = {
     data: {
       name: "root",
-      children: data,
+      children: data.slice(0, 20),
     },
     valueField: "value",
     legend: false,
