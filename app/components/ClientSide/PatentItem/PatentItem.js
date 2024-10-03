@@ -6,7 +6,7 @@ import InvisibleContainer from "./InvisibleContainer";
 import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
-import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
+import { TeamOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -46,9 +46,9 @@ export default function PatentItem({ item }) {
         style={ribbonStyles}
         className={styles.ribbon}
       >
-        <li key={item.id} className={styles.work_item}>
-          <div className={styles.work_container}>
-            <div>
+        <li key={item.id} className={styles.patent_item}>
+          <div className={styles.patent_container}>
+            <div className={styles.patent_title}>
               <b>{item.title}</b>
             </div>
             <TeamOutlined className={styles.gray} /> Autores:{" "}

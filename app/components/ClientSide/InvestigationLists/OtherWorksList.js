@@ -5,6 +5,7 @@ import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
+import EmptyCard from "../EmptyCard/EmptyCard";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
 import OtherWorkItem from "../OtherWorkItem/OtherWorkItem";
@@ -53,37 +54,44 @@ export default function OtherWorksList() {
   } else if (state.isLoading) {
     return <Loading />;
   }
-  return (
-    <Card
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${state?.data?.total_results} ${
-        state?.data?.total_results === 1
-          ? SINGULAR_TITLES["work"]
-          : TITLES["works"]
-      }`}
-      extra={
-        <SortWorkList
+  if (!state.data.data.length) {
+    return (
+      <EmptyCard text="No hay Otros Productos disponibles para esta entidad." />
+    );
+  } else {
+    return (
+      <Card
+        size="small"
+        styles={{
+          header: { backgroundColor: "#003e65", color: "white" },
+          body: { padding: "10px 0 5px 0" },
+        }}
+        title={`${state?.data?.total_results} ${
+          state?.data?.total_results === 1
+            ? SINGULAR_TITLES["work"]
+            : TITLES["works"]
+        }`}
+        extra={
+          <SortWorkList
+            queryParams={queryParams}
+            setQueryParams={setQueryParams}
+            setUrl={setUrl}
+            type="other_works"
+          />
+        }
+      >
+        <ul className={styles.ul}>
+          {state.data.data.map((item) => (
+            <OtherWorkItem key={item.id} item={item} />
+          ))}
+        </ul>
+        <PaginationOnWorkList
+          totalItems={state.data.total_results}
           queryParams={queryParams}
           setQueryParams={setQueryParams}
           setUrl={setUrl}
         />
-      }
-    >
-      <ul className={styles.ul}>
-        {state.data.data.map((item) => (
-          <OtherWorkItem key={item.id} item={item} />
-        ))}
-      </ul>
-      <PaginationOnWorkList
-        totalItems={state.data.total_results}
-        queryParams={queryParams}
-        setQueryParams={setQueryParams}
-        setUrl={setUrl}
-      />
-    </Card>
-  );
+      </Card>
+    );
+  }
 }

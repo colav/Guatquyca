@@ -4,7 +4,7 @@
 import { Card, Empty } from "antd";
 
 /**
- * EmptyAffiliations is a functional component that displays a message indicating
+ * EmptyCard is a functional component that displays a message indicating
  * that there are no affiliations for the given entity. It uses the Empty component
  * from the antd library and centers it both vertically and horizontally within a
  * div with a light gray background.
@@ -15,7 +15,7 @@ import { Card, Empty } from "antd";
  *   <EmptyAffiliations />
  * )
  */
-export default function EmptyAffiliations() {
+export default function EmptyCard({ text }) {
   return (
     <div
       style={{
@@ -29,8 +29,8 @@ export default function EmptyAffiliations() {
     >
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description="No hay afiliaciones para esta entidad"
-        style={{ fontSize: "20px" }}
+        description={text}
+        style={{ fontSize: "20px", fontWeight: "500" }}
       />
     </div>
   );

@@ -55,7 +55,7 @@ export default function WorkItem({ item }) {
             <WorkTitleLink
               workTitle={item.title}
               workID={item.id}
-              openAccessStatus={item.open_access_status}
+              openAccessStatus={item.open_access.open_access_status}
               doi={
                 item.external_ids.find(
                   (externalId) => externalId.source === "doi"

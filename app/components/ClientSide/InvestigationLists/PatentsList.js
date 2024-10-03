@@ -5,6 +5,7 @@ import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
+import EmptyCard from "../EmptyCard/EmptyCard";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
 import PaginationOnWorkList from "../PaginationOnWorkList/PaginationOnWorkList";
@@ -18,7 +19,7 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Card } from "antd";
+import { Card, Empty } from "antd";
 
 /* Utilities */
 import URLBuilder from "@/lib/Utils/URLBuilder";
@@ -53,37 +54,42 @@ export default function PatentsList() {
   } else if (state.isLoading) {
     return <Loading />;
   }
-  return (
-    <Card
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${state?.data?.total_results} ${
-        state?.data?.total_results === 1
-          ? SINGULAR_TITLES["patent"]
-          : TITLES["patents"]
-      }`}
-      extra={
-        <SortWorkList
+  if (!state.data.data.length) {
+    return <EmptyCard text="No hay Patentes disponibles para esta entidad." />;
+  } else {
+    return (
+      <Card
+        size="small"
+        styles={{
+          header: { backgroundColor: "#003e65", color: "white" },
+          body: { padding: "10px 0 5px 0" },
+        }}
+        title={`${state?.data?.total_results} ${
+          state?.data?.total_results === 1
+            ? SINGULAR_TITLES["patent"]
+            : TITLES["patents"]
+        }`}
+        extra={
+          <SortWorkList
+            queryParams={queryParams}
+            setQueryParams={setQueryParams}
+            setUrl={setUrl}
+            type="patents"
+          />
+        }
+      >
+        <ul className={styles.ul}>
+          {state.data.data.map((item) => (
+            <PatentItem key={item.id} item={item} />
+          ))}
+        </ul>
+        <PaginationOnWorkList
+          totalItems={state.data.total_results}
           queryParams={queryParams}
           setQueryParams={setQueryParams}
           setUrl={setUrl}
         />
-      }
-    >
-      <ul className={styles.ul}>
-        {state.data.data.map((item) => (
-          <PatentItem key={item.id} item={item} />
-        ))}
-      </ul>
-      <PaginationOnWorkList
-        totalItems={state.data.total_results}
-        queryParams={queryParams}
-        setQueryParams={setQueryParams}
-        setUrl={setUrl}
-      />
-    </Card>
-  );
+      </Card>
+    );
+  }
 }

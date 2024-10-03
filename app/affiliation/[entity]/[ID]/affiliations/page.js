@@ -1,6 +1,6 @@
 /* Components */
 import ClientLogger from "@/lib/Utils/clientLogger";
-import EmptyAffiliations from "@/app/components/ClientSide/EmptyAffiliations/EmptyAffiliations";
+import EmptyCard from "@/app/components/ClientSide/EmptyCard/EmptyCard";
 import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 
@@ -34,7 +34,11 @@ export default async function AffiliationsPage({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const { data, fullUrl } = await getData(URL);
 
-  const keys = Object.keys(data).filter((key) => data[key].length > 0);
+  /* let keys = Object.keys(data).filter((key) => data[key].length > 0); */
+  let keys = Object.keys(data).filter((key) => data[key]);
+  if (params.ID === "66f6f44899b6ea475f3be52f") {
+    keys = keys.filter((key) => key !== "departments");
+  }
 
   return (
     <>
@@ -42,7 +46,7 @@ export default async function AffiliationsPage({ params }) {
       <TopMenu currentTab="affiliations" />
       <Row style={{ marginTop: "15px" }} gutter={15} justify="center">
         {keys.length === 0 ? (
-          <EmptyAffiliations />
+          <EmptyCard />
         ) : (
           keys.map((item) => (
             <Col xs={24} md={24 / keys.length} key={item}>

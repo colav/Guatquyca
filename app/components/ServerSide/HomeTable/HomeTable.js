@@ -38,23 +38,33 @@ export default function HomeTable() {
     },
     {
       key: "6",
+      search: "Patentes",
+      example: "artificial",
+    },
+    {
+      key: "7",
       search: "Productos",
       example: "dark matter",
     },
     {
-      key: "7",
-      search: "Proyectos",
-      example: "Módulo en desarrollo",
-    },
-    {
       key: "8",
-      search: "Convenios",
-      example: "Módulo en desarrollo",
+      search: "Proyectos",
+      example: "genética",
     },
     {
       key: "9",
+      search: "Otros Productos",
+      example: "actores",
+    },
+    {
+      key: "10",
+      search: "Convenios",
+      example: "Módulo en desarrollo, próximamente disponible.",
+    },
+    {
+      key: "11",
       search: "Emprendimientos",
-      example: "Módulo en desarrollo",
+      example: "Módulo en desarrollo, próximamente disponible.",
     },
   ];
 
