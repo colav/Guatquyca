@@ -40,7 +40,7 @@ export default function WorkTitleLink({
   const TitleModal = () => {
     const { modal } = App.useApp();
     const showModal = (title, id, status) => {
-      modal.confirm({
+      modal.warning({
         width: "1500px",
         title: (
           <div>
@@ -55,12 +55,6 @@ export default function WorkTitleLink({
         content: <DocumentModal documentID={id} />,
         destroyOnClose: true,
         maskClosable: true,
-        cancelText: "JSON",
-        cancelButtonProps: {
-          icon: <FileTextOutlined />,
-          href: `${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${id}`,
-          target: "_blank",
-        },
         onOk() {},
       });
     };

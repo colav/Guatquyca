@@ -9,7 +9,13 @@ import SCImago from "../SCImago/SCImago";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 
 /* Icons */
-import { ReadOutlined, TagsOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  FilePdfOutlined,
+  FileTextOutlined,
+  ReadOutlined,
+  TagsOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 
 /* lib */
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
@@ -20,7 +26,7 @@ import { APIRequest } from "@/lib/APIS/clientAPI";
 import style from "./styles.module.css";
 
 /* UI Library Components */
-import { Col, Divider, Descriptions, Row } from "antd";
+import { Col, Divider, Descriptions, Row, Button, Space } from "antd";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -54,6 +60,7 @@ export default function DocumentModal({ documentID }) {
     issue,
     external_ids,
     external_urls,
+    open_access,
   } = state.data.data;
   const { name, serials, scimago_quartile } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
@@ -94,6 +101,28 @@ export default function DocumentModal({ documentID }) {
 
   return (
     <div>
+      <Space>
+        {open_access.url && (
+          <Button
+            type="default"
+            size="small"
+            icon={<FilePdfOutlined />}
+            href={open_access.url}
+            target="_blank"
+          >
+            PDF
+          </Button>
+        )}
+        <Button
+          type="default"
+          size="small"
+          icon={<FileTextOutlined />}
+          href={`${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${documentID}`}
+          target="_blank"
+        >
+          JSON
+        </Button>
+      </Space>
       <h4 className={style.margin_5}>
         <TeamOutlined /> Autores:{" "}
       </h4>
