@@ -70,7 +70,7 @@ export default function ChartsHandler({ plotlist }) {
       case "graph":
         return <GraphChart data={state.data.plot} />;
       case "percentage":
-        return state.data.plot.length > 6 ? (
+        return state.data.plot.length > 7 ? (
           <TreemapChart data={state.data.plot} />
         ) : (
           <PieChart data={state.data.plot} sum={state.data.sum} />
