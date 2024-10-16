@@ -71,7 +71,7 @@ export default function ChartsHandler({ plotlist }) {
         return <GraphChart data={state.data.plot} />;
       case "percentage":
         return state.data.plot.length > 7 ? (
-          <TreemapChart data={state.data.plot} />
+          <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
         ) : (
           <PieChart data={state.data.plot} sum={state.data.sum} />
         );
@@ -79,7 +79,7 @@ export default function ChartsHandler({ plotlist }) {
         return state.data?.plot[0]?.type ? (
           <StackedColumnChart data={state.data.plot} />
         ) : (
-          <ColumnChart data={state.data.plot} />
+          <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
         );
       case "set":
         return <VennChart data={state.data.plot} />;

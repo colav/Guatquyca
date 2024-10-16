@@ -17,6 +17,10 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Empty } from "antd";
 
+/* Utils */
+import { PALETTE } from "@/lib/constants";
+import limitItemsPerYear from "@/lib/Utils/limitItemsPerYear";
+
 /**
  * StackedColumnChart is a client-side function component that displays a stacked column chart.
  *
@@ -24,14 +28,20 @@ import { Empty } from "antd";
  * @returns {JSX.Element} A Column chart if data is available, otherwise an Empty component.
  */
 export default function StackedColumnChart({ data }) {
+  const filteredData = limitItemsPerYear(data);
+
   const config = {
-    data,
+    data: filteredData,
     stack: true,
     xField: "x",
     yField: "y",
     colorField: "type",
     slider: { x: { values: [0, 0.5] } },
-    /* scale: { color: { palette: "set3" } }, */
+    scale: {
+      color: {
+        palette: PALETTE,
+      },
+    },
     axis: { x: { labelSpacing: 4, labelAutoRotate: false } },
     interaction: {
       tooltip: {
