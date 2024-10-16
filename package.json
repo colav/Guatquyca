@@ -1,6 +1,6 @@
 {
   "name": "guatquyca",
-  "version": "3.5.0-beta",
+  "version": "3.5.1-beta",
   "private": true,
   "scripts": {
     "dev": "next dev",
