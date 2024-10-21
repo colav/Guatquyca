@@ -51,14 +51,20 @@ export default async function PersonList({ searchParams }) {
           <li key={item.id}>
             <Row>
               <Col style={{ width: "80px" }}>
-                <Avatar shape="square" id={styles.avatar} size={64}>
-                  {item.logo || item.full_name?.charAt(0)}
+                <Avatar
+                  src={item.logo?.length === 0 ? null : item.logo}
+                  shape="square"
+                  id={styles.avatar}
+                  size={64}
+                >
+                  {item.full_name?.charAt(0)}
                 </Avatar>
               </Col>
               <Col span={22}>
                 <Row>
                   <Col span={24} style={{ marginBottom: "7px" }}>
                     <Link
+                      scroll={false}
                       className="searchResult_link"
                       href={`/person/${item.id}/research/products`}
                     >
