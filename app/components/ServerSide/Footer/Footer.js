@@ -140,7 +140,7 @@ export default function Foot() {
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 16/10/2024
+          Interfaz de Usuario: 21/10/2024
           <br />
           Base de Datos: 02/10/2024
           <br />
