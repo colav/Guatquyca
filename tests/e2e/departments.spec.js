@@ -10,9 +10,6 @@ test.describe("Testing Departments entity", () => {
     // Navigate to the home page to ensure a consistent starting point for each test.
     await page.goto("/");
 
-    // Close the beta version modal to ensure the home page is fully accessible for testing.
-    await page.getByRole("button", { name: "Probar versión beta" }).click();
-
     // Open the prefilter dropdown to select a specific filter option.
     await page.getByTitle("Autor").click();
 

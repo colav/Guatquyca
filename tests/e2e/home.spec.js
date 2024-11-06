@@ -5,9 +5,6 @@ test.describe("Testing ImpactU Homepage", () => {
   test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test to ensure a fresh state.
     await page.goto("/");
-
-    // Click on the modal button to close it, ensuring the home page is accessible for testing.
-    await page.getByRole("button", { name: "Probar versión beta" }).click();
   });
 
   test("has title", async ({ page }) => {

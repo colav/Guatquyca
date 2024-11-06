@@ -10,9 +10,6 @@ test.describe("Testing Faculties entity", () => {
     // Navigate to the home page before each test to ensure a consistent starting point.
     await page.goto("/");
 
-    // Close the beta version prompt to ensure the UI is ready for testing.
-    await page.getByRole("button", { name: "Probar versión beta" }).click();
-
     // Open the prefilter dropdown menu to select a specific filter.
     await page.getByTitle("Autor").click();
 

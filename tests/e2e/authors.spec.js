@@ -16,9 +16,6 @@ test.describe("Testing Authors entity", () => {
 
     // Navigate to the home page before each test to ensure a consistent starting point.
     await page.goto("/");
-
-    // Close the beta version prompt to ensure the UI is ready for testing.
-    await page.getByRole("button", { name: "Probar versión beta" }).click();
   });
 
   test("authors search result pagination is working", async ({ page }) => {
@@ -130,6 +127,9 @@ test.describe("Testing Authors entity", () => {
 
     // Retrieve the text content of the randomly selected link.
     const authorName = await authorLinks[randomIndex].textContent();
+
+    // Introduce a delay before clicking the link (e.g., 2 seconds).
+    await page.waitForTimeout(1000);
 
     // Click on the randomly selected link to navigate to the corresponding author profile.
     await authorLinks[randomIndex].click();

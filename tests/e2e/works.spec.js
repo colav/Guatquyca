@@ -6,9 +6,6 @@ test.describe("Testing Works entity", () => {
     // Navigate to the home page to ensure each test starts from the same state.
     await page.goto("/");
 
-    // Close the beta version modal to ensure the main content is accessible for testing.
-    await page.getByRole("button", { name: "Probar versión beta" }).click();
-
     // Open the prefilter dropdown by clicking on the "Autor" option.
     await page.getByTitle("Autor").click();
 
