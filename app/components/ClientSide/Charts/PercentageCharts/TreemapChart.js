@@ -24,7 +24,13 @@ import styles from "./styles.module.css";
  * @param {number} sum - The total value of all data points. This is displayed in the center of the Treemap chart.
  * @returns {JSX.Element} A Treemap chart component.
  */
-export default function TreemapChart({ data }) {
+export default function TreemapChart({ data, chart }) {
+  const USD_CHARTS = [
+    "apc_expenses_by_faculty",
+    "apc_expenses_by_department",
+    "apc_expenses_by_group",
+  ];
+
   const config = {
     data: {
       name: "root",
@@ -47,7 +53,15 @@ export default function TreemapChart({ data }) {
                 />
                 {title.substring(5)}
               </p>
-              <p className={styles.value}>Cantidad: {item.value}</p>
+              <p className={styles.value}>
+                Cantidad:{" "}
+                {USD_CHARTS.includes(chart)
+                  ? new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(item.value) + " USD"
+                  : item.value}
+              </p>
             </div>
           )),
       },

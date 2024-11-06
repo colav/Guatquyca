@@ -23,12 +23,15 @@ import { Empty } from "antd";
  * @param {Object[]} data - The data to display in the chart. Each object should have 'x' and 'y' properties.
  * @returns {JSX.Element} A Column chart if data is available, otherwise an Empty component.
  */
-export default function ColumnChart({ data }) {
+export default function ColumnChart({ data, chart }) {
   const config = {
     data,
     xField: "x",
     yField: "y",
     slider: { x: { values: [0, 0.5] } },
+    style: {
+      fill: "#86d5e5",
+    },
     interaction: {
       tooltip: {
         render: (event, { title, items }) =>
@@ -43,7 +46,14 @@ export default function ColumnChart({ data }) {
               </p>
               <div className={styles.container}>
                 <div>Cantidad:</div>
-                <b className={styles.margin10}>{item.value}</b>
+                <b className={styles.margin10}>
+                  {chart === "annual_apc_expenses"
+                    ? new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(item.value)
+                    : item.value}
+                </b>
               </div>
             </div>
           )),

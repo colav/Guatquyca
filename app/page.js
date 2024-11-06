@@ -2,7 +2,6 @@
 import { Suspense } from "react";
 
 /* Components */
-import DisclaimerModal from "./components/ClientSide/DisclaimerModal/DisclaimerModal";
 import HomeTable from "./components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "./components/ClientSide/SearchBar/SearchBar";
 
@@ -22,7 +21,6 @@ import { Card, Col, Row } from "antd";
 export default function Home() {
   return (
     <>
-      <DisclaimerModal />
       <div id={styles.content_container} className="margin_15">
         <Row justify="space-around">
           <Col span={24}>
