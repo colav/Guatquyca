@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+/* Hooks */
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
@@ -27,23 +28,64 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Card, Empty, TreeSelect } from "antd";
 
+/* Utils */
+import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
+
+/* Constants */
+const CARD_HEADER_STYLE = {
+  backgroundColor: "#003e65",
+  color: "white",
+  padding: "6px",
+  overflow: "visible",
+};
+const CARD_BODY_STYLE = { padding: "10px", height: "420px" };
+
 /**
  * ChartsHandler component to render different types of charts based on the selected plot.
  *
- * @param {Object} entity - The entity data.
  * @param {Array} plotlist - The list of plots available for selection.
  * @returns {JSX.Element} The rendered component.
  */
 export default function ChartsHandler({ plotlist }) {
-  const [selectedPlot, setSelectedPlot] = useState(plotlist[0].children[0]);
   const pathname = usePathname();
-  const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
+  const query = useSearchParams();
+  const queryParamsFromURL = getQueryParamsAsObject(query);
 
-  const [state, setUrl] = APIRequest(URL);
+  const [selectedPlot, setSelectedPlot] = useState(plotlist[0].children[0]);
+  const initialURL = URLBuilder(`/app${pathname}`, queryParamsFromURL, {
+    plot: selectedPlot.value,
+  });
+  const [state, setUrl] = APIRequest(initialURL);
+
+  useEffect(() => {
+    setUrl(
+      URLBuilder(`/app${pathname}`, queryParamsFromURL, {
+        plot: selectedPlot.value,
+      })
+    );
+  }, [query]);
 
   const handleChange = (value, option) => {
     setSelectedPlot(option);
-    setUrl(URLBuilder(`/app${pathname}`, { plot: value }));
+    setUrl(URLBuilder(`/app${pathname}`, queryParamsFromURL, { plot: value }));
+  };
+
+  const chartComponents = {
+    map: <MapChart data={state.data.plot} />,
+    graph: <GraphChart data={state.data.plot} />,
+    percentage:
+      state.data?.plot && state.data.plot.length > 7 ? (
+        <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
+      ) : (
+        <PieChart data={state.data.plot} sum={state.data.sum} />
+      ),
+    distribution:
+      state.data?.plot && state.data.plot[0]?.type ? (
+        <StackedColumnChart data={state.data.plot} />
+      ) : (
+        <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
+      ),
+    set: <VennChart data={state.data.plot} />,
   };
 
   /**
@@ -64,45 +106,15 @@ export default function ChartsHandler({ plotlist }) {
       );
     }
 
-    switch (selectedPlot.type) {
-      case "map":
-        return <MapChart data={state.data.plot} />;
-      case "graph":
-        return <GraphChart data={state.data.plot} />;
-      case "percentage":
-        return state.data.plot.length > 7 ? (
-          <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
-        ) : (
-          <PieChart data={state.data.plot} sum={state.data.sum} />
-        );
-      case "distribution":
-        return state.data?.plot[0]?.type ? (
-          <StackedColumnChart data={state.data.plot} />
-        ) : (
-          <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
-        );
-      case "set":
-        return <VennChart data={state.data.plot} />;
-      default:
-        return null;
-    }
-  };
-
-  const filterTreeNode = (inputValue, treeNode) => {
-    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+    return chartComponents[selectedPlot.type] || null;
   };
 
   return (
     <Card
       size="small"
       styles={{
-        header: {
-          backgroundColor: "#003e65",
-          color: "white",
-          padding: "6px",
-          overflow: "visible",
-        },
-        body: { padding: "10px", height: "420px" },
+        header: CARD_HEADER_STYLE,
+        body: CARD_BODY_STYLE,
       }}
       hoverable
       title={<InfoButton label={selectedPlot.title} text={selectedPlot.text} />}
@@ -115,7 +127,9 @@ export default function ChartsHandler({ plotlist }) {
           onSelect={handleChange}
           treeData={plotlist}
           treeLine
-          filterTreeNode={filterTreeNode}
+          filterTreeNode={(inputValue, treeNode) =>
+            treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
+          }
           notFoundContent={
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}

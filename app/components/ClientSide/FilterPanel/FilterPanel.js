@@ -1,97 +1,139 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+/* Components */
+import Loading from "@/app/loading";
+
+/* Hooks */
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 /* Icons */
-import { FilterOutlined } from "@ant-design/icons";
+import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Button, ConfigProvider, Drawer } from "antd";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import { Button, Collapse, ConfigProvider, Drawer } from "antd";
 
+/* Utils */
+import { APIRequest } from "@/lib/APIS/clientAPI";
+import { filterMenuMaker } from "@/lib/Utils/filterMenuMaker";
+import URLBuilder from "@/lib/Utils/URLBuilder";
+import hasAppliedFilters from "@/lib/Utils/hasAppliedFilters";
+
+/**
+ * FilterPanel component provides a drawer with filter options and handles dynamic filter information.
+ * It allows users to apply and clear filters, and updates the URL based on the selected filters.
+ *
+ * @returns {JSX.Element} The FilterPanel component.
+ */
 export default function FilterPanel() {
   const router = useRouter();
   const pathname = usePathname();
   const query = useSearchParams();
   const [visible, setVisible] = useState(false);
+  const [state] = APIRequest(`/app${pathname}/filters`);
 
-  const showDrawer = () => {
-    setVisible(true);
+  const toggleDrawer = () => {
+    setVisible((prevVisible) => !prevVisible);
   };
 
   const onClose = () => {
     setVisible(false);
   };
 
-  const onClick = () => {
-    console.log(pathname.slice(0, 7));
-    if (pathname.slice(0, 7) === "/search") {
-      const cleanURL = URLBuilder(pathname, {
-        max: query.get("max"),
-        page: query.get("page"),
-        sort: query.get("sort"),
-      });
-      router.push(cleanURL);
-    }
-    onClose();
-  };
-
-  console.log(pathname);
-  console.log(query.toString());
-
-  const prevQueryRef = useRef();
   useEffect(() => {
-    if (
-      pathname !== "/" ||
-      (prevQueryRef.current &&
-        JSON.stringify(prevQueryRef.current) !== JSON.stringify(query))
-    ) {
-      console.log("Enviar la petición al servidor");
+    const fixedWidget = document.querySelector("[data-fixed-widget]");
+    if (fixedWidget) {
+      if (visible) {
+        fixedWidget.classList.add(styles.moveRight);
+      } else {
+        fixedWidget.classList.remove(styles.moveRight);
+      }
     }
-    prevQueryRef.current = query;
-  }, [query]);
+  }, [visible]);
+
+  const items = filterMenuMaker(state.data, onClose);
+
+  const onClickFilterCleaner = () => {
+    onClose();
+    const cleanURL = URLBuilder(
+      pathname,
+      pathname.slice(0, 7) === "/search"
+        ? {
+            max: query.get("max"),
+            page: query.get("page"),
+            sort: query.get("sort"),
+          }
+        : ""
+    );
+    router.push(cleanURL);
+  };
 
   return (
     <>
       <ConfigProvider
         theme={{
-          token: {
-            borderRadius: "0 0 8px 8px",
-          },
+          token: { lineWidthFocus: 0 },
         }}
       >
         <Button
           size="large"
           icon={<FilterOutlined />}
-          onClick={showDrawer}
+          onClick={toggleDrawer}
+          data-fixed-widget
           id={styles.fixedWidget}
-          type="primary"
         >
           Filtros
         </Button>
       </ConfigProvider>
-      <Drawer
-        title={
-          <>
-            <FilterOutlined /> Filtros
-          </>
-        }
-        placement="left"
-        onClose={onClose}
-        open={visible}
-        width={500}
-        zIndex={10000}
-        footer={<Button onClick={onClick}>Limpiar filtros</Button>}
-        styles={{
-          footer: {
-            textAlign: "right",
-          },
-        }}
-      />
+      <ConfigProvider theme={{ token: { motion: false } }}>
+        <Drawer
+          title="Panel de filtros"
+          placement="left"
+          onClose={onClose}
+          keyboard={false}
+          open={visible}
+          width={500}
+          zIndex={1000}
+          footer={
+            <Button
+              disabled={hasAppliedFilters(query) ? false : true}
+              onClick={onClickFilterCleaner}
+            >
+              Limpiar filtros
+            </Button>
+          }
+          id={styles.drawer}
+          styles={{
+            footer: {
+              textAlign: "right",
+            },
+            body: {
+              padding: 0,
+            },
+            header: {
+              padding: "10px",
+            },
+          }}
+        >
+          {state.isLoading ? (
+            <Loading height="100%" text="Cargando filtros disponibles" />
+          ) : (
+            <Collapse
+              accordion
+              size="large"
+              expandIcon={({ isActive }) => (
+                <DownOutlined rotate={isActive ? 180 : 0} />
+              )}
+              expandIconPosition="end"
+              bordered={false}
+              items={items}
+            />
+          )}
+        </Drawer>
+      </ConfigProvider>
     </>
   );
 }

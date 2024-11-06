@@ -1,8 +1,8 @@
 "use client";
 
 /* Hooks */
-import { useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
@@ -28,6 +28,7 @@ import CSVButton from "../CSVButton/CSVButton";
 import APIButton from "../APIButton/APIButton";
 import Script from "next/script";
 import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
+import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
 
 /**
  * ProductsList is a client-side function component for displaying a list of works on an entity.
@@ -35,23 +36,36 @@ import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
  * @returns {JSX.Element} A list of works on an entity, with pagination and sorting options.
  */
 export default function ProductsList() {
+  const pathname = usePathname();
   const query = useSearchParams();
-  const queryItems = query.entries();
-  let initialQueryParams = {
+  const queryParamsFromURL = getQueryParamsAsObject(query);
+
+  const initialQueryParams = {
     max: 10,
     page: 1,
     sort: "citations_desc",
+    ...queryParamsFromURL,
   };
-
-  for (let [key, value] of queryItems) {
-    initialQueryParams[key] = value;
-  }
 
   const [queryParams, setQueryParams] = useState(initialQueryParams);
 
-  const pathname = usePathname();
   const URL = URLBuilder(`/app${pathname}`, queryParams);
   const [state, setUrl] = APIRequest(URL);
+
+  useEffect(() => {
+    const newQueryParams = getQueryParamsAsObject(query);
+    setQueryParams({
+      max: 10,
+      page: 1,
+      sort: "citations_desc",
+      ...newQueryParams,
+    });
+  }, [query]);
+
+  useEffect(() => {
+    const newURL = URLBuilder(`/app${pathname}`, queryParams);
+    setUrl(newURL);
+  }, [queryParams, pathname]);
 
   if (state.isError) {
     return <Error />;

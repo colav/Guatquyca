@@ -1,5 +1,6 @@
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
+import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
 import ProductsList from "@/app/components/ClientSide/InvestigationLists/ProductsList";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
@@ -15,8 +16,7 @@ import plotListFilter from "@/lib/Utils/plotListFilter";
  * It includes a top menu, research tabs, charts, and a work list.
  *
  * @component
- * @param {Object} params - The parameters passed to the component.
- * @param {string} params.entity - The entity for which the products are displayed.
+ * @param {string} entity - The entity for which the products are displayed.
  * @returns {JSX.Element} The rendered component.
  */
 export default function ProductsOnEntityPage({ params }) {
@@ -24,6 +24,7 @@ export default function ProductsOnEntityPage({ params }) {
 
   return (
     <div>
+      <FilterPanel />
       <TopMenu currentTab={"research"} />
       <ResearchTabs activeTab="products" entity={params.entity} />
       <div>

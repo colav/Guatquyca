@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 
 /* Components */
-import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
+import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
 import Loading from "@/app/loading";
+import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 
 export const metadata = {
   title: "Resultados de Búsqueda - ImpactU",
@@ -20,6 +21,7 @@ export default function SearchWorksPage({ searchParams }) {
 
   return (
     <Suspense fallback={<Loading />} key={key}>
+      <FilterPanel />
       <WorkList searchParams={searchParams} />
     </Suspense>
   );
