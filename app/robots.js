@@ -9,7 +9,7 @@
  */
 export default function robots() {
   const isDevEnvironment =
-    process.env.API_URL === "https://api.dev.impactu.colav.co";
+    process.env.NEXT_PUBLIC_CLIENT_API === "https://api.dev.impactu.colav.co";
   return {
     rules: isDevEnvironment
       ? {
