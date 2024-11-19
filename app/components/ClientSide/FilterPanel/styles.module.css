@@ -36,3 +36,7 @@
 #drawer {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 12px 8px 12px;
 }
+
+.deleteButton {
+  margin-right: 10px;
+}

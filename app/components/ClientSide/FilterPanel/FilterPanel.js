@@ -33,7 +33,9 @@ export default function FilterPanel() {
   const pathname = usePathname();
   const query = useSearchParams();
   const [visible, setVisible] = useState(false);
-  const [state] = APIRequest(`/app${pathname}/filters`);
+  const [state, setUrl] = APIRequest(
+    `/app${pathname}/filters?${query.toString()}`
+  );
 
   const toggleDrawer = () => {
     setVisible((prevVisible) => !prevVisible);
@@ -53,6 +55,10 @@ export default function FilterPanel() {
       }
     }
   }, [visible]);
+
+  useEffect(() => {
+    setUrl(`/app${pathname}/filters?${query.toString()}`);
+  }, [query]);
 
   const items = filterMenuMaker(state.data, onClose);
 
@@ -122,7 +128,6 @@ export default function FilterPanel() {
             <Loading height="100%" text="Cargando filtros disponibles" />
           ) : (
             <Collapse
-              accordion
               size="large"
               expandIcon={({ isActive }) => (
                 <DownOutlined rotate={isActive ? 180 : 0} />

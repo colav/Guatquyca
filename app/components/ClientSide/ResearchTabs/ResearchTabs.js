@@ -20,7 +20,7 @@ export default function ResearchTabs({ activeTab, entity }) {
 
   const items = [
     {
-      label: "Productos",
+      label: "Productos bibliográficos",
       key: "products",
     },
     {
