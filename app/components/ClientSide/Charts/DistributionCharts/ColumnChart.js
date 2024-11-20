@@ -28,7 +28,7 @@ export default function ColumnChart({ data, chart }) {
     data,
     xField: "x",
     yField: "y",
-    slider: { x: { values: [0, 0.5] } },
+    slider: { x: {}, y: {} },
     style: {
       fill: "#86d5e5",
     },
