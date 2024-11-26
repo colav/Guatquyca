@@ -1,39 +1,73 @@
 "use client";
 
-/* React */
+/* Hooks */
 import { useEffect, useState, useRef } from "react";
 
 /* UI Library Components */
 import { Modal } from "antd";
 
-export default function CSVFetcher({ pathname }) {
-  const [state, setState] = useState({ data: null, isError: false });
+/* Utils */
+import URLBuilder from "@/lib/Utils/URLBuilder";
+import Spinner from "../Spinner/Spinner";
+import { WarningOutlined } from "@ant-design/icons";
+
+/**
+ * CSVFetcher component fetches a CSV file from the provided pathname and query parameters.
+ * It displays a message while the CSV file is being fetched and automatically downloads the file once ready.
+ *
+ * @param {string} pathname - The pathname used to build the API URL.
+ * @param {Object} queryParams - The query parameters used to build the API URL.
+ * @returns {JSX.Element} The CSVFetcher component.
+ */
+export default function CSVFetcher({ pathname, queryParams }) {
+  const [state, setState] = useState({
+    data: null,
+    isLoading: true,
+    isError: false,
+  });
   const abortController = useRef(new AbortController());
   const date = new Date();
   const dateString = `${date.getFullYear()}-${
     date.getMonth() + 1
   }-${date.getDate()}`;
 
+  // Remove unnecessary query parameters
+  const filteredQueryParams = { ...queryParams };
+  delete filteredQueryParams.page;
+  delete filteredQueryParams.max;
+  delete filteredQueryParams.sort;
+
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/app${pathname}/csv`, {
-      signal: abortController.current.signal,
-    })
-      .then((response) => response.blob())
+    fetch(
+      URLBuilder(
+        `${process.env.NEXT_PUBLIC_CLIENT_API}/app${pathname}/csv`,
+        filteredQueryParams
+      ),
+      {
+        signal: abortController.current.signal,
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.blob();
+      })
       .then((data) => {
-        setState({ data, isError: false });
+        setState({ data, isLoading: false, isError: false });
       })
       .catch((error) => {
         if (error.name === "AbortError") {
           return;
         } else {
-          setState({ data: null, isError: true });
+          setState({ data: null, isLoading: false, isError: true });
         }
       });
 
     return () => {
       abortController.current.abort();
     };
-  }, [pathname]);
+  }, [pathname, filteredQueryParams]);
 
   useEffect(() => {
     if (!state.isError && state.data) {
@@ -50,16 +84,29 @@ export default function CSVFetcher({ pathname }) {
     }
   }, [state]);
 
-  return state.isError ? (
-    <p>
-      Lo sentimos, en este momento no podemos procesar tu petición. Por favor
-      intenta nuevamente en unos minutos
-    </p>
-  ) : (
-    <p>
-      Estamos generando tu archivo CSV. Este proceso puede llevar algunos
-      minutos. Por favor, no cierres esta ventana hasta que la descarga se haya
-      completado.
-    </p>
-  );
+  if (state.isLoading) {
+    return (
+      <>
+        <div style={{ textAlign: "center", marginBottom: "15px" }}>
+          <Spinner />
+        </div>
+        Estamos generando tu archivo CSV. Este proceso puede llevar algunos
+        minutos. Por favor, no cierres esta ventana hasta que la descarga se
+        haya completado.
+      </>
+    );
+  } else if (state.isError) {
+    return (
+      <>
+        <div style={{ textAlign: "center" }}>
+          <WarningOutlined
+            style={{ fontSize: "30px", color: "#f9b250", marginBottom: "10px" }}
+          />
+        </div>
+        Lo sentimos, en este momento no podemos procesar tu petición. Por favor
+        intenta nuevamente en unos minutos.
+      </>
+    );
+  }
+  return null;
 }
