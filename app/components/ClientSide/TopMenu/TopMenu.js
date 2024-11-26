@@ -52,10 +52,10 @@ export default function TopMenu({ person = false, currentTab }) {
    */
   const onSelect = ({ key }) => {
     const path = person
-      ? `/person/${ID}/${key}/${defaultTab[key]}`
+      ? `/person/${ID}/${key}/${defaultTab[key]}?max=10&page=1&sort=citations_desc`
       : `/affiliation/${entity}/${ID}/${key}${
           defaultTab[key] ? "/" + defaultTab[key] : ""
-        }`;
+        }?max=10&page=1&sort=citations_desc`;
     router.push(path);
   };
 

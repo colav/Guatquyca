@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 
 /* UI Library Components */
 import { Tabs } from "antd";
+import { a } from "@/playwright-report/trace/assets/workbench-D5oSwIMK";
 
 /**
  * ResearchTabs is a client-side function component that displays a set of tabs for navigating between different research-related pages.
@@ -51,8 +52,16 @@ export default function ResearchTabs({ activeTab, entity }) {
    */
   const handleTabChange = (activeKey) => {
     entity === "person"
-      ? router.push(`/person/${ID}/research/${activeKey}`)
-      : router.push(`/affiliation/${entity}/${ID}/research/${activeKey}`);
+      ? router.push(
+          `/person/${ID}/research/${activeKey}?max=10&page=1&sort=${
+            activeKey === "products" ? "citations_desc" : "alphabetical_asc"
+          }`
+        )
+      : router.push(
+          `/affiliation/${entity}/${ID}/research/${activeKey}?max=10&page=1&sort=${
+            activeKey === "products" ? "citations_desc" : "alphabetical_asc"
+          }`
+        );
   };
 
   return (

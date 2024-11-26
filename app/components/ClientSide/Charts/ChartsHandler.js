@@ -1,7 +1,7 @@
 "use client";
 
 /* Hooks */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
@@ -48,26 +48,44 @@ const CARD_BODY_STYLE = { padding: "10px", height: "420px" };
  */
 export default function ChartsHandler({ plotlist }) {
   const pathname = usePathname();
-  const query = useSearchParams();
-  const queryParamsFromURL = getQueryParamsAsObject(query);
+  const searchParams = useSearchParams();
+  const queryParams = getQueryParamsAsObject(searchParams);
 
   const [selectedPlot, setSelectedPlot] = useState(plotlist[0].children[0]);
-  const initialURL = URLBuilder(`/app${pathname}`, queryParamsFromURL, {
+
+  const previousQueryParamsRef = useRef(queryParams);
+
+  const ignoredQueryKeys = ["max", "page", "sort"];
+
+  const filteredQueryParams = Object.fromEntries(
+    Object.entries(queryParams).filter(
+      ([key]) => !ignoredQueryKeys.includes(key)
+    )
+  );
+
+  const initialURL = URLBuilder(`/app${pathname}`, queryParams, {
     plot: selectedPlot.value,
   });
   const [state, setUrl] = APIRequest(initialURL);
 
   useEffect(() => {
-    setUrl(
-      URLBuilder(`/app${pathname}`, queryParamsFromURL, {
+    const previousQueryParams = previousQueryParamsRef.current;
+
+    if (
+      JSON.stringify(filteredQueryParams) !==
+      JSON.stringify(previousQueryParams)
+    ) {
+      const updatedUrl = URLBuilder(`/app${pathname}`, filteredQueryParams, {
         plot: selectedPlot.value,
-      })
-    );
-  }, [query]);
+      });
+      setUrl(updatedUrl);
+      previousQueryParamsRef.current = filteredQueryParams;
+    }
+  }, [filteredQueryParams]);
 
   const handleChange = (value, option) => {
     setSelectedPlot(option);
-    setUrl(URLBuilder(`/app${pathname}`, queryParamsFromURL, { plot: value }));
+    setUrl(URLBuilder(`/app${pathname}`, filteredQueryParams, { plot: value }));
   };
 
   const chartComponents = {
@@ -88,15 +106,10 @@ export default function ChartsHandler({ plotlist }) {
     set: <VennChart data={state.data.plot} />,
   };
 
-  /**
-   * Render the appropriate chart based on the selected plot type.
-   *
-   * @returns {JSX.Element|null} The rendered chart component or null.
-   */
   const renderChart = () => {
     if (state.isError) return <Error height="100%" />;
     if (state.isLoading) return <Loading height="100%" />;
-    if (!state.data?.plot) {
+    if (!state.data?.plot || state.data?.plot.length === 0) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -105,7 +118,6 @@ export default function ChartsHandler({ plotlist }) {
         />
       );
     }
-
     return chartComponents[selectedPlot.type] || null;
   };
 

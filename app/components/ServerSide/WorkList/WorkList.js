@@ -1,15 +1,13 @@
 /* Components */
+import APIButton from "../../ClientSide/APIButton/APIButton";
 import ClientLogger from "@/lib/Utils/clientLogger";
+import CSVButton from "../../ClientSide/CSVButton/CSVButton";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /* Hooks */
 import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
-
-/* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -19,22 +17,39 @@ import { Card } from "antd";
 
 /* Utilities */
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import getData from "@/lib/APIS/api";
 import MathJax from "@/lib/Utils/mathjax";
 import Script from "next/script";
+import URLBuilder from "@/lib/Utils/URLBuilder";
 
 /**
- * WorkList is an asynchronous function server component that fetches a list of works based
- * on provided search parameters and displays them in a Card component.
+ * WorkList is a server-side functional component that fetches and displays a list of works related to a specific entity.
  *
- * @param {Object} searchParams - The search parameters used to fetch the list of works.
- * @returns {JSX.Element} A Card component that displays the list of works.
+ * @param {Object} searchParams - The search parameters used to fetch the works.
+ * @param {Object} params - The parameters passed to the component.
+ * @param {string} entity - The entity for which the works are displayed.
+ * @returns {JSX.Element} The rendered component.
  */
-export default async function WorkList({ searchParams }) {
-  const URL = URLBuilder("/app/search/works", searchParams);
+export default async function WorkList({ searchParams, params, entity }) {
+  let URL = "";
+  if (entity === "search") {
+    URL = URLBuilder("/app/search/works", searchParams);
+  } else if (entity === "affiliation") {
+    URL = URLBuilder(
+      `/app/affiliation/${params.entity}/${params.ID}/research/products`,
+      searchParams
+    );
+  } else {
+    URL = URLBuilder(
+      `/app/person/${params.ID}/research/products`,
+      searchParams
+    );
+  }
   const { data, fullUrl } = await getData(URL);
 
   return (
     <Card
+      id="list"
       size="small"
       styles={{
         header: { backgroundColor: "#003e65", color: "white" },
@@ -43,7 +58,13 @@ export default async function WorkList({ searchParams }) {
       title={`${data.total_results} ${
         data.total_results === 1 ? SINGULAR_TITLES["works"] : TITLES["works"]
       }`}
-      extra={<SortSearchResults searchParams={searchParams} type="works" />}
+      extra={
+        <div style={{ display: "flex" }}>
+          <SortSearchResults searchParams={searchParams} type="works" />
+          <CSVButton searchParams={searchParams} />
+          <APIButton searchParams={searchParams} />
+        </div>
+      }
     >
       <UseCleanupAltmetric />
       <MathJax />

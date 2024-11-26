@@ -9,8 +9,8 @@ export default function Spinner() {
     <Image
       src={"/media/logo_spinner.svg"}
       alt="Spinner Logo of ImpactU"
-      width={20}
-      height={20}
+      width={30}
+      height={30}
       className={styles.rotate_center}
     />
   );

@@ -35,7 +35,7 @@ export default function PaginationOnWorkList({
   const [topPosition, setTopPosition] = useState(0);
 
   useEffect(() => {
-    const topElement = document.getElementById("work_list");
+    const topElement = document.getElementById("list");
     if (topElement) {
       setTopPosition(
         topElement.getBoundingClientRect().top + window.pageYOffset

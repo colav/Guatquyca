@@ -1,28 +1,32 @@
-/* Components */
-import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
-
-/* UI Library Components */
-import { Col, Row } from "antd";
+/* React */
+import { Suspense } from "react";
 
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
 import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
-import ProductsList from "@/app/components/ClientSide/InvestigationLists/ProductsList";
+import Loading from "@/app/loading";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
+import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
+import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
+
+/* UI Library Components */
+import { Col, Row } from "antd";
 
 /* Utilities */
 import plotListFilter from "@/lib/Utils/plotListFilter";
 
 /**
- * ProductsOnPersonPage is a server-side function component for displaying the products on a person page.
+ * ProductsOnPersonPage is a server-side functional component that fetches data based on provided parameters and displays it using
+ * various components including TopMenu, ResearchTabs, ChartsHandler, FilterPanel, and WorkList.
  *
- * @param {Object} params - The parameters for the person page.
- *
- * @returns {JSX.Element} A div element containing the TopMenu, ResearchTabs, and WorkListOnEntity components.
- * It also contains a set of charts rendered by the DistributionChartsHandler, PercentageChartsHandler, MapChartsHandler, and GraphChartsHandler components.
+ * @param {Object} searchParams - The search parameters used to fetch data.
+ * @param {Object} params - The parameters used to fetch data.
+ * @returns {JSX.Element} A fragment that contains a FilterPanel component, TopMenu component, ResearchTabs component, multiple ChartsHandler components,
+ * and a Suspense component that wraps the WorkList component.
  */
-export default function ProductsOnPersonPage({ params }) {
+export default function ProductsOnPersonPage({ searchParams, params }) {
   const filteredPlots = plotListFilter("person");
+  const key = JSON.stringify(searchParams);
 
   return (
     <div>
@@ -37,7 +41,9 @@ export default function ProductsOnPersonPage({ params }) {
           <ChartsHandler plotlist={filteredPlots.slice(4, 8)} />
         </Col>
       </Row>
-      <ProductsList params={params} />
+      <Suspense fallback={<Loading />} key={key}>
+        <WorkList searchParams={searchParams} params={params} entity="person" />
+      </Suspense>
     </div>
   );
 }

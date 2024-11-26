@@ -1,9 +1,13 @@
+/* React */
+import { Suspense } from "react";
+
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
 import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
-import ProductsList from "@/app/components/ClientSide/InvestigationLists/ProductsList";
+import Loading from "@/app/loading";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
+import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 
 /* UI Library Components */
 import { Col, Row } from "antd";
@@ -15,12 +19,13 @@ import plotListFilter from "@/lib/Utils/plotListFilter";
  * ProductsOnEntityPage component renders the products related to a specific entity.
  * It includes a top menu, research tabs, charts, and a work list.
  *
- * @component
- * @param {string} entity - The entity for which the products are displayed.
+ * @param {Object} searchParams - The search parameters used to fetch the works.
+ * @param {Object} params - The parameters passed to the component.
  * @returns {JSX.Element} The rendered component.
  */
-export default function ProductsOnEntityPage({ params }) {
+export default function ProductsOnEntityPage({ searchParams, params }) {
   const filteredPlots = plotListFilter(params.entity);
+  const key = JSON.stringify(searchParams);
 
   return (
     <div>
@@ -37,7 +42,13 @@ export default function ProductsOnEntityPage({ params }) {
           </Col>
         </Row>
       </div>
-      <ProductsList />
+      <Suspense fallback={<Loading />} key={key}>
+        <WorkList
+          searchParams={searchParams}
+          params={params}
+          entity="affiliation"
+        />
+      </Suspense>
     </div>
   );
 }

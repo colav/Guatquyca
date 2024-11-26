@@ -9,18 +9,23 @@ export const metadata = {
 };
 
 /**
- * SearchPatentsPage is a function server component that displays a list of Patents based on provided search parameters.
- * It uses the Suspense component to lazy load the PatentsList component and display the Loading component while the WorkList is loading.
+ * SearchPatentsPage is a server-side functional component that displays a list of Patents based on provided search parameters.
+ * It uses the Suspense component to lazy load the PatentsList component and display the Loading component while the PatentsList is loading.
  *
  * @param {Object} searchParams - The search parameters used to fetch the list of works.
- * @returns {JSX.Element} A Suspense component that wraps the WorkList component.
+ * @param {Object} params - The parameters used to fetch the list of works.
+ * @returns {JSX.Element} A Suspense component that wraps the PatentsList component.
  */
-export default function SearchPatentsPage({ searchParams }) {
+export default function SearchPatentsPage({ searchParams, params }) {
   const key = JSON.stringify(searchParams);
 
   return (
     <Suspense fallback={<Loading />} key={key}>
-      <PatentsList searchParams={searchParams} />
+      <PatentsList
+        searchParams={searchParams}
+        params={params}
+        entity="search"
+      />
     </Suspense>
   );
 }
