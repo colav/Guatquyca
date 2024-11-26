@@ -1,14 +1,12 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-/* import { Suspense } from "react"; */
 
 /* UI Components */
 import { ConfigProvider } from "antd";
 import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
 import Foot from "./components/ServerSide/Footer/Footer";
 import HeadSearch from "./components/ServerSide/Header/HeaderSearchBar";
-/* import FilterPanel from "./components/ClientSide/FilterPanel/FilterPanel"; */
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +22,7 @@ export const metadata = {
  * and an AntdRegistry component to register Ant Design components for server-side rendering in Next.js.
  * It also includes a Footer component at the bottom of the layout.
  *
- * @param {Object} props - The component props.
- * @param {ReactNode} props.children - The child components to render within the layout.
+ * @param {ReactNode} children - The child components to render within the layout.
  * @returns {ReactNode} The rendered layout component.
  */
 export default function RootLayout({ children }) {
@@ -51,9 +48,6 @@ export default function RootLayout({ children }) {
           <AntdRegistry>
             <BackToTop />
             <HeadSearch />
-            {/* <Suspense>
-              <FilterPanel />
-            </Suspense> */}
             <div id="content_container">{children}</div>
             <Foot />
           </AntdRegistry>
