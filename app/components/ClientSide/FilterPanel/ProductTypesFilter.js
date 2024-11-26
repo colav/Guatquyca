@@ -19,7 +19,7 @@ import { Row, TreeSelect } from "antd";
  * @param {Array} data - The tree data for the TreeSelect component.
  * @returns {JSX.Element} The ProductTypesFilter component.
  */
-export default function ProductTypesFilter({ data, onClose }) {
+export default function ProductTypesFilter({ data }) {
   const query = useSearchParams();
   const [value, setValue] = useState(
     query.has("product_type") ? query.get("product_type")?.split(",") : null
@@ -32,6 +32,7 @@ export default function ProductTypesFilter({ data, onClose }) {
   return (
     <>
       <TreeSelect
+        size="small"
         treeData={data}
         treeLine
         multiple
@@ -48,12 +49,7 @@ export default function ProductTypesFilter({ data, onClose }) {
       />
       <Row justify="end" style={{ marginTop: "20px" }}>
         <DeleteFilter filterType="product_type" queryParams={query} />
-        <ApplyFilter
-          value={value}
-          onClose={onClose}
-          filterType="product_type"
-          query={query}
-        />
+        <ApplyFilter value={value} filterType="product_type" query={query} />
       </Row>
     </>
   );

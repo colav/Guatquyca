@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 /* UI Library Components */
-import { DatePicker, Row } from "antd";
+import { ConfigProvider, DatePicker, Row } from "antd";
 
 /* Utils */
 import dayjs from "dayjs";
@@ -22,10 +22,9 @@ const { RangePicker } = DatePicker;
  * The user can select a range of years and apply the filter to see only the products that match the selected range.
  *
  * @param {Object} data - The data containing the min and max years.
- * @param {Function} onClose - The function to call when closing the filter.
  * @returns {JSX.Element} The YearRangeFilter component.
  */
-export default function YearRangeFilter({ data, onClose }) {
+export default function YearRangeFilter({ data }) {
   const query = useSearchParams();
   const [value, setValue] = useState(
     query.has("year") ? query.get("year")?.split(",") : null
@@ -37,24 +36,30 @@ export default function YearRangeFilter({ data, onClose }) {
 
   return (
     <>
-      <RangePicker
-        style={{ width: "100%" }}
-        picker="year"
-        placeholder={["Desde", "Hasta"]}
-        disabledDate={disabledDate}
-        defaultValue={value ? [dayjs(value[0]), dayjs(value[1])] : null}
-        onChange={(dates) => {
-          setValue(dates.map((date) => date.year()));
+      <ConfigProvider
+        theme={{
+          components: {
+            Calendar: {
+              yearControlWidth: 30,
+            },
+          },
         }}
-      />
+      >
+        <RangePicker
+          size="small"
+          style={{ width: "100%" }}
+          picker="year"
+          placeholder={["Desde", "Hasta"]}
+          disabledDate={disabledDate}
+          defaultValue={value ? [dayjs(value[0]), dayjs(value[1])] : null}
+          onChange={(dates) => {
+            setValue(dates.map((date) => date.year()));
+          }}
+        />
+      </ConfigProvider>
       <Row justify="end" style={{ marginTop: "20px" }}>
         <DeleteFilter filterType="year" queryParams={query} />
-        <ApplyFilter
-          value={value}
-          onClose={onClose}
-          filterType="year"
-          query={query}
-        />
+        <ApplyFilter value={value} filterType="year" query={query} />
       </Row>
     </>
   );

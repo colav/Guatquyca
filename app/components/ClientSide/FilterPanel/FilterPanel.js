@@ -60,20 +60,14 @@ export default function FilterPanel() {
     setUrl(`/app${pathname}/filters?${query.toString()}`);
   }, [query]);
 
-  const items = filterMenuMaker(state.data, onClose);
+  const items = filterMenuMaker(state.data);
 
   const onClickFilterCleaner = () => {
-    onClose();
-    const cleanURL = URLBuilder(
-      pathname,
-      pathname.slice(0, 7) === "/search"
-        ? {
-            max: query.get("max"),
-            page: query.get("page"),
-            sort: query.get("sort"),
-          }
-        : ""
-    );
+    const cleanURL = URLBuilder(pathname, {
+      max: query.get("max"),
+      page: query.get("page"),
+      sort: query.get("sort"),
+    });
     router.push(cleanURL);
   };
 
@@ -101,7 +95,7 @@ export default function FilterPanel() {
           onClose={onClose}
           keyboard={false}
           open={visible}
-          width={500}
+          width={400}
           zIndex={1000}
           footer={
             <Button
@@ -128,13 +122,14 @@ export default function FilterPanel() {
             <Loading height="100%" text="Cargando filtros disponibles" />
           ) : (
             <Collapse
-              size="large"
+              size="small"
               expandIcon={({ isActive }) => (
                 <DownOutlined rotate={isActive ? 180 : 0} />
               )}
               expandIconPosition="end"
               bordered={false}
               items={items}
+              defaultActiveKey={items.map((item) => item.key)}
             />
           )}
         </Drawer>

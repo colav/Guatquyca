@@ -13,23 +13,23 @@ import URLBuilder from "@/lib/Utils/URLBuilder";
  * ApplyFilter component provides a button to apply a specific filter to the query parameters.
  *
  * @param {Array} value - The selected filter values.
- * @param {Function} onClose - The function to call when closing the filter.
  * @param {string} filterType - The type of filter to apply.
  * @param {URLSearchParams} query - The current query parameters.
  * @returns {JSX.Element} The ApplyFilter component.
  */
-export default function ApplyFilter({ value, onClose, filterType, query }) {
+export default function ApplyFilter({ value, filterType, query }) {
   const router = useRouter();
   const pathname = usePathname();
 
   /**
    * Handles the click event for the "apply filter" button, if no filter is selected, the button is disabled.
    * It overrides the filterType query parameter in the URL so that only the selected filters are shown.
-   * Builds the URL with the selected filter and navigates to it.
+   * Builds the URL with the selected filter, reseting the "max" and "page" to 10 and 1, and navigates to it.
    */
   const onClick = () => {
-    onClose();
     const queryParams = getQueryParamsAsObject(query);
+    queryParams.max = 10;
+    queryParams.page = 1;
     const URL = URLBuilder(pathname, queryParams, {
       [filterType]: value.join(","),
     });
