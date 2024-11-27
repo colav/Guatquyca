@@ -5,7 +5,6 @@ import { useRouter, useParams } from "next/navigation";
 
 /* UI Library Components */
 import { Tabs } from "antd";
-import { a } from "@/playwright-report/trace/assets/workbench-D5oSwIMK";
 
 /**
  * ResearchTabs is a client-side function component that displays a set of tabs for navigating between different research-related pages.
