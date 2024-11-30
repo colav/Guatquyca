@@ -50,6 +50,7 @@ export default function YearRangeFilter({ data }) {
           style={{ width: "100%" }}
           picker="year"
           placeholder={["Desde", "Hasta"]}
+          allowClear={false}
           disabledDate={disabledDate}
           defaultValue={value ? [dayjs(value[0]), dayjs(value[1])] : null}
           onChange={(dates) => {

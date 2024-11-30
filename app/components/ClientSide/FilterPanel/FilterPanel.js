@@ -109,28 +109,39 @@ export default function FilterPanel() {
           styles={{
             footer: {
               textAlign: "right",
+              backgroundColor: "#f5f5f5",
             },
             body: {
               padding: 0,
             },
             header: {
               padding: "10px",
+              backgroundColor: "#f5f5f5",
+              color: "#053d4b",
             },
           }}
         >
           {state.isLoading ? (
             <Loading height="100%" text="Cargando filtros disponibles" />
           ) : (
-            <Collapse
-              size="small"
-              expandIcon={({ isActive }) => (
-                <DownOutlined rotate={isActive ? 180 : 0} />
-              )}
-              expandIconPosition="end"
-              bordered={false}
-              items={items}
-              defaultActiveKey={items.map((item) => item.key)}
-            />
+            <ConfigProvider
+              theme={{
+                components: {
+                  Collapse: { colorTextHeading: "#053d4b" },
+                },
+              }}
+            >
+              <Collapse
+                size="small"
+                expandIcon={({ isActive }) => (
+                  <DownOutlined rotate={isActive ? 180 : 0} />
+                )}
+                expandIconPosition="end"
+                bordered={false}
+                items={items}
+                defaultActiveKey={items.map((item) => item.key)}
+              />
+            </ConfigProvider>
           )}
         </Drawer>
       </ConfigProvider>

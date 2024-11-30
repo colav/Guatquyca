@@ -1,8 +1,11 @@
 /* Hooks */
 import { usePathname, useRouter } from "next/navigation";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
-import { Button } from "antd";
+import { Button, ConfigProvider } from "antd";
 
 /* Utils */
 import applyFilterButtonChecker from "@/lib/Utils/applyFilterButtonChecker";
@@ -39,13 +42,21 @@ export default function ApplyFilter({ value, filterType, query }) {
   };
 
   return (
-    <Button
-      type="dashed"
-      size="small"
-      onClick={onClick}
-      disabled={applyFilterButtonChecker(value, query, filterType)}
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#3d8ceb",
+        },
+      }}
     >
-      Aplicar filto
-    </Button>
+      <Button
+        type="primary"
+        size="small"
+        onClick={onClick}
+        disabled={applyFilterButtonChecker(value, query, filterType)}
+      >
+        Aplicar filtro
+      </Button>
+    </ConfigProvider>
   );
 }
