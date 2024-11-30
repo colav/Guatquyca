@@ -161,12 +161,13 @@ test.describe("Testing Authors entity", () => {
 
     // Verify that the search results contain "Diego Alejandro Restrepo Quintero".
     await expect(
-      page.getByText("Diego Alejandro Restrepo Quintero")
+      page.getByText("Diego Alejandro Restrepo Quintero").first()
     ).toBeVisible();
 
     // Click on the link for "Diego Alejandro Restrepo Quintero" to navigate to his profile page.
     await page
       .getByRole("link", { name: "Diego Alejandro Restrepo Quintero" })
+      .first()
       .click();
 
     // Verify that the profile page for "Diego Alejandro Restrepo Quintero" is displayed.
@@ -189,14 +190,16 @@ test.describe("Testing Authors entity", () => {
 
     // Verify that the search results contain "Diego Alejandro Restrepo Quintero".
     await expect(
-      page.getByText("Diego Alejandro Restrepo Quintero")
+      page.getByText("Diego Alejandro Restrepo Quintero").first()
     ).toBeVisible();
 
     // Find the link element
-    const linkElement = await page.getByRole("link", {
-      name: "Diego Alejandro Restrepo Quintero",
-      exact: true,
-    });
+    const linkElement = await page
+      .getByRole("link", {
+        name: "Diego Alejandro Restrepo Quintero",
+        exact: true,
+      })
+      .first();
 
     // Extract the href attribute
     const href = await linkElement.getAttribute("href");
