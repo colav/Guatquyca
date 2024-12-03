@@ -110,7 +110,7 @@ export default function StatusFilter({ data }) {
           );
       })}
 
-      <Row justify="end" style={{ marginTop: "20px" }}>
+      <Row justify="end" style={{ marginTop: "12px" }}>
         <DeleteFilter filterType="status" queryParams={query} />
         <ApplyFilter value={filterValue} filterType="status" query={query} />
       </Row>

@@ -58,7 +58,7 @@ export default function YearRangeFilter({ data }) {
           }}
         />
       </ConfigProvider>
-      <Row justify="end" style={{ marginTop: "20px" }}>
+      <Row justify="end" style={{ marginTop: "12px" }}>
         <DeleteFilter filterType="year" queryParams={query} />
         <ApplyFilter value={value} filterType="year" query={query} />
       </Row>

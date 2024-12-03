@@ -10,19 +10,21 @@ import { useSearchParams } from "next/navigation";
 
 /* UI Library Components */
 import { Row, TreeSelect } from "antd";
+import { TITLES } from "@/lib/constants";
 
 /**
- * ProductTypesFilter component allows users to filter products by type using a TreeSelect component.
- * The user can select multiple product types, including both parent and children nodes, and apply the
- * filter to see only the products that match the selected types.
+ * TreeSelectFilter is a client-side functional component that provides a tree-select filter
+ * for selecting multiple items, parents and children.
+ * It allows users to apply and delete filters based on the selected items.
  *
  * @param {Array} data - The tree data for the TreeSelect component.
- * @returns {JSX.Element} The ProductTypesFilter component.
+ * @param {string} filterType - The type of filter to apply.
+ * @returns {JSX.Element} The TreeSelectFilter component.
  */
-export default function ProductTypesFilter({ data }) {
+export default function TreeSelectFilter({ data, filterType }) {
   const query = useSearchParams();
   const [value, setValue] = useState(
-    query.has("product_type") ? query.get("product_type")?.split(",") : null
+    query.has(filterType) ? query.get(filterType)?.split(",") : null
   );
 
   const onChange = (newValue) => {
@@ -40,16 +42,16 @@ export default function ProductTypesFilter({ data }) {
         style={{ width: "100%" }}
         value={value}
         listHeight={450}
-        placeholder="Selecciona uno o más tipos de productos"
+        placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
         treeDefaultExpandAll={false}
         onChange={onChange}
         filterTreeNode={(inputValue, treeNode) =>
           treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
         }
       />
-      <Row justify="end" style={{ marginTop: "20px" }}>
-        <DeleteFilter filterType="product_type" queryParams={query} />
-        <ApplyFilter value={value} filterType="product_type" query={query} />
+      <Row justify="end" style={{ marginTop: "12px" }}>
+        <DeleteFilter filterType={filterType} queryParams={query} />
+        <ApplyFilter value={value} filterType={filterType} query={query} />
       </Row>
     </>
   );
