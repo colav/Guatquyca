@@ -116,10 +116,11 @@ export default function Home() {
             <br />
             <DownloadOutlined />{" "}
             <a
-              href="/files/Formato_Obtencion_Datos_Institucionales.pdf"
-              download="Formato_Obtencion_Datos_Institucionales.pdf"
+              href="https://docs.google.com/document/d/1BKF6wmUVjtaPLaf8FeOTeGQBxGRYIh-J/edit?usp=sharing&ouid=116324921517823599769&rtpof=true&sd=true"
+              target="_blank"
+              rel="noreferrer"
             >
-              Descarga nuestro formato para la obtención de información básica
+              Consulta nuestro formato para la obtención de información básica
               institucional.
             </a>
           </Col>
