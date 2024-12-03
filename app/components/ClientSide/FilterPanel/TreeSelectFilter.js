@@ -22,6 +22,8 @@ import { TITLES } from "@/lib/constants";
  * @returns {JSX.Element} The TreeSelectFilter component.
  */
 export default function TreeSelectFilter({ data, filterType }) {
+  if (!data.length)
+    return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
   const [value, setValue] = useState(
     query.has(filterType) ? query.get(filterType)?.split(",") : null
@@ -41,7 +43,7 @@ export default function TreeSelectFilter({ data, filterType }) {
         showSearch
         style={{ width: "100%" }}
         value={value}
-        listHeight={450}
+        listHeight={400}
         placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
         treeDefaultExpandAll={false}
         onChange={onChange}

@@ -25,9 +25,11 @@ const { RangePicker } = DatePicker;
  * @returns {JSX.Element} The YearRangeFilter component.
  */
 export default function YearRangeFilter({ data }) {
+  if (Object.keys(data).length === 0)
+    return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
   const [value, setValue] = useState(
-    query.has("year") ? query.get("year")?.split(",") : null
+    query.has("years") ? query.get("years")?.split(",") : null
   );
 
   const disabledDate = (current) => {
@@ -59,8 +61,8 @@ export default function YearRangeFilter({ data }) {
         />
       </ConfigProvider>
       <Row justify="end" style={{ marginTop: "12px" }}>
-        <DeleteFilter filterType="year" queryParams={query} />
-        <ApplyFilter value={value} filterType="year" query={query} />
+        <DeleteFilter filterType="years" queryParams={query} />
+        <ApplyFilter value={value} filterType="years" query={query} />
       </Row>
     </>
   );

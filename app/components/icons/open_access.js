@@ -3,8 +3,8 @@ import Icon from "@ant-design/icons";
 const open_access = (props) => {
   return (
     <svg
-      width="1em"
-      height="1em"
+      width="1.1em"
+      height="1.1em"
       fill={props.color || "#F68212"}
       viewBox="0 0 640 1000"
     >

@@ -15,14 +15,21 @@ import { Row, Checkbox } from "antd";
 const { Group: CheckboxGroup } = Checkbox;
 
 /**
- * StatusFilter dynamically handles the filtering logic for any status types provided in the data.
+ * CheckboxFilter is a client-side functional component that provides a checkbox filter for selecting multiple items.
+ * It allows users to apply and delete filters based on the selected items.
  *
- * @param {Array} data - Array containing status options with their children (if any).
- * @returns {JSX.Element} The StatusFilter component.
+ * @component
+ * @param {Array} data - The data for the CheckboxGroup component.
+ * @param {string} filterType - The type of filter to apply.
+ * @returns {JSX.Element} The CheckboxFilter component.
  */
-export default function StatusFilter({ data }) {
+export default function CheckboxFilter({ data, filterType }) {
+  if (!data.length)
+    return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
-  const urlStatus = query.has("status") ? query.get("status").split(",") : [];
+  const urlStatus = query.has(filterType)
+    ? query.get(filterType).split(",")
+    : [];
 
   const initialState = data.reduce((acc, { value, children }) => {
     if (children) {
@@ -61,7 +68,7 @@ export default function StatusFilter({ data }) {
 
   return (
     <>
-      {data.map(({ title, value, children }) => {
+      {data.map(({ title, value, children, label }) => {
         if (children) {
           const allChildrenChecked =
             statusState[value].length === children.length;
@@ -105,14 +112,18 @@ export default function StatusFilter({ data }) {
               checked={statusState[value] === true}
               onChange={(e) => handleCheckboxChange(value, e.target.checked)}
             >
-              {title === "Cerrado" ? "Acceso cerrado" : title}
+              {title === "Cerrado" ? "Acceso cerrado" : title || label}
             </Checkbox>
           );
       })}
 
       <Row justify="end" style={{ marginTop: "12px" }}>
-        <DeleteFilter filterType="status" queryParams={query} />
-        <ApplyFilter value={filterValue} filterType="status" query={query} />
+        <DeleteFilter filterType={filterType} queryParams={query} />
+        <ApplyFilter
+          value={filterValue}
+          filterType={filterType}
+          query={query}
+        />
       </Row>
     </>
   );
