@@ -132,6 +132,7 @@ export default function ChartsHandler({ plotlist }) {
       title={<InfoButton label={selectedPlot.title} text={selectedPlot.text} />}
       extra={
         <TreeSelect
+          treeExpandAction="click"
           showSearch
           size="small"
           defaultValue={selectedPlot}
