@@ -46,7 +46,6 @@ export default function SelectFilter({ data, filterType }) {
         placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
         onChange={onChange}
         options={data}
-        maxTagCount="responsive"
         optionRender={(item) => (
           <Space>
             <Flag country={item.label} countryCode={item.value} size="20x15" />{" "}
