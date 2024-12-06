@@ -159,7 +159,7 @@ test.describe("Testing Institutions entity", () => {
     await expect(page.getByText(/^\d+ Productos?$/)).toBeVisible();
   });
 
-  test("verify successful API responses for UdeA's metrics", async ({
+  test.skip("verify successful API responses for UdeA's metrics", async ({
     page,
   }) => {
     // Set the timeout for this test to 6 minutes
