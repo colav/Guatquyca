@@ -37,14 +37,6 @@ export default function FilterPanel() {
     `/app${pathname}/filters?${query.toString()}`
   );
 
-  const toggleDrawer = () => {
-    setVisible((prevVisible) => !prevVisible);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
-
   useEffect(() => {
     const fixedWidget = document.querySelector("[data-fixed-widget]");
     if (fixedWidget) {
@@ -60,7 +52,8 @@ export default function FilterPanel() {
     setUrl(`/app${pathname}/filters?${query.toString()}`);
   }, [query]);
 
-  const items = filterMenuMaker(state.data);
+  const toggleDrawer = () => setVisible((prev) => !prev);
+  const onClose = () => setVisible(false);
 
   const onClickFilterCleaner = () => {
     const cleanURL = URLBuilder(pathname, {
@@ -71,13 +64,11 @@ export default function FilterPanel() {
     router.push(cleanURL);
   };
 
+  const items = filterMenuMaker(state.data);
+
   return (
     <>
-      <ConfigProvider
-        theme={{
-          token: { lineWidthFocus: 0 },
-        }}
-      >
+      <ConfigProvider theme={{ token: { lineWidthFocus: 0 } }}>
         <Button
           size="large"
           icon={<FilterOutlined />}
@@ -119,6 +110,9 @@ export default function FilterPanel() {
               backgroundColor: "#f5f5f5",
               color: "#053d4b",
             },
+            /* mask: {
+              backdropFilter: "blur(2px)",
+            }, */
           }}
         >
           {state.isLoading ? (

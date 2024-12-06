@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 /* Components */
 import ChartsHandler from "@/app/components/ClientSide/Charts/ChartsHandler";
-import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
+import FilterPanel from "@/app/components/ClientSide/Filters/FilterPanel";
 import Loading from "@/app/loading";
 import ResearchTabs from "@/app/components/ClientSide/ResearchTabs/ResearchTabs";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";

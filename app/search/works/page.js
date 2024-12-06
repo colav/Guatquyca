@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 /* Components */
-import FilterPanel from "@/app/components/ClientSide/FilterPanel/FilterPanel";
+import FilterPanel from "@/app/components/ClientSide/Filters/FilterPanel";
 import Loading from "@/app/loading";
 import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 
