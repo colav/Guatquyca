@@ -1,12 +1,13 @@
 "use client";
 
 /* Components */
-import AuthorsListOnModal from "../AuthorsHorizontalList/AuthorsListOnModal";
-import CitationsBadges from "../CitationsBadges/CitationsBadges";
+import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import Error from "@/app/error";
+import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
+import WorksInfo from "../WorksInfo/WorksInfo";
 
 /* Icons */
 import {
@@ -15,12 +16,14 @@ import {
   ReadOutlined,
   TagsOutlined,
   TeamOutlined,
+  TranslationOutlined,
 } from "@ant-design/icons";
 
 /* lib */
+import { APIRequest } from "@/lib/APIS/clientAPI";
+import { IDIOMAS } from "@/lib/constants";
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
-import { APIRequest } from "@/lib/APIS/clientAPI";
 
 /* Styles */
 import style from "./styles.module.css";
@@ -50,6 +53,7 @@ export default function DocumentModal({ documentID }) {
 
   const {
     authors,
+    authors_count,
     abstract,
     year_published,
     language,
@@ -61,18 +65,10 @@ export default function DocumentModal({ documentID }) {
     external_ids,
     external_urls,
     open_access,
+    doi,
   } = state.data.data;
   const { name, serials, scimago_quartile } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
-
-  const articleItems = [
-    {
-      key: "1",
-      label: "Año de publicación",
-      children: year_published || "No disponible",
-    },
-    { key: "2", label: "Idioma", children: language || "No disponible" },
-  ];
 
   const sourceItems = [
     { key: "4", label: "Revista", children: name || "No disponible" },
@@ -124,13 +120,16 @@ export default function DocumentModal({ documentID }) {
         </Button>
       </Space>
       <h4 className={style.margin_5}>
+        <TranslationOutlined /> Idioma: {IDIOMAS[language]}
+      </h4>
+      <h4 className={style.margin_5}>
         <TeamOutlined /> Autores:{" "}
       </h4>
-      {authors.length ? (
-        <AuthorsListOnModal authors={authors} />
-      ) : (
-        "No disponible"
-      )}
+      <AuthorsList
+        authors={authors}
+        authors_count={authors_count}
+        workID={documentID}
+      />
       <h4 className={style.margin_5}>
         <TagsOutlined /> Temas:{" "}
       </h4>
@@ -140,21 +139,18 @@ export default function DocumentModal({ documentID }) {
         "No disponible"
       )}
       <h4 className={style.margin_5}>Abstract:</h4>
-      <p>{abstract || "No disponible"}</p>
-      {citations_count.length && (
-        <CitationsBadges
-          citationsCount={citations_count}
-          doi={
-            external_ids.find((externalId) => externalId.source === "doi")?.id
-          }
-          showTitle={true}
-        />
-      )}
-      <Descriptions size="small" items={articleItems} />
+      <InvertedIndex abstract={abstract} />
+      <WorksInfo
+        citationsCount={citations_count}
+        yearPublished={year_published}
+        doi={doi}
+      />
       <Descriptions
         column={5}
         bordered
         size="small"
+        contentStyle={{ fontSize: "12px", padding: "5px" }}
+        labelStyle={{ padding: "5px 10px" }}
         items={RenderedExternalIDs(external_ids).concat(
           RenderedExternalURLs(external_urls)
         )}
@@ -168,7 +164,7 @@ export default function DocumentModal({ documentID }) {
           {scimago ? (
             <>
               <SCImago scimago={scimago} />
-              <Col xs={24} md={19}>
+              <Col xs={24} md={20}>
                 <Descriptions items={sourceItems} />
               </Col>
             </>

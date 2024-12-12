@@ -4,12 +4,10 @@ import React from "react";
 
 /* Components */
 import AltmetricsContainer from "../AltMetrics/AlmetricsContainer";
+import CitationsBadges from "../CitationsBadges/CitationsBadges";
 
 /* Icons */
 import { CalendarOutlined, CommentOutlined } from "@ant-design/icons";
-
-/* Lib */
-import CitationsBadges from "../CitationsBadges/CitationsBadges";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -27,7 +25,8 @@ export default function WorksInfo({ citationsCount, yearPublished, doi }) {
     <>
       <div className={styles.worksInfo_container}>
         <div className={styles.margin_5}>
-          {React.createElement(CalendarOutlined)} Publicado: {yearPublished}
+          {React.createElement(CalendarOutlined)} Publicado:{" "}
+          {yearPublished || "No disponible"}
         </div>
         <CitationsBadges
           citationsCount={citationsCount}
@@ -35,7 +34,7 @@ export default function WorksInfo({ citationsCount, yearPublished, doi }) {
           showTitle={true}
         />
         {doi && (
-          <div>
+          <div className={styles.margin_5}>
             <CommentOutlined /> Altmétricas:
             <AltmetricsContainer doi={doi} />
           </div>

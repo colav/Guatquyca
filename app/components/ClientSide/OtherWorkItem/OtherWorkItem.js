@@ -1,5 +1,5 @@
 /* Components */
-import AuthorsListOnList from "../AuthorsHorizontalList/AuthorsListOnList";
+import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "./InvisibleContainer";
 
 /* Constants */
@@ -52,7 +52,7 @@ export default function OtherWorkItem({ item }) {
               <b>{item.title}</b>
             </div>
             <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsListOnList
+            <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}
               workID={item.id}

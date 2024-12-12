@@ -1,5 +1,5 @@
 /* Components */
-import AuthorsListOnList from "../AuthorsHorizontalList/AuthorsListOnList";
+import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "./InvisibleContainer";
 import ProjectsExternalID from "../../ServerSide/ProjectsExternalID/ProjectsExternalID";
 
@@ -52,7 +52,7 @@ export default function ProjectItem({ item }) {
             <div className={styles.project_title}>{item.title}</div>
             <ProjectsExternalID idList={item.external_ids} />
             <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsListOnList
+            <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}
               workID={item.id}

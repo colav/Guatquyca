@@ -3,7 +3,7 @@ const CitationsIcon = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
     height="1em"
-    fill="rgb(170, 170, 190)"
+    fill="rgb(134, 134, 149)"
     style={{ verticalAlign: "-2px" }}
     viewBox="0 0 768 768"
     {...props}

@@ -10,7 +10,7 @@ import { Col } from "antd";
  */
 export default function SCImago({ scimago }) {
   return (
-    <Col xs={24} md={5}>
+    <Col xs={24} md={4}>
       <a
         target="_blank"
         rel="noreferrer"

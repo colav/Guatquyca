@@ -1,5 +1,5 @@
 /* Components */
-import AuthorsListOnList from "../AuthorsHorizontalList/AuthorsListOnList";
+import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "./InvisibleContainer";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
@@ -63,15 +63,15 @@ export default function WorkItem({ item }) {
               }
             />
             {item.source.name && <Source sourceName={item.source.name} />}
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
-            <AuthorsListOnList
+            <TeamOutlined /> Autores:{" "}
+            <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}
               workID={item.id}
             />
             {item.subjects.length > 0 && (
               <div>
-                <TagsOutlined className={styles.gray} /> Temas:
+                <TagsOutlined /> Temas:
                 <SubjectsTags subjectsList={item.subjects} />
               </div>
             )}

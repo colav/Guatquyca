@@ -13,7 +13,7 @@ import styles from "./styles.module.css";
 export default function Source({ sourceName }) {
   return (
     <div className={styles.source_container}>
-      <ReadOutlined /> {sourceName}
+      <ReadOutlined /> Revista: {sourceName}
     </div>
   );
 }
