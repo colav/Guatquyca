@@ -1,7 +1,3 @@
-.gray {
-  color: gray !important;
-}
-
 .hr {
   background-color: #f9f9f9;
   border: none;
@@ -19,6 +15,8 @@
 .work_container {
   margin-left: 125px;
   margin-right: 10px;
+  font-size: 16px;
+  color: rgb(134, 134, 149);
 }
 
 .ribbon {

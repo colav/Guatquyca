@@ -20,7 +20,7 @@ export default function ResearchTabs({ activeTab, entity }) {
 
   const items = [
     {
-      label: "Productos",
+      label: "Productos bibliográficos",
       key: "products",
     },
     {
@@ -51,8 +51,16 @@ export default function ResearchTabs({ activeTab, entity }) {
    */
   const handleTabChange = (activeKey) => {
     entity === "person"
-      ? router.push(`/person/${ID}/research/${activeKey}`)
-      : router.push(`/affiliation/${entity}/${ID}/research/${activeKey}`);
+      ? router.push(
+          `/person/${ID}/research/${activeKey}?max=10&page=1&sort=${
+            activeKey === "products" ? "citations_desc" : "alphabetical_asc"
+          }`
+        )
+      : router.push(
+          `/affiliation/${entity}/${ID}/research/${activeKey}?max=10&page=1&sort=${
+            activeKey === "products" ? "citations_desc" : "alphabetical_asc"
+          }`
+        );
   };
 
   return (

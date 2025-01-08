@@ -36,6 +36,7 @@ export default async function PersonList({ searchParams }) {
 
   return (
     <Card
+      id="list"
       size="small"
       styles={{
         header: { backgroundColor: "#003e65", color: "white" },
@@ -66,7 +67,7 @@ export default async function PersonList({ searchParams }) {
                     <Link
                       scroll={false}
                       className="searchResult_link"
-                      href={`/person/${item.id}/research/products`}
+                      href={`/person/${item.id}/research/products?max=10&page=1&sort=citations_desc`}
                     >
                       {item.full_name}
                     </Link>

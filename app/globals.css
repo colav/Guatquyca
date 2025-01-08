@@ -7,11 +7,16 @@ body {
 h1,
 h2,
 h3,
-h4,
 h5,
 b {
   color: #053d4b;
   font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+  color: rgb(134, 134, 149);
+  font-weight: 400;
 }
 
 h1 {
@@ -26,7 +31,7 @@ a {
 a:hover {
   color: #46b3b3 !important;
   font-weight: 700 !important;
-  letter-spacing: -0.12px;
+  letter-spacing: -0.135px;
 }
 
 #content_container {

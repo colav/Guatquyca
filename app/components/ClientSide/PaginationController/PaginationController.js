@@ -34,7 +34,14 @@ export default function PaginationController({ totalItems, searchParams }) {
       max: pageSize,
       page: page,
     });
-    router.push(URL);
+    router.push(URL, { scroll: false });
+
+    const element = document.getElementById("list");
+    const topPosition = element.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({
+      top: topPosition - 110,
+      behavior: "instant",
+    });
   };
 
   return (

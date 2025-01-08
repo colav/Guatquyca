@@ -36,7 +36,7 @@ export default function StackedColumnChart({ data }) {
     xField: "x",
     yField: "y",
     colorField: "type",
-    slider: { x: { values: [0, 0.5] } },
+    slider: { x: {}, y: {} },
     scale: {
       color: {
         palette: PALETTE,

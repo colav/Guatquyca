@@ -14,7 +14,7 @@ import { Space, Tag } from "antd";
 export default function SubjectsTags({ subjectsList }) {
   return (
     <div className={styles.subjectsTags_container}>
-      <Space size={[0, 8]} wrap>
+      <Space size={[0, 5]} wrap>
         {subjectsList[0]?.subjects?.map((subject) => {
           return (
             <Tag bordered={false} key={subject.id}>

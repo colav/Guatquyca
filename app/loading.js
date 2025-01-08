@@ -5,11 +5,16 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 
 /**
- * Loading is a function component that displays a loading spinner and a loading message.
+ * Loading component displays a loading spinner with a customizable height and text.
  *
- * @param {string} height - The height of the loading card. Defaults to "70vh".
+ * @param {string} [height="80vh"] - The height of the loading container, defaults to "80vh".
+ * @param {string} [text="Cargando información..."] - The loading text to display, defaults to "Cargando información...".
+ * @returns {JSX.Element} The Loading component.
  */
-export default function Loading({ height = "80vh" }) {
+export default function Loading({
+  height = "80vh",
+  text = "Cargando información...",
+}) {
   return (
     <div className={styles.state_card__container} style={{ height: height }}>
       <div>
@@ -21,7 +26,7 @@ export default function Loading({ height = "80vh" }) {
             height={50}
           />
         </div>
-        <p id={styles.loading_text}>Cargando información...</p>
+        <p id={styles.loading_text}>{text}</p>
       </div>
     </div>
   );

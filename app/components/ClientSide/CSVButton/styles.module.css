@@ -3,6 +3,7 @@
   color: white !important;
   background-color: rgb(69, 199, 216);
   padding: 0 4px;
+  font-weight: 600;
 }
 
 #csv_button:hover {

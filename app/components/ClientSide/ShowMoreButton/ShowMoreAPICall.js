@@ -46,7 +46,7 @@ export default function ShowMoreAPICall({ authors, setAuthorsList, workID }) {
   };
 
   return (
-    <Button onClick={onClick} type="dashed">
+    <Button size="small" onClick={onClick} type="dashed">
       {showingAll ? "Mostrar menos" : "Mostrar todos"}
     </Button>
   );

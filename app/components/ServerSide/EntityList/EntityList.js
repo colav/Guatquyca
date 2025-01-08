@@ -37,6 +37,7 @@ export default async function EntityList({ searchParams, entity }) {
 
   return (
     <Card
+      id="list"
       size="small"
       styles={{
         header: { backgroundColor: "#003e65", color: "white" },

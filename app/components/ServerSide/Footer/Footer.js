@@ -131,18 +131,26 @@ export default function Foot() {
           >
             Datos Abiertos
           </a>
+          <br />
+          <a
+            href="https://api.impactu.colav.co/static/index.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Apidocs
+          </a>
         </Col>
         <Col xs={24} md={8}>
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.6.0
+          ImpactU Versión 3.7.6
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 05/11/2024
+          Interfaz de Usuario: 08/01/2025
           <br />
-          Base de Datos: 02/10/2024
+          Base de Datos: 25/12/2024
           <br />
           Hecho en Colombia
         </Col>

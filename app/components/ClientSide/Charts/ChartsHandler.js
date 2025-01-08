@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+/* Hooks */
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 /* Components */
 import Error from "@/app/error";
@@ -27,34 +28,88 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Card, Empty, TreeSelect } from "antd";
 
+/* Utils */
+import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
+
+/* Constants */
+const CARD_HEADER_STYLE = {
+  backgroundColor: "#003e65",
+  color: "white",
+  padding: "6px",
+  overflow: "visible",
+};
+const CARD_BODY_STYLE = { padding: "10px", height: "420px" };
+
 /**
  * ChartsHandler component to render different types of charts based on the selected plot.
  *
- * @param {Object} entity - The entity data.
  * @param {Array} plotlist - The list of plots available for selection.
  * @returns {JSX.Element} The rendered component.
  */
 export default function ChartsHandler({ plotlist }) {
-  const [selectedPlot, setSelectedPlot] = useState(plotlist[0].children[0]);
   const pathname = usePathname();
-  const URL = URLBuilder(`/app${pathname}`, { plot: selectedPlot.value });
+  const searchParams = useSearchParams();
+  const queryParams = getQueryParamsAsObject(searchParams);
 
-  const [state, setUrl] = APIRequest(URL);
+  const [selectedPlot, setSelectedPlot] = useState(plotlist[0].children[0]);
+
+  const previousQueryParamsRef = useRef(queryParams);
+
+  const ignoredQueryKeys = ["max", "page", "sort"];
+
+  const filteredQueryParams = Object.fromEntries(
+    Object.entries(queryParams).filter(
+      ([key]) => !ignoredQueryKeys.includes(key)
+    )
+  );
+
+  const initialURL = URLBuilder(`/app${pathname}`, queryParams, {
+    plot: selectedPlot.value,
+  });
+  const [state, setUrl] = APIRequest(initialURL);
+
+  useEffect(() => {
+    const previousQueryParams = previousQueryParamsRef.current;
+
+    if (
+      JSON.stringify(filteredQueryParams) !==
+      JSON.stringify(previousQueryParams)
+    ) {
+      const updatedUrl = URLBuilder(`/app${pathname}`, filteredQueryParams, {
+        plot: selectedPlot.value,
+      });
+      setUrl(updatedUrl);
+      previousQueryParamsRef.current = filteredQueryParams;
+    }
+  }, [filteredQueryParams]);
 
   const handleChange = (value, option) => {
     setSelectedPlot(option);
-    setUrl(URLBuilder(`/app${pathname}`, { plot: value }));
+    setUrl(URLBuilder(`/app${pathname}`, filteredQueryParams, { plot: value }));
   };
 
-  /**
-   * Render the appropriate chart based on the selected plot type.
-   *
-   * @returns {JSX.Element|null} The rendered chart component or null.
-   */
+  const chartComponents = {
+    map: <MapChart data={state.data.plot} />,
+    graph: <GraphChart data={state.data.plot} />,
+    percentage:
+      state.data?.plot && state.data.plot.length > 7 ? (
+        <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
+      ) : (
+        <PieChart data={state.data.plot} sum={state.data.sum} />
+      ),
+    distribution:
+      state.data?.plot && state.data.plot[0]?.type ? (
+        <StackedColumnChart data={state.data.plot} />
+      ) : (
+        <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
+      ),
+    set: <VennChart data={state.data.plot} />,
+  };
+
   const renderChart = () => {
     if (state.isError) return <Error height="100%" />;
     if (state.isLoading) return <Loading height="100%" />;
-    if (!state.data?.plot) {
+    if (!state.data?.plot || state.data?.plot.length === 0) {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -63,51 +118,21 @@ export default function ChartsHandler({ plotlist }) {
         />
       );
     }
-
-    switch (selectedPlot.type) {
-      case "map":
-        return <MapChart data={state.data.plot} />;
-      case "graph":
-        return <GraphChart data={state.data.plot} />;
-      case "percentage":
-        return state.data.plot.length > 7 ? (
-          <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
-        ) : (
-          <PieChart data={state.data.plot} sum={state.data.sum} />
-        );
-      case "distribution":
-        return state.data?.plot[0]?.type ? (
-          <StackedColumnChart data={state.data.plot} />
-        ) : (
-          <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
-        );
-      case "set":
-        return <VennChart data={state.data.plot} />;
-      default:
-        return null;
-    }
-  };
-
-  const filterTreeNode = (inputValue, treeNode) => {
-    return treeNode.title.toLowerCase().includes(inputValue.toLowerCase());
+    return chartComponents[selectedPlot.type] || null;
   };
 
   return (
     <Card
       size="small"
       styles={{
-        header: {
-          backgroundColor: "#003e65",
-          color: "white",
-          padding: "6px",
-          overflow: "visible",
-        },
-        body: { padding: "10px", height: "420px" },
+        header: CARD_HEADER_STYLE,
+        body: CARD_BODY_STYLE,
       }}
       hoverable
       title={<InfoButton label={selectedPlot.title} text={selectedPlot.text} />}
       extra={
         <TreeSelect
+          treeExpandAction="click"
           showSearch
           size="small"
           defaultValue={selectedPlot}
@@ -115,7 +140,9 @@ export default function ChartsHandler({ plotlist }) {
           onSelect={handleChange}
           treeData={plotlist}
           treeLine
-          filterTreeNode={filterTreeNode}
+          filterTreeNode={(inputValue, treeNode) =>
+            treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
+          }
           notFoundContent={
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}

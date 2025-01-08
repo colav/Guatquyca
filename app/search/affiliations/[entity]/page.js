@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
-/* Utilities */
-import Loading from "@/app/loading";
+/* Components */
 import EntityList from "@/app/components/ServerSide/EntityList/EntityList";
+import Loading from "@/app/loading";
 
 export const metadata = {
   title: "Resultados de Búsqueda - ImpactU",

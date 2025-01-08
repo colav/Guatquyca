@@ -10,7 +10,7 @@ import ShowMoreAPICall from "../ShowMoreButton/ShowMoreAPICall";
 import { Button, Tooltip } from "antd";
 
 /**
- * AuthorsListOnList Component
+ * AuthorsList Component
  *
  * This component renders a list of authors with tooltips showing their affiliations.
  * It also includes a button to show more authors if the total count exceeds the initial list.
@@ -21,7 +21,7 @@ import { Button, Tooltip } from "antd";
  *
  * @returns {JSX.Element} The rendered list of authors with a Tooltip wrapping author's affiliations.
  */
-export default function AuthorsListOnList({ authors, authors_count, workID }) {
+export default function AuthorsList({ authors, authors_count, workID }) {
   const [authorsList, setAuthorsList] = useState(authors);
 
   return (
