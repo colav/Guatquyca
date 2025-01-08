@@ -197,7 +197,7 @@ test.describe("Testing Departments entity", () => {
     const href = await linkElement.getAttribute("href");
 
     // Use a regex to extract the ID from the URL
-    const idMatch = href.match(/department\/([a-zA-Z0-9]+)\//);
+    const idMatch = href.match(/department\/([a-zA-Z0-9_]+)\//);
     if (!idMatch) {
       throw new Error("department ID not found in the URL");
     }
