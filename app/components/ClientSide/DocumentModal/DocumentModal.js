@@ -71,7 +71,7 @@ export default function DocumentModal({ documentID }) {
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
 
   const sourceItems = [
-    { key: "4", label: "Revista", children: name || "No disponible" },
+    { key: "4", label: "Fuente", children: name || "No disponible" },
     {
       key: "5",
       label: "Cuartil año de publicación",
@@ -158,7 +158,7 @@ export default function DocumentModal({ documentID }) {
       <Divider className={style.margin_10} />
       <div className={style.source_container}>
         <h4 className={style.margin_5}>
-          <ReadOutlined /> Información de la Revista:
+          <ReadOutlined /> Información de la Fuente:
         </h4>
         <Row>
           {scimago ? (
