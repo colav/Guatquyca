@@ -44,6 +44,15 @@ export default function PaginationController({ totalItems, searchParams }) {
     });
   };
 
+  let pageSizeOptions;
+  if (totalItems <= 20) {
+    pageSizeOptions = ["10", "20"];
+  } else if (totalItems <= 50) {
+    pageSizeOptions = ["10", "20", "50"];
+  } else {
+    pageSizeOptions = ["10", "20", "50", "100"];
+  }
+
   return (
     <Row justify="end" id={styles.pagination_container}>
       <Pagination
@@ -52,6 +61,11 @@ export default function PaginationController({ totalItems, searchParams }) {
         current={parseInt(searchParams.page)}
         pageSize={parseInt(searchParams.max)}
         onChange={onChange}
+        showSizeChanger={totalItems > 10}
+        pageSizeOptions={pageSizeOptions}
+        locale={{
+          items_per_page: "/ pág.",
+        }}
       />
     </Row>
   );
