@@ -11,6 +11,7 @@ import WorksInfo from "../WorksInfo/WorksInfo";
 
 /* Icons */
 import {
+  DesktopOutlined,
   FilePdfOutlined,
   FileTextOutlined,
   ReadOutlined,
@@ -21,7 +22,7 @@ import {
 
 /* lib */
 import { APIRequest } from "@/lib/APIS/clientAPI";
-import { IDIOMAS } from "@/lib/constants";
+import { LANGUAGES } from "@/lib/constants";
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 
@@ -118,9 +119,20 @@ export default function DocumentModal({ documentID }) {
         >
           JSON
         </Button>
+        {doi && (
+          <Button
+            type="default"
+            size="small"
+            icon={<DesktopOutlined />}
+            href={doi}
+            target="_blank"
+          >
+            HTML
+          </Button>
+        )}
       </Space>
       <h4 className={style.margin_5}>
-        <TranslationOutlined /> Idioma: {IDIOMAS[language]}
+        <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
       <h4 className={style.margin_5}>
         <TeamOutlined /> Autores:{" "}
