@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 /* Components */
-import AuthorsAffiliationsTooltip from "@/app/components/ServerSide/AuthorsAffiliationsTooltip/AuthorsAffiliationsTooltip";
+import AuthorTooltip from "@/app/components/ServerSide/AuthorTooltip/AuthorTooltip";
 import ShowMoreAPICall from "../ShowMoreButton/ShowMoreAPICall";
 
 /* UI Library Components */
@@ -28,21 +28,23 @@ export default function AuthorsList({ authors, authors_count, workID }) {
     <div>
       {authorsList.map((author) => (
         <Tooltip
-          overlayStyle={{ width: "300px" }}
-          title={
-            author.id ? (
-              <AuthorsAffiliationsTooltip author={author} />
-            ) : (
-              <div style={{ color: "black" }}>
-                Este autor no tiene información adicional.
-              </div>
-            )
-          }
+          styles={{ root: { width: "300px" } }}
+          title={<AuthorTooltip author={author} />}
           color="white"
           trigger="click"
           key={author.id}
         >
-          <Button type="link">{author.full_name}</Button>
+          <Button
+            style={{
+              marginRight: "8px",
+              backgroundColor: author.type === "advisor" ? "#f0f5fa" : "none",
+            }}
+            size="small"
+            color="blue"
+            variant="link"
+          >
+            {author.full_name}
+          </Button>
         </Tooltip>
       ))}
       {authors_count > 10 && (
