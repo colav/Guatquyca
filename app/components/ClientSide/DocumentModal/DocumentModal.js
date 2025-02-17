@@ -61,15 +61,15 @@ export default function DocumentModal({ documentID }) {
     citations_count,
     source,
     subjects,
-    volume,
-    issue,
     external_ids,
     external_urls,
     open_access,
     doi,
+    bibliographic_info,
   } = state.data.data;
   const { name, serials, scimago_quartile } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
+  const { issue, volume, start_page, end_page } = bibliographic_info || {};
 
   const sourceItems = [
     { key: "4", label: "Fuente", children: name || "No disponible" },
@@ -80,11 +80,18 @@ export default function DocumentModal({ documentID }) {
     },
     { key: "6", label: "Volumen", children: volume || "No disponible" },
     { key: "7", label: "Issue", children: issue || "No disponible" },
-    { key: "8", label: "pISSN", children: pissn || "No disponible" },
-    { key: "9", label: "ISSN", children: issn || "No disponible" },
-    { key: "10", label: "Scienti", children: scienti || "No disponible" },
     {
-      key: "11",
+      key: "8",
+      label: "Pág. inicial - Pág. final",
+      children: `${start_page || "No disponible"} - ${
+        end_page || "No disponible"
+      }`,
+    },
+    { key: "9", label: "pISSN", children: pissn || "No disponible" },
+    { key: "10", label: "ISSN", children: issn || "No disponible" },
+    { key: "11", label: "Scienti", children: scienti || "No disponible" },
+    {
+      key: "12",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
