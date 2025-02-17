@@ -34,10 +34,10 @@ test.describe("Testing Groups entity", () => {
     });
 
     // Open the dropdown to select the number of search results displayed per page.
-    await page.getByText("/ page").click();
+    await page.getByText("/ pág.").click();
 
     // Select to display 20 results per page from the dropdown options.
-    await page.getByText("20 / page").click();
+    await page.getByText("20 / pág.").click();
 
     // Code snippet to capture API responses with error codes after navigation.
     page.on("response", (response) => {

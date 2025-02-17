@@ -18,10 +18,10 @@ test.describe("Testing Works entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Open the dropdown to select the number of results displayed per page
-    await page.getByText("/ page").click();
+    await page.getByText("/ pág.").click();
 
     // Select "20 results per page" from the dropdown options
-    await page.getByText("20 / page").click();
+    await page.getByText("20 / pág.").click();
 
     // Verify that the text "Autores" is visible, indicating the correct page content is loaded
     await expect(page.getByText("Autores").nth(0)).toBeVisible();

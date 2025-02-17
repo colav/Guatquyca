@@ -38,10 +38,10 @@ test.describe("Testing Authors entity", () => {
     });
 
     // Open the dropdown to select the number of search results per page.
-    await page.getByText("/ page").click();
+    await page.getByText("/ pág.").click();
 
     // Select the option to display 50 results per page.
-    await page.getByText("50 / page").click();
+    await page.getByText("50 / pág.").click();
 
     // Code snippet to capture API responses with error codes after navigation.
     page.on("response", (response) => {
