@@ -82,7 +82,7 @@ export default function DocumentModal({ documentID }) {
     { key: "7", label: "Issue", children: issue || "No disponible" },
     {
       key: "8",
-      label: "Pág. inicial - Pág. final",
+      label: "Páginas",
       children: `${start_page || "No disponible"} - ${
         end_page || "No disponible"
       }`,
