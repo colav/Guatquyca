@@ -25,23 +25,11 @@ export default function TopMenu({ person = false, currentTab }) {
   const { ID, entity } = useParams();
 
   const items = person
-    ? [
-        { label: "Investigación", key: "research" },
-        { label: "Extensión", key: "extension", disabled: true },
-        { label: "Cooperación", key: "cooperation", disabled: true },
-      ]
+    ? [{ label: "Investigación", key: "research" }]
     : [
         { label: "Afiliaciones", key: "affiliations" },
         { label: "Investigación", key: "research" },
-        { label: "Extensión", key: "extension", disabled: true },
-        { label: "Cooperación", key: "cooperation", disabled: true },
       ];
-
-  const defaultTab = {
-    cooperation: "agreements",
-    extension: "entrepreneurship",
-    research: "products",
-  };
 
   /**
    * onSelect is a function that is called when a menu item is selected.
@@ -52,15 +40,19 @@ export default function TopMenu({ person = false, currentTab }) {
    */
   const onSelect = ({ key }) => {
     const path = person
-      ? `/person/${ID}/${key}/${defaultTab[key]}?max=10&page=1&sort=citations_desc`
+      ? `/person/${ID}/${key}/products?max=10&page=1&sort=citations_desc`
       : `/affiliation/${entity}/${ID}/${key}${
-          defaultTab[key] ? "/" + defaultTab[key] : ""
+          key === "research" ? "/products" : ""
         }?max=10&page=1&sort=citations_desc`;
     router.push(path);
   };
 
   return (
-    <div className={styles.topMenu_container}>
+    <div
+      className={
+        person ? styles.topMenu_container_on_authors : styles.topMenu_container
+      }
+    >
       <Menu
         mode="horizontal"
         className={styles.topMenu_tabs}
