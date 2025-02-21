@@ -11,6 +11,7 @@ import WorksInfo from "../WorksInfo/WorksInfo";
 
 /* Icons */
 import {
+  DesktopOutlined,
   FilePdfOutlined,
   FileTextOutlined,
   ReadOutlined,
@@ -21,7 +22,7 @@ import {
 
 /* lib */
 import { APIRequest } from "@/lib/APIS/clientAPI";
-import { IDIOMAS } from "@/lib/constants";
+import { LANGUAGES } from "@/lib/constants";
 import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
 import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 
@@ -60,18 +61,18 @@ export default function DocumentModal({ documentID }) {
     citations_count,
     source,
     subjects,
-    volume,
-    issue,
     external_ids,
     external_urls,
     open_access,
     doi,
+    bibliographic_info,
   } = state.data.data;
   const { name, serials, scimago_quartile } = source || {};
   const { pissn, issn, scimago, scienti, openalex } = serials || {};
+  const { issue, volume, start_page, end_page } = bibliographic_info || {};
 
   const sourceItems = [
-    { key: "4", label: "Revista", children: name || "No disponible" },
+    { key: "4", label: "Fuente", children: name || "No disponible" },
     {
       key: "5",
       label: "Cuartil año de publicación",
@@ -79,11 +80,18 @@ export default function DocumentModal({ documentID }) {
     },
     { key: "6", label: "Volumen", children: volume || "No disponible" },
     { key: "7", label: "Issue", children: issue || "No disponible" },
-    { key: "8", label: "pISSN", children: pissn || "No disponible" },
-    { key: "9", label: "ISSN", children: issn || "No disponible" },
-    { key: "10", label: "Scienti", children: scienti || "No disponible" },
     {
-      key: "11",
+      key: "8",
+      label: "Páginas",
+      children: `${start_page || "No disponible"} - ${
+        end_page || "No disponible"
+      }`,
+    },
+    { key: "9", label: "pISSN", children: pissn || "No disponible" },
+    { key: "10", label: "ISSN", children: issn || "No disponible" },
+    { key: "11", label: "Scienti", children: scienti || "No disponible" },
+    {
+      key: "12",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
@@ -118,9 +126,20 @@ export default function DocumentModal({ documentID }) {
         >
           JSON
         </Button>
+        {doi && (
+          <Button
+            type="default"
+            size="small"
+            icon={<DesktopOutlined />}
+            href={doi}
+            target="_blank"
+          >
+            HTML
+          </Button>
+        )}
       </Space>
       <h4 className={style.margin_5}>
-        <TranslationOutlined /> Idioma: {IDIOMAS[language]}
+        <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
       <h4 className={style.margin_5}>
         <TeamOutlined /> Autores:{" "}
@@ -158,7 +177,7 @@ export default function DocumentModal({ documentID }) {
       <Divider className={style.margin_10} />
       <div className={style.source_container}>
         <h4 className={style.margin_5}>
-          <ReadOutlined /> Información de la Revista:
+          <ReadOutlined /> Información de la Fuente:
         </h4>
         <Row>
           {scimago ? (

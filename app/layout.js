@@ -2,6 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
+/* Analytics */
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 /* UI Components */
 import { ConfigProvider } from "antd";
 import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
@@ -53,6 +56,7 @@ export default function RootLayout({ children }) {
           </AntdRegistry>
         </ConfigProvider>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }

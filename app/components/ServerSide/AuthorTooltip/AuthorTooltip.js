@@ -2,10 +2,7 @@
 import Link from "next/link";
 
 /* Components */
-import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
-
-/* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
+import AuthorInfoFetcher from "./AuthorInfoFetcher";
 
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.
@@ -13,36 +10,36 @@ import { APIRequest } from "@/lib/APIS/clientAPI";
  * @param {Object} author - An object representing an author. It should have properties like 'id', 'full_name', and 'affiliations'.
  * @returns {JSX.Element} A fragment containing the author's name and a list of their affiliations.
  */
-export default function AuthorsAffiliationsTooltip({ author }) {
-  const [state] = APIRequest(`/app/person/${author.id}`);
+export default function AuthorsTooltip({ author }) {
   const { id, full_name } = author;
 
-  if (state.isError) {
-    return "No hay información disponible";
-  }
-  if (state.isLoading) {
-    return null;
-  }
+  console.log(author);
+
   return (
     <>
       <div>
-        <div>
+        <div style={{ color: "black" }}>
           {id ? (
-            <Link href={`/person/${id}/research/products`}>{full_name}</Link>
+            <Link
+              href={`/person/${id}/research/products?max=10&page=1&sort=citations_desc`}
+            >
+              {full_name}
+            </Link>
           ) : (
-            <span style={{ color: "black" }}>
+            <span>
               <b>{full_name}</b>
             </span>
-          )}
+          )}{" "}
+          {author.type === "advisor" ? "(Asesor de tesis)" : ""}
         </div>
-        {state.data.data.affiliations.map((item) => {
+        {author.affiliations.map((item) => {
           const { id, name, types } = item;
           const type = types[0]?.type;
           let link;
 
           switch (type) {
             case "group":
-              link = `/affiliation/group/${id}/research/products`;
+              link = `/affiliation/group/${id}/research/products?max=10&page=1&sort=citations_desc`;
               break;
             case "department":
               link = `/affiliation/department/${id}/affiliations`;
@@ -54,16 +51,15 @@ export default function AuthorsAffiliationsTooltip({ author }) {
               link = `/affiliation/institution/${id}/affiliations`;
           }
 
-          return (
-            <div key={id}>
-              <Link href={link}>• {name}</Link>
-            </div>
-          );
+          if (item.name)
+            return (
+              <div key={id}>
+                <Link href={link}>• {name}</Link>
+              </div>
+            );
         })}
       </div>
-      <div>
-        <AuthorsExternalProfiles profilesList={state.data.data.external_ids} />
-      </div>
+      {author.id && <AuthorInfoFetcher id={id} />}
     </>
   );
 }

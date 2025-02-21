@@ -27,18 +27,17 @@ import { SINGULAR } from "@/lib/constants";
  * component if no data is found.
  * @example
  * return (
- *   <Page params={{ entity: "institution", ID: "12345" }} />
+ *   <AffiliationsPage params={{ entity: "institution", ID: "12345" }} />
  * )
  */
 export default async function AffiliationsPage({ params }) {
   const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
   const { data, fullUrl } = await getData(URL);
 
-  /* let keys = Object.keys(data).filter((key) => data[key].length > 0); */
-  let keys = Object.keys(data).filter((key) => data[key]);
-  if (params.ID === "66f6f44899b6ea475f3be52f") {
-    keys = keys.filter((key) => key !== "departments");
-  }
+  // Filter keys to include only those with non-empty arrays
+  let keys = Object.keys(data).filter(
+    (key) => Array.isArray(data[key]) && data[key].length > 0
+  );
 
   return (
     <>
