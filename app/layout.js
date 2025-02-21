@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
           </AntdRegistry>
         </ConfigProvider>
       </body>
-      <GoogleAnalytics gaId="G-W7EXCCG79F" />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }
