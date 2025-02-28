@@ -69,7 +69,7 @@ test.describe("Testing Faculties entity", () => {
 
     // Wait for the text indicating the number of "Unidades académicas" to appear and store its content.
     const facultiesTextContent = await page
-      .getByText(/Unidades académicas/)
+      .getByText(/^\d+ Unidades académicas/)
       .textContent();
 
     // Extract the number of faculties from the stored text.

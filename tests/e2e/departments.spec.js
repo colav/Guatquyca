@@ -96,7 +96,7 @@ test.describe("Testing Departments entity", () => {
 
     // Wait for the text indicating the number of "Subunidades académicas" to appear and store its content.
     const departmentsTextContent = await page
-      .getByText(/Subunidades académicas/)
+      .getByText(/^\d+ Subunidades académicas/)
       .textContent();
 
     // Extract the number of departments from the stored text.

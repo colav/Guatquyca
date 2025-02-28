@@ -90,7 +90,7 @@ test.describe("Testing Groups entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Grupos" to appear and store its content
-    const groupsTextContent = await page.getByText(/Grupos/).textContent();
+    const groupsTextContent = await page.getByText(/^\d+ Grupos/).textContent();
 
     // Extract the number of "Grupos" from the stored text
     const numberOfGroups = parseInt(groupsTextContent.match(/(\d+)/)[0], 10);
