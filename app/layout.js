@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "ImpactU",
   description:
-    "Laboratorio de I+D para la evaluación responsable de la investigación en Colombia.",
+    "ImpactU es el laboratorio de I+D líder en evaluación responsable de la investigación en Colombia. Ofrecemos la plataforma CRIS más completa del país, con datos sólidos basados en principios FAIR y Métricas Responsables para impulsar la producción académica.",
 };
 
 /**

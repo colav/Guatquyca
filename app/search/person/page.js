@@ -5,7 +5,9 @@ import Loading from "@/app/loading";
 import PersonList from "@/app/components/ServerSide/PersonList/PersonList";
 
 export const metadata = {
-  title: "Resultados de Búsqueda - ImpactU",
+  title: "Resultados de búsqueda de Autores",
+  description:
+    "Encuentra autores y perfiles de investigadores en ImpactU. Explora su producción académica, colaboraciones y métricas en nuestra plataforma CRIS.",
 };
 
 /**

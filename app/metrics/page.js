@@ -5,9 +5,9 @@ import MetricsTable from "./MetricsTable";
 import { Col, Divider, Row } from "antd";
 
 export const metadata = {
-  title: "Métricas responsables - ImpactU",
+  title: "Métricas responsables",
   description:
-    "Laboratorio de I+D para la evaluación responsable de la investigación en Colombia.",
+    "Descubre cómo ImpactU promueve Métricas Responsables en la evaluación de la investigación. Adoptamos enfoques éticos y equitativos para medir el impacto académico con transparencia y rigor.",
 };
 
 /**

@@ -6,7 +6,9 @@ import Loading from "@/app/loading";
 import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 
 export const metadata = {
-  title: "Resultados de Búsqueda - ImpactU",
+  title: "Resultados de búsqueda de Productos",
+  description:
+    "Explora productos académicos colombianos con gran cantidad de metadatos: títulos, autores, fechas, revistas, citas y resúmenes. ImpactU facilita la evaluación responsable de la investigación nacional.",
 };
 
 /**

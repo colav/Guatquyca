@@ -6,7 +6,9 @@ import CommonTitleCard from "@/app/components/ServerSide/CommonTitleCard/CommonT
 import getData from "@/lib/APIS/api";
 
 export const metadata = {
-  title: `Perfil de Autor - ImpactU`,
+  title: "Perfil de Autor",
+  description:
+    "Explora el perfil de investigadores en ImpactU. Consulta su producción científica, colaboraciones y métricas de impacto en la investigación académica.",
 };
 
 /**

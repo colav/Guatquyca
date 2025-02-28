@@ -5,7 +5,7 @@ import Loading from "@/app/loading";
 import OtherWorksList from "@/app/components/ServerSide/OtherWorksList/OtherWorksList";
 
 export const metadata = {
-  title: "Resultados de Búsqueda de Patentes - ImpactU",
+  title: "Resultados de búsqueda de Otros Productos",
 };
 
 /**

@@ -5,7 +5,9 @@ import Loading from "@/app/loading";
 import PatentsList from "@/app/components/ServerSide/PatentsList/PatentsList";
 
 export const metadata = {
-  title: "Resultados de Búsqueda de Patentes - ImpactU",
+  title: "Resultados de búsqueda de Patentes",
+  description:
+    "Explora patentes innovadoras con ImpactU. Encuentra información detallada sobre invenciones registradas, titulares y clasificaciones tecnológicas en nuestra plataforma de investigación académica.",
 };
 
 /**

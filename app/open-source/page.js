@@ -2,7 +2,9 @@
 import { Col, Divider, Row, Table } from "antd";
 
 export const metadata = {
-  title: "Código Abierto - ImpactU",
+  title: "Código Abierto",
+  descriptcion:
+    "Descubre cómo ImpactU adopta el código abierto para impulsar la transparencia y la colaboración en la gestión de la investigación académica.",
 };
 
 /**
