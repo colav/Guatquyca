@@ -27,11 +27,12 @@ import styles from "./styles.module.css";
 import { Col, Collapse, Row, ConfigProvider } from "antd";
 import Fuentes from "./Fuentes";
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+export const metadata = {
+  title: "Manual de Usuario",
+  description:
+    "Consulta el Manual de Usuario de ImpactU y aprende a utilizar la plataforma CRIS más completa de Colombia para buscar información y analizar métricas.",
+};
+
 const items = [
   {
     key: "1",

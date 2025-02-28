@@ -90,7 +90,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Wait for the text indicating the number of "Instituciones" to appear and store its content.
     const institutionsTextContent = await page
-      .getByText(/Instituciones/)
+      .getByText(/^\d+ Instituciones/)
       .textContent();
 
     // Extract the number of institutions from the stored text.

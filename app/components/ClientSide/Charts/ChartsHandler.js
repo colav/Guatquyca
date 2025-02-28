@@ -95,7 +95,11 @@ export default function ChartsHandler({ plotlist }) {
       state.data?.plot && state.data.plot.length > 7 ? (
         <TreemapChart data={state.data.plot} chart={selectedPlot.value} />
       ) : (
-        <PieChart data={state.data.plot} sum={state.data.sum} />
+        <PieChart
+          data={state.data.plot}
+          sum={state.data.sum}
+          isOA={selectedPlot.value === "articles_by_access_route"}
+        />
       ),
     distribution:
       state.data?.plot && state.data.plot[0]?.type ? (

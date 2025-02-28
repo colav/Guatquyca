@@ -6,6 +6,8 @@ import { Col, Divider, Row } from "antd";
 
 export const metadata = {
   title: "Principios de ImpactU",
+  description:
+    "Conoce los principios de ImpactU: datos abiertos, software colaborativo, financiación compartida y vinculación con el entorno. Impulsamos la transparencia y el impacto social en la investigación académica.",
 };
 
 /**

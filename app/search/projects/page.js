@@ -5,7 +5,9 @@ import Loading from "@/app/loading";
 import ProjectsList from "@/app/components/ServerSide/ProjectsList/ProjectsList";
 
 export const metadata = {
-  title: "Resultados de Búsqueda de Patentes - ImpactU",
+  title: "Resultados de búsqueda de Proyectos",
+  description:
+    "Explora proyectos de investigación con ImpactU. Encuentra información detallada sobre iniciativas académicas",
 };
 
 /**

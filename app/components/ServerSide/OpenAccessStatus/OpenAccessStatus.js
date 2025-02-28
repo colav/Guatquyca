@@ -18,10 +18,10 @@ import { Tag, Tooltip } from "antd";
  */
 export default function OpenAccessStatus({ status }) {
   const OA_STATUS = {
-    hybrid: { label: "Híbrido", color: "geekblue" },
+    hybrid: { label: "Híbrido", color: "lime" },
     green: { label: "Verde", color: "green" },
     gold: { label: "Dorado", color: "gold" },
-    closed: { label: "Cerrado", color: "default" },
+    closed: { label: "Cerrado", color: "red" },
     bronze: { label: "Bronce", color: "volcano" },
     diamond: { label: "Diamante", color: "cyan" },
   };

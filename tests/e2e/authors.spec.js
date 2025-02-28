@@ -100,7 +100,9 @@ test.describe("Testing Authors entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Wait for the text indicating the number of "Autores" to appear and store its content.
-    const authorsTextContent = await page.getByText(/Autores/).textContent();
+    const authorsTextContent = await page
+      .getByText(/^\d+ Autores$/)
+      .textContent();
 
     // Extract the number of authors from the stored text.
     const numberOfAuthors = parseInt(authorsTextContent.match(/(\d+)/)[0], 10);
