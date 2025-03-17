@@ -89,9 +89,12 @@ export default function About() {
           de la {<b>Universidad de Antioquia</b>} en colaboración con la{" "}
           {<b>Universidad Autónoma Latinoamericana</b>}, la{" "}
           {<b>Universidad Externado de Colombia</b>} y la{" "}
-          {<b>Universidad del Valle.</b>} Su propósito es desarrollar
-          herramientas para implementar modelos de métricas responsables con el
-          principio de multidimensionalidad y robustez de la información para:
+          {<b>Universidad del Valle.</b>} En la actualidad se está conformando
+          un consorcio nacional con el apoyo de ASCUN para proyectar la
+          plataforma como un proyecto de carácter nacional. Su propósito es
+          desarrollar herramientas para implementar modelos de métricas
+          responsables con el principio de multidimensionalidad y robustez de la
+          información para:
         </p>
         <ul>
           <li>
@@ -158,17 +161,6 @@ export default function About() {
           decisiones.
         </h3>
         <br />
-        <p>
-          Inicialmente la plataforma está adaptada para la consulta en detalle
-          de la {<b>Universidad de Antioquia</b>},{" "}
-          {<b>Universidad Autónoma Latinoamericana</b>}, la{" "}
-          {<b>Universidad Externado de Colombia</b>} y la{" "}
-          {<b>Universidad del Valle</b>}, pero contiene todos los datos
-          disponibles de la producción Colombiana disponibles en las bases
-          utilizadas. El instrumento es de fácil escalabilidad a otras
-          instituciones nacionales con algunos datos mínimos de los docentes
-          vinculados a cada entidad.
-        </p>
       </Col>
     </Row>
   );

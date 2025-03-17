@@ -24,7 +24,7 @@ export default function Foot() {
     <Footer id={styles.footer_container}>
       <Row gutter={[20, 10]} justify="space-around" align="middle">
         <Col span={24} id={styles.title}>
-          Una colaboración entre:
+          Fundadores:
         </Col>
         <Col xs={24} md={4} className={styles.width_370}>
           <a href="http://www.udea.edu.co/" target="_blank" rel="noreferrer">
@@ -144,11 +144,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.8.0
+          ImpactU Versión 3.8.2
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 20/02/2025
+          Interfaz de Usuario: 17/03/2025
           <br />
           Base de Datos: 25/12/2024
           <br />

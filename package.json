@@ -1,6 +1,6 @@
 {
   "name": "guatquyca",
-  "version": "3.8.0",
+  "version": "3.8.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -25,7 +25,7 @@
     "sharp": "^0.33.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.1",
+    "@playwright/test": "^1.51.0",
     "@types/node": "^20.14.9",
     "dotenv": "^16.4.5"
   }
