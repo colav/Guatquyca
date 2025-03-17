@@ -34,7 +34,7 @@ test.describe("Testing ImpactU Homepage", () => {
   // Verify the Scroll to Top button is visible when the page is at the bottom.
   test("scroll to top button is working", async ({ page }) => {
     // Scroll the footer into view, forcing the button "Scroll to Top" to appear.
-    await page.getByText("Una colaboración entre:").scrollIntoViewIfNeeded();
+    await page.getByText("Fundadores:").scrollIntoViewIfNeeded();
     await page.getByRole("button", { name: "vertical-align-top" }).click();
 
     // Check if the page has scrolled to the top
