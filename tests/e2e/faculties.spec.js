@@ -114,7 +114,7 @@ test.describe("Testing Faculties entity", () => {
     // Fill the search bar with the faculty name "Facultad de Ciencias Exactas y Naturales"
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill('"Facultad de Ciencias Exactas y Naturales"');
+      .pressSequentially('"Facultad de Ciencias Exactas y Naturales"');
 
     // Initiate the search by clicking the search button
     await page.getByRole("button", { name: "search" }).click();

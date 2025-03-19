@@ -35,6 +35,7 @@ yarn-error.log*
 next-env.d.ts
 /test-results/
 /playwright-report/
+/playwright-report-vip/
 /blob-report/
 /playwright/.cache/
 node_modules/

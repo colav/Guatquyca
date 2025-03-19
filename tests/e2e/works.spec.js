@@ -112,7 +112,7 @@ test.describe("Testing Works entity", () => {
     // Fill the SearchBar with a specific research paper title
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill(
+      .pressSequentially(
         '"Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"'
       );
 

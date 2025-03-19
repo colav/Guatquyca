@@ -156,7 +156,7 @@ test.describe("Testing Authors entity", () => {
     // Fill the search bar with the keyword "Diego Alejandro Restrepo".
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill('"Diego Alejandro Restrepo"');
+      .pressSequentially('"Diego Alejandro Restrepo"');
 
     // Click on the search button to initiate the search.
     await page.getByRole("button", { name: "search" }).click();
