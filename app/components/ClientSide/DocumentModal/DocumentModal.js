@@ -67,8 +67,8 @@ export default function DocumentModal({ documentID }) {
     doi,
     bibliographic_info,
   } = state.data.data;
-  const { name, serials, scimago_quartile } = source || {};
-  const { pissn, issn, scimago, scienti, openalex } = serials || {};
+  const { name, scimago_quartile } = source || {};
+  const { pissn, issn, scimago, openalex } = source.external_ids || {};
   const { issue, volume, start_page, end_page } = bibliographic_info || {};
 
   const sourceItems = [
