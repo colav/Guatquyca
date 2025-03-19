@@ -89,9 +89,8 @@ export default function DocumentModal({ documentID }) {
     },
     { key: "9", label: "pISSN", children: pissn || "No disponible" },
     { key: "10", label: "ISSN", children: issn || "No disponible" },
-    { key: "11", label: "Scienti", children: scienti || "No disponible" },
     {
-      key: "12",
+      key: "11",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
