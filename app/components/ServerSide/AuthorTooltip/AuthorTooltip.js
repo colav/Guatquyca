@@ -29,8 +29,7 @@ export default function AuthorsTooltip({ author }) {
             <span>
               <b>{full_name}</b>
             </span>
-          )}{" "}
-          {author.type === "advisor" ? "(Asesor de tesis)" : ""}
+          )}
         </div>
         {author.affiliations.map((item) => {
           const { id, name, types } = item;

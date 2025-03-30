@@ -24,6 +24,8 @@ import { Button, Tooltip } from "antd";
 export default function AuthorsList({ authors, authors_count, workID }) {
   const [authorsList, setAuthorsList] = useState(authors);
 
+  const authorType = { advisor: "Asesor", "co-advisor": "Co-asesor" };
+
   return (
     <div>
       {authorsList.map((author) => (
@@ -35,15 +37,13 @@ export default function AuthorsList({ authors, authors_count, workID }) {
           key={author.id}
         >
           <Button
-            style={{
-              marginRight: "8px",
-              backgroundColor: author.type === "advisor" ? "#f0f5fa" : "none",
-            }}
+            style={{ marginRight: "8px" }}
             size="small"
             color="blue"
             variant="link"
           >
             {author.full_name}
+            {authorType[author.type] ? ` (${authorType[author.type]})` : ""}
           </Button>
         </Tooltip>
       ))}
