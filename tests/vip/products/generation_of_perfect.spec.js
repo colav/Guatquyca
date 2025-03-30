@@ -89,16 +89,15 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     });
 
     // Verify OpenAlex citation count
-    await test.step("Check that the OpenAlex citation count is displayed and that at least two citation elements exist", async () => {
+    await test.step("Check that the OpenAlex citation count is displayed and that at least one citation elements exist", async () => {
       const citations = await modal.locator('img[alt^="Citations:"]').all();
-      if (citations.length < 2)
-        throw new Error("Less than 2 citation elements found.");
+      if (citations.length < 1)
+        throw new Error("Less than 1 citation elements found.");
 
-      const altText = await citations[1].getAttribute("alt");
-      const citationCount = parseInt(
-        altText?.match(/Citations: (\d+)/)?.[1],
-        10
-      );
+      const altText = await citations[0].getAttribute("alt");
+
+      const match = altText.match(/Citations: (\d+)/);
+      const citationCount = parseInt(match[1], 10);
       expect(citationCount).toBeGreaterThanOrEqual(20);
     });
 

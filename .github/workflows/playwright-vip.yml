@@ -23,7 +23,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run VIP Playwright tests
-        run: npx playwright test tests/vip --output=playwright-report-vip
+        run: npx playwright test tests/vip
       - name: test folder
         run: ls -la playwright-report-vip
       - name: Upload HTML report to ci-front-vip
@@ -32,4 +32,4 @@ jobs:
         run: |
           sudo apt install -y sshpass
           sshpass -p "${{secrets.SSH_PASS}}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report-vip/ ci-front@ci-front.colav.co:/home/ci-front/playwright
-          echo "::notice title=HTML report url::https://ci-front.colav.co/index.html"
+          echo "::notice title=HTML report url::https://ci-front.colav.co"
