@@ -40,6 +40,9 @@ import { APIRequest } from "@/lib/APIS/clientAPI";
 /* Next */
 import Link from "next/link";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { AutoComplete, Select, Input, ConfigProvider, Divider } from "antd";
 
@@ -167,22 +170,23 @@ export default function SearchBar() {
         return {
           label: (
             <>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div className={styles.label_container}>
                 <Link
                   href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
+                  className={styles.label}
                 >
                   {item.full_name}
                 </Link>
-                <span style={{ fontSize: 13, color: "#555" }}>
+                <span className={styles.subtitles}>
                   <FileTextOutlined /> {item._source.products_count}
                 </span>
               </div>
               {item._source?.affiliations?.[0]?.name && (
-                <div style={{ fontSize: 13, color: "#555" }}>
-                  <BankOutlined /> {item._source.affiliations[0].name}
+                <div className={styles.subtitles}>
+                  <BankOutlined /> {item._source.affiliations[0].name}.
                 </div>
               )}
-              {!isLast && <Divider style={{ margin: 0 }} />}
+              {!isLast && <Divider className={styles.margin_0} />}
             </>
           ),
           value: item._id,
@@ -196,11 +200,11 @@ export default function SearchBar() {
             <Link href={href}>{item.name}</Link>
             {selectedOption.value !== "institution" &&
               item._source?.relations?.length && (
-                <div style={{ fontSize: 13, color: "#555", textWrap: "wrap" }}>
+                <div className={styles.subtitles}>
                   <BankOutlined /> {item._source.relations.join(", ")}.
                 </div>
               )}
-            {!isLast && <Divider style={{ margin: 0 }} />}
+            {!isLast && <Divider className={styles.margin_0} />}
           </>
         ),
         value: item._id,
@@ -232,14 +236,15 @@ export default function SearchBar() {
     setSuggestionsUrl("");
   };
 
-  const notFoundContent = NO_AUTOCOMPLETE_TYPES.includes(selectedOption.value)
-    ? null
-    : searchInput.trim() && autoCompleteOptions.length === 0
-    ? "No se encontraron resultados para la búsqueda."
-    : null;
+  let notFoundContent = null;
+  if (!NO_AUTOCOMPLETE_TYPES.includes(selectedOption.value)) {
+    if (searchInput.trim() && autoCompleteOptions.length === 0) {
+      notFoundContent = "No se encontraron resultados para la búsqueda.";
+    }
+  }
 
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <div id={styles.searchbar}>
       <ConfigProvider theme={selectTheme}>
         <Select
           size="large"
@@ -254,7 +259,7 @@ export default function SearchBar() {
       <ConfigProvider theme={{ token: { borderRadius: 0, fontSize: 16 } }}>
         <AutoComplete
           style={{ marginLeft: -1, flex: 1, height: 40 }}
-          popupMatchSelectWidth={550}
+          popupClassName={styles.autocomplete}
           onSearch={handleAutoComplete}
           onSelect={handleSelect}
           options={autoCompleteOptions}

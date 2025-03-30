@@ -49,8 +49,7 @@ export default function Home() {
               <h3 className={styles.marginTop_0}>
                 La información puede ser consultada por autores, instituciones,
                 unidades académicas, subunidades académicas, grupos de
-                investigación, patentes, productos, proyectos, otros productos,
-                convenios y emprendimientos.
+                investigación, patentes, productos, proyectos y otros productos.
               </h3>
               <div id={"searchbar_container"}>
                 <Suspense>
@@ -107,7 +106,7 @@ export default function Home() {
         </Col>
         <Row justify={"center"} className={styles.margin_top_50}>
           <Col xs={24} md={16} style={{ textAlign: "center" }}>
-            <h1>
+            <h1 style={{ fontSize: "24px" }}>
               Si deseas mejorar tus datos institucionales en{" "}
               <b id={styles.impact}>Impact</b>
               <b id={styles.u}>U</b>, puedes ponerte en contacto con nosotros:
