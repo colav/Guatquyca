@@ -200,7 +200,11 @@ export default function SearchBar() {
               {selectedOption.value !== "institution" &&
                 item._source?.relations?.length && (
                   <div className={styles.subtitles}>
-                    <BankOutlined /> {item._source.relations.join(", ")}.
+                    <BankOutlined />{" "}
+                    {selectedOption.value === "faculty"
+                      ? item._source?.relations?.[0]
+                      : item._source.relations.join(", ")}
+                    .
                   </div>
                 )}
             </div>
