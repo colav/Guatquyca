@@ -13,6 +13,7 @@
   color: #555;
   text-wrap: wrap;
   font-weight: 500;
+  min-width: 35px;
 }
 
 .margin_0 {

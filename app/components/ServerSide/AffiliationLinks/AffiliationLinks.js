@@ -24,6 +24,8 @@ import { Tooltip } from "antd";
 export default function AffiliationLinks({ affList, person = false }) {
   const ENTITIES = ["group", "department", "faculty"];
 
+  console.log(affList);
+
   return (
     <>
       <h2 style={{ margin: 0, color: "gray" }}>
