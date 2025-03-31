@@ -23,8 +23,8 @@ test.describe("Testing Works entity", () => {
     // Select "20 results per page" from the dropdown options
     await page.getByText("20 / pág.").click();
 
-    // Verify that the text "Autores" is visible, indicating the correct page content is loaded
-    await expect(page.getByText("Autores").nth(0)).toBeVisible();
+    // Verify that the text "Publicado" is visible, indicating the correct page content is loaded
+    await expect(page.getByText("Publicado").nth(0)).toBeVisible();
 
     // Ensure the URL reflects the selected option for 20 results per page, on the first page
     await expect(page).toHaveURL(
@@ -35,8 +35,8 @@ test.describe("Testing Works entity", () => {
     // Navigate to the third page of the search results
     await page.locator('a:text-is("3")').click();
 
-    // Verify that the text "Autores" is still visible, indicating the page content is consistent
-    await expect(page.getByText("Autores").nth(0)).toBeVisible();
+    // Verify that the text "Publicado" is still visible, indicating the page content is consistent
+    await expect(page.getByText("Publicado").nth(0)).toBeVisible();
 
     // Confirm the URL is updated to reflect the navigation to the third page of results
     await expect(page).toHaveURL(
@@ -70,8 +70,8 @@ test.describe("Testing Works entity", () => {
       `/search/works?max=10&page=${randomPage}&sort=citations_desc`
     );
 
-    // Wait for the search results, specifically for the text "Autores", to ensure the page has loaded
-    await page.waitForSelector("text=Autores");
+    // Wait for the search results, specifically for the text "Publicado", to ensure the page has loaded
+    await page.waitForSelector("text=Publicado");
 
     // Locate all links on the page that are designated as type="link"
     const worksLinks = await page.locator('a[type="link"]').all();
