@@ -49,8 +49,7 @@ export default function Home() {
               <h3 className={styles.marginTop_0}>
                 La información puede ser consultada por autores, instituciones,
                 unidades académicas, subunidades académicas, grupos de
-                investigación, patentes, productos, proyectos, otros productos,
-                convenios y emprendimientos.
+                investigación, patentes, productos, proyectos y otros productos.
               </h3>
               <div id={"searchbar_container"}>
                 <Suspense>
@@ -80,34 +79,40 @@ export default function Home() {
         id={styles.cta}
         className={styles.margin_top_50}
       >
-        <Col xs={24} md={10} lg={8} xl={7} xxl={5}>
-          <Image
-            id={styles.manual_cover}
-            priority={true}
-            src="/media/manual_cover.png"
-            alt="Logo ImpactU"
-            width={297}
-            height={385}
-            quality={100}
-          />
-        </Col>
-        <Col xs={24} md={9} lg={7} xl={6} xxl={4}>
-          <h2>
-            ¿Quieres descubrir todo lo que <b id={styles.impact}>Impact</b>
-            <b id={styles.u}>U</b> tiene para ofrecerte?
-          </h2>
-          <DownloadOutlined />{" "}
-          <a href="/files/Manual_impactu.pdf" download="Manual ImpactU.pdf">
-            Descarga nuestro manual completo en formato PDF aquí.
-          </a>
-          <div style={{ marginTop: "20px" }}>
-            <LinkOutlined />{" "}
-            <Link href="/manual">O visita nuestro manual en línea aquí.</Link>
-          </div>
-        </Col>
+        <Row
+          justify="space-around"
+          align="middle"
+          style={{ marginTop: "50px" }}
+        >
+          <Col xs={24} md={10} lg={8} xl={7} xxl={5}>
+            <Image
+              id={styles.manual_cover}
+              priority={true}
+              src="/media/manual_cover.png"
+              alt="Logo ImpactU"
+              width={297}
+              height={385}
+              quality={100}
+            />
+          </Col>
+          <Col xs={24} md={9} lg={7} xl={6} xxl={8}>
+            <h2>
+              ¿Quieres descubrir todo lo que <b id={styles.impact}>Impact</b>
+              <b id={styles.u}>U</b> tiene para ofrecerte?
+            </h2>
+            <DownloadOutlined />{" "}
+            <a href="/files/Manual_impactu.pdf" download="Manual ImpactU.pdf">
+              Descarga nuestro manual completo en formato PDF aquí.
+            </a>
+            <div style={{ marginTop: "20px" }}>
+              <LinkOutlined />{" "}
+              <Link href="/manual">O visita nuestro manual en línea aquí.</Link>
+            </div>
+          </Col>
+        </Row>
         <Row justify={"center"} className={styles.margin_top_50}>
           <Col xs={24} md={16} style={{ textAlign: "center" }}>
-            <h1>
+            <h1 style={{ fontSize: "24px" }}>
               Si deseas mejorar tus datos institucionales en{" "}
               <b id={styles.impact}>Impact</b>
               <b id={styles.u}>U</b>, puedes ponerte en contacto con nosotros:

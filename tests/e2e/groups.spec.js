@@ -131,7 +131,7 @@ test.describe("Testing Groups entity", () => {
     // Fill the search bar with the keyword "Epidemiología"
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill("Epidemiología");
+      .pressSequentially("Epidemiología");
 
     // Initiate the search by clicking the search button
     await page.getByRole("button", { name: "search" }).click();

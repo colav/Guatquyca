@@ -2,7 +2,7 @@
 import CitationsIcon from "@/public/media/citations";
 import Dimensions from "../Dimensions/Dimensions";
 import OpenAlexBadge from "../OpenAlexBadge/OpenAlexBadge";
-import ScholarBadge from "../ScholarBadge/ScholarBadge";
+/* import ScholarBadge from "../ScholarBadge/ScholarBadge"; */
 
 /* UI Library Components */
 import { Col, Row } from "antd";
@@ -43,9 +43,9 @@ export default function CitationsBadges({
         gutter={15}
         style={{ marginLeft: showTitle === true ? "7px" : "-10px" }}
       >
-        <Col>
+        {/* <Col>
           <ScholarBadge number={scholarCount} />
-        </Col>
+        </Col> */}
         <Col>
           <OpenAlexBadge number={openAlexCount} />
         </Col>

@@ -17,6 +17,19 @@ export const metadata = {
   title: "ImpactU",
   description:
     "ImpactU es el laboratorio de I+D líder en evaluación responsable de la investigación en Colombia. Ofrecemos la plataforma CRIS más completa del país, con datos sólidos basados en principios FAIR y Métricas Responsables para impulsar la producción académica.",
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    url: "https://impactu.colav.co/",
+    images: [
+      {
+        url: "https://impactu.colav.co/media/PreviewIMG.png",
+        width: 630,
+        height: 630,
+        alt: "ImpactU",
+      },
+    ],
+  },
 };
 
 /**

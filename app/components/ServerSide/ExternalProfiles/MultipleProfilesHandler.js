@@ -33,6 +33,7 @@ export default function MultipleProfilesHandler({ profiles, source }) {
   const button = (
     <Button
       type="link"
+      id={`external-profiles-${source}`}
       icon={source === "Google Scholar" ? scholar() : openalex()}
     />
   );

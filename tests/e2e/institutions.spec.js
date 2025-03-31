@@ -134,7 +134,9 @@ test.describe("Testing Institutions entity", () => {
     page,
   }) => {
     // Fill the search bar with the keyword "Antioquia".
-    await page.getByPlaceholder("Búsqueda por palabra clave").fill("Antioquia");
+    await page
+      .getByPlaceholder("Búsqueda por palabra clave")
+      .pressSequentially("Antioquia");
 
     // Click on the search button to initiate the search.
     await page.getByRole("button", { name: "search" }).click();

@@ -67,8 +67,8 @@ export default function DocumentModal({ documentID }) {
     doi,
     bibliographic_info,
   } = state.data.data;
-  const { name, serials, scimago_quartile } = source || {};
-  const { pissn, issn, scimago, scienti, openalex } = serials || {};
+  const { name, scimago_quartile } = source || {};
+  const { pissn, issn, scimago, openalex } = source.external_ids || {};
   const { issue, volume, start_page, end_page } = bibliographic_info || {};
 
   const sourceItems = [
@@ -89,9 +89,8 @@ export default function DocumentModal({ documentID }) {
     },
     { key: "9", label: "pISSN", children: pissn || "No disponible" },
     { key: "10", label: "ISSN", children: issn || "No disponible" },
-    { key: "11", label: "Scienti", children: scienti || "No disponible" },
     {
-      key: "12",
+      key: "11",
       label: "Perfil OpenAlex",
       children: openalex ? (
         <a href={openalex} target="_blank" rel="noreferrer">
@@ -142,7 +141,7 @@ export default function DocumentModal({ documentID }) {
         <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
       <h4 className={style.margin_5}>
-        <TeamOutlined /> Autores:{" "}
+        <TeamOutlined />
       </h4>
       <AuthorsList
         authors={authors}

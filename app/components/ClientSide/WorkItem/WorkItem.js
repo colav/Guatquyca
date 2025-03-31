@@ -1,6 +1,6 @@
 /* Components */
 import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
-import InvisibleContainer from "./InvisibleContainer";
+import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
@@ -10,7 +10,11 @@ import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
-import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  TagsOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -35,13 +39,17 @@ export default function WorkItem({ item }) {
 
   return (
     <>
-      <InvisibleContainer
-        source={item.product_types?.length > 0 && item.product_types[0].source}
-      />
+      {item.product_types.length ? (
+        <InvisibleContainer source={item.product_types} productType="works" />
+      ) : (
+        ""
+      )}
       <Ribbon
         text={
           item.product_types?.length > 0
-            ? PRODUCT_TYPES[item.product_types[0]?.name] ||
+            ? item.product_types.find((type) => type.source === "impactu")
+                ?.name ||
+              PRODUCT_TYPES[item.product_types[0]?.name] ||
               item.product_types[0]?.name
             : ""
         }
@@ -63,7 +71,7 @@ export default function WorkItem({ item }) {
               }
             />
             {item.source.name && <Source sourceName={item.source.name} />}
-            <TeamOutlined /> Autores:{" "}
+            <TeamOutlined />
             <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}

@@ -1,0 +1,33 @@
+.label_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  text-wrap: wrap;
+  width: 80%;
+}
+
+.subtitles {
+  font-size: 13px;
+  color: #555;
+  text-wrap: wrap;
+  font-weight: 500;
+  min-width: 35px;
+}
+
+.margin_0 {
+  margin: 0 !important;
+}
+
+#searchbar {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 480px) {
+  .autocomplete {
+    width: 95vw !important;
+  }
+}

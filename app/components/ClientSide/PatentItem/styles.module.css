@@ -30,7 +30,7 @@
 }
 
 .ribbon {
-  padding: 5px 0 !important;
+  padding: 5px 5px !important;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,0 +1,34 @@
+#tooltip {
+  width: 360px;
+}
+
+.tooltipHeader {
+  margin: 8px;
+}
+
+.divider {
+  margin: 0 !important;
+}
+
+.tooltipContent {
+  margin: 8px;
+}
+
+.tooltipItem {
+  color: black;
+  font-weight: 500;
+}
+
+.tooltipSource {
+  color: #555;
+  font-weight: 400;
+}
+
+.invisibleContainer {
+  width: 102px;
+  height: 50px;
+  position: absolute;
+  z-index: 1000;
+  margin-top: 8px;
+  cursor: pointer;
+}

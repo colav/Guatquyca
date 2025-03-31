@@ -1,9 +1,29 @@
 "use client";
 
 /* Constants */
-import { OPTIONS, OPTIONS_INDEX, AFFILIATIONLIST } from "@/lib/constants";
+import {
+  OPTIONS,
+  OPTIONS_INDEX,
+  AFFILIATIONLIST,
+  NO_AUTOCOMPLETE_TYPES,
+} from "@/lib/constants";
+const DEBOUNCE_DELAY = 300;
+const SEARCH_CONFIG = {
+  sortTypeMap: {
+    default: "products_desc",
+    works: "citations_desc",
+    patents: "alphabetical_asc",
+    projects: "alphabetical_asc",
+    other_works: "alphabetical_asc",
+  },
+  defaultQueryParams: {
+    max: "10",
+    page: "1",
+  },
+};
 
-/* Next */
+/* Hooks */
+import { useState, useCallback, useMemo } from "react";
 import {
   useRouter,
   useParams,
@@ -11,31 +31,44 @@ import {
   useSearchParams,
 } from "next/navigation";
 
-/* React */
-import { useState } from "react";
+/* Icons */
+import { BankOutlined, FileTextOutlined } from "@ant-design/icons";
 
-/* UI Components */
-import { Select, Input, ConfigProvider } from "antd";
+/* lib */
+import { APIRequest } from "@/lib/APIS/clientAPI";
 
-/* UI Sub-components */
+/* Next */
+import Link from "next/link";
+
+/* Styles */
+import styles from "./styles.module.css";
+
+/* UI Library Components */
+import { AutoComplete, Select, Input, ConfigProvider, Divider } from "antd";
+
+/* UI library sub-components */
 const { Search } = Input;
 
+/* Utility Functions */
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 /**
- * `SearchBar` is a client-side functional component.
+ * SearchBar is a client-side functional component that provides a search interface with autocomplete functionality.
  *
- * @returns {JSX.Element} A search bar component.
+ * @component
+ * @description This component allows users to search for various entities such as persons, institutions, and affiliations. It includes autocomplete suggestions, customizable search options, and a debounced API request for fetching suggestions.
  *
- * This component renders a search bar with a select dropdown before it. The select dropdown contains options
- * for different search types, and the search bar allows the user to enter a search query.
+ * @param {string} selected - The currently selected search type (e.g., "person", "institution").
+ * @param {string} searchInput - The current input value in the search bar.
+ * @param {object} suggestionsState - The state object containing autocomplete suggestions fetched from the API.
  *
- * The `getDefaultValue` function determines the default value of the select dropdown based on the `params`
- * and `pathname` values.
- *
- * The `selectBefore` variable contains the JSX for the select dropdown. The `onSelect` prop is set to the
- * `setSelected` function, which updates the `selected` state variable.
- *
- * The `searchRequest` function constructs the URL for the search request based on the `selected`
- * value and the input from the search bar. It then uses the `router.push` method to navigate to the constructed URL.
+ * @returns {JSX.Element} A search bar with autocomplete and dropdown selection.
  */
 export default function SearchBar() {
   const router = useRouter();
@@ -43,90 +76,208 @@ export default function SearchBar() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const getDefaultValue = () => {
-    if (params.entity) {
-      return OPTIONS[OPTIONS_INDEX[params.entity]];
-    }
-    if (pathname.slice(0, 7) === "/search") {
-      const type = pathname.split("/search/")[1].split("?")[0];
+  // State
+  const [selectedOption, setSelectedOption] = useState(() => getDefaultValue());
+  const [searchInput, setSearchInput] = useState(
+    searchParams.get("keywords") || ""
+  );
+  const [suggestionsState, setSuggestionsUrl] = APIRequest("");
+
+  // Memoized debounced function
+  const debouncedSetSuggestionsUrl = useMemo(
+    () => debounce((url) => setSuggestionsUrl(url), DEBOUNCE_DELAY),
+    [setSuggestionsUrl]
+  );
+
+  // Determine default select option
+  function getDefaultValue() {
+    if (params.entity) return OPTIONS[OPTIONS_INDEX[params.entity]];
+    if (pathname.startsWith("/search")) {
+      const type = pathname.split("/search/")[1]?.split("?")[0];
       return {
-        label: type === "person" ? "Autor" : OPTIONS[OPTIONS_INDEX[type]].label,
+        label:
+          type === "person" ? "Autor" : OPTIONS[OPTIONS_INDEX[type]]?.label,
         value: type,
         key: type,
       };
     }
     return OPTIONS[0];
-  };
+  }
 
-  const [selected, setSelected] = useState(getDefaultValue());
+  // Handle search navigation
+  const handleSearch = useCallback(
+    (input) => {
+      const isAffiliation = AFFILIATIONLIST.includes(selectedOption.value);
+      const path = isAffiliation
+        ? `/search/affiliations/${selectedOption.value}`
+        : `/search/${selectedOption.value}`;
 
-  const selectBefore = (
-    <ConfigProvider
-      theme={{
-        components: {
-          Select: {
-            optionPadding: "3px 6px",
-            optionHeight: 24,
-          },
-        },
-      }}
-    >
-      <Select
-        options={OPTIONS}
-        labelInValue="true"
-        defaultValue={getDefaultValue()}
-        onSelect={setSelected}
-        popupMatchSelectWidth={215}
-        listHeight={380}
-      />
-    </ConfigProvider>
+      const sortType =
+        SEARCH_CONFIG.sortTypeMap[selectedOption.value] ||
+        SEARCH_CONFIG.sortTypeMap.default;
+      const queryParams = new URLSearchParams({
+        ...SEARCH_CONFIG.defaultQueryParams,
+        sort: sortType,
+        ...(input && { keywords: input }),
+      });
+
+      router.push(`${path}?${queryParams.toString()}`);
+    },
+    [selectedOption.value, router]
   );
 
-  const searchRequest = (input) => {
-    const getPath = (value) => {
-      return AFFILIATIONLIST.includes(value)
-        ? `/search/affiliations/${value}`
-        : `/search/${value}`;
+  // Handle autocomplete input
+  const handleAutoComplete = useCallback(
+    (input) => {
+      setSearchInput(input);
+      if (
+        NO_AUTOCOMPLETE_TYPES.includes(selectedOption.value) ||
+        !input?.trim()
+      ) {
+        debouncedSetSuggestionsUrl("");
+        return;
+      }
+
+      const requestUrl =
+        selectedOption.value === "person"
+          ? `/app/completer/${selectedOption.value}/${encodeURIComponent(
+              input
+            )}`
+          : `/app/completer/affiliations/${
+              selectedOption.value
+            }/${encodeURIComponent(input)}`;
+
+      input.trim().length === 1
+        ? setSuggestionsUrl(requestUrl)
+        : debouncedSetSuggestionsUrl(requestUrl);
+    },
+    [selectedOption.value, debouncedSetSuggestionsUrl, setSuggestionsUrl]
+  );
+
+  // Build autocomplete options
+  const autoCompleteOptions = useMemo(() => {
+    if (
+      NO_AUTOCOMPLETE_TYPES.includes(selectedOption.value) ||
+      !searchInput.trim() ||
+      !suggestionsState.data
+    ) {
+      return [];
+    }
+
+    const renderOption = (item, index, array) => {
+      const isLast = index === array.length - 1;
+
+      if (selectedOption.value === "person") {
+        return {
+          label: (
+            <Link
+              href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
+            >
+              <div className={styles.label_container}>
+                <span className={styles.label}>{item.full_name}</span>
+                <span className={styles.subtitles}>
+                  <FileTextOutlined /> {item._source.products_count}
+                </span>
+              </div>
+              {item._source?.affiliations?.[0]?.name && (
+                <div className={styles.subtitles}>
+                  <BankOutlined /> {item._source.affiliations[0].name}.
+                </div>
+              )}
+              {!isLast && <Divider className={styles.margin_0} />}
+            </Link>
+          ),
+          value: item._id,
+        };
+      }
+
+      const href = `/affiliation/${selectedOption.value}/${item._id}/affiliations`;
+      return {
+        label: (
+          <Link href={href}>
+            <div>
+              <span>{item.name}</span>
+              {selectedOption.value !== "institution" &&
+                item._source?.relations?.length && (
+                  <div className={styles.subtitles}>
+                    <BankOutlined />{" "}
+                    {selectedOption.value === "faculty"
+                      ? item._source?.relations?.[0]
+                      : item._source.relations.join(", ")}
+                    .
+                  </div>
+                )}
+            </div>
+            {!isLast && <Divider className={styles.margin_0} />}
+          </Link>
+        ),
+        value: item._id,
+      };
     };
 
-    const sortTypeMap = {
-      works: "citations_desc",
-      patents: "alphabetical_asc",
-      projects: "alphabetical_asc",
-      other_works: "alphabetical_asc",
-      default: "products_desc",
-    };
+    return suggestionsState.data.map(renderOption);
+  }, [searchInput, suggestionsState.data, selectedOption.value]);
 
-    const getQueryParams = (value, input) => {
-      const sortType = sortTypeMap[value] || sortTypeMap.default;
-      const keywords = input ? `&keywords=${input}` : "";
-      return `?max=10&page=1&sort=${sortType}${keywords}`;
-    };
-
-    const path = getPath(selected.value);
-    const queryParams = getQueryParams(selected.value, input);
-
-    router.push(`${path}${queryParams}`);
+  // Component configuration
+  const selectTheme = {
+    token: { borderRadius: 0 },
+    components: {
+      Select: {
+        fontSize: 15,
+        optionPadding: "3px 6px",
+        optionHeight: 24,
+        selectorBg: "#f7f7f7",
+        singleItemHeightLG: 40,
+      },
+    },
   };
 
+  // Event handlers
+  const handleSelect = useCallback(() => setSearchInput(""), []);
+  const onChangeSelect = (value) => {
+    setSelectedOption(value);
+    setSearchInput("");
+    setSuggestionsUrl("");
+  };
+
+  let notFoundContent = null;
+  if (!NO_AUTOCOMPLETE_TYPES.includes(selectedOption.value)) {
+    if (searchInput.trim() && autoCompleteOptions.length === 0) {
+      notFoundContent = "No se encontraron resultados para la búsqueda.";
+    }
+  }
+
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          borderRadius: 4,
-          controlHeight: 42,
-          colorFillAlter: "#fafafa",
-          fontSize: 16,
-        },
-      }}
-    >
-      <Search
-        addonBefore={selectBefore}
-        placeholder={"Búsqueda por palabra clave"}
-        onSearch={(input) => searchRequest(input)}
-        enterButton
-        defaultValue={searchParams.get("keywords") || ""}
-      />
-    </ConfigProvider>
+    <div id={styles.searchbar}>
+      <ConfigProvider theme={selectTheme}>
+        <Select
+          size="large"
+          options={OPTIONS}
+          labelInValue
+          value={selectedOption}
+          onChange={onChangeSelect}
+          popupMatchSelectWidth={215}
+          listHeight={380}
+        />
+      </ConfigProvider>
+      <ConfigProvider theme={{ token: { borderRadius: 0, fontSize: 16 } }}>
+        <AutoComplete
+          style={{ marginLeft: -1, flex: 1, height: 40 }}
+          popupClassName={styles.autocomplete}
+          onSearch={handleAutoComplete}
+          onSelect={handleSelect}
+          options={autoCompleteOptions}
+          notFoundContent={notFoundContent}
+          value={searchInput}
+        >
+          <Search
+            size="large"
+            placeholder="Búsqueda por palabra clave"
+            onSearch={handleSearch}
+            enterButton
+          />
+        </AutoComplete>
+      </ConfigProvider>
+    </div>
   );
 }

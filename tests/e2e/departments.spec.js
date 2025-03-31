@@ -142,7 +142,7 @@ test.describe("Testing Departments entity", () => {
     // Fill the search bar with the specific department name "Instituto de Física"
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
-      .fill('"Instituto de Física"');
+      .pressSequentially('"Instituto de Física"');
 
     // Initiate the search by clicking the search button
     await page.getByRole("button", { name: "search" }).click();

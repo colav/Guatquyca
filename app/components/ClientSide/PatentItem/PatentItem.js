@@ -1,6 +1,6 @@
 /* Components */
 import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
-import InvisibleContainer from "./InvisibleContainer";
+import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
 
 /* Constants */
 import { PRODUCT_TYPES } from "@/lib/constants";
@@ -31,13 +31,17 @@ export default function PatentItem({ item }) {
 
   return (
     <>
-      <InvisibleContainer
-        source={item.product_types?.length > 0 && item.product_types[0].source}
-      />
+      {item.product_types.length ? (
+        <InvisibleContainer source={item.product_types} productType="patents" />
+      ) : (
+        ""
+      )}
       <Ribbon
         text={
           item.product_types?.length > 0
-            ? PRODUCT_TYPES[item.product_types[0]?.name] ||
+            ? item.product_types.find((type) => type.source === "impactu")
+                ?.name ||
+              PRODUCT_TYPES[item.product_types[0]?.name] ||
               item.product_types[0]?.name
             : ""
         }
@@ -51,7 +55,7 @@ export default function PatentItem({ item }) {
             <div className={styles.patent_title}>
               <b>{item.title}</b>
             </div>
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <TeamOutlined className={styles.gray} />
             <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}
