@@ -51,7 +51,7 @@ export default function ProjectItem({ item }) {
           <div className={styles.project_container}>
             <div className={styles.project_title}>{item.title}</div>
             <ProjectsExternalID idList={item.external_ids} />
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <TeamOutlined className={styles.gray} />
             <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}

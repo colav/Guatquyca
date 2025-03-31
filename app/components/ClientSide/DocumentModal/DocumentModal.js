@@ -141,7 +141,7 @@ export default function DocumentModal({ documentID }) {
         <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
       <h4 className={style.margin_5}>
-        <TeamOutlined /> Autores:{" "}
+        <TeamOutlined />
       </h4>
       <AuthorsList
         authors={authors}

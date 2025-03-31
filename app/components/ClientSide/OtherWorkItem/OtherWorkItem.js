@@ -51,7 +51,7 @@ export default function OtherWorkItem({ item }) {
             <div className={styles.otherWork_title}>
               <b>{item.title}</b>
             </div>
-            <TeamOutlined className={styles.gray} /> Autores:{" "}
+            <TeamOutlined className={styles.gray} />
             <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}

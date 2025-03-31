@@ -63,7 +63,7 @@ export default function WorkItem({ item }) {
               }
             />
             {item.source.name && <Source sourceName={item.source.name} />}
-            <TeamOutlined /> Autores:{" "}
+            <TeamOutlined />
             <AuthorsList
               authors={item.authors}
               authors_count={item.authors_count}
