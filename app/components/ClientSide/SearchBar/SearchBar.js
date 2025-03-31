@@ -166,17 +166,15 @@ export default function SearchBar() {
 
     const renderOption = (item, index, array) => {
       const isLast = index === array.length - 1;
+
       if (selectedOption.value === "person") {
         return {
           label: (
-            <>
+            <Link
+              href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
+            >
               <div className={styles.label_container}>
-                <Link
-                  href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
-                  className={styles.label}
-                >
-                  {item.full_name}
-                </Link>
+                <span className={styles.label}>{item.full_name}</span>
                 <span className={styles.subtitles}>
                   <FileTextOutlined /> {item._source.products_count}
                 </span>
@@ -187,7 +185,7 @@ export default function SearchBar() {
                 </div>
               )}
               {!isLast && <Divider className={styles.margin_0} />}
-            </>
+            </Link>
           ),
           value: item._id,
         };
@@ -196,16 +194,18 @@ export default function SearchBar() {
       const href = `/affiliation/${selectedOption.value}/${item._id}/affiliations`;
       return {
         label: (
-          <>
-            <Link href={href}>{item.name}</Link>
-            {selectedOption.value !== "institution" &&
-              item._source?.relations?.length && (
-                <div className={styles.subtitles}>
-                  <BankOutlined /> {item._source.relations.join(", ")}.
-                </div>
-              )}
+          <Link href={href}>
+            <div>
+              <span>{item.name}</span>
+              {selectedOption.value !== "institution" &&
+                item._source?.relations?.length && (
+                  <div className={styles.subtitles}>
+                    <BankOutlined /> {item._source.relations.join(", ")}.
+                  </div>
+                )}
+            </div>
             {!isLast && <Divider className={styles.margin_0} />}
-          </>
+          </Link>
         ),
         value: item._id,
       };
