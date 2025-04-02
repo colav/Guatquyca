@@ -56,6 +56,16 @@ export default function HomeTable() {
       search: "Otros Productos",
       example: "actores",
     },
+    {
+      key: "10",
+      search: "Convenios",
+      example: "Módulo en desarrollo, próximamente disponible.",
+    },
+    {
+      key: "11",
+      search: "Emprendimientos",
+      example: "Módulo en desarrollo, próximamente disponible.",
+    },
   ];
 
   return (
