@@ -61,11 +61,6 @@ export default function HomeTable() {
       search: "Convenios",
       example: "Módulo en desarrollo, próximamente disponible.",
     },
-    {
-      key: "11",
-      search: "Emprendimientos",
-      example: "Módulo en desarrollo, próximamente disponible.",
-    },
   ];
 
   return (

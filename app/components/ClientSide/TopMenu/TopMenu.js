@@ -27,13 +27,13 @@ export default function TopMenu({ person = false, currentTab }) {
   const items = person
     ? [
         { label: "Investigación", key: "research" },
-        { label: "Extensión", key: "extension", disabled: true },
+        /* { label: "Extensión", key: "extension", disabled: true }, */
         { label: "Cooperación", key: "cooperation", disabled: true },
       ]
     : [
         { label: "Afiliaciones", key: "affiliations" },
         { label: "Investigación", key: "research" },
-        { label: "Extensión", key: "extension", disabled: true },
+        /* { label: "Extensión", key: "extension" }, */
         { label: "Cooperación", key: "cooperation", disabled: true },
       ];
 
