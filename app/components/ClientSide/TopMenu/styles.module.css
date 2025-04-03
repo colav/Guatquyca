@@ -1,11 +1,5 @@
 .topMenu_container {
-  max-width: 270px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-}
-
-.topMenu_container_on_authors {
-  max-width: 160px;
+  max-width: 360px;
   margin: 0 auto;
   margin-bottom: 20px;
 }
