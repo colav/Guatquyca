@@ -233,7 +233,17 @@ export default function SearchBar() {
   };
 
   // Event handlers
-  const handleSelect = useCallback(() => setSearchInput(""), []);
+  const handleSelect = useCallback(
+    (value) => {
+      setSearchInput("");
+      const path =
+        selectedOption.value === "person"
+          ? `/${selectedOption.value}/${value}/research/products?max=10&page=1&sort=citations_desc`
+          : `/affiliation/${selectedOption.value}/${value}/affiliations`;
+      router.push(path);
+    },
+    [router, selectedOption.value]
+  );
   const onChangeSelect = (value) => {
     setSelectedOption(value);
     setSearchInput("");
