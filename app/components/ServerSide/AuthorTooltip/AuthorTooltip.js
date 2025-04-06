@@ -13,8 +13,6 @@ import AuthorInfoFetcher from "./AuthorInfoFetcher";
 export default function AuthorsTooltip({ author }) {
   const { id, full_name } = author;
 
-  console.log(author);
-
   return (
     <>
       <div>
