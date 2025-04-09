@@ -145,7 +145,7 @@ export default function Foot() {
             target="_blank"
             rel="noreferrer"
           >
-            Tráfico de usuarios
+            Estadísticas de uso
           </a>
         </Col>
         <Col xs={24} md={8}>
