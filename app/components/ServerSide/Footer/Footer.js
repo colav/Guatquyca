@@ -83,7 +83,7 @@ export default function Foot() {
       <Row gutter={[5, 5]}>
         <Divider style={{ marginTop: "20px" }} />
         <Col xs={24} md={8}>
-          <div style={{ marginBottom: "5px" }}>
+          <div style={{ marginBottom: "15px" }}>
             <b>Producto desarrollado por:</b>
           </div>
           <Image
@@ -138,6 +138,14 @@ export default function Foot() {
             rel="noreferrer"
           >
             Apidocs
+          </a>
+          <br />
+          <a
+            href="https://lookerstudio.google.com/s/oHqvfOLH_e0"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Tráfico de usuarios
           </a>
         </Col>
         <Col xs={24} md={8}>
