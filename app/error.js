@@ -21,8 +21,18 @@ export default function Error({ height = "70vh" }) {
           title="Oops!"
           subTitle={
             <>
-              <b>Lo sentimos, algo salió mal con tu solicitud.</b>
-              <p>Intenta nuevamente</p>
+              <b>No pudimos encontrar el recurso solicitado.</b>
+              <p style={{ fontSize: "16px", fontWeight: "500" }}>
+                Es posible que el enlace que estás utilizando esté
+                desactualizado.
+                <br />
+                En ImpactU estamos trabajando para implementar identificadores
+                persistentes que garanticen la estabilidad de las URLs a lo
+                largo del tiempo.
+                <br />
+                Te recomendamos buscar el contenido directamente desde nuestra
+                plataforma.
+              </p>
             </>
           }
         />
