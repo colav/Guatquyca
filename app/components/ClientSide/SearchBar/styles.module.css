@@ -26,6 +26,10 @@
   margin: 0 auto;
 }
 
+.text_wrap {
+  text-wrap: wrap;
+}
+
 @media screen and (max-width: 480px) {
   .autocomplete {
     width: 95vw !important;

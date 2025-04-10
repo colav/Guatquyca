@@ -22,6 +22,9 @@ const SEARCH_CONFIG = {
   },
 };
 
+/* Components */
+import Flag from "../../ServerSide/Flag/Flag";
+
 /* Hooks */
 import { useState, useCallback, useMemo } from "react";
 import {
@@ -196,7 +199,15 @@ export default function SearchBar() {
         label: (
           <Link href={href}>
             <div>
-              <span>{item.name}</span>
+              <span className={styles.text_wrap}>{item.name}</span>{" "}
+              {selectedOption.value === "institution" &&
+                item._source.country_code && (
+                  <Flag
+                    country={item._source?.country_code}
+                    countryCode={item._source?.country_code}
+                    size="20x15"
+                  />
+                )}
               {selectedOption.value !== "institution" &&
                 item._source?.relations?.length && (
                   <div className={styles.subtitles}>
