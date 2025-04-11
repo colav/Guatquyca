@@ -110,9 +110,9 @@ export default function FilterPanel() {
               backgroundColor: "#f5f5f5",
               color: "#053d4b",
             },
-            /* mask: {
+            mask: {
               backdropFilter: "blur(2px)",
-            }, */
+            },
           }}
         >
           {state.isLoading ? (
