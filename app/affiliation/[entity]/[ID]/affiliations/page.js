@@ -43,7 +43,7 @@ export default async function AffiliationsPage({ params }) {
     <>
       <ClientLogger url={fullUrl} />
       <TopMenu currentTab="affiliations" />
-      <Row style={{ marginTop: "15px" }} gutter={15} justify="center">
+      <Row style={{ marginTop: "15px" }} gutter={[15, 15]} justify="center">
         {keys.length === 0 ? (
           <EmptyCard />
         ) : (
