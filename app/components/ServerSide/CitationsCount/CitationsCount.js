@@ -19,7 +19,7 @@ import { Col } from "antd";
  */
 export default function CitationsCount({ citations_count }) {
   return (
-    <Col xs={24} md={6}>
+    <Col xs={24} md={6} lg={7} xl={5}>
       <h2 className={styles.title}>
         <CitationsIcon fill="gray" /> Citaciones:
       </h2>

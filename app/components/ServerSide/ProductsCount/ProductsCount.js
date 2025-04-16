@@ -16,7 +16,7 @@ import styles from "./styles.module.css";
  */
 export default function ProductsCount({ products_count }) {
   return (
-    <Col xs={24} md={6}>
+    <Col xs={24} md={6} lg={7} xl={5}>
       <h2 className={styles.title}>
         <FileOutlined /> Productos:
       </h2>
