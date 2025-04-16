@@ -52,7 +52,7 @@ export default function CommonTitleCard({ data, entity }) {
           id={styles.avatar}
         />
       </Col>
-      <Col xs={24} md={14} lg={18}>
+      <Col xs={24} sm={16} md={24} lg={19} xl={18}>
         <Row>
           <h1 id={styles.title}>
             {full_name || name}{" "}
@@ -64,12 +64,12 @@ export default function CommonTitleCard({ data, entity }) {
         <AffilliationParser affiliations={affiliations} />
         <Row gutter={[20, 20]} style={{ marginTop: "20px" }}>
           {entity === "person" && (
-            <Col xs={24} md={10} lg={8} xl={6}>
+            <Col xs={24} md={11} lg={9} xl={8} xxl={6}>
               <AuthorsExternalProfiles profilesList={external_ids} />
             </Col>
           )}{" "}
           {(entity === "institution" || entity === "group") && (
-            <Col xs={24} md={10} lg={8} xl={6}>
+            <Col xs={24} md={11} lg={9} xl={8} xxl={6}>
               <ExternalProfiles
                 idsList={(external_ids || []).concat(external_urls || [])}
                 entity={entity}

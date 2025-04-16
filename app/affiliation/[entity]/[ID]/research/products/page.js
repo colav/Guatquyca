@@ -33,7 +33,7 @@ export default function ProductsOnEntityPage({ searchParams, params }) {
       <TopMenu currentTab={"research"} />
       <ResearchTabs activeTab="products" entity={params.entity} />
       <div>
-        <Row gutter={15} style={{ marginBottom: "15px" }}>
+        <Row gutter={[15, 15]} style={{ marginBottom: "15px" }}>
           <Col xs={24} sm={24} md={12}>
             <ChartsHandler plotlist={filteredPlots.slice(0, 4)} />
           </Col>
