@@ -116,7 +116,7 @@ export default function Home() {
               Si deseas mejorar tus datos institucionales en{" "}
               <b id={styles.impact}>Impact</b>
               <b id={styles.u}>U</b>, puedes ponerte en contacto con nosotros:
-              grupocolav@udea.edu.co.
+              grupocolav@udea.edu.co
             </h1>
             <br />
             <DownloadOutlined />{" "}
