@@ -27,7 +27,7 @@ export default function Foot() {
           Fundadores:
         </Col>
         <Col xs={24} md={4} className={styles.width_370}>
-          <a href="http://www.udea.edu.co/" target="_blank" rel="noreferrer">
+          <Link href="/affiliation/institution/03bp5hc83/affiliations">
             <Image
               className={styles.logo}
               src={"/media/logo_udea.svg"}
@@ -35,10 +35,10 @@ export default function Foot() {
               width={250}
               height={100}
             />
-          </a>
+          </Link>
         </Col>
         <Col xs={24} md={4} className={styles.width_370}>
-          <a href="https://www.unaula.edu.co/" target="_blank" rel="noreferrer">
+          <Link href="/affiliation/institution/05tkb8v92/affiliations">
             <Image
               className={styles.logo}
               src={"/media/logo_unaula.svg"}
@@ -46,14 +46,10 @@ export default function Foot() {
               width={250}
               height={100}
             />
-          </a>
+          </Link>
         </Col>
         <Col xs={24} md={4} className={styles.width_370}>
-          <a
-            href="https://www.uexternado.edu.co/"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link href="/affiliation/institution/02xtwpk10/affiliations">
             <Image
               className={styles.logo}
               src={"/media/logo_uec.svg"}
@@ -62,14 +58,10 @@ export default function Foot() {
               height={100}
               priority
             />
-          </a>
+          </Link>
         </Col>
         <Col xs={24} md={4} className={styles.width_370}>
-          <a
-            href="https://www.univalle.edu.co/"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link href="/affiliation/institution/00jb9vg53/affiliations">
             <Image
               className={styles.logo}
               src={"/media/logo_univalle.svg"}
@@ -77,7 +69,7 @@ export default function Foot() {
               width={250}
               height={100}
             />
-          </a>
+          </Link>
         </Col>
       </Row>
       <Row gutter={[5, 5]}>

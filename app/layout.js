@@ -11,6 +11,9 @@ import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
 import Foot from "./components/ServerSide/Footer/Footer";
 import HeadSearch from "./components/ServerSide/Header/HeaderSearchBar";
 
+/* Utils */
+import ScrollToTop from "@/lib/ScrollToTop";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -52,6 +55,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={inter.className}>
+        <ScrollToTop />
         <ConfigProvider
           theme={{
             token: {
