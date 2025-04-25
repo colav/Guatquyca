@@ -120,8 +120,6 @@ export default function Foot() {
           <br />
           <Link href="/manual">Manual de usuario</Link>
           <br />
-          <Link href="/principles">Principios</Link>
-          <br />
           <Link href="/open-source">Código Abierto</Link>
           <br />
           <a
@@ -152,11 +150,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.9.3
+          ImpactU Versión 3.9.4
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 16/04/2025
+          Interfaz de Usuario: 24/04/2025
           <br />
           Base de Datos: 26/03/2025
           <br />

@@ -5,7 +5,10 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Row, Table, Tabs } from "antd";
+
+/* UI Library Sub-components */
+const Column = Table;
 
 export const metadata = {
   title: "Acerca de ImpactU",
@@ -13,33 +16,775 @@ export const metadata = {
     "ImpactU es un laboratorio de I+D que impulsa la evaluación responsable de la investigación en Colombia. Nuestra plataforma CRIS facilita la gestión científica con un enfoque en ciencia abierta y diversidad.",
 };
 
-const logos = [
-  "/media/openalex.png",
-  "/media/doaj.svg",
-  "/media/scimago.svg",
-  "/media/unpaywall.svg",
-  "/media/dspace.png",
-  "/media/google.svg",
+const tableData = [
+  {
+    key: "1",
+    type: "Productos bilbiográficos",
+    impactu: "1.486.287",
+    openalex: "479.000",
+    scopus: "219.799",
+    minciencias: "724.625",
+    scholar: "359.190",
+  },
+  {
+    key: "2",
+    type: "Proyectos de Investigación",
+    impactu: "109.558",
+    openalex: "0",
+    scopus: "0",
+    minciencias: "109.558",
+    scholar: "0",
+  },
+  {
+    key: "3",
+    type: "Otros productos",
+    impactu: "177.257",
+    openalex: "0",
+    scopus: "0",
+    minciencias: "177.257",
+    scholar: "0",
+  },
 ];
 
-/**
- * renderedLogos is a function that maps over the logos array and returns a list of Image components for each logo.
- *
- * @returns {Array} - The list of Image components for each logo.
- */
-const renderedLogos = () => {
-  return logos.map((logo, i) => (
-    <Col className={styles.logo_padding} xs={20} md={8} key={i}>
-      <Image
-        src={logo}
-        alt={logo}
-        width={250}
-        height={60}
-        style={{ height: "auto", width: "100%" }}
-      />
-    </Col>
-  ));
-};
+const items = [
+  {
+    key: "1",
+    label: "Presentación",
+    children: (
+      <Row justify="start">
+        <Col span={24}>
+          <h3 className={styles.margin0}>Definición</h3>
+          <p>
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> es Infraestructura Académica Abierta que
+            ofrece una plataforma tipo CRIS (Current Research Information
+            System) para Colombia, software de código abierto para su
+            implementación y un espacio colaborativo entre las instituciones
+            colombianas para mejorar sus procesos de gestión del conocimiento y
+            evaluación científica.
+          </p>
+          <p>
+            Los principios de operación de <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> como Infraestructura Académica Abierta:
+          </p>
+          <Image
+            priority={true}
+            src={"/media/diagrama_infra_abierta.svg"}
+            alt="Infraestructura Académica Abierta"
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            width={970}
+            height={400}
+          />
+          <Divider />
+          <h3 className={styles.margin0}>Gobernanza</h3>
+          <p>
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> es creada y orientada por el <b>CoLaV</b> de
+            la <b>Universidad de Antioquia</b>, la <b>Universidad del Valle</b>,
+            la
+            <b>Universidad Externado de Colombia</b> y la{" "}
+            <b>Universidad Autónoma Latinoamericana</b>. Está en proceso de
+            constitución de un consorcio nacional auspiciado por <b>ASCUN</b>{" "}
+            que democratizará su propiedad entre todas las instituciones
+            colombianas interesadas en la membresía.
+          </p>
+          <Divider />
+          <h3 className={styles.margin0}>Propósitos</h3>
+          <p>
+            Ofrecer el sistema de información más robusto y completo sobre la
+            información de investigación del país con datos abiertos. Por
+            ejemplo:
+          </p>
+          <ul>
+            <li>
+              <a
+                href="https://impactu.colav.co"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://impactu.colav.co
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://apis.colav.co/apidoc/index.html"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://apis.colav.co/apidoc/index.html
+              </a>
+            </li>
+          </ul>
+          Promover ambientes de aprendizaje colaborativos entre las
+          instituciones del país. Por ejemplo:
+          <ul>
+            <li>
+              <a
+                href="https://www.youtube.com/watch?v=xnibrCrnH-E&t=747s&pp=ygUOaW1wYWN0dSBjb3JlbWE%3D"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Lanzamiento de la plataforma ImpactU - UdeA
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.youtube.com/watch?v=1twI_ifnaTA&t=402s&pp=ygUNaW1wYWN0dSBhc2N1bg%3D%3D"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Tecnologías y metodologías para la evaluación responsable de los
+                impactos de la investigación - ASCUN
+              </a>
+            </li>
+          </ul>
+          Constituir un modelo de infraestructura académica abierta que sea
+          replicable en otros países de la región y otros contextos
+          territoriales y organizacionales. Por ejemplo:
+          <ul>
+            <li>
+              <a
+                href="https://github.com/colav"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://github.com/colav
+              </a>
+            </li>
+          </ul>
+        </Col>
+      </Row>
+    ),
+  },
+  {
+    key: "2",
+    label: "Fuentes de información y entidades",
+    children: (
+      <Row justify="start">
+        <h3 className={styles.margin0}>Oferta de información</h3>
+        <p>
+          <b id={styles.impact}>Impact</b>
+          <b id={styles.u}>U</b> es la fuente de información más robusta sobre
+          la investigación en Colombia. En la siguiente tabla comparativa se
+          presentan diferentes tipos de oferta sobre datos de investigación en
+          Colombia.
+        </p>
+
+        <p>
+          Volumen de registros en <b id={styles.impact}>Impact</b>
+          <b id={styles.u}>U</b> comparados.
+        </p>
+        <Col span={24}>
+          <Table
+            dataSource={tableData}
+            pagination={false}
+            bordered
+            size="small"
+            scroll={{ x: 830 }}
+          >
+            <Column title="Tipo" dataIndex="type" key="type" />
+            <Column
+              title={
+                <>
+                  <b id={styles.impact}>Impact</b>
+                  <b id={styles.u}>U</b>
+                  <sup> 1</sup>
+                </>
+              }
+              dataIndex="impactu"
+              key="impactu"
+            />
+            <Column
+              title={
+                <>
+                  OpenAlex<sup> 2</sup>
+                </>
+              }
+              dataIndex="openalex"
+              key="openalex"
+            />
+            <Column
+              title={
+                <>
+                  Scopus<sup> 3</sup>
+                </>
+              }
+              dataIndex="scopus"
+              key="scopus"
+            />
+            <Column
+              title="Datos Abiertos de Minciencias"
+              dataIndex="minciencias"
+              key="minciencias"
+            />
+            <Column title="Google Scholar" dataIndex="scholar" key="scholar" />
+          </Table>
+          <p>
+            <b>
+              <sup>1</sup>
+            </b>{" "}
+            Datos consultados el 4 de abril de 2025 en:{" "}
+            <a
+              href="https://impactu.colav.co/search/works?max=10&page=1&sort=citations_desc"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://impactu.colav.co/search/works?max=10&page=1&sort=citations_desc
+            </a>
+          </p>
+          <p>
+            <b>
+              <sup>2</sup>
+            </b>{" "}
+            Datos consultados el 4 de abril de 2025 en:{" "}
+            <a
+              href="https://openalex.org/works?page=1&filter=authorships.countries%3Acountries%2Fco"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://openalex.org/works?page=1&filter=authorships.countries%3Acountries%2Fco
+            </a>{" "}
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> con sus procesos de normalización y cruce de
+            bases de datos logró recuperar de OpenAlex 691.054 productos de esta
+            base de datos.
+          </p>
+          <p>
+            <b>
+              <sup>3</sup>
+            </b>{" "}
+            Datos consultados el 4 de abril de 2025.
+          </p>
+          <Divider />
+          <h3>Fuentes de información de las distintas entidades</h3>
+          <Image
+            priority={true}
+            src={"/media/diagrama_fuentes_info.svg"}
+            alt="Fuentes de información de las distintas entidades"
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            width={970}
+            height={400}
+          />
+          <p>
+            El diagrama muestra las bases de datos que alimentan las diferentes
+            entidades consideradas por <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b>.
+          </p>
+          <Divider />
+          <h3 className={styles.margin0}>
+            Entidades en <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b>
+          </h3>
+          <ul>
+            <li>
+              <b>Afiliaciones:</b> se consideran las instituciones, las unidades
+              y subunidades académicas, los grupos de investigación, los
+              municipios y departamentos, lo que da una ubicación geográfica y
+              organizacional muy precisa.
+            </li>
+            <li>
+              <b>Fuentes y publishers:</b> se consideran los nombres de las
+              revistas y los nombres de los editores.
+            </li>
+            <li>
+              <b>Personas:</b> Autorías normalizadas.
+            </li>
+            <li>
+              <b>Productos:</b> los descriptores bibliográficos e
+              identificadores asociados a la producción.
+            </li>
+          </ul>
+          <Divider />
+          <h3 className={styles.margin0}>Fuentes</h3>
+          <ul>
+            <li>
+              <b>OpenAlex:</b>{" "}
+              <a href="https://openalex.org/" target="_blank" rel="noreferrer">
+                https://openalex.org/
+              </a>
+            </li>
+            <li>
+              <b>Scienti:</b>{" "}
+              <a
+                href="https://minciencias.gov.co/scienti"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://minciencias.gov.co/scienti
+              </a>
+            </li>
+            <li>
+              <b>Wikidata:</b>{" "}
+              <a
+                href="https://www.wikidata.org/wiki/Wikidata:Main_Page"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.wrapText}
+              >
+                https://www.wikidata.org/wiki/Wikidata:Main_Page
+              </a>
+            </li>
+            <li>
+              <b>Scimago:</b>{" "}
+              <a
+                href="https://www.scimagojr.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://www.scimagojr.com/
+              </a>
+            </li>
+            <li>
+              <b>DOAJ:</b>{" "}
+              <a href="https://doaj.org/" target="_blank" rel="noreferrer">
+                https://doaj.org/
+              </a>
+            </li>
+            <li>
+              <b>Datos.gov (CvLac):</b>{" "}
+              <a
+                href="https://minciencias.gov.co/ciudadano/datosabiertos"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.wrapText}
+              >
+                https://minciencias.gov.co/ciudadano/datosabiertos
+              </a>
+            </li>
+            <li>
+              <b>Google Scholar:</b>{" "}
+              <a
+                href="https://scholar.google.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://scholar.google.com/
+              </a>
+            </li>
+            <li>
+              <b>ROR:</b>{" "}
+              <a href="https://ror.org/" target="_blank" rel="noreferrer">
+                https://ror.org/
+              </a>
+            </li>
+            <li>
+              <b>Contratación institucional:</b> bases de datos institucionales
+              internas.
+            </li>
+            <li>
+              <b>Producción institucional:</b> bases de datos institucionales
+              internas.
+            </li>
+            <li>
+              <b>En desarrollo:</b>
+              <ul>
+                <li>
+                  <b>D-Space:</b> repositorios institucionales colombianos{" "}
+                  <a
+                    href="https://dspace.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    https://dspace.org/
+                  </a>
+                </li>
+                <li>
+                  <b>Orcid:</b> Integración de información en doble vía y con
+                  posibilidad de intervención de los usuarios directamente en la
+                  información de la plataforma.
+                </li>
+                <li>
+                  <b>Publindex:</b> integración de la base de datos de
+                  Publindex.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </Col>
+      </Row>
+    ),
+  },
+  {
+    key: "3",
+    label: "Alianzas y proyectos",
+    children: (
+      <>
+        <h3 className={styles.margin0}>
+          Consejo Latinoamericano de Ciencias Sociales (CLACSO) -{" "}
+          <a href="https://www.clacso.org/" target="_blank" rel="noreferrer">
+            https://www.clacso.org/
+          </a>
+        </h3>
+        <ul>
+          <li>
+            <b>Foro Latinomericano de Evaluación Científica:</b>{" "}
+            <a
+              href="https://www.youtube.com/watch?v=-W8qtWB3eGA&t=37s"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://www.youtube.com/watch?v=-W8qtWB3eGA&t=37s
+            </a>
+          </li>
+          <br />
+          <li>
+            <b>Proyecto IDRC-CLACSO:</b> Perfiles Latinoamericanos de
+            Instrumentos de Política Pública en Investigación e Innovación y el
+            Papel de los ODS.{" "}
+            <a
+              href="https://biblioteca-repositorio.clacso.edu.ar/bitstream/CLACSO/16929/1/Informe-IDRC-FOLEC-ESP.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://biblioteca-repositorio.clacso.edu.ar/bitstream/CLACSO/16929/1/Informe-IDRC-FOLEC-ESP.pdf
+            </a>
+          </li>
+          <br />
+          <li>
+            <b>Grupo Ciencia abierta como bien común:</b>{" "}
+            <ul>
+              <li>
+                <a
+                  href="https://www.clacso.org/ciencia-abierta-como-bien-comun/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://www.clacso.org/ciencia-abierta-como-bien-comun/
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.clacso.org/en/grupos-de-trabajo/grupos-de-trabajo-2023-2025/?pag=detalle&refe=7&ficha=2392"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.wrapText}
+                >
+                  https://www.clacso.org/en/grupos-de-trabajo/grupos-de-trabajo-2023-2025/?pag=detalle&refe=7&ficha=2392
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Centro de Estudios de Circulación del Conocimiento -{" "}
+          <a
+            href="https://cecic.fcp.uncuyo.edu.ar/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://cecic.fcp.uncuyo.edu.ar/
+          </a>
+        </h3>
+        <ul>
+          <li>
+            <b>La producción argentina en acceso abierto y pagos de APC.</b>{" "}
+            <a
+              href="https://www.conicet.gov.ar/wp-content/uploads/INFORME-CONICET-Argentina-Publicaciones-y-Pagos-de-APC.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://www.conicet.gov.ar/wp-content/uploads/INFORME-CONICET-Argentina-Publicaciones-y-Pagos-de-APC.pdf
+            </a>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Consortia -{" "}
+          <a
+            href="https://www.consortia.com.co/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://www.consortia.com.co/
+          </a>
+        </h3>
+        <ul>
+          <li>
+            Identificación de pagos de APC por parte de las instituciones de
+            educación superior (IES) colombianas: énfasis en las pertenecientes
+            al Consorcio Colombia.{" "}
+            <a
+              href="https://bibliotecadigital.udea.edu.co/entities/publication/d0bc97f0-b088-4523-b560-5c1f799cde82"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://bibliotecadigital.udea.edu.co/entities/publication/d0bc97f0-b088-4523-b560-5c1f799cde82
+            </a>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Transformative Innovation Policy Consortium -{" "}
+          <a href="https://tipconsortium.net/" target="_blank" rel="noreferrer">
+            https://tipconsortium.net/
+          </a>
+        </h3>
+        <ul>
+          <li>
+            <b>Transformative Metrics:</b> Contributions to the Studies for
+            Monitoring and Evaluating How Science, Technology, and Innovation
+            Can Address Social and Environmental Challenges.{" "}
+            <a
+              href="https://libros.udea.edu.co/index.php/editorial_fcsh/catalog/book/445"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://libros.udea.edu.co/index.php/editorial_fcsh/catalog/book/445
+            </a>
+          </li>
+          <br />
+          <li>
+            <b>Transformative Metrics Workshop:</b>{" "}
+            <a
+              href="https://www.youtube.com/watch?v=bbMw0evYD94"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://www.youtube.com/watch?v=bbMw0evYD94
+            </a>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Latmétricas -{" "}
+          <a
+            href="https://latmetricas.wordpress.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://latmetricas.wordpress.com
+          </a>
+        </h3>
+        <ul>
+          <li>
+            <b>Organización de Latmétricas 2021:</b>{" "}
+            <a
+              href="https://latmetricas.wordpress.com/sesiones-grabadas/"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://latmetricas.wordpress.com/sesiones-grabadas/
+            </a>
+          </li>
+          <li>
+            <b>
+              Manifiesto por las métricas socioterritoriales de la ciencia, la
+              tecnología y la innovación:
+            </b>{" "}
+            <a
+              href="https://zenodo.org/records/12811009"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://zenodo.org/records/12811009
+            </a>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>RedCyted PCYT-LAB</h3>
+
+        <ul>
+          <li>
+            <b>Laboratorio de políticas cti:</b> modelos transferibles a escala
+            local (621RT0119).{" "}
+            <a
+              href="https://www.cyted.org/conteudo.php?idm=248&id_rede=143"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://www.cyted.org/conteudo.php?idm=248&id_rede=143
+            </a>
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Secretaría Distrital de Salud de Bogotá -{" "}
+          <a
+            href="https://www.saludcapital.gov.co/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://www.saludcapital.gov.co/
+          </a>
+        </h3>
+        <ul>
+          <li>
+            <b>
+              Plataforma de información de investigación en salud de Bogotá:
+            </b>{" "}
+            <a
+              href="https://investigacion-salud.saludcapital.gov.co/app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://investigacion-salud.saludcapital.gov.co/app
+            </a>
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    key: "4",
+    label: "Principios",
+    children: (
+      <>
+        <h3 className={styles.margin0}>Principios operativos</h3>
+        <ul>
+          <li>
+            <b>Código abierto:</b> <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> es una plataforma de código abierto, lo que
+            permite a cualquier persona replicar, adaptar y mejorar el sistema
+            según sus necesidades.
+          </li>
+          <br />
+          <li>
+            <b>Datos abiertos:</b> Respetando las leyes de privacidad,{" "}
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> promueve la visibilidad de las instituciones
+            participantes, fomenta la transparencia ante la sociedad y facilita
+            la rendición de cuentas.
+          </li>
+          <br />
+          <li>
+            <b>Datos disponibles:</b> Cumpliendo con los marcos legales de
+            protección de datos, <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> pone a disposición información actualizada y
+            accesible para los diferentes actores del ecosistema de
+            investigación.
+          </li>
+          <br />
+          <li>
+            <b>Sin reclamo de patentes:</b> <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> es considerado un bien común por la red de
+            instituciones que lo conforman, sin intención de apropiación
+            exclusiva ni restricciones comerciales.
+          </li>
+          <br />
+          <li>
+            <b>Financiación e infraestructuras compartidas:</b> La evolución de{" "}
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> se basa en decisiones colectivas, guiadas por
+            las necesidades de sus socios y usuarios, y orientadas al beneficio
+            de las organizaciones colombianas.
+          </li>
+          <br />
+          <li>
+            <b>Soberanía sobre la información:</b>{" "}
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> fortalece la autonomía institucional al
+            permitir que cada organización mantenga el control sobre sus
+            sistemas de información.
+          </li>
+          <br />
+          <li>
+            <b>Aprendizaje colaborativo:</b> Las instituciones participantes
+            comparten conocimientos y buenas prácticas sobre manejo de datos,
+            evaluación responsable y gestión del conocimiento, en un entorno de
+            mejora continua.
+          </li>
+          <br />
+          <li>
+            <b>Documentación y estandarización:</b>{" "}
+            <b id={styles.impact}>Impact</b>
+            <b id={styles.u}>U</b> cuenta con procesos documentados y
+            estandarizados que facilitan su replicación y adaptación en otros
+            contextos institucionales y países.
+          </li>
+        </ul>
+        <Divider />
+        <h3 className={styles.margin0}>Definiciones básicas</h3>
+        <p>
+          <b id={styles.impact}>Impact</b>
+          <b id={styles.u}>U</b> concibe a la Universidad como una organización
+          vinculada internamente entre sus misiones universitarias y
+          externamente con diferentes públicos como comunidades académicas,
+          organizaciones sociales, sector público y privado y públicos y
+          ciudadanos en general. Las métricas e indicadores relevan
+          especialmente este papel de vinculación para generar herramientas que
+          permitan visualizar alcances e impacto social en la producción de
+          conocimiento desde las perspectivas misionales.
+        </p>
+        <p>
+          Información adicional sobre su conceptualización puede ser consultada
+          en:
+        </p>
+        <ul>
+          <li>
+            <b>
+              Hacia una plataforma de métricas y evaluación para América Latina
+              en conocimiento especializado:
+            </b>{" "}
+            ciencias, tecnologías, innovación, artes y humanidades.{" "}
+            <a
+              href="https://biblioteca-repositorio.clacso.edu.ar/bitstream/CLACSO/16817/1/Hacia-una-plataforma.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://biblioteca-repositorio.clacso.edu.ar/bitstream/CLACSO/16817/1/Hacia-una-plataforma.pdf
+            </a>
+          </li>
+          <br />
+          <li>
+            <b>Métricas de vinculación universidad-entorno:</b> Universidad de
+            Antioquia. Apuntes sobre los instrumentos del Manual de Indicadores
+            de Vinculación.{" "}
+            <a
+              href="https://bibliotecadigital.udea.edu.co/handle/10495/12357"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://bibliotecadigital.udea.edu.co/handle/10495/12357
+            </a>
+          </li>
+          <br />
+          <li>
+            <b>
+              Hacia un modelo de medición de la ciencia desde el Sur Global:
+            </b>{" "}
+            métricas responsables.{" "}
+            <a
+              href="https://www.palabraclave.fahce.unlp.edu.ar/article/view/PCe068"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.wrapText}
+            >
+              https://www.palabraclave.fahce.unlp.edu.ar/article/view/PCe068
+            </a>
+          </li>
+        </ul>
+        <Row justify={"center"}>
+          <Col xs={24} md={12}>
+            <Image
+              src={"/media/graf01.png"}
+              width={500}
+              height={300}
+              style={{ width: "100%", height: "auto" }}
+              alt="Gráfico organizacional"
+            />
+          </Col>
+        </Row>
+      </>
+    ),
+  },
+];
 
 /**
  * About is a "server-side" function component that displays the "About" page.
@@ -50,117 +795,12 @@ const renderedLogos = () => {
 export default function About() {
   return (
     <Row justify="center">
-      <Col xs={23} md={16}>
-        <h1>Acerca de ImpactU</h1>
+      <Col xs={24} md={16}>
+        <h1 style={{ textAlign: "center" }}>Acerca de ImpactU</h1>
         <Divider />
       </Col>
-      <Col xs={23} md={16}>
-        <p>
-          {<b>ImpactU</b>} es una plataforma colaborativa regional para la
-          creación de modelos que evidencien la vinculación de la investigación,
-          la docencia y la extensión con el entorno a través de la producción de
-          diferentes tipos de documentos resultados de las tres misiones
-          universitarias.
-        </p>
-        <h3>El sistema utiliza datos de:</h3>
-        <Row
-          gutter={[20, 20]}
-          justify="space-around"
-          align="middle"
-          className={styles.margin_30}
-        >
-          {renderedLogos()}
-        </Row>
-        <br />
-        <p>
-          Así como también los Datos Abiertos de Minciencias y las bases de
-          datos internas de las Universidades que colaboran.
-        </p>
-        <Divider style={{ marginBottom: "10px" }} />
-      </Col>
-      <Col xs={23} md={16} style={{ marginTop: "0px" }}>
-        <p>
-          {<b>ImpactU</b>} es una plataforma creada y desarrollada por el{" "}
-          {
-            <a href="http://colav.udea.edu.co" target="_blank" rel="noreferrer">
-              CoLaV
-            </a>
-          }{" "}
-          de la {<b>Universidad de Antioquia</b>} en colaboración con la{" "}
-          {<b>Universidad Autónoma Latinoamericana</b>}, la{" "}
-          {<b>Universidad Externado de Colombia</b>} y la{" "}
-          {<b>Universidad del Valle.</b>} En la actualidad se está conformando
-          un consorcio nacional con el apoyo de ASCUN para proyectar la
-          plataforma como un proyecto de carácter nacional. Su propósito es
-          desarrollar herramientas para implementar modelos de métricas
-          responsables con el principio de multidimensionalidad y robustez de la
-          información para:
-        </p>
-        <ul>
-          <li>
-            Identificar la producción diversa de diferentes niveles
-            organizacionales (autores, dependencias académicas y grupos)
-          </li>
-          <li>
-            Desfragmentar la información institucional respecto a los resultados
-            de investigación en relación con otras misiones universitarias y el
-            entorno a partir de múltiples bases de datos internas y externas que
-            muestren en conjunto todas las formas diversas de producir
-            conocimiento.
-          </li>
-          <li>
-            Generar diálogos instrumentos de evaluación y métricas y tomadores
-            de decisiones que den cuenta de los resultados institucionales
-            generados en el tiempo y respondan a los objetivos institucionales y
-            las demandas externas.
-          </li>
-          <li>
-            Apertura de datos e infraestructuras computacionales para promover
-            una comunidad analítica alrededor de las universidades y sus aportes
-            a la sociedad.
-          </li>
-        </ul>
-        <p>
-          Esta propuesta se plantea tres tipos de estrategias metodológicas:
-        </p>
-        <ul>
-          <li>
-            La planeación de modelos de infraestructura de hardware para el
-            procesamiento de datos y visualización de la información que
-            permitan desarrollar una gobernanza institucional sobre su
-            información.
-          </li>
-          <li>
-            La ampliación de una comunidad de desarrollo para proveer la
-            infraestructura en <i>software</i> necesaria (
-            <a
-              href={"http://www.github.com/colav"}
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub @Colav
-            </a>
-            ) para el procesamiento de datos masivos institucionales y en
-            relación con el mundo.
-          </li>
-          <li>
-            Identificar los aspectos relevantes a la gestión institucional de la
-            investigación en relación con las otras misiones universitarias y el
-            entorno para mejorar los procesos de evaluación y mejoramiento
-            continuo con datos adecuados e indicadores pertinentes.
-          </li>
-        </ul>
-        <h3>
-          El espíritu del proyecto es colaborativo y está abierto a que los
-          usuarios de la plataforma no solo consulten su información, sino
-          también, para que puedan usar y ayudar en la creación de{" "}
-          <i>softwares</i> que la alimenten y enriquezcan. Al ser un proyecto
-          experimental, hay espacio para alianzas temporales o estratégicas con
-          distintas instituciones para resolver problemas asociados con modelos
-          métricos que puedan adecuarse a las necesidades de los tomadores de
-          decisiones.
-        </h3>
-        <br />
+      <Col xs={24} md={16}>
+        <Tabs defaultActiveKey="1" items={items} centered />
       </Col>
     </Row>
   );
