@@ -5,3 +5,27 @@
 .margin_30 {
   margin-top: 30px;
 }
+
+#impact {
+  color: #39658c;
+  font-weight: 700;
+}
+
+#u {
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+.align_left {
+  text-align: left;
+}
+
+.margin0 {
+  margin: 0;
+}
+
+.wrapText {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
