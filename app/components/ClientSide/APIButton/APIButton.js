@@ -23,14 +23,7 @@ import { Button, Tooltip } from "antd";
  */
 export default function APIButton({ searchParams }) {
   const pathname = usePathname();
-
-  // Remove the 'sort' key from searchParams
-  console.log("searchParams", searchParams);
-
-  const filteredSearchParams = { ...searchParams };
-  delete filteredSearchParams.sort;
-
-  const URL = URLBuilder(pathname, filteredSearchParams);
+  const URL = URLBuilder(pathname, searchParams);
 
   return (
     <Tooltip title="Ver en la API - JSON">
