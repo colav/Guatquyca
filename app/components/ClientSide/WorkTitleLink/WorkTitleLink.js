@@ -5,17 +5,18 @@ import DocumentModal from "../DocumentModal/DocumentModal";
 import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
 
 /* Icons */
-import { FileOutlined, FileTextOutlined } from "@ant-design/icons";
+import { FileOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { App } from "antd";
+import { App, Row } from "antd";
 
 /* Utils */
 import he from "he";
 import MathJax from "@/lib/Utils/mathjax";
+import RankingTag from "../../ServerSide/RankingTag/RankingTag";
 
 /**
  * WorkTitleLink is a client-side function component that displays a link with the title of a work.
@@ -33,7 +34,7 @@ export default function WorkTitleLink({
   workTitle,
   workID,
   openAccessStatus,
-  doi,
+  ranking,
 }) {
   const decodedWorkTitle = he.decode(workTitle);
 
@@ -43,11 +44,15 @@ export default function WorkTitleLink({
       modal.warning({
         width: "1500px",
         title: (
-          <div>
+          <Row>
             <MathJax />
-            <FileOutlined /> {decodedWorkTitle}
+            <span className={styles.margin_right}>
+              <FileOutlined />
+            </span>{" "}
+            <span className={styles.margin_right}>{decodedWorkTitle}</span>
             {status && <OpenAccessStatus status={status} />}
-          </div>
+            <RankingTag ranking={ranking} />
+          </Row>
         ),
         zIndex: 199,
         icon: null,
@@ -60,15 +65,17 @@ export default function WorkTitleLink({
     };
 
     return (
-      <div className={styles.title_container}>
+      <Row className={styles.title_container}>
         <a
+          id={styles.title_link}
           type="link"
           onClick={() => showModal(decodedWorkTitle, workID, openAccessStatus)}
         >
           {decodedWorkTitle}
         </a>
         {openAccessStatus && <OpenAccessStatus status={openAccessStatus} />}
-      </div>
+        <RankingTag ranking={ranking} />
+      </Row>
     );
   };
 

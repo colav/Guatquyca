@@ -64,11 +64,7 @@ export default function WorkItem({ item }) {
               workTitle={item.title}
               workID={item.id}
               openAccessStatus={item.open_access.open_access_status}
-              doi={
-                item.external_ids.find(
-                  (externalId) => externalId.source === "doi"
-                )?.id
-              }
+              ranking={item.ranking}
             />
             {item.source.name && <Source sourceName={item.source.name} />}
             <TeamOutlined />
