@@ -53,11 +53,6 @@ export default function HomeTable() {
     },
     {
       key: "9",
-      search: "Otros Productos",
-      example: "actores",
-    },
-    {
-      key: "10",
       search: "Convenios",
       example: "Módulo en desarrollo, próximamente disponible.",
     },

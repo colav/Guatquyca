@@ -49,7 +49,7 @@ export default function Home() {
               <h3 className={styles.marginTop_0}>
                 La información puede ser consultada por autores, instituciones,
                 unidades académicas, subunidades académicas, grupos de
-                investigación, patentes, productos, proyectos y otros productos.
+                investigación, patentes, productos y proyectos.
               </h3>
               <div id={"searchbar_container"}>
                 <Suspense>
