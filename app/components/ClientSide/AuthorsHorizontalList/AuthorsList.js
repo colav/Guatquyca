@@ -24,7 +24,7 @@ import { Button, Tooltip } from "antd";
 export default function AuthorsList({ authors, authors_count, workID }) {
   const [authorsList, setAuthorsList] = useState(authors);
 
-  const authorType = { advisor: "Asesor", "co-advisor": "Co-asesor" };
+  const authorType = { advisor: "Asesor", "co-advisor": "Coasesor" };
 
   return (
     <div>
@@ -37,7 +37,13 @@ export default function AuthorsList({ authors, authors_count, workID }) {
           key={author.id}
         >
           <Button
-            style={{ marginRight: "8px" }}
+            style={{
+              marginRight: "8px",
+              backgroundColor:
+                author.type === "advisor" || author.type === "co-advisor"
+                  ? "#f0f5fa"
+                  : "none",
+            }}
             size="small"
             color="blue"
             variant="link"
