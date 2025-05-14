@@ -14,7 +14,6 @@ const SEARCH_CONFIG = {
     works: "citations_desc",
     patents: "alphabetical_asc",
     projects: "alphabetical_asc",
-    other_works: "alphabetical_asc",
   },
   defaultQueryParams: {
     max: "10",

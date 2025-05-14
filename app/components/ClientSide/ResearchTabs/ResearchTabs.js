@@ -20,7 +20,7 @@ export default function ResearchTabs({ activeTab, entity }) {
 
   const items = [
     {
-      label: "Productos bibliográficos",
+      label: "Productos",
       key: "products",
     },
     {
@@ -35,10 +35,6 @@ export default function ResearchTabs({ activeTab, entity }) {
       label: "Noticias",
       key: "news",
       disabled: true,
-    },
-    {
-      label: "Otros",
-      key: "other_works",
     },
   ];
 

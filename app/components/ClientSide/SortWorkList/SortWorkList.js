@@ -39,7 +39,6 @@ export default function SortWorkList({
   const OPTIONS = {
     patents: [{ value: "alphabetical_asc", label: "Alfabético" }],
     projects: [{ value: "alphabetical_asc", label: "Alfabético" }],
-    other_works: [{ value: "alphabetical_asc", label: "Alfabético" }],
     works: [
       { value: "citations_desc", label: "Más citado" },
       { value: "year_desc", label: "Más reciente" },
