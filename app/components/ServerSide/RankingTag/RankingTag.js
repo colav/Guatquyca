@@ -7,12 +7,9 @@ import { Tag, Tooltip } from "antd";
 /**
  * RankingTag Component
  *
- * This component displays a ranking tag based on a provided ranking list.
- * It prioritizes rankings from the source "scienti" first, and if not found,
- * it selects rankings from the source "minciencias" only if the item does not
- * contain the "level" key.
+ * Displays a ranking tag based on a provided ranking list.
+ * Priority: "scienti" > "minciencias" (without "level") > "ciarp".
  *
- * @component
  * @param {Object[]} ranking - The list of ranking objects.
  * @returns {JSX.Element|null} A tooltip-wrapped tag displaying the rank, or null if no valid rank is found.
  */
@@ -21,16 +18,23 @@ export default function RankingTag({ ranking }) {
     return null;
   }
 
-  const rank = ranking.find(
-    (item) =>
-      item.source === "scienti" ||
-      (item.source === "minciencias" && !item.hasOwnProperty("level"))
-  );
+  let rank =
+    ranking.find((item) => item.source === "scienti") ||
+    ranking.find(
+      (item) => item.source === "minciencias" && !item.hasOwnProperty("level")
+    ) ||
+    ranking.find((item) => item.source === "ciarp");
+
+  if (!rank) return null;
+
+  const sourceMap = {
+    scienti: "ScienTI",
+    minciencias: "Minciencias",
+    ciarp: "CIARP",
+  };
 
   return (
-    <Tooltip
-      title={`Fuente: ${rank.source === "scienti" ? "ScienTI" : "Minciencias"}`}
-    >
+    <Tooltip title={`Fuente: ${sourceMap[rank.source] || rank.source}`}>
       <Tag id={styles.tag}>{rank.rank}</Tag>
     </Tooltip>
   );
