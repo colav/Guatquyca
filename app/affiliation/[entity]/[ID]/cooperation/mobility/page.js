@@ -40,7 +40,7 @@ export default async function AgreementsPage({ params }) {
                 body: CARD_BODY_STYLE,
               }}
               hoverable
-              title="Movilidad por tipo de acuerdo"
+              title="Movilidad por tipo"
             >
               <div className={styles.chart}>
                 <BarChart data={data?.plots[0].plot} />
@@ -55,7 +55,7 @@ export default async function AgreementsPage({ params }) {
                 body: CARD_BODY_STYLE,
               }}
               hoverable
-              title="Movilidad por Institución"
+              title="Movilidad por Institución de destino"
             >
               <div className={styles.chart}>
                 <BarChart data={data?.plots[1].plot} />

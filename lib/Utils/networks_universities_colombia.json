@@ -26,7 +26,7 @@
         }
       ]
     },
-    "026bv4494": {
+    "04sqpjb51": {
       "institution": "Universidad de San Buenaventura",
       "networks": [
         {
@@ -36,6 +36,10 @@
         {
           "name": "ASCUN",
           "url": "https://ascun.org.co/"
+        },
+        {
+          "name": "CONSORTIA",
+          "url": "https://www.consortia.com.co/"
         }
       ]
     },
@@ -445,10 +449,14 @@
         {
           "name": "ASCUN",
           "url": "https://ascun.org.co/"
+        },
+        {
+          "name": "CONSORTIA",
+          "url": "https://www.consortia.com.co/"
         }
       ]
     },
-    "02beve479": {
+    "0474gxy81": {
       "institution": "Universidad de La Salle",
       "networks": [
         {
@@ -1268,15 +1276,6 @@
         }
       ]
     },
-    "009sv4j63": {
-      "institution": "Colegio Mayor de Nuestra Señora del Rosario",
-      "networks": [
-        {
-          "name": "CONSORTIA",
-          "url": "https://www.consortia.com.co/"
-        }
-      ]
-    },
     "05ynctv81": {
       "institution": "Corporación Universitaria LaSallista",
       "networks": [
@@ -1441,15 +1440,6 @@
     },
     "00ffq6216": {
       "institution": "Unidad Central del Valle del Cauca",
-      "networks": [
-        {
-          "name": "CONSORTIA",
-          "url": "https://www.consortia.com.co/"
-        }
-      ]
-    },
-    "04sqpjb51": {
-      "institution": "Universidad de San Buenaventura Bogotá",
       "networks": [
         {
           "name": "CONSORTIA",

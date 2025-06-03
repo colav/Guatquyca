@@ -69,7 +69,7 @@ export default function CooperationPage() {
         </Col>
         <Col xs={24} sm={24} md={12}>
           <ChartCard
-            title="National Funding"
+            title="Financiación nacional"
             chartComponent={renderChart(3, PieChart, { sum: data?.[3]?.sum })}
           />
         </Col>
@@ -84,7 +84,7 @@ export default function CooperationPage() {
         </Col>
         <Col xs={24} sm={24} md={12}>
           <ChartCard
-            title="Tipo de Movilidad por Institución"
+            title="Tipo de movilidad por Institución"
             chartComponent={renderChart(2, StackedBarChart)}
           />
         </Col>

@@ -25,7 +25,7 @@ export default function BarChart({ data, chart }) {
     data,
     xField: "type",
     yField: "value",
-    slider: { x: {} },
+    slider: { x: { labelFormatter: () => "" } },
     style: {
       fill: "#86d5e5",
     },

@@ -88002,9 +88002,9 @@
   {
     "plot": [
       {
-        "name": "Pascual Bravo Institution University",
-        "percentage": 45.13,
-        "value": 135572772
+        "name": "Universidad de La Salle Bogotá",
+        "percentage": 19.34,
+        "value": 58100000
       },
       {
         "name": "Universidad de Antioquia",
@@ -88012,32 +88012,12 @@
         "value": 106699500
       },
       {
-        "name": "Universidad de La Salle Bogotá",
-        "percentage": 19.34,
-        "value": 58100000
-      },
-      {
-        "name": "Universidad de San Buenaventura",
-        "percentage": 0.0,
-        "value": 0
-      },
-      {
-        "name": "Universidad de La Sabana",
-        "percentage": 0.0,
-        "value": 0
-      },
-      {
-        "name": "Universidad Tecnológica de Bolívar",
-        "percentage": 0.0,
-        "value": 0
-      },
-      {
-        "name": "Universidad Industrial de Santander",
-        "percentage": 0.0,
-        "value": 0
+        "name": "Pascual Bravo Institution University",
+        "percentage": 45.13,
+        "value": 135572772
       }
     ],
-    "sum": 300372272,
+    "sum": "$300.372.272",
     "plot_name": "national_funding"
   }
 ]

@@ -30,7 +30,7 @@ export default function StackedBarChart({ data }) {
     xField: "y",
     yField: "x",
     colorField: "type",
-    slider: { x: {} },
+    slider: { x: { labelFormatter: () => "" } },
     sort: {
       reverse: true,
       by: "y",
