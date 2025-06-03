@@ -43,13 +43,9 @@ export default function MemberOf({ id }) {
       </h2>
       <Space size={[6, 10]} wrap>
         {memberships.map((item) => (
-          <a
-            href={item.url}
-            key={item.network}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={item.url} target="_blank" rel="noreferrer">
             <Button
+              key={item.network}
               style={{ alignItems: "flex-start", padding: "0" }}
               type="link"
               icon={icons[item.name]}

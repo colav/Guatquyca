@@ -1,0 +1,306 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 39
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 77
+        },
+        {
+          "type": "Doble Titulación",
+          "value": 2
+        },
+        {
+          "type": "Rotación Médica",
+          "value": 6
+        },
+        {
+          "type": "Curso corto",
+          "value": 14
+        },
+        {
+          "type": "Asistencia a eventos",
+          "value": 26
+        },
+        {
+          "type": "Misión",
+          "value": 12
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Universidad Veracruzana",
+          "value": 9
+        },
+        {
+          "type": "Universidad Nacional Autónoma de México",
+          "value": 11
+        },
+        {
+          "type": "Universidad de Guadalajara",
+          "value": 4
+        },
+        {
+          "type": "Agromallorca",
+          "value": 2
+        },
+        {
+          "type": "Universidad Andrés Bello",
+          "value": 13
+        },
+        {
+          "type": "Universidad Pompeu Fabra",
+          "value": 1
+        },
+        {
+          "type": "Universidad Purdue",
+          "value": 21
+        },
+        {
+          "type": "Universidad Estatal Paulista",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Murcia",
+          "value": 5
+        },
+        {
+          "type": "Universidad de Pittsburgh",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Buenos Aires",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Extremadura",
+          "value": 5
+        },
+        {
+          "type": "Universidad Federal de Viçosa",
+          "value": 3
+        },
+        {
+          "type": "Universidad de La Frontera",
+          "value": 2
+        },
+        {
+          "type": "Benemérita Universidad Autónoma de Puebla",
+          "value": 10
+        },
+        {
+          "type": "Universidad Autónoma de Guerrero",
+          "value": 2
+        },
+        {
+          "type": "Universidad Nacional de Salta",
+          "value": 2
+        },
+        {
+          "type": "Instituto Mexicano de Tecnología del Agua",
+          "value": 2
+        },
+        {
+          "type": "Universidad de CEMA",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Granada",
+          "value": 3
+        },
+        {
+          "type": "Universidad Nacional de La Plata",
+          "value": 1
+        },
+        {
+          "type": "Universidad Politécnica de Madrid",
+          "value": 1
+        },
+        {
+          "type": "Universidad Politécnica de Valencia",
+          "value": 1
+        },
+        {
+          "type": "Conservatorio Superior de Música Joaquín Rodrigo",
+          "value": 2
+        },
+        {
+          "type": "Universidade Federal de Ouro Preto",
+          "value": 1
+        },
+        {
+          "type": "Instituto del Teatro de Barcelona",
+          "value": 2
+        },
+        {
+          "type": "Instituto Superior de Ciencias de la Educación del estado de México",
+          "value": 1
+        },
+        {
+          "type": "Hospital Italiano de Buenos Aires",
+          "value": 2
+        },
+        {
+          "type": "Centro de Evaluación del adulto Mayor CEAM",
+          "value": 1
+        },
+        {
+          "type": "Hospital Ramón y Cajal",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Tamaulipas",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Tlaxcala",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Nicaragua",
+          "value": 2
+        },
+        {
+          "type": "Universidad Tecnológica de Querétaro",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Alicante",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Tlaxcala",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Aguascalientes, Centro de las Artes y la Cultura",
+          "value": 1
+        },
+        {
+          "type": "Código Sur",
+          "value": 1
+        },
+        {
+          "type": "Universidad Paul Valéry",
+          "value": 2
+        },
+        {
+          "type": "Pontificia Universidad Católica de Chile",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Barcelona",
+          "value": 1
+        },
+        {
+          "type": "Universidade de Lisboa",
+          "value": 1
+        },
+        {
+          "type": "Universidad Austral de Argentina",
+          "value": 1
+        },
+        {
+          "type": "Plymouth High School",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional de Costa Rica",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma Agraria Antonio Narro",
+          "value": 1
+        },
+        {
+          "type": "1st International Monogenetic Conference",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Zaragoza",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Paderborn",
+          "value": 2
+        },
+        {
+          "type": "Instituto Politécnico do Porto",
+          "value": 11
+        },
+        {
+          "type": "Universidad Austral de Chile",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Castilla-La Mancha",
+          "value": 1
+        },
+        {
+          "type": "Universidad Complutense de Madrid",
+          "value": 1
+        },
+        {
+          "type": "Nestlé Research Center",
+          "value": 1
+        },
+        {
+          "type": "Universidad Tecnológica del Perú",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Barcelona",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Palermo",
+          "value": 1
+        },
+        {
+          "type": "instituto de Antropologia Forense",
+          "value": 1
+        },
+        {
+          "type": "FITU XX Foro internacional de teatro Universitario XX",
+          "value": 9
+        },
+        {
+          "type": "Centro Asistencial San Juan de Dios",
+          "value": 1
+        },
+        {
+          "type": "Red Iberoamericana de Colectivos",
+          "value": 1
+        },
+        {
+          "type": "El Colegio Nacional",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional de Córdoba",
+          "value": 2
+        },
+        {
+          "type": "Organización Mundial de Sanidad Animal (OMSA)",
+          "value": 1
+        },
+        {
+          "type": "La Federación Latinoamericana de Asociaciones Químicas",
+          "value": 1
+        },
+        {
+          "type": "Centro Peninsular en Humanidades y Ciencias Sociales (CEPHCIS)",
+          "value": 1
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

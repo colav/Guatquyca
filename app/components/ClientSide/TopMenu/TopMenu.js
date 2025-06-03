@@ -24,6 +24,16 @@ export default function TopMenu({ person = false, currentTab }) {
   const router = useRouter();
   const { ID, entity } = useParams();
 
+  const CCYK = [
+    "00s1b0733",
+    "00xc1d948",
+    "01d171k92",
+    "02sqgkj21",
+    "03bp5hc83",
+    "0474gxy81",
+    "04sqpjb51",
+  ];
+
   const items = person
     ? [
         { label: "Investigación", key: "research" },
@@ -34,29 +44,32 @@ export default function TopMenu({ person = false, currentTab }) {
         { label: "Afiliaciones", key: "affiliations" },
         { label: "Investigación", key: "research" },
         /* { label: "Extensión", key: "extension" }, */
-        { label: "Cooperación", key: "cooperation", disabled: true },
+        {
+          label: "Cooperación",
+          key: "cooperation",
+          disabled: !CCYK.includes(ID),
+        },
       ];
 
   const defaultTab = {
-    cooperation: "agreements",
+    cooperation: "mobility",
     extension: "entrepreneurship",
     research: "products",
   };
 
-  /**
-   * onSelect is a function that is called when a menu item is selected.
-   * It receives an object with the selected item's key.
-   * It then navigates to a new path based on the selected item's key.
-   *
-   * @param {Object} key - An object that contains the selected item's key.
-   */
-  const onSelect = ({ key }) => {
-    const path = person
-      ? `/person/${ID}/${key}/${defaultTab[key]}?max=10&page=1&sort=citations_desc`
+  const buildUrl = (key) => {
+    const base = person
+      ? `/person/${ID}/${key}/${defaultTab[key]}`
       : `/affiliation/${entity}/${ID}/${key}${
           defaultTab[key] ? "/" + defaultTab[key] : ""
-        }?max=10&page=1&sort=citations_desc`;
-    router.push(path);
+        }`;
+    return key === "cooperation"
+      ? base
+      : `${base}?max=10&page=1&sort=citations_desc`;
+  };
+
+  const onSelect = ({ key }) => {
+    router.push(buildUrl(key));
   };
 
   return (

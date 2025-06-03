@@ -1,0 +1,122 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Misión",
+          "value": 74
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 65
+        },
+        {
+          "type": "Curso corto",
+          "value": 36
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Universidad Veracruzana",
+          "value": 58
+        },
+        {
+          "type": "Universidad Anáhuac",
+          "value": 18
+        },
+        {
+          "type": "Universidad Ramon Llull",
+          "value": 2
+        },
+        {
+          "type": "Universidad Rey Juan Carlos",
+          "value": 2
+        },
+        {
+          "type": "Universidad del Mar",
+          "value": 16
+        },
+        {
+          "type": "Universidad Vizcaya de las Americas",
+          "value": 34
+        },
+        {
+          "type": "Universidad Federal de Ouro Preto",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Sevilla",
+          "value": 3
+        },
+        {
+          "type": "Universitá Sapienza di Roma",
+          "value": 1
+        },
+        {
+          "type": "Centro de Estudios Olímpicos del Comité Olímpico Internacional",
+          "value": 1
+        },
+        {
+          "type": "Universidad Católica del Uruguay",
+          "value": 1
+        },
+        {
+          "type": "Universidad Miguel Hernández de Elche",
+          "value": 6
+        },
+        {
+          "type": "Universidad Nacional Autónoma de México",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autonoma de Mexico",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Guadalajara",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Tlaxcala",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional de General Sarmiento",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Brock canada ",
+          "value": 3
+        },
+        {
+          "type": " Bavaro",
+          "value": 1
+        },
+        {
+          "type": "Hotel Nayara bocas del toro, Panamá",
+          "value": 1
+        },
+        {
+          "type": "University Canada West",
+          "value": 3
+        },
+        {
+          "type": "Universidad Central de Chile",
+          "value": 2
+        },
+        {
+          "type": "Universidad Autónoma de Barcelona",
+          "value": 15
+        },
+        {
+          "type": "Universidad Colima Mexico",
+          "value": 2
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

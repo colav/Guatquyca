@@ -1,0 +1,186 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 89
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 23
+        },
+        {
+          "type": "Doble Titulación",
+          "value": 9
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Universidad de Aix-Marsella",
+          "value": 2
+        },
+        {
+          "type": "IMTIB",
+          "value": 1
+        },
+        {
+          "type": "Laboratorio Nacional de Energías Renovables",
+          "value": 1
+        },
+        {
+          "type": "UCC",
+          "value": 1
+        },
+        {
+          "type": "Universidad Estatal de Campinas",
+          "value": 5
+        },
+        {
+          "type": "Universidad Rovira i Virgili",
+          "value": 3
+        },
+        {
+          "type": "Universidad Federal de Uberlândia",
+          "value": 4
+        },
+        {
+          "type": "Universidad Andrés Bello",
+          "value": 4
+        },
+        {
+          "type": "Universidad Autónoma Metropolitana Unidad Azcapotzalco",
+          "value": 1
+        },
+        {
+          "type": "Benemérita Universidad Autónoma de Puebla",
+          "value": 11
+        },
+        {
+          "type": "Universidad Nacional Autónoma de México",
+          "value": 12
+        },
+        {
+          "type": "Universidad de Valencia",
+          "value": 3
+        },
+        {
+          "type": "Universidad de Bremen",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Nuevo León",
+          "value": 1
+        },
+        {
+          "type": "Pontificia Universidad Católica de Valparaíso",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Jaén",
+          "value": 9
+        },
+        {
+          "type": "Universidad de Sídney",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional de Ingeniería",
+          "value": 3
+        },
+        {
+          "type": "Universidad Carlos III de Madrid",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Alcalá",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Talca",
+          "value": 6
+        },
+        {
+          "type": "École de technologie supérieure",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Sevilla",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Chile",
+          "value": 2
+        },
+        {
+          "type": "Instituto de Cerámica y Vidrio",
+          "value": 2
+        },
+        {
+          "type": "Universidad de la República",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Zaragoza",
+          "value": 6
+        },
+        {
+          "type": "Universidad de Oklahoma",
+          "value": 4
+        },
+        {
+          "type": "EESC",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Castilla-La Mancha",
+          "value": 5
+        },
+        {
+          "type": "Instituto Superior Técnico",
+          "value": 1
+        },
+        {
+          "type": "UNIVERSIDAD SAN MARTIN-INSTITUTO SABATO",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Lille Nord-de-France",
+          "value": 1
+        },
+        {
+          "type": "Instituto Nacional de Investigación Agropecuaria",
+          "value": 1
+        },
+        {
+          "type": "UNIVERSIDAD DE LOS ANDES",
+          "value": 1
+        },
+        {
+          "type": "WISCONSIN MEDICAL COLLEGE",
+          "value": 1
+        },
+        {
+          "type": "C.M.N.SIGLO 21",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Poitiers",
+          "value": 1
+        },
+        {
+          "type": "Universidad Federal de Minas Gerais",
+          "value": 1
+        },
+        {
+          "type": "ESCUELA DE INGENIEROS DE METZ (ENIM)",
+          "value": 7
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

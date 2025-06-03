@@ -137,6 +137,8 @@ export default function Foot() {
           >
             Estadísticas de uso
           </a>
+          <br />
+          <Link href="/cooperation-dashboard">Indicadores de Cooperación</Link>
         </Col>
         <Col xs={24} md={8}>
           <div style={{ marginBottom: "10px" }}>
