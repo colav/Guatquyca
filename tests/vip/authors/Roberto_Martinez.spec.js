@@ -30,14 +30,16 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
     // Verify that the search results contain "Roberto Enrique Martínez Martínez".
     await test.step('Verify search results contain "Roberto Enrique Martínez Martínez"', async () => {
       await expect(
-        page.getByText("Roberto Enrique Martínez Martínez").first()
+        page.getByText(/Roberto Enrique Mart(i|í)nez Mart(i|í)nez/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Roberto Enrique Martínez Martínez" to navigate to his profile page.
     await test.step('Click on "Roberto Enrique Martínez Martínez" profile link', async () => {
       await page
-        .getByRole("link", { name: "Roberto Enrique Martínez Martínez" })
+        .getByRole("link", {
+          name: /Roberto Enrique Mart(i|í)nez Mart(i|í)nez/i,
+        })
         .first()
         .click();
     });

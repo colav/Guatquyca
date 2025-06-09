@@ -30,14 +30,14 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
     // Verify that the search results contain "Jairo Alexis Rodriguez Lopez".
     await test.step('Verify search results contain "Jairo Alexis Rodriguez Lopez"', async () => {
       await expect(
-        page.getByText("Jairo Alexis Rodriguez Lopez").first()
+        page.getByText(/Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Jairo Alexis Rodriguez Lopez" to navigate to his profile page.
     await test.step('Click on "Jairo Alexis Rodriguez Lopez" profile link', async () => {
       await page
-        .getByRole("link", { name: "Jairo Alexis Rodriguez Lopez" })
+        .getByRole("link", { name: /Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i })
         .first()
         .click();
     });
