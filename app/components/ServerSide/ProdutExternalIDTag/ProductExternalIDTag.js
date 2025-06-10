@@ -13,8 +13,6 @@ import { Tag } from "antd";
  * @returns {JSX.Element|null} The ProductExternalIDTag component or null if no matching ID.
  */
 export default function ProductExternalIDTag({ idList }) {
-  console.log("ProductExternalIDTag", idList);
-
   const tagItem =
     idList.find(
       ({ source, provenance }) =>
