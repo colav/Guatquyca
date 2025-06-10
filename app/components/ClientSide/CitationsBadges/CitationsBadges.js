@@ -35,13 +35,17 @@ export default function CitationsBadges({
   return (
     <>
       {showTitle && (
-        <div style={{ marginBottom: "7px" }}>
+        <div style={{ marginBottom: "7" }}>
           <CitationsIcon aria-label="Citations Icon" /> Citaciones:
         </div>
       )}
       <Row
         gutter={15}
-        style={{ marginLeft: showTitle === true ? "7px" : "-10px" }}
+        style={{
+          marginLeft: showTitle ? "10px" : "-7px",
+          marginTop: "8px",
+          marginBottom: "12px",
+        }}
       >
         {/* <Col>
           <ScholarBadge number={scholarCount} />
