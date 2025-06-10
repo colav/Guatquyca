@@ -1,6 +1,7 @@
 /* Components */
 import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
+import ProductExternalIDTag from "../../ServerSide/ProdutExternalIDTag/ProductExternalIDTag";
 import Source from "../../ServerSide/Source/Source";
 import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
@@ -10,11 +11,7 @@ import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
-import {
-  TeamOutlined,
-  TagsOutlined,
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
+import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -66,6 +63,7 @@ export default function WorkItem({ item }) {
               openAccessStatus={item.open_access.open_access_status}
               ranking={item.ranking}
             />
+            <ProductExternalIDTag idList={item.external_ids} />
             {item.source.name && <Source sourceName={item.source.name} />}
             <TeamOutlined />
             <AuthorsList
