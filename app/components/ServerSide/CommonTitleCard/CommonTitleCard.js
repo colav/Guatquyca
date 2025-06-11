@@ -39,8 +39,6 @@ export default function CommonTitleCard({ data, entity }) {
     _id,
   } = data;
 
-  console.log(_id);
-
   const country = addresses?.[0]?.country;
   const countryCode = addresses?.[0]?.country_code;
 
