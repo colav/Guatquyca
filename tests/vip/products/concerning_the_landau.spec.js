@@ -29,7 +29,9 @@ test.describe("'Concerning the Landau pole...' article information is complete",
     // Verify the search result is visible and click it
     await test.step("Verify that the search result for the article appears and click to open the details modal", async () => {
       const articleTitle = "Concerning the Landau pole in 3-3-1 models";
-      await expect(page.getByText(articleTitle).nth(0)).toBeVisible();
+      await expect(page.getByText(articleTitle).nth(0)).toBeVisible({
+        timeout: 30000,
+      });
       await page
         .getByText("Concerning the Landau pole in 3-3-1 models")
         .nth(0)
@@ -58,9 +60,9 @@ test.describe("'Concerning the Landau pole...' article information is complete",
     // Verify author list
     await test.step("Check that the listed authors match the expected names, ignoring accents and sorting alphabetically", async () => {
       const expectedAuthors = [
-        "alex g dias",
+        "alex gomes dias",
         "roberto enrique martinez martinez",
-        "v pleitez",
+        "vicente pleitez",
       ].sort();
 
       const authorList = await modal

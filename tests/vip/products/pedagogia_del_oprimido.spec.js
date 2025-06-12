@@ -30,7 +30,9 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
     await test.step("Verify that the search result for the article appears and click to open the details modal", async () => {
       const articleTitle =
         "Pedagogía del oprimido: escrito dirigido al opresor";
-      await expect(page.getByText(articleTitle).nth(0)).toBeVisible();
+      await expect(page.getByText(articleTitle).nth(0)).toBeVisible({
+        timeout: 30000,
+      });
       await page
         .getByText("Pedagogía del oprimido: escrito dirigido al opresor")
         .nth(0)

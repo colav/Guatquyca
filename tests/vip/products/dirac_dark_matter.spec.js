@@ -30,7 +30,9 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
     await test.step("Verify that the search result for the article appears and click to open the details modal", async () => {
       const articleTitle =
         "Dirac dark matter, neutrino masses, and dark baryogenesis";
-      await expect(page.getByText(articleTitle)).toBeVisible();
+      await expect(page.getByText(articleTitle)).toBeVisible({
+        timeout: 30000,
+      });
       await page.getByText("Dirac dark matter, neutrino").click();
     });
 

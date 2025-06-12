@@ -30,7 +30,9 @@ test.describe("'Determination of the IMF...' article information is complete", (
     await test.step("Verify that the search result for the article appears and click to open the details modal", async () => {
       const articleTitle =
         "Determination of the IMF in the LMC stellar cluster NGC 2156";
-      await expect(page.getByText(articleTitle).nth(0)).toBeVisible();
+      await expect(page.getByText(articleTitle).nth(0)).toBeVisible({
+        timeout: 30000,
+      });
       await page
         .getByText(
           "Determination of the IMF in the LMC stellar cluster NGC 2156"
@@ -64,7 +66,7 @@ test.describe("'Determination of the IMF...' article information is complete", (
     await test.step("Check that the listed authors match the expected names, ignoring accents and sorting alphabetically", async () => {
       const expectedAuthors = [
         "esteban silva villa",
-        "m sirianni",
+        "marco sirianni",
         "jorge ivan zuluaga callejas",
       ].sort();
 

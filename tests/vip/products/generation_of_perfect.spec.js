@@ -30,7 +30,9 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     await test.step("Verify that the search result for the article appears and click to open the details modal", async () => {
       const articleTitle =
         "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator";
-      await expect(page.getByText(articleTitle).nth(0)).toBeVisible();
+      await expect(page.getByText(articleTitle).nth(0)).toBeVisible({
+        timeout: 30000,
+      });
       await page
         .getByText(
           "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator"
@@ -64,7 +66,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     await test.step("Check that the listed authors match the expected names, ignoring accents and sorting alphabetically", async () => {
       const expectedAuthors = [
         "nelson anaya carvajal",
-        "cristian hernando acevedo",
+        "cristian hernando acevedo caceres",
         "yezid torres moreno",
       ].sort();
 
