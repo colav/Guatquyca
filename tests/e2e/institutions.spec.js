@@ -142,7 +142,9 @@ test.describe("Testing Institutions entity", () => {
     await page.getByRole("button", { name: "search" }).click();
 
     // Verify that the search results contain "Universidad de Antioquia".
-    await expect(page.getByText("Universidad de Antioquia")).toBeVisible();
+    await expect(
+      page.getByText("Universidad de Antioquia", { exact: true })
+    ).toBeVisible();
 
     // Click on the link for "Universidad de Antioquia" to navigate to its profile page.
     await page
@@ -198,22 +200,77 @@ test.describe("Testing Institutions entity", () => {
 
       // Measure the time taken for the API to respond
       const startTime = Date.now(); // Start timing
-      const response = await fetch(apiUrl);
-      const endTime = Date.now(); // End timing
-      const responseTime = (endTime - startTime) / 1000; // Convert to seconds
 
-      // Check if the response status is not 200
-      if (response.status !== 200) {
-        throw new Error(
-          `Fetch failed with status: ${response.status} ${response.statusText} for "${item}"`
-        );
+      try {
+        // Make the API request
+        const response = await fetch(apiUrl);
+        const endTime = Date.now(); // End timing
+        const responseTime = (endTime - startTime) / 1000; // Convert to seconds
+
+        // Parse the response as JSON
+        const responseData = await response.json();
+
+        // Check if "plot" is an array or an object
+        if (Array.isArray(responseData.plot)) {
+          console.log(`Plot length for "${item}":`, responseData.plot.length);
+
+          // Check that the response contains data
+          await expect
+            .soft(
+              responseData.plot.length > 0,
+              `Response data for "${item}" should not be empty`
+            )
+            .toBe(true);
+        } else if (
+          typeof responseData.plot === "object" &&
+          responseData.plot !== null
+        ) {
+          console.log(
+            `Plot keys for "${item}":`,
+            Object.keys(responseData.plot).length
+          );
+
+          // Check that the response contains data
+          await expect
+            .soft(
+              Object.keys(responseData.plot).length > 0,
+              `Response data for "${item}" should not be empty`
+            )
+            .toBe(true);
+        } else {
+          console.error(
+            `Unexpected "plot" type for "${item}":`,
+            responseData.plot
+          );
+
+          // Fail the test if "plot" is neither an array nor an object
+          await expect
+            .soft(false, `Unexpected "plot" type for "${item}"`)
+            .toBe(true);
+        }
+        // Check that the response does not contains an error
+        await expect
+          .soft(
+            Object.keys(responseData)[0] === "error",
+            `Response data for "${item}" should not be an error`
+          )
+          .toBe(false);
+
+        // Verify that the response status is 200
+        // Use a soft assertion to allow other tests to continue even if this one fails
+        await expect.soft(response.status, `Status for "${item}"`).toBe(200);
+
+        // Add the time taken for the API to respond to the browser report
+        test.info().annotations.push({
+          type: `API response time for "${item}"`,
+          description: `${responseTime} seconds`,
+        });
+      } catch (err) {
+        // If an unexpected error occurs (like network failure), log the error
+        // and use a soft assertion to fail the test but continue execution
+        console.error(`Error fetching "${item}":`, err);
+        await expect.soft(false, `Error during fetch for "${item}"`).toBe(true);
       }
-
-      // Add the time taken for the API to respond to the browser report
-      test.info().annotations.push({
-        type: `API response time for "${item}"`,
-        description: `${responseTime} seconds`,
-      });
     }
 
     async function runSequentially(plotlist) {
