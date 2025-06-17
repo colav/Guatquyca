@@ -92,10 +92,9 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
       ).toBeVisible();
     });
 
-    // Temporary deactivation of the following tests due to lack of information in the profile
-    /* // Verify that the OpenAlex link no matter the ID, is visible.
+    // Verify that the OpenAlex link no matter the ID, is visible.
     await test.step("Verify that the OpenAlex link no matter the ID, is visible.", async () => {
       await expect(page.locator("#external-profiles-OpenAlex")).toBeVisible();
-    }); */
+    });
   });
 });
