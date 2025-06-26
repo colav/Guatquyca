@@ -84,16 +84,25 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
     });
 
     // Verify OpenAlex citation count
-    await test.step("Check that the OpenAlex citation count is displayed and that at least one citation elements exist", async () => {
+    await test.step(// Step description: Ensure the OpenAlex citation count is displayed and valid
+    "Check that the OpenAlex citation count is displayed and that at least one citation element exists, with a value above the threshold", async () => {
+      // Find all citation icon images in the modal by alt text prefix
       const citations = await modal.locator('img[alt^="Citations:"]').all();
+
+      // Assert that at least one citation element is present
       if (citations.length < 1)
         throw new Error("Less than 1 citation elements found.");
 
+      // Get the alt text of the first citation icon
       const altText = await citations[0].getAttribute("alt");
 
+      // Extract the citation count from the alt text using regex
       const match = altText.match(/Citations: (\d+)/);
       const citationCount = parseInt(match[1], 10);
-      expect(citationCount).toBeGreaterThanOrEqual(0);
+
+      // Allow a 20% error margin below the expected citation count (0)
+      const threshold = 0 * 0.8;
+      expect(citationCount).toBeGreaterThanOrEqual(threshold);
     });
 
     // Verify DOI link

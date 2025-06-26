@@ -88,7 +88,7 @@ test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
     });
 
     // Verify that the CVLAC link with his cod_rh is visible and correct.
-    await test.step("Verify CVLAC link with COD_RH: 0000066214, is correct", async () => {
+    await test.step("Verify CVLAC link with COD_RH: 0000707619, is correct", async () => {
       await expect(
         page.locator(
           `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000707619"]`
