@@ -19,12 +19,12 @@ export const metadata = {
 const tableData = [
   {
     key: "1",
-    type: "Productos bilbiográficos",
-    impactu: "1.486.287",
-    openalex: "479.000",
+    type: "Productos",
+    impactu: "2.545.925",
+    openalex: "481.700",
     scopus: "219.799",
     minciencias: "724.625",
-    scholar: "359.190",
+    scholar: "359.433",
   },
   {
     key: "2",
@@ -37,11 +37,11 @@ const tableData = [
   },
   {
     key: "3",
-    type: "Otros productos",
-    impactu: "177.257",
+    type: "Patentes",
+    impactu: "1.904",
     openalex: "0",
     scopus: "0",
-    minciencias: "177.257",
+    minciencias: "1.904",
     scholar: "0",
   },
 ];
@@ -227,7 +227,7 @@ const items = [
             <b>
               <sup>1</sup>
             </b>{" "}
-            Datos consultados el 4 de abril de 2025 en:{" "}
+            Datos consultados el 26 de junio de 2025 en:{" "}
             <a
               href="https://impactu.colav.co/search/works?max=10&page=1&sort=citations_desc"
               target="_blank"
@@ -240,7 +240,7 @@ const items = [
             <b>
               <sup>2</sup>
             </b>{" "}
-            Datos consultados el 4 de abril de 2025 en:{" "}
+            Datos consultados el 26 de junio de 2025 en:{" "}
             <a
               href="https://openalex.org/works?page=1&filter=authorships.countries%3Acountries%2Fco"
               target="_blank"
@@ -251,7 +251,7 @@ const items = [
             </a>{" "}
             <b id={styles.impact}>Impact</b>
             <b id={styles.u}>U</b> con sus procesos de normalización y cruce de
-            bases de datos logró recuperar de OpenAlex 691.054 productos de esta
+            bases de datos logró recuperar de OpenAlex 725.864 productos de esta
             base de datos.
           </p>
           <p>
