@@ -30,14 +30,14 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
     // Verify that the search results contain "Jairo Alexis Rodriguez Lopez".
     await test.step('Verify search results contain "Jairo Alexis Rodriguez Lopez"', async () => {
       await expect(
-        page.getByText("Jairo Alexis Rodriguez Lopez").first()
+        page.getByText(/Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Jairo Alexis Rodriguez Lopez" to navigate to his profile page.
     await test.step('Click on "Jairo Alexis Rodriguez Lopez" profile link', async () => {
       await page
-        .getByRole("link", { name: "Jairo Alexis Rodriguez Lopez" })
+        .getByRole("link", { name: /Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i })
         .first()
         .click();
     });
@@ -91,10 +91,9 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
       ).toBeVisible();
     });
 
-    // Temporary deactivation of the following tests due to lack of information in the profile
-    /* // Verify that the OpenAlex link no matter the ID, is visible.
+    // Verify that the OpenAlex link no matter the ID, is visible.
     await test.step("Verify that the OpenAlex link no matter the ID, is visible.", async () => {
       await expect(page.locator("#external-profiles-OpenAlex")).toBeVisible();
-    }); */
+    });
   });
 });

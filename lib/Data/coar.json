@@ -1,0 +1,456 @@
+{
+    "value": "coar",
+    "title": "Coar",
+    "children": [
+        {
+            "id": "F8RT-TJK0",
+            "title": "Obra artística"
+        },
+        {
+            "id": "c_12cc",
+            "title": "Material cartográfico",
+            "children": [
+                {
+                    "id": "c_12cd",
+                    "title": "Mapa"
+                }
+            ]
+        },
+        {
+            "id": "RMP5-3GQ6",
+            "title": "Colección",
+            "children": [
+                {
+                    "id": "YC9F-HGCF",
+                    "title": "Colección de archivo"
+                },
+                {
+                    "id": "1YTN-RJZE",
+                    "title": "Expediente judicial"
+                }
+            ]
+        },
+        {
+            "id": "c_ddb1",
+            "title": "Conjunto de datos",
+            "children": [
+                {
+                    "id": "ACF7-8YT9",
+                    "title": "Datos agregados"
+                },
+                {
+                    "id": "c_cb28",
+                    "title": "Ensayo clínico"
+                },
+                {
+                    "id": "FXF3-D3G7",
+                    "title": "Datos compilados"
+                },
+                {
+                    "id": "AM6W-6QAW",
+                    "title": "Datos codificados"
+                },
+                {
+                    "id": "63NG-B465",
+                    "title": "Datos experimentales"
+                },
+                {
+                    "id": "A8F1-NPV9",
+                    "title": "Datos genómicos"
+                },
+                {
+                    "id": "2H0M-X761",
+                    "title": "Datos geoespaciales"
+                },
+                {
+                    "id": "H41Y-FW7B",
+                    "title": "Cuaderno de laboratorio"
+                },
+                {
+                    "id": "DD58-GFSX",
+                    "title": "Datos de medición y prueba"
+                },
+                {
+                    "id": "FF4C-28RK",
+                    "title": "Datos observacionales"
+                },
+                {
+                    "id": "CQMR-7K63",
+                    "title": "Datos registrados"
+                },
+                {
+                    "id": "W2XT-7017",
+                    "title": "Datos de simulación"
+                },
+                {
+                    "id": "NHD0-W6SY",
+                    "title": "Datos de encuesta"
+                }
+            ]
+        },
+        {
+            "id": "542X-3S04",
+            "title": "Diseño",
+            "children": [
+                {
+                    "id": "JBNF-DYAD",
+                    "title": "Diseño industrial"
+                },
+                {
+                    "id": "BW7T-YM2G",
+                    "title": "Topografía de productos semiconductores"
+                }
+            ]
+        },
+        {
+            "id": "c_c513",
+            "title": "Imagen",
+            "children": [
+                {
+                    "id": "c_8a7e",
+                    "title": "Imagen dinámica",
+                    "children": [
+                        {
+                            "id": "c_12ce",
+                            "title": "Vídeo"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_ecc8",
+                    "title": "Imagen fija"
+                }
+            ]
+        },
+        {
+            "id": "c_e9a0",
+            "title": "Recurso interactivo",
+            "children": [
+                {
+                    "id": "c_7ad9",
+                    "title": "Sitio web"
+                }
+            ]
+        },
+        {
+            "id": "GSZA-Y7V7",
+            "title": "Sistema para la organización del conocimiento"
+        },
+        {
+            "id": "c_e059",
+            "title": "Objeto de aprendizaje"
+        },
+        {
+            "id": "c_1843",
+            "title": "Otros"
+        },
+        {
+            "id": "c_15cd",
+            "title": "Patente",
+            "children": [
+                {
+                    "id": "SB3Y-W4EH",
+                    "title": "PCT"
+                },
+                {
+                    "id": "C53B-JCY5",
+                    "title": "Patente de diseño"
+                },
+                {
+                    "id": "Z907-YMBB",
+                    "title": "Patente de plantas"
+                },
+                {
+                    "id": "GPQ7-G5VE",
+                    "title": "Obtención de variedades vegetales"
+                },
+                {
+                    "id": "MW8G-3CR8",
+                    "title": "Patente de software"
+                },
+                {
+                    "id": "9DKX-KSAF",
+                    "title": "Modelo de utilidad"
+                }
+            ]
+        },
+        {
+            "id": "S7R1-K5P0",
+            "title": "Muestra física"
+        },
+        {
+            "id": "8KJG-QS0Y",
+            "title": "Instrumento de investigación"
+        },
+        {
+            "id": "c_5ce6",
+            "title": "Software",
+            "children": [
+                {
+                    "id": "c_c950",
+                    "title": "Software de investigación"
+                },
+                {
+                    "id": "QH80-2R4E",
+                    "title": "Código fuente"
+                }
+            ]
+        },
+        {
+            "id": "c_18cc",
+            "title": "Sonido",
+            "children": [
+                {
+                    "id": "c_18cd",
+                    "title": "Composición musical"
+                }
+            ]
+        },
+        {
+            "id": "c_18cf",
+            "title": "Texto",
+            "children": [
+                {
+                    "id": "c_1162",
+                    "title": "Nota de jurisprudencia"
+                },
+                {
+                    "id": "c_86bc",
+                    "title": "Bibliografía"
+                },
+                {
+                    "id": "c_6947",
+                    "title": "Entrada de blog"
+                },
+                {
+                    "id": "c_2f33",
+                    "title": "Libro",
+                    "children": [
+                        {
+                            "id": "c_3248",
+                            "title": "Capítulo de libro"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_c94f",
+                    "title": "Contribución de congreso",
+                    "children": [
+                        {
+                            "id": "c_18cp",
+                            "title": "Comunicación no publicada en actas de congreso"
+                        },
+                        {
+                            "id": "c_18co",
+                            "title": "Póster no publicado en actas de congreso"
+                        },
+                        {
+                            "id": "R60J-J5BD",
+                            "title": "Presentación de congreso"
+                        },
+                        {
+                            "id": "c_f744",
+                            "title": "Actas de congreso",
+                            "children": [
+                                {
+                                    "id": "c_5794",
+                                    "title": "Comunicación de congreso"
+                                },
+                                {
+                                    "id": "c_6670",
+                                    "title": "Póster de congreso"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "c_0640",
+                    "title": "Revista",
+                    "children": [
+                        {
+                            "id": "c_b239",
+                            "title": "Editorial"
+                        },
+                        {
+                            "id": "c_6501",
+                            "title": "Artículo",
+                            "children": [
+                                {
+                                    "id": "c_7acd",
+                                    "title": "Corrigenda"
+                                },
+                                {
+                                    "id": "c_beb9",
+                                    "title": "Artículo de datos"
+                                },
+                                {
+                                    "id": "c_2df8fbb1",
+                                    "title": "Artículo original"
+                                },
+                                {
+                                    "id": "c_dcae04bc",
+                                    "title": "Artículo de revisión"
+                                },
+                                {
+                                    "id": "c_7bab",
+                                    "title": "Artículo de software"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "c_545b",
+                            "title": "Carta al director"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_8544",
+                    "title": "Ponencia"
+                },
+                {
+                    "id": "c_0857",
+                    "title": "Carta"
+                },
+                {
+                    "id": "c_2cd9",
+                    "title": "Revista divulgativa",
+                    "children": [
+                        {
+                            "id": "43KC-T6DC",
+                            "title": "Artículo de magacín"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_0040",
+                    "title": "Manuscrito"
+                },
+                {
+                    "id": "c_18cw",
+                    "title": "Notación musical"
+                },
+                {
+                    "id": "c_2fe3",
+                    "title": "Periódico",
+                    "children": [
+                        {
+                            "id": "c_998f",
+                            "title": "Artículo de periódico"
+                        }
+                    ]
+                },
+                {
+                    "id": "QX5C-AR31",
+                    "title": "Otras publicaciones periódicas"
+                },
+                {
+                    "id": "c_816b",
+                    "title": "Artículo preliminar"
+                },
+                {
+                    "id": "c_93fc",
+                    "title": "Informe",
+                    "children": [
+                        {
+                            "id": "c_7877",
+                            "title": "Estudio clínico"
+                        },
+                        {
+                            "id": "c_ab20",
+                            "title": "Plan de gestión de datos"
+                        },
+                        {
+                            "id": "DX5J-TA9R",
+                            "title": "Protocolo de síntesis del conocimiento"
+                        },
+                        {
+                            "id": "c_18wz",
+                            "title": "Memorándum"
+                        },
+                        {
+                            "id": "c_186u",
+                            "title": "Memoria de actuación"
+                        },
+                        {
+                            "id": "c_18op",
+                            "title": "Entregable de proyecto"
+                        },
+                        {
+                            "id": "YZ1N-ZFT9",
+                            "title": "Protocolo de investigación"
+                        },
+                        {
+                            "id": "c_18ws",
+                            "title": "Informe científico"
+                        },
+                        {
+                            "id": "c_18gh",
+                            "title": "Informe técnico"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_baaf",
+                    "title": "Propuesta de investigación"
+                },
+                {
+                    "id": "c_efa0",
+                    "title": "Reseña",
+                    "children": [
+                        {
+                            "id": "c_ba08",
+                            "title": "Reseña de libro"
+                        },
+                        {
+                            "id": "D97F-VB57",
+                            "title": "Comentario"
+                        },
+                        {
+                            "id": "H9BQ-739P",
+                            "title": "Revisión por pares"
+                        }
+                    ]
+                },
+                {
+                    "id": "c_71bd",
+                    "title": "Documentación técnica"
+                },
+                {
+                    "id": "c_46ec",
+                    "title": "Tesis",
+                    "children": [
+                        {
+                            "id": "c_7a1f",
+                            "title": "Proyecto fin de carrera"
+                        },
+                        {
+                            "id": "c_db06",
+                            "title": "Tesis doctoral"
+                        },
+                        {
+                            "id": "c_bdcc",
+                            "title": "Tesis de maestría"
+                        }
+                    ]
+                },
+                {
+                    "id": "6NC7-GK9S",
+                    "title": "Transcripción"
+                },
+                {
+                    "id": "c_8042",
+                    "title": "Documento de trabajo"
+                }
+            ]
+        },
+        {
+            "id": "H6QP-SC1X",
+            "title": "Marca"
+        },
+        {
+            "id": "c_393c",
+            "title": "Flujo de trabajo"
+        }
+    ]
+}

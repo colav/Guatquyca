@@ -1,7 +1,7 @@
 /* Components */
 import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
-import ProjectsExternalID from "../../ServerSide/ProjectsExternalID/ProjectsExternalID";
+import ProductExternalIDTag from "../../ServerSide/ProdutExternalIDTag/ProductExternalIDTag";
 
 /* Constants */
 import { PRODUCT_TYPES } from "@/lib/constants";
@@ -57,7 +57,7 @@ export default function ProjectItem({ item }) {
         <li key={item.id} className={styles.project_item}>
           <div className={styles.project_container}>
             <div className={styles.project_title}>{item.title}</div>
-            <ProjectsExternalID idList={item.external_ids} />
+            <ProductExternalIDTag idList={item.external_ids} />
             <TeamOutlined className={styles.gray} />
             <AuthorsList
               authors={item.authors}

@@ -19,7 +19,7 @@ test.describe("Testing Gabriel Vélez profile", () => {
     await test.step('Fill search bar with "Gabriel Jaime Vélez Cuartas"', async () => {
       await page
         .getByPlaceholder("Búsqueda por palabra clave")
-        .pressSequentially('"Gabriel Jaime Vélez Cuartas"');
+        .pressSequentially('"Gabriel Jaime Velez Cuartas"');
     });
 
     // Click on the search button to initiate the search.
@@ -30,14 +30,14 @@ test.describe("Testing Gabriel Vélez profile", () => {
     // Verify that the search results contain "Gabriel Jaime Vélez Cuartas".
     await test.step('Verify search results contain "Gabriel Jaime Vélez Cuartas"', async () => {
       await expect(
-        page.getByText("Gabriel Jaime Vélez Cuartas").first()
+        page.getByText(/Gabriel Jaime V(e|é)lez Cuartas/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Gabriel Jaime Vélez Cuartas" to navigate to his profile page.
     await test.step('Click on "Gabriel Jaime Vélez Cuartas" profile link', async () => {
       await page
-        .getByRole("link", { name: "Gabriel Jaime Vélez Cuartas" })
+        .getByRole("link", { name: /Gabriel Jaime V(e|é)lez Cuartas/i })
         .first()
         .click();
     });

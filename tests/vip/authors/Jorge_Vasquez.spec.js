@@ -30,14 +30,16 @@ test.describe("Testing Jorge Eduardo Vasquez Santamaria profile", () => {
     // Verify that the search results contain "Jorge Eduardo Vasquez Santamaria".
     await test.step('Verify search results contain "Jorge Eduardo Vasquez Santamaria"', async () => {
       await expect(
-        page.getByText("Jorge Eduardo Vasquez Santamaria").first()
+        page.getByText(/Jorge Eduardo V(a|á)squez Santamar(i|í)a/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Jorge Eduardo Vasquez Santamaria" to navigate to his profile page.
     await test.step('Click on "Jorge Eduardo Vasquez Santamaria" profile link', async () => {
       await page
-        .getByRole("link", { name: "Jorge Eduardo Vasquez Santamaria" })
+        .getByRole("link", {
+          name: /Jorge Eduardo V(a|á)squez Santamar(i|í)a/i,
+        })
         .first()
         .click();
     });

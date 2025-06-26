@@ -1,0 +1,570 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Misión",
+          "value": 82
+        },
+        {
+          "type": "Doble Titulación",
+          "value": 140
+        },
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 77
+        },
+        {
+          "type": "Asistencia a eventos",
+          "value": 20
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 97
+        },
+        {
+          "type": "Curso corto",
+          "value": 165
+        },
+        {
+          "type": "Rotación Médica",
+          "value": 1
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Bursity",
+          "value": 3
+        },
+        {
+          "type": "École supérieure de commerce de Rennes",
+          "value": 31
+        },
+        {
+          "type": "Fh Munster",
+          "value": 21
+        },
+        {
+          "type": "Hs Osnabruck",
+          "value": 6
+        },
+        {
+          "type": "Esc Rennes School Of Business",
+          "value": 39
+        },
+        {
+          "type": "Swiss Education Group",
+          "value": 4
+        },
+        {
+          "type": "KEDGE Business School",
+          "value": 8
+        },
+        {
+          "type": "Universidad de Navarra",
+          "value": 5
+        },
+        {
+          "type": "Hochschule Furtwangen",
+          "value": 1
+        },
+        {
+          "type": "Fachhochschule Furtwangen",
+          "value": 1
+        },
+        {
+          "type": "Universidad de los Hemisferios",
+          "value": 1
+        },
+        {
+          "type": "Kedge Business School",
+          "value": 10
+        },
+        {
+          "type": "IE Universidad",
+          "value": 1
+        },
+        {
+          "type": "Institut Químic de Sarrià",
+          "value": 10
+        },
+        {
+          "type": "Centria University Of Applied Sciences",
+          "value": 2
+        },
+        {
+          "type": "Ministerio De Relaciones Exteriores - Colombia",
+          "value": 1
+        },
+        {
+          "type": "Universita Cattolica De Sacro Cuore",
+          "value": 20
+        },
+        {
+          "type": "Universidad Antonio De Nebrija",
+          "value": 2
+        },
+        {
+          "type": "Saint Mary'S University",
+          "value": 1
+        },
+        {
+          "type": "Enit",
+          "value": 1
+        },
+        {
+          "type": "Instituto Quimico De Sarria",
+          "value": 15
+        },
+        {
+          "type": "EU Business School",
+          "value": 1
+        },
+        {
+          "type": "Nottingham University Ningbo",
+          "value": 1
+        },
+        {
+          "type": "Vancouver Film School",
+          "value": 6
+        },
+        {
+          "type": "Universidad de Iona",
+          "value": 1
+        },
+        {
+          "type": "New York Film Academy",
+          "value": 1
+        },
+        {
+          "type": "IÉSEG School of Management",
+          "value": 7
+        },
+        {
+          "type": "Iéseg School Of Management",
+          "value": 10
+        },
+        {
+          "type": "Universidad Panamericana",
+          "value": 4
+        },
+        {
+          "type": "Efap School Of Communication",
+          "value": 4
+        },
+        {
+          "type": "Universidad Católica del Sagrado Corazón",
+          "value": 9
+        },
+        {
+          "type": "Universidad Católica de Lille",
+          "value": 2
+        },
+        {
+          "type": "Universidad De Navarra",
+          "value": 1
+        },
+        {
+          "type": "Rmit",
+          "value": 2
+        },
+        {
+          "type": "University Applied Sciences&Arts Northwester-Fhnw",
+          "value": 1
+        },
+        {
+          "type": "Palacký University Olomouc",
+          "value": 1
+        },
+        {
+          "type": "Universidad De Villanueva",
+          "value": 4
+        },
+        {
+          "type": "Universitat Internacional De Catalunya",
+          "value": 1
+        },
+        {
+          "type": "Barry University",
+          "value": 4
+        },
+        {
+          "type": "Institut Paul Bocuse",
+          "value": 1
+        },
+        {
+          "type": "Excelia",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Vigo",
+          "value": 2
+        },
+        {
+          "type": "Universidad Peruana De Ciencias Aplicadas",
+          "value": 1
+        },
+        {
+          "type": "Univ Popular Autónoma Del Estado De Puebla Ac",
+          "value": 2
+        },
+        {
+          "type": "International Court Of Justice",
+          "value": 2
+        },
+        {
+          "type": "Esade",
+          "value": 5
+        },
+        {
+          "type": "Universidad Internacional de Cataluña",
+          "value": 6
+        },
+        {
+          "type": "Procolombia",
+          "value": 1
+        },
+        {
+          "type": "Instituto Raimon Gaja",
+          "value": 2
+        },
+        {
+          "type": "Special Tours",
+          "value": 2
+        },
+        {
+          "type": "Universidad Americana",
+          "value": 1
+        },
+        {
+          "type": "Bursity School Of Trade",
+          "value": 3
+        },
+        {
+          "type": "Universidad Austral de Argentina",
+          "value": 7
+        },
+        {
+          "type": "Universidad Palacký",
+          "value": 1
+        },
+        {
+          "type": "RTI International",
+          "value": 1
+        },
+        {
+          "type": "Instituo Raimon Gaja",
+          "value": 1
+        },
+        {
+          "type": "Clínica Mayo",
+          "value": 1
+        },
+        {
+          "type": "Universidad CEU San Pablo",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Salamanca",
+          "value": 1
+        },
+        {
+          "type": "Wago",
+          "value": 1
+        },
+        {
+          "type": "HBS-Wharton",
+          "value": 19
+        },
+        {
+          "type": "Zejian Yufan Network Technology Co",
+          "value": 1
+        },
+        {
+          "type": "Universidad Peruana de Ciencias Aplicadas",
+          "value": 4
+        },
+        {
+          "type": "CEIBS",
+          "value": 7
+        },
+        {
+          "type": "Avg",
+          "value": 1
+        },
+        {
+          "type": "L¿Oréal",
+          "value": 1
+        },
+        {
+          "type": "IAE",
+          "value": 92
+        },
+        {
+          "type": "Mount Royal Early Learning Centre",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Lérida",
+          "value": 3
+        },
+        {
+          "type": "Student Travel Center Ltda",
+          "value": 1
+        },
+        {
+          "type": "IESE Madrid",
+          "value": 10
+        },
+        {
+          "type": "ISE",
+          "value": 4
+        },
+        {
+          "type": "Silicon Valley",
+          "value": 24
+        },
+        {
+          "type": "Clínica Del Dolor De Espalda",
+          "value": 1
+        },
+        {
+          "type": "ENERGETHIK INGENIEURGESELLSCHAFT MBH",
+          "value": 1
+        },
+        {
+          "type": "ENIT",
+          "value": 2
+        },
+        {
+          "type": "ARDURRA",
+          "value": 1
+        },
+        {
+          "type": "Iberia",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Münster",
+          "value": 3
+        },
+        {
+          "type": "EUROPEAN SUMMER SCHOOL FOR SCIENTOMETRICS -ESSS-",
+          "value": 1
+        },
+        {
+          "type": "DIGNITY WOMEN'S CENTER",
+          "value": 1
+        },
+        {
+          "type": "FUNDACIÓN CHAMPALIMAUD",
+          "value": 1
+        },
+        {
+          "type": "Hospital Ruber Internacional",
+          "value": 1
+        },
+        {
+          "type": "HS OSNABRUCK",
+          "value": 6
+        },
+        {
+          "type": "Hospital Universitario de Araba - sede Santiago",
+          "value": 1
+        },
+        {
+          "type": "Hospital Universitario Infanta Leonor",
+          "value": 1
+        },
+        {
+          "type": "CLÍNICA DEL DOLOR DE ESPALDA",
+          "value": 2
+        },
+        {
+          "type": "Instituto Pasteur",
+          "value": 1
+        },
+        {
+          "type": "ADA University",
+          "value": 1
+        },
+        {
+          "type": "Toronto General Hospital",
+          "value": 1
+        },
+        {
+          "type": "Hospital San Juan de Dios (Esplugas de Llobregat)",
+          "value": 1
+        },
+        {
+          "type": "CLINICA DEL DOLOR DE ESPALDA",
+          "value": 1
+        },
+        {
+          "type": "Hospital Universitario 12 de Octubre",
+          "value": 1
+        },
+        {
+          "type": "Hospital General de México “Dr. Eduardo Liceaga”",
+          "value": 1
+        },
+        {
+          "type": "HOSPITAL GENERAL DE AGUDOS JOSE MARIA PENNA",
+          "value": 1
+        },
+        {
+          "type": "Hospital Universitario Marqués de Valdecilla",
+          "value": 1
+        },
+        {
+          "type": "Universidad Real Instituto de Tecnología de Melbourne",
+          "value": 1
+        },
+        {
+          "type": "ROBOCUP 2024",
+          "value": 6
+        },
+        {
+          "type": "INTERNATIONAL SOCIETY OF POLITICAL PSYCHOLOGY",
+          "value": 5
+        },
+        {
+          "type": "Escuela de Cine de Nueva York",
+          "value": 9
+        },
+        {
+          "type": "NY REACH ORGANIZATION",
+          "value": 1
+        },
+        {
+          "type": "Jackson Health System",
+          "value": 1
+        },
+        {
+          "type": "SHELL ECO-MARATHON BRAZIL 2024",
+          "value": 5
+        },
+        {
+          "type": "INSTITUTO TECNOLÓGICO DE AGUASCALIENTES",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Ningbo",
+          "value": 2
+        },
+        {
+          "type": "Hospital Italiano de Buenos Aires",
+          "value": 3
+        },
+        {
+          "type": "Pontificia Universidad Católica de Chile",
+          "value": 1
+        },
+        {
+          "type": "SWISS EDUCATION GROUP",
+          "value": 1
+        },
+        {
+          "type": "IX CONGRESO REGIONAL DE LA SIP",
+          "value": 1
+        },
+        {
+          "type": "Saint Mary's University",
+          "value": 1
+        },
+        {
+          "type": "TERRAVENTURA - HOTEL ST. LOUIS",
+          "value": 1
+        },
+        {
+          "type": "prefectura de Saitama",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Nuevo León",
+          "value": 1
+        },
+        {
+          "type": "Thompson Rivers University",
+          "value": 1
+        },
+        {
+          "type": "Universidad Católica de la Santísima Concepción",
+          "value": 3
+        },
+        {
+          "type": "Universidad Católica del Uruguay",
+          "value": 1
+        },
+        {
+          "type": "UNIVERSIDAD ANTONIO DE NEBRIJA",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Ciencias Medicas",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Saboya",
+          "value": 1
+        },
+        {
+          "type": "Universidad Villanueva",
+          "value": 10
+        },
+        {
+          "type": "UNIVERSIDAD DE LA SABANA",
+          "value": 20
+        },
+        {
+          "type": "Universidad Nacional de La Plata",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional Autónoma de México",
+          "value": 1
+        },
+        {
+          "type": "Universidad Popular Autónoma del Estado de Puebla",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Aveiro",
+          "value": 1
+        },
+        {
+          "type": "Universidad Estatal de Campinas",
+          "value": 1
+        },
+        {
+          "type": "VANCOUVER FILM SCHOOL",
+          "value": 5
+        },
+        {
+          "type": "Universidad de Kentucky",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Miami",
+          "value": 1
+        },
+        {
+          "type": "WOMEN'S HEALTH PARTNERS OF THE PERMIAN BASIN",
+          "value": 1
+        },
+        {
+          "type": "Universidad Yale",
+          "value": 1
+        },
+        {
+          "type": "WASHINGTON UNIVERSITY SAINT LOUIS",
+          "value": 2
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

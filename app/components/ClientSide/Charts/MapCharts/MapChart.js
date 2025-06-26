@@ -1,17 +1,27 @@
-/* Libraries */
-import { AreaMap } from "@ant-design/maps";
+"use client";
 
 /* lib */
 import MapLegendMaker from "@/lib/Utils/MapLegendMaker";
 import { MAP_PALETTE } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 /**
  * MapChart is a client-side function component that displays an area map.
  *
- * @param {Object[]} data - The data to display in the map. Each object should have 'log_count', 'NOMBRE_DPT', 'name', and 'count' properties.
- * @returns {JSX.Element} An AreaMap component displaying the data.
+ * @param {Object[]} data - The data to display in the map.
+ * @returns {JSX.Element|null} An AreaMap component displaying the data.
  */
 export default function MapChart({ data }) {
+  const [AreaMap, setAreaMap] = useState(null);
+
+  useEffect(() => {
+    import("@ant-design/maps").then((mod) => {
+      setAreaMap(() => mod.AreaMap);
+    });
+  }, []);
+
+  if (!AreaMap) return null;
+
   const config = {
     map: {
       type: "mapbox",

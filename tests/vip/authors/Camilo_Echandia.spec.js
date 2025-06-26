@@ -30,14 +30,14 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
     // Verify that the search results contain "Camilo Echandia Castilla".
     await test.step('Verify search results contain "Camilo Echandia Castilla"', async () => {
       await expect(
-        page.getByText("Camilo Echandia Castilla").first()
+        page.getByText(/Camilo Echand(i|í)a Castilla/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Camilo Echandia Castilla" to navigate to his profile page.
     await test.step('Click on "Camilo Echandia Castilla" profile link', async () => {
       await page
-        .getByRole("link", { name: "Camilo Echandia Castilla" })
+        .getByRole("link", { name: /Camilo Echand(i|í)a Castilla/i })
         .first()
         .click();
     });

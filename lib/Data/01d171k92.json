@@ -1,0 +1,194 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 43
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 22
+        },
+        {
+          "type": "Curso corto",
+          "value": 24
+        },
+        {
+          "type": "Doble Titulación",
+          "value": 9
+        },
+        {
+          "type": "Misión",
+          "value": 59
+        },
+        {
+          "type": "Asistencia a eventos",
+          "value": 3
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Puc Minas Gerais",
+          "value": 3
+        },
+        {
+          "type": "École nationale supérieure de l'électronique et de ses applications",
+          "value": 4
+        },
+        {
+          "type": "Instituto Tecnológico y de Estudios Superiores de Monterrey",
+          "value": 2
+        },
+        {
+          "type": "Universidad Autónoma Metropolitana Unidad Azcapotzalco",
+          "value": 2
+        },
+        {
+          "type": "Thompson Rivers University",
+          "value": 1
+        },
+        {
+          "type": "Université de Sherbrooke",
+          "value": 1
+        },
+        {
+          "type": "Insituto Raimon Gaja",
+          "value": 2
+        },
+        {
+          "type": "Universidad Diego Portales",
+          "value": 3
+        },
+        {
+          "type": "Politécnico de Turín",
+          "value": 4
+        },
+        {
+          "type": "Universidad Chung-Ang",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Sevilla",
+          "value": 2
+        },
+        {
+          "type": "Universidad Viña del Mar",
+          "value": 12
+        },
+        {
+          "type": "Universidad del Bío-Bío",
+          "value": 1
+        },
+        {
+          "type": "Universidad de La Coruña",
+          "value": 4
+        },
+        {
+          "type": "Instituto Tecnológico de Sonora",
+          "value": 2
+        },
+        {
+          "type": "Universidad Rovira i Virgili",
+          "value": 3
+        },
+        {
+          "type": "Universidad de Jaén",
+          "value": 6
+        },
+        {
+          "type": "Escuela de Negocios de Normandía",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Valparaíso",
+          "value": 4
+        },
+        {
+          "type": "Bishop's University",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Alicante",
+          "value": 2
+        },
+        {
+          "type": "Instituto Mauá de Tecnologia",
+          "value": 2
+        },
+        {
+          "type": "Universidad Popular Autónoma del Estado de Puebla",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional de Pusan",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Guadalajara",
+          "value": 2
+        },
+        {
+          "type": "Universidad Nacional de Villa María",
+          "value": 1
+        },
+        {
+          "type": "Marketing Croma",
+          "value": 1
+        },
+        {
+          "type": "Universidad de York",
+          "value": 1
+        },
+        {
+          "type": "Universidad Paris-Est Créteil",
+          "value": 10
+        },
+        {
+          "type": "Instituto Politécnico Nacional",
+          "value": 1
+        },
+        {
+          "type": "  Hellenic Brokers Marine",
+          "value": 1
+        },
+        {
+          "type": "TEPEYAC",
+          "value": 1
+        },
+        {
+          "type": "Universidad Politécnica de Valencia",
+          "value": 24
+        },
+        {
+          "type": "Universidad Tecnológica de Panamá",
+          "value": 42
+        },
+        {
+          "type": "Universidad de Granada",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Columbia Británica",
+          "value": 1
+        },
+        {
+          "type": "Instituto Tecnológico de Pachuca",
+          "value": 1
+        },
+        {
+          "type": "Universidad Tecnológica de Tula-Tepeji",
+          "value": 1
+        },
+        {
+          "type": "Universidad Estatal Paulista",
+          "value": 3
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

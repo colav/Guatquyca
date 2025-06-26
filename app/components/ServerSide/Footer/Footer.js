@@ -137,18 +137,20 @@ export default function Foot() {
           >
             Estadísticas de uso
           </a>
+          <br />
+          <Link href="/cooperation-dashboard">Indicadores de Cooperación</Link>
         </Col>
         <Col xs={24} md={8}>
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.9.4
+          ImpactU Versión 3.10.0
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 24/04/2025
+          Interfaz de Usuario: 26/06/2025
           <br />
-          Base de Datos: 26/03/2025
+          Base de Datos: 26/06/2025
           <br />
           Hecho en Colombia
         </Col>

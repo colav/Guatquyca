@@ -30,14 +30,14 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
     // Verify that the search results contain "Claudia Marcela Velez".
     await test.step('Verify search results contain "Claudia Marcela Velez"', async () => {
       await expect(
-        page.getByText("Claudia Marcela Velez").first()
+        page.getByText(/Claudia Marcela V(e|é)lez/i).first()
       ).toBeVisible();
     });
 
     // Click on the link for "Claudia Marcela Velez" to navigate to her profile page.
     await test.step('Click on "Claudia Marcela Velez" profile link', async () => {
       await page
-        .getByRole("link", { name: "Claudia Marcela Velez" })
+        .getByRole("link", { name: /Claudia Marcela V(e|é)lez/i })
         .first()
         .click();
     });

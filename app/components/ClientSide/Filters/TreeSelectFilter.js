@@ -12,6 +12,9 @@ import { useSearchParams } from "next/navigation";
 import { Row, TreeSelect } from "antd";
 import { TITLES } from "@/lib/constants";
 
+/* Utils */
+import { coarFilterFormatter } from "@/lib/Utils/coarFilterFormatter";
+
 /**
  * TreeSelectFilter is a client-side functional component that provides a tree-select filter
  * for selecting multiple items, parents and children.
@@ -28,6 +31,10 @@ export default function TreeSelectFilter({ data, filterType }) {
   const [value, setValue] = useState(
     query.has(filterType) ? query.get(filterType)?.split(",") : null
   );
+
+  if (filterType === "product_types") {
+    data = coarFilterFormatter(data);
+  }
 
   const onChange = (newValue) => {
     setValue(newValue);

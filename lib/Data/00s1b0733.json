@@ -1,0 +1,66 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Pasantía o práctica",
+          "value": 12
+        },
+        {
+          "type": "Asistencia a eventos",
+          "value": 7
+        },
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 3
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "LA PUERTA",
+          "value": 4
+        },
+        {
+          "type": "Campus Universitario UCLM",
+          "value": 1
+        },
+        {
+          "type": "Empresa LA PUERTA",
+          "value": 4
+        },
+        {
+          "type": "Universidad Autónoma del Estado de México",
+          "value": 2
+        },
+        {
+          "type": "Universidad del Valle de Puebla",
+          "value": 3
+        },
+        {
+          "type": "Universidad Interamericana para el Desarrollo",
+          "value": 2
+        },
+        {
+          "type": "Instituto Pedagógico Jerome Bruner de Juchitán Oaxaca",
+          "value": 2
+        },
+        {
+          "type": "Tecnológico de Estudios Superiores de Tianguistenco",
+          "value": 1
+        },
+        {
+          "type": "Congreso Iberoamericano de\nIngeniería Mecánica (CIBIM)",
+          "value": 2
+        },
+        {
+          "type": "Consejo Quintanarroense de Humanidades, Ciencias y Tecnologías",
+          "value": 1
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

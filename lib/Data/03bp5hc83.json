@@ -1,0 +1,486 @@
+{
+  "plots": [
+    {
+      "plot": [
+        {
+          "type": "Semestre académico de Intercambio",
+          "value": 69
+        },
+        {
+          "type": "Rotación Médica",
+          "value": 41
+        },
+        {
+          "type": "Curso corto",
+          "value": 8
+        },
+        {
+          "type": "Pasantía o práctica",
+          "value": 52
+        },
+        {
+          "type": "Misión",
+          "value": 2
+        },
+        {
+          "type": "Asistencia a eventos",
+          "value": 12
+        },
+        {
+          "type": "Doble Titulación",
+          "value": 10
+        }
+      ],
+      "plot_name": "mobility_by_type"
+    },
+    {
+      "plot": [
+        {
+          "type": "Benemérita Universidad Autónoma de Puebla",
+          "value": 2
+        },
+        {
+          "type": "Clinica Ita",
+          "value": 2
+        },
+        {
+          "type": "Servicio Alemán de Intercambio Académico",
+          "value": 1
+        },
+        {
+          "type": "Fundación El Hogar Animal Sanctuary",
+          "value": 1
+        },
+        {
+          "type": "Hospital Italiano de Buenos Aires",
+          "value": 2
+        },
+        {
+          "type": "Centro urológico Perez-Carral",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Kiel",
+          "value": 7
+        },
+        {
+          "type": "Heilbronn University",
+          "value": 1
+        },
+        {
+          "type": "European Society for Immunodeficiencies (ESID)",
+          "value": 1
+        },
+        {
+          "type": "Hospital Ramón y Cajal",
+          "value": 1
+        },
+        {
+          "type": "Baccalauréat (Ba) en communication multilingue",
+          "value": 1
+        },
+        {
+          "type": "Hospital Del Mar",
+          "value": 2
+        },
+        {
+          "type": "Hospital Dr. Sotero del Río",
+          "value": 1
+        },
+        {
+          "type": "Hospital Garrahan",
+          "value": 1
+        },
+        {
+          "type": "École de technologie supérieure",
+          "value": 1
+        },
+        {
+          "type": "Hospital INNOVARE cirugia plastica especializada",
+          "value": 1
+        },
+        {
+          "type": "Asociación para la prevención de la ceguera en México",
+          "value": 1
+        },
+        {
+          "type": "Hospital Universitario Ramón y Cajal",
+          "value": 1
+        },
+        {
+          "type": "Escuela Nacional de Ingenieros de Metz (ENIM)",
+          "value": 3
+        },
+        {
+          "type": "Centre de recherche du CHU de Quebec University Laval",
+          "value": 1
+        },
+        {
+          "type": "Universidad Central de Chile",
+          "value": 1
+        },
+        {
+          "type": "No aplica",
+          "value": 2
+        },
+        {
+          "type": "Instituto Cajal",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Madrid",
+          "value": 1
+        },
+        {
+          "type": "Hospital Virgen Del Rocío",
+          "value": 1
+        },
+        {
+          "type": "Hospital Universitari i Politècnic La Fe",
+          "value": 1
+        },
+        {
+          "type": "Universidad Complutense de Madrid",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Giessen",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Buenos Aires",
+          "value": 3
+        },
+        {
+          "type": "UNAM ENES Morelia",
+          "value": 1
+        },
+        {
+          "type": "Latin American and Caribbean Congress of Immunology.",
+          "value": 1
+        },
+        {
+          "type": "Hôpital Necker-Enfants malades",
+          "value": 1
+        },
+        {
+          "type": "International production and Processing Expo (IPPE)",
+          "value": 2
+        },
+        {
+          "type": "Politécnico de Turín",
+          "value": 7
+        },
+        {
+          "type": "Nicklaus Children's Hospital Main Hospital Campus",
+          "value": 1
+        },
+        {
+          "type": "Solarium Biotechnology",
+          "value": 1
+        },
+        {
+          "type": "SOLARIUM BIOTECHNOLOGY",
+          "value": 1
+        },
+        {
+          "type": "Universidad Técnica de Múnich",
+          "value": 1
+        },
+        {
+          "type": "Universidad Andina Simón Bolívar",
+          "value": 1
+        },
+        {
+          "type": "Universidad Austral de Argentina",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma Metropolitana Unidad Azcapotzalco",
+          "value": 1
+        },
+        {
+          "type": "Instituto de Investigación Biosanitaria de Granada",
+          "value": 1
+        },
+        {
+          "type": "Lakehead University",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Toronto",
+          "value": 2
+        },
+        {
+          "type": "Pontificia Universidad Católica de Valparaíso",
+          "value": 2
+        },
+        {
+          "type": "Universidad Católica San Pablo",
+          "value": 4
+        },
+        {
+          "type": "Universidad Purdue",
+          "value": 2
+        },
+        {
+          "type": "Saint Mary's University",
+          "value": 1
+        },
+        {
+          "type": "Instituto Nacional de Cancerología",
+          "value": 1
+        },
+        {
+          "type": "Instituto Tecnológico y de Estudios Superiores de Monterrey",
+          "value": 1
+        },
+        {
+          "type": "Instituto Nacional de Rehabilitación",
+          "value": 1
+        },
+        {
+          "type": "Universidad Autónoma de Baja California",
+          "value": 3
+        },
+        {
+          "type": "Universidad Autónoma de Ciudad Juárez",
+          "value": 2
+        },
+        {
+          "type": "Universidad Autónoma de Yucatán",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Las Palmas de Gran Canaria",
+          "value": 3
+        },
+        {
+          "type": "Instituto de Oftalmología FAP Conde de Valenciana",
+          "value": 1
+        },
+        {
+          "type": "Hospital XII de Octubre",
+          "value": 1
+        },
+        {
+          "type": "Latin America and Caribbean Association of Immunology",
+          "value": 1
+        },
+        {
+          "type": "Instituto Nacional de Perinatología",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Guadalajara",
+          "value": 3
+        },
+        {
+          "type": "Universidad Castilla - La Mancha",
+          "value": 1
+        },
+        {
+          "type": "Ministère de l'Intérieur",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Alberta",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Almería",
+          "value": 3
+        },
+        {
+          "type": "Universidad de Murcia",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Sevilla",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional Autónoma de México",
+          "value": 4
+        },
+        {
+          "type": "Universidad Nacional de La Plata",
+          "value": 6
+        },
+        {
+          "type": "Jena University Hospital",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Chile",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Angers",
+          "value": 3
+        },
+        {
+          "type": "Universidad de Cádiz",
+          "value": 3
+        },
+        {
+          "type": "Universidad de la Florida",
+          "value": 1
+        },
+        {
+          "type": "Universidad Peruana Cayetano Heredia",
+          "value": 1
+        },
+        {
+          "type": "Universidad Jaime I",
+          "value": 1
+        },
+        {
+          "type": "Universidad de la República",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Valencia",
+          "value": 4
+        },
+        {
+          "type": "Universidad de Santiago de Compostela",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Costa Rica",
+          "value": 1
+        },
+        {
+          "type": "Universidad del País Vasco",
+          "value": 2
+        },
+        {
+          "type": "Universidad Federal de Minas Gerais",
+          "value": 5
+        },
+        {
+          "type": "Universidad de Groninga",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Heidelberg",
+          "value": 1
+        },
+        {
+          "type": "Universidad Yale",
+          "value": 1
+        },
+        {
+          "type": "Universidad Tecnológica del Perú",
+          "value": 3
+        },
+        {
+          "type": "Universidad Nacional Mayor de San Marcos",
+          "value": 1
+        },
+        {
+          "type": "Universidad Pompeu Fabra",
+          "value": 2
+        },
+        {
+          "type": "Universidad Federal de São Paulo",
+          "value": 1
+        },
+        {
+          "type": "Universidad Federal de Ouro Preto",
+          "value": 1
+        },
+        {
+          "type": "Université de Sherbrooke",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Lorena",
+          "value": 1
+        },
+        {
+          "type": "Universidad de São Paulo",
+          "value": 3
+        },
+        {
+          "type": "Universidad de Wurzburgo",
+          "value": 1
+        },
+        {
+          "type": "Universidad Federal de Santa Catarina",
+          "value": 2
+        },
+        {
+          "type": "Universidad de Vechta",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional del Litoral",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Rennes",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Groningen",
+          "value": 1
+        },
+        {
+          "type": "Universidad Nacional del Centro de la Provincia de Buenos Aires",
+          "value": 2
+        },
+        {
+          "type": "Universidad Laval de Montreal",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Wizburg",
+          "value": 1
+        },
+        {
+          "type": "University of Groningen",
+          "value": 8
+        },
+        {
+          "type": "Universidad de Gronignen",
+          "value": 1
+        },
+        {
+          "type": "YMCA",
+          "value": 1
+        },
+        {
+          "type": "Universidad Pedagógica de Verna",
+          "value": 1
+        },
+        {
+          "type": "Universidad Intercultural del Estado de Hidalgo",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Manitoba",
+          "value": 1
+        },
+        {
+          "type": "Universidad de Oldenburgo",
+          "value": 7
+        },
+        {
+          "type": "Universidad de Saskatchewan",
+          "value": 1
+        },
+        {
+          "type": "University of Hradec Králové",
+          "value": 1
+        },
+        {
+          "type": "University Medical Center Groningen (UMCG)",
+          "value": 1
+        }
+      ],
+      "plot_name": "mobility_by_institution"
+    }
+  ]
+}

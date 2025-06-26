@@ -4,6 +4,7 @@ import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles
 import CitationsCount from "../CitationsCount/CitationsCount";
 import ExternalProfiles from "../ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
+import MemberOf from "../MemberOf.js/MemberOf";
 import ProductsCount from "../ProductsCount/ProductsCount";
 
 /* Icons */
@@ -35,6 +36,7 @@ export default function CommonTitleCard({ data, entity }) {
     products_count,
     name,
     full_name,
+    _id,
   } = data;
 
   const country = addresses?.[0]?.country;
@@ -78,6 +80,7 @@ export default function CommonTitleCard({ data, entity }) {
           )}
           <CitationsCount citations_count={citations_count} />
           <ProductsCount products_count={products_count} />
+          {entity === "institution" && <MemberOf id={_id} />}
         </Row>
       </Col>
     </Row>
