@@ -150,7 +150,7 @@ test.describe("Testing Groups entity", () => {
       .click();
 
     // Verify that the profile page for "Epidemiología" is displayed.
-    await expect(page.getByText("Autores", { exact: true })).toBeVisible();
+    await expect(page.getByText(/^\d+ Autores$/)).toBeVisible();
 
     // Click on the research menu item to navigate to the research section of the profile.
     await page.getByRole("menuitem", { name: "Investigación" }).click();

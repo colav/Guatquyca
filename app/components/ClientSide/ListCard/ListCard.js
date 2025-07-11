@@ -10,7 +10,7 @@ import styles from "./styles.module.css";
 import { Card, Empty, List } from "antd";
 
 /* Utilities */
-import { TITLES } from "@/lib/constants";
+import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 
 /**
  * ListCard is a client-side function component that displays a list of items in a Card component.
@@ -21,6 +21,8 @@ import { TITLES } from "@/lib/constants";
  * @returns {JSX.Element} A Card component that displays the list of items.
  */
 export default function ListCard({ type, list }) {
+  const listLength = list.length;
+
   return (
     <Card
       hoverable
@@ -29,41 +31,35 @@ export default function ListCard({ type, list }) {
         header: { backgroundColor: "#003e65", color: "white" },
         body: { padding: "10px" },
       }}
-      title={TITLES[type]}
+      title={`${listLength} ${
+        listLength === 1 ? SINGULAR_TITLES[type] : TITLES[type]
+      }`}
     >
       <div className={styles.listCard_container}>
-        {list.length ? (
-          <List
-            size="small"
-            dataSource={list}
-            renderItem={(item) => (
-              <List.Item>
-                <List.Item.Meta
-                  id={item.id}
-                  description={
-                    <Link
-                      prefetch={false}
-                      href={
-                        type === "person"
-                          ? `/person/${item.id}/research/products`
-                          : `/affiliation/${type}/${item.id}/affiliations`
-                      }
-                    >
-                      {item.full_name}
-                      {item.name}
-                    </Link>
-                  }
-                />
-              </List.Item>
-            )}
-          />
-        ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description="Datos insuficientes"
-            style={{ marginTop: "180px" }}
-          />
-        )}
+        <List
+          size="small"
+          dataSource={list}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                id={item.id}
+                description={
+                  <Link
+                    prefetch={false}
+                    href={
+                      type === "person"
+                        ? `/person/${item.id}/research/products`
+                        : `/affiliation/${type}/${item.id}/affiliations`
+                    }
+                  >
+                    {item.full_name}
+                    {item.name}
+                  </Link>
+                }
+              />
+            </List.Item>
+          )}
+        />
       </div>
     </Card>
   );

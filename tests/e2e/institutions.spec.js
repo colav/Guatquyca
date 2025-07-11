@@ -152,9 +152,7 @@ test.describe("Testing Institutions entity", () => {
       .click();
 
     // Verify that the profile page for "Universidad de Antioquia" is displayed.
-    await expect(
-      page.getByText("Unidades académicas", { exact: true })
-    ).toBeVisible();
+    await expect(page.getByText(/^\d+ Unidades académicas$/)).toBeVisible();
 
     // Click on the research menu item to navigate to the research section of the profile.
     await page.getByRole("menuitem", { name: "Investigación" }).click();
