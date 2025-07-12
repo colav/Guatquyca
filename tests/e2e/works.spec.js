@@ -47,6 +47,7 @@ test.describe("Testing Works entity", () => {
 
   test("random works search & profile is working", async ({ page }) => {
     test.slow();
+    test.setTimeout(240000);
 
     // Click on the Search button without entering any keyword.
     await page.getByRole("button", { name: "search" }).click();

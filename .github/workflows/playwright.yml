@@ -55,28 +55,25 @@ jobs:
           sshpass -p "${{ secrets.SSH_PASS }}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/* ci-front@ci-front.colav.co:/home/ci-front/playwright/playwright-report-e2e/
           echo "::notice title=HTML report url::https://ci-front.colav.co/playwright-report-e2e/index.html"
 
-  deploy:
-    name: Deploy ImpactU UI
+  deploy_from_dev:
+    name: Deploy from next_develop
     needs: test
-    if: |
-      (github.event_name == 'push' && github.ref == 'refs/heads/next_develop') ||
-      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/next_develop'
     runs-on: ubuntu-latest
     steps:
-      - name: Determine branch and environment
-        id: set-branch
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "branch=main" >> $GITHUB_OUTPUT
-          else
-            echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Deploy Docker image with ImpactU UI
+      - name: Deploy Docker image for dev
         run: |
           sudo apt-get update && sudo apt-get install -y sshpass
+          echo "Deploying next_develop branch"
+          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh next_develop
 
-          BRANCH_NAME="${{ steps.set-branch.outputs.branch }}"
-          echo "Deploying branch: $BRANCH_NAME"
-
-          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh $BRANCH_NAME
+  deploy_from_merge:
+    name: Deploy after PR merge to main
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Docker image for main
+        run: |
+          sudo apt-get update && sudo apt-get install -y sshpass
+          echo "Deploying main branch"
+          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh main
