@@ -6,7 +6,6 @@ import Error from "@/app/error";
 import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 
 /* Icons */
@@ -31,6 +30,7 @@ import style from "./styles.module.css";
 
 /* UI Library Components */
 import { Col, Divider, Descriptions, Row, Button, Space } from "antd";
+import TopicsTags from "../../ServerSide/TopicsTags/TopicsTags";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -60,7 +60,7 @@ export default function DocumentModal({ documentID }) {
     language,
     citations_count,
     source,
-    subjects,
+    topics,
     external_ids,
     external_urls,
     open_access,
@@ -151,11 +151,7 @@ export default function DocumentModal({ documentID }) {
       <h4 className={style.margin_5}>
         <TagsOutlined /> Temas:{" "}
       </h4>
-      {subjects.length ? (
-        <SubjectsTags subjectsList={subjects} />
-      ) : (
-        "No disponible"
-      )}
+      {topics?.length > 0 && <TopicsTags topicsList={topics} />}
       <h4 className={style.margin_5}>Abstract:</h4>
       <InvertedIndex abstract={abstract} />
       <WorksInfo

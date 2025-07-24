@@ -3,7 +3,7 @@ import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
 import ProductExternalIDTag from "../../ServerSide/ProdutExternalIDTag/ProductExternalIDTag";
 import Source from "../../ServerSide/Source/Source";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
+import TopicsTags from "../../ServerSide/TopicsTags/TopicsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 
@@ -71,10 +71,10 @@ export default function WorkItem({ item }) {
               authors_count={item.authors_count}
               workID={item.id}
             />
-            {item.subjects.length > 0 && (
+            {item.topics?.length > 0 && (
               <div>
                 <TagsOutlined /> Temas:
-                <SubjectsTags subjectsList={item.subjects} />
+                <TopicsTags topicsList={item.topics} />
               </div>
             )}
             <WorksInfo
