@@ -32,9 +32,6 @@
             "depth": 1,
             "children": [
                 {
-                    "id": "person.id"
-                },
-                {
                     "id": "person_data._id_old"
                 },
                 {
@@ -94,10 +91,6 @@
             ]
         },
         {
-            "id": "person.id",
-            "depth": 2
-        },
-        {
             "id": "person_data.updated",
             "depth": 2,
             "children": [
@@ -113,15 +106,11 @@
             ]
         },
         {
-            "id": "person_data.updated.time",
-            "depth": 3
-        },
-        {
             "id": "person_data.updated.source",
             "depth": 3
         },
         {
-            "id": "person_data.updated.provenance",
+            "id": "person_data.updated.time",
             "depth": 3
         },
         {
@@ -156,6 +145,9 @@
                 },
                 {
                     "id": "person_data.affiliations.name"
+                },
+                {
+                    "id": "person_data.affiliations.position"
                 },
                 {
                     "id": "person_data.affiliations.start_date"
@@ -205,10 +197,6 @@
             "depth": 3
         },
         {
-            "id": "person_data.affiliations.years",
-            "depth": 3
-        },
-        {
             "id": "person_data.keywords",
             "depth": 2
         },
@@ -237,16 +225,7 @@
         },
         {
             "id": "person_data.external_ids.id",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "person_data.external_ids.id.COD_RH"
-                }
-            ]
-        },
-        {
-            "id": "person_data.external_ids.id.COD_RH",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "person_data.sex",
@@ -264,6 +243,12 @@
                     "id": "person_data.ranking.date"
                 },
                 {
+                    "id": "person_data.ranking.id"
+                },
+                {
+                    "id": "person_data.ranking.order"
+                },
+                {
                     "id": "person_data.ranking.provenance"
                 },
                 {
@@ -273,22 +258,6 @@
                     "id": "person_data.ranking.source"
                 }
             ]
-        },
-        {
-            "id": "person_data.ranking.date",
-            "depth": 3
-        },
-        {
-            "id": "person_data.ranking.rank",
-            "depth": 3
-        },
-        {
-            "id": "person_data.ranking.source",
-            "depth": 3
-        },
-        {
-            "id": "person_data.ranking.provenance",
-            "depth": 3
         },
         {
             "id": "person_data.birthplace",
@@ -304,18 +273,6 @@
                     "id": "person_data.birthplace.state"
                 }
             ]
-        },
-        {
-            "id": "person_data.birthplace.city",
-            "depth": 3
-        },
-        {
-            "id": "person_data.birthplace.state",
-            "depth": 3
-        },
-        {
-            "id": "person_data.birthplace.country",
-            "depth": 3
         },
         {
             "id": "person_data.birthdate",
@@ -346,6 +303,181 @@
             ]
         },
         {
+            "id": "person_data.citations_count",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.citations_count.count"
+                },
+                {
+                    "id": "person_data.citations_count.source"
+                }
+            ]
+        },
+        {
+            "id": "person_data.citations_count.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.citations_count.count",
+            "depth": 3
+        },
+        {
+            "id": "person_data.products_count",
+            "depth": 2
+        },
+        {
+            "id": "person_data.related_works",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.related_works.id"
+                },
+                {
+                    "id": "person_data.related_works.institutions"
+                },
+                {
+                    "id": "person_data.related_works.provenance"
+                },
+                {
+                    "id": "person_data.related_works.source"
+                },
+                {
+                    "id": "person_data.related_works.year"
+                }
+            ]
+        },
+        {
+            "id": "person_data.related_works.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.year",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.institutions",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "person_data.related_works.institutions.country_code"
+                },
+                {
+                    "id": "person_data.related_works.institutions.country_id"
+                },
+                {
+                    "id": "person_data.related_works.institutions.display_name"
+                },
+                {
+                    "id": "person_data.related_works.institutions.id"
+                },
+                {
+                    "id": "person_data.related_works.institutions.lineage"
+                },
+                {
+                    "id": "person_data.related_works.institutions.ror"
+                },
+                {
+                    "id": "person_data.related_works.institutions.type"
+                },
+                {
+                    "id": "person_data.related_works.institutions.type_id"
+                }
+            ]
+        },
+        {
+            "id": "person_data.related_works.institutions.id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.display_name",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.ror",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.country_code",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.type",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.country_id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.type_id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.lineage",
+            "depth": 4
+        },
+        {
+            "id": "person_data._id_old",
+            "depth": 2
+        },
+        {
+            "id": "person_data.updated.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.years",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.position",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.order",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.city",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.state",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.country",
+            "depth": 3
+        },
+        {
             "id": "person_data.degrees.date",
             "depth": 3
         },
@@ -370,67 +502,9 @@
             "depth": 3
         },
         {
-            "id": "person_data.citations_count",
-            "depth": 2
-        },
-        {
-            "id": "person_data.products_count",
-            "depth": 2
-        },
-        {
-            "id": "person_data.related_works",
-            "depth": 2,
-            "children": [
-                {
-                    "id": "person_data.related_works.id"
-                },
-                {
-                    "id": "person_data.related_works.provenance"
-                },
-                {
-                    "id": "person_data.related_works.source"
-                }
-            ]
-        },
-        {
-            "id": "person_data.related_works.provenance",
-            "depth": 3
-        },
-        {
-            "id": "person_data.related_works.source",
-            "depth": 3
-        },
-        {
-            "id": "person_data.related_works.id",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "person_data.related_works.id.COD_PRODUCTO"
-                },
-                {
-                    "id": "person_data.related_works.id.COD_RH"
-                }
-            ]
-        },
-        {
-            "id": "person_data.related_works.id.COD_RH",
-            "depth": 4
-        },
-        {
-            "id": "person_data.related_works.id.COD_PRODUCTO",
-            "depth": 4
-        },
-        {
-            "id": "person_data._id_old",
-            "depth": 2
-        },
-        {
             "id": "affiliations",
             "depth": 1,
             "children": [
-                {
-                    "id": "affiliation.id"
-                },
                 {
                     "id": "affiliations.abbreviations"
                 },
@@ -439,6 +513,9 @@
                 },
                 {
                     "id": "affiliations.aliases"
+                },
+                {
+                    "id": "affiliations.birthdate"
                 },
                 {
                     "id": "affiliations.citation_count"
@@ -454,6 +531,9 @@
                 },
                 {
                     "id": "affiliations.external_urls"
+                },
+                {
+                    "id": "affiliations.id"
                 },
                 {
                     "id": "affiliations.names"
@@ -482,7 +562,7 @@
             ]
         },
         {
-            "id": "affiliation.id",
+            "id": "affiliations.id",
             "depth": 2
         },
         {
@@ -498,11 +578,11 @@
             ]
         },
         {
-            "id": "affiliations.updated.time",
+            "id": "affiliations.updated.source",
             "depth": 3
         },
         {
-            "id": "affiliations.updated.source",
+            "id": "affiliations.updated.time",
             "depth": 3
         },
         {
@@ -528,15 +608,11 @@
             "depth": 3
         },
         {
-            "id": "affiliations.names.name",
-            "depth": 3
-        },
-        {
             "id": "affiliations.names.lang",
             "depth": 3
         },
         {
-            "id": "affiliations.names.provenance",
+            "id": "affiliations.names.name",
             "depth": 3
         },
         {
@@ -573,11 +649,58 @@
         },
         {
             "id": "affiliations.status",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.status.source"
+                },
+                {
+                    "id": "affiliations.status.status"
+                }
+            ]
         },
         {
             "id": "affiliations.relations",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.relations.id"
+                },
+                {
+                    "id": "affiliations.relations.name"
+                },
+                {
+                    "id": "affiliations.relations.types"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.relations.types",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "affiliations.relations.types.source"
+                },
+                {
+                    "id": "affiliations.relations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.relations.types.source",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.relations.types.type",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.relations.id",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.relations.name",
+            "depth": 3
         },
         {
             "id": "affiliations.addresses",
@@ -650,18 +773,6 @@
             ]
         },
         {
-            "id": "affiliations.external_urls.source",
-            "depth": 3
-        },
-        {
-            "id": "affiliations.external_urls.url",
-            "depth": 3
-        },
-        {
-            "id": "affiliations.external_urls.provenance",
-            "depth": 3
-        },
-        {
             "id": "affiliations.external_ids",
             "depth": 2,
             "children": [
@@ -683,11 +794,55 @@
         },
         {
             "id": "affiliations.ranking",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.ranking.date"
+                },
+                {
+                    "id": "affiliations.ranking.from_date"
+                },
+                {
+                    "id": "affiliations.ranking.order"
+                },
+                {
+                    "id": "affiliations.ranking.rank"
+                },
+                {
+                    "id": "affiliations.ranking.source"
+                },
+                {
+                    "id": "affiliations.ranking.to_date"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.order",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.date",
+            "depth": 3
         },
         {
             "id": "affiliations.description",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.description.description"
+                },
+                {
+                    "id": "affiliations.description.source"
+                }
+            ]
         },
         {
             "id": "affiliations.citation_count",
@@ -718,12 +873,97 @@
             "depth": 3
         },
         {
+            "id": "affiliations.names.provenance",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.url",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.provenance",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.status.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.status.status",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.from_date",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.to_date",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.description.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.description.description",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "affiliations.description.description.TXT_ESTADO_ARTE"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_OBJETIVOS"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_PLAN_TRABAJO"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_PROD_DESTACADA"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_RETOS"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_VISION"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.description.description.TXT_PLAN_TRABAJO",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_ESTADO_ARTE",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_OBJETIVOS",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_PROD_DESTACADA",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_RETOS",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_VISION",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.birthdate",
+            "depth": 2
+        },
+        {
             "id": "patents",
             "depth": 1,
             "children": [
-                {
-                    "id": "patent.id"
-                },
                 {
                     "id": "patents.author_count"
                 },
@@ -740,6 +980,9 @@
                     "id": "patents.groups"
                 },
                 {
+                    "id": "patents.id"
+                },
+                {
                     "id": "patents.ranking"
                 },
                 {
@@ -754,7 +997,7 @@
             ]
         },
         {
-            "id": "patent.id",
+            "id": "patents.id",
             "depth": 2
         },
         {
@@ -870,30 +1113,7 @@
         },
         {
             "id": "patents.external_ids.id",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "patents.external_ids.id.COD_PATENTE"
-                },
-                {
-                    "id": "patents.external_ids.id.COD_PRODUCTO"
-                },
-                {
-                    "id": "patents.external_ids.id.COD_RH"
-                }
-            ]
-        },
-        {
-            "id": "patents.external_ids.id.COD_RH",
-            "depth": 4
-        },
-        {
-            "id": "patents.external_ids.id.COD_PRODUCTO",
-            "depth": 4
-        },
-        {
-            "id": "patents.external_ids.id.COD_PATENTE",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "patents.external_urls",
@@ -927,10 +1147,16 @@
             "depth": 3,
             "children": [
                 {
+                    "id": "patents.authors.affiliations.end_date"
+                },
+                {
                     "id": "patents.authors.affiliations.id"
                 },
                 {
                     "id": "patents.authors.affiliations.name"
+                },
+                {
+                    "id": "patents.authors.affiliations.start_date"
                 },
                 {
                     "id": "patents.authors.affiliations.types"
@@ -1022,6 +1248,14 @@
         {
             "id": "patents.groups.name",
             "depth": 3
+        },
+        {
+            "id": "patents.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "patents.authors.affiliations.end_date",
+            "depth": 4
         },
         {
             "id": "news",
@@ -1158,21 +1392,9 @@
             "depth": 4
         },
         {
-            "id": "works.sources",
+            "id": "sources",
             "depth": 2,
             "children": [
-                {
-                    "id": "sources"
-                }
-            ]
-        },
-        {
-            "id": "sources",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "source.id"
-                },
                 {
                     "id": "sources.abbreviations"
                 },
@@ -1190,6 +1412,9 @@
                 },
                 {
                     "id": "sources.external_urls"
+                },
+                {
+                    "id": "sources.id"
                 },
                 {
                     "id": "sources.keywords"
@@ -1239,12 +1464,12 @@
             ]
         },
         {
-            "id": "source.id",
-            "depth": 4
+            "id": "sources.id",
+            "depth": 3
         },
         {
             "id": "sources.updated",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.updated.source"
@@ -1256,15 +1481,15 @@
         },
         {
             "id": "sources.updated.source",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.updated.time",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.names",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.names.lang"
@@ -1279,35 +1504,51 @@
         },
         {
             "id": "sources.names.lang",
-            "depth": 5
-        },
-        {
-            "id": "sources.names.name",
-            "depth": 5
-        },
-        {
-            "id": "sources.names.source",
-            "depth": 5
-        },
-        {
-            "id": "sources.abbreviations",
             "depth": 4
         },
         {
+            "id": "sources.names.name",
+            "depth": 4
+        },
+        {
+            "id": "sources.names.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.abbreviations",
+            "depth": 3
+        },
+        {
             "id": "sources.types",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.types.source"
+                },
+                {
+                    "id": "sources.types.type"
+                }
+            ]
+        },
+        {
+            "id": "sources.types.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.types.type",
             "depth": 4
         },
         {
             "id": "sources.keywords",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.languages",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.publisher",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.publisher.country_code"
@@ -1322,27 +1563,23 @@
         },
         {
             "id": "sources.publisher.country_code",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.publisher.name",
-            "depth": 5
-        },
-        {
-            "id": "sources.publisher.id",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.relations",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.addresses",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.external_ids",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.external_ids.id"
@@ -1354,15 +1591,15 @@
         },
         {
             "id": "sources.external_ids.source",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.external_ids.id",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.external_urls",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.external_urls.source"
@@ -1373,49 +1610,48 @@
             ]
         },
         {
-            "id": "sources.external_urls.source",
-            "depth": 5
-        },
-        {
-            "id": "sources.external_urls.url",
-            "depth": 5
-        },
-        {
             "id": "sources.review_processes",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.waiver",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.waiver.has_waiver"
+                },
+                {
+                    "id": "sources.waiver.url"
                 }
             ]
         },
         {
-            "id": "sources.waiver.has_waiver",
-            "depth": 5
-        },
-        {
             "id": "sources.plagiarism_detection",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.open_access_start_year",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.publication_time_weeks",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "sources.apc",
-            "depth": 4
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.apc.charges"
+                },
+                {
+                    "id": "sources.apc.currency"
+                }
+            ]
         },
         {
             "id": "sources.copyright",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.copyright.author_retains"
@@ -1426,16 +1662,8 @@
             ]
         },
         {
-            "id": "sources.copyright.author_retains",
-            "depth": 5
-        },
-        {
-            "id": "sources.copyright.url",
-            "depth": 5
-        },
-        {
             "id": "sources.licenses",
-            "depth": 4,
+            "depth": 3,
             "children": [
                 {
                     "id": "sources.licenses.BY"
@@ -1458,35 +1686,115 @@
             ]
         },
         {
+            "id": "sources.ranking",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.ranking.from_date"
+                },
+                {
+                    "id": "sources.ranking.issn"
+                },
+                {
+                    "id": "sources.ranking.order"
+                },
+                {
+                    "id": "sources.ranking.rank"
+                },
+                {
+                    "id": "sources.ranking.source"
+                },
+                {
+                    "id": "sources.ranking.to_date"
+                }
+            ]
+        },
+        {
+            "id": "sources.ranking.to_date",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.from_date",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.rank",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.order",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.publisher.id",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_urls.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_urls.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.waiver.has_waiver",
+            "depth": 4
+        },
+        {
+            "id": "sources.copyright.author_retains",
+            "depth": 4
+        },
+        {
             "id": "sources.licenses.NC",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.licenses.ND",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.licenses.BY",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.licenses.type",
-            "depth": 5
+            "depth": 4
         },
         {
             "id": "sources.licenses.SA",
-            "depth": 5
-        },
-        {
-            "id": "sources.licenses.url",
-            "depth": 5
-        },
-        {
-            "id": "sources.ranking",
             "depth": 4
         },
         {
             "id": "sources.review_process",
+            "depth": 3
+        },
+        {
+            "id": "sources.waiver.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.apc.charges",
+            "depth": 4
+        },
+        {
+            "id": "sources.apc.currency",
+            "depth": 4
+        },
+        {
+            "id": "sources.copyright.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.issn",
             "depth": 4
         },
         {
@@ -1549,9 +1857,6 @@
             "depth": 1,
             "children": [
                 {
-                    "id": "event.id"
-                },
-                {
                     "id": "events.abstract"
                 },
                 {
@@ -1573,6 +1878,9 @@
                     "id": "events.groups"
                 },
                 {
+                    "id": "events.id"
+                },
+                {
                     "id": "events.ranking"
                 },
                 {
@@ -1590,7 +1898,7 @@
             ]
         },
         {
-            "id": "event.id",
+            "id": "events.id",
             "depth": 2
         },
         {
@@ -1710,23 +2018,7 @@
         },
         {
             "id": "events.external_ids.id",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "events.external_ids.id.COD_EVENTO"
-                },
-                {
-                    "id": "events.external_ids.id.COD_RH"
-                }
-            ]
-        },
-        {
-            "id": "events.external_ids.id.COD_RH",
-            "depth": 4
-        },
-        {
-            "id": "events.external_ids.id.COD_EVENTO",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "events.external_urls",
@@ -1768,10 +2060,16 @@
             "depth": 3,
             "children": [
                 {
+                    "id": "events.authors.affiliations.end_date"
+                },
+                {
                     "id": "events.authors.affiliations.id"
                 },
                 {
                     "id": "events.authors.affiliations.name"
+                },
+                {
+                    "id": "events.authors.affiliations.start_date"
                 },
                 {
                     "id": "events.authors.affiliations.types"
@@ -1872,11 +2170,19 @@
             "depth": 3
         },
         {
+            "id": "events.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "events.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
             "id": "works",
             "depth": 1,
             "children": [
                 {
-                    "id": "work.id"
+                    "id": "sources"
                 },
                 {
                     "id": "works.abstracts"
@@ -1918,6 +2224,9 @@
                     "id": "works.groups"
                 },
                 {
+                    "id": "works.id"
+                },
+                {
                     "id": "works.keywords"
                 },
                 {
@@ -1939,10 +2248,7 @@
                     "id": "works.rights"
                 },
                 {
-                    "id": "works.source"
-                },
-                {
-                    "id": "works.sources"
+                    "id": "works.thesis"
                 },
                 {
                     "id": "works.titles"
@@ -1962,7 +2268,7 @@
             ]
         },
         {
-            "id": "work.id",
+            "id": "works.id",
             "depth": 2
         },
         {
@@ -1973,7 +2279,7 @@
                     "id": "works.titles.lang"
                 },
                 {
-                    "id": "works.titles.source"
+                    "id": "works.titles.provenance"
                 },
                 {
                     "id": "works.titles.title"
@@ -1989,24 +2295,13 @@
             "depth": 3
         },
         {
-            "id": "works.titles.source",
-            "depth": 3
-        },
-        {
             "id": "works.updated",
             "depth": 2,
             "children": [
                 {
-                    "id": "works.updated.source"
-                },
-                {
                     "id": "works.updated.time"
                 }
             ]
-        },
-        {
-            "id": "works.updated.source",
-            "depth": 3
         },
         {
             "id": "works.updated.time",
@@ -2029,13 +2324,19 @@
             "depth": 2,
             "children": [
                 {
+                    "id": "works.types.class"
+                },
+                {
+                    "id": "works.types.code"
+                },
+                {
                     "id": "works.types.level"
                 },
                 {
-                    "id": "works.types.provenance"
+                    "id": "works.types.parent"
                 },
                 {
-                    "id": "works.types.source"
+                    "id": "works.types.provenance"
                 },
                 {
                     "id": "works.types.type"
@@ -2044,10 +2345,6 @@
         },
         {
             "id": "works.types.provenance",
-            "depth": 3
-        },
-        {
-            "id": "works.types.source",
             "depth": 3
         },
         {
@@ -2067,18 +2364,11 @@
                 },
                 {
                     "id": "works.external_ids.provenance"
-                },
-                {
-                    "id": "works.external_ids.source"
                 }
             ]
         },
         {
             "id": "works.external_ids.provenance",
-            "depth": 3
-        },
-        {
-            "id": "works.external_ids.source",
             "depth": 3
         },
         {
@@ -2093,24 +2383,9 @@
                     "id": "works.external_urls.provenance"
                 },
                 {
-                    "id": "works.external_urls.source"
-                },
-                {
                     "id": "works.external_urls.url"
                 }
             ]
-        },
-        {
-            "id": "works.external_urls.provenance",
-            "depth": 3
-        },
-        {
-            "id": "works.external_urls.source",
-            "depth": 3
-        },
-        {
-            "id": "works.external_urls.url",
-            "depth": 3
         },
         {
             "id": "works.date_published",
@@ -2131,21 +2406,18 @@
                     "id": "works.bibliographic_info.end_page"
                 },
                 {
+                    "id": "works.bibliographic_info.issue"
+                },
+                {
+                    "id": "works.bibliographic_info.pages"
+                },
+                {
                     "id": "works.bibliographic_info.start_page"
+                },
+                {
+                    "id": "works.bibliographic_info.volume"
                 }
             ]
-        },
-        {
-            "id": "works.bibliographic_info.start_page",
-            "depth": 3
-        },
-        {
-            "id": "works.bibliographic_info.end_page",
-            "depth": 3
-        },
-        {
-            "id": "works.bibliographic_info.bibtex",
-            "depth": 3
         },
         {
             "id": "works.open_access",
@@ -2166,25 +2438,12 @@
             ]
         },
         {
-            "id": "works.open_access.is_open_access",
-            "depth": 3
-        },
-        {
-            "id": "works.open_access.open_access_status",
-            "depth": 3
-        },
-        {
-            "id": "works.open_access.url",
-            "depth": 3
-        },
-        {
-            "id": "works.open_access.has_repository_fulltext",
-            "depth": 3
-        },
-        {
             "id": "works.apc",
             "depth": 2,
             "children": [
+                {
+                    "id": "works.apc.list"
+                },
                 {
                     "id": "works.apc.paid"
                 }
@@ -2192,7 +2451,21 @@
         },
         {
             "id": "works.apc.paid",
-            "depth": 3
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.apc.paid.currency"
+                },
+                {
+                    "id": "works.apc.paid.provenance"
+                },
+                {
+                    "id": "works.apc.paid.value"
+                },
+                {
+                    "id": "works.apc.paid.value_usd"
+                }
+            ]
         },
         {
             "id": "works.references_count",
@@ -2211,23 +2484,8 @@
                 },
                 {
                     "id": "works.citations_count.provenance"
-                },
-                {
-                    "id": "works.citations_count.source"
                 }
             ]
-        },
-        {
-            "id": "works.citations_count.source",
-            "depth": 3
-        },
-        {
-            "id": "works.citations_count.count",
-            "depth": 3
-        },
-        {
-            "id": "works.citations_count.provenance",
-            "depth": 3
         },
         {
             "id": "works.citations",
@@ -2252,19 +2510,49 @@
                 },
                 {
                     "id": "works.authors.ranking"
+                },
+                {
+                    "id": "works.authors.type"
                 }
             ]
-        },
-        {
-            "id": "works.authors.id",
-            "depth": 3
         },
         {
             "id": "works.authors.full_name",
             "depth": 3
         },
         {
+            "id": "works.authors.id",
+            "depth": 3
+        },
+        {
             "id": "works.authors.affiliations",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.authors.affiliations.country"
+                },
+                {
+                    "id": "works.authors.affiliations.country_code"
+                },
+                {
+                    "id": "works.authors.affiliations.end_date"
+                },
+                {
+                    "id": "works.authors.affiliations.id"
+                },
+                {
+                    "id": "works.authors.affiliations.name"
+                },
+                {
+                    "id": "works.authors.affiliations.start_date"
+                },
+                {
+                    "id": "works.authors.affiliations.types"
+                }
+            ]
+        },
+        {
+            "id": "works.authors.type",
             "depth": 3
         },
         {
@@ -2272,28 +2560,22 @@
             "depth": 3
         },
         {
-            "id": "works.source",
+            "id": "works.ranking",
             "depth": 2,
             "children": [
                 {
-                    "id": "works.source.id"
+                    "id": "works.ranking.date"
                 },
                 {
-                    "id": "works.source.name"
+                    "id": "works.ranking.level"
+                },
+                {
+                    "id": "works.ranking.provenance"
+                },
+                {
+                    "id": "works.ranking.rank"
                 }
             ]
-        },
-        {
-            "id": "works.source.id",
-            "depth": 3
-        },
-        {
-            "id": "works.source.name",
-            "depth": 3
-        },
-        {
-            "id": "works.ranking",
-            "depth": 2
         },
         {
             "id": "works.citations_by_year",
@@ -2308,20 +2590,39 @@
             ]
         },
         {
-            "id": "works.citations_by_year.year",
-            "depth": 3
-        },
-        {
-            "id": "works.citations_by_year.cited_by_count",
-            "depth": 3
-        },
-        {
             "id": "works.groups",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.groups.id"
+                },
+                {
+                    "id": "works.groups.name"
+                },
+                {
+                    "id": "works.groups.ranking"
+                }
+            ]
         },
         {
             "id": "works.rights",
-            "depth": 2
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.rights.provenance"
+                },
+                {
+                    "id": "works.rights.rights"
+                }
+            ]
+        },
+        {
+            "id": "works.rights.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.rights.rights",
+            "depth": 3
         },
         {
             "id": "works.primary_topic",
@@ -2516,12 +2817,208 @@
             "depth": 3
         },
         {
+            "id": "works.thesis",
+            "depth": 2
+        },
+        {
+            "id": "works.external_urls.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.external_urls.url",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.start_page",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.end_page",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.bibtex",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.is_open_access",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.open_access_status",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.url",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.has_repository_fulltext",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_count.count",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_count.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.authors.affiliations.id",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.name",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.types",
+            "depth": 4,
+            "children": [
+                {
+                    "id": "works.authors.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "works.authors.affiliations.types.type",
+            "depth": 5
+        },
+        {
+            "id": "works.authors.affiliations.country",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.country_code",
+            "depth": 4
+        },
+        {
+            "id": "works.types.class",
+            "depth": 3
+        },
+        {
+            "id": "works.types.code",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.volume",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.issue",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.id",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.name",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.ranking",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_by_year.year",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_by_year.cited_by_count",
+            "depth": 3
+        },
+        {
+            "id": "works.types.parent",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.level",
+            "depth": 3
+        },
+        {
+            "id": "works.titles.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.apc.list",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.apc.list.currency"
+                },
+                {
+                    "id": "works.apc.list.provenance"
+                },
+                {
+                    "id": "works.apc.list.value"
+                },
+                {
+                    "id": "works.apc.list.value_usd"
+                }
+            ]
+        },
+        {
+            "id": "works.apc.list.value",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.currency",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.value_usd",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.provenance",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.value",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.currency",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.value_usd",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.provenance",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "works.bibliographic_info.pages",
+            "depth": 3
+        },
+        {
             "id": "projects",
             "depth": 1,
             "children": [
-                {
-                    "id": "project.id"
-                },
                 {
                     "id": "projects.abstract"
                 },
@@ -2547,6 +3044,9 @@
                     "id": "projects.groups"
                 },
                 {
+                    "id": "projects.id"
+                },
+                {
                     "id": "projects.ranking"
                 },
                 {
@@ -2567,7 +3067,7 @@
             ]
         },
         {
-            "id": "project.id",
+            "id": "projects.id",
             "depth": 2
         },
         {
@@ -2625,6 +3125,9 @@
             "id": "projects.types",
             "depth": 2,
             "children": [
+                {
+                    "id": "projects.types.code"
+                },
                 {
                     "id": "projects.types.level"
                 },
@@ -2687,23 +3190,7 @@
         },
         {
             "id": "projects.external_ids.id",
-            "depth": 3,
-            "children": [
-                {
-                    "id": "projects.external_ids.id.COD_PROYECTO"
-                },
-                {
-                    "id": "projects.external_ids.id.COD_RH"
-                }
-            ]
-        },
-        {
-            "id": "projects.external_ids.id.COD_RH",
-            "depth": 4
-        },
-        {
-            "id": "projects.external_ids.id.COD_PROYECTO",
-            "depth": 4
+            "depth": 3
         },
         {
             "id": "projects.external_urls",
@@ -2753,10 +3240,16 @@
             "depth": 3,
             "children": [
                 {
+                    "id": "projects.authors.affiliations.end_date"
+                },
+                {
                     "id": "projects.authors.affiliations.id"
                 },
                 {
                     "id": "projects.authors.affiliations.name"
+                },
+                {
+                    "id": "projects.authors.affiliations.start_date"
                 },
                 {
                     "id": "projects.authors.affiliations.types"
@@ -2855,13 +3348,21 @@
         {
             "id": "projects.groups.name",
             "depth": 3
+        },
+        {
+            "id": "projects.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "projects.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "projects.types.code",
+            "depth": 3
         }
     ],
     "edges": [
-        {
-            "source": "affiliations",
-            "target": "affiliation.id"
-        },
         {
             "source": "affiliations",
             "target": "affiliations.abbreviations"
@@ -2873,6 +3374,10 @@
         {
             "source": "affiliations",
             "target": "affiliations.aliases"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.birthdate"
         },
         {
             "source": "affiliations",
@@ -2893,6 +3398,10 @@
         {
             "source": "affiliations",
             "target": "affiliations.external_urls"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.id"
         },
         {
             "source": "affiliations",
@@ -2963,6 +3472,38 @@
             "target": "affiliations.citations_count.source"
         },
         {
+            "source": "affiliations.description",
+            "target": "affiliations.description.description"
+        },
+        {
+            "source": "affiliations.description",
+            "target": "affiliations.description.source"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_ESTADO_ARTE"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_OBJETIVOS"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_PLAN_TRABAJO"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_PROD_DESTACADA"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_RETOS"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_VISION"
+        },
+        {
             "source": "affiliations.external_ids",
             "target": "affiliations.external_ids.id"
         },
@@ -2999,6 +3540,58 @@
             "target": "affiliations.names.source"
         },
         {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.date"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.from_date"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.order"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.rank"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.source"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.to_date"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.id"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.name"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.types"
+        },
+        {
+            "source": "affiliations.relations.types",
+            "target": "affiliations.relations.types.source"
+        },
+        {
+            "source": "affiliations.relations.types",
+            "target": "affiliations.relations.types.type"
+        },
+        {
+            "source": "affiliations.status",
+            "target": "affiliations.status.source"
+        },
+        {
+            "source": "affiliations.status",
+            "target": "affiliations.status.status"
+        },
+        {
             "source": "affiliations.types",
             "target": "affiliations.types.source"
         },
@@ -3013,10 +3606,6 @@
         {
             "source": "affiliations.updated",
             "target": "affiliations.updated.time"
-        },
-        {
-            "source": "events",
-            "target": "event.id"
         },
         {
             "source": "events",
@@ -3045,6 +3634,10 @@
         {
             "source": "events",
             "target": "events.groups"
+        },
+        {
+            "source": "events",
+            "target": "events.id"
         },
         {
             "source": "events",
@@ -3080,11 +3673,19 @@
         },
         {
             "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.end_date"
+        },
+        {
+            "source": "events.authors.affiliations",
             "target": "events.authors.affiliations.id"
         },
         {
             "source": "events.authors.affiliations",
             "target": "events.authors.affiliations.name"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.start_date"
         },
         {
             "source": "events.authors.affiliations",
@@ -3109,14 +3710,6 @@
         {
             "source": "events.external_ids",
             "target": "events.external_ids.source"
-        },
-        {
-            "source": "events.external_ids.id",
-            "target": "events.external_ids.id.COD_EVENTO"
-        },
-        {
-            "source": "events.external_ids.id",
-            "target": "events.external_ids.id.COD_RH"
         },
         {
             "source": "events.groups",
@@ -3288,10 +3881,6 @@
         },
         {
             "source": "patents",
-            "target": "patent.id"
-        },
-        {
-            "source": "patents",
             "target": "patents.author_count"
         },
         {
@@ -3309,6 +3898,10 @@
         {
             "source": "patents",
             "target": "patents.groups"
+        },
+        {
+            "source": "patents",
+            "target": "patents.id"
         },
         {
             "source": "patents",
@@ -3340,11 +3933,19 @@
         },
         {
             "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.end_date"
+        },
+        {
+            "source": "patents.authors.affiliations",
             "target": "patents.authors.affiliations.id"
         },
         {
             "source": "patents.authors.affiliations",
             "target": "patents.authors.affiliations.name"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.start_date"
         },
         {
             "source": "patents.authors.affiliations",
@@ -3369,18 +3970,6 @@
         {
             "source": "patents.external_ids",
             "target": "patents.external_ids.source"
-        },
-        {
-            "source": "patents.external_ids.id",
-            "target": "patents.external_ids.id.COD_PATENTE"
-        },
-        {
-            "source": "patents.external_ids.id",
-            "target": "patents.external_ids.id.COD_PRODUCTO"
-        },
-        {
-            "source": "patents.external_ids.id",
-            "target": "patents.external_ids.id.COD_RH"
         },
         {
             "source": "patents.groups",
@@ -3476,10 +4065,6 @@
         },
         {
             "source": "person_data",
-            "target": "person.id"
-        },
-        {
-            "source": "person_data",
             "target": "person_data._id_old"
         },
         {
@@ -3568,6 +4153,10 @@
         },
         {
             "source": "person_data.affiliations",
+            "target": "person_data.affiliations.position"
+        },
+        {
+            "source": "person_data.affiliations",
             "target": "person_data.affiliations.start_date"
         },
         {
@@ -3597,6 +4186,14 @@
         {
             "source": "person_data.birthplace",
             "target": "person_data.birthplace.state"
+        },
+        {
+            "source": "person_data.citations_count",
+            "target": "person_data.citations_count.count"
+        },
+        {
+            "source": "person_data.citations_count",
+            "target": "person_data.citations_count.source"
         },
         {
             "source": "person_data.degrees",
@@ -3635,12 +4232,16 @@
             "target": "person_data.external_ids.source"
         },
         {
-            "source": "person_data.external_ids.id",
-            "target": "person_data.external_ids.id.COD_RH"
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.date"
         },
         {
             "source": "person_data.ranking",
-            "target": "person_data.ranking.date"
+            "target": "person_data.ranking.id"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.order"
         },
         {
             "source": "person_data.ranking",
@@ -3660,6 +4261,10 @@
         },
         {
             "source": "person_data.related_works",
+            "target": "person_data.related_works.institutions"
+        },
+        {
+            "source": "person_data.related_works",
             "target": "person_data.related_works.provenance"
         },
         {
@@ -3667,12 +4272,40 @@
             "target": "person_data.related_works.source"
         },
         {
-            "source": "person_data.related_works.id",
-            "target": "person_data.related_works.id.COD_PRODUCTO"
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.year"
         },
         {
-            "source": "person_data.related_works.id",
-            "target": "person_data.related_works.id.COD_RH"
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.country_code"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.country_id"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.display_name"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.id"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.lineage"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.ror"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.type"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.type_id"
         },
         {
             "source": "person_data.updated",
@@ -3685,10 +4318,6 @@
         {
             "source": "person_data.updated",
             "target": "person_data.updated.time"
-        },
-        {
-            "source": "projects",
-            "target": "project.id"
         },
         {
             "source": "projects",
@@ -3721,6 +4350,10 @@
         {
             "source": "projects",
             "target": "projects.groups"
+        },
+        {
+            "source": "projects",
+            "target": "projects.id"
         },
         {
             "source": "projects",
@@ -3760,11 +4393,19 @@
         },
         {
             "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.end_date"
+        },
+        {
+            "source": "projects.authors.affiliations",
             "target": "projects.authors.affiliations.id"
         },
         {
             "source": "projects.authors.affiliations",
             "target": "projects.authors.affiliations.name"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.start_date"
         },
         {
             "source": "projects.authors.affiliations",
@@ -3789,14 +4430,6 @@
         {
             "source": "projects.external_ids",
             "target": "projects.external_ids.source"
-        },
-        {
-            "source": "projects.external_ids.id",
-            "target": "projects.external_ids.id.COD_PROYECTO"
-        },
-        {
-            "source": "projects.external_ids.id",
-            "target": "projects.external_ids.id.COD_RH"
         },
         {
             "source": "projects.groups",
@@ -3840,6 +4473,10 @@
         },
         {
             "source": "projects.types",
+            "target": "projects.types.code"
+        },
+        {
+            "source": "projects.types",
             "target": "projects.types.level"
         },
         {
@@ -3868,10 +4505,6 @@
         },
         {
             "source": "sources",
-            "target": "source.id"
-        },
-        {
-            "source": "sources",
             "target": "sources.abbreviations"
         },
         {
@@ -3893,6 +4526,10 @@
         {
             "source": "sources",
             "target": "sources.external_urls"
+        },
+        {
+            "source": "sources",
+            "target": "sources.id"
         },
         {
             "source": "sources",
@@ -3953,6 +4590,14 @@
         {
             "source": "sources",
             "target": "sources.waiver"
+        },
+        {
+            "source": "sources.apc",
+            "target": "sources.apc.charges"
+        },
+        {
+            "source": "sources.apc",
+            "target": "sources.apc.currency"
         },
         {
             "source": "sources.copyright",
@@ -4027,6 +4672,38 @@
             "target": "sources.publisher.name"
         },
         {
+            "source": "sources.ranking",
+            "target": "sources.ranking.from_date"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.issn"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.order"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.rank"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.source"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.to_date"
+        },
+        {
+            "source": "sources.types",
+            "target": "sources.types.source"
+        },
+        {
+            "source": "sources.types",
+            "target": "sources.types.type"
+        },
+        {
             "source": "sources.updated",
             "target": "sources.updated.source"
         },
@@ -4039,8 +4716,12 @@
             "target": "sources.waiver.has_waiver"
         },
         {
+            "source": "sources.waiver",
+            "target": "sources.waiver.url"
+        },
+        {
             "source": "works",
-            "target": "work.id"
+            "target": "sources"
         },
         {
             "source": "works",
@@ -4096,6 +4777,10 @@
         },
         {
             "source": "works",
+            "target": "works.id"
+        },
+        {
+            "source": "works",
             "target": "works.keywords"
         },
         {
@@ -4124,11 +4809,7 @@
         },
         {
             "source": "works",
-            "target": "works.source"
-        },
-        {
-            "source": "works",
-            "target": "works.sources"
+            "target": "works.thesis"
         },
         {
             "source": "works",
@@ -4152,7 +4833,43 @@
         },
         {
             "source": "works.apc",
+            "target": "works.apc.list"
+        },
+        {
+            "source": "works.apc",
             "target": "works.apc.paid"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.currency"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.provenance"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.value"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.value_usd"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.currency"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.provenance"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.value"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.value_usd"
         },
         {
             "source": "works.authors",
@@ -4171,6 +4888,42 @@
             "target": "works.authors.ranking"
         },
         {
+            "source": "works.authors",
+            "target": "works.authors.type"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.country"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.country_code"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.end_date"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.id"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.name"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.start_date"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.types"
+        },
+        {
+            "source": "works.authors.affiliations.types",
+            "target": "works.authors.affiliations.types.type"
+        },
+        {
             "source": "works.bibliographic_info",
             "target": "works.bibliographic_info.bibtex"
         },
@@ -4180,7 +4933,19 @@
         },
         {
             "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.issue"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.pages"
+        },
+        {
+            "source": "works.bibliographic_info",
             "target": "works.bibliographic_info.start_page"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.volume"
         },
         {
             "source": "works.citations_by_year",
@@ -4199,10 +4964,6 @@
             "target": "works.citations_count.provenance"
         },
         {
-            "source": "works.citations_count",
-            "target": "works.citations_count.source"
-        },
-        {
             "source": "works.external_ids",
             "target": "works.external_ids.id"
         },
@@ -4211,20 +4972,24 @@
             "target": "works.external_ids.provenance"
         },
         {
-            "source": "works.external_ids",
-            "target": "works.external_ids.source"
-        },
-        {
             "source": "works.external_urls",
             "target": "works.external_urls.provenance"
         },
         {
             "source": "works.external_urls",
-            "target": "works.external_urls.source"
+            "target": "works.external_urls.url"
         },
         {
-            "source": "works.external_urls",
-            "target": "works.external_urls.url"
+            "source": "works.groups",
+            "target": "works.groups.id"
+        },
+        {
+            "source": "works.groups",
+            "target": "works.groups.name"
+        },
+        {
+            "source": "works.groups",
+            "target": "works.groups.ranking"
         },
         {
             "source": "works.open_access",
@@ -4291,16 +5056,28 @@
             "target": "works.primary_topic.subfield.id"
         },
         {
-            "source": "works.source",
-            "target": "works.source.id"
+            "source": "works.ranking",
+            "target": "works.ranking.date"
         },
         {
-            "source": "works.source",
-            "target": "works.source.name"
+            "source": "works.ranking",
+            "target": "works.ranking.level"
         },
         {
-            "source": "works.sources",
-            "target": "sources"
+            "source": "works.ranking",
+            "target": "works.ranking.provenance"
+        },
+        {
+            "source": "works.ranking",
+            "target": "works.ranking.rank"
+        },
+        {
+            "source": "works.rights",
+            "target": "works.rights.provenance"
+        },
+        {
+            "source": "works.rights",
+            "target": "works.rights.rights"
         },
         {
             "source": "works.titles",
@@ -4308,7 +5085,7 @@
         },
         {
             "source": "works.titles",
-            "target": "works.titles.source"
+            "target": "works.titles.provenance"
         },
         {
             "source": "works.titles",
@@ -4364,7 +5141,19 @@
         },
         {
             "source": "works.types",
+            "target": "works.types.class"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.code"
+        },
+        {
+            "source": "works.types",
             "target": "works.types.level"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.parent"
         },
         {
             "source": "works.types",
@@ -4372,15 +5161,7 @@
         },
         {
             "source": "works.types",
-            "target": "works.types.source"
-        },
-        {
-            "source": "works.types",
             "target": "works.types.type"
-        },
-        {
-            "source": "works.updated",
-            "target": "works.updated.source"
         },
         {
             "source": "works.updated",

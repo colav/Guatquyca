@@ -6,6 +6,7 @@ import Error from "@/app/error";
 import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
+import TopicsTags from "../../ServerSide/TopicsTags/TopicsTags";
 import WorksInfo from "../WorksInfo/WorksInfo";
 
 /* Icons */
@@ -30,7 +31,6 @@ import style from "./styles.module.css";
 
 /* UI Library Components */
 import { Col, Divider, Descriptions, Row, Button, Space } from "antd";
-import TopicsTags from "../../ServerSide/TopicsTags/TopicsTags";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
