@@ -25,7 +25,7 @@
 }
 
 .moveRight {
-  left: 370px !important;
+  left: 420px !important;
   border-top: 1px solid rgb(117, 119, 124) !important;
   box-shadow: inset 0 8px 7px -3px rgba(39, 26, 19, 0.35),
     rgba(50, 71, 93, 0.162) 0px 3px 6px 4px,
@@ -43,4 +43,10 @@
 
 .collapse_header {
   background-color: #3983de !important;
+}
+
+.optionLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
