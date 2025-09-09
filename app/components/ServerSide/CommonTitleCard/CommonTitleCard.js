@@ -58,7 +58,7 @@ export default function CommonTitleCard({ data, entity }) {
         <Row>
           <h1 id={styles.title}>
             {full_name || name}{" "}
-            {entity === "institution" && (
+            {entity === "institution" && countryCode && (
               <Flag country={country} countryCode={countryCode} />
             )}
           </h1>
