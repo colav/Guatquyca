@@ -101,7 +101,11 @@ export default function Home() {
               <b id={styles.u}>U</b> tiene para ofrecerte?
             </h2>
             <DownloadOutlined />{" "}
-            <a href="/files/Manual_impactu.pdf" download="Manual ImpactU.pdf">
+            <a
+              href="https://data.colav.co/Manual_impactu.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
               Descarga nuestro manual completo en formato PDF aquí.
             </a>
             <div style={{ marginTop: "20px" }}>
@@ -121,7 +125,7 @@ export default function Home() {
             <br />
             <DownloadOutlined />{" "}
             <a
-              href="https://docs.google.com/document/d/1BKF6wmUVjtaPLaf8FeOTeGQBxGRYIh-J/edit?usp=sharing&ouid=116324921517823599769&rtpof=true&sd=true"
+              href="https://data.colav.co/Formato_datos_impactu.pdf"
               target="_blank"
               rel="noreferrer"
             >
