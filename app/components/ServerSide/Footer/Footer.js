@@ -144,13 +144,13 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.10.4
+          ImpactU Versión 3.11.0
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 06/08/2025
+          Interfaz de Usuario: 27/09/2025
           <br />
-          Base de Datos: 26/06/2025
+          Base de Datos: 29/08/2025
           <br />
           Hecho en Colombia
         </Col>

@@ -35,7 +35,7 @@ export default function RankingTag({ ranking }) {
 
   return (
     <Tooltip title={`Fuente: ${sourceMap[rank.source] || rank.source}`}>
-      <Tag id={styles.tag}>{rank.rank}</Tag>
+      <Tag id={styles.tag}>Ranking: {rank.rank}</Tag>
     </Tooltip>
   );
 }

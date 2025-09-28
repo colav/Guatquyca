@@ -6,14 +6,12 @@ import Error from "@/app/error";
 import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
-import TopicsTags from "../../ServerSide/TopicsTags/TopicsTags";
+import TopicTag from "../../ServerSide/TopicTag/TopicTag";
 import WorksInfo from "../WorksInfo/WorksInfo";
+import WorkExternalButtons from "../WorkExternalButtons/WorkExternalButtons";
 
 /* Icons */
 import {
-  DesktopOutlined,
-  FilePdfOutlined,
-  FileTextOutlined,
   ReadOutlined,
   TagsOutlined,
   TeamOutlined,
@@ -30,7 +28,7 @@ import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 import style from "./styles.module.css";
 
 /* UI Library Components */
-import { Col, Divider, Descriptions, Row, Button, Space } from "antd";
+import { Col, Divider, Descriptions, Row } from "antd";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -104,39 +102,11 @@ export default function DocumentModal({ documentID }) {
 
   return (
     <div>
-      <Space>
-        {open_access.url && (
-          <Button
-            type="default"
-            size="small"
-            icon={<FilePdfOutlined />}
-            href={open_access.url}
-            target="_blank"
-          >
-            PDF
-          </Button>
-        )}
-        <Button
-          type="default"
-          size="small"
-          icon={<FileTextOutlined />}
-          href={`${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${documentID}`}
-          target="_blank"
-        >
-          JSON
-        </Button>
-        {doi && (
-          <Button
-            type="default"
-            size="small"
-            icon={<DesktopOutlined />}
-            href={doi}
-            target="_blank"
-          >
-            HTML
-          </Button>
-        )}
-      </Space>
+      <WorkExternalButtons
+        open_access={open_access}
+        documentID={documentID}
+        doi={doi}
+      />
       <h4 className={style.margin_5}>
         <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
@@ -149,9 +119,9 @@ export default function DocumentModal({ documentID }) {
         workID={documentID}
       />
       <h4 className={style.margin_5}>
-        <TagsOutlined /> Temas:{" "}
+        <TagsOutlined /> Tópico:{" "}
       </h4>
-      {topics?.length > 0 && <TopicsTags topicsList={topics} />}
+      {topics?.length > 0 && <TopicTag topic={topics[0]} />}
       <h4 className={style.margin_5}>Abstract:</h4>
       <InvertedIndex abstract={abstract} />
       <WorksInfo

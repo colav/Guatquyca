@@ -32,3 +32,12 @@
   margin-top: 8px;
   cursor: pointer;
 }
+
+.invisibleContainerWide {
+  width: 310px;
+  height: 35px;
+  position: absolute;
+  z-index: 1000;
+  margin-top: 8px;
+  cursor: pointer;
+}

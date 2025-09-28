@@ -17,7 +17,11 @@ import { Col, Divider, Row, Tooltip } from "antd";
  *
  * @returns {JSX.Element|null} A tooltip-triggering invisible container or null if no source is provided.
  */
-export default function InvisibleContainer({ source, productType }) {
+export default function InvisibleContainer({
+  source,
+  productType,
+  type = "small",
+}) {
   if (!source) {
     return null;
   }
@@ -25,7 +29,7 @@ export default function InvisibleContainer({ source, productType }) {
     <Tooltip
       trigger="click"
       color="#ffffff"
-      placement="topRight"
+      placement="bottomLeft"
       id={styles.tooltip}
       title={
         <>
@@ -50,7 +54,13 @@ export default function InvisibleContainer({ source, productType }) {
         </>
       }
     >
-      <div className={styles.invisibleContainer}></div>
+      <div
+        className={
+          type === "wide"
+            ? styles.invisibleContainerWide
+            : styles.invisibleContainer
+        }
+      ></div>
     </Tooltip>
   );
 }

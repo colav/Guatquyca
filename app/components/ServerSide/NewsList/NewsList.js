@@ -27,12 +27,9 @@ import ClientLogger from "@/lib/Utils/clientLogger";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function NewsList({ searchParams, params, entity }) {
-  if (entity !== "person") {
-    return <EmptyCard text="No hay Noticias disponibles para esta perfil." />;
-  }
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/patents", searchParams);
+    URL = URLBuilder("/app/search/news", searchParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/news`,
@@ -43,7 +40,7 @@ export default async function NewsList({ searchParams, params, entity }) {
   }
   const { data, fullUrl } = await getData(URL);
 
-  if (!data.data.length || entity !== "person") {
+  if (!data.data.length) {
     return <EmptyCard text="No hay Noticias disponibles para esta perfil." />;
   }
   return (

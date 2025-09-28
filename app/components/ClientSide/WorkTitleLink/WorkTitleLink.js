@@ -2,7 +2,7 @@
 
 /* Components */
 import DocumentModal from "../DocumentModal/DocumentModal";
-import OpenAccessStatus from "../../ServerSide/OpenAccessStatus/OpenAccessStatus";
+import OpenAccessStatus from "../OpenAccessStatus/OpenAccessStatus";
 
 /* Icons */
 import { FileOutlined } from "@ant-design/icons";
