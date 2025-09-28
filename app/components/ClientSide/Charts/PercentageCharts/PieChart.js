@@ -30,7 +30,6 @@ export default function PieChart({ data, sum, isOA = false }) {
     colorField: "name",
     radius: 0.85,
     innerRadius: 0.45,
-
     label: {
       text: (d) => `${d.value.toLocaleString("es-CO")} / ${d.percentage}%`,
       position: "outside",
