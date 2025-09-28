@@ -16,7 +16,7 @@ const { Paragraph } = Typography;
  * @param {Object} abstract - The inverted index object containing words and their positions.
  * @returns {JSX.Element} The InvertedIndex component.
  */
-export default function InvertedIndex({ abstract }) {
+export default function InvertedIndex({ abstract, full = false }) {
   if (!abstract) {
     return "No disponible";
   }
@@ -35,13 +35,17 @@ export default function InvertedIndex({ abstract }) {
 
   return (
     <Paragraph
-      ellipsis={{
-        rows: 2,
-        expandable: "collapsible",
-        expanded,
-        symbol: () => (expanded ? "Ver menos." : "Ver más."),
-        onExpand: (_, info) => setExpanded(info.expanded),
-      }}
+      ellipsis={
+        full
+          ? false
+          : {
+              rows: 2,
+              expandable: "collapsible",
+              expanded,
+              symbol: () => (expanded ? "Ver menos." : "Ver más."),
+              onExpand: (_, info) => setExpanded(info.expanded),
+            }
+      }
     >
       {finalText}
     </Paragraph>
