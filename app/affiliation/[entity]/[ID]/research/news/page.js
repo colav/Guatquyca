@@ -26,7 +26,7 @@ export default async function NewsOnAffiliationsPage({ searchParams, params }) {
         <NewsList
           searchParams={searchParams}
           params={params}
-          entity={params.entity}
+          entity="affiliation"
         />
       </Suspense>
     </>
