@@ -15,7 +15,7 @@ import { App, Button, Space } from "antd";
 export default function WorkExternalButtons({
   open_access,
   documentID,
-  doi,
+  html,
   bibtex,
 }) {
   const ModalSubPage = () => {
@@ -87,12 +87,12 @@ export default function WorkExternalButtons({
         >
           JSON
         </Button>
-        {doi && (
+        {html && (
           <Button
             type="default"
             size="small"
             icon={<DesktopOutlined />}
-            href={doi}
+            href={html.doi || html.scienti || html.uri}
             target="_blank"
           >
             HTML

@@ -67,7 +67,17 @@ export default function DocumentModal({ documentID }) {
   } = state.data.data;
   const { name, scimago_quartile } = source || {};
   const { pissn, issn, scimago, openalex } = source.external_ids || {};
-  const { issue, volume, start_page, end_page } = bibliographic_info || {};
+  const { issue, volume, start_page, end_page, bibtex } =
+    bibliographic_info || {};
+
+  const htmlFields = {
+    doi: doi,
+    scienti: external_urls?.find((e) => e.source === "scienti")?.url,
+    uri: external_urls?.find((e) => e.source === "uri")?.url,
+  };
+
+  const hasHtmlInfo = htmlFields.doi || htmlFields.scienti || htmlFields.uri;
+  const html = hasHtmlInfo ? htmlFields : undefined;
 
   const sourceItems = [
     { key: "4", label: "Fuente", children: name || "No disponible" },
@@ -105,7 +115,8 @@ export default function DocumentModal({ documentID }) {
       <WorkExternalButtons
         open_access={open_access}
         documentID={documentID}
-        doi={doi}
+        html={html}
+        bibtex={bibtex}
       />
       <h4 className={style.margin_5}>
         <TranslationOutlined /> Idioma: {LANGUAGES[language]}

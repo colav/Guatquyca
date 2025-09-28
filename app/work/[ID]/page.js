@@ -56,6 +56,15 @@ export default async function WorkPage({ params }) {
   const { data } = await getData(URL);
   const workData = data.data;
 
+  const htmlFields = {
+    doi: workData.doi,
+    scienti: workData.external_urls?.find((e) => e.source === "scienti")?.url,
+    uri: workData.external_urls?.find((e) => e.source === "uri")?.url,
+  };
+
+  const hasHtmlInfo = htmlFields.doi || htmlFields.scienti || htmlFields.uri;
+  const html = hasHtmlInfo ? htmlFields : undefined;
+
   const ribbonStyles = {
     boxShadow: [
       "8px -8px 6px rgba(255, 240, 240, 0.3)",
@@ -147,7 +156,7 @@ export default async function WorkPage({ params }) {
             <WorkExternalButtons
               open_access={workData.open_access}
               documentID={params.ID}
-              doi={workData.doi}
+              html={html}
               bibtex={workData.bibliographic_info?.bibtex}
             />
           </div>
