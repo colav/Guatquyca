@@ -1,3 +1,5 @@
+"use client";
+
 /* Components */
 import AltMetricBadge from "./AltMetricBadge";
 import PaperbuzzBadge from "./PaperbuzzBadge";
