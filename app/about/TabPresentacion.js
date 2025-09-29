@@ -103,6 +103,45 @@ export default function TabPresentacion() {
             </a>
           </li>
         </ul>
+        <Divider />
+        <h3 className={styles.margin0}>
+          Explora más sobre <b id={styles.impact}>Impact</b>
+          <b id={styles.u}>U</b>
+        </h3>
+        <p>
+          Te invitamos a conocer nuestro póster presentado en el{" "}
+          <b>
+            Encuentro de Gestores de Repositorios Institucionales de Colombia y
+            Ciencia Abierta – ERICCA 2025
+          </b>
+          . En él mostramos cómo <b id={styles.impact}>Impact</b>
+          <b id={styles.u}>U</b> integra datos dispersos de repositorios, bases
+          abiertas y fuentes nacionales para consolidar la primera{" "}
+          <b>infraestructura académica abierta tipo CRIS de Colombia</b>,
+          fortaleciendo la interoperabilidad, la evaluación responsable y la
+          colaboración interinstitucional.
+        </p>
+        <p>Haz clic sobre la imagen para consultar el póster completo.</p>
+        <a
+          href="/media/poster_ericca.png"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            priority={true}
+            src={"/media/poster_ericca.png"}
+            alt="ImpactU - ERICCA Poster - Infraestructura Académica Abierta para la gestión de la investigación."
+            sizes="100vw"
+            quality={100}
+            style={{
+              width: "100%",
+              height: "auto",
+              cursor: "pointer",
+            }}
+            width={970}
+            height={400}
+          />
+        </a>
       </Col>
     </Row>
   );
