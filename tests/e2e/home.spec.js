@@ -20,17 +20,15 @@ test.describe("Testing ImpactU Homepage", () => {
   });
 
   test("has manual download button", async ({ page }) => {
-    // Prepare to capture the download event before triggering the download by clicking the link.
-    const downloadPromise = page.waitForEvent("download");
-    await page.getByRole("link", { name: "Descarga nuestro manual" }).click();
+    // Wait for the popup event when clicking the manual link
+    const [popup] = await Promise.all([
+      page.waitForEvent("popup"),
+      page.getByRole("link", { name: "Descarga nuestro manual" }).click(),
+    ]);
 
-    // Wait for the download to start or complete, ensuring the file begins downloading.
-    const download = await downloadPromise;
-
-    // Verify the downloaded file's name matches the expected PDF filename.
-    expect(await download.suggestedFilename()).toBe("Manual ImpactU.pdf");
+    // Verify the new tab's URL is the expected PDF URL
+    await expect(popup).toHaveURL("https://data.colav.co/Manual_impactu.pdf");
   });
-
   // Verify the Scroll to Top button is visible when the page is at the bottom.
   test("scroll to top button is working", async ({ page }) => {
     // Scroll the footer into view, forcing the button "Scroll to Top" to appear.
