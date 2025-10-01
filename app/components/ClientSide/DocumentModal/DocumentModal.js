@@ -134,7 +134,7 @@ export default function DocumentModal({ documentID }) {
       </h4>
       {topics?.length > 0 && <TopicTag topic={topics[0]} />}
       <h4 className={style.margin_5}>Abstract:</h4>
-      <InvertedIndex abstract={abstract} />
+      <InvertedIndex abstract={abstract} modal={true} />
       <WorksInfo
         citationsCount={citations_count}
         yearPublished={year_published}

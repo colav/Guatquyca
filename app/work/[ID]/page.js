@@ -119,7 +119,16 @@ export default async function WorkPage({ params }) {
             authors={workData.authors}
             authorsCount={workData.authors_count}
             workID={params.ID}
+            apc={workData.apc}
           />
+          <div className={styles.external_buttons_container}>
+            <WorkExternalButtons
+              open_access={workData.open_access}
+              documentID={params.ID}
+              html={html}
+              bibtex={workData.bibliographic_info?.bibtex}
+            />
+          </div>
           <Divider />
           <Row>
             <Col xs={24} md={11}>
@@ -152,14 +161,6 @@ export default async function WorkPage({ params }) {
             external_ids={workData.external_ids}
             external_urls={workData.external_urls}
           />
-          <div className={styles.external_buttons_container}>
-            <WorkExternalButtons
-              open_access={workData.open_access}
-              documentID={params.ID}
-              html={html}
-              bibtex={workData.bibliographic_info?.bibtex}
-            />
-          </div>
         </div>
       </Ribbon>
     </div>

@@ -7,6 +7,7 @@ import RankingTag from "@/app/components/ServerSide/RankingTag/RankingTag";
 /* Icons */
 import {
   CalendarOutlined,
+  DollarOutlined,
   TeamOutlined,
   TranslationOutlined,
 } from "@ant-design/icons";
@@ -15,7 +16,7 @@ import {
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Space } from "antd";
+import { Space, Tooltip } from "antd";
 
 /* Utilities */
 import dateBuilder from "@/lib/Utils/dateBuilder";
@@ -57,6 +58,7 @@ export default function WorkHeader({
   authors,
   authorsCount,
   workID,
+  apc,
 }) {
   const languageDisplay = LANGUAGES[language] || (
     <span className={styles.fallback}>No disponible</span>
@@ -84,16 +86,29 @@ export default function WorkHeader({
         <div className={styles.metadata_item_with_offset}>
           <CalendarOutlined /> Publicado: {publicationDate}
         </div>
-        <TeamOutlined />
-        {authors?.length > 0 && (
-          <div>
+        <div className={styles.metadata_item_with_offset}>
+          <DollarOutlined /> APC (est):{" "}
+          {apc.paid.provenance ? (
+            <Tooltip
+              title={`Fuente: ${apc.paid.provenance}`}
+              className={styles.apc_container}
+            >
+              {`$${apc.paid.value.toLocaleString()} ${apc.paid.currency}`}
+            </Tooltip>
+          ) : (
+            <span className={styles.fallback}>No disponible</span>
+          )}
+        </div>
+        <div className={styles.metadata_item_with_offset}>
+          <TeamOutlined />
+          {authors?.length > 0 && (
             <AuthorsList
               authors={authors}
               authors_count={authorsCount}
               workID={workID}
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );

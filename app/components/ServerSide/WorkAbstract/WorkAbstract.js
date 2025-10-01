@@ -44,7 +44,7 @@ export default function WorkAbstract({ abstract, primaryTopic }) {
         <FileUnknownOutlined /> Abstract:
       </h4>
       {hasAbstract ? (
-        <InvertedIndex abstract={abstract} full={true} />
+        <InvertedIndex abstract={abstract} />
       ) : (
         <div className={styles.abstract_fallback}>Abstract no disponible</div>
       )}
