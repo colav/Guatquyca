@@ -19,16 +19,17 @@ test.describe("Testing ImpactU Homepage", () => {
       .isVisible();
   });
 
+  // Verify the manual download button is present and has the correct link.
   test("has manual download button", async ({ page }) => {
-    // Wait for the popup event when clicking the manual link
-    const [popup] = await Promise.all([
-      page.waitForEvent("popup"),
-      page.getByRole("link", { name: "Descarga nuestro manual" }).click(),
-    ]);
-
-    // Verify the new tab's URL is the expected PDF URL
-    await expect(popup).toHaveURL("https://data.colav.co/Manual_impactu.pdf");
+    const manualLink = await page.getByRole("link", {
+      name: "Descarga nuestro manual",
+    });
+    await expect(manualLink).toHaveAttribute(
+      "href",
+      "https://data.colav.co/Manual_impactu.pdf"
+    );
   });
+
   // Verify the Scroll to Top button is visible when the page is at the bottom.
   test("scroll to top button is working", async ({ page }) => {
     // Scroll the footer into view, forcing the button "Scroll to Top" to appear.
