@@ -1,0 +1,54 @@
+.our_data_section {
+  background: radial-gradient(
+      circle,
+      rgba(139, 139, 139, 0.15) 1.5px,
+      transparent 1.5px
+    ),
+    linear-gradient(to bottom, #f5f5f5, #fff8ec);
+  background-size: 18px 18px, 100% 100%;
+  margin-top: 25px;
+}
+
+.content_container {
+  width: 85%;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.main_title {
+  color: #3b72a1;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #58554bff;
+  margin-top: 0;
+}
+
+.description {
+  color: #58554bff;
+  font-size: 16px;
+}
+
+#impact {
+  color: #39658c;
+  font-weight: 700;
+}
+
+#u {
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+@media (max-width: 993px) {
+  .content_container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .our_data_section {
+    margin-top: 150px;
+  }
+}

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 /* Components */
 import HomeTable from "./components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "./components/ClientSide/SearchBar/SearchBar";
+import OurDataSection from "./components/ClientSide/OurDataSection/OurDataSection";
 
 /* Icons */
 import { DownloadOutlined, LinkOutlined } from "@ant-design/icons";
@@ -73,16 +74,12 @@ export default function Home() {
         </Row>
       </div>
       <br />
-      <Row
-        justify="center"
-        align="middle"
-        id={styles.cta}
-        className={styles.margin_top_50}
-      >
+      <OurDataSection />
+      <Row justify="center" align="middle" id={styles.cta}>
         <Row
           justify="space-around"
           align="middle"
-          style={{ marginTop: "50px" }}
+          style={{ marginTop: "80px" }}
         >
           <Col xs={24} md={10} lg={8} xl={7} xxl={5}>
             <Image
