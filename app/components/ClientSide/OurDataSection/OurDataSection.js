@@ -7,9 +7,6 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Col, Row } from "antd";
 
-/* Utilities */
-import getData from "@/lib/APIS/api";
-
 /**
  * OurDataSection
  *
@@ -23,8 +20,15 @@ import getData from "@/lib/APIS/api";
  *
  */
 export default async function OurDataSection() {
-  const URL = "/app/info";
-  const { data } = await getData(URL);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/app/info`, {
+    cache: "force-cache",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+  }
+
+  const data = await res.json();
 
   return (
     <Row
