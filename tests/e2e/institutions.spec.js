@@ -274,7 +274,7 @@ test.describe("Testing Institutions entity", () => {
     async function runSequentially(plotlist) {
       for (const item of plotlist) {
         await fetchAndMeasure(item);
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 200));
       }
     }
 
