@@ -7,6 +7,7 @@ import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
 import TopicTag from "../../ServerSide/TopicTag/TopicTag";
+import WorkLinksTable from "../WorkLinksTable/WorkLinksTable";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkExternalButtons from "../WorkExternalButtons/WorkExternalButtons";
 
@@ -21,8 +22,6 @@ import {
 /* lib */
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import { LANGUAGES } from "@/lib/constants";
-import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
-import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 
 /* Styles */
 import style from "./styles.module.css";
@@ -140,16 +139,11 @@ export default function DocumentModal({ documentID }) {
         yearPublished={year_published}
         doi={doi}
       />
-      <Descriptions
-        column={5}
-        bordered
-        size="small"
-        contentStyle={{ fontSize: "12px", padding: "5px" }}
-        labelStyle={{ padding: "5px 10px" }}
-        items={RenderedExternalIDs(external_ids).concat(
-          RenderedExternalURLs(external_urls)
-        )}
+      <WorkLinksTable
+        external_ids={external_ids}
+        external_urls={external_urls}
       />
+
       <Divider className={style.margin_10} />
       <div className={style.source_container}>
         <h4 className={style.margin_5}>
