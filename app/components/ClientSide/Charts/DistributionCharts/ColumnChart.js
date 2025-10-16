@@ -32,6 +32,7 @@ export default function ColumnChart({ data, chart }) {
     style: {
       fill: "#86d5e5",
     },
+    transform: [{ type: "sortX" }],
     interaction: {
       tooltip: {
         render: (event, { title, items }) =>
