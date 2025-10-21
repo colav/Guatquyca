@@ -69,7 +69,7 @@
 }
 /* End of call to action section */
 
-@media (min-width: 1920px) {
+@media (min-width: 2100px) {
   #content_container {
     height: 800px;
   }
