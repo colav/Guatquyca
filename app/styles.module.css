@@ -69,6 +69,12 @@
 }
 /* End of call to action section */
 
+@media (min-width: 1920px) {
+  #content_container {
+    height: 800px;
+  }
+}
+
 @media (max-width: 768px) {
   #cta {
     text-align: center;
