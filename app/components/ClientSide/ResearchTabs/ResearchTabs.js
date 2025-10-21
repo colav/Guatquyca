@@ -34,7 +34,6 @@ export default function ResearchTabs({ activeTab, entity }) {
     {
       label: "Noticias",
       key: "news",
-      disabled: true,
     },
   ];
 

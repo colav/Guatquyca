@@ -17,6 +17,10 @@ import { Row, Tooltip } from "antd";
  * @returns {Array} An array of Row components. Each Row contains a Link component that links to the details of an affiliation.
  */
 export default function AffilliationParser({ affiliations }) {
+  if (!affiliations || affiliations.length === 0) {
+    return null;
+  }
+
   // Mapping of affiliation types to their paths
   const affiliationPaths = {
     group: "group",

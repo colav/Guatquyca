@@ -1,0 +1,27 @@
+.work_title {
+  margin-top: 46px;
+  margin-bottom: 12px;
+}
+
+.badges_container {
+  margin-bottom: 10px;
+}
+
+.metadata_container {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.metadata_item_with_offset {
+  margin-left: -1px;
+  margin-top: 8px;
+}
+
+.fallback {
+  color: #999;
+  font-style: italic;
+}
+
+.apc_container {
+  cursor: help;
+}

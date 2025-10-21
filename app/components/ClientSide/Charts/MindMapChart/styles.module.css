@@ -1,0 +1,15 @@
+.chart {
+  border: 1px solid rgb(238, 238, 238);
+  height: 80vh;
+}
+
+.outer_container {
+  background-color: white;
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .chart {
+    height: 65vh;
+  }
+}

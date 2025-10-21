@@ -1,0 +1,5171 @@
+{
+    "nodes": [
+        {
+            "id": "person",
+            "depth": 0,
+            "children": [
+                {
+                    "id": "affiliations"
+                },
+                {
+                    "id": "events"
+                },
+                {
+                    "id": "news"
+                },
+                {
+                    "id": "patents"
+                },
+                {
+                    "id": "person_data"
+                },
+                {
+                    "id": "projects"
+                },
+                {
+                    "id": "works"
+                }
+            ]
+        },
+        {
+            "id": "person_data",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "person_data._id_old"
+                },
+                {
+                    "id": "person_data.affiliations"
+                },
+                {
+                    "id": "person_data.aliases"
+                },
+                {
+                    "id": "person_data.birthdate"
+                },
+                {
+                    "id": "person_data.birthplace"
+                },
+                {
+                    "id": "person_data.citations_count"
+                },
+                {
+                    "id": "person_data.degrees"
+                },
+                {
+                    "id": "person_data.external_ids"
+                },
+                {
+                    "id": "person_data.first_names"
+                },
+                {
+                    "id": "person_data.full_name"
+                },
+                {
+                    "id": "person_data.initials"
+                },
+                {
+                    "id": "person_data.keywords"
+                },
+                {
+                    "id": "person_data.last_names"
+                },
+                {
+                    "id": "person_data.marital_status"
+                },
+                {
+                    "id": "person_data.products_count"
+                },
+                {
+                    "id": "person_data.ranking"
+                },
+                {
+                    "id": "person_data.related_works"
+                },
+                {
+                    "id": "person_data.sex"
+                },
+                {
+                    "id": "person_data.updated"
+                }
+            ]
+        },
+        {
+            "id": "person_data.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.updated.provenance"
+                },
+                {
+                    "id": "person_data.updated.source"
+                },
+                {
+                    "id": "person_data.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "person_data.updated.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "person_data.full_name",
+            "depth": 2
+        },
+        {
+            "id": "person_data.first_names",
+            "depth": 2
+        },
+        {
+            "id": "person_data.last_names",
+            "depth": 2
+        },
+        {
+            "id": "person_data.initials",
+            "depth": 2
+        },
+        {
+            "id": "person_data.aliases",
+            "depth": 2
+        },
+        {
+            "id": "person_data.affiliations",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.affiliations.end_date"
+                },
+                {
+                    "id": "person_data.affiliations.id"
+                },
+                {
+                    "id": "person_data.affiliations.name"
+                },
+                {
+                    "id": "person_data.affiliations.position"
+                },
+                {
+                    "id": "person_data.affiliations.start_date"
+                },
+                {
+                    "id": "person_data.affiliations.types"
+                },
+                {
+                    "id": "person_data.affiliations.years"
+                }
+            ]
+        },
+        {
+            "id": "person_data.affiliations.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.name",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.types",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "person_data.affiliations.types.source"
+                },
+                {
+                    "id": "person_data.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "person_data.affiliations.types.source",
+            "depth": 4
+        },
+        {
+            "id": "person_data.affiliations.types.type",
+            "depth": 4
+        },
+        {
+            "id": "person_data.affiliations.start_date",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.end_date",
+            "depth": 3
+        },
+        {
+            "id": "person_data.keywords",
+            "depth": 2
+        },
+        {
+            "id": "person_data.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.external_ids.id"
+                },
+                {
+                    "id": "person_data.external_ids.provenance"
+                },
+                {
+                    "id": "person_data.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "person_data.external_ids.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.external_ids.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.sex",
+            "depth": 2
+        },
+        {
+            "id": "person_data.marital_status",
+            "depth": 2
+        },
+        {
+            "id": "person_data.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.ranking.date"
+                },
+                {
+                    "id": "person_data.ranking.id"
+                },
+                {
+                    "id": "person_data.ranking.order"
+                },
+                {
+                    "id": "person_data.ranking.provenance"
+                },
+                {
+                    "id": "person_data.ranking.rank"
+                },
+                {
+                    "id": "person_data.ranking.source"
+                }
+            ]
+        },
+        {
+            "id": "person_data.birthplace",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.birthplace.city"
+                },
+                {
+                    "id": "person_data.birthplace.country"
+                },
+                {
+                    "id": "person_data.birthplace.state"
+                }
+            ]
+        },
+        {
+            "id": "person_data.birthdate",
+            "depth": 2
+        },
+        {
+            "id": "person_data.degrees",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.degrees.date"
+                },
+                {
+                    "id": "person_data.degrees.degree"
+                },
+                {
+                    "id": "person_data.degrees.id"
+                },
+                {
+                    "id": "person_data.degrees.institutions"
+                },
+                {
+                    "id": "person_data.degrees.provenance"
+                },
+                {
+                    "id": "person_data.degrees.source"
+                }
+            ]
+        },
+        {
+            "id": "person_data.citations_count",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.citations_count.count"
+                },
+                {
+                    "id": "person_data.citations_count.source"
+                }
+            ]
+        },
+        {
+            "id": "person_data.citations_count.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.citations_count.count",
+            "depth": 3
+        },
+        {
+            "id": "person_data.products_count",
+            "depth": 2
+        },
+        {
+            "id": "person_data.related_works",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "person_data.related_works.id"
+                },
+                {
+                    "id": "person_data.related_works.institutions"
+                },
+                {
+                    "id": "person_data.related_works.provenance"
+                },
+                {
+                    "id": "person_data.related_works.source"
+                },
+                {
+                    "id": "person_data.related_works.year"
+                }
+            ]
+        },
+        {
+            "id": "person_data.related_works.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.year",
+            "depth": 3
+        },
+        {
+            "id": "person_data.related_works.institutions",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "person_data.related_works.institutions.country_code"
+                },
+                {
+                    "id": "person_data.related_works.institutions.country_id"
+                },
+                {
+                    "id": "person_data.related_works.institutions.display_name"
+                },
+                {
+                    "id": "person_data.related_works.institutions.id"
+                },
+                {
+                    "id": "person_data.related_works.institutions.lineage"
+                },
+                {
+                    "id": "person_data.related_works.institutions.ror"
+                },
+                {
+                    "id": "person_data.related_works.institutions.type"
+                },
+                {
+                    "id": "person_data.related_works.institutions.type_id"
+                }
+            ]
+        },
+        {
+            "id": "person_data.related_works.institutions.id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.display_name",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.ror",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.country_code",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.type",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.country_id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.type_id",
+            "depth": 4
+        },
+        {
+            "id": "person_data.related_works.institutions.lineage",
+            "depth": 4
+        },
+        {
+            "id": "person_data._id_old",
+            "depth": 2
+        },
+        {
+            "id": "person_data.updated.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.years",
+            "depth": 3
+        },
+        {
+            "id": "person_data.affiliations.position",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.order",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "person_data.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.city",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.state",
+            "depth": 3
+        },
+        {
+            "id": "person_data.birthplace.country",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.date",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.degree",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.id",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.institutions",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.source",
+            "depth": 3
+        },
+        {
+            "id": "person_data.degrees.provenance",
+            "depth": 3
+        },
+        {
+            "id": "affiliations",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "affiliations.abbreviations"
+                },
+                {
+                    "id": "affiliations.addresses"
+                },
+                {
+                    "id": "affiliations.aliases"
+                },
+                {
+                    "id": "affiliations.birthdate"
+                },
+                {
+                    "id": "affiliations.citation_count"
+                },
+                {
+                    "id": "affiliations.citations_count"
+                },
+                {
+                    "id": "affiliations.description"
+                },
+                {
+                    "id": "affiliations.external_ids"
+                },
+                {
+                    "id": "affiliations.external_urls"
+                },
+                {
+                    "id": "affiliations.id"
+                },
+                {
+                    "id": "affiliations.names"
+                },
+                {
+                    "id": "affiliations.products_count"
+                },
+                {
+                    "id": "affiliations.ranking"
+                },
+                {
+                    "id": "affiliations.relations"
+                },
+                {
+                    "id": "affiliations.status"
+                },
+                {
+                    "id": "affiliations.types"
+                },
+                {
+                    "id": "affiliations.updated"
+                },
+                {
+                    "id": "affiliations.year_established"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.id",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.updated.source"
+                },
+                {
+                    "id": "affiliations.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.updated.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.names",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.names.lang"
+                },
+                {
+                    "id": "affiliations.names.name"
+                },
+                {
+                    "id": "affiliations.names.provenance"
+                },
+                {
+                    "id": "affiliations.names.source"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.names.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.names.lang",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.names.name",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.aliases",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.abbreviations",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.types",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.types.source"
+                },
+                {
+                    "id": "affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.types.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.types.type",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.year_established",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.status",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.status.source"
+                },
+                {
+                    "id": "affiliations.status.status"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.relations",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.relations.id"
+                },
+                {
+                    "id": "affiliations.relations.name"
+                },
+                {
+                    "id": "affiliations.relations.types"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.relations.types",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "affiliations.relations.types.source"
+                },
+                {
+                    "id": "affiliations.relations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.relations.types.source",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.relations.types.type",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.relations.id",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.relations.name",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.addresses.city"
+                },
+                {
+                    "id": "affiliations.addresses.country"
+                },
+                {
+                    "id": "affiliations.addresses.country_code"
+                },
+                {
+                    "id": "affiliations.addresses.lat"
+                },
+                {
+                    "id": "affiliations.addresses.lng"
+                },
+                {
+                    "id": "affiliations.addresses.postcode"
+                },
+                {
+                    "id": "affiliations.addresses.state"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.addresses.lat",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.lng",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.postcode",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.state",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.city",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.country",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.addresses.country_code",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.external_urls.provenance"
+                },
+                {
+                    "id": "affiliations.external_urls.source"
+                },
+                {
+                    "id": "affiliations.external_urls.url"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.external_ids.id"
+                },
+                {
+                    "id": "affiliations.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.external_ids.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.ranking.date"
+                },
+                {
+                    "id": "affiliations.ranking.from_date"
+                },
+                {
+                    "id": "affiliations.ranking.order"
+                },
+                {
+                    "id": "affiliations.ranking.rank"
+                },
+                {
+                    "id": "affiliations.ranking.source"
+                },
+                {
+                    "id": "affiliations.ranking.to_date"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.order",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.description",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.description.description"
+                },
+                {
+                    "id": "affiliations.description.source"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.citation_count",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.products_count",
+            "depth": 2
+        },
+        {
+            "id": "affiliations.citations_count",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "affiliations.citations_count.count"
+                },
+                {
+                    "id": "affiliations.citations_count.source"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.citations_count.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.citations_count.count",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.names.provenance",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.url",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.external_urls.provenance",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.status.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.status.status",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.from_date",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.ranking.to_date",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.description.source",
+            "depth": 3
+        },
+        {
+            "id": "affiliations.description.description",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "affiliations.description.description.TXT_ESTADO_ARTE"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_OBJETIVOS"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_PLAN_TRABAJO"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_PROD_DESTACADA"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_RETOS"
+                },
+                {
+                    "id": "affiliations.description.description.TXT_VISION"
+                }
+            ]
+        },
+        {
+            "id": "affiliations.description.description.TXT_PLAN_TRABAJO",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_ESTADO_ARTE",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_OBJETIVOS",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_PROD_DESTACADA",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_RETOS",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.description.description.TXT_VISION",
+            "depth": 4
+        },
+        {
+            "id": "affiliations.birthdate",
+            "depth": 2
+        },
+        {
+            "id": "patents",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "patents.author_count"
+                },
+                {
+                    "id": "patents.authors"
+                },
+                {
+                    "id": "patents.external_ids"
+                },
+                {
+                    "id": "patents.external_urls"
+                },
+                {
+                    "id": "patents.groups"
+                },
+                {
+                    "id": "patents.id"
+                },
+                {
+                    "id": "patents.ranking"
+                },
+                {
+                    "id": "patents.titles"
+                },
+                {
+                    "id": "patents.types"
+                },
+                {
+                    "id": "patents.updated"
+                }
+            ]
+        },
+        {
+            "id": "patents.id",
+            "depth": 2
+        },
+        {
+            "id": "patents.titles",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.titles.lang"
+                },
+                {
+                    "id": "patents.titles.source"
+                },
+                {
+                    "id": "patents.titles.title"
+                }
+            ]
+        },
+        {
+            "id": "patents.titles.title",
+            "depth": 3
+        },
+        {
+            "id": "patents.titles.lang",
+            "depth": 3
+        },
+        {
+            "id": "patents.titles.source",
+            "depth": 3
+        },
+        {
+            "id": "patents.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.updated.source"
+                },
+                {
+                    "id": "patents.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "patents.updated.source",
+            "depth": 3
+        },
+        {
+            "id": "patents.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "patents.types",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.types.level"
+                },
+                {
+                    "id": "patents.types.parent"
+                },
+                {
+                    "id": "patents.types.provenance"
+                },
+                {
+                    "id": "patents.types.source"
+                },
+                {
+                    "id": "patents.types.type"
+                }
+            ]
+        },
+        {
+            "id": "patents.types.provenance",
+            "depth": 3
+        },
+        {
+            "id": "patents.types.source",
+            "depth": 3
+        },
+        {
+            "id": "patents.types.type",
+            "depth": 3
+        },
+        {
+            "id": "patents.types.level",
+            "depth": 3
+        },
+        {
+            "id": "patents.types.parent",
+            "depth": 3
+        },
+        {
+            "id": "patents.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.external_ids.id"
+                },
+                {
+                    "id": "patents.external_ids.provenance"
+                },
+                {
+                    "id": "patents.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "patents.external_ids.provenance",
+            "depth": 3
+        },
+        {
+            "id": "patents.external_ids.source",
+            "depth": 3
+        },
+        {
+            "id": "patents.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "patents.external_urls",
+            "depth": 2
+        },
+        {
+            "id": "patents.author_count",
+            "depth": 2
+        },
+        {
+            "id": "patents.authors",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.authors.affiliations"
+                },
+                {
+                    "id": "patents.authors.full_name"
+                },
+                {
+                    "id": "patents.authors.id"
+                }
+            ]
+        },
+        {
+            "id": "patents.authors.full_name",
+            "depth": 3
+        },
+        {
+            "id": "patents.authors.affiliations",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "patents.authors.affiliations.end_date"
+                },
+                {
+                    "id": "patents.authors.affiliations.id"
+                },
+                {
+                    "id": "patents.authors.affiliations.name"
+                },
+                {
+                    "id": "patents.authors.affiliations.start_date"
+                },
+                {
+                    "id": "patents.authors.affiliations.types"
+                }
+            ]
+        },
+        {
+            "id": "patents.authors.affiliations.id",
+            "depth": 4
+        },
+        {
+            "id": "patents.authors.affiliations.name",
+            "depth": 4
+        },
+        {
+            "id": "patents.authors.affiliations.types",
+            "depth": 4,
+            "children": [
+                {
+                    "id": "patents.authors.affiliations.types.source"
+                },
+                {
+                    "id": "patents.authors.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "patents.authors.affiliations.types.source",
+            "depth": 5
+        },
+        {
+            "id": "patents.authors.affiliations.types.type",
+            "depth": 5
+        },
+        {
+            "id": "patents.authors.id",
+            "depth": 3
+        },
+        {
+            "id": "patents.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.ranking.date"
+                },
+                {
+                    "id": "patents.ranking.provenance"
+                },
+                {
+                    "id": "patents.ranking.rank"
+                },
+                {
+                    "id": "patents.ranking.source"
+                }
+            ]
+        },
+        {
+            "id": "patents.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "patents.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "patents.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "patents.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "patents.groups",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "patents.groups.id"
+                },
+                {
+                    "id": "patents.groups.name"
+                }
+            ]
+        },
+        {
+            "id": "patents.groups.id",
+            "depth": 3
+        },
+        {
+            "id": "patents.groups.name",
+            "depth": 3
+        },
+        {
+            "id": "patents.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "patents.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "news",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "news_media_collection"
+                },
+                {
+                    "id": "news_professors_collection"
+                },
+                {
+                    "id": "news_urls_collection"
+                }
+            ]
+        },
+        {
+            "id": "news_professors_collection",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "news_professors_collection.classified_urls_ids"
+                },
+                {
+                    "id": "news_professors_collection.department"
+                },
+                {
+                    "id": "news_professors_collection.faculty"
+                },
+                {
+                    "id": "news_professors_collection.full_name"
+                },
+                {
+                    "id": "news_professors_collection.id"
+                },
+                {
+                    "id": "news_professors_collection.professor_id"
+                },
+                {
+                    "id": "news_professors_collection.separated_forenames"
+                },
+                {
+                    "id": "news_professors_collection.separated_surnames"
+                }
+            ]
+        },
+        {
+            "id": "news_professors_collection.id",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.professor_id",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.full_name",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.faculty",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.department",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.separated_forenames",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.separated_surnames",
+            "depth": 3
+        },
+        {
+            "id": "news_professors_collection.classified_urls_ids",
+            "depth": 3
+        },
+        {
+            "id": "news_media_collection",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "news_media_collection.country"
+                },
+                {
+                    "id": "news_media_collection.id"
+                },
+                {
+                    "id": "news_media_collection.medium"
+                },
+                {
+                    "id": "news_media_collection.medium_id"
+                },
+                {
+                    "id": "news_media_collection.urls"
+                }
+            ]
+        },
+        {
+            "id": "news_media_collection.id",
+            "depth": 3
+        },
+        {
+            "id": "news_media_collection.medium_id",
+            "depth": 3
+        },
+        {
+            "id": "news_media_collection.medium",
+            "depth": 3
+        },
+        {
+            "id": "news_media_collection.country",
+            "depth": 3
+        },
+        {
+            "id": "news_media_collection.urls",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "news_media_collection.urls.url"
+                },
+                {
+                    "id": "news_media_collection.urls.url_id"
+                }
+            ]
+        },
+        {
+            "id": "news_media_collection.urls.url",
+            "depth": 4
+        },
+        {
+            "id": "news_media_collection.urls.url_id",
+            "depth": 4
+        },
+        {
+            "id": "sources",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "sources.abbreviations"
+                },
+                {
+                    "id": "sources.addresses"
+                },
+                {
+                    "id": "sources.apc"
+                },
+                {
+                    "id": "sources.copyright"
+                },
+                {
+                    "id": "sources.external_ids"
+                },
+                {
+                    "id": "sources.external_urls"
+                },
+                {
+                    "id": "sources.id"
+                },
+                {
+                    "id": "sources.keywords"
+                },
+                {
+                    "id": "sources.languages"
+                },
+                {
+                    "id": "sources.licenses"
+                },
+                {
+                    "id": "sources.names"
+                },
+                {
+                    "id": "sources.open_access_start_year"
+                },
+                {
+                    "id": "sources.plagiarism_detection"
+                },
+                {
+                    "id": "sources.publication_time_weeks"
+                },
+                {
+                    "id": "sources.publisher"
+                },
+                {
+                    "id": "sources.ranking"
+                },
+                {
+                    "id": "sources.relations"
+                },
+                {
+                    "id": "sources.review_process"
+                },
+                {
+                    "id": "sources.review_processes"
+                },
+                {
+                    "id": "sources.types"
+                },
+                {
+                    "id": "sources.updated"
+                },
+                {
+                    "id": "sources.waiver"
+                }
+            ]
+        },
+        {
+            "id": "sources.id",
+            "depth": 3
+        },
+        {
+            "id": "sources.updated",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.updated.source"
+                },
+                {
+                    "id": "sources.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "sources.updated.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.updated.time",
+            "depth": 4
+        },
+        {
+            "id": "sources.names",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.names.lang"
+                },
+                {
+                    "id": "sources.names.name"
+                },
+                {
+                    "id": "sources.names.source"
+                }
+            ]
+        },
+        {
+            "id": "sources.names.lang",
+            "depth": 4
+        },
+        {
+            "id": "sources.names.name",
+            "depth": 4
+        },
+        {
+            "id": "sources.names.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.abbreviations",
+            "depth": 3
+        },
+        {
+            "id": "sources.types",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.types.source"
+                },
+                {
+                    "id": "sources.types.type"
+                }
+            ]
+        },
+        {
+            "id": "sources.types.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.types.type",
+            "depth": 4
+        },
+        {
+            "id": "sources.keywords",
+            "depth": 3
+        },
+        {
+            "id": "sources.languages",
+            "depth": 3
+        },
+        {
+            "id": "sources.publisher",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.publisher.country_code"
+                },
+                {
+                    "id": "sources.publisher.id"
+                },
+                {
+                    "id": "sources.publisher.name"
+                }
+            ]
+        },
+        {
+            "id": "sources.publisher.country_code",
+            "depth": 4
+        },
+        {
+            "id": "sources.publisher.name",
+            "depth": 4
+        },
+        {
+            "id": "sources.relations",
+            "depth": 3
+        },
+        {
+            "id": "sources.addresses",
+            "depth": 3
+        },
+        {
+            "id": "sources.external_ids",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.external_ids.id"
+                },
+                {
+                    "id": "sources.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "sources.external_ids.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_ids.id",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_urls",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.external_urls.source"
+                },
+                {
+                    "id": "sources.external_urls.url"
+                }
+            ]
+        },
+        {
+            "id": "sources.review_processes",
+            "depth": 3
+        },
+        {
+            "id": "sources.waiver",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.waiver.has_waiver"
+                },
+                {
+                    "id": "sources.waiver.url"
+                }
+            ]
+        },
+        {
+            "id": "sources.plagiarism_detection",
+            "depth": 3
+        },
+        {
+            "id": "sources.open_access_start_year",
+            "depth": 3
+        },
+        {
+            "id": "sources.publication_time_weeks",
+            "depth": 3
+        },
+        {
+            "id": "sources.apc",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.apc.charges"
+                },
+                {
+                    "id": "sources.apc.currency"
+                }
+            ]
+        },
+        {
+            "id": "sources.copyright",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.copyright.author_retains"
+                },
+                {
+                    "id": "sources.copyright.url"
+                }
+            ]
+        },
+        {
+            "id": "sources.licenses",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.licenses.BY"
+                },
+                {
+                    "id": "sources.licenses.NC"
+                },
+                {
+                    "id": "sources.licenses.ND"
+                },
+                {
+                    "id": "sources.licenses.SA"
+                },
+                {
+                    "id": "sources.licenses.type"
+                },
+                {
+                    "id": "sources.licenses.url"
+                }
+            ]
+        },
+        {
+            "id": "sources.ranking",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "sources.ranking.from_date"
+                },
+                {
+                    "id": "sources.ranking.issn"
+                },
+                {
+                    "id": "sources.ranking.order"
+                },
+                {
+                    "id": "sources.ranking.rank"
+                },
+                {
+                    "id": "sources.ranking.source"
+                },
+                {
+                    "id": "sources.ranking.to_date"
+                }
+            ]
+        },
+        {
+            "id": "sources.ranking.to_date",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.from_date",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.rank",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.order",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.publisher.id",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_urls.source",
+            "depth": 4
+        },
+        {
+            "id": "sources.external_urls.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.waiver.has_waiver",
+            "depth": 4
+        },
+        {
+            "id": "sources.copyright.author_retains",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.NC",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.ND",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.BY",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.type",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.SA",
+            "depth": 4
+        },
+        {
+            "id": "sources.review_process",
+            "depth": 3
+        },
+        {
+            "id": "sources.waiver.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.apc.charges",
+            "depth": 4
+        },
+        {
+            "id": "sources.apc.currency",
+            "depth": 4
+        },
+        {
+            "id": "sources.copyright.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.licenses.url",
+            "depth": 4
+        },
+        {
+            "id": "sources.ranking.issn",
+            "depth": 4
+        },
+        {
+            "id": "news_urls_collection",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "news_urls_collection.id"
+                },
+                {
+                    "id": "news_urls_collection.medium_id"
+                },
+                {
+                    "id": "news_urls_collection.url"
+                },
+                {
+                    "id": "news_urls_collection.url_date"
+                },
+                {
+                    "id": "news_urls_collection.url_id"
+                },
+                {
+                    "id": "news_urls_collection.url_language"
+                },
+                {
+                    "id": "news_urls_collection.url_title"
+                }
+            ]
+        },
+        {
+            "id": "news_urls_collection.id",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.url_id",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.medium_id",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.url",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.url_title",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.url_language",
+            "depth": 3
+        },
+        {
+            "id": "news_urls_collection.url_date",
+            "depth": 3
+        },
+        {
+            "id": "events",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "events.abstract"
+                },
+                {
+                    "id": "events.author_count"
+                },
+                {
+                    "id": "events.authors"
+                },
+                {
+                    "id": "events.date_held"
+                },
+                {
+                    "id": "events.external_ids"
+                },
+                {
+                    "id": "events.external_urls"
+                },
+                {
+                    "id": "events.groups"
+                },
+                {
+                    "id": "events.id"
+                },
+                {
+                    "id": "events.ranking"
+                },
+                {
+                    "id": "events.titles"
+                },
+                {
+                    "id": "events.types"
+                },
+                {
+                    "id": "events.updated"
+                },
+                {
+                    "id": "events.year_held"
+                }
+            ]
+        },
+        {
+            "id": "events.id",
+            "depth": 2
+        },
+        {
+            "id": "events.titles",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.titles.lang"
+                },
+                {
+                    "id": "events.titles.source"
+                },
+                {
+                    "id": "events.titles.title"
+                }
+            ]
+        },
+        {
+            "id": "events.titles.title",
+            "depth": 3
+        },
+        {
+            "id": "events.titles.lang",
+            "depth": 3
+        },
+        {
+            "id": "events.titles.source",
+            "depth": 3
+        },
+        {
+            "id": "events.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.updated.source"
+                },
+                {
+                    "id": "events.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "events.updated.source",
+            "depth": 3
+        },
+        {
+            "id": "events.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "events.abstract",
+            "depth": 2
+        },
+        {
+            "id": "events.types",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.types.level"
+                },
+                {
+                    "id": "events.types.parent"
+                },
+                {
+                    "id": "events.types.provenance"
+                },
+                {
+                    "id": "events.types.source"
+                },
+                {
+                    "id": "events.types.type"
+                }
+            ]
+        },
+        {
+            "id": "events.types.provenance",
+            "depth": 3
+        },
+        {
+            "id": "events.types.source",
+            "depth": 3
+        },
+        {
+            "id": "events.types.type",
+            "depth": 3
+        },
+        {
+            "id": "events.types.level",
+            "depth": 3
+        },
+        {
+            "id": "events.types.parent",
+            "depth": 3
+        },
+        {
+            "id": "events.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.external_ids.id"
+                },
+                {
+                    "id": "events.external_ids.provenance"
+                },
+                {
+                    "id": "events.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "events.external_ids.provenance",
+            "depth": 3
+        },
+        {
+            "id": "events.external_ids.source",
+            "depth": 3
+        },
+        {
+            "id": "events.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "events.external_urls",
+            "depth": 2
+        },
+        {
+            "id": "events.date_held",
+            "depth": 2
+        },
+        {
+            "id": "events.year_held",
+            "depth": 2
+        },
+        {
+            "id": "events.author_count",
+            "depth": 2
+        },
+        {
+            "id": "events.authors",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.authors.affiliations"
+                },
+                {
+                    "id": "events.authors.full_name"
+                },
+                {
+                    "id": "events.authors.id"
+                }
+            ]
+        },
+        {
+            "id": "events.authors.full_name",
+            "depth": 3
+        },
+        {
+            "id": "events.authors.affiliations",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "events.authors.affiliations.end_date"
+                },
+                {
+                    "id": "events.authors.affiliations.id"
+                },
+                {
+                    "id": "events.authors.affiliations.name"
+                },
+                {
+                    "id": "events.authors.affiliations.start_date"
+                },
+                {
+                    "id": "events.authors.affiliations.types"
+                }
+            ]
+        },
+        {
+            "id": "events.authors.affiliations.id",
+            "depth": 4
+        },
+        {
+            "id": "events.authors.affiliations.name",
+            "depth": 4
+        },
+        {
+            "id": "events.authors.affiliations.types",
+            "depth": 4,
+            "children": [
+                {
+                    "id": "events.authors.affiliations.types.source"
+                },
+                {
+                    "id": "events.authors.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "events.authors.affiliations.types.source",
+            "depth": 5
+        },
+        {
+            "id": "events.authors.affiliations.types.type",
+            "depth": 5
+        },
+        {
+            "id": "events.authors.id",
+            "depth": 3
+        },
+        {
+            "id": "events.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.ranking.date"
+                },
+                {
+                    "id": "events.ranking.level"
+                },
+                {
+                    "id": "events.ranking.provenance"
+                },
+                {
+                    "id": "events.ranking.rank"
+                },
+                {
+                    "id": "events.ranking.source"
+                }
+            ]
+        },
+        {
+            "id": "events.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "events.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "events.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "events.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "events.ranking.level",
+            "depth": 3
+        },
+        {
+            "id": "events.groups",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "events.groups.id"
+                },
+                {
+                    "id": "events.groups.name"
+                }
+            ]
+        },
+        {
+            "id": "events.groups.id",
+            "depth": 3
+        },
+        {
+            "id": "events.groups.name",
+            "depth": 3
+        },
+        {
+            "id": "events.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "events.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "works",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "sources"
+                },
+                {
+                    "id": "works.abstracts"
+                },
+                {
+                    "id": "works.apc"
+                },
+                {
+                    "id": "works.author_count"
+                },
+                {
+                    "id": "works.authors"
+                },
+                {
+                    "id": "works.bibliographic_info"
+                },
+                {
+                    "id": "works.citations"
+                },
+                {
+                    "id": "works.citations_by_year"
+                },
+                {
+                    "id": "works.citations_count"
+                },
+                {
+                    "id": "works.date_published"
+                },
+                {
+                    "id": "works.doi"
+                },
+                {
+                    "id": "works.external_ids"
+                },
+                {
+                    "id": "works.external_urls"
+                },
+                {
+                    "id": "works.groups"
+                },
+                {
+                    "id": "works.id"
+                },
+                {
+                    "id": "works.keywords"
+                },
+                {
+                    "id": "works.open_access"
+                },
+                {
+                    "id": "works.primary_topic"
+                },
+                {
+                    "id": "works.ranking"
+                },
+                {
+                    "id": "works.references"
+                },
+                {
+                    "id": "works.references_count"
+                },
+                {
+                    "id": "works.rights"
+                },
+                {
+                    "id": "works.thesis"
+                },
+                {
+                    "id": "works.titles"
+                },
+                {
+                    "id": "works.topics"
+                },
+                {
+                    "id": "works.types"
+                },
+                {
+                    "id": "works.updated"
+                },
+                {
+                    "id": "works.year_published"
+                }
+            ]
+        },
+        {
+            "id": "works.id",
+            "depth": 2
+        },
+        {
+            "id": "works.titles",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.titles.lang"
+                },
+                {
+                    "id": "works.titles.provenance"
+                },
+                {
+                    "id": "works.titles.title"
+                }
+            ]
+        },
+        {
+            "id": "works.titles.title",
+            "depth": 3
+        },
+        {
+            "id": "works.titles.lang",
+            "depth": 3
+        },
+        {
+            "id": "works.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "works.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "works.doi",
+            "depth": 2
+        },
+        {
+            "id": "works.abstracts",
+            "depth": 2
+        },
+        {
+            "id": "works.keywords",
+            "depth": 2
+        },
+        {
+            "id": "works.types",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.types.class"
+                },
+                {
+                    "id": "works.types.code"
+                },
+                {
+                    "id": "works.types.level"
+                },
+                {
+                    "id": "works.types.parent"
+                },
+                {
+                    "id": "works.types.provenance"
+                },
+                {
+                    "id": "works.types.type"
+                }
+            ]
+        },
+        {
+            "id": "works.types.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.types.type",
+            "depth": 3
+        },
+        {
+            "id": "works.types.level",
+            "depth": 3
+        },
+        {
+            "id": "works.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.external_ids.id"
+                },
+                {
+                    "id": "works.external_ids.provenance"
+                }
+            ]
+        },
+        {
+            "id": "works.external_ids.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "works.external_urls",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.external_urls.provenance"
+                },
+                {
+                    "id": "works.external_urls.url"
+                }
+            ]
+        },
+        {
+            "id": "works.date_published",
+            "depth": 2
+        },
+        {
+            "id": "works.year_published",
+            "depth": 2
+        },
+        {
+            "id": "works.bibliographic_info",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.bibliographic_info.bibtex"
+                },
+                {
+                    "id": "works.bibliographic_info.end_page"
+                },
+                {
+                    "id": "works.bibliographic_info.issue"
+                },
+                {
+                    "id": "works.bibliographic_info.pages"
+                },
+                {
+                    "id": "works.bibliographic_info.start_page"
+                },
+                {
+                    "id": "works.bibliographic_info.volume"
+                }
+            ]
+        },
+        {
+            "id": "works.open_access",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.open_access.has_repository_fulltext"
+                },
+                {
+                    "id": "works.open_access.is_open_access"
+                },
+                {
+                    "id": "works.open_access.open_access_status"
+                },
+                {
+                    "id": "works.open_access.url"
+                }
+            ]
+        },
+        {
+            "id": "works.apc",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.apc.list"
+                },
+                {
+                    "id": "works.apc.paid"
+                }
+            ]
+        },
+        {
+            "id": "works.apc.paid",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.apc.paid.currency"
+                },
+                {
+                    "id": "works.apc.paid.provenance"
+                },
+                {
+                    "id": "works.apc.paid.value"
+                },
+                {
+                    "id": "works.apc.paid.value_usd"
+                }
+            ]
+        },
+        {
+            "id": "works.references_count",
+            "depth": 2
+        },
+        {
+            "id": "works.references",
+            "depth": 2
+        },
+        {
+            "id": "works.citations_count",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.citations_count.count"
+                },
+                {
+                    "id": "works.citations_count.provenance"
+                }
+            ]
+        },
+        {
+            "id": "works.citations",
+            "depth": 2
+        },
+        {
+            "id": "works.author_count",
+            "depth": 2
+        },
+        {
+            "id": "works.authors",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.authors.affiliations"
+                },
+                {
+                    "id": "works.authors.full_name"
+                },
+                {
+                    "id": "works.authors.id"
+                },
+                {
+                    "id": "works.authors.ranking"
+                },
+                {
+                    "id": "works.authors.type"
+                }
+            ]
+        },
+        {
+            "id": "works.authors.full_name",
+            "depth": 3
+        },
+        {
+            "id": "works.authors.id",
+            "depth": 3
+        },
+        {
+            "id": "works.authors.affiliations",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.authors.affiliations.country"
+                },
+                {
+                    "id": "works.authors.affiliations.country_code"
+                },
+                {
+                    "id": "works.authors.affiliations.end_date"
+                },
+                {
+                    "id": "works.authors.affiliations.id"
+                },
+                {
+                    "id": "works.authors.affiliations.name"
+                },
+                {
+                    "id": "works.authors.affiliations.start_date"
+                },
+                {
+                    "id": "works.authors.affiliations.types"
+                }
+            ]
+        },
+        {
+            "id": "works.authors.type",
+            "depth": 3
+        },
+        {
+            "id": "works.authors.ranking",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.ranking.date"
+                },
+                {
+                    "id": "works.ranking.level"
+                },
+                {
+                    "id": "works.ranking.provenance"
+                },
+                {
+                    "id": "works.ranking.rank"
+                }
+            ]
+        },
+        {
+            "id": "works.citations_by_year",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.citations_by_year.cited_by_count"
+                },
+                {
+                    "id": "works.citations_by_year.year"
+                }
+            ]
+        },
+        {
+            "id": "works.groups",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.groups.id"
+                },
+                {
+                    "id": "works.groups.name"
+                },
+                {
+                    "id": "works.groups.ranking"
+                }
+            ]
+        },
+        {
+            "id": "works.rights",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.rights.provenance"
+                },
+                {
+                    "id": "works.rights.rights"
+                }
+            ]
+        },
+        {
+            "id": "works.rights.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.rights.rights",
+            "depth": 3
+        },
+        {
+            "id": "works.primary_topic",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.primary_topic.display_name"
+                },
+                {
+                    "id": "works.primary_topic.domain"
+                },
+                {
+                    "id": "works.primary_topic.field"
+                },
+                {
+                    "id": "works.primary_topic.id"
+                },
+                {
+                    "id": "works.primary_topic.score"
+                },
+                {
+                    "id": "works.primary_topic.subfield"
+                }
+            ]
+        },
+        {
+            "id": "works.primary_topic.id",
+            "depth": 3
+        },
+        {
+            "id": "works.primary_topic.display_name",
+            "depth": 3
+        },
+        {
+            "id": "works.primary_topic.subfield",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.primary_topic.subfield.display_name"
+                },
+                {
+                    "id": "works.primary_topic.subfield.id"
+                }
+            ]
+        },
+        {
+            "id": "works.primary_topic.subfield.id",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.subfield.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.field",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.primary_topic.field.display_name"
+                },
+                {
+                    "id": "works.primary_topic.field.id"
+                }
+            ]
+        },
+        {
+            "id": "works.primary_topic.field.id",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.field.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.domain",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.primary_topic.domain.display_name"
+                },
+                {
+                    "id": "works.primary_topic.domain.id"
+                }
+            ]
+        },
+        {
+            "id": "works.primary_topic.domain.id",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.domain.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.primary_topic.score",
+            "depth": 3
+        },
+        {
+            "id": "works.topics",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "works.topics.display_name"
+                },
+                {
+                    "id": "works.topics.domain"
+                },
+                {
+                    "id": "works.topics.field"
+                },
+                {
+                    "id": "works.topics.id"
+                },
+                {
+                    "id": "works.topics.score"
+                },
+                {
+                    "id": "works.topics.subfield"
+                }
+            ]
+        },
+        {
+            "id": "works.topics.id",
+            "depth": 3
+        },
+        {
+            "id": "works.topics.display_name",
+            "depth": 3
+        },
+        {
+            "id": "works.topics.subfield",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.topics.subfield.display_name"
+                },
+                {
+                    "id": "works.topics.subfield.id"
+                }
+            ]
+        },
+        {
+            "id": "works.topics.subfield.id",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.subfield.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.field",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.topics.field.display_name"
+                },
+                {
+                    "id": "works.topics.field.id"
+                }
+            ]
+        },
+        {
+            "id": "works.topics.field.id",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.field.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.domain",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.topics.domain.display_name"
+                },
+                {
+                    "id": "works.topics.domain.id"
+                }
+            ]
+        },
+        {
+            "id": "works.topics.domain.id",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.domain.display_name",
+            "depth": 4
+        },
+        {
+            "id": "works.topics.score",
+            "depth": 3
+        },
+        {
+            "id": "works.thesis",
+            "depth": 2
+        },
+        {
+            "id": "works.external_urls.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.external_urls.url",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.start_page",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.end_page",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.bibtex",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.is_open_access",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.open_access_status",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.url",
+            "depth": 3
+        },
+        {
+            "id": "works.open_access.has_repository_fulltext",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_count.count",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_count.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.authors.affiliations.id",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.name",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.types",
+            "depth": 4,
+            "children": [
+                {
+                    "id": "works.authors.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "works.authors.affiliations.types.type",
+            "depth": 5
+        },
+        {
+            "id": "works.authors.affiliations.country",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.country_code",
+            "depth": 4
+        },
+        {
+            "id": "works.types.class",
+            "depth": 3
+        },
+        {
+            "id": "works.types.code",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.volume",
+            "depth": 3
+        },
+        {
+            "id": "works.bibliographic_info.issue",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.id",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.name",
+            "depth": 3
+        },
+        {
+            "id": "works.groups.ranking",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_by_year.year",
+            "depth": 3
+        },
+        {
+            "id": "works.citations_by_year.cited_by_count",
+            "depth": 3
+        },
+        {
+            "id": "works.types.parent",
+            "depth": 3
+        },
+        {
+            "id": "works.ranking.level",
+            "depth": 3
+        },
+        {
+            "id": "works.titles.provenance",
+            "depth": 3
+        },
+        {
+            "id": "works.apc.list",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "works.apc.list.currency"
+                },
+                {
+                    "id": "works.apc.list.provenance"
+                },
+                {
+                    "id": "works.apc.list.value"
+                },
+                {
+                    "id": "works.apc.list.value_usd"
+                }
+            ]
+        },
+        {
+            "id": "works.apc.list.value",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.currency",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.value_usd",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.list.provenance",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.value",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.currency",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.value_usd",
+            "depth": 4
+        },
+        {
+            "id": "works.apc.paid.provenance",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "works.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "works.bibliographic_info.pages",
+            "depth": 3
+        },
+        {
+            "id": "projects",
+            "depth": 1,
+            "children": [
+                {
+                    "id": "projects.abstract"
+                },
+                {
+                    "id": "projects.author_count"
+                },
+                {
+                    "id": "projects.authors"
+                },
+                {
+                    "id": "projects.date_end"
+                },
+                {
+                    "id": "projects.date_init"
+                },
+                {
+                    "id": "projects.external_ids"
+                },
+                {
+                    "id": "projects.external_urls"
+                },
+                {
+                    "id": "projects.groups"
+                },
+                {
+                    "id": "projects.id"
+                },
+                {
+                    "id": "projects.ranking"
+                },
+                {
+                    "id": "projects.titles"
+                },
+                {
+                    "id": "projects.types"
+                },
+                {
+                    "id": "projects.updated"
+                },
+                {
+                    "id": "projects.year_end"
+                },
+                {
+                    "id": "projects.year_init"
+                }
+            ]
+        },
+        {
+            "id": "projects.id",
+            "depth": 2
+        },
+        {
+            "id": "projects.titles",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.titles.lang"
+                },
+                {
+                    "id": "projects.titles.source"
+                },
+                {
+                    "id": "projects.titles.title"
+                }
+            ]
+        },
+        {
+            "id": "projects.titles.title",
+            "depth": 3
+        },
+        {
+            "id": "projects.titles.lang",
+            "depth": 3
+        },
+        {
+            "id": "projects.titles.source",
+            "depth": 3
+        },
+        {
+            "id": "projects.updated",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.updated.source"
+                },
+                {
+                    "id": "projects.updated.time"
+                }
+            ]
+        },
+        {
+            "id": "projects.updated.source",
+            "depth": 3
+        },
+        {
+            "id": "projects.updated.time",
+            "depth": 3
+        },
+        {
+            "id": "projects.abstract",
+            "depth": 2
+        },
+        {
+            "id": "projects.types",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.types.code"
+                },
+                {
+                    "id": "projects.types.level"
+                },
+                {
+                    "id": "projects.types.parent"
+                },
+                {
+                    "id": "projects.types.provenance"
+                },
+                {
+                    "id": "projects.types.source"
+                },
+                {
+                    "id": "projects.types.type"
+                }
+            ]
+        },
+        {
+            "id": "projects.types.provenance",
+            "depth": 3
+        },
+        {
+            "id": "projects.types.source",
+            "depth": 3
+        },
+        {
+            "id": "projects.types.type",
+            "depth": 3
+        },
+        {
+            "id": "projects.types.level",
+            "depth": 3
+        },
+        {
+            "id": "projects.types.parent",
+            "depth": 3
+        },
+        {
+            "id": "projects.external_ids",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.external_ids.id"
+                },
+                {
+                    "id": "projects.external_ids.provenance"
+                },
+                {
+                    "id": "projects.external_ids.source"
+                }
+            ]
+        },
+        {
+            "id": "projects.external_ids.provenance",
+            "depth": 3
+        },
+        {
+            "id": "projects.external_ids.source",
+            "depth": 3
+        },
+        {
+            "id": "projects.external_ids.id",
+            "depth": 3
+        },
+        {
+            "id": "projects.external_urls",
+            "depth": 2
+        },
+        {
+            "id": "projects.date_init",
+            "depth": 2
+        },
+        {
+            "id": "projects.date_end",
+            "depth": 2
+        },
+        {
+            "id": "projects.year_init",
+            "depth": 2
+        },
+        {
+            "id": "projects.year_end",
+            "depth": 2
+        },
+        {
+            "id": "projects.author_count",
+            "depth": 2
+        },
+        {
+            "id": "projects.authors",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.authors.affiliations"
+                },
+                {
+                    "id": "projects.authors.full_name"
+                },
+                {
+                    "id": "projects.authors.id"
+                }
+            ]
+        },
+        {
+            "id": "projects.authors.full_name",
+            "depth": 3
+        },
+        {
+            "id": "projects.authors.affiliations",
+            "depth": 3,
+            "children": [
+                {
+                    "id": "projects.authors.affiliations.end_date"
+                },
+                {
+                    "id": "projects.authors.affiliations.id"
+                },
+                {
+                    "id": "projects.authors.affiliations.name"
+                },
+                {
+                    "id": "projects.authors.affiliations.start_date"
+                },
+                {
+                    "id": "projects.authors.affiliations.types"
+                }
+            ]
+        },
+        {
+            "id": "projects.authors.affiliations.id",
+            "depth": 4
+        },
+        {
+            "id": "projects.authors.affiliations.name",
+            "depth": 4
+        },
+        {
+            "id": "projects.authors.affiliations.types",
+            "depth": 4,
+            "children": [
+                {
+                    "id": "projects.authors.affiliations.types.source"
+                },
+                {
+                    "id": "projects.authors.affiliations.types.type"
+                }
+            ]
+        },
+        {
+            "id": "projects.authors.affiliations.types.source",
+            "depth": 5
+        },
+        {
+            "id": "projects.authors.affiliations.types.type",
+            "depth": 5
+        },
+        {
+            "id": "projects.authors.id",
+            "depth": 3
+        },
+        {
+            "id": "projects.ranking",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.ranking.date"
+                },
+                {
+                    "id": "projects.ranking.level"
+                },
+                {
+                    "id": "projects.ranking.provenance"
+                },
+                {
+                    "id": "projects.ranking.rank"
+                },
+                {
+                    "id": "projects.ranking.source"
+                }
+            ]
+        },
+        {
+            "id": "projects.ranking.provenance",
+            "depth": 3
+        },
+        {
+            "id": "projects.ranking.date",
+            "depth": 3
+        },
+        {
+            "id": "projects.ranking.rank",
+            "depth": 3
+        },
+        {
+            "id": "projects.ranking.source",
+            "depth": 3
+        },
+        {
+            "id": "projects.ranking.level",
+            "depth": 3
+        },
+        {
+            "id": "projects.groups",
+            "depth": 2,
+            "children": [
+                {
+                    "id": "projects.groups.id"
+                },
+                {
+                    "id": "projects.groups.name"
+                }
+            ]
+        },
+        {
+            "id": "projects.groups.id",
+            "depth": 3
+        },
+        {
+            "id": "projects.groups.name",
+            "depth": 3
+        },
+        {
+            "id": "projects.authors.affiliations.start_date",
+            "depth": 4
+        },
+        {
+            "id": "projects.authors.affiliations.end_date",
+            "depth": 4
+        },
+        {
+            "id": "projects.types.code",
+            "depth": 3
+        }
+    ],
+    "edges": [
+        {
+            "source": "affiliations",
+            "target": "affiliations.abbreviations"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.addresses"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.aliases"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.birthdate"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.citation_count"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.citations_count"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.description"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.external_ids"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.external_urls"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.id"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.names"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.products_count"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.ranking"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.relations"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.status"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.types"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.updated"
+        },
+        {
+            "source": "affiliations",
+            "target": "affiliations.year_established"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.city"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.country"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.country_code"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.lat"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.lng"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.postcode"
+        },
+        {
+            "source": "affiliations.addresses",
+            "target": "affiliations.addresses.state"
+        },
+        {
+            "source": "affiliations.citations_count",
+            "target": "affiliations.citations_count.count"
+        },
+        {
+            "source": "affiliations.citations_count",
+            "target": "affiliations.citations_count.source"
+        },
+        {
+            "source": "affiliations.description",
+            "target": "affiliations.description.description"
+        },
+        {
+            "source": "affiliations.description",
+            "target": "affiliations.description.source"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_ESTADO_ARTE"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_OBJETIVOS"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_PLAN_TRABAJO"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_PROD_DESTACADA"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_RETOS"
+        },
+        {
+            "source": "affiliations.description.description",
+            "target": "affiliations.description.description.TXT_VISION"
+        },
+        {
+            "source": "affiliations.external_ids",
+            "target": "affiliations.external_ids.id"
+        },
+        {
+            "source": "affiliations.external_ids",
+            "target": "affiliations.external_ids.source"
+        },
+        {
+            "source": "affiliations.external_urls",
+            "target": "affiliations.external_urls.provenance"
+        },
+        {
+            "source": "affiliations.external_urls",
+            "target": "affiliations.external_urls.source"
+        },
+        {
+            "source": "affiliations.external_urls",
+            "target": "affiliations.external_urls.url"
+        },
+        {
+            "source": "affiliations.names",
+            "target": "affiliations.names.lang"
+        },
+        {
+            "source": "affiliations.names",
+            "target": "affiliations.names.name"
+        },
+        {
+            "source": "affiliations.names",
+            "target": "affiliations.names.provenance"
+        },
+        {
+            "source": "affiliations.names",
+            "target": "affiliations.names.source"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.date"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.from_date"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.order"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.rank"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.source"
+        },
+        {
+            "source": "affiliations.ranking",
+            "target": "affiliations.ranking.to_date"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.id"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.name"
+        },
+        {
+            "source": "affiliations.relations",
+            "target": "affiliations.relations.types"
+        },
+        {
+            "source": "affiliations.relations.types",
+            "target": "affiliations.relations.types.source"
+        },
+        {
+            "source": "affiliations.relations.types",
+            "target": "affiliations.relations.types.type"
+        },
+        {
+            "source": "affiliations.status",
+            "target": "affiliations.status.source"
+        },
+        {
+            "source": "affiliations.status",
+            "target": "affiliations.status.status"
+        },
+        {
+            "source": "affiliations.types",
+            "target": "affiliations.types.source"
+        },
+        {
+            "source": "affiliations.types",
+            "target": "affiliations.types.type"
+        },
+        {
+            "source": "affiliations.updated",
+            "target": "affiliations.updated.source"
+        },
+        {
+            "source": "affiliations.updated",
+            "target": "affiliations.updated.time"
+        },
+        {
+            "source": "events",
+            "target": "events.abstract"
+        },
+        {
+            "source": "events",
+            "target": "events.author_count"
+        },
+        {
+            "source": "events",
+            "target": "events.authors"
+        },
+        {
+            "source": "events",
+            "target": "events.date_held"
+        },
+        {
+            "source": "events",
+            "target": "events.external_ids"
+        },
+        {
+            "source": "events",
+            "target": "events.external_urls"
+        },
+        {
+            "source": "events",
+            "target": "events.groups"
+        },
+        {
+            "source": "events",
+            "target": "events.id"
+        },
+        {
+            "source": "events",
+            "target": "events.ranking"
+        },
+        {
+            "source": "events",
+            "target": "events.titles"
+        },
+        {
+            "source": "events",
+            "target": "events.types"
+        },
+        {
+            "source": "events",
+            "target": "events.updated"
+        },
+        {
+            "source": "events",
+            "target": "events.year_held"
+        },
+        {
+            "source": "events.authors",
+            "target": "events.authors.affiliations"
+        },
+        {
+            "source": "events.authors",
+            "target": "events.authors.full_name"
+        },
+        {
+            "source": "events.authors",
+            "target": "events.authors.id"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.end_date"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.id"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.name"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.start_date"
+        },
+        {
+            "source": "events.authors.affiliations",
+            "target": "events.authors.affiliations.types"
+        },
+        {
+            "source": "events.authors.affiliations.types",
+            "target": "events.authors.affiliations.types.source"
+        },
+        {
+            "source": "events.authors.affiliations.types",
+            "target": "events.authors.affiliations.types.type"
+        },
+        {
+            "source": "events.external_ids",
+            "target": "events.external_ids.id"
+        },
+        {
+            "source": "events.external_ids",
+            "target": "events.external_ids.provenance"
+        },
+        {
+            "source": "events.external_ids",
+            "target": "events.external_ids.source"
+        },
+        {
+            "source": "events.groups",
+            "target": "events.groups.id"
+        },
+        {
+            "source": "events.groups",
+            "target": "events.groups.name"
+        },
+        {
+            "source": "events.ranking",
+            "target": "events.ranking.date"
+        },
+        {
+            "source": "events.ranking",
+            "target": "events.ranking.level"
+        },
+        {
+            "source": "events.ranking",
+            "target": "events.ranking.provenance"
+        },
+        {
+            "source": "events.ranking",
+            "target": "events.ranking.rank"
+        },
+        {
+            "source": "events.ranking",
+            "target": "events.ranking.source"
+        },
+        {
+            "source": "events.titles",
+            "target": "events.titles.lang"
+        },
+        {
+            "source": "events.titles",
+            "target": "events.titles.source"
+        },
+        {
+            "source": "events.titles",
+            "target": "events.titles.title"
+        },
+        {
+            "source": "events.types",
+            "target": "events.types.level"
+        },
+        {
+            "source": "events.types",
+            "target": "events.types.parent"
+        },
+        {
+            "source": "events.types",
+            "target": "events.types.provenance"
+        },
+        {
+            "source": "events.types",
+            "target": "events.types.source"
+        },
+        {
+            "source": "events.types",
+            "target": "events.types.type"
+        },
+        {
+            "source": "events.updated",
+            "target": "events.updated.source"
+        },
+        {
+            "source": "events.updated",
+            "target": "events.updated.time"
+        },
+        {
+            "source": "news",
+            "target": "news_media_collection"
+        },
+        {
+            "source": "news",
+            "target": "news_professors_collection"
+        },
+        {
+            "source": "news",
+            "target": "news_urls_collection"
+        },
+        {
+            "source": "news_media_collection",
+            "target": "news_media_collection.country"
+        },
+        {
+            "source": "news_media_collection",
+            "target": "news_media_collection.id"
+        },
+        {
+            "source": "news_media_collection",
+            "target": "news_media_collection.medium"
+        },
+        {
+            "source": "news_media_collection",
+            "target": "news_media_collection.medium_id"
+        },
+        {
+            "source": "news_media_collection",
+            "target": "news_media_collection.urls"
+        },
+        {
+            "source": "news_media_collection.urls",
+            "target": "news_media_collection.urls.url"
+        },
+        {
+            "source": "news_media_collection.urls",
+            "target": "news_media_collection.urls.url_id"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.classified_urls_ids"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.department"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.faculty"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.full_name"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.id"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.professor_id"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.separated_forenames"
+        },
+        {
+            "source": "news_professors_collection",
+            "target": "news_professors_collection.separated_surnames"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.id"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.medium_id"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.url"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.url_date"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.url_id"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.url_language"
+        },
+        {
+            "source": "news_urls_collection",
+            "target": "news_urls_collection.url_title"
+        },
+        {
+            "source": "patents",
+            "target": "patents.author_count"
+        },
+        {
+            "source": "patents",
+            "target": "patents.authors"
+        },
+        {
+            "source": "patents",
+            "target": "patents.external_ids"
+        },
+        {
+            "source": "patents",
+            "target": "patents.external_urls"
+        },
+        {
+            "source": "patents",
+            "target": "patents.groups"
+        },
+        {
+            "source": "patents",
+            "target": "patents.id"
+        },
+        {
+            "source": "patents",
+            "target": "patents.ranking"
+        },
+        {
+            "source": "patents",
+            "target": "patents.titles"
+        },
+        {
+            "source": "patents",
+            "target": "patents.types"
+        },
+        {
+            "source": "patents",
+            "target": "patents.updated"
+        },
+        {
+            "source": "patents.authors",
+            "target": "patents.authors.affiliations"
+        },
+        {
+            "source": "patents.authors",
+            "target": "patents.authors.full_name"
+        },
+        {
+            "source": "patents.authors",
+            "target": "patents.authors.id"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.end_date"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.id"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.name"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.start_date"
+        },
+        {
+            "source": "patents.authors.affiliations",
+            "target": "patents.authors.affiliations.types"
+        },
+        {
+            "source": "patents.authors.affiliations.types",
+            "target": "patents.authors.affiliations.types.source"
+        },
+        {
+            "source": "patents.authors.affiliations.types",
+            "target": "patents.authors.affiliations.types.type"
+        },
+        {
+            "source": "patents.external_ids",
+            "target": "patents.external_ids.id"
+        },
+        {
+            "source": "patents.external_ids",
+            "target": "patents.external_ids.provenance"
+        },
+        {
+            "source": "patents.external_ids",
+            "target": "patents.external_ids.source"
+        },
+        {
+            "source": "patents.groups",
+            "target": "patents.groups.id"
+        },
+        {
+            "source": "patents.groups",
+            "target": "patents.groups.name"
+        },
+        {
+            "source": "patents.ranking",
+            "target": "patents.ranking.date"
+        },
+        {
+            "source": "patents.ranking",
+            "target": "patents.ranking.provenance"
+        },
+        {
+            "source": "patents.ranking",
+            "target": "patents.ranking.rank"
+        },
+        {
+            "source": "patents.ranking",
+            "target": "patents.ranking.source"
+        },
+        {
+            "source": "patents.titles",
+            "target": "patents.titles.lang"
+        },
+        {
+            "source": "patents.titles",
+            "target": "patents.titles.source"
+        },
+        {
+            "source": "patents.titles",
+            "target": "patents.titles.title"
+        },
+        {
+            "source": "patents.types",
+            "target": "patents.types.level"
+        },
+        {
+            "source": "patents.types",
+            "target": "patents.types.parent"
+        },
+        {
+            "source": "patents.types",
+            "target": "patents.types.provenance"
+        },
+        {
+            "source": "patents.types",
+            "target": "patents.types.source"
+        },
+        {
+            "source": "patents.types",
+            "target": "patents.types.type"
+        },
+        {
+            "source": "patents.updated",
+            "target": "patents.updated.source"
+        },
+        {
+            "source": "patents.updated",
+            "target": "patents.updated.time"
+        },
+        {
+            "source": "person",
+            "target": "affiliations"
+        },
+        {
+            "source": "person",
+            "target": "events"
+        },
+        {
+            "source": "person",
+            "target": "news"
+        },
+        {
+            "source": "person",
+            "target": "patents"
+        },
+        {
+            "source": "person",
+            "target": "person_data"
+        },
+        {
+            "source": "person",
+            "target": "projects"
+        },
+        {
+            "source": "person",
+            "target": "works"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data._id_old"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.affiliations"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.aliases"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.birthdate"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.birthplace"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.citations_count"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.degrees"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.external_ids"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.first_names"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.full_name"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.initials"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.keywords"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.last_names"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.marital_status"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.products_count"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.ranking"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.related_works"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.sex"
+        },
+        {
+            "source": "person_data",
+            "target": "person_data.updated"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.end_date"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.id"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.name"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.position"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.start_date"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.types"
+        },
+        {
+            "source": "person_data.affiliations",
+            "target": "person_data.affiliations.years"
+        },
+        {
+            "source": "person_data.affiliations.types",
+            "target": "person_data.affiliations.types.source"
+        },
+        {
+            "source": "person_data.affiliations.types",
+            "target": "person_data.affiliations.types.type"
+        },
+        {
+            "source": "person_data.birthplace",
+            "target": "person_data.birthplace.city"
+        },
+        {
+            "source": "person_data.birthplace",
+            "target": "person_data.birthplace.country"
+        },
+        {
+            "source": "person_data.birthplace",
+            "target": "person_data.birthplace.state"
+        },
+        {
+            "source": "person_data.citations_count",
+            "target": "person_data.citations_count.count"
+        },
+        {
+            "source": "person_data.citations_count",
+            "target": "person_data.citations_count.source"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.date"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.degree"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.id"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.institutions"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.provenance"
+        },
+        {
+            "source": "person_data.degrees",
+            "target": "person_data.degrees.source"
+        },
+        {
+            "source": "person_data.external_ids",
+            "target": "person_data.external_ids.id"
+        },
+        {
+            "source": "person_data.external_ids",
+            "target": "person_data.external_ids.provenance"
+        },
+        {
+            "source": "person_data.external_ids",
+            "target": "person_data.external_ids.source"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.date"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.id"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.order"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.provenance"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.rank"
+        },
+        {
+            "source": "person_data.ranking",
+            "target": "person_data.ranking.source"
+        },
+        {
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.id"
+        },
+        {
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.institutions"
+        },
+        {
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.provenance"
+        },
+        {
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.source"
+        },
+        {
+            "source": "person_data.related_works",
+            "target": "person_data.related_works.year"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.country_code"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.country_id"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.display_name"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.id"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.lineage"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.ror"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.type"
+        },
+        {
+            "source": "person_data.related_works.institutions",
+            "target": "person_data.related_works.institutions.type_id"
+        },
+        {
+            "source": "person_data.updated",
+            "target": "person_data.updated.provenance"
+        },
+        {
+            "source": "person_data.updated",
+            "target": "person_data.updated.source"
+        },
+        {
+            "source": "person_data.updated",
+            "target": "person_data.updated.time"
+        },
+        {
+            "source": "projects",
+            "target": "projects.abstract"
+        },
+        {
+            "source": "projects",
+            "target": "projects.author_count"
+        },
+        {
+            "source": "projects",
+            "target": "projects.authors"
+        },
+        {
+            "source": "projects",
+            "target": "projects.date_end"
+        },
+        {
+            "source": "projects",
+            "target": "projects.date_init"
+        },
+        {
+            "source": "projects",
+            "target": "projects.external_ids"
+        },
+        {
+            "source": "projects",
+            "target": "projects.external_urls"
+        },
+        {
+            "source": "projects",
+            "target": "projects.groups"
+        },
+        {
+            "source": "projects",
+            "target": "projects.id"
+        },
+        {
+            "source": "projects",
+            "target": "projects.ranking"
+        },
+        {
+            "source": "projects",
+            "target": "projects.titles"
+        },
+        {
+            "source": "projects",
+            "target": "projects.types"
+        },
+        {
+            "source": "projects",
+            "target": "projects.updated"
+        },
+        {
+            "source": "projects",
+            "target": "projects.year_end"
+        },
+        {
+            "source": "projects",
+            "target": "projects.year_init"
+        },
+        {
+            "source": "projects.authors",
+            "target": "projects.authors.affiliations"
+        },
+        {
+            "source": "projects.authors",
+            "target": "projects.authors.full_name"
+        },
+        {
+            "source": "projects.authors",
+            "target": "projects.authors.id"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.end_date"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.id"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.name"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.start_date"
+        },
+        {
+            "source": "projects.authors.affiliations",
+            "target": "projects.authors.affiliations.types"
+        },
+        {
+            "source": "projects.authors.affiliations.types",
+            "target": "projects.authors.affiliations.types.source"
+        },
+        {
+            "source": "projects.authors.affiliations.types",
+            "target": "projects.authors.affiliations.types.type"
+        },
+        {
+            "source": "projects.external_ids",
+            "target": "projects.external_ids.id"
+        },
+        {
+            "source": "projects.external_ids",
+            "target": "projects.external_ids.provenance"
+        },
+        {
+            "source": "projects.external_ids",
+            "target": "projects.external_ids.source"
+        },
+        {
+            "source": "projects.groups",
+            "target": "projects.groups.id"
+        },
+        {
+            "source": "projects.groups",
+            "target": "projects.groups.name"
+        },
+        {
+            "source": "projects.ranking",
+            "target": "projects.ranking.date"
+        },
+        {
+            "source": "projects.ranking",
+            "target": "projects.ranking.level"
+        },
+        {
+            "source": "projects.ranking",
+            "target": "projects.ranking.provenance"
+        },
+        {
+            "source": "projects.ranking",
+            "target": "projects.ranking.rank"
+        },
+        {
+            "source": "projects.ranking",
+            "target": "projects.ranking.source"
+        },
+        {
+            "source": "projects.titles",
+            "target": "projects.titles.lang"
+        },
+        {
+            "source": "projects.titles",
+            "target": "projects.titles.source"
+        },
+        {
+            "source": "projects.titles",
+            "target": "projects.titles.title"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.code"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.level"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.parent"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.provenance"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.source"
+        },
+        {
+            "source": "projects.types",
+            "target": "projects.types.type"
+        },
+        {
+            "source": "projects.updated",
+            "target": "projects.updated.source"
+        },
+        {
+            "source": "projects.updated",
+            "target": "projects.updated.time"
+        },
+        {
+            "source": "sources",
+            "target": "sources.abbreviations"
+        },
+        {
+            "source": "sources",
+            "target": "sources.addresses"
+        },
+        {
+            "source": "sources",
+            "target": "sources.apc"
+        },
+        {
+            "source": "sources",
+            "target": "sources.copyright"
+        },
+        {
+            "source": "sources",
+            "target": "sources.external_ids"
+        },
+        {
+            "source": "sources",
+            "target": "sources.external_urls"
+        },
+        {
+            "source": "sources",
+            "target": "sources.id"
+        },
+        {
+            "source": "sources",
+            "target": "sources.keywords"
+        },
+        {
+            "source": "sources",
+            "target": "sources.languages"
+        },
+        {
+            "source": "sources",
+            "target": "sources.licenses"
+        },
+        {
+            "source": "sources",
+            "target": "sources.names"
+        },
+        {
+            "source": "sources",
+            "target": "sources.open_access_start_year"
+        },
+        {
+            "source": "sources",
+            "target": "sources.plagiarism_detection"
+        },
+        {
+            "source": "sources",
+            "target": "sources.publication_time_weeks"
+        },
+        {
+            "source": "sources",
+            "target": "sources.publisher"
+        },
+        {
+            "source": "sources",
+            "target": "sources.ranking"
+        },
+        {
+            "source": "sources",
+            "target": "sources.relations"
+        },
+        {
+            "source": "sources",
+            "target": "sources.review_process"
+        },
+        {
+            "source": "sources",
+            "target": "sources.review_processes"
+        },
+        {
+            "source": "sources",
+            "target": "sources.types"
+        },
+        {
+            "source": "sources",
+            "target": "sources.updated"
+        },
+        {
+            "source": "sources",
+            "target": "sources.waiver"
+        },
+        {
+            "source": "sources.apc",
+            "target": "sources.apc.charges"
+        },
+        {
+            "source": "sources.apc",
+            "target": "sources.apc.currency"
+        },
+        {
+            "source": "sources.copyright",
+            "target": "sources.copyright.author_retains"
+        },
+        {
+            "source": "sources.copyright",
+            "target": "sources.copyright.url"
+        },
+        {
+            "source": "sources.external_ids",
+            "target": "sources.external_ids.id"
+        },
+        {
+            "source": "sources.external_ids",
+            "target": "sources.external_ids.source"
+        },
+        {
+            "source": "sources.external_urls",
+            "target": "sources.external_urls.source"
+        },
+        {
+            "source": "sources.external_urls",
+            "target": "sources.external_urls.url"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.BY"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.NC"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.ND"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.SA"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.type"
+        },
+        {
+            "source": "sources.licenses",
+            "target": "sources.licenses.url"
+        },
+        {
+            "source": "sources.names",
+            "target": "sources.names.lang"
+        },
+        {
+            "source": "sources.names",
+            "target": "sources.names.name"
+        },
+        {
+            "source": "sources.names",
+            "target": "sources.names.source"
+        },
+        {
+            "source": "sources.publisher",
+            "target": "sources.publisher.country_code"
+        },
+        {
+            "source": "sources.publisher",
+            "target": "sources.publisher.id"
+        },
+        {
+            "source": "sources.publisher",
+            "target": "sources.publisher.name"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.from_date"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.issn"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.order"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.rank"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.source"
+        },
+        {
+            "source": "sources.ranking",
+            "target": "sources.ranking.to_date"
+        },
+        {
+            "source": "sources.types",
+            "target": "sources.types.source"
+        },
+        {
+            "source": "sources.types",
+            "target": "sources.types.type"
+        },
+        {
+            "source": "sources.updated",
+            "target": "sources.updated.source"
+        },
+        {
+            "source": "sources.updated",
+            "target": "sources.updated.time"
+        },
+        {
+            "source": "sources.waiver",
+            "target": "sources.waiver.has_waiver"
+        },
+        {
+            "source": "sources.waiver",
+            "target": "sources.waiver.url"
+        },
+        {
+            "source": "works",
+            "target": "sources"
+        },
+        {
+            "source": "works",
+            "target": "works.abstracts"
+        },
+        {
+            "source": "works",
+            "target": "works.apc"
+        },
+        {
+            "source": "works",
+            "target": "works.author_count"
+        },
+        {
+            "source": "works",
+            "target": "works.authors"
+        },
+        {
+            "source": "works",
+            "target": "works.bibliographic_info"
+        },
+        {
+            "source": "works",
+            "target": "works.citations"
+        },
+        {
+            "source": "works",
+            "target": "works.citations_by_year"
+        },
+        {
+            "source": "works",
+            "target": "works.citations_count"
+        },
+        {
+            "source": "works",
+            "target": "works.date_published"
+        },
+        {
+            "source": "works",
+            "target": "works.doi"
+        },
+        {
+            "source": "works",
+            "target": "works.external_ids"
+        },
+        {
+            "source": "works",
+            "target": "works.external_urls"
+        },
+        {
+            "source": "works",
+            "target": "works.groups"
+        },
+        {
+            "source": "works",
+            "target": "works.id"
+        },
+        {
+            "source": "works",
+            "target": "works.keywords"
+        },
+        {
+            "source": "works",
+            "target": "works.open_access"
+        },
+        {
+            "source": "works",
+            "target": "works.primary_topic"
+        },
+        {
+            "source": "works",
+            "target": "works.ranking"
+        },
+        {
+            "source": "works",
+            "target": "works.references"
+        },
+        {
+            "source": "works",
+            "target": "works.references_count"
+        },
+        {
+            "source": "works",
+            "target": "works.rights"
+        },
+        {
+            "source": "works",
+            "target": "works.thesis"
+        },
+        {
+            "source": "works",
+            "target": "works.titles"
+        },
+        {
+            "source": "works",
+            "target": "works.topics"
+        },
+        {
+            "source": "works",
+            "target": "works.types"
+        },
+        {
+            "source": "works",
+            "target": "works.updated"
+        },
+        {
+            "source": "works",
+            "target": "works.year_published"
+        },
+        {
+            "source": "works.apc",
+            "target": "works.apc.list"
+        },
+        {
+            "source": "works.apc",
+            "target": "works.apc.paid"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.currency"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.provenance"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.value"
+        },
+        {
+            "source": "works.apc.list",
+            "target": "works.apc.list.value_usd"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.currency"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.provenance"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.value"
+        },
+        {
+            "source": "works.apc.paid",
+            "target": "works.apc.paid.value_usd"
+        },
+        {
+            "source": "works.authors",
+            "target": "works.authors.affiliations"
+        },
+        {
+            "source": "works.authors",
+            "target": "works.authors.full_name"
+        },
+        {
+            "source": "works.authors",
+            "target": "works.authors.id"
+        },
+        {
+            "source": "works.authors",
+            "target": "works.authors.ranking"
+        },
+        {
+            "source": "works.authors",
+            "target": "works.authors.type"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.country"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.country_code"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.end_date"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.id"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.name"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.start_date"
+        },
+        {
+            "source": "works.authors.affiliations",
+            "target": "works.authors.affiliations.types"
+        },
+        {
+            "source": "works.authors.affiliations.types",
+            "target": "works.authors.affiliations.types.type"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.bibtex"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.end_page"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.issue"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.pages"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.start_page"
+        },
+        {
+            "source": "works.bibliographic_info",
+            "target": "works.bibliographic_info.volume"
+        },
+        {
+            "source": "works.citations_by_year",
+            "target": "works.citations_by_year.cited_by_count"
+        },
+        {
+            "source": "works.citations_by_year",
+            "target": "works.citations_by_year.year"
+        },
+        {
+            "source": "works.citations_count",
+            "target": "works.citations_count.count"
+        },
+        {
+            "source": "works.citations_count",
+            "target": "works.citations_count.provenance"
+        },
+        {
+            "source": "works.external_ids",
+            "target": "works.external_ids.id"
+        },
+        {
+            "source": "works.external_ids",
+            "target": "works.external_ids.provenance"
+        },
+        {
+            "source": "works.external_urls",
+            "target": "works.external_urls.provenance"
+        },
+        {
+            "source": "works.external_urls",
+            "target": "works.external_urls.url"
+        },
+        {
+            "source": "works.groups",
+            "target": "works.groups.id"
+        },
+        {
+            "source": "works.groups",
+            "target": "works.groups.name"
+        },
+        {
+            "source": "works.groups",
+            "target": "works.groups.ranking"
+        },
+        {
+            "source": "works.open_access",
+            "target": "works.open_access.has_repository_fulltext"
+        },
+        {
+            "source": "works.open_access",
+            "target": "works.open_access.is_open_access"
+        },
+        {
+            "source": "works.open_access",
+            "target": "works.open_access.open_access_status"
+        },
+        {
+            "source": "works.open_access",
+            "target": "works.open_access.url"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.display_name"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.domain"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.field"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.id"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.score"
+        },
+        {
+            "source": "works.primary_topic",
+            "target": "works.primary_topic.subfield"
+        },
+        {
+            "source": "works.primary_topic.domain",
+            "target": "works.primary_topic.domain.display_name"
+        },
+        {
+            "source": "works.primary_topic.domain",
+            "target": "works.primary_topic.domain.id"
+        },
+        {
+            "source": "works.primary_topic.field",
+            "target": "works.primary_topic.field.display_name"
+        },
+        {
+            "source": "works.primary_topic.field",
+            "target": "works.primary_topic.field.id"
+        },
+        {
+            "source": "works.primary_topic.subfield",
+            "target": "works.primary_topic.subfield.display_name"
+        },
+        {
+            "source": "works.primary_topic.subfield",
+            "target": "works.primary_topic.subfield.id"
+        },
+        {
+            "source": "works.ranking",
+            "target": "works.ranking.date"
+        },
+        {
+            "source": "works.ranking",
+            "target": "works.ranking.level"
+        },
+        {
+            "source": "works.ranking",
+            "target": "works.ranking.provenance"
+        },
+        {
+            "source": "works.ranking",
+            "target": "works.ranking.rank"
+        },
+        {
+            "source": "works.rights",
+            "target": "works.rights.provenance"
+        },
+        {
+            "source": "works.rights",
+            "target": "works.rights.rights"
+        },
+        {
+            "source": "works.titles",
+            "target": "works.titles.lang"
+        },
+        {
+            "source": "works.titles",
+            "target": "works.titles.provenance"
+        },
+        {
+            "source": "works.titles",
+            "target": "works.titles.title"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.display_name"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.domain"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.field"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.id"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.score"
+        },
+        {
+            "source": "works.topics",
+            "target": "works.topics.subfield"
+        },
+        {
+            "source": "works.topics.domain",
+            "target": "works.topics.domain.display_name"
+        },
+        {
+            "source": "works.topics.domain",
+            "target": "works.topics.domain.id"
+        },
+        {
+            "source": "works.topics.field",
+            "target": "works.topics.field.display_name"
+        },
+        {
+            "source": "works.topics.field",
+            "target": "works.topics.field.id"
+        },
+        {
+            "source": "works.topics.subfield",
+            "target": "works.topics.subfield.display_name"
+        },
+        {
+            "source": "works.topics.subfield",
+            "target": "works.topics.subfield.id"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.class"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.code"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.level"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.parent"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.provenance"
+        },
+        {
+            "source": "works.types",
+            "target": "works.types.type"
+        },
+        {
+            "source": "works.updated",
+            "target": "works.updated.time"
+        }
+    ]
+}

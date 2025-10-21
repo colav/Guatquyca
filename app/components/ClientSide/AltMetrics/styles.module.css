@@ -2,6 +2,7 @@
   position: relative;
   width: 102px;
   height: 18px;
+  cursor: help;
 }
 
 .numberContainer {

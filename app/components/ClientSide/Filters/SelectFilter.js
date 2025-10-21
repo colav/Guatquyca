@@ -3,33 +3,43 @@
 /* Components */
 import ApplyFilter from "./ApplyFilter";
 import DeleteFilter from "./DeleteFilter";
-import Flag from "../../ServerSide/Flag/Flag";
 
 /* Hooks */
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 /* UI Library Components */
-import { Row, Select, Space, Tooltip } from "antd";
+import { Col, Row, Select, Tag } from "antd";
 import { TITLES } from "@/lib/constants";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /**
- * SelectFilter is a client-side functional component that provides a select filter for selecting multiple items.
- * It allows users to apply and delete filters based on the selected items.
+ * SelectFilter is a client-side functional component that provides a select filter
+ * for selecting multiple items. It allows users to apply and delete filters.
  *
- * @param {Array} data - The data for the Select component.
- * @param {string} filterType - The type of filter to apply.
- * @returns {JSX.Element} The SelectFilter component.
+ * @param {Array} data - The options for the Select component.
+ * @param {string} filterType - The filter key used in query parameters.
+ * @returns {JSX.Element} The rendered SelectFilter component.
  */
-export default function SelectFilter({ data, filterType }) {
-  if (!data.length)
-    return "No hay datos para este filtro con los criterios previamente seleccionados.";
+export default function SelectFilter({ data = [], filterType }) {
   const query = useSearchParams();
-  const [value, setValue] = useState(
-    query.has(filterType) ? query.get(filterType)?.split(",") : null
+
+  const filteredData = data.filter(
+    ({ label, value }) => label != null && value != null
   );
 
-  const onChange = (newValue) => {
+  if (!filteredData.length) {
+    return "No hay datos para este filtro con los criterios previamente seleccionados.";
+  }
+
+  const [value, setValue] = useState(() => {
+    const param = query.get(filterType);
+    return param ? param.split(",") : null;
+  });
+
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
 
@@ -38,32 +48,27 @@ export default function SelectFilter({ data, filterType }) {
       <Select
         size="small"
         mode="multiple"
-        optionFilterProp="label"
         showSearch
+        optionFilterProp="label"
         style={{ width: "100%" }}
+        placeholder={`Selecciona uno o más ${TITLES[filterType] || "ítems"}`}
         value={value}
+        onChange={handleChange}
+        options={filteredData}
         listHeight={400}
-        placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
-        onChange={onChange}
-        options={data}
         optionRender={(item) => (
-          <Space>
-            <Flag country={item.label} countryCode={item.value} size="20x15" />{" "}
-            {item.label}
-          </Space>
-        )}
-        maxTagPlaceholder={(omittedValues) => (
-          <Tooltip
-            overlayStyle={{
-              pointerEvents: "none",
-            }}
-            title={omittedValues.map(({ label }) => label).join(", ")}
-          >
-            <span>Ver más</span>
-          </Tooltip>
+          <Row justify="space-between" style={{ width: "100%" }}>
+            <Col xs={19} md={20} className={styles.optionLabel}>
+              {item.label}
+            </Col>
+            <Tag bordered={false} style={{ marginRight: 2 }}>
+              {item.data.count}
+            </Tag>
+          </Row>
         )}
       />
-      <Row justify="end" style={{ marginTop: "12px" }}>
+
+      <Row justify="end" style={{ marginTop: 12 }}>
         <DeleteFilter filterType={filterType} queryParams={query} />
         <ApplyFilter value={value} filterType={filterType} query={query} />
       </Row>

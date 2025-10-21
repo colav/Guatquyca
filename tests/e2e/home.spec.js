@@ -19,16 +19,15 @@ test.describe("Testing ImpactU Homepage", () => {
       .isVisible();
   });
 
+  // Verify the manual download button is present and has the correct link.
   test("has manual download button", async ({ page }) => {
-    // Prepare to capture the download event before triggering the download by clicking the link.
-    const downloadPromise = page.waitForEvent("download");
-    await page.getByRole("link", { name: "Descarga nuestro manual" }).click();
-
-    // Wait for the download to start or complete, ensuring the file begins downloading.
-    const download = await downloadPromise;
-
-    // Verify the downloaded file's name matches the expected PDF filename.
-    expect(await download.suggestedFilename()).toBe("Manual ImpactU.pdf");
+    const manualLink = await page.getByRole("link", {
+      name: "Descarga nuestro manual",
+    });
+    await expect(manualLink).toHaveAttribute(
+      "href",
+      "https://data.colav.co/Manual_impactu.pdf"
+    );
   });
 
   // Verify the Scroll to Top button is visible when the page is at the bottom.

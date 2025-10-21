@@ -1,0 +1,27 @@
+.topicsTags_container {
+  margin: 0 15px;
+  cursor: help;
+}
+
+.topicsTags_container span {
+  color: rgb(176, 147, 69);
+  font-size: 14px;
+}
+
+.topicsList {
+  color: rgb(92, 75, 34);
+  padding-left: 20px;
+}
+
+.topicsList > li > b {
+  color: rgb(92, 75, 34);
+}
+
+@media screen and (max-width: 768px) {
+  .topicsTags_container span {
+    font-size: 12px;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

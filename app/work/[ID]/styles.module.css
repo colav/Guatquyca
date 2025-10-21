@@ -1,0 +1,22 @@
+.main_container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.paper_container {
+  background-color: white;
+  padding: 15px;
+  color: rgb(134, 134, 149);
+}
+
+.vertical_divider {
+  border-right: 1px solid #eee;
+  height: 100%;
+  width: 0;
+  margin: 0 auto;
+}
+
+.external_buttons_container {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}

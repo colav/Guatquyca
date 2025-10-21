@@ -1,8 +1,5 @@
 "use client";
 
-/* Next */
-import { useRouter, useParams } from "next/navigation";
-
 /* UI Library Components */
 import { Tabs } from "antd";
 

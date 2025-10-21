@@ -61,7 +61,7 @@ export default async function WorkList({ searchParams, params, entity }) {
       extra={
         <div style={{ display: "flex" }}>
           <SortSearchResults searchParams={searchParams} type="works" />
-          <CSVButton searchParams={searchParams} />
+          {entity !== "search" && <CSVButton searchParams={searchParams} />}
           <APIButton searchParams={searchParams} />
         </div>
       }

@@ -33,7 +33,7 @@ export default function ProductExternalIDTag({ idList }) {
   }`;
 
   return (
-    <div style={{ marginBottom: 15 }}>
+    <div>
       <Tag color="blue">{tagLabel}</Tag>
     </div>
   );

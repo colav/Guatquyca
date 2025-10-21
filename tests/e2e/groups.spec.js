@@ -274,6 +274,7 @@ test.describe("Testing Groups entity", () => {
     async function runSequentially(plotlist) {
       for (const item of plotlist) {
         await fetchAndMeasure(item);
+        await new Promise((resolve) => setTimeout(resolve, 200));
       }
     }
 

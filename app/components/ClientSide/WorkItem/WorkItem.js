@@ -3,7 +3,7 @@ import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
 import ProductExternalIDTag from "../../ServerSide/ProdutExternalIDTag/ProductExternalIDTag";
 import Source from "../../ServerSide/Source/Source";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
+import TopicTag from "../../ServerSide/TopicTag/TopicTag";
 import WorksInfo from "../WorksInfo/WorksInfo";
 import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 
@@ -11,13 +11,20 @@ import WorkTitleLink from "../WorkTitleLink/WorkTitleLink";
 import { PRODUCT_TYPES } from "@/lib/constants";
 
 /* Icons */
-import { TeamOutlined, TagsOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  TagsOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
 import Ribbon from "antd/lib/badge/Ribbon";
+import { Row, Space } from "antd";
+import OpenAccessStatus from "../OpenAccessStatus/OpenAccessStatus";
+import RankingTag from "../../ServerSide/RankingTag/RankingTag";
 
 export default function WorkItem({ item }) {
   const ribbonStyles = {
@@ -57,13 +64,23 @@ export default function WorkItem({ item }) {
       >
         <li key={item.id} className={styles.work_item}>
           <div className={styles.work_container}>
-            <WorkTitleLink
-              workTitle={item.title}
-              workID={item.id}
-              openAccessStatus={item.open_access.open_access_status}
-              ranking={item.ranking}
-            />
-            <ProductExternalIDTag idList={item.external_ids} />
+            <WorkTitleLink workTitle={item.title} workID={item.id} />
+            <a target="_blank" href={`/work/${item.id}`}>
+              <FileTextOutlined /> Ver producto
+            </a>
+            <Row>
+              <Space wrap size={[0, 8]} className={styles.badges_container}>
+                {item.open_access.open_access_status && (
+                  <OpenAccessStatus
+                    status={item.open_access.open_access_status}
+                  />
+                )}
+                {item.external_ids?.length > 0 && (
+                  <ProductExternalIDTag idList={item.external_ids} />
+                )}
+                {item.ranking && <RankingTag ranking={item.ranking} />}
+              </Space>
+            </Row>
             {item.source.name && <Source sourceName={item.source.name} />}
             <TeamOutlined />
             <AuthorsList
@@ -71,10 +88,10 @@ export default function WorkItem({ item }) {
               authors_count={item.authors_count}
               workID={item.id}
             />
-            {item.subjects.length > 0 && (
+            {item.topics?.length > 0 && (
               <div>
-                <TagsOutlined /> Temas:
-                <SubjectsTags subjectsList={item.subjects} />
+                <TagsOutlined /> Tópico:
+                <TopicTag topic={item.topics[0]} />
               </div>
             )}
             <WorksInfo

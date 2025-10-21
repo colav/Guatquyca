@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 /* Icons */
@@ -10,7 +12,7 @@ import styles from "./styles.module.css";
 import { Tag, Tooltip } from "antd";
 
 /**
- * OpenAccessStatus is a function component that displays a tag with an icon and color based on the status of open access.
+ * OpenAccessStatus is a client-side function component that displays a tag with an icon and color based on the status of open access.
  *
  * @param {string} status - A string representing the status of open access. It should be one of the following:
  * 'hybrid', 'green', 'gold', 'closed', 'bronze'.

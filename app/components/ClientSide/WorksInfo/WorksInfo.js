@@ -25,8 +25,7 @@ export default function WorksInfo({ citationsCount, yearPublished, doi }) {
     <>
       <div className={styles.worksInfo_container}>
         <div className={styles.margin_5}>
-          {React.createElement(CalendarOutlined)} Publicado:{" "}
-          {yearPublished || "No disponible"}
+          <CalendarOutlined /> Publicado: {yearPublished || "No disponible"}
         </div>
         <CitationsBadges
           citationsCount={citationsCount}

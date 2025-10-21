@@ -86,7 +86,7 @@ export default function FilterPanel() {
           onClose={onClose}
           keyboard={false}
           open={visible}
-          width={410}
+          width={460}
           zIndex={1000}
           footer={
             <Button

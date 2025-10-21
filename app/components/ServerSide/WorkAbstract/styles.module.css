@@ -1,0 +1,15 @@
+.abstract_title {
+  margin-bottom: 7px;
+  margin-top: 0;
+}
+
+.abstract_fallback {
+  color: #999;
+  font-style: italic;
+  margin-left: 18px;
+}
+
+.topic_container {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

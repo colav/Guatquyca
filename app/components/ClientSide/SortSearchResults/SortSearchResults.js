@@ -37,6 +37,10 @@ export default function SortSearchResults({ searchParams, type = "entities" }) {
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
     ],
+    news: [
+      { value: "year_desc", label: "Más reciente" },
+      { value: "alphabetical_asc", label: "Alfabético" },
+    ],
   };
 
   return (

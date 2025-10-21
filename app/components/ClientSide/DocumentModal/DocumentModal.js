@@ -6,14 +6,13 @@ import Error from "@/app/error";
 import InvertedIndex from "../InvertedIndex/InvertedIndex";
 import Loading from "@/app/loading";
 import SCImago from "../SCImago/SCImago";
-import SubjectsTags from "../../ServerSide/SubjectsTags/SubjectsTags";
+import TopicTag from "../../ServerSide/TopicTag/TopicTag";
+import WorkLinksTable from "../WorkLinksTable/WorkLinksTable";
 import WorksInfo from "../WorksInfo/WorksInfo";
+import WorkExternalButtons from "../WorkExternalButtons/WorkExternalButtons";
 
 /* Icons */
 import {
-  DesktopOutlined,
-  FilePdfOutlined,
-  FileTextOutlined,
   ReadOutlined,
   TagsOutlined,
   TeamOutlined,
@@ -23,14 +22,12 @@ import {
 /* lib */
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import { LANGUAGES } from "@/lib/constants";
-import RenderedExternalIDs from "@/lib/RenderedExternalIDs";
-import RenderedExternalURLs from "@/lib/RenderedExternalURLs";
 
 /* Styles */
 import style from "./styles.module.css";
 
 /* UI Library Components */
-import { Col, Divider, Descriptions, Row, Button, Space } from "antd";
+import { Col, Divider, Descriptions, Row } from "antd";
 
 /**
  * DocumentModal is a function client-side component that displays detailed information about a document.
@@ -60,7 +57,7 @@ export default function DocumentModal({ documentID }) {
     language,
     citations_count,
     source,
-    subjects,
+    topics,
     external_ids,
     external_urls,
     open_access,
@@ -69,7 +66,17 @@ export default function DocumentModal({ documentID }) {
   } = state.data.data;
   const { name, scimago_quartile } = source || {};
   const { pissn, issn, scimago, openalex } = source.external_ids || {};
-  const { issue, volume, start_page, end_page } = bibliographic_info || {};
+  const { issue, volume, start_page, end_page, bibtex } =
+    bibliographic_info || {};
+
+  const htmlFields = {
+    doi: doi,
+    scienti: external_urls?.find((e) => e.source === "scienti")?.url,
+    uri: external_urls?.find((e) => e.source === "uri")?.url,
+  };
+
+  const hasHtmlInfo = htmlFields.doi || htmlFields.scienti || htmlFields.uri;
+  const html = hasHtmlInfo ? htmlFields : undefined;
 
   const sourceItems = [
     { key: "4", label: "Fuente", children: name || "No disponible" },
@@ -104,39 +111,12 @@ export default function DocumentModal({ documentID }) {
 
   return (
     <div>
-      <Space>
-        {open_access.url && (
-          <Button
-            type="default"
-            size="small"
-            icon={<FilePdfOutlined />}
-            href={open_access.url}
-            target="_blank"
-          >
-            PDF
-          </Button>
-        )}
-        <Button
-          type="default"
-          size="small"
-          icon={<FileTextOutlined />}
-          href={`${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${documentID}`}
-          target="_blank"
-        >
-          JSON
-        </Button>
-        {doi && (
-          <Button
-            type="default"
-            size="small"
-            icon={<DesktopOutlined />}
-            href={doi}
-            target="_blank"
-          >
-            HTML
-          </Button>
-        )}
-      </Space>
+      <WorkExternalButtons
+        open_access={open_access}
+        documentID={documentID}
+        html={html}
+        bibtex={bibtex}
+      />
       <h4 className={style.margin_5}>
         <TranslationOutlined /> Idioma: {LANGUAGES[language]}
       </h4>
@@ -149,30 +129,21 @@ export default function DocumentModal({ documentID }) {
         workID={documentID}
       />
       <h4 className={style.margin_5}>
-        <TagsOutlined /> Temas:{" "}
+        <TagsOutlined /> Tópico:{" "}
       </h4>
-      {subjects.length ? (
-        <SubjectsTags subjectsList={subjects} />
-      ) : (
-        "No disponible"
-      )}
+      {topics?.length > 0 && <TopicTag topic={topics[0]} />}
       <h4 className={style.margin_5}>Abstract:</h4>
-      <InvertedIndex abstract={abstract} />
+      <InvertedIndex abstract={abstract} modal={true} />
       <WorksInfo
         citationsCount={citations_count}
         yearPublished={year_published}
         doi={doi}
       />
-      <Descriptions
-        column={5}
-        bordered
-        size="small"
-        contentStyle={{ fontSize: "12px", padding: "5px" }}
-        labelStyle={{ padding: "5px 10px" }}
-        items={RenderedExternalIDs(external_ids).concat(
-          RenderedExternalURLs(external_urls)
-        )}
+      <WorkLinksTable
+        external_ids={external_ids}
+        external_urls={external_urls}
       />
+
       <Divider className={style.margin_10} />
       <div className={style.source_container}>
         <h4 className={style.margin_5}>

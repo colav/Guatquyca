@@ -87,14 +87,12 @@ export default function AuthorsList({ authors, authors_count, workID }) {
           </Tooltip>
         );
       })}
-
-      {authors_count > authorsList.length && (
-        <ShowMoreAPICall
-          authors={authors}
-          setAuthorsList={setAuthorsList}
-          workID={workID}
-        />
-      )}
+      <ShowMoreAPICall
+        authors={authors}
+        setAuthorsList={setAuthorsList}
+        workID={workID}
+        authors_count={authors_count}
+      />
     </div>
   );
 }

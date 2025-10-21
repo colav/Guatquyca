@@ -3,6 +3,7 @@ import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
 import CitationsCount from "../CitationsCount/CitationsCount";
 import ClientLogger from "@/lib/Utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
+import Flag from "../Flag/Flag";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
@@ -22,7 +23,6 @@ import { Avatar, Card, Col, Row } from "antd";
 
 /* Utilities */
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
-import Flag from "../Flag/Flag";
 
 /**
  * EntityList is a "server-side" function component that displays a list of entities.
@@ -72,12 +72,14 @@ export default async function EntityList({ searchParams, entity }) {
                       >
                         {item.name}
                       </Link>{" "}
-                      {entity === "institution" && item.addresses?.length && (
-                        <Flag
-                          country={item.addresses[0]?.country}
-                          countryCode={item.addresses[0]?.country_code}
-                        />
-                      )}
+                      {entity === "institution" &&
+                        item.addresses?.length &&
+                        item.addresses[0]?.country_code && (
+                          <Flag
+                            country={item.addresses[0]?.country}
+                            countryCode={item.addresses[0]?.country_code}
+                          />
+                        )}
                     </>
                   </Col>
                   {entity != "institution" && (
