@@ -4,6 +4,10 @@
   height: auto;
 }
 
+#logo_ascun {
+  max-height: 65px;
+}
+
 .logo:hover {
   transform: scale(1.1, 1.1);
 }
@@ -30,5 +34,9 @@
 @media (max-width: 767px) {
   .logo {
     padding: 25px;
+  }
+
+  #logo_ascun {
+  max-height: 100%;
   }
 }

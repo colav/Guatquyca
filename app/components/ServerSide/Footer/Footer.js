@@ -26,7 +26,7 @@ export default function Foot() {
         <Col span={24} id={styles.title}>
           Fundadores:
         </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
+        <Col xs={24} md={3} className={styles.width_370}>
           <Link href="/affiliation/institution/03bp5hc83/affiliations">
             <Image
               className={styles.logo}
@@ -37,7 +37,7 @@ export default function Foot() {
             />
           </Link>
         </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
+        <Col xs={24} md={3} className={styles.width_370}>
           <Link href="/affiliation/institution/05tkb8v92/affiliations">
             <Image
               className={styles.logo}
@@ -48,7 +48,7 @@ export default function Foot() {
             />
           </Link>
         </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
+        <Col xs={24} md={3} className={styles.width_370}>
           <Link href="/affiliation/institution/02xtwpk10/affiliations">
             <Image
               className={styles.logo}
@@ -60,12 +60,24 @@ export default function Foot() {
             />
           </Link>
         </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
+        <Col xs={24} md={3} className={styles.width_370}>
           <Link href="/affiliation/institution/00jb9vg53/affiliations">
             <Image
               className={styles.logo}
               src={"/media/logo_univalle.svg"}
               alt="Logotipo Universidad Del Valle"
+              width={250}
+              height={100}
+            />
+          </Link>
+        </Col>
+        <Col xs={24} md={3} className={styles.width_370}>
+          <Link href="https://ascun.org.co/" target="_blank" rel="noreferrer">
+            <Image
+              className={styles.logo}
+              id={styles.logo_ascun}
+              src={"/media/logo_ascun.svg"}
+              alt="Logotipo Asociación Colombiana de Universidades - ASCUN"
               width={250}
               height={100}
             />
