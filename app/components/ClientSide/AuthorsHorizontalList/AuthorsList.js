@@ -11,6 +11,9 @@ import ShowMoreAPICall from "../ShowMoreButton/ShowMoreAPICall";
 /* UI Library Components */
 import { Button, Tooltip } from "antd";
 
+/* Utilities */
+import { formatName } from "@/lib/Utils/formatName";
+
 /* Constants */
 const AUTHOR_LABELS = {
   advisor: "Asesor",
@@ -76,7 +79,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
               type="link"
               aria-label={`Autor: ${author.full_name}`}
             >
-              {author.full_name}
+              {formatName(author.full_name)}
               {AUTHOR_LABELS[author.type] && (
                 <span style={{ fontWeight: 500, fontSize: 13, color: "#888" }}>
                   {" "}

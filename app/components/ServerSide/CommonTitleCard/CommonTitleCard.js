@@ -10,11 +10,14 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 /* Icons */
 import { ReadOutlined } from "@ant-design/icons";
 
+/* styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { Avatar, Col, Row } from "antd";
 
-/* styles */
-import styles from "./styles.module.css";
+/* Utils */
+import { formatName } from "@/lib/Utils/formatName";
 
 /**
  * CommonTitleCard is a "server-side" function component that displays a title card with an avatar, a title,
@@ -57,7 +60,7 @@ export default function CommonTitleCard({ data, entity }) {
       <Col xs={24} sm={16} md={24} lg={19} xl={18}>
         <Row>
           <h1 id={styles.title}>
-            {full_name || name}{" "}
+            {formatName(full_name) || name}{" "}
             {entity === "institution" && countryCode && (
               <Flag country={country} countryCode={countryCode} />
             )}

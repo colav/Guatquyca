@@ -11,6 +11,7 @@ import { Card, Empty, List } from "antd";
 
 /* Utilities */
 import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import { formatName } from "@/lib/Utils/formatName";
 
 /**
  * ListCard is a client-side function component that displays a list of items in a Card component.
@@ -52,7 +53,7 @@ export default function ListCard({ type, list }) {
                         : `/affiliation/${type}/${item.id}/affiliations`
                     }
                   >
-                    {item.full_name}
+                    {formatName(item.full_name)}
                     {item.name}
                   </Link>
                 }
