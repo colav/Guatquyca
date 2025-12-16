@@ -2,7 +2,6 @@
 import EmptyCard from "../../ClientSide/EmptyCard/EmptyCard";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import NewItem from "../../ClientSide/NewItem/NewItem";
-import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
 import getData from "@/lib/APIS/api";
@@ -11,12 +10,9 @@ import URLBuilder from "@/lib/Utils/URLBuilder";
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Library Components */
-import { Card } from "antd";
-
 /* Utilities */
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import ClientLogger from "@/lib/Utils/clientLogger";
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 
 /**
  * NewsList is a server-side functional component that fetches and displays a list of news articles related to a specific entity.
@@ -44,17 +40,12 @@ export default async function NewsList({ searchParams, params, entity }) {
     return <EmptyCard text="No hay Noticias disponibles para esta perfil." />;
   }
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1 ? SINGULAR_TITLES["news"] : TITLES["news"]
-      }`}
-      extra={<SortSearchResults searchParams={searchParams} type="news" />}
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type="news"
+      csv={false}
+      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -66,6 +57,6 @@ export default async function NewsList({ searchParams, params, entity }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }

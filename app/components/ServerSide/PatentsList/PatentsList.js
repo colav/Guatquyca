@@ -1,8 +1,8 @@
 /* Components */
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import EmptyCard from "../../ClientSide/EmptyCard/EmptyCard";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import PatentItem from "../../ClientSide/PatentItem/PatentItem";
-import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
 import getData from "@/lib/APIS/api";
@@ -11,11 +11,7 @@ import URLBuilder from "@/lib/Utils/URLBuilder";
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Library Components */
-import { Card } from "antd";
-
 /* Utilities */
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import ClientLogger from "@/lib/Utils/clientLogger";
 
 /**
@@ -44,19 +40,12 @@ export default async function PatentsList({ searchParams, params, entity }) {
     return <EmptyCard text="No hay Patentes disponibles para esta perfil." />;
   }
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1
-          ? SINGULAR_TITLES["patents"]
-          : TITLES["patents"]
-      }`}
-      extra={<SortSearchResults searchParams={searchParams} type="patents" />}
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type="patents"
+      csv={false}
+      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -68,6 +57,6 @@ export default async function PatentsList({ searchParams, params, entity }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }

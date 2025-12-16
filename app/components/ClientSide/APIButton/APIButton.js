@@ -21,17 +21,23 @@ import { Button, Tooltip } from "antd";
  * @param {Object} searchParams - The query parameters used to build the API URL.
  * @returns {JSX.Element} The APIButton component.
  */
-export default function APIButton({ searchParams }) {
+export default function APIButton({ searchParams, apiExpert }) {
   const pathname = usePathname();
   const URL = URLBuilder(pathname, searchParams);
 
   return (
-    <Tooltip title="Ver en la API - JSON">
+    <Tooltip
+      color="white"
+      title="Ver en la API - JSON"
+      styles={{ body: { color: "black" } }}
+    >
       <Button
         type="primary"
         icon={<CodeOutlined id={styles.icon} />}
         size="small"
-        href={`${process.env.NEXT_PUBLIC_CLIENT_API}${URL}`}
+        href={`${process.env.NEXT_PUBLIC_CLIENT_API}${
+          apiExpert ? "" : "/app"
+        }${URL}`}
         target="_blank"
         id={styles.api_button}
       >
