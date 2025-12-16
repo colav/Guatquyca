@@ -1,9 +1,7 @@
 /* Components */
-import APIButton from "../../ClientSide/APIButton/APIButton";
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import ClientLogger from "@/lib/Utils/clientLogger";
-import CSVButton from "../../ClientSide/CSVButton/CSVButton";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
-import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /* Hooks */
@@ -12,11 +10,7 @@ import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Library Components */
-import { Card } from "antd";
-
 /* Utilities */
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 import getData from "@/lib/APIS/api";
 import MathJax from "@/lib/Utils/mathjax";
 import Script from "next/script";
@@ -48,23 +42,12 @@ export default async function WorkList({ searchParams, params, entity }) {
   const { data, fullUrl } = await getData(URL);
 
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1 ? SINGULAR_TITLES["works"] : TITLES["works"]
-      }`}
-      extra={
-        <div style={{ display: "flex" }}>
-          <SortSearchResults searchParams={searchParams} type="works" />
-          {entity !== "search" && <CSVButton searchParams={searchParams} />}
-          <APIButton searchParams={searchParams} />
-        </div>
-      }
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type="works"
+      csv={entity !== "search"}
+      apiExpert={true}
     >
       <UseCleanupAltmetric />
       <MathJax />
@@ -80,6 +63,6 @@ export default async function WorkList({ searchParams, params, entity }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }
