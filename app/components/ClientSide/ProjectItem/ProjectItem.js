@@ -33,10 +33,7 @@ export default function ProjectItem({ item }) {
   return (
     <>
       {item.product_types.length ? (
-        <InvisibleContainer
-          source={item.product_types}
-          productType="projects"
-        />
+        <InvisibleContainer typesList={item.product_types} type="projects" />
       ) : (
         ""
       )}

@@ -11,7 +11,7 @@ import styles from "./styles.module.css";
  *
  * @param {number} number - The number of citations from Google Scholar to display.
  */
-export default function OpenAlexBadge({ number }) {
+export default function ScholarBadge({ number }) {
   return (
     <div className={styles.container}>
       <Image

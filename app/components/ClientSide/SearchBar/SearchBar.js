@@ -14,6 +14,7 @@ const SEARCH_CONFIG = {
     works: "citations_desc",
     patents: "alphabetical_asc",
     projects: "alphabetical_asc",
+    sources: "products_desc",
   },
   defaultQueryParams: {
     max: "10",
@@ -36,8 +37,9 @@ import {
 /* Icons */
 import { BankOutlined, FileTextOutlined } from "@ant-design/icons";
 
-/* lib */
+/* Utils */
 import { APIRequest } from "@/lib/APIS/clientAPI";
+import { formatName } from "@/lib/Utils/formatName";
 
 /* Next */
 import Link from "next/link";
@@ -176,7 +178,9 @@ export default function SearchBar() {
               href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
             >
               <div className={styles.label_container}>
-                <span className={styles.label}>{item.full_name}</span>
+                <span className={styles.label}>
+                  {formatName(item.full_name)}
+                </span>
                 <span className={styles.subtitles}>
                   <FileTextOutlined /> {item._source.products_count}
                 </span>

@@ -8,12 +8,16 @@ import DeleteFilter from "./DeleteFilter";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
-import { Row, TreeSelect } from "antd";
+import { Row, TreeSelect, Col, Tag, ConfigProvider } from "antd";
 import { TITLES } from "@/lib/constants";
 
 /* Utils */
 import { coarFilterFormatter } from "@/lib/Utils/coarFilterFormatter";
+import { formatNumber } from "@/lib/Utils/formatNumber";
 
 /**
  * TreeSelectFilter is a client-side functional component that provides a tree-select filter
@@ -42,26 +46,48 @@ export default function TreeSelectFilter({ data, filterType }) {
 
   return (
     <>
-      <TreeSelect
-        size="small"
-        treeData={data}
-        treeLine
-        multiple
-        showSearch
-        style={{ width: "100%" }}
-        value={value}
-        listHeight={400}
-        placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
-        treeDefaultExpandAll={false}
-        onChange={onChange}
-        filterTreeNode={(inputValue, treeNode) =>
-          treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
-        }
-      />
-      <Row justify="end" style={{ marginTop: "12px" }}>
-        <DeleteFilter filterType={filterType} queryParams={query} />
-        <ApplyFilter value={value} filterType={filterType} query={query} />
-      </Row>
+      <ConfigProvider
+        theme={{
+          components: {
+            TreeSelect: {
+              indentSize: 6,
+            },
+          },
+        }}
+      >
+        <TreeSelect
+          size="small"
+          treeData={data}
+          treeLine
+          multiple
+          showSearch
+          style={{ width: "100%" }}
+          value={value}
+          listHeight={400}
+          placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
+          treeDefaultExpandAll={false}
+          onChange={onChange}
+          filterTreeNode={(inputValue, treeNode) =>
+            treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
+          }
+          treeTitleRender={(nodeData) => (
+            <Row justify="space-between" style={{ width: "100%" }}>
+              <Col xs={19} md={20} className={styles.optionLabel}>
+                {nodeData.title}
+              </Col>
+              {typeof nodeData.count !== "undefined" && (
+                <Tag bordered={false} style={{ marginRight: 2 }}>
+                  {formatNumber(nodeData.count)}
+                </Tag>
+              )}
+            </Row>
+          )}
+        />
+        <Row justify="end" style={{ marginTop: 12 }}>
+          <DeleteFilter filterType={filterType} queryParams={query} />
+          <ApplyFilter value={value} filterType={filterType} query={query} />
+        </Row>
+      </ConfigProvider>
     </>
   );
 }

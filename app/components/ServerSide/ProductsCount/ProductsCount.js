@@ -2,7 +2,7 @@
 import { Col } from "antd";
 
 /* icons */
-import { FileOutlined } from "@ant-design/icons";
+import { CopyOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -14,11 +14,19 @@ import styles from "./styles.module.css";
  * @param {number} props.products_count - The count of products to display.
  * @returns {JSX.Element} A Col component that displays the count of products.
  */
-export default function ProductsCount({ products_count }) {
+export default function ProductsCount({ products_count, size = "default" }) {
+  if (size === "small") {
+    return (
+      <div className={styles.productsCount_small}>
+        <CopyOutlined /> Productos:{" "}
+        <span className={styles.text}>{products_count || 0}</span>
+      </div>
+    );
+  }
   return (
     <Col xs={24} md={6} lg={7} xl={5}>
       <h2 className={styles.title}>
-        <FileOutlined /> Productos:
+        <CopyOutlined /> Productos:
       </h2>
       <div className={styles.text}>
         {products_count ? products_count : "No disponible"}

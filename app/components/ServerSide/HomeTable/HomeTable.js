@@ -53,6 +53,11 @@ export default function HomeTable() {
     },
     {
       key: "9",
+      search: "Fuentes",
+      example: "Nature",
+    },
+    {
+      key: "10",
       search: "Convenios",
       example: "Módulo en desarrollo, próximamente disponible.",
     },

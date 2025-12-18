@@ -1,0 +1,64 @@
+.gray {
+  color: gray !important;
+}
+
+.scimago_container {
+  position: absolute;
+  bottom: 0;
+  right: 18px;
+}
+
+.hr {
+  background-color: #f9f9f9;
+  border: none;
+  height: 4px;
+  margin-bottom: 15px;
+}
+
+.source_item {
+  border-bottom: 5px solid #f5f5f5;
+  padding-bottom: 20px;
+  margin-top: 15px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.005), 0 5px 6px rgba(0, 0, 0, 0.008),
+    0 8px 10px rgba(0, 0, 0, 0.01), 0 11px 20px rgba(0, 0, 0, 0.015);
+}
+
+.source_container {
+  margin-left: 125px;
+  margin-right: 10px;
+  min-height: 150px;
+  font-size: 16px;
+  color: rgb(134, 134, 149);
+}
+
+.source_title {
+  color: #1c4747;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.ribbon {
+  padding: 5px 5px !important;
+}
+
+@media screen and (max-width: 767px) {
+  .source_container {
+    margin-left: 15px;
+    margin-right: 10px;
+    padding-top: 50px;
+  }
+
+  .ribbon {
+    width: auto !important;
+  }
+
+  .ribbon > span {
+    margin: 2px 30px;
+  }
+
+  .scimago_container {
+    position: static;
+    margin: 12px 0 0 10px;
+  }
+}
