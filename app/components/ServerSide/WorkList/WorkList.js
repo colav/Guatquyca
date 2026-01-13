@@ -33,6 +33,8 @@ export default async function WorkList({ searchParams, params, entity }) {
       `/app/affiliation/${params.entity}/${params.ID}/research/products`,
       searchParams
     );
+  } else if (entity === "source") {
+    URL = URLBuilder(`/app/source/${params.ID}/products`, searchParams);
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/products`,

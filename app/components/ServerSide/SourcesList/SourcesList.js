@@ -37,7 +37,7 @@ export default async function SourcesList({ searchParams }) {
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
-          <SourceItem key={item.id} item={item} />
+          <SourceItem key={item.id} item={item} onList={true} />
         ))}
       </ul>
       <PaginationController

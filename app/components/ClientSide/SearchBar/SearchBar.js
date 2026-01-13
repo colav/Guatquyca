@@ -35,9 +35,14 @@ import {
 } from "next/navigation";
 
 /* Icons */
-import { BankOutlined, FileTextOutlined } from "@ant-design/icons";
+import {
+  BankOutlined,
+  BookOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
 
 /* Utils */
+import autocompleteURLBuilder from "@/lib/Utils/autocompleteURLBuilder";
 import { APIRequest } from "@/lib/APIS/clientAPI";
 import { formatName } from "@/lib/Utils/formatName";
 
@@ -142,14 +147,10 @@ export default function SearchBar() {
         return;
       }
 
-      const requestUrl =
-        selectedOption.value === "person"
-          ? `/app/completer/${selectedOption.value}/${encodeURIComponent(
-              input
-            )}`
-          : `/app/completer/affiliations/${
-              selectedOption.value
-            }/${encodeURIComponent(input)}`;
+      const requestUrl = autocompleteURLBuilder(
+        selectedOption.value,
+        encodeURIComponent(input)
+      );
 
       input.trim().length === 1
         ? setSuggestionsUrl(requestUrl)
@@ -188,6 +189,28 @@ export default function SearchBar() {
               {item._source?.affiliations?.[0]?.name && (
                 <div className={styles.subtitles}>
                   <BankOutlined /> {item._source.affiliations[0].name}.
+                </div>
+              )}
+              {!isLast && <Divider className={styles.margin_0} />}
+            </Link>
+          ),
+          value: item._id,
+        };
+      } else if (selectedOption.value === "sources") {
+        return {
+          label: (
+            <Link
+              href={`/source/${item._id}/products?max=10&page=1&sort=citations_desc`}
+            >
+              <div className={styles.label_container}>
+                <span className={styles.label}>{formatName(item.name)}</span>
+                <span className={styles.subtitles}>
+                  <FileTextOutlined /> {item._source.products_count}
+                </span>
+              </div>
+              {item._source?.publisher && (
+                <div className={styles.subtitles}>
+                  <BookOutlined /> {item._source.publisher}.
                 </div>
               )}
               {!isLast && <Divider className={styles.margin_0} />}
@@ -250,10 +273,14 @@ export default function SearchBar() {
   const handleSelect = useCallback(
     (value) => {
       setSearchInput("");
-      const path =
-        selectedOption.value === "person"
-          ? `/${selectedOption.value}/${value}/research/products?max=10&page=1&sort=citations_desc`
-          : `/affiliation/${selectedOption.value}/${value}/affiliations`;
+      let path;
+      if (selectedOption.value === "person") {
+        path = `/${selectedOption.value}/${value}/research/products?max=10&page=1&sort=citations_desc`;
+      } else if (selectedOption.value === "sources") {
+        path = `/source/${value}/products?max=10&page=1&sort=citations_desc`;
+      } else {
+        path = `/affiliation/${selectedOption.value}/${value}/affiliations`;
+      }
       router.push(path);
     },
     [router, selectedOption.value]

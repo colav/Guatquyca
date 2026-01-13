@@ -22,8 +22,8 @@ import { TagsOutlined } from "@ant-design/icons";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import Ribbon from "antd/lib/badge/Ribbon";
 import { Col, Divider, Row } from "antd";
+import Ribbon from "antd/lib/badge/Ribbon";
 
 /* Utils */
 import Link from "next/link";
@@ -51,8 +51,9 @@ import Link from "next/link";
  *
  * @returns {JSX.Element} The rendered source item component.
  */
-export default function SourceItem({ item }) {
+export default function SourceItem({ item, onList = false }) {
   const ribbonStyles = {
+    marginTop: onList ? "-8px" : "15px",
     boxShadow:
       "8px -8px 6px rgba(255, 240, 240, 0.3)," +
       "2px 2px 8px rgba(255, 116, 69, 0.3)," +
@@ -64,6 +65,7 @@ export default function SourceItem({ item }) {
     fontSize: "15px",
     lineHeight: "1.1",
     display: item.type ? "block" : "none",
+    zIndex: 2,
   };
 
   return (
@@ -75,16 +77,22 @@ export default function SourceItem({ item }) {
         style={ribbonStyles}
         className={styles.ribbon}
       >
-        <li key={item.id} className={styles.source_item}>
+        <li
+          key={item.id}
+          className={onList ? styles.source_item_list : styles.source_item}
+        >
           <div className={styles.source_container}>
             <Row align="middle">
-              {/* <Link href={`/source/${item.id}`} className={styles.source_title}> */}
-              <span
-                style={{ fontSize: "20px", fontWeight: "600", marginRight: 8 }}
-              >
-                {item.names[0].name}{" "}
-              </span>
-              {/* </Link> */}
+              {onList ? (
+                <Link
+                  href={`/source/${item.id}/products?max=10&page=1&sort=citations_desc`}
+                  className={styles.source_title}
+                >
+                  {item.names[0].name}{" "}
+                </Link>
+              ) : (
+                <h1 id={styles.title}>{item.names[0].name} </h1>
+              )}
               <OpenAccessSection
                 apc={item.apc}
                 open_access_status={item.open_access_status}

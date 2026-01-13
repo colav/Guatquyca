@@ -18,7 +18,7 @@ export default function OpenAccessSection({ apc, open_access_status, waiver }) {
   return (
     <>
       <OpenAccessStatus status={open_access_status} />
-      {apc.charges !== null && <APCTag apc={apc} />}
+      {typeof apc.charges === "number" && <APCTag apc={apc} />}
       {waiver.has_waiver && <Waiver waiver={waiver} />}
     </>
   );

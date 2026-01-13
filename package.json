@@ -1,6 +1,6 @@
 {
   "name": "guatquyca",
-  "version": "3.13.0",
+  "version": "3.13.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/charts": "^2.2.5",
+    "@ant-design/charts": "^2.6.5",
     "@ant-design/icons": "^5.3.6",
     "@ant-design/maps": "^1.0.8",
     "@ant-design/nextjs-registry": "^1.0.0",

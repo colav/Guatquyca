@@ -93,9 +93,9 @@ export default async function WorkPage({ params }) {
     <div className={styles.main_container}>
       {workData.product_types?.length > 0 && (
         <InvisibleContainer
-          source={workData.product_types}
-          productType="works"
-          type="wide"
+          typesList={workData.product_types}
+          type="works"
+          layout="wide"
         />
       )}
       <Ribbon

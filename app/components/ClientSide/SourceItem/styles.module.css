@@ -1,5 +1,6 @@
-.gray {
-  color: gray !important;
+#title {
+  margin: 0 10px 0 0;
+  z-index: 1;
 }
 
 .scimago_container {
@@ -8,14 +9,28 @@
   right: 18px;
 }
 
-.hr {
-  background-color: #f9f9f9;
-  border: none;
-  height: 4px;
-  margin-bottom: 15px;
+.source_item {
+  list-style-type: none;
+  background-color: white;
+  border-radius: 7px;
+  padding: 20px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
 }
 
-.source_item {
+.source_item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url(/media/pattern.svg);
+  background-size: cover;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.source_item_list {
   border-bottom: 5px solid #f5f5f5;
   padding-bottom: 20px;
   margin-top: 15px;

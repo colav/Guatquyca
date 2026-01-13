@@ -13,8 +13,9 @@ import Loading from "@/app/loading";
 import ColumnChart from "./DistributionCharts/ColumnChart";
 import GraphChart from "./GraphCharts/GraphChart";
 import MapChart from "./MapCharts/MapChart";
-import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
 import PieChart from "./PercentageCharts/PieChart";
+import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
+import StepAreaChart from "./EvolutionCharts/StepAreaChart";
 import TreemapChart from "./PercentageCharts/TreemapChart";
 import VennChart from "./SetCharts/VennChart";
 
@@ -108,6 +109,7 @@ export default function ChartsHandler({ plotlist }) {
         <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
       ),
     set: <VennChart data={state.data.plot} />,
+    evolution: <StepAreaChart data={state.data.plot} />,
   };
 
   const renderChart = () => {
