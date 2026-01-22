@@ -50,33 +50,6 @@ export default function UsersTable({
   onInstitutionFilterChange,
   onEditUser,
 }) {
-  /* const users = {
-    data: [
-      {
-        email: "estebancogo47@gmail.com",
-        id: "68e836d6bec2a0bfaece5f47",
-        institucion: "Universidad de Antioquia",
-        is_active: true,
-        rol: "Backend",
-      },
-      {
-        email: "prueba@impactu.co",
-        id: "00jb9vg53",
-        institucion: "Universidad del Valle",
-        is_active: true,
-        rol: "staff",
-      },
-      {
-        email: "luismvargasg@gmail.com",
-        id: "05tkb8v92",
-        institucion: "Universidad Autónoma Latinoamericana",
-        is_active: true,
-        rol: "researcher",
-      },
-    ],
-    success: true,
-  }; */
-
   const handleSessionExpired = useSessionExpired();
 
   const dataSource = (users?.data || []).filter((user) =>

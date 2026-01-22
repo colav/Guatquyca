@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal, Form, Input, Select, message } from "antd";
+import { Modal, Form, Input, message } from "antd";
 import { useState, useEffect } from "react";
 
 /* APIs */
@@ -26,38 +26,44 @@ export default function UserFormModal({
   const isEdit = mode === "edit";
 
   useEffect(() => {
-    if (open && isEdit && user) {
+    if (!open) return;
+
+    if (isEdit && user) {
       form.setFieldsValue({
         email: user.email,
         rol: user.rol,
         institution: user.institucion,
         ror_id: user.ror_id,
       });
-    }
-
-    if (!open) {
+    } else {
       form.resetFields();
     }
   }, [open, isEdit, user, form]);
 
   const handleSubmit = async () => {
+    console.log("[UserFormModal] SUBMIT CLICKED");
+
     try {
       const values = await form.validateFields();
       setLoading(true);
 
-      const payload = {
-        institution: values.institution,
-        ror_id: values.ror_id,
-        rol: values.rol,
-        email: values.email,
-      };
-
       if (isEdit) {
+        const payload = {
+          email: values.email,
+          rol: values.rol,
+        };
+
         await updateAdminUser(user.email, payload);
-        message.success("Usuario actualizado correctamente", 8);
+        message.success("Usuario actualizado correctamente", 6);
       } else {
+        const payload = {
+          institution: values.institution,
+          ror_id: values.ror_id,
+          rol: values.rol,
+        };
+
         await createAdminUser(values.email, payload);
-        message.success("Usuario creado correctamente", 8);
+        message.success("Usuario creado correctamente", 6);
       }
 
       form.resetFields();
@@ -67,7 +73,7 @@ export default function UserFormModal({
       if (err?.status === 401 || err?.message === "SESSION_EXPIRED") {
         handleSessionExpired();
       } else if (err?.message) {
-        message.error(err.message, 8);
+        message.error(err.message, 6);
       }
     } finally {
       setLoading(false);
@@ -83,13 +89,15 @@ export default function UserFormModal({
       confirmLoading={loading}
       okText={isEdit ? "Guardar cambios" : "Crear"}
       cancelText="Cancelar"
-      destroyOnClose
     >
-      <Form layout="vertical" form={form}>
+      <Form layout="vertical" form={form} preserve={false}>
         <Form.Item
           label="Correo electrónico"
           name="email"
-          rules={[{ required: true, type: "email", message: "Email inválido" }]}
+          rules={[
+            { required: true, message: "Ingrese el correo" },
+            { type: "email", message: "Email inválido" },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -105,7 +113,11 @@ export default function UserFormModal({
         <Form.Item
           label="Institución"
           name="institution"
-          rules={[{ required: true, message: "Seleccione una institución" }]}
+          rules={
+            isEdit
+              ? []
+              : [{ required: true, message: "Seleccione una institución" }]
+          }
         >
           {isEdit ? (
             <Input disabled />
@@ -118,7 +130,11 @@ export default function UserFormModal({
           )}
         </Form.Item>
 
-        <Form.Item name="ror_id" hidden rules={[{ required: true }]}>
+        <Form.Item
+          name="ror_id"
+          hidden
+          rules={isEdit ? [] : [{ required: true }]}
+        >
           <Input />
         </Form.Item>
       </Form>
