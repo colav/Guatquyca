@@ -8,7 +8,7 @@ import { CalendarOutlined } from "@ant-design/icons";
 import styles from "./styles.module.css";
 
 /* Utils */
-import dateBuilder from "@/lib/Utils/dateBuilder";
+import dateBuilder from "@/lib/utils/dateBuilder";
 
 /**
  * News item component that displays a single news article with title, publication date, and media source.

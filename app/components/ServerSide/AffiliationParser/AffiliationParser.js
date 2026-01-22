@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 /* lib */
-import dateBuilder from "@/lib/Utils/dateBuilder";
+import dateBuilder from "@/lib/utils/dateBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";

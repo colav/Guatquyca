@@ -19,7 +19,7 @@ import styles from "./styles.module.css";
 import { Space, Tooltip } from "antd";
 
 /* Utilities */
-import dateBuilder from "@/lib/Utils/dateBuilder";
+import dateBuilder from "@/lib/utils/dateBuilder";
 import { LANGUAGES } from "@/lib/constants";
 
 /**

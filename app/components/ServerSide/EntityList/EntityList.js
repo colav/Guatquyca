@@ -2,15 +2,15 @@
 import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 
 /* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";

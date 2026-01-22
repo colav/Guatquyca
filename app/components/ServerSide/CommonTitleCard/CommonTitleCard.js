@@ -17,7 +17,7 @@ import styles from "./styles.module.css";
 import { Avatar, Col, Row } from "antd";
 
 /* Utils */
-import { formatName } from "@/lib/Utils/formatName";
+import { formatName } from "@/lib/utils/formatName";
 
 /**
  * CommonTitleCard is a "server-side" function component that displays a title card with an avatar, a title,

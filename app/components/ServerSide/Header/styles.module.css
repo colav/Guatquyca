@@ -24,6 +24,26 @@
   margin: 10px 0;
 }
 
+#user_button {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+#login_button {
+  background-color: #295072;
+  color: #55c4ff !important;
+  border: 1px solid #53aada;
+  padding: 8px;
+  box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+#login_button:hover {
+  background-color: #295d85;
+  border-color: #8fdcff;
+  box-shadow: 1px 2px 7px rgba(255, 255, 255, 0.2);
+}
+
 @media (max-width: 767px) {
   #logo_container {
     text-align: center;

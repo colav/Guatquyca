@@ -12,7 +12,7 @@ import ShowMoreAPICall from "../ShowMoreButton/ShowMoreAPICall";
 import { Button, Tooltip } from "antd";
 
 /* Utilities */
-import { formatName } from "@/lib/Utils/formatName";
+import { formatName } from "@/lib/utils/formatName";
 
 /* Constants */
 const AUTHOR_LABELS = {
@@ -44,7 +44,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
 
   const institutionId = useMemo(() => {
     const match = pathname.match(
-      /\/(institution|group|faculty|department)\/([^/]+)\/research/
+      /\/(institution|group|faculty|department)\/([^/]+)\/research/,
     );
     return match?.[2] || null;
   }, [pathname]);
@@ -55,7 +55,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
         const isAdvisor =
           author.type === "advisor" || author.type === "co-advisor";
         const isInstitutionAffiliated = author.affiliations?.some(
-          (aff) => aff.id === institutionId
+          (aff) => aff.id === institutionId,
         );
 
         return (

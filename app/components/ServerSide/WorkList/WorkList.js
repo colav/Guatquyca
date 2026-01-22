@@ -1,20 +1,20 @@
 /* Components */
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import WorkItem from "../../ClientSide/WorkItem/WorkItem";
 
 /* Hooks */
-import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
+import UseCleanupAltmetric from "@/lib/hooks/useCleanupAltmetric";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
-import MathJax from "@/lib/Utils/mathjax";
+import getData from "@/lib/apis/server.api";
+import MathJax from "@/lib/utils/mathjax";
 import Script from "next/script";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * WorkList is a server-side functional component that fetches and displays a list of works related to a specific entity.
@@ -31,14 +31,14 @@ export default async function WorkList({ searchParams, params, entity }) {
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/products`,
-      searchParams
+      searchParams,
     );
   } else if (entity === "source") {
     URL = URLBuilder(`/app/source/${params.ID}/products`, searchParams);
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/products`,
-      searchParams
+      searchParams,
     );
   }
   const { data, fullUrl } = await getData(URL);

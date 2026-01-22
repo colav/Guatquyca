@@ -8,7 +8,7 @@ const Column = dynamic(
   () => import("@ant-design/charts").then((mod) => mod.Column),
   {
     ssr: false,
-  }
+  },
 );
 
 /* Styles */
@@ -19,7 +19,7 @@ import { Empty } from "antd";
 
 /* Utils */
 import { PALETTE } from "@/lib/constants";
-import limitItemsPerYear from "@/lib/Utils/limitItemsPerYear";
+import limitItemsPerYear from "@/lib/utils/limitItemsPerYear";
 
 /**
  * StackedColumnChart is a client-side function component that displays a stacked column chart.

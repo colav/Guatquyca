@@ -16,7 +16,7 @@ import { Col, Row, Select, Tag } from "antd";
 import { TITLES } from "@/lib/constants";
 
 /* Utils */
-import { formatNumber } from "@/lib/Utils/formatNumber";
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * SelectFilter is a client-side functional component that provides a select filter

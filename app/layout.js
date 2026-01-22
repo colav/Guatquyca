@@ -5,11 +5,14 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 /* Analytics */
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+/* Context */
+import { AuthProvider } from "@/app/context/AuthContext";
+
 /* UI Components */
 import { ConfigProvider } from "antd";
 import BackToTop from "./components/ClientSide/BackToTop/BackToTop";
+import HeaderSearchBar from "./components/ServerSide/Header/HeaderSearchBar";
 import Foot from "./components/ServerSide/Footer/Footer";
-import HeadSearch from "./components/ServerSide/Header/HeaderSearchBar";
 
 /* Utils */
 import ScrollToTop from "@/lib/ScrollToTop";
@@ -55,7 +58,7 @@ export function generateMetadata() {
  * @param {ReactNode} children - The child components to render within the layout.
  * @returns {ReactNode} The rendered layout component.
  */
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
@@ -77,10 +80,12 @@ export default function RootLayout({ children }) {
           }}
         >
           <AntdRegistry>
-            <BackToTop />
-            <HeadSearch />
-            <div id="content_container">{children}</div>
-            <Foot />
+            <AuthProvider>
+              <BackToTop />
+              <HeaderSearchBar />
+              <div id="content_container">{children}</div>
+              <Foot />
+            </AuthProvider>
           </AntdRegistry>
         </ConfigProvider>
       </body>

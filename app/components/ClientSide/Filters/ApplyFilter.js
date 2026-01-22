@@ -8,9 +8,9 @@ import styles from "./styles.module.css";
 import { Button, ConfigProvider } from "antd";
 
 /* Utils */
-import applyFilterButtonChecker from "@/lib/Utils/applyFilterButtonChecker";
-import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import applyFilterButtonChecker from "@/lib/utils/applyFilterButtonChecker";
+import { getQueryParamsAsObject } from "@/lib/utils/getQueryParamsAsObject";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * ApplyFilter component provides a button to apply a specific filter to the query parameters.

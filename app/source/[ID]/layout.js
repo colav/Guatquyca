@@ -1,8 +1,8 @@
 /* Components */
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
+import getData from "@/lib/apis/server.api";
 import SourceItem from "@/app/components/ClientSide/SourceItem/SourceItem";
 
 export async function generateMetadata() {

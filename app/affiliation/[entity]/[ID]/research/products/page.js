@@ -13,7 +13,7 @@ import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 import { Col, Row } from "antd";
 
 /* Utilities */
-import plotListFilter from "@/lib/Utils/plotListFilter";
+import plotListFilter from "@/lib/utils/plotListFilter";
 
 /**
  * ProductsOnEntityPage component renders the products related to a specific entity.

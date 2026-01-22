@@ -5,7 +5,7 @@ import Link from "next/link";
 import AuthorInfoFetcher from "./AuthorInfoFetcher";
 
 /* Utils */
-import { formatName } from "@/lib/Utils/formatName";
+import { formatName } from "@/lib/utils/formatName";
 
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.

@@ -1,7 +1,7 @@
 "use client";
 
 /* lib */
-import MapLegendMaker from "@/lib/Utils/MapLegendMaker";
+import MapLegendMaker from "@/lib/utils/MapLegendMaker";
 import { MAP_PALETTE } from "@/lib/constants";
 import { useEffect, useState } from "react";
 

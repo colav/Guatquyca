@@ -8,9 +8,9 @@ import ProjectItem from "../../ClientSide/ProjectItem/ProjectItem";
 import styles from "./styles.module.css";
 
 /* Utilities */
-import ClientLogger from "@/lib/Utils/clientLogger";
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import ClientLogger from "@/lib/utils/clientLogger";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * ProjectsList is a server-side functional component that fetches and displays a list of projects related to a specific entity.
@@ -28,12 +28,12 @@ export default async function ProjectsList({ searchParams, params, entity }) {
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/projects`,
-      searchParams
+      searchParams,
     );
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/projects`,
-      searchParams
+      searchParams,
     );
   }
   const { data, fullUrl } = await getData(URL);

@@ -18,11 +18,11 @@ import { Col, Divider, Row } from "antd";
 import Ribbon from "antd/lib/badge/Ribbon";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
-import MathJax from "@/lib/Utils/mathjax";
+import getData from "@/lib/apis/server.api";
+import MathJax from "@/lib/utils/mathjax";
 import { PRODUCT_TYPES } from "@/lib/constants";
 import Script from "next/script";
-import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
+import UseCleanupAltmetric from "@/lib/hooks/useCleanupAltmetric";
 
 export const metadata = {
   title: "ImpactU - Detalle del Producto",

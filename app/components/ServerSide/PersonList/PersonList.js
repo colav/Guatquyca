@@ -3,13 +3,13 @@ import AffiliationLinks from "@/app/components/ServerSide/AffiliationLinks/Affil
 import AuthorsExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/AuthorsExternalProfiles";
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
 
 /* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";
@@ -21,7 +21,7 @@ import { Avatar, Col, Row, Card } from "antd";
 import styles from "./styles.module.css";
 
 /* Utilities */
-import { formatName } from "@/lib/Utils/formatName";
+import { formatName } from "@/lib/utils/formatName";
 
 /**
  * PersonList is an asynchronous function server component that fetches a list of persons

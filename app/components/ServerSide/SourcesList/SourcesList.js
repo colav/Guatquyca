@@ -8,9 +8,9 @@ import SourceItem from "../../ClientSide/SourceItem/SourceItem";
 import styles from "./styles.module.css";
 
 /* Utilities */
-import ClientLogger from "@/lib/Utils/clientLogger";
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import ClientLogger from "@/lib/utils/clientLogger";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * SourcesList is a server-side functional component that fetches and displays a list of sources related to a specific entity.

@@ -16,8 +16,8 @@ import { Row, TreeSelect, Col, Tag, ConfigProvider } from "antd";
 import { TITLES } from "@/lib/constants";
 
 /* Utils */
-import { coarFilterFormatter } from "@/lib/Utils/coarFilterFormatter";
-import { formatNumber } from "@/lib/Utils/formatNumber";
+import { coarFilterFormatter } from "@/lib/utils/coarFilterFormatter";
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * TreeSelectFilter is a client-side functional component that provides a tree-select filter
@@ -33,7 +33,7 @@ export default function TreeSelectFilter({ data, filterType }) {
     return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
   const [value, setValue] = useState(
-    query.has(filterType) ? query.get(filterType)?.split(",") : null
+    query.has(filterType) ? query.get(filterType)?.split(",") : null,
   );
 
   if (filterType === "product_types") {

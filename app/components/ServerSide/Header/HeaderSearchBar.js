@@ -1,38 +1,55 @@
 "use client";
 
+/* Components */
+import SearchBar from "../../ClientSide/SearchBar/SearchBar";
+import UserMenu from "../../ClientSide/UserMenu/UserMenu";
+
+/* Context */
+import { useAuth } from "@/app/context/AuthContext";
+
+/* Icons */
+import { UserOutlined } from "@ant-design/icons";
+
 /* Next */
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
-
-import SearchBar from "../../ClientSide/SearchBar/SearchBar";
+import { usePathname } from "next/navigation";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Col, Layout, Row } from "antd";
-import { usePathname } from "next/navigation";
+import { Button, Col, Layout, Row } from "antd";
 
 /* UI Library Sub-components */
 const Header = Layout;
 
 /**
- * Head is a "client-side" function component that displays a header.
- * It contains the logo and the search bar, it's used in all pages except the home page.
- *
- * @returns {JSX.Element} A header component.
+ * HeaderSearchBar displays the application header with logo,
+ * search bar and user actions.
  */
-export default function HeadSearch() {
+export default function HeaderSearchBar() {
   const pathname = usePathname();
+  const { user } = useAuth();
+
+  const isAuthenticated = Boolean(user);
+
   return (
     <Header id={styles.header}>
-      <Row align={"middle"} justify={"center"}>
-        <Col xs={24} sm={24} md={9} lg={8} xl={6} id={styles.logo_container}>
+      <Row align="middle" justify="space-between">
+        <Col
+          xs={{ span: 20, order: 1 }}
+          sm={24}
+          md={9}
+          lg={{ span: 8, order: 1 }}
+          xl={6}
+          id={styles.logo_container}
+        >
           <Link href="/">
             <Image
-              priority={true}
-              src={"/media/logo_impactU_B.svg"}
+              priority
+              src="/media/logo_impactU_B.svg"
               alt="Logotipo ImpactU"
               width={300}
               height={80}
@@ -40,10 +57,35 @@ export default function HeadSearch() {
             />
           </Link>
         </Col>
-        <Col xs={24} sm={24} md={15} lg={12} id={styles.searchbar}>
+
+        <Col
+          xs={{ span: 24, order: 3 }}
+          sm={24}
+          md={15}
+          lg={{ span: 12, order: 2 }}
+          id={styles.searchbar}
+        >
           <Suspense>{pathname !== "/" ? <SearchBar /> : null}</Suspense>
         </Col>
-        <Col xs={0} lg={4} xl={6} />
+
+        <Col
+          xs={{ span: 4, order: 2 }}
+          lg={{ span: 4, order: 3 }}
+          xl={6}
+          id={styles.user_button}
+        >
+          {!isAuthenticated && pathname !== "/login" && (
+            <Button
+              icon={<UserOutlined />}
+              href="/login"
+              id={styles.login_button}
+            >
+              Ingresar
+            </Button>
+          )}
+
+          {isAuthenticated && <UserMenu />}
+        </Col>
       </Row>
     </Header>
   );

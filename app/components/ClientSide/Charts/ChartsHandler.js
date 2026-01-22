@@ -20,8 +20,8 @@ import TreemapChart from "./PercentageCharts/TreemapChart";
 import VennChart from "./SetCharts/VennChart";
 
 /* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import { APIRequest } from "@/lib/apis/client.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -30,7 +30,7 @@ import styles from "./styles.module.css";
 import { Card, Empty, TreeSelect } from "antd";
 
 /* Utils */
-import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
+import { getQueryParamsAsObject } from "@/lib/utils/getQueryParamsAsObject";
 
 /* Constants */
 const CARD_HEADER_STYLE = {
@@ -60,8 +60,8 @@ export default function ChartsHandler({ plotlist }) {
 
   const filteredQueryParams = Object.fromEntries(
     Object.entries(queryParams).filter(
-      ([key]) => !ignoredQueryKeys.includes(key)
-    )
+      ([key]) => !ignoredQueryKeys.includes(key),
+    ),
   );
 
   const initialURL = URLBuilder(`/app${pathname}`, queryParams, {

@@ -42,9 +42,9 @@ import {
 } from "@ant-design/icons";
 
 /* Utils */
-import autocompleteURLBuilder from "@/lib/Utils/autocompleteURLBuilder";
-import { APIRequest } from "@/lib/APIS/clientAPI";
-import { formatName } from "@/lib/Utils/formatName";
+import autocompleteURLBuilder from "@/lib/utils/autocompleteURLBuilder";
+import { APIRequest } from "@/lib/apis/client.api";
+import { formatName } from "@/lib/utils/formatName";
 
 /* Next */
 import Link from "next/link";
@@ -88,14 +88,14 @@ export default function SearchBar() {
   // State
   const [selectedOption, setSelectedOption] = useState(() => getDefaultValue());
   const [searchInput, setSearchInput] = useState(
-    searchParams.get("keywords") || ""
+    searchParams.get("keywords") || "",
   );
   const [suggestionsState, setSuggestionsUrl] = APIRequest("");
 
   // Memoized debounced function
   const debouncedSetSuggestionsUrl = useMemo(
     () => debounce((url) => setSuggestionsUrl(url), DEBOUNCE_DELAY),
-    [setSuggestionsUrl]
+    [setSuggestionsUrl],
   );
 
   // Determine default select option
@@ -132,7 +132,7 @@ export default function SearchBar() {
 
       router.push(`${path}?${queryParams.toString()}`);
     },
-    [selectedOption.value, router]
+    [selectedOption.value, router],
   );
 
   // Handle autocomplete input
@@ -149,14 +149,14 @@ export default function SearchBar() {
 
       const requestUrl = autocompleteURLBuilder(
         selectedOption.value,
-        encodeURIComponent(input)
+        encodeURIComponent(input),
       );
 
       input.trim().length === 1
         ? setSuggestionsUrl(requestUrl)
         : debouncedSetSuggestionsUrl(requestUrl);
     },
-    [selectedOption.value, debouncedSetSuggestionsUrl, setSuggestionsUrl]
+    [selectedOption.value, debouncedSetSuggestionsUrl, setSuggestionsUrl],
   );
 
   // Build autocomplete options
@@ -283,7 +283,7 @@ export default function SearchBar() {
       }
       router.push(path);
     },
-    [router, selectedOption.value]
+    [router, selectedOption.value],
   );
   const onChangeSelect = (value) => {
     setSelectedOption(value);

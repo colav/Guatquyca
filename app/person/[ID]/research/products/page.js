@@ -13,7 +13,7 @@ import WorkList from "@/app/components/ServerSide/WorkList/WorkList";
 import { Col, Row } from "antd";
 
 /* Utilities */
-import plotListFilter from "@/lib/Utils/plotListFilter";
+import plotListFilter from "@/lib/utils/plotListFilter";
 
 /**
  * ProductsOnPersonPage is a server-side functional component that fetches data based on provided parameters and displays it using

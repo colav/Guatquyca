@@ -17,7 +17,7 @@ import { Col, Row, Select, Space, Tag } from "antd";
 import { TITLES } from "@/lib/constants";
 
 /* Utils */
-import { formatNumber } from "@/lib/Utils/formatNumber";
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * CountrySelectFilter is a client-side functional component that provides a select filter for selecting multiple items.
@@ -32,7 +32,7 @@ export default function CountrySelectFilter({ data, filterType }) {
     return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
   const [value, setValue] = useState(
-    query.has(filterType) ? query.get(filterType)?.split(",") : null
+    query.has(filterType) ? query.get(filterType)?.split(",") : null,
   );
 
   const onChange = (newValue) => {

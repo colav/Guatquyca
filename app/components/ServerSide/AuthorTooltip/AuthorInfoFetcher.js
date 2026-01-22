@@ -2,7 +2,7 @@
 import AuthorsExternalProfiles from "../ExternalProfiles/AuthorsExternalProfiles";
 
 /* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
+import { APIRequest } from "@/lib/apis/client.api";
 
 /**
  * AuthorsInfoFetcher is a server-side functional component that fetches and displays external profiles for a given author.

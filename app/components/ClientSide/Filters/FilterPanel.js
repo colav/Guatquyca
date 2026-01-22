@@ -17,10 +17,10 @@ import styles from "./styles.module.css";
 import { Button, Collapse, ConfigProvider, Drawer } from "antd";
 
 /* Utils */
-import { APIRequest } from "@/lib/APIS/clientAPI";
-import { filterMenuMaker } from "@/lib/Utils/filterMenuMaker";
-import URLBuilder from "@/lib/Utils/URLBuilder";
-import hasAppliedFilters from "@/lib/Utils/hasAppliedFilters";
+import { APIRequest } from "@/lib/apis/client.api";
+import { filterMenuMaker } from "@/lib/utils/filterMenuMaker";
+import URLBuilder from "@/lib/utils/URLBuilder";
+import hasAppliedFilters from "@/lib/utils/hasAppliedFilters";
 
 /**
  * FilterPanel component provides a drawer with filter options and handles dynamic filter information.
@@ -34,7 +34,7 @@ export default function FilterPanel() {
   const query = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [state, setUrl] = APIRequest(
-    `/app${pathname}/filters?${query.toString()}`
+    `/app${pathname}/filters?${query.toString()}`,
   );
 
   useEffect(() => {

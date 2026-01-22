@@ -4,14 +4,14 @@ import PaginationController from "../../ClientSide/PaginationController/Paginati
 import NewItem from "../../ClientSide/NewItem/NewItem";
 
 /* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";
 
 /* Utilities */
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 
 /**
@@ -29,7 +29,7 @@ export default async function NewsList({ searchParams, params, entity }) {
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/news`,
-      searchParams
+      searchParams,
     );
   } else {
     URL = URLBuilder(`/app/person/${params.ID}/research/news`, searchParams);

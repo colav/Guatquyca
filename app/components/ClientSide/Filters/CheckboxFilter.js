@@ -18,7 +18,7 @@ import { Row, Checkbox } from "antd";
 const { Group: CheckboxGroup } = Checkbox;
 
 /* Utils */
-import { formatNumber } from "@/lib/Utils/formatNumber";
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * CheckboxFilter is a client-side functional component that provides a checkbox filter for selecting multiple items.
@@ -52,8 +52,8 @@ export default function CheckboxFilter({ data, filterType }) {
   const [filterValue, setFilterValue] = useState(urlStatus);
 
   useEffect(() => {
-    const combinedFilter = Object.entries(statusState).flatMap(([key, value]) =>
-      value === true ? [key] : value || []
+    const combinedFilter = Object.entries(statusState).flatMap(
+      ([key, value]) => (value === true ? [key] : value || []),
     );
     setFilterValue(combinedFilter);
   }, [statusState]);
@@ -88,7 +88,7 @@ export default function CheckboxFilter({ data, filterType }) {
                 onChange={(e) =>
                   handleGroupChange(
                     value,
-                    e.target.checked ? children.map((c) => c.value) : []
+                    e.target.checked ? children.map((c) => c.value) : [],
                   )
                 }
                 checked={allChildrenChecked}
