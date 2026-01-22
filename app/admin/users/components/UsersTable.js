@@ -29,6 +29,7 @@ import {
 } from "@/lib/apis/admin.api";
 
 import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
+import { formatName } from "@/lib/utils/formatName";
 
 const { Title } = Typography;
 
@@ -115,7 +116,7 @@ export default function UsersTable({
       width: 160,
       dataIndex: "rol",
       key: "rol",
-      render: (rol) => <Tag color="blue">{rol}</Tag>,
+      render: (rol) => <Tag color="blue">{formatName(rol)}</Tag>,
     },
     {
       title: "Institución",
