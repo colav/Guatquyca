@@ -3,6 +3,13 @@
 /* APIs */
 import { submitFile } from "@/lib/apis/submit.api";
 
+/* Components */
+import SubmitHeader from "./components/SubmitHeader";
+import SubmitTypeSelector from "./components/SubmitTypeSelector";
+import SubmitUploader from "./components/SubmitUploader";
+import UploadingModal from "./components/UploadingModal";
+import ValidationErrorModal from "./components/ValidationErrorModal";
+
 /* Hooks */
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -10,24 +17,8 @@ import { useRouter } from "next/navigation";
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Components */
-import {
-  Row,
-  Col,
-  Typography,
-  Select,
-  Upload,
-  Button,
-  Card,
-  Modal,
-  Alert,
-  Spin,
-} from "antd";
-
-import { InboxOutlined } from "@ant-design/icons";
-
-const { Title, Text } = Typography;
-const { Dragger } = Upload;
+/* UI Library Components */
+import { Row, Col, Alert } from "antd";
 
 const SUBMIT_TYPES = {
   staff: {
@@ -76,85 +67,81 @@ const SUBMIT_TYPES = {
     description:
       "Dump completo de información institucional proveniente de ScienTI (CvLAC, GrupLAC e InstituLAC), usado para enriquecer y contrastar la producción académica.",
     notes: [
-      "Archivo comprimido exportado oficialmente desde ScienTI.",
+      "Archivo comprimido con el dump de ScienTI.",
       "Debe contener la totalidad de los identificadores (ID).",
-      "Generalmente se solicita a través de la Vicerrectoría de Investigación.",
+      "Solicitado al Ministerio de Ciencia, Tecnología e Innovación.",
     ],
   },
 };
 
+/**
+ * SubmitPage component provides the institutional file upload workflow, including type selection,
+ * file upload, validation, and error handling.
+ *
+ * State variables:
+ * - type: Selected file type key.
+ * - file: File object to upload.
+ * - loading: Whether a file is being processed.
+ * - uploadingModalOpen: Whether the uploading modal is visible.
+ * - validationResult: Validation result object (if any).
+ * - error: General error message.
+ * - uploadError: Upload-specific error message.
+ *
+ * @returns {JSX.Element} Rendered submit page UI.
+ */
 export default function SubmitPage() {
   const router = useRouter();
 
   const [type, setType] = useState(null);
   const [file, setFile] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [uploadingModalOpen, setUploadingModalOpen] = useState(false);
+
+  const [validationResult, setValidationResult] = useState(null);
+
   const [error, setError] = useState(null);
-
-  const [submitting, setSubmitting] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const selectedType = type ? SUBMIT_TYPES[type] : null;
-
-  const beforeUpload = (file) => {
-    if (!type) {
-      setError("Seleccione primero el tipo de información a cargar.");
-      return Upload.LIST_IGNORE;
-    }
-
-    const isValidExtension = selectedType.extensions.some((ext) =>
-      file.name.toLowerCase().endsWith(ext),
-    );
-
-    if (!isValidExtension) {
-      setError(
-        `Formato inválido. Se permiten archivos: ${selectedType.extensions.join(
-          ", ",
-        )}`,
-      );
-      return Upload.LIST_IGNORE;
-    }
-
-    setError(null);
-    setFile(file);
-    return false;
-  };
+  const [uploadError, setUploadError] = useState(null);
 
   const handleSubmit = async () => {
-    if (!file || !type) return;
-
-    setSubmitting(true);
-    setModalOpen(true);
     setError(null);
+    setUploadError(null);
+
+    setLoading(true);
+    setUploadingModalOpen(true);
 
     try {
-      const result = await submitFile({ type, file });
-
-      console.log(result);
+      await submitFile({ type, file });
     } catch (e) {
       if (e.status === 401 || e.message === "SESSION_EXPIRED") {
         router.push("/login?reason=expired");
         return;
       }
 
-      setError(e.msg || "Ocurrió un error al procesar el archivo.");
+      if (e.success === false && e.pdf_base64) {
+        setValidationResult(e);
+        return;
+      }
+
+      setError(e.msg || "Ocurrió un error inesperado al procesar el archivo.");
     } finally {
-      setSubmitting(false);
-      setModalOpen(false);
+      setLoading(false);
+      setUploadingModalOpen(false);
     }
+  };
+
+  const handleTypeChange = (value) => {
+    setType(value);
+    setFile(null);
+    setError(null);
+    setUploadError(null);
+    setValidationResult(null);
   };
 
   return (
     <Row justify="center" style={{ marginTop: 32 }}>
       <Col xs={24} sm={22} md={16} lg={12}>
-        <h2 level={4} style={{ marginBottom: 4 }}>
-          Carga de información institucional
-        </h2>
-
-        <p>
-          Envíe los archivos oficiales de su institución para la validación y
-          posterior integración en <b id={styles.impact}>Impact</b>
-          <b id={styles.u}>U</b>.
-        </p>
+        <SubmitHeader />
 
         {error && (
           <Alert
@@ -165,73 +152,39 @@ export default function SubmitPage() {
           />
         )}
 
-        <Card style={{ marginBottom: 24 }}>
-          <Text strong>Tipo de información a cargar</Text>
+        <SubmitTypeSelector
+          submitTypes={SUBMIT_TYPES}
+          value={type}
+          onChange={handleTypeChange}
+        />
 
-          <Select
-            placeholder="Seleccione el tipo de archivo"
-            style={{ width: "100%", marginTop: 8 }}
-            onChange={(value) => {
-              setType(value);
-              setFile(null);
-              setError(null);
-            }}
-            options={Object.entries(SUBMIT_TYPES).map(([key, cfg]) => ({
-              value: key,
-              label: cfg.label,
-            }))}
+        {uploadError && (
+          <Alert
+            type="error"
+            message={uploadError}
+            showIcon
+            style={{ marginTop: 16 }}
           />
-
-          {selectedType && (
-            <p style={{ display: "block", marginTop: 16, marginLeft: 3 }}>
-              {selectedType.description}
-            </p>
-          )}
-        </Card>
-
-        {type && (
-          <Card>
-            <Dragger
-              multiple={false}
-              beforeUpload={beforeUpload}
-              fileList={file ? [file] : []}
-              onRemove={() => setFile(null)}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Arrastre el archivo aquí o haga clic para seleccionarlo
-              </p>
-              <p className="ant-upload-hint">
-                Formatos permitidos: {selectedType.extensions.join(", ")}
-              </p>
-            </Dragger>
-
-            <Button
-              type="primary"
-              block
-              style={{ marginTop: 16 }}
-              disabled={!file || submitting}
-              onClick={handleSubmit}
-            >
-              Validar y enviar archivo
-            </Button>
-          </Card>
         )}
 
-        <Modal open={modalOpen} footer={null} closable={false} centered>
-          <div style={{ textAlign: "center", padding: 24 }}>
-            <Spin size="large" />
-            <Title level={5} style={{ marginTop: 16 }}>
-              Procesando archivo
-            </Title>
-            <Text type="secondary">
-              Su archivo se está cargando y validando. Este proceso puede tardar
-              algunos segundos.
-            </Text>
-          </div>
-        </Modal>
+        {type && (
+          <SubmitUploader
+            extensions={SUBMIT_TYPES[type].extensions}
+            file={file}
+            onFileChange={setFile}
+            onSubmit={handleSubmit}
+            onError={setUploadError}
+            disabled={!file || loading}
+          />
+        )}
+
+        <UploadingModal open={uploadingModalOpen} />
+
+        <ValidationErrorModal
+          open={!!validationResult}
+          result={validationResult}
+          onClose={() => setValidationResult(null)}
+        />
       </Col>
     </Row>
   );

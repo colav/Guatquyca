@@ -7,3 +7,35 @@
   color: #ffaa00;
   font-weight: 700;
 }
+
+.submitHeaderTitle {
+  margin-bottom: 4px;
+}
+
+.submitHeaderDescription {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.submitTypeCard {
+  margin-bottom: 24px;
+}
+
+.submitTypeSelect {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.submitTypeDescription {
+  display: block;
+  margin-top: 16px;
+  margin-left: 4px;
+}
+
+.submitTypeNotesList {
+  margin-top: 8px;
+}
+
+.submitTypeNote {
+  color: gray;
+}
