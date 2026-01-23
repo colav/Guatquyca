@@ -1,5 +1,7 @@
+"use client";
+
 /* APIs */
-import getData from "@/lib/apis/server.api";
+import { APIRequest } from "@/lib/apis/client.api";
 
 /* Utilities */
 import dateBuilder from "@/lib/utils/dateBuilder";
@@ -11,8 +13,8 @@ import dateBuilder from "@/lib/utils/dateBuilder";
  *
  * @returns {Promise<string>} Formatted last database update date
  */
-export default async function DBUpdatedAt() {
-  const { data } = await getData("/app/info");
+export default function DBUpdatedAt() {
+  const [state] = APIRequest("/app/info");
 
-  return dateBuilder(data.db_update);
+  return dateBuilder(state.data.db_update);
 }
