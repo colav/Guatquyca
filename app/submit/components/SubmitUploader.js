@@ -68,7 +68,7 @@ export default function SubmitUploader({
         disabled={disabled}
         onClick={onSubmit}
       >
-        Validar y enviar archivo
+        Enviar archivo para validación
       </Button>
     </Card>
   );
