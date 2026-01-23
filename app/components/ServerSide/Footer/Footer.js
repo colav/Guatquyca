@@ -1,6 +1,9 @@
 /* Icons */
 import { GithubOutlined, MailOutlined } from "@ant-design/icons";
 
+/* Components */
+import DBUpdatedAt from "./DBUpdatedAt";
+
 /* Next */
 import Link from "next/link";
 import Image from "next/image";
@@ -156,13 +159,13 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.14.0
+          ImpactU Versión 3.14.1
           <br />
           Última actualización:
           <br />
           Interfaz de Usuario: 21/01/2026
           <br />
-          Base de Datos: 29/08/2025
+          Base de Datos: <DBUpdatedAt />
           <br />
           Hecho en Colombia
         </Col>
