@@ -1,14 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Form, Input, Alert, Col, Row, Typography, Spin } from "antd";
-
-import { useAuth } from "@/app/context/AuthContext";
+/* APIs */
 import { loginRequest } from "@/lib/apis/auth.api";
 
+/* Hooks */
+import { useAuth } from "@/app/context/AuthContext";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+/* UI Library Components */
+import { Button, Form, Input, Alert, Col, Row, Typography, Spin } from "antd";
+
+/* UI Library Subcomponents */
 const { Title, Text } = Typography;
 
+/**
+ * LoginPage component
+ *
+ * Renders the login form for institutional users.
+ * Handles authentication, error display, and session expiration.
+ * Redirects users based on their role after successful login.
+ *
+ * @component
+ * @returns {JSX.Element} The login page
+ *
+ * @example
+ * <LoginPage />
+ */
 export default function LoginPage() {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);

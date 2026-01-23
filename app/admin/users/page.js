@@ -1,13 +1,27 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-
+/* APIs */
 import { getAdminUsers } from "@/lib/apis/admin.api";
-import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
 
+/* Components */
 import UsersTable from "./components/UsersTable";
 import UserFormModal from "./components/UserFormModal";
 
+/* Hooks */
+import { useEffect, useState, useCallback } from "react";
+import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
+
+/**
+ * AdminUsersPage component
+ *
+ * Displays and manages the list of users for the platform.
+ * Handles user creation, editing, filtering by institution, and session expiration.
+ *
+ * Uses UsersTable for listing and UserFormModal for user creation/editing.
+ *
+ * @component
+ * @returns {JSX.Element} The admin users management page
+ */
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);

@@ -1,14 +1,16 @@
 "use client";
 
+/* APIs */
+import { APIRequest } from "@/lib/apis/client.api";
+
 /* Hooks */
 import { useState, useMemo } from "react";
 
+/* UI Library Components */
+import { AutoComplete, Input } from "antd";
+
 /* Utils */
 import autocompleteURLBuilder from "@/lib/utils/autocompleteURLBuilder";
-import { APIRequest } from "@/lib/apis/client.api";
-
-/* UI */
-import { AutoComplete, Input } from "antd";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -21,7 +23,21 @@ const debounce = (fn, delay) => {
   };
 };
 
-export default function InstitutionSearch({ value, onSelect }) {
+/**
+ * InstitutionSearch component
+ *
+ * Autocomplete input for searching and selecting institutions by name.
+ * Fetches suggestions from the API and debounces requests for better UX.
+ * Returns the selected institution and its ROR ID via the onSelect callback.
+ *
+ * @component
+ * @param {Function} onSelect - Callback called with selected institution object ({ institution, ror_id })
+ * @returns {JSX.Element} The autocomplete institution search input
+ *
+ * @example
+ * <InstitutionSearch onSelect={({ institution, ror_id }) => { ... }} />
+ */
+export default function InstitutionSearch({ onSelect }) {
   const [input, setInput] = useState("");
   const [suggestionsState, setSuggestionsUrl] = APIRequest("");
 

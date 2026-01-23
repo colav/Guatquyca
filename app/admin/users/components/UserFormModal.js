@@ -12,6 +12,30 @@ import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
 /* Components */
 import InstitutionSearch from "./InstitutionSearch";
 
+/**
+ * UserFormModal component
+ *
+ * Modal form for creating or editing an admin user.
+ * Handles form validation, submission, and session expiration.
+ * Uses InstitutionSearch for institution selection when creating a user.
+ *
+ * @component
+ * @param {boolean} open - Whether the modal is open
+ * @param {"create"|"edit"} [mode="create"] - Form mode: "create" or "edit"
+ * @param {Object|null} [user=null] - User object to edit (if mode is "edit")
+ * @param {Function} onClose - Callback to close the modal
+ * @param {Function} onCreated - Callback after user is created/updated
+ * @returns {JSX.Element} The user form modal
+ *
+ * @example
+ * <UserFormModal
+ *   open={open}
+ *   mode="create"
+ *   user={null}
+ *   onClose={closeModal}
+ *   onCreated={refreshUsers}
+ * />
+ */
 export default function UserFormModal({
   open,
   mode = "create",
@@ -41,8 +65,6 @@ export default function UserFormModal({
   }, [open, isEdit, user, form]);
 
   const handleSubmit = async () => {
-    console.log("[UserFormModal] SUBMIT CLICKED");
-
     try {
       const values = await form.validateFields();
       setLoading(true);
