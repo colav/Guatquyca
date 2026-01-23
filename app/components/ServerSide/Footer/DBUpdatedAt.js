@@ -7,7 +7,7 @@ import { APIRequest } from "@/lib/apis/client.api";
 import dateBuilder from "@/lib/utils/dateBuilder";
 
 /**
- * Server component that fetches and returns the last database update date.
+ * Client component that fetches and returns the last database update date.
  *
  * Fetches info from `/app/info` endpoint and formats the `db_update` field.
  *
