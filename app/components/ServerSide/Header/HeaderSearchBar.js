@@ -39,10 +39,9 @@ export default function HeaderSearchBar() {
     <Header id={styles.header}>
       <Row align="middle" justify="space-between">
         <Col
-          xs={{ span: 20, order: 1 }}
-          sm={24}
-          md={9}
-          lg={{ span: 8, order: 1 }}
+          xs={{ span: 18, order: 1 }}
+          md={{ span: 9 }}
+          lg={{ span: 8 }}
           xl={6}
           id={styles.logo_container}
         >
@@ -69,8 +68,8 @@ export default function HeaderSearchBar() {
         </Col>
 
         <Col
-          xs={{ span: 4, order: 2 }}
-          lg={{ span: 4, order: 3 }}
+          xs={{ span: 6, order: 2 }}
+          md={{ span: 4 }}
           xl={6}
           id={styles.user_button}
         >

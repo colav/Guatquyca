@@ -12,16 +12,18 @@
 
 #logo_container {
   height: 80px;
+  display: flex;
 }
 
 #logo {
   padding: 15px 15px 10px 15px;
+  max-width: 100%;
 }
 
 #searchbar {
   display: flex;
   padding: 0 8px;
-  margin: 10px 0;
+  margin: 10px auto;
 }
 
 #user_button {
@@ -47,5 +49,9 @@
 @media (max-width: 767px) {
   #logo_container {
     text-align: center;
+  }
+
+  #logo {
+    width: 240px;
   }
 }

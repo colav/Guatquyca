@@ -41,11 +41,6 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 
-/* Utils */
-import autocompleteURLBuilder from "@/lib/utils/autocompleteURLBuilder";
-import { APIRequest } from "@/lib/apis/client.api";
-import { formatName } from "@/lib/utils/formatName";
-
 /* Next */
 import Link from "next/link";
 
@@ -57,6 +52,11 @@ import { AutoComplete, Select, Input, ConfigProvider, Divider } from "antd";
 
 /* UI library sub-components */
 const { Search } = Input;
+
+/* Utils */
+import autocompleteURLBuilder from "@/lib/utils/autocompleteURLBuilder";
+import { APIRequest } from "@/lib/apis/client.api";
+import { formatName } from "@/lib/utils/formatName";
 
 /* Utility Functions */
 const debounce = (func, delay) => {

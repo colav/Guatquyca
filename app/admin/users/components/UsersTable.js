@@ -1,5 +1,20 @@
-/* Components */
-import Loading from "@/app/loading";
+/* APIs */
+import {
+  deactivateAdminUser,
+  restoreAdminUser,
+  resetAdminUserPassword,
+} from "@/lib/apis/admin.api";
+
+/* Icons */
+import {
+  CheckCircleTwoTone,
+  EditOutlined,
+  RetweetOutlined,
+  StopOutlined,
+} from "@ant-design/icons";
+
+/* Hooks */
+import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
 
 /* UI Library Components */
 import {
@@ -12,36 +27,38 @@ import {
   Space,
   Popconfirm,
   message,
-  Typography,
 } from "antd";
 
-import {
-  EditOutlined,
-  KeyOutlined,
-  PlusOutlined,
-  ReloadOutlined,
-  StopOutlined,
-} from "@ant-design/icons";
-import {
-  deactivateAdminUser,
-  restoreAdminUser,
-  resetAdminUserPassword,
-} from "@/lib/apis/admin.api";
-
-import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
+/* Utils */
 import { formatName } from "@/lib/utils/formatName";
 
-const { Title } = Typography;
-
 /**
- * Table component to display a list of admin users.
- * Shows user ID, email, role, institution, and status.
- * Displays a loading indicator if no users are present.
+ * Table component to display and manage a list of admin users.
+ *
+ * Features:
+ * - Shows user ID, email, role, institution, and status.
+ * - Allows filtering by institution.
+ * - Provides actions to edit, deactivate/reactivate, and reset password for users.
+ * - Handles loading state and session expiration.
  *
  * @component
- * @param {Object} props
- * @param {Object} props.users - Users data object, expected to have a `data` array.
- * @returns {JSX.Element} The rendered users table or loading indicator.
+ * @param {{data: Array<Object>}} users - Users data object, expected to have a `data` array of user objects
+ * @param {Function} onRefresh - Callback to refresh the user list after actions
+ * @param {Function} onCreateUser - Callback to trigger user creation modal/form
+ * @param {string} [institutionFilter] - Current filter value for institution search
+ * @param {Function} onInstitutionFilterChange - Callback to update the institution filter value
+ * @param {Function} onEditUser - Callback to trigger user edit modal/form, receives the user object
+ * @returns {JSX.Element} The rendered users table or loading indicator
+ *
+ * @example
+ * <UsersTable
+ *   users={{ data: [{ id: 1, email: 'a@b.com', ... }] }}
+ *   onRefresh={refreshFn}
+ *   onCreateUser={openCreateModal}
+ *   institutionFilter={filter}
+ *   onInstitutionFilterChange={setFilter}
+ *   onEditUser={openEditModal}
+ * />
  */
 export default function UsersTable({
   users,
@@ -52,6 +69,8 @@ export default function UsersTable({
   onEditUser,
 }) {
   const handleSessionExpired = useSessionExpired();
+
+  const loading = !users || !users.data;
 
   const dataSource = (users?.data || []).filter((user) =>
     user.institucion?.toLowerCase().includes(institutionFilter.toLowerCase()),
@@ -101,32 +120,34 @@ export default function UsersTable({
   const columns = [
     {
       title: "ID (ROR)",
-      width: 110,
+      align: "center",
+      width: 74,
       dataIndex: "id",
       key: "id",
     },
     {
       title: "Email",
-      width: 340,
+      width: 250,
       dataIndex: "email",
       key: "email",
     },
     {
       title: "Rol",
-      width: 160,
+      width: 150,
       dataIndex: "rol",
       key: "rol",
       render: (rol) => <Tag color="blue">{formatName(rol)}</Tag>,
     },
     {
       title: "Institución",
-      width: 340,
+      width: 250,
       dataIndex: "institucion",
       key: "institucion",
     },
     {
       title: "Estado",
-      width: 100,
+      align: "center",
+      width: 65,
       dataIndex: "is_active",
       key: "is_active",
       filters: [
@@ -144,12 +165,11 @@ export default function UsersTable({
     },
     {
       title: "Acciones",
-      width: 130,
+      width: 85,
       fixed: "right",
       key: "actions",
       render: (_, user) => (
         <Space size={4}>
-          {/* Editar */}
           <Button
             type="text"
             icon={<EditOutlined />}
@@ -157,7 +177,6 @@ export default function UsersTable({
             onClick={() => onEditUser(user)}
           />
 
-          {/* Reset contraseña */}
           <Popconfirm
             title="¿Restablecer contraseña?"
             description="Se enviará una nueva contraseña al correo del usuario."
@@ -167,12 +186,11 @@ export default function UsersTable({
           >
             <Button
               type="text"
-              icon={<KeyOutlined />}
+              icon={<RetweetOutlined />}
               title="Restablecer contraseña"
             />
           </Popconfirm>
 
-          {/* Activar / Desactivar */}
           {user.is_active ? (
             <Popconfirm
               title="¿Desactivar usuario?"
@@ -193,7 +211,7 @@ export default function UsersTable({
             >
               <Button
                 type="text"
-                icon={<ReloadOutlined />}
+                icon={<CheckCircleTwoTone twoToneColor="#52c41a" />}
                 title="Reactivar usuario"
               />
             </Popconfirm>
@@ -205,7 +223,7 @@ export default function UsersTable({
 
   return (
     <Row justify="center" style={{ marginTop: "40px" }}>
-      <Col xs={24} md={20} lg={16}>
+      <Col xs={24} xxl={16}>
         <Table
           title={() => (
             <div
@@ -226,7 +244,6 @@ export default function UsersTable({
                 />
               </div>
 
-              {/* Lado derecho: acciones */}
               <Button type="primary" onClick={onCreateUser}>
                 Crear usuario
               </Button>
@@ -242,6 +259,8 @@ export default function UsersTable({
           bordered
           tableLayout="fixed"
           scroll={{ x: 1200 }}
+          size="small"
+          loading={loading}
         />
       </Col>
     </Row>
