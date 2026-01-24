@@ -8,7 +8,7 @@ import SubmitHeader from "./components/SubmitHeader";
 import SubmitTypeSelector from "./components/SubmitTypeSelector";
 import SubmitUploader from "./components/SubmitUploader";
 import UploadingModal from "./components/UploadingModal";
-import ValidationErrorModal from "./components/ValidationResultModal";
+import ValidationResultModal from "./components/ValidationResultModal";
 
 /* Hooks */
 import { useState } from "react";
@@ -180,7 +180,7 @@ export default function SubmitPage() {
 
         <UploadingModal open={uploadingModalOpen} />
 
-        <ValidationErrorModal
+        <ValidationResultModal
           open={!!validationResult}
           result={validationResult}
           onClose={() => setValidationResult(null)}

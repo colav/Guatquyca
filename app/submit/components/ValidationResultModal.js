@@ -39,7 +39,7 @@ function downloadPdf(base64) {
  * @param {number} [result.errors=0] - Number of errors found in the file.
  * @param {number} [result.warnings=0] - Number of warnings found in the file.
  * @param {number} [result.duplicates=0] - Number of duplicate records found in the file.
- * @param {string} [result.report_pdf_base64] - Base64-encoded PDF report (optional).
+ * @param {string} [result.pdf_base64] - Base64-encoded PDF report (optional).
  * @param {string} [result.file_msg] - Optional message about the file.
  * @param {function} onClose - Callback fired when the modal is closed.
  * @returns {JSX.Element|null} Rendered modal or null if no result.
@@ -49,17 +49,18 @@ export default function ValidationResultModal({ open, result, onClose }) {
 
   const {
     success,
-    errores = 0,
+    errors = 0,
     warnings = 0,
-    duplicados = 0,
+    duplicates = 0,
     pdf_base64,
     file_msg,
   } = result;
 
   const state = resolveValidationState({
     success,
+    errors,
     warnings,
-    duplicados,
+    duplicates,
   });
 
   const config = VALIDATION_UI_CONFIG[state];
@@ -103,8 +104,8 @@ export default function ValidationResultModal({ open, result, onClose }) {
       <Divider />
 
       <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-        {report_pdf_base64 && (
-          <Button onClick={() => downloadPdf(report_pdf_base64)}>
+        {pdf_base64 && (
+          <Button onClick={() => downloadPdf(pdf_base64)}>
             Descargar reporte PDF
           </Button>
         )}
