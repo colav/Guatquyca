@@ -116,6 +116,8 @@ export default function SubmitPage() {
       setLoading(false);
       setUploadingModalOpen(false);
 
+      setFile(null);
+
       setValidationResult(result);
     } catch (e) {
       setLoading(false);
@@ -147,6 +149,7 @@ export default function SubmitPage() {
     setValidationResult(null);
     setUploadingModalOpen(false);
     setLoading(false);
+    setFile(null);
   };
 
   return (
