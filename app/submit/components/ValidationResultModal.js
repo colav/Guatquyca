@@ -49,18 +49,17 @@ export default function ValidationResultModal({ open, result, onClose }) {
 
   const {
     success,
-    errors = 0,
+    errores = 0,
     warnings = 0,
-    duplicates = 0,
-    report_pdf_base64,
+    duplicados = 0,
+    pdf_base64,
     file_msg,
   } = result;
 
   const state = resolveValidationState({
     success,
-    errors,
     warnings,
-    duplicates,
+    duplicados,
   });
 
   const config = VALIDATION_UI_CONFIG[state];
