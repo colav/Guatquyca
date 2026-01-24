@@ -111,22 +111,21 @@ export default function SubmitPage() {
     setUploadingModalOpen(true);
 
     try {
-      await submitFile({ type, file });
+      const result = await submitFile({ type, file });
+
+      setValidationResult(result);
     } catch (e) {
       if (e.status === 401 || e.message === "SESSION_EXPIRED") {
         router.push("/login?reason=expired");
         return;
       }
 
-      if (e.success === false && e.pdf_base64) {
+      if (e && typeof e === "object" && "success" in e) {
         setValidationResult(e);
         return;
       }
 
-      setError(e.msg || "Ocurrió un error inesperado al procesar el archivo.");
-    } finally {
-      setLoading(false);
-      setUploadingModalOpen(false);
+      setError("Ocurrió un error inesperado al procesar el archivo.");
     }
   };
 
