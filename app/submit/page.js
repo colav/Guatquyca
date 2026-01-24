@@ -113,8 +113,12 @@ export default function SubmitPage() {
     try {
       const result = await submitFile({ type, file });
 
+      setUploadingModalOpen(false);
+
       setValidationResult(result);
     } catch (e) {
+      setUploadingModalOpen(false);
+
       if (e.status === 401 || e.message === "SESSION_EXPIRED") {
         router.push("/login?reason=expired");
         return;
@@ -135,6 +139,11 @@ export default function SubmitPage() {
     setError(null);
     setUploadError(null);
     setValidationResult(null);
+  };
+
+  const handleCloseValidationModal = () => {
+    setValidationResult(null);
+    setUploadingModalOpen(false);
   };
 
   return (
@@ -182,7 +191,7 @@ export default function SubmitPage() {
         <ValidationResultModal
           open={!!validationResult}
           result={validationResult}
-          onClose={() => setValidationResult(null)}
+          onClose={handleCloseValidationModal}
         />
       </Col>
     </Row>

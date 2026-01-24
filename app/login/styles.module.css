@@ -1,0 +1,33 @@
+.loginRow {
+  min-height: 60vh;
+}
+
+.loginTitle {
+  text-align: center;
+}
+
+.loginSubtitle {
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.loginFormWrapper {
+  position: relative;
+}
+
+.loginSpinnerOverlay {
+  position: absolute;
+  inset: 0;
+  background: #f4f4f4;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 8px;
+}
+
+.loginErrorAlert {
+  margin-bottom: 16px;
+}

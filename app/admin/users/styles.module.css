@@ -1,0 +1,24 @@
+.usersTableRow {
+  margin-top: 40px;
+}
+
+.usersTableTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.usersTableTitleLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usersTableInstitutionInput {
+  width: 182px;
+}
+
+.usersTableSpinner {
+  margin: 15px 0 0 -15px !important;
+}

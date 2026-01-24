@@ -5,6 +5,9 @@ import {
   resetAdminUserPassword,
 } from "@/lib/apis/admin.api";
 
+/* Components */
+import Spinner from "@/app/components/ClientSide/Spinner/Spinner";
+
 /* Icons */
 import {
   CheckCircleTwoTone,
@@ -15,6 +18,9 @@ import {
 
 /* Hooks */
 import { useSessionExpired } from "@/lib/hooks/useSessionExpired";
+
+/* Styles */
+import styles from "../styles.module.css";
 
 /* UI Library Components */
 import {
@@ -222,28 +228,20 @@ export default function UsersTable({
   ];
 
   return (
-    <Row justify="center" style={{ marginTop: "40px" }}>
+    <Row justify="center" className={styles.usersTableRow}>
       <Col xs={24} xxl={16}>
         <Table
           title={() => (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div className={styles.usersTableTitle}>
+              <div className={styles.usersTableTitleLeft}>
                 <Input
                   placeholder="Buscar institución"
                   allowClear
                   value={institutionFilter}
                   onChange={(e) => onInstitutionFilterChange(e.target.value)}
-                  style={{ width: 182 }}
+                  className={styles.usersTableInstitutionInput}
                 />
               </div>
-
               <Button type="primary" onClick={onCreateUser}>
                 Crear usuario
               </Button>
@@ -260,7 +258,14 @@ export default function UsersTable({
           tableLayout="fixed"
           scroll={{ x: 1200 }}
           size="small"
-          loading={loading}
+          loading={{
+            spinning: loading,
+            indicator: (
+              <span className={styles.usersTableSpinner}>
+                <Spinner />
+              </span>
+            ),
+          }}
         />
       </Col>
     </Row>

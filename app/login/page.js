@@ -3,10 +3,16 @@
 /* APIs */
 import { loginRequest } from "@/lib/apis/auth.api";
 
+/* Components */
+import Spinner from "@/app/components/ClientSide/Spinner/Spinner";
+
 /* Hooks */
 import { useAuth } from "@/app/context/AuthContext";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
+/* Styles */
+import styles from "./styles.module.css";
 
 /* UI Library Components */
 import { Button, Form, Input, Alert, Col, Row, Typography, Spin } from "antd";
@@ -32,7 +38,6 @@ export default function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const searchParams = useSearchParams();
-
   const router = useRouter();
   const { login } = useAuth();
   const [form] = Form.useForm();
@@ -46,7 +51,6 @@ export default function LoginPage() {
 
       if (!result.success) {
         setError(result.error || "Error de autenticación");
-        setSubmitting(false);
         return;
       }
 
@@ -54,44 +58,43 @@ export default function LoginPage() {
       router.push(result.rol === "admin" ? "/admin/users" : "/submit");
     } catch (e) {
       setError(e.message || "Error inesperado. Intenta nuevamente.");
+    } finally {
       setSubmitting(false);
     }
   };
 
   useEffect(() => {
     const reason = searchParams.get("reason");
-
     if (reason === "expired") {
       setError("Tu sesión expiró. Por favor inicia sesión nuevamente.");
     }
   }, [searchParams]);
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: "60vh" }}>
+    <Row justify="center" align="middle" className={styles.loginRow}>
       <Col xs={24} sm={18} md={12} lg={8}>
-        <Title level={4} style={{ textAlign: "center" }}>
+        <Title level={4} className={styles.loginTitle}>
           Iniciar sesión
         </Title>
 
-        <Text
-          type="secondary"
-          style={{
-            display: "block",
-            textAlign: "center",
-            marginBottom: 24,
-          }}
-        >
+        <Text type="secondary" className={styles.loginSubtitle}>
           Ingresa con tu correo institucional
         </Text>
 
-        <Spin spinning={submitting}>
+        <div className={styles.loginFormWrapper}>
+          {submitting && (
+            <div className={styles.loginSpinnerOverlay} aria-busy="true">
+              <Spinner />
+            </div>
+          )}
+
           <Form form={form} layout="vertical" onFinish={onFinish}>
             {error && (
               <Alert
                 type="error"
                 message={error}
                 showIcon
-                style={{ marginBottom: 16 }}
+                className={styles.loginErrorAlert}
               />
             )}
 
@@ -123,7 +126,7 @@ export default function LoginPage() {
               Entrar
             </Button>
           </Form>
-        </Spin>
+        </div>
       </Col>
     </Row>
   );
