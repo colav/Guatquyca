@@ -113,10 +113,12 @@ export default function SubmitPage() {
     try {
       const result = await submitFile({ type, file });
 
+      setLoading(false);
       setUploadingModalOpen(false);
 
       setValidationResult(result);
     } catch (e) {
+      setLoading(false);
       setUploadingModalOpen(false);
 
       if (e.status === 401 || e.message === "SESSION_EXPIRED") {
@@ -144,6 +146,7 @@ export default function SubmitPage() {
   const handleCloseValidationModal = () => {
     setValidationResult(null);
     setUploadingModalOpen(false);
+    setLoading(false);
   };
 
   return (
