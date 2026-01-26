@@ -197,6 +197,7 @@ export default function SubmitPage() {
         <ValidationResultModal
           open={!!validationResult}
           result={validationResult}
+          submitType={type}
           onClose={handleCloseValidationModal}
         />
       </Col>

@@ -44,7 +44,12 @@ function downloadPdf(base64) {
  * @param {function} onClose - Callback fired when the modal is closed.
  * @returns {JSX.Element|null} Rendered modal or null if no result.
  */
-export default function ValidationResultModal({ open, result, onClose }) {
+export default function ValidationResultModal({
+  open,
+  result,
+  submitType,
+  onClose,
+}) {
   if (!result) return null;
 
   const {
@@ -65,25 +70,47 @@ export default function ValidationResultModal({ open, result, onClose }) {
 
   const config = VALIDATION_UI_CONFIG[state];
 
+  const isScienti = submitType === "scienti";
+
+  const scientiMessage = (
+    <Text type="secondary">
+      El dump institucional de <strong>ScienTI</strong> fue recibido
+      correctamente y almacenado en nuestros servidores.
+      <br />
+      <br />
+      Este archivo será sometido a una revisión exhaustiva por parte de nuestro
+      equipo de ingenieros de datos, como parte de los procesos especializados
+      de extracción, transformación y carga (ETL).
+      <br />
+      <br />
+      La validación de este tipo de información no es automática y se realiza
+      dentro de los flujos técnicos definidos por la plataforma.
+    </Text>
+  );
+
   return (
     <Modal open={open} footer={null} centered width={560} onCancel={onClose}>
       <Title level={5}>{config.title}</Title>
 
-      {config.message}
+      {isScienti ? scientiMessage : config.message}
 
-      <Divider />
+      {!isScienti && (
+        <>
+          <Divider />
 
-      <Space direction="vertical">
-        <Text>
-          <strong>Errores encontrados:</strong> {errors}
-        </Text>
-        <Text>
-          <strong>Registros duplicados:</strong> {duplicates}
-        </Text>
-        <Text>
-          <strong>Advertencias encontradas:</strong> {warnings}
-        </Text>
-      </Space>
+          <Space direction="vertical">
+            <Text>
+              <strong>Errores encontrados:</strong> {errors}
+            </Text>
+            <Text>
+              <strong>Registros duplicados:</strong> {duplicates}
+            </Text>
+            <Text>
+              <strong>Advertencias encontradas:</strong> {warnings}
+            </Text>
+          </Space>
+        </>
+      )}
 
       <Divider />
 
