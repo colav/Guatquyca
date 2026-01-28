@@ -127,7 +127,7 @@ export default function UsersTable({
     {
       title: "ID (ROR)",
       align: "center",
-      width: 75,
+      width: 78,
       dataIndex: "id",
       key: "id",
     },
@@ -153,7 +153,7 @@ export default function UsersTable({
     {
       title: "Estado",
       align: "center",
-      width: 55,
+      width: 58,
       dataIndex: "is_active",
       key: "is_active",
       filters: [
