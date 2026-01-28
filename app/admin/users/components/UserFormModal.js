@@ -126,7 +126,7 @@ export default function UserFormModal({
 
         <Form.Item
           label="Rol"
-          name="rol"
+          name="role"
           rules={[{ required: true, message: "Seleccione un rol" }]}
         >
           <Input />
