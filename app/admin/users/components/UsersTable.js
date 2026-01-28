@@ -79,7 +79,7 @@ export default function UsersTable({
   const loading = !users || !users.data;
 
   const dataSource = (users?.data || []).filter((user) =>
-    user.institucion?.toLowerCase().includes(institutionFilter.toLowerCase()),
+    user.institution?.toLowerCase().includes(institutionFilter.toLowerCase()),
   );
 
   const handleDeactivate = async (email) => {
@@ -127,33 +127,33 @@ export default function UsersTable({
     {
       title: "ID (ROR)",
       align: "center",
-      width: 74,
+      width: 75,
       dataIndex: "id",
       key: "id",
     },
     {
       title: "Email",
-      width: 250,
+      width: 200,
       dataIndex: "email",
       key: "email",
     },
     {
       title: "Rol",
-      width: 150,
-      dataIndex: "rol",
-      key: "rol",
-      render: (rol) => <Tag color="blue">{formatName(rol)}</Tag>,
+      width: 270,
+      dataIndex: "role",
+      key: "role",
+      render: (role) => <Tag color="blue">{formatName(role)}</Tag>,
     },
     {
       title: "Institución",
       width: 250,
-      dataIndex: "institucion",
-      key: "institucion",
+      dataIndex: "institution",
+      key: "institution",
     },
     {
       title: "Estado",
       align: "center",
-      width: 65,
+      width: 55,
       dataIndex: "is_active",
       key: "is_active",
       filters: [
@@ -171,7 +171,7 @@ export default function UsersTable({
     },
     {
       title: "Acciones",
-      width: 85,
+      width: 90,
       fixed: "right",
       key: "actions",
       render: (_, user) => (

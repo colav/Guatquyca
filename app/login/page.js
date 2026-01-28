@@ -54,8 +54,8 @@ export default function LoginPage() {
         return;
       }
 
-      login({ role: result.rol, institution: result.institution });
-      router.push(result.rol === "admin" ? "/admin/users" : "/submit");
+      login({ role: result.role, institution: result.institution });
+      router.push(result.role === "admin" ? "/admin/users" : "/submit");
     } catch (e) {
       setError(e.message || "Error inesperado. Intenta nuevamente.");
     } finally {

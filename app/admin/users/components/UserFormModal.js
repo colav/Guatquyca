@@ -55,8 +55,8 @@ export default function UserFormModal({
     if (isEdit && user) {
       form.setFieldsValue({
         email: user.email,
-        rol: user.rol,
-        institution: user.institucion,
+        role: user.role,
+        institution: user.institution,
         ror_id: user.ror_id,
       });
     } else {
@@ -72,7 +72,7 @@ export default function UserFormModal({
       if (isEdit) {
         const payload = {
           email: values.email,
-          rol: values.rol,
+          role: values.role,
         };
 
         await updateAdminUser(user.email, payload);
@@ -81,7 +81,7 @@ export default function UserFormModal({
         const payload = {
           institution: values.institution,
           ror_id: values.ror_id,
-          rol: values.rol,
+          role: values.role,
         };
 
         await createAdminUser(values.email, payload);
