@@ -7,10 +7,12 @@ import {
   useState,
   useCallback,
   useMemo,
+  useEffect,
 } from "react";
 
 /* APIs */
 import { logoutRequest } from "@/lib/apis/auth.api";
+import { getMe } from "@/lib/apis/me.api";
 
 const AuthContext = createContext(null);
 
@@ -18,25 +20,52 @@ const AuthContext = createContext(null);
  * AuthProvider component
  *
  * Provides authentication context for the application.
- * Stores the current user and exposes login/logout methods.
- * Should wrap the app or relevant subtree to provide access to useAuth.
+ * Rehydrates authentication state from backend session on initial mount.
  *
  * @component
- * @param {React.ReactNode} children - Child components
- * @returns {JSX.Element} Auth context provider
- *
- * @example
- * <AuthProvider>
- *   <App />
- * </AuthProvider>
+ * @param {React.ReactNode} children
+ * @returns {JSX.Element}
  */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  /**
+   * Rehydrates session state from /app/me
+   */
+  useEffect(() => {
+    let mounted = true;
+
+    getMe()
+      .then((me) => {
+        if (mounted && me) {
+          setUser(me);
+        }
+      })
+      .catch((err) => {
+        console.warn("[AuthContext] Session rehydration failed:", err);
+      })
+      .finally(() => {
+        if (mounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  /**
+   * Sets user after successful login.
+   */
   const login = useCallback((userData) => {
     setUser(userData);
   }, []);
 
+  /**
+   * Clears user state and optionally logs out remotely.
+   */
   const logout = useCallback(async ({ remote = true } = {}) => {
     if (remote) {
       try {
@@ -52,10 +81,11 @@ export function AuthProvider({ children }) {
   const value = useMemo(
     () => ({
       user,
+      loading,
       login,
       logout,
     }),
-    [user, login, logout],
+    [user, loading, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -64,14 +94,7 @@ export function AuthProvider({ children }) {
 /**
  * Custom hook to access authentication context.
  *
- * Returns the current user and authentication methods (login, logout).
- * Must be used within an AuthProvider.
- *
- * @returns {{ user: Object|null, login: Function, logout: Function }} Auth context value
- * @throws {Error} If used outside AuthProvider
- *
- * @example
- * const { user, login, logout } = useAuth();
+ * @returns {{ user: Object|null, loading: boolean, login: Function, logout: Function }}
  */
 export function useAuth() {
   const ctx = useContext(AuthContext);

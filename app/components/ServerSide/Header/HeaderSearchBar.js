@@ -31,7 +31,11 @@ const Header = Layout;
  */
 export default function HeaderSearchBar() {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
 
   const isAuthenticated = Boolean(user);
 
