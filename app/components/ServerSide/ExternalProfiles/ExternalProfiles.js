@@ -25,11 +25,14 @@ import { Button, Space } from "antd";
  * @param {Array} idsList - The list of external profiles to display.
  */
 export default function ExternalProfiles({ idsList, entity }) {
-  const uniqueIdsList = idsList.filter(
-    (currentItem, currentIndex, array) =>
-      array.findIndex((item) => item.source === currentItem.source) ===
-      currentIndex
-  );
+  // Filter out items without 'id' and ensure uniqueness by 'source'
+  const uniqueIdsList = idsList
+    .filter((item) => item.id) // Only keep items with an 'id'
+    .filter(
+      (currentItem, currentIndex, array) =>
+        array.findIndex((item) => item.source === currentItem.source) ===
+        currentIndex,
+    );
 
   const external = {
     scienti:
@@ -108,24 +111,27 @@ export default function ExternalProfiles({ idsList, entity }) {
       "grid",
     ];
 
-    return uniqueIdsList.map((item) => {
-      if (!excludedSources.includes(item.source)) {
-        return (
-          <a
-            href={item.url || URLMaker(item.source, item.id)}
-            key={item.source}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Button
-              style={{ alignItems: "flex-start", padding: "0" }}
-              type="link"
-              icon={external[item.source]?.icon}
-            />
-          </a>
-        );
-      }
-    });
+    return uniqueIdsList
+      .filter((item) => item.id) // Only render buttons for items with an 'id'
+      .map((item) => {
+        if (!excludedSources.includes(item.source)) {
+          return (
+            <a
+              href={item.url || URLMaker(item.source, item.id)}
+              key={item.source}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button
+                style={{ alignItems: "flex-start", padding: "0" }}
+                type="link"
+                icon={external[item.source]?.icon}
+              />
+            </a>
+          );
+        }
+        return null;
+      });
   };
 
   return (
