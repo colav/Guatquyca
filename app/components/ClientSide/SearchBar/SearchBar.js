@@ -314,7 +314,7 @@ export default function SearchBar() {
       <ConfigProvider theme={{ token: { borderRadius: 0, fontSize: 16 } }}>
         <AutoComplete
           style={{ marginLeft: -1, flex: 1, height: 40 }}
-          popupClassName={styles.autocomplete}
+          classNames={{ popup: { root: styles.autocomplete } }}
           onSearch={handleAutoComplete}
           onSelect={handleSelect}
           options={autoCompleteOptions}
