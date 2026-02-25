@@ -7,8 +7,8 @@ import { useAuth } from "@/app/context/AuthContext";
 import {
   UserOutlined,
   LogoutOutlined,
-  CloudUploadOutlined,
   TeamOutlined,
+  ToolOutlined,
 } from "@ant-design/icons";
 
 /* Next */
@@ -56,8 +56,8 @@ export default function UserMenu() {
   const institutionLabel = user.institution || "Institución no definida";
 
   const mainAction = {
-    label: isAdmin ? "Usuarios" : "Carga de datos",
-    icon: isAdmin ? <TeamOutlined /> : <CloudUploadOutlined />,
+    label: isAdmin ? "Gestión de usuarios" : "Gestión de datos",
+    icon: isAdmin ? <TeamOutlined /> : <ToolOutlined />,
     path: isAdmin ? "/admin/users" : "/submit",
   };
 
