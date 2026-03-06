@@ -34,26 +34,16 @@ export function AuthProvider({ children }) {
    * Rehydrates session state from /app/me
    */
   useEffect(() => {
-    let mounted = true;
-
     getMe()
       .then((me) => {
-        if (mounted && me) {
-          setUser(me);
-        }
+        if (me) setUser(me);
       })
       .catch((err) => {
         console.warn("[AuthContext] Session rehydration failed:", err);
       })
       .finally(() => {
-        if (mounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       });
-
-    return () => {
-      mounted = false;
-    };
   }, []);
 
   /**
@@ -85,8 +75,12 @@ export function AuthProvider({ children }) {
       login,
       logout,
     }),
-    [user, loading, login, logout],
+    [user, loading],
   );
+
+  if (loading) {
+    return null;
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

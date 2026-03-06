@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 /* Analytics */
@@ -20,7 +20,16 @@ import ScrollToTop from "@/lib/ScrollToTop";
 /* Sentry */
 import * as Sentry from "@sentry/nextjs";
 
+/**
+ * Font configuration using next/font to avoid layout shifts
+ * and ensure fonts are loaded optimally with Next.js.
+ */
 const inter = Inter({ subsets: ["latin"] });
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
 
 /**
  * generateMetadata is a function that generates metadata for the application.
@@ -51,45 +60,48 @@ export function generateMetadata() {
 
 /**
  * RootLayout is a function component that provides a layout for the entire application.
- * It wraps the application in a ConfigProvider component to provide configuration to Ant Design components,
- * and an AntdRegistry component to register Ant Design components for server-side rendering in Next.js.
- * It also includes a Footer component at the bottom of the layout.
+ * It wraps the application in an AntdRegistry component to ensure proper server-side rendering
+ * of Ant Design styles in Next.js. Inside it, the ConfigProvider supplies the theme configuration
+ * for Ant Design components.
+ *
+ * The layout also includes global UI elements such as:
+ * - ScrollToTop utility
+ * - BackToTop floating button
+ * - HeaderSearchBar
+ * - Footer
+ *
+ * Additionally, it provides the AuthProvider context to the entire application.
  *
  * @param {ReactNode} children - The child components to render within the layout.
  * @returns {ReactNode} The rendered layout component.
  */
-export default async function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${montserrat.variable}`}>
         <ScrollToTop />
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "#F9B250",
-              borderRadius: 6,
-              fontFamily: "Montserrat",
-            },
-          }}
-        >
-          <AntdRegistry>
+
+        <AntdRegistry>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: "#F9B250",
+                borderRadius: 6,
+                fontFamily: "var(--font-montserrat)",
+              },
+            }}
+          >
             <AuthProvider>
               <BackToTop />
               <HeaderSearchBar />
               <div id="content_container">{children}</div>
               <Foot />
             </AuthProvider>
-          </AntdRegistry>
-        </ConfigProvider>
+          </ConfigProvider>
+        </AntdRegistry>
+
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }
