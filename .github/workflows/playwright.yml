@@ -16,6 +16,10 @@ jobs:
       (github.event_name == 'pull_request' && github.event.action != 'closed')
     timeout-minutes: 120
     runs-on: ubuntu-latest
+
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-jammy
+
     env:
       NEXT_PUBLIC_CLIENT_API: ${{ secrets.NEXT_PUBLIC_CLIENT_API }}
       API_URL: ${{ secrets.API_URL }}
@@ -34,6 +38,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -41,18 +46,27 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - name: Run E2E Playwright tests
         run: npx playwright test tests/e2e --output=playwright-report-e2e
 
       - name: Upload HTML report to ci-front
         if: always()
         run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co "mkdir -p /home/ci-front/playwright/playwright-report-e2e"
-          sshpass -p "${{ secrets.SSH_PASS }}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r playwright-report/* ci-front@ci-front.colav.co:/home/ci-front/playwright/playwright-report-e2e/
+          apt-get update
+          apt-get install -y sshpass
+
+          sshpass -p "${{ secrets.SSH_PASS }}" ssh \
+          -o UserKnownHostsFile=/dev/null \
+          -o StrictHostKeyChecking=no \
+          ci-front@ci-front.colav.co \
+          "mkdir -p /home/ci-front/playwright/playwright-report-e2e"
+
+          sshpass -p "${{ secrets.SSH_PASS }}" scp \
+          -o UserKnownHostsFile=/dev/null \
+          -o StrictHostKeyChecking=no \
+          -r playwright-report-e2e/* \
+          ci-front@ci-front.colav.co:/home/ci-front/playwright/playwright-report-e2e/
+
           echo "::notice title=HTML report url::https://ci-front.colav.co/playwright-report-e2e/index.html"
 
   deploy_from_dev:
@@ -60,20 +74,30 @@ jobs:
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/next_develop'
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy Docker image for dev
         run: |
           sudo apt-get update && sudo apt-get install -y sshpass
           echo "Deploying next_develop branch"
-          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh next_develop
+          sshpass -p "${{ secrets.SSH_PASS }}" ssh \
+          -o UserKnownHostsFile=/dev/null \
+          -o StrictHostKeyChecking=no \
+          ci-front@ci-front.colav.co \
+          /home/ci-front/Chia/guatquyca/run-devops.sh next_develop
 
   deploy_from_merge:
     name: Deploy after PR merge to main
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy Docker image for main
         run: |
           sudo apt-get update && sudo apt-get install -y sshpass
           echo "Deploying main branch"
-          sshpass -p "${{ secrets.SSH_PASS }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ci-front@ci-front.colav.co /home/ci-front/Chia/guatquyca/run-devops.sh main
+          sshpass -p "${{ secrets.SSH_PASS }}" ssh \
+          -o UserKnownHostsFile=/dev/null \
+          -o StrictHostKeyChecking=no \
+          ci-front@ci-front.colav.co \
+          /home/ci-front/Chia/guatquyca/run-devops.sh main
