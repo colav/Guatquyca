@@ -21,7 +21,7 @@ test.describe("'Concerning the Landau pole...' article information is complete",
     await test.step("Search for 'Concerning the Landau pole in 3-3-1 models' using the search bar", async () => {
       const searchInput = page.getByPlaceholder("Búsqueda por palabra clave");
       await searchInput.pressSequentially(
-        '"Concerning the Landau pole in 3-3-1 models"'
+        '"Concerning the Landau pole in 3-3-1 models"',
       );
       await page.getByRole("button", { name: "search" }).click();
     });
@@ -45,7 +45,7 @@ test.describe("'Concerning the Landau pole...' article information is complete",
     const modal = page.getByRole("dialog");
     await test.step("Ensure the article details modal opens and displays the expected title", async () => {
       await expect(
-        modal.getByText("Concerning the Landau pole in 3-3-1 models")
+        modal.getByText("Concerning the Landau pole in 3-3-1 models").nth(1),
       ).toBeVisible();
     });
 
@@ -72,9 +72,9 @@ test.describe("'Concerning the Landau pole...' article information is complete",
             .map((btn) => btn.textContent?.trim().toLowerCase())
             .filter((text) => text && text !== "ver más." && text !== "cerrar")
             .map((text) =>
-              text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             ) // Remove accents
-            .sort()
+            .sort(),
         );
 
       expect(authorList).toEqual(expectedAuthors);
@@ -112,7 +112,7 @@ test.describe("'Concerning the Landau pole...' article information is complete",
       await expect(
         modal
           .locator('a[href="https://doi.org/10.1140/epjc/s2004-02083-0"]')
-          .nth(1)
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -129,7 +129,7 @@ test.describe("'Concerning the Landau pole...' article information is complete",
       await expect(
         modal.getByText("The European Physical Journal C", {
           exact: true,
-        })
+        }),
       ).toBeVisible();
     });
   });

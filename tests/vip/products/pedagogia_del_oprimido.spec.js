@@ -21,7 +21,7 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
     await test.step("Search for 'Pedagogía del oprimido: escrito dirigido al opresor' using the search bar", async () => {
       const searchInput = page.getByPlaceholder("Búsqueda por palabra clave");
       await searchInput.pressSequentially(
-        '"Pedagogía del oprimido: escrito dirigido al opresor"'
+        '"Pedagogía del oprimido: escrito dirigido al opresor"',
       );
       await page.getByRole("button", { name: "search" }).click();
     });
@@ -46,7 +46,9 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
     const modal = page.getByRole("dialog");
     await test.step("Ensure the article details modal opens and displays the expected title", async () => {
       await expect(
-        modal.getByText("Pedagogía del oprimido: escrito dirigido al opresor")
+        modal
+          .getByText("Pedagogía del oprimido: escrito dirigido al opresor")
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -69,9 +71,9 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
             .map((btn) => btn.textContent?.trim().toLowerCase())
             .filter((text) => text && text !== "ver más." && text !== "cerrar")
             .map((text) =>
-              text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             ) // Remove accents
-            .sort()
+            .sort(),
         );
 
       expect(authorList).toEqual(expectedAuthors);
@@ -109,7 +111,7 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
       await expect(
         modal
           .locator('a[href="https://doi.org/10.5294/pecu.2015.18.1.6"]')
-          .nth(1)
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -123,7 +125,7 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
         for (const id of scientiIDs) {
           await expect(modal.locator(`text=${id}`).first()).toBeVisible();
         }
-      }
+      },
     );
 
     // Verify external research links
@@ -139,7 +141,7 @@ test.describe("'Pedagogía del oprimido...' article information is complete", ()
       await expect(
         modal.getByText("Pensamiento Y Cultura", {
           exact: true,
-        })
+        }),
       ).toBeVisible();
       await expect(modal.getByText("0123-0999")).toBeVisible();
     });
