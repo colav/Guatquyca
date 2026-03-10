@@ -90,7 +90,16 @@ export default function ChartsHandler({ plotlist }) {
   };
 
   const chartComponents = {
-    map: <MapChart data={state.data.plot} />,
+    map:
+      state.data?.plot?.features?.length > 0 ? (
+        <MapChart data={state.data.plot} />
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="Datos insuficientes"
+          style={{ marginTop: "170px" }}
+        />
+      ),
     graph: <GraphChart data={state.data.plot} />,
     percentage:
       state.data?.plot && state.data.plot.length > 7 ? (
