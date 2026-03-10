@@ -12,7 +12,6 @@ env:
 jobs:
   test:
     timeout-minutes: 120
-
     runs-on: ubuntu-latest
 
     container:
@@ -37,8 +36,12 @@ jobs:
       - name: Run VIP Playwright tests
         run: npx playwright test tests/vip --output=playwright-report-vip
 
-      - name: Check report folder
-        run: ls -la playwright-report-vip
+      - name: Check generated reports
+        run: |
+          echo "Artifacts folder:"
+          ls -la playwright-report-vip || true
+          echo "HTML report folder:"
+          ls -la playwright-report || true
 
       - name: Upload HTML report to ci-front-vip
         if: always()
@@ -47,16 +50,18 @@ jobs:
           apt-get update
           apt-get install -y sshpass
 
+          # limpiar carpeta remota
           sshpass -p "${{secrets.SSH_PASS}}" ssh \
           -o UserKnownHostsFile=/dev/null \
           -o StrictHostKeyChecking=no \
           ci-front@ci-front.colav.co \
-          "mkdir -p /home/ci-front/playwright/playwright-report-vip"
+          "rm -rf /home/ci-front/playwright/playwright-report-vip && mkdir -p /home/ci-front/playwright/playwright-report-vip"
 
+          # copiar HTML report real
           sshpass -p "${{secrets.SSH_PASS}}" scp \
           -o UserKnownHostsFile=/dev/null \
           -o StrictHostKeyChecking=no \
-          -r playwright-report-vip/* \
+          -r playwright-report/* \
           ci-front@ci-front.colav.co:/home/ci-front/playwright/playwright-report-vip/
 
           echo "::notice title=HTML report url::https://ci-front.colav.co/playwright-report-vip/index.html"

@@ -59,12 +59,12 @@ jobs:
           -o UserKnownHostsFile=/dev/null \
           -o StrictHostKeyChecking=no \
           ci-front@ci-front.colav.co \
-          "mkdir -p /home/ci-front/playwright/playwright-report-e2e"
+          "rm -rf /home/ci-front/playwright/playwright-report-e2e && mkdir -p /home/ci-front/playwright/playwright-report-e2e"
 
           sshpass -p "${{ secrets.SSH_PASS }}" scp \
           -o UserKnownHostsFile=/dev/null \
           -o StrictHostKeyChecking=no \
-          -r playwright-report-e2e/* \
+          -r playwright-report/* \
           ci-front@ci-front.colav.co:/home/ci-front/playwright/playwright-report-e2e/
 
           echo "::notice title=HTML report url::https://ci-front.colav.co/playwright-report-e2e/index.html"
