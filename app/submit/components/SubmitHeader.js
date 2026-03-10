@@ -13,7 +13,7 @@ export default function SubmitHeader() {
         Carga de información institucional
       </h2>
       <p className={styles.submitHeaderDescription}>
-        Envíe los archivos oficiales de su institución para su validación y
+        Envíe los archivos oficiales de su institución para la validación y
         posterior integración en <b id={styles.impact}>Impact</b>
         <b id={styles.u}>U</b>.
       </p>
