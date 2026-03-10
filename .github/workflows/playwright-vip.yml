@@ -8,6 +8,7 @@ on:
 env:
   NEXT_PUBLIC_CLIENT_API: ${{ secrets.NEXT_PUBLIC_CLIENT_API }}
   API_URL: ${{ secrets.API_URL }}
+  HOME: /root
 
 jobs:
   test:
