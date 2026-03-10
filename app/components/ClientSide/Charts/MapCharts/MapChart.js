@@ -24,7 +24,7 @@ export default function MapChart({ data }) {
     () => ({
       map: {
         type: "mapbox",
-        style: "light",
+        style: "blank",
       },
       source: {
         data: data,
