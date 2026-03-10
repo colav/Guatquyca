@@ -28,6 +28,10 @@ export default function OpenAccessStatus({ status }) {
     diamond: { label: "Diamante", color: "cyan" },
   };
 
+  if (!status || !OA_STATUS[status]) {
+    return null;
+  }
+
   return (
     <Tooltip
       color="white"
