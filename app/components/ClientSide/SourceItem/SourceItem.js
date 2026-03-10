@@ -125,9 +125,9 @@ export default function SourceItem({ item, onList = false }) {
                     publication_time_weeks={item.publication_time_weeks}
                   />
                 )}
-                {item.topics.length > 0 && (
+                {item.topics?.length > 0 && (
                   <div>
-                    <TagsOutlined /> Temas:
+                    <TagsOutlined /> Tópicos:
                     <TopicsTagList topics={item.topics} />
                   </div>
                 )}
