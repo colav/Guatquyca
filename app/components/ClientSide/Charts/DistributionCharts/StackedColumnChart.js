@@ -36,7 +36,15 @@ export default function StackedColumnChart({ data }) {
     xField: "x",
     yField: "y",
     colorField: "type",
-    slider: { x: {}, y: {} },
+    slider: {
+      x: {
+        style: {
+          sparklineType: "line",
+          sparklineLineStrokeOpacity: 0,
+        },
+      },
+      y: {},
+    },
     scale: {
       color: {
         palette: PALETTE,

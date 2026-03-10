@@ -8,7 +8,7 @@ const Column = dynamic(
   () => import("@ant-design/charts").then((mod) => mod.Column),
   {
     ssr: false,
-  }
+  },
 );
 
 /* Styles */
@@ -28,7 +28,15 @@ export default function ColumnChart({ data, chart }) {
     data,
     xField: "x",
     yField: "y",
-    slider: { x: {}, y: {} },
+    slider: {
+      x: {
+        style: {
+          sparklineType: "line",
+          sparklineLineStrokeOpacity: 0,
+        },
+      },
+      y: {},
+    },
     style: {
       fill: "#86d5e5",
     },
