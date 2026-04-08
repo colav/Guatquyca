@@ -53,7 +53,7 @@ export default function Foot() {
           <br />
           <Button
             type="link"
-            href="mailto:grupocolav@udea.edu.co"
+            href="mailto:grupo.colav@udea.edu.co"
             icon={<MailOutlined />}
           >
             Contacto

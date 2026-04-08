@@ -139,8 +139,8 @@ export default function Creditos() {
         <b>ImpactU</b>
       </p>
       Correo-e:{" "}
-      <a target="_blank" rel="noreferrer" href="mailto:grupocolav@udea.edu.co">
-        grupocolav@udea.edu.co
+      <a target="_blank" rel="noreferrer" href="mailto:grupo.colav@udea.edu.co">
+        grupo.colav@udea.edu.co
       </a>
       <br />
       <a target="_blank" rel="noreferrer" href="https://impactu.colav.co">

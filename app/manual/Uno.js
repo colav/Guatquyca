@@ -63,7 +63,7 @@ export default function Uno() {
         la estrategia puede comunicarse con alguna de las vicerrectorías o
         direcciones de investigación de las instituciones participantes o
         escribir a{" "}
-        <a href="mailto:grupocolav@udea.edu.co">grupocolav@udea.edu.co</a>
+        <a href="mailto:grupo.colav@udea.edu.co">grupo.colav@udea.edu.co</a>
       </p>
       <h3 className={styles.subTitle}>
         1.2. ¿Qué soluciones ofrece <b id={styles.impact}>Impact</b>
