@@ -26,20 +26,20 @@ test.describe("Testing ImpactU Homepage", () => {
     });
     await expect(manualLink).toHaveAttribute(
       "href",
-      "https://data.colav.co/Manual_impactu.pdf"
+      "https://data.colav.co/Manual_impactu.pdf",
     );
   });
 
   // Verify the Scroll to Top button is visible when the page is at the bottom.
   test("scroll to top button is working", async ({ page }) => {
     // Scroll the footer into view, forcing the button "Scroll to Top" to appear.
-    await page.getByText("Fundadores:").scrollIntoViewIfNeeded();
+    await page.getByText("Aliados").scrollIntoViewIfNeeded();
     await page.getByRole("button", { name: "vertical-align-top" }).click();
 
     // Check if the page has scrolled to the top
     // Wait for the text to be visible on the screen
     await expect(
-      page.getByText("La información puede ser consultada por autores")
+      page.getByText("La información puede ser consultada por autores"),
     ).toBeInViewport();
   });
 });
