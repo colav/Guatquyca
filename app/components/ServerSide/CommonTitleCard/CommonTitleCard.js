@@ -57,7 +57,7 @@ export default function CommonTitleCard({ data, entity }) {
           id={styles.avatar}
         />
       </Col>
-      <Col xs={24} sm={16} md={24} lg={19} xl={18}>
+      <Col xs={24} md={24} lg={19} xl={18}>
         <Row>
           <h1 id={styles.title}>
             {formatName(full_name) || name}{" "}

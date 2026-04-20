@@ -1,7 +1,102 @@
-.link {
-  font-size: 17px;
+.tree {
+  --indent: 20px;
+  --subtree-offset: -6px;
+  --line-color: #d0d0d0;
+  --line-width: 2px;
+  --dot-size: 10px;
+  --link-size: 16px;
+  --link-offset: 15px;
+  --item-py: 1px;
+
+  --connector-x: calc(var(--indent) / 2);
+  --node-line-height: calc(var(--link-size) * 1.4);
+  --node-center-y: calc(var(--item-py) + (var(--node-line-height) / 2));
+  --branch-width: calc(var(--connector-x) + var(--line-width));
+
+  margin: 0;
+  padding: 0;
 }
 
-.row {
-  margin: 4px 0;
+/* RESET */
+.tree,
+.tree ul,
+.tree li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Keep child subtree compact without flattening hierarchy */
+.tree ul {
+  margin-left: var(--subtree-offset);
+}
+
+/* ITEM */
+.tree li {
+  position: relative;
+  padding: var(--item-py) 0 var(--item-py) var(--indent);
+}
+
+/* Vertical connector grows with item height */
+.tree li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--connector-x);
+  width: var(--line-width);
+  height: 100%;
+  background: var(--line-color);
+}
+
+/* Last child vertical line stops at the horizontal connector */
+.tree li:last-child::before {
+  height: calc(var(--node-center-y) - (var(--line-width) / 2));
+}
+
+/* Horizontal connector anchored to first text line center */
+.tree li::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--node-center-y) - (var(--line-width) / 2));
+  left: var(--connector-x);
+  width: var(--branch-width);
+  height: var(--line-width);
+  background: var(--line-color);
+}
+
+/* DOT */
+.tree li > .node::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--node-center-y) - (var(--dot-size) / 2));
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: var(--line-color);
+}
+
+/* CONTENT */
+.node {
+  display: block;
+  line-height: var(--node-line-height);
+}
+
+/* LINK */
+.link {
+  font-size: var(--link-size);
+  text-decoration: none;
+  color: inherit;
+  word-break: break-word;
+  margin-left: var(--link-offset);
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* YEARS */
+.yearsLabel {
+  font-size: 14px;
+  color: #7a929b;
+  margin-left: 4px;
 }
