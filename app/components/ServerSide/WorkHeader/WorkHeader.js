@@ -55,6 +55,7 @@ export default function WorkHeader({
   ranking,
   language,
   datePublished,
+  yearPublished,
   authors,
   authorsCount,
   workID,
@@ -63,9 +64,15 @@ export default function WorkHeader({
   const languageDisplay = LANGUAGES[language] || (
     <span className={styles.fallback}>No disponible</span>
   );
-  const publicationDate = dateBuilder(datePublished, "unix") || (
-    <span className={styles.fallback}>No disponible</span>
-  );
+
+  const publicationDate =
+    datePublished && datePublished !== -1 ? (
+      dateBuilder(datePublished, "unix")
+    ) : yearPublished ? (
+      yearPublished
+    ) : (
+      <span className={styles.fallback}>No disponible</span>
+    );
 
   return (
     <>

@@ -116,6 +116,7 @@ export default async function WorkPage({ params }) {
             ranking={workData.ranking}
             language={workData.language}
             datePublished={workData.date_published}
+            yearPublished={workData.year_published}
             authors={workData.authors}
             authorsCount={workData.authors_count}
             workID={params.ID}
