@@ -1,0 +1,9 @@
+.text {
+  font-weight: 500;
+  color: rgb(82, 99, 126);
+  font-size: 16px;
+}
+
+.pipeline {
+    color: lightgray
+}

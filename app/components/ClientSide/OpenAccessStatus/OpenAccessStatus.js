@@ -28,8 +28,18 @@ export default function OpenAccessStatus({ status }) {
     diamond: { label: "Diamante", color: "cyan" },
   };
 
+  if (!status || !OA_STATUS[status]) {
+    return null;
+  }
+
   return (
-    <Tooltip title={OA_STATUS[status].label}>
+    <Tooltip
+      color="white"
+      styles={{ body: { color: "black" } }}
+      title={`${status !== "closed" ? "Ruta:" : "Acceso"} ${
+        OA_STATUS[status].label
+      }`}
+    >
       <Tag
         icon={React.createElement(open_access_icon)}
         color={OA_STATUS[status].color}

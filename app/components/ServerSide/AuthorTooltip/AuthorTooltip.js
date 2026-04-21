@@ -4,6 +4,9 @@ import Link from "next/link";
 /* Components */
 import AuthorInfoFetcher from "./AuthorInfoFetcher";
 
+/* Utils */
+import { formatName } from "@/lib/utils/formatName";
+
 /**
  * AuthorsAffiliationsTooltip is a server-side function component that displays an author's name and affiliations.
  *
@@ -21,11 +24,11 @@ export default function AuthorsTooltip({ author }) {
             <Link
               href={`/person/${id}/research/products?max=10&page=1&sort=citations_desc`}
             >
-              {full_name}
+              {formatName(full_name)}
             </Link>
           ) : (
             <span>
-              <b>{full_name}</b>
+              <b>{formatName(full_name)}</b>
             </span>
           )}
         </div>

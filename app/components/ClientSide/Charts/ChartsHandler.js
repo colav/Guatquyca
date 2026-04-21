@@ -13,14 +13,15 @@ import Loading from "@/app/loading";
 import ColumnChart from "./DistributionCharts/ColumnChart";
 import GraphChart from "./GraphCharts/GraphChart";
 import MapChart from "./MapCharts/MapChart";
-import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
 import PieChart from "./PercentageCharts/PieChart";
+import StackedColumnChart from "./DistributionCharts/StackedColumnChart";
+import StepAreaChart from "./EvolutionCharts/StepAreaChart";
 import TreemapChart from "./PercentageCharts/TreemapChart";
 import VennChart from "./SetCharts/VennChart";
 
 /* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import { APIRequest } from "@/lib/apis/client.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -29,7 +30,7 @@ import styles from "./styles.module.css";
 import { Card, Empty, TreeSelect } from "antd";
 
 /* Utils */
-import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
+import { getQueryParamsAsObject } from "@/lib/utils/getQueryParamsAsObject";
 
 /* Constants */
 const CARD_HEADER_STYLE = {
@@ -59,8 +60,8 @@ export default function ChartsHandler({ plotlist }) {
 
   const filteredQueryParams = Object.fromEntries(
     Object.entries(queryParams).filter(
-      ([key]) => !ignoredQueryKeys.includes(key)
-    )
+      ([key]) => !ignoredQueryKeys.includes(key),
+    ),
   );
 
   const initialURL = URLBuilder(`/app${pathname}`, queryParams, {
@@ -89,7 +90,16 @@ export default function ChartsHandler({ plotlist }) {
   };
 
   const chartComponents = {
-    map: <MapChart data={state.data.plot} />,
+    map:
+      state.data?.plot?.features?.length > 0 ? (
+        <MapChart data={state.data.plot} />
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="Datos insuficientes"
+          style={{ marginTop: "170px" }}
+        />
+      ),
     graph: <GraphChart data={state.data.plot} />,
     percentage:
       state.data?.plot && state.data.plot.length > 7 ? (
@@ -108,6 +118,7 @@ export default function ChartsHandler({ plotlist }) {
         <ColumnChart data={state.data.plot} chart={selectedPlot.value} />
       ),
     set: <VennChart data={state.data.plot} />,
+    evolution: <StepAreaChart data={state.data.plot} />,
   };
 
   const renderChart = () => {

@@ -1,7 +1,9 @@
 /* Components */
 import AuthorsList from "../AuthorsHorizontalList/AuthorsList";
 import InvisibleContainer from "../ProductTypeTooltip/InvisibleContainer";
+import OpenAccessStatus from "../OpenAccessStatus/OpenAccessStatus";
 import ProductExternalIDTag from "../../ServerSide/ProdutExternalIDTag/ProductExternalIDTag";
+import RankingTag from "../../ServerSide/RankingTag/RankingTag";
 import Source from "../../ServerSide/Source/Source";
 import TopicTag from "../../ServerSide/TopicTag/TopicTag";
 import WorksInfo from "../WorksInfo/WorksInfo";
@@ -23,9 +25,30 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import Ribbon from "antd/lib/badge/Ribbon";
 import { Row, Space } from "antd";
-import OpenAccessStatus from "../OpenAccessStatus/OpenAccessStatus";
-import RankingTag from "../../ServerSide/RankingTag/RankingTag";
 
+/**
+ * WorkItem is a server-side functional component that renders a detailed view of a research product (work),
+ * including its title, product type, open access status, external IDs, ranking, source, authors, topics, and additional metadata.
+ *
+ * @component
+ * @param {Object} item - The work object containing all metadata and display information for the product.
+ * @param {string} item.id - Unique identifier for the work.
+ * @param {string} item.title - Title of the work.
+ * @param {Array<{name: string, source?: string}>} [item.product_types] - Array of product types for the work.
+ * @param {Object} [item.open_access] - Open access information.
+ * @param {string} [item.open_access.open_access_status] - Open access status.
+ * @param {Array<{source: string, id: string}>} [item.external_ids] - List of external IDs (e.g., DOI, Scopus).
+ * @param {Object} [item.ranking] - Ranking information for the work.
+ * @param {Object} [item.source] - Source information for the work.
+ * @param {string} [item.source.name] - Name of the source (e.g., journal name).
+ * @param {Array<Object>} [item.authors] - List of authors for the work.
+ * @param {number} [item.authors_count] - Number of authors.
+ * @param {Array<Object>} [item.topics] - List of topics covered by the work.
+ * @param {number} [item.citations_count] - Number of citations for the work.
+ * @param {number} [item.year_published] - Year the work was published.
+ *
+ * @returns {JSX.Element} The rendered work item component.
+ */
 export default function WorkItem({ item }) {
   const ribbonStyles = {
     boxShadow:
@@ -44,7 +67,7 @@ export default function WorkItem({ item }) {
   return (
     <>
       {item.product_types.length ? (
-        <InvisibleContainer source={item.product_types} productType="works" />
+        <InvisibleContainer typesList={item.product_types} type="works" />
       ) : (
         ""
       )}

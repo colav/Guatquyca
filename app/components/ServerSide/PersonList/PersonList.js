@@ -1,15 +1,15 @@
 /* Components */
 import AffiliationLinks from "@/app/components/ServerSide/AffiliationLinks/AffiliationLinks";
 import AuthorsExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/AuthorsExternalProfiles";
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
-import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";
@@ -21,7 +21,7 @@ import { Avatar, Col, Row, Card } from "antd";
 import styles from "./styles.module.css";
 
 /* Utilities */
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import { formatName } from "@/lib/utils/formatName";
 
 /**
  * PersonList is an asynchronous function server component that fetches a list of persons
@@ -35,17 +35,12 @@ export default async function PersonList({ searchParams }) {
   const { data, fullUrl } = await getData(URL);
 
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 10px 10px" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1 ? SINGULAR_TITLES["person"] : TITLES["person"]
-      }`}
-      extra={<SortSearchResults searchParams={searchParams} />}
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type="person"
+      csv={false}
+      api={true}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -69,7 +64,7 @@ export default async function PersonList({ searchParams }) {
                       className="searchResult_link"
                       href={`/person/${item.id}/research/products?max=10&page=1&sort=citations_desc`}
                     >
-                      {item.full_name}
+                      {formatName(item.full_name)}
                     </Link>
                   </Col>
                   <Col xs={24} md={6}>
@@ -95,6 +90,6 @@ export default async function PersonList({ searchParams }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }

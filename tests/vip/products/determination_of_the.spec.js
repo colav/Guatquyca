@@ -21,7 +21,7 @@ test.describe("'Determination of the IMF...' article information is complete", (
     await test.step("Search for 'Determination of the IMF in the LMC stellar cluster NGC 2156' using the search bar", async () => {
       const searchInput = page.getByPlaceholder("Búsqueda por palabra clave");
       await searchInput.pressSequentially(
-        '"Determination of the IMF in the LMC stellar cluster NGC 2156"'
+        '"Determination of the IMF in the LMC stellar cluster NGC 2156"',
       );
       await page.getByRole("button", { name: "search" }).click();
     });
@@ -35,7 +35,7 @@ test.describe("'Determination of the IMF...' article information is complete", (
       });
       await page
         .getByText(
-          "Determination of the IMF in the LMC stellar cluster NGC 2156"
+          "Determination of the IMF in the LMC stellar cluster NGC 2156",
         )
         .nth(0)
         .click();
@@ -48,9 +48,11 @@ test.describe("'Determination of the IMF...' article information is complete", (
     const modal = page.getByRole("dialog");
     await test.step("Ensure the article details modal opens and displays the expected title", async () => {
       await expect(
-        modal.getByText(
-          "Determination of the IMF in the LMC stellar cluster NGC 2156"
-        )
+        modal
+          .getByText(
+            "Determination of the IMF in the LMC stellar cluster NGC 2156",
+          )
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -77,9 +79,9 @@ test.describe("'Determination of the IMF...' article information is complete", (
             .map((btn) => btn.textContent?.trim().toLowerCase())
             .filter((text) => text && text !== "ver más." && text !== "cerrar")
             .map((text) =>
-              text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             ) // Remove accents
-            .sort()
+            .sort(),
         );
 
       expect(authorList).toEqual(expectedAuthors);
@@ -122,7 +124,7 @@ test.describe("'Determination of the IMF...' article information is complete", (
         for (const id of scientiIDs) {
           await expect(modal.locator(`text=${id}`).first()).toBeVisible();
         }
-      }
+      },
     );
 
     // Verify external research links

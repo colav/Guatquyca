@@ -18,11 +18,11 @@ import { Col, Divider, Row } from "antd";
 import Ribbon from "antd/lib/badge/Ribbon";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
-import MathJax from "@/lib/Utils/mathjax";
+import getData from "@/lib/apis/server.api";
+import MathJax from "@/lib/utils/mathjax";
 import { PRODUCT_TYPES } from "@/lib/constants";
 import Script from "next/script";
-import UseCleanupAltmetric from "@/lib/Hooks/useCleanupAltmetric";
+import UseCleanupAltmetric from "@/lib/hooks/useCleanupAltmetric";
 
 export const metadata = {
   title: "ImpactU - Detalle del Producto",
@@ -93,9 +93,9 @@ export default async function WorkPage({ params }) {
     <div className={styles.main_container}>
       {workData.product_types?.length > 0 && (
         <InvisibleContainer
-          source={workData.product_types}
-          productType="works"
-          type="wide"
+          typesList={workData.product_types}
+          type="works"
+          layout="wide"
         />
       )}
       <Ribbon
@@ -116,6 +116,7 @@ export default async function WorkPage({ params }) {
             ranking={workData.ranking}
             language={workData.language}
             datePublished={workData.date_published}
+            yearPublished={workData.year_published}
             authors={workData.authors}
             authorsCount={workData.authors_count}
             workID={params.ID}

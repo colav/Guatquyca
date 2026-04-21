@@ -1,5 +1,5 @@
 /* Hooks */
-import usePaperbuzzScore from "@/lib/Hooks/usePaperbuzzScore";
+import usePaperbuzzScore from "@/lib/hooks/usePaperbuzzScore";
 
 /* Next.js */
 import Link from "next/link";
@@ -14,7 +14,7 @@ import PaperbuzzIMG from "./PaperbuzzIMG";
 import { ConfigProvider, Tooltip, Image, Divider, Row, Col } from "antd";
 
 /* Utils */
-import formatPaperbuzzSourcesTexts from "@/lib/Utils/formatPaperbuzzSourcesTexts";
+import formatPaperbuzzSourcesTexts from "@/lib/utils/formatPaperbuzzSourcesTexts";
 import PaperbuzzInfoButton from "./PaperbuzzInfoButton";
 
 /**
@@ -54,7 +54,7 @@ export default function PaperbuzzBadge({ doi }) {
             </div>
           );
         }
-      }
+      },
     );
   };
 

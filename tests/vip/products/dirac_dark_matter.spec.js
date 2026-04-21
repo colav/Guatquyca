@@ -21,7 +21,7 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
     await test.step("Search for 'Dirac dark matter, neutrino masses, and dark baryogenesis' using the search bar", async () => {
       const searchInput = page.getByPlaceholder("Búsqueda por palabra clave");
       await searchInput.pressSequentially(
-        '"Dirac dark matter, neutrino masses, and dark baryogenesis"'
+        '"Dirac dark matter, neutrino masses, and dark baryogenesis"',
       );
       await page.getByRole("button", { name: "search" }).click();
     });
@@ -43,7 +43,7 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
     const modal = page.getByRole("dialog");
     await test.step("Ensure the article details modal opens and displays the expected title", async () => {
       await expect(
-        modal.getByText("Dirac dark matter, neutrino")
+        modal.getByText("Dirac dark matter, neutrino").nth(1),
       ).toBeVisible();
     });
 
@@ -70,9 +70,9 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
             .map((btn) => btn.textContent?.trim().toLowerCase())
             .filter((text) => text && text !== "ver más." && text !== "cerrar")
             .map((text) =>
-              text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             ) // Remove accents
-            .sort()
+            .sort(),
         );
 
       expect(authorList).toEqual(expectedAuthors);
@@ -110,7 +110,7 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
       await expect(
         modal
           .locator('a[href="https://doi.org/10.1103/physrevd.106.055021"]')
-          .nth(1)
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -124,7 +124,7 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
         for (const id of scientiIDs) {
           await expect(modal.getByText(id)).toBeVisible();
         }
-      }
+      },
     );
 
     // Verify external research links
@@ -140,7 +140,7 @@ test.describe("'Dirac dark matter...' article information is complete", () => {
       await expect(
         modal.getByText("Physical review. D/Physical review. D.", {
           exact: true,
-        })
+        }),
       ).toBeVisible();
       await expect(modal.getByText("2470-0029")).toBeVisible();
     });

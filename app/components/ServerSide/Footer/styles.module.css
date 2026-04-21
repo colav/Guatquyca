@@ -1,34 +1,31 @@
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .logo {
-  transition: all ease-in-out 300ms;
-  width: auto;
+  max-width: 200px;
+  width: 100%;
   height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
 }
 
 .logo:hover {
-  transform: scale(1.1, 1.1);
-}
-
-.width_370 {
-  max-width: 370px;
+  transform: scale(1.1);
 }
 
 #title {
   color: #234461;
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 #footer_container {
   text-align: center;
   margin: 15px;
   padding: 30px;
-
   background-color: #e2e6ec;
-}
-
-@media (max-width: 767px) {
-  .logo {
-    padding: 25px;
-  }
 }

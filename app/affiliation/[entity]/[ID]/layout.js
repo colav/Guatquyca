@@ -1,12 +1,12 @@
 /* Components */
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import CommonTitleCard from "@/app/components/ServerSide/CommonTitleCard/CommonTitleCard";
 
 /* Constants */
 import { SINGULAR_TITLES } from "@/lib/constants";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
+import getData from "@/lib/apis/server.api";
 
 /**
  * Generates metadata for the page dynamically based on the params.

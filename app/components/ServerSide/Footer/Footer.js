@@ -1,6 +1,10 @@
 /* Icons */
 import { GithubOutlined, MailOutlined } from "@ant-design/icons";
 
+/* Components */
+import DBUpdatedAt from "./DBUpdatedAt";
+import AlliesSection from "./AlliesSection";
+
 /* Next */
 import Link from "next/link";
 import Image from "next/image";
@@ -22,56 +26,7 @@ const Footer = Layout;
 export default function Foot() {
   return (
     <Footer id={styles.footer_container}>
-      <Row gutter={[20, 10]} justify="space-around" align="middle">
-        <Col span={24} id={styles.title}>
-          Fundadores:
-        </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
-          <Link href="/affiliation/institution/03bp5hc83/affiliations">
-            <Image
-              className={styles.logo}
-              src={"/media/logo_udea.svg"}
-              alt="Logotipo Universidad de Antioquia"
-              width={250}
-              height={100}
-            />
-          </Link>
-        </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
-          <Link href="/affiliation/institution/05tkb8v92/affiliations">
-            <Image
-              className={styles.logo}
-              src={"/media/logo_unaula.svg"}
-              alt="Logotipo Universidad Autónoma Latinoamericana"
-              width={250}
-              height={100}
-            />
-          </Link>
-        </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
-          <Link href="/affiliation/institution/02xtwpk10/affiliations">
-            <Image
-              className={styles.logo}
-              src={"/media/logo_uec.svg"}
-              alt="Logotipo Universidad Externado de Colombia"
-              width={250}
-              height={100}
-              priority
-            />
-          </Link>
-        </Col>
-        <Col xs={24} md={4} className={styles.width_370}>
-          <Link href="/affiliation/institution/00jb9vg53/affiliations">
-            <Image
-              className={styles.logo}
-              src={"/media/logo_univalle.svg"}
-              alt="Logotipo Universidad Del Valle"
-              width={250}
-              height={100}
-            />
-          </Link>
-        </Col>
-      </Row>
+      <AlliesSection />
       <Row gutter={[5, 5]}>
         <Divider style={{ marginTop: "20px" }} />
         <Col xs={24} md={8}>
@@ -98,7 +53,7 @@ export default function Foot() {
           <br />
           <Button
             type="link"
-            href="mailto:grupocolav@udea.edu.co"
+            href="mailto:grupo.colav@udea.edu.co"
             icon={<MailOutlined />}
           >
             Contacto
@@ -144,13 +99,13 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.11.2
+          ImpactU Versión 3.14.4
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 16/10/2025
+          Interfaz de Usuario: 20/04/2026
           <br />
-          Base de Datos: 29/08/2025
+          Base de Datos: <DBUpdatedAt />
           <br />
           Hecho en Colombia
         </Col>

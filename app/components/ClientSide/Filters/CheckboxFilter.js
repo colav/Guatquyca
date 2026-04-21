@@ -8,11 +8,17 @@ import DeleteFilter from "./DeleteFilter";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { Row, Checkbox } from "antd";
 
 /* UI Library Sub-components */
 const { Group: CheckboxGroup } = Checkbox;
+
+/* Utils */
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * CheckboxFilter is a client-side functional component that provides a checkbox filter for selecting multiple items.
@@ -46,8 +52,8 @@ export default function CheckboxFilter({ data, filterType }) {
   const [filterValue, setFilterValue] = useState(urlStatus);
 
   useEffect(() => {
-    const combinedFilter = Object.entries(statusState).flatMap(([key, value]) =>
-      value === true ? [key] : value || []
+    const combinedFilter = Object.entries(statusState).flatMap(
+      ([key, value]) => (value === true ? [key] : value || []),
     );
     setFilterValue(combinedFilter);
   }, [statusState]);
@@ -67,8 +73,8 @@ export default function CheckboxFilter({ data, filterType }) {
   };
 
   return (
-    <>
-      {data.map(({ title, value, children, label }) => {
+    <div className={styles.bold}>
+      {data.map(({ title, value, count, children, label }) => {
         if (children) {
           const allChildrenChecked =
             statusState[value].length === children.length;
@@ -82,17 +88,23 @@ export default function CheckboxFilter({ data, filterType }) {
                 onChange={(e) =>
                   handleGroupChange(
                     value,
-                    e.target.checked ? children.map((c) => c.value) : []
+                    e.target.checked ? children.map((c) => c.value) : [],
                   )
                 }
                 checked={allChildrenChecked}
               >
-                Acceso Abierto
+                <>
+                  <b>Acceso Abierto</b> ({formatNumber(count)})
+                </>
               </Checkbox>
               <br />
               <CheckboxGroup
-                options={children.map(({ title, value }) => ({
-                  label: title,
+                options={children.map(({ title, value, count }) => ({
+                  label: (
+                    <>
+                      <b>{title}</b> ({formatNumber(count)})
+                    </>
+                  ),
                   value,
                 }))}
                 value={statusState[value]}
@@ -112,7 +124,16 @@ export default function CheckboxFilter({ data, filterType }) {
               checked={statusState[value] === true}
               onChange={(e) => handleCheckboxChange(value, e.target.checked)}
             >
-              {title === "Cerrado" ? "Acceso cerrado" : title || label}
+              {title === "Cerrado" ? (
+                <>
+                  <b>Acceso Cerrado</b> ({formatNumber(count)})
+                </>
+              ) : (
+                <>
+                  <b>{title || label}</b>{" "}
+                  {count ? `(${formatNumber(count)})` : ""}
+                </>
+              )}
             </Checkbox>
           );
       })}
@@ -125,6 +146,6 @@ export default function CheckboxFilter({ data, filterType }) {
           query={query}
         />
       </Row>
-    </>
+    </div>
   );
 }

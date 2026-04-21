@@ -1,20 +1,16 @@
 /* Components */
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import EmptyCard from "../../ClientSide/EmptyCard/EmptyCard";
 import PaginationController from "../../ClientSide/PaginationController/PaginationController";
 import ProjectItem from "../../ClientSide/ProjectItem/ProjectItem";
-import SortSearchResults from "../../ClientSide/SortSearchResults/SortSearchResults";
 
 /* Styles */
 import styles from "./styles.module.css";
 
-/* UI Library Components */
-import { Card } from "antd";
-
 /* Utilities */
-import ClientLogger from "@/lib/Utils/clientLogger";
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import ClientLogger from "@/lib/utils/clientLogger";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * ProjectsList is a server-side functional component that fetches and displays a list of projects related to a specific entity.
@@ -32,12 +28,12 @@ export default async function ProjectsList({ searchParams, params, entity }) {
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/projects`,
-      searchParams
+      searchParams,
     );
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/projects`,
-      searchParams
+      searchParams,
     );
   }
   const { data, fullUrl } = await getData(URL);
@@ -46,19 +42,12 @@ export default async function ProjectsList({ searchParams, params, entity }) {
     return <EmptyCard text="No hay Proyectos disponibles para esta perfil." />;
   }
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 5px 0" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1
-          ? SINGULAR_TITLES["projects"]
-          : TITLES["projects"]
-      }`}
-      extra={<SortSearchResults searchParams={searchParams} type="projects" />}
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type="projects"
+      csv={false}
+      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -70,6 +59,6 @@ export default async function ProjectsList({ searchParams, params, entity }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }

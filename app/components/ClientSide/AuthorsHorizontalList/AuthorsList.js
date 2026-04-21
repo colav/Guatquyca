@@ -11,6 +11,9 @@ import ShowMoreAPICall from "../ShowMoreButton/ShowMoreAPICall";
 /* UI Library Components */
 import { Button, Tooltip } from "antd";
 
+/* Utilities */
+import { formatName } from "@/lib/utils/formatName";
+
 /* Constants */
 const AUTHOR_LABELS = {
   advisor: "Asesor",
@@ -41,7 +44,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
 
   const institutionId = useMemo(() => {
     const match = pathname.match(
-      /\/(institution|group|faculty|department)\/([^/]+)\/research/
+      /\/(institution|group|faculty|department)\/([^/]+)\/research/,
     );
     return match?.[2] || null;
   }, [pathname]);
@@ -52,7 +55,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
         const isAdvisor =
           author.type === "advisor" || author.type === "co-advisor";
         const isInstitutionAffiliated = author.affiliations?.some(
-          (aff) => aff.id === institutionId
+          (aff) => aff.id === institutionId,
         );
 
         return (
@@ -76,7 +79,7 @@ export default function AuthorsList({ authors, authors_count, workID }) {
               type="link"
               aria-label={`Autor: ${author.full_name}`}
             >
-              {author.full_name}
+              {formatName(author.full_name)}
               {AUTHOR_LABELS[author.type] && (
                 <span style={{ fontWeight: 500, fontSize: 13, color: "#888" }}>
                   {" "}

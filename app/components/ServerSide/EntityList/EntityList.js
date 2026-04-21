@@ -1,16 +1,16 @@
 /* Components */
 import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
+import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
-import SortSearchResults from "@/app/components/ClientSide/SortSearchResults/SortSearchResults";
 
 /* lib */
-import getData from "@/lib/APIS/api";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import getData from "@/lib/apis/server.api";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Next */
 import Link from "next/link";
@@ -19,10 +19,7 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Avatar, Card, Col, Row } from "antd";
-
-/* Utilities */
-import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
+import { Avatar, Col, Row } from "antd";
 
 /**
  * EntityList is a "server-side" function component that displays a list of entities.
@@ -36,17 +33,12 @@ export default async function EntityList({ searchParams, entity }) {
   const { data, fullUrl } = await getData(URL);
 
   return (
-    <Card
-      id="list"
-      size="small"
-      styles={{
-        header: { backgroundColor: "#003e65", color: "white" },
-        body: { padding: "10px 0 10px 10px" },
-      }}
-      title={`${data.total_results} ${
-        data.total_results === 1 ? SINGULAR_TITLES[entity] : TITLES[entity]
-      }`}
-      extra={<SortSearchResults searchParams={searchParams} />}
+    <CardWrapper
+      searchParams={searchParams}
+      total_results={data.total_results}
+      type={entity}
+      csv={false}
+      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -111,6 +103,6 @@ export default async function EntityList({ searchParams, entity }) {
         searchParams={searchParams}
       />
       <ClientLogger url={fullUrl} />
-    </Card>
+    </CardWrapper>
   );
 }

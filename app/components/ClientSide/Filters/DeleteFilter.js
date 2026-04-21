@@ -11,8 +11,8 @@ import styles from "./styles.module.css";
 import { Button } from "antd";
 
 /* Utils */
-import { getQueryParamsAsObject } from "@/lib/Utils/getQueryParamsAsObject";
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import { getQueryParamsAsObject } from "@/lib/utils/getQueryParamsAsObject";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /**
  * DeleteFilter component provides a button to remove a specific filter from the query parameters.

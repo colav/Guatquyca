@@ -21,7 +21,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     await test.step("Search for 'Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator' using the search bar", async () => {
       const searchInput = page.getByPlaceholder("Búsqueda por palabra clave");
       await searchInput.pressSequentially(
-        '"Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator"'
+        '"Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator"',
       );
       await page.getByRole("button", { name: "search" }).click();
     });
@@ -35,7 +35,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
       });
       await page
         .getByText(
-          "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator"
+          "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator",
         )
         .nth(0)
         .click();
@@ -48,9 +48,11 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     const modal = page.getByRole("dialog");
     await test.step("Ensure the article details modal opens and displays the expected title", async () => {
       await expect(
-        modal.getByText(
-          "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator"
-        )
+        modal
+          .getByText(
+            "Generation of Perfect Optical Vortices by Using a Transmission Liquid Crystal Spatial Light Modulator",
+          )
+          .nth(1),
       ).toBeVisible();
     });
 
@@ -77,9 +79,9 @@ test.describe("'Generation of Perfect Optical...' article information is complet
             .map((btn) => btn.textContent?.trim().toLowerCase())
             .filter((text) => text && text !== "ver más." && text !== "cerrar")
             .map((text) =>
-              text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             ) // Remove accents
-            .sort()
+            .sort(),
         );
 
       expect(authorList).toEqual(expectedAuthors);
@@ -115,7 +117,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
     // Verify DOI link
     await test.step("Verify that the DOI link (https://doi.org/10.1155/2017/6852019) is present in the modal", async () => {
       await expect(
-        modal.locator('a[href="https://doi.org/10.1155/2017/6852019"]').nth(1)
+        modal.locator('a[href="https://doi.org/10.1155/2017/6852019"]').nth(1),
       ).toBeVisible();
     });
 
@@ -129,7 +131,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
         for (const id of scientiIDs) {
           await expect(modal.locator(`text=${id}`).first()).toBeVisible();
         }
-      }
+      },
     );
 
     // Verify external research links
@@ -145,7 +147,7 @@ test.describe("'Generation of Perfect Optical...' article information is complet
       await expect(
         modal.getByText("International Journal of Optics", {
           exact: true,
-        })
+        }),
       ).toBeVisible();
     });
   });

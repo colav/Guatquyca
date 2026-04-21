@@ -11,18 +11,6 @@ import styles from "./styles.module.css";
  * @returns {JSX.Element} A fragment that contains a heading and a list of external URLs.
  */
 export default function ExternalURL({ URLList }) {
-  /**
-   * renderedName is a function that takes a name and returns a formatted name.
-   *
-   * @param {string} name - The name to format.
-   * @returns {string} The formatted name.
-   */
-  const renderedName = (name) => {
-    if (name === "site") return "Sitio Web";
-    if (name === "wikipedia") return "Wikipedia";
-    return name;
-  };
-
   return (
     <>
       <h2 className={styles.bold}>

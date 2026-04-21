@@ -1,11 +1,11 @@
 /* Components */
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import EmptyCard from "@/app/components/ClientSide/EmptyCard/EmptyCard";
 import ListCard from "@/app/components/ClientSide/ListCard/ListCard";
 import TopMenu from "@/app/components/ClientSide/TopMenu/TopMenu";
 
 /* Lib */
-import getData from "@/lib/APIS/api";
+import getData from "@/lib/apis/server.api";
 
 /* UI Library Components */
 import { Col, Row } from "antd";
@@ -36,7 +36,7 @@ export default async function AffiliationsPage({ params }) {
 
   // Filter keys to include only those with non-empty arrays
   let keys = Object.keys(data).filter(
-    (key) => Array.isArray(data[key]) && data[key].length > 0
+    (key) => Array.isArray(data[key]) && data[key].length > 0,
   );
 
   return (

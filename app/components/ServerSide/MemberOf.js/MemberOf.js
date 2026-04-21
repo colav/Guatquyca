@@ -8,7 +8,7 @@ import CONSORTIA from "../../icons/consortia";
 import CCYK from "../../icons/ccyk";
 
 /* Data */
-import networks_universities_colombia from "@/lib/Utils/networks_universities_colombia.json";
+import networks_universities_colombia from "@/lib/utils/networks_universities_colombia.json";
 
 /* Styles */
 import styles from "./styles.module.css";

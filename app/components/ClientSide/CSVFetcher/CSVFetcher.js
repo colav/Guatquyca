@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import { Modal } from "antd";
 
 /* Utils */
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import URLBuilder from "@/lib/utils/URLBuilder";
 import Spinner from "../Spinner/Spinner";
 import { WarningOutlined } from "@ant-design/icons";
 
@@ -41,11 +41,11 @@ export default function CSVFetcher({ pathname, queryParams }) {
     fetch(
       URLBuilder(
         `${process.env.NEXT_PUBLIC_CLIENT_API}/app${pathname}/csv`,
-        filteredQueryParams
+        filteredQueryParams,
       ),
       {
         signal: abortController.current.signal,
-      }
+      },
     )
       .then((response) => {
         if (!response.ok) {

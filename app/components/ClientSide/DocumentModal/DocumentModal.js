@@ -20,7 +20,7 @@ import {
 } from "@ant-design/icons";
 
 /* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
+import { APIRequest } from "@/lib/apis/client.api";
 import { LANGUAGES } from "@/lib/constants";
 
 /* Styles */

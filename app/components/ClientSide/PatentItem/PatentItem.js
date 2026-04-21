@@ -32,7 +32,7 @@ export default function PatentItem({ item }) {
   return (
     <>
       {item.product_types.length ? (
-        <InvisibleContainer source={item.product_types} productType="patents" />
+        <InvisibleContainer typesList={item.product_types} type="patents" />
       ) : (
         ""
       )}

@@ -1,9 +1,9 @@
 /* Components */
-import ClientLogger from "@/lib/Utils/clientLogger";
+import ClientLogger from "@/lib/utils/clientLogger";
 import CommonTitleCard from "@/app/components/ServerSide/CommonTitleCard/CommonTitleCard";
 
 /* Utilities */
-import getData from "@/lib/APIS/api";
+import getData from "@/lib/apis/server.api";
 
 export const metadata = {
   title: "Perfil de Autor",

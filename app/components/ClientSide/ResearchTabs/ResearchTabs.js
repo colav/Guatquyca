@@ -49,12 +49,12 @@ export default function ResearchTabs({ activeTab, entity }) {
       ? router.push(
           `/person/${ID}/research/${activeKey}?max=10&page=1&sort=${
             activeKey === "products" ? "citations_desc" : "alphabetical_asc"
-          }`
+          }`,
         )
       : router.push(
           `/affiliation/${entity}/${ID}/research/${activeKey}?max=10&page=1&sort=${
             activeKey === "products" ? "citations_desc" : "alphabetical_asc"
-          }`
+          }`,
         );
   };
 
@@ -64,7 +64,7 @@ export default function ResearchTabs({ activeTab, entity }) {
       onChange={handleTabChange}
       items={items}
       type="card"
-      destroyInactiveTabPane
+      destroyOnHidden
     />
   );
 }

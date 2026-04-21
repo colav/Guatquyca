@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /* lib */
-import URLBuilder from "@/lib/Utils/URLBuilder";
+import URLBuilder from "@/lib/utils/URLBuilder";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -38,7 +38,7 @@ export default function PaginationOnWorkList({
     const topElement = document.getElementById("list");
     if (topElement) {
       setTopPosition(
-        topElement.getBoundingClientRect().top + window.pageYOffset
+        topElement.getBoundingClientRect().top + window.pageYOffset,
       );
     }
   }, []);

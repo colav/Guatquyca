@@ -9,9 +9,15 @@ import Flag from "../../ServerSide/Flag/Flag";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
-import { Row, Select, Space, Tooltip } from "antd";
+import { Col, Row, Select, Space, Tag } from "antd";
 import { TITLES } from "@/lib/constants";
+
+/* Utils */
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * CountrySelectFilter is a client-side functional component that provides a select filter for selecting multiple items.
@@ -26,7 +32,7 @@ export default function CountrySelectFilter({ data, filterType }) {
     return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
   const [value, setValue] = useState(
-    query.has(filterType) ? query.get(filterType)?.split(",") : null
+    query.has(filterType) ? query.get(filterType)?.split(",") : null,
   );
 
   const onChange = (newValue) => {
@@ -47,10 +53,21 @@ export default function CountrySelectFilter({ data, filterType }) {
         onChange={onChange}
         options={data}
         optionRender={(item) => (
-          <Space>
-            <Flag country={item.label} countryCode={item.value} size="20x15" />{" "}
-            {item.label}
-          </Space>
+          <Row justify="space-between" style={{ width: "100%" }}>
+            <Col xs={19} md={20} className={styles.optionLabel}>
+              <Space>
+                <Flag
+                  country={item.label}
+                  countryCode={item.value}
+                  size="20x15"
+                />{" "}
+                {item.label}
+              </Space>
+            </Col>
+            <Tag bordered={false} style={{ marginRight: 2 }}>
+              {formatNumber(item.data.count)}
+            </Tag>
+          </Row>
         )}
       />
       <Row justify="end" style={{ marginTop: "12px" }}>

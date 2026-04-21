@@ -8,12 +8,15 @@ import DeleteFilter from "./DeleteFilter";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+/* Styles */
+import styles from "./styles.module.css";
+
 /* UI Library Components */
 import { Col, Row, Select, Tag } from "antd";
 import { TITLES } from "@/lib/constants";
 
-/* Styles */
-import styles from "./styles.module.css";
+/* Utils */
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * SelectFilter is a client-side functional component that provides a select filter
@@ -26,9 +29,12 @@ import styles from "./styles.module.css";
 export default function SelectFilter({ data = [], filterType }) {
   const query = useSearchParams();
 
-  const filteredData = data.filter(
-    ({ label, value }) => label != null && value != null
-  );
+  const filteredData = data
+    .map((item) => ({
+      ...item,
+      label: item.label ?? item.title,
+    }))
+    .filter(({ label, value }) => label != null && value != null);
 
   if (!filteredData.length) {
     return "No hay datos para este filtro con los criterios previamente seleccionados.";
@@ -62,12 +68,11 @@ export default function SelectFilter({ data = [], filterType }) {
               {item.label}
             </Col>
             <Tag bordered={false} style={{ marginRight: 2 }}>
-              {item.data.count}
+              {formatNumber(item.data.count)}
             </Tag>
           </Row>
         )}
       />
-
       <Row justify="end" style={{ marginTop: 12 }}>
         <DeleteFilter filterType={filterType} queryParams={query} />
         <ApplyFilter value={value} filterType={filterType} query={query} />

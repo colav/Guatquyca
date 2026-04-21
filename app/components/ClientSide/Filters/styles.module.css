@@ -49,4 +49,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 280px;
+}
+
+.bold b {
+  font-weight: 550;
+}
+
+@media screen and (max-width: 768px) {
+  .optionLabel {
+   font-size: 12px !important;
+  }
 }

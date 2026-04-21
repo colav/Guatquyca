@@ -14,6 +14,7 @@ const SEARCH_CONFIG = {
     works: "citations_desc",
     patents: "alphabetical_asc",
     projects: "alphabetical_asc",
+    sources: "products_desc",
   },
   defaultQueryParams: {
     max: "10",
@@ -34,10 +35,11 @@ import {
 } from "next/navigation";
 
 /* Icons */
-import { BankOutlined, FileTextOutlined } from "@ant-design/icons";
-
-/* lib */
-import { APIRequest } from "@/lib/APIS/clientAPI";
+import {
+  BankOutlined,
+  BookOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
 
 /* Next */
 import Link from "next/link";
@@ -50,6 +52,11 @@ import { AutoComplete, Select, Input, ConfigProvider, Divider } from "antd";
 
 /* UI library sub-components */
 const { Search } = Input;
+
+/* Utils */
+import autocompleteURLBuilder from "@/lib/utils/autocompleteURLBuilder";
+import { APIRequest } from "@/lib/apis/client.api";
+import { formatName } from "@/lib/utils/formatName";
 
 /* Utility Functions */
 const debounce = (func, delay) => {
@@ -81,14 +88,14 @@ export default function SearchBar() {
   // State
   const [selectedOption, setSelectedOption] = useState(() => getDefaultValue());
   const [searchInput, setSearchInput] = useState(
-    searchParams.get("keywords") || ""
+    searchParams.get("keywords") || "",
   );
   const [suggestionsState, setSuggestionsUrl] = APIRequest("");
 
   // Memoized debounced function
   const debouncedSetSuggestionsUrl = useMemo(
     () => debounce((url) => setSuggestionsUrl(url), DEBOUNCE_DELAY),
-    [setSuggestionsUrl]
+    [setSuggestionsUrl],
   );
 
   // Determine default select option
@@ -125,7 +132,7 @@ export default function SearchBar() {
 
       router.push(`${path}?${queryParams.toString()}`);
     },
-    [selectedOption.value, router]
+    [selectedOption.value, router],
   );
 
   // Handle autocomplete input
@@ -140,20 +147,16 @@ export default function SearchBar() {
         return;
       }
 
-      const requestUrl =
-        selectedOption.value === "person"
-          ? `/app/completer/${selectedOption.value}/${encodeURIComponent(
-              input
-            )}`
-          : `/app/completer/affiliations/${
-              selectedOption.value
-            }/${encodeURIComponent(input)}`;
+      const requestUrl = autocompleteURLBuilder(
+        selectedOption.value,
+        encodeURIComponent(input),
+      );
 
       input.trim().length === 1
         ? setSuggestionsUrl(requestUrl)
         : debouncedSetSuggestionsUrl(requestUrl);
     },
-    [selectedOption.value, debouncedSetSuggestionsUrl, setSuggestionsUrl]
+    [selectedOption.value, debouncedSetSuggestionsUrl, setSuggestionsUrl],
   );
 
   // Build autocomplete options
@@ -176,7 +179,9 @@ export default function SearchBar() {
               href={`/${selectedOption.value}/${item._id}/research/products?max=10&page=1&sort=citations_desc`}
             >
               <div className={styles.label_container}>
-                <span className={styles.label}>{item.full_name}</span>
+                <span className={styles.label}>
+                  {formatName(item.full_name)}
+                </span>
                 <span className={styles.subtitles}>
                   <FileTextOutlined /> {item._source.products_count}
                 </span>
@@ -184,6 +189,28 @@ export default function SearchBar() {
               {item._source?.affiliations?.[0]?.name && (
                 <div className={styles.subtitles}>
                   <BankOutlined /> {item._source.affiliations[0].name}.
+                </div>
+              )}
+              {!isLast && <Divider className={styles.margin_0} />}
+            </Link>
+          ),
+          value: item._id,
+        };
+      } else if (selectedOption.value === "sources") {
+        return {
+          label: (
+            <Link
+              href={`/source/${item._id}/products?max=10&page=1&sort=citations_desc`}
+            >
+              <div className={styles.label_container}>
+                <span className={styles.label}>{formatName(item.name)}</span>
+                <span className={styles.subtitles}>
+                  <FileTextOutlined /> {item._source.products_count}
+                </span>
+              </div>
+              {item._source?.publisher && (
+                <div className={styles.subtitles}>
+                  <BookOutlined /> {item._source.publisher}.
                 </div>
               )}
               {!isLast && <Divider className={styles.margin_0} />}
@@ -246,13 +273,17 @@ export default function SearchBar() {
   const handleSelect = useCallback(
     (value) => {
       setSearchInput("");
-      const path =
-        selectedOption.value === "person"
-          ? `/${selectedOption.value}/${value}/research/products?max=10&page=1&sort=citations_desc`
-          : `/affiliation/${selectedOption.value}/${value}/affiliations`;
+      let path;
+      if (selectedOption.value === "person") {
+        path = `/${selectedOption.value}/${value}/research/products?max=10&page=1&sort=citations_desc`;
+      } else if (selectedOption.value === "sources") {
+        path = `/source/${value}/products?max=10&page=1&sort=citations_desc`;
+      } else {
+        path = `/affiliation/${selectedOption.value}/${value}/affiliations`;
+      }
       router.push(path);
     },
-    [router, selectedOption.value]
+    [router, selectedOption.value],
   );
   const onChangeSelect = (value) => {
     setSelectedOption(value);
@@ -283,7 +314,7 @@ export default function SearchBar() {
       <ConfigProvider theme={{ token: { borderRadius: 0, fontSize: 16 } }}>
         <AutoComplete
           style={{ marginLeft: -1, flex: 1, height: 40 }}
-          popupClassName={styles.autocomplete}
+          classNames={{ popup: { root: styles.autocomplete } }}
           onSearch={handleAutoComplete}
           onSelect={handleSelect}
           options={autoCompleteOptions}

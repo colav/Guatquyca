@@ -15,7 +15,7 @@ import { App, Row } from "antd";
 
 /* Utils */
 import he from "he";
-import MathJax from "@/lib/Utils/mathjax";
+import MathJax from "@/lib/utils/mathjax";
 import RankingTag from "../../ServerSide/RankingTag/RankingTag";
 
 /**
