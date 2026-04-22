@@ -10,6 +10,7 @@
   display: block;
   text-align: center;
   margin-bottom: 24px;
+  font-size: 1rem;
 }
 
 .loginFormWrapper {
@@ -30,4 +31,17 @@
 
 .loginErrorAlert {
   margin-bottom: 16px;
+}
+
+.loginInfoBox {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.loginInfoBox h3 {
+  margin-bottom: 0;
 }
