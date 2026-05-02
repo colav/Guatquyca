@@ -8,16 +8,31 @@ import FiltersSection from "./FiltersSection";
 import SourceTypesSection from "./SourceTypesSection";
 import TopJournalsSection from "./TopJournalsSection";
 
-/* Utils */
-import getData from "@/lib/apis/server.api";
-
 export default async function SourcesPage() {
-  const filterResult = await getData(`/app/search/sources/filters`);
-  const filterData = filterResult?.data ?? null;
-  const journalsResult = await getData(
+  const API_BASE =
+    process.env.NEXT_PUBLIC_CLIENT_API ||
+    process.env.API_URL ||
+    "http://localhost:8080";
+
+  async function safeFetch(path) {
+    try {
+      const res = await fetch(`${API_BASE}${path}`, { cache: "force-cache" });
+      if (!res.ok) {
+        console.error(`Fetch ${path} failed:`, res.status, res.statusText);
+        return null;
+      }
+      const json = await res.json();
+      return json?.data ?? json;
+    } catch (err) {
+      console.error(`Failed to fetch ${path}:`, err);
+      return null;
+    }
+  }
+
+  const filterData = await safeFetch(`/app/search/sources/filters`);
+  const journalsData = await safeFetch(
     `/app/search/sources?source_types=journal&max=4&page=1&sort=products_desc`,
   );
-  const journalsData = journalsResult?.data ?? null;
 
   return (
     <div className={styles.page}>
