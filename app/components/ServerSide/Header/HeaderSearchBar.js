@@ -68,7 +68,9 @@ export default function HeaderSearchBar() {
           lg={{ span: 12, order: 2 }}
           id={styles.searchbar}
         >
-          <Suspense>{pathname !== "/" ? <SearchBar /> : null}</Suspense>
+          <Suspense>
+            {pathname !== "/" && pathname !== "/sources" ? <SearchBar /> : null}
+          </Suspense>
         </Col>
 
         <Col

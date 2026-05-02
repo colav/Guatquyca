@@ -79,7 +79,7 @@ const debounce = (func, delay) => {
  *
  * @returns {JSX.Element} A search bar with autocomplete and dropdown selection.
  */
-export default function SearchBar() {
+export default function SearchBar({ defaultEntity }) {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -100,6 +100,9 @@ export default function SearchBar() {
 
   // Determine default select option
   function getDefaultValue() {
+    if (defaultEntity) {
+      return OPTIONS[OPTIONS_INDEX[defaultEntity]];
+    }
     if (params.entity) return OPTIONS[OPTIONS_INDEX[params.entity]];
     if (pathname.startsWith("/search")) {
       const type = pathname.split("/search/")[1]?.split("?")[0];
@@ -309,6 +312,7 @@ export default function SearchBar() {
           onChange={onChangeSelect}
           popupMatchSelectWidth={215}
           listHeight={380}
+          disabled={defaultEntity === "sources"}
         />
       </ConfigProvider>
       <ConfigProvider theme={{ token: { borderRadius: 0, fontSize: 16 } }}>

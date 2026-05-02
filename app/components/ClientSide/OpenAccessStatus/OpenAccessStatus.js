@@ -40,11 +40,17 @@ export default function OpenAccessStatus({ status }) {
         OA_STATUS[status].label
       }`}
     >
-      <Tag
-        icon={React.createElement(open_access_icon)}
-        color={OA_STATUS[status].color}
-        id={styles.OATag}
-      >
+      <Tag color={OA_STATUS[status].color} id={styles.OATag}>
+        <span
+          style={{
+            display: "inline-flex",
+            position: "relative",
+            top: 2,
+            marginRight: 5,
+          }}
+        >
+          {React.createElement(open_access_icon)}
+        </span>
         {status === "closed" ? "Acceso Cerrado" : "Acceso Abierto"}
       </Tag>
     </Tooltip>
