@@ -14,6 +14,16 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Col, Row } from "antd";
 
+/**
+ * FiltersSection Component
+ *
+ * Displays an informational section about the advanced filtering capabilities of the sources search interface.
+ * Includes a description of available filter options and a mockup demonstrating the filter panel UI.
+ * Provides a call-to-action button to navigate to the filterable sources search page.
+ *
+ * @component
+ * @returns {JSX.Element} The filters section with description, feature list, and mockup interface
+ */
 export default function FiltersSection() {
   return (
     <section className={`${styles.section} ${styles.section_filters}`}>

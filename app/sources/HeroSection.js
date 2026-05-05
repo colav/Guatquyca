@@ -11,6 +11,17 @@ import { Suspense } from "react";
 /* Styles */
 import styles from "./styles.module.css";
 
+/**
+ * HeroSection Component
+ *
+ * Displays the hero section of the sources explorer page, featuring the main headline,
+ * description, search bar, and aggregated statistics about available sources.
+ * Includes a grid background and features a search interface for exploring academic sources.
+ *
+ * @component
+ * @param {Object} data - Filter data containing statistics for source types and metrics
+ * @returns {JSX.Element} The hero section with title, search bar, and statistics
+ */
 export default function HeroSection({ data }) {
   return (
     <section className={styles.hero}>

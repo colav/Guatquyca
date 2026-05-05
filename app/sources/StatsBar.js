@@ -1,14 +1,29 @@
 /* Icons */
 import {
   FileTextOutlined,
+  NumberOutlined,
   ReadOutlined,
-  UnlockOutlined,
 } from "@ant-design/icons";
 import { open_access_icon as OpenAccessIcon } from "@/app/components/icons/open_access";
 
 /* Styles */
 import styles from "./styles.module.css";
 
+/**
+ * StatsBar Component
+ *
+ * Displays aggregated statistics about sources in a horizontal bar layout.
+ * Shows metrics including total journals, open access sources, Q1 indexed sources,
+ * and sources with open licenses. Each stat includes an icon, formatted value, and label.
+ *
+ * @component
+ * @param {Object} data - Filter data containing source statistics
+ * @param {Array} [data.source_types] - Array of source types with counts
+ * @param {Array} [data.status] - Array of status entries with counts (e.g., 'open' for open access)
+ * @param {Array} [data.scimago_quartiles] - Array of SCImago quartile entries (Q1-Q4) with counts
+ * @param {Array} [data.license_type] - Array of license types with counts
+ * @returns {JSX.Element} Horizontal bar displaying four key statistics
+ */
 export default function StatsBar({ data }) {
   // Calculate statistics from API data
   const sourceTypes = data?.source_types || [];
@@ -53,7 +68,7 @@ export default function StatsBar({ data }) {
     {
       value: formatNumber(q1Count),
       label: "Revistas Q1 (Scimago)",
-      icon: <UnlockOutlined />,
+      icon: <NumberOutlined />,
     },
     {
       value: formatNumber(ccLicenseCount),

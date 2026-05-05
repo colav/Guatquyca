@@ -9,6 +9,16 @@ import {
 /* Styles */
 import styles from "./styles.module.css";
 
+/**
+ * HighlightsSection Component
+ *
+ * Displays a grid of four key feature highlights about the sources explorer platform.
+ * Each highlight includes an icon, title, and description emphasizing platform capabilities
+ * including advanced filtering, global coverage, responsible metrics, and open data access.
+ *
+ * @component
+ * @returns {JSX.Element} Grid section with four feature highlight cards
+ */
 const HIGHLIGHTS = [
   {
     icon: <FilterOutlined />,

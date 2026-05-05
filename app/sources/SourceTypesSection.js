@@ -12,6 +12,18 @@ import Link from "next/link";
 /* Styles */
 import styles from "./styles.module.css";
 
+/**
+ * SourceTypesSection Component
+ *
+ * Client component displaying a grid of source type cards (journals, conferences, repositories, etc.).
+ * Each card shows the source type name, count, description, and links to filtered search results.
+ * Supports hover interactions with visual feedback when hovering over cards.
+ *
+ * @component
+ * @param {Object} data - Filter data containing source_types array with counts
+ * @param {Array} [data.source_types] - Array of source type objects with value and count
+ * @returns {JSX.Element|null} Grid of source type cards or null if no data available
+ */
 export default function SourceTypesSection({ data }) {
   const [activeType, setActiveType] = useState(null);
   const sourceTypes = data?.source_types || [];

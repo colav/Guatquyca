@@ -17,14 +17,24 @@ import styles from "./styles.module.css";
 /* UI Library Components */
 import { Tag } from "antd";
 
-// Helper function to extract source name (prefer Spanish)
+/**
+ * Extracts the source name from a multilingual names array, preferring Spanish
+ *
+ * @param {Array<Object>} [names=[]] - Array of name objects with lang and name properties
+ * @returns {string} Spanish name, English name, or 'Sin nombre' if none found
+ */
 const getSourceName = (names = []) => {
   const spanishName = names.find((n) => n.lang === "es")?.name;
   const englishName = names.find((n) => n.lang === "en")?.name;
   return spanishName || englishName || "Sin nombre";
 };
 
-// Helper function to map source type to display name
+/**
+ * Maps internal source type identifiers to human-readable Spanish labels
+ *
+ * @param {string} type - Source type identifier (e.g., 'journal', 'conference', 'repository')
+ * @returns {string} Spanish display name for the source type
+ */
 const mapSourceType = (type) => {
   const typeMap = {
     journal: "Revista",
@@ -37,7 +47,19 @@ const mapSourceType = (type) => {
   return typeMap[type] || type;
 };
 
-// Helper function to transform API source to featured card format
+/**
+ * Transforms raw API source data into a format suitable for featured source cards
+ *
+ * @param {Object} apiSource - Raw source data from the API
+ * @param {Array<Object>} [apiSource.names] - Multilingual source names
+ * @param {Object} [apiSource.publisher] - Publisher information
+ * @param {string} [apiSource.scimago_best_quartile] - Best SCImago quartile (Q1-Q4)
+ * @param {number} [apiSource.products_count] - Number of Colombian products associated
+ * @param {string} apiSource.type - Source type identifier
+ * @param {string} apiSource.open_access_status - Open access status
+ * @param {string} apiSource.id - Unique source identifier
+ * @returns {Object} Formatted source data for display
+ */
 const transformSourceData = (apiSource) => ({
   name: getSourceName(apiSource.names),
   publisher: apiSource.publisher?.name || "Sin editor",
@@ -48,6 +70,18 @@ const transformSourceData = (apiSource) => ({
   id: apiSource.id,
 });
 
+/**
+ * TopJournalsSection Component
+ *
+ * Displays featured journals and sources with the highest Colombian research output.
+ * Each source card shows the name, publisher, SCImago quartile, open access status,
+ * and number of associated Colombian products with a link to view full source details.
+ *
+ * @component
+ * @param {Object} data - API response data containing array of sources
+ * @param {Array} [data.data] - Array of source objects from the API
+ * @returns {JSX.Element|null} Section with featured source cards or null if no data
+ */
 export default function TopJournalsSection({ data }) {
   const Q_COLORS = {
     Q1: "#16a34a",
