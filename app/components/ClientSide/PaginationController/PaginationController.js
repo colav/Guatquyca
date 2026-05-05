@@ -23,6 +23,16 @@ export default function PaginationController({ totalItems, searchParams }) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const normalizePaginationValue = (value, fallback) => {
+    const parsedValue = Number.parseInt(value, 10);
+    return Number.isFinite(parsedValue) && parsedValue > 0
+      ? parsedValue
+      : fallback;
+  };
+
+  const currentPage = normalizePaginationValue(searchParams?.page, 1);
+  const pageSize = normalizePaginationValue(searchParams?.max, 10);
+
   /**
    * onChange is a function that gets called when the page or page size changes.
    *
@@ -30,7 +40,7 @@ export default function PaginationController({ totalItems, searchParams }) {
    * @param {number} pageSize - The new page size.
    */
   const onChange = (page, pageSize) => {
-    const URL = URLBuilder(pathname, searchParams, {
+    const URL = URLBuilder(pathname, searchParams ?? {}, {
       max: pageSize,
       page: page,
     });
@@ -58,8 +68,8 @@ export default function PaginationController({ totalItems, searchParams }) {
       <Pagination
         size="small"
         total={totalItems}
-        current={parseInt(searchParams.page)}
-        pageSize={parseInt(searchParams.max)}
+        current={currentPage}
+        pageSize={pageSize}
         onChange={onChange}
         showSizeChanger={totalItems > 10}
         pageSizeOptions={pageSizeOptions}

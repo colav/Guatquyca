@@ -7,6 +7,7 @@ import PatentItem from "../../ClientSide/PatentItem/PatentItem";
 /* lib */
 import getData from "@/lib/apis/server.api";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /* Styles */
 import styles from "./styles.module.css";
@@ -23,16 +24,34 @@ import ClientLogger from "@/lib/utils/clientLogger";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function PatentsList({ searchParams, params, entity }) {
+  let pathname = "";
+  if (entity === "search") {
+    pathname = "/search/patents";
+  } else if (entity === "affiliation") {
+    pathname = `/affiliation/${params.entity}/${params.ID}/research/patents`;
+  } else {
+    pathname = `/person/${params.ID}/research/patents`;
+  }
+
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "patents",
+    pathname,
+  );
+
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/patents", searchParams);
+    URL = URLBuilder("/app/search/patents", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/patents`,
-      searchParams,
+      correctedParams,
     );
   } else {
-    URL = URLBuilder(`/app/person/${params.ID}/research/patents`, searchParams);
+    URL = URLBuilder(
+      `/app/person/${params.ID}/research/patents`,
+      correctedParams,
+    );
   }
   const { data, fullUrl } = await getData(URL);
 
@@ -41,7 +60,7 @@ export default async function PatentsList({ searchParams, params, entity }) {
   }
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="patents"
       csv={false}
@@ -54,7 +73,7 @@ export default async function PatentsList({ searchParams, params, entity }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>

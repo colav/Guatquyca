@@ -10,6 +10,7 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 /* lib */
 import getData from "@/lib/apis/server.api";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /* Next */
 import Link from "next/link";
@@ -31,12 +32,17 @@ import { formatName } from "@/lib/utils/formatName";
  * @returns {JSX.Element} A Card component that displays the list of persons.
  */
 export default async function PersonList({ searchParams }) {
-  const URL = URLBuilder("/app/search/person", searchParams);
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "person",
+    "/search/person",
+  );
+  const URL = URLBuilder("/app/search/person", correctedParams);
   const { data, fullUrl } = await getData(URL);
 
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="person"
       csv={false}
@@ -87,7 +93,7 @@ export default async function PersonList({ searchParams }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>

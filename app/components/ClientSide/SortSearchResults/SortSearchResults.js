@@ -2,6 +2,7 @@
 
 /* lib */
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { getDefaultSortForType } from "@/lib/utils/searchRedirect";
 
 /* Next */
 import { useRouter, usePathname } from "next/navigation";
@@ -19,6 +20,8 @@ import { Select, Tooltip } from "antd";
 export default function SortSearchResults({ searchParams, type }) {
   const router = useRouter();
   const pathname = usePathname();
+  const defaultSort = getDefaultSortForType(type);
+  const selectedSort = searchParams?.sort || defaultSort;
 
   const onChange = (value) => {
     const URL = URLBuilder(pathname, searchParams, { sort: value });
@@ -69,7 +72,7 @@ export default function SortSearchResults({ searchParams, type }) {
       <Select
         size="small"
         style={{ width: 170, marginLeft: "10px" }}
-        value={searchParams.sort || "citations_desc"}
+        value={selectedSort}
         onChange={onChange}
         options={OPTIONS[type]}
       />

@@ -15,6 +15,7 @@ import getData from "@/lib/apis/server.api";
 import MathJax from "@/lib/utils/mathjax";
 import Script from "next/script";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /**
  * WorkList is a server-side functional component that fetches and displays a list of works related to a specific entity.
@@ -25,27 +26,44 @@ import URLBuilder from "@/lib/utils/URLBuilder";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function WorkList({ searchParams, params, entity }) {
+  let pathname = "";
+  if (entity === "search") {
+    pathname = "/search/works";
+  } else if (entity === "affiliation") {
+    pathname = `/affiliation/${params.entity}/${params.ID}/research/products`;
+  } else if (entity === "source") {
+    pathname = `/source/${params.ID}/products`;
+  } else {
+    pathname = `/person/${params.ID}/research/products`;
+  }
+
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "works",
+    pathname,
+  );
+
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/works", searchParams);
+    URL = URLBuilder("/app/search/works", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/products`,
-      searchParams,
+      correctedParams,
     );
   } else if (entity === "source") {
-    URL = URLBuilder(`/app/source/${params.ID}/products`, searchParams);
+    URL = URLBuilder(`/app/source/${params.ID}/products`, correctedParams);
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/products`,
-      searchParams,
+      correctedParams,
     );
   }
   const { data, fullUrl } = await getData(URL);
 
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="works"
       csv={entity !== "search"}
@@ -62,7 +80,7 @@ export default async function WorkList({ searchParams, params, entity }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>

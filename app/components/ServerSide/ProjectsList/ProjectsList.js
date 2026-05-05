@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import ClientLogger from "@/lib/utils/clientLogger";
 import getData from "@/lib/apis/server.api";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /**
  * ProjectsList is a server-side functional component that fetches and displays a list of projects related to a specific entity.
@@ -22,18 +23,33 @@ import URLBuilder from "@/lib/utils/URLBuilder";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function ProjectsList({ searchParams, params, entity }) {
+  let pathname = "";
+  if (entity === "search") {
+    pathname = "/search/projects";
+  } else if (entity === "affiliation") {
+    pathname = `/affiliation/${params.entity}/${params.ID}/research/projects`;
+  } else {
+    pathname = `/person/${params.ID}/research/projects`;
+  }
+
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "projects",
+    pathname,
+  );
+
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/projects", searchParams);
+    URL = URLBuilder("/app/search/projects", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/projects`,
-      searchParams,
+      correctedParams,
     );
   } else {
     URL = URLBuilder(
       `/app/person/${params.ID}/research/projects`,
-      searchParams,
+      correctedParams,
     );
   }
   const { data, fullUrl } = await getData(URL);
@@ -43,7 +59,7 @@ export default async function ProjectsList({ searchParams, params, entity }) {
   }
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="projects"
       csv={false}
@@ -56,7 +72,7 @@ export default async function ProjectsList({ searchParams, params, entity }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>
