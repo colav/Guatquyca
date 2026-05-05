@@ -91,7 +91,7 @@ export default function TopJournalsSection({ data }) {
   };
 
   // Transform API data to featured sources format
-  const FEATURED_SOURCES = (data?.data || []).map(transformSourceData);
+  const FEATURED_SOURCES = (data || []).map(transformSourceData);
 
   // Don't render if no data
   if (!FEATURED_SOURCES || FEATURED_SOURCES.length === 0) return null;
@@ -100,7 +100,7 @@ export default function TopJournalsSection({ data }) {
     <section className={`${styles.section} ${styles.section_alt}`}>
       <div className={styles.section_inner}>
         <div className={styles.section_header}>
-          <h2 className={styles.section_title}>Fuentes destacadas</h2>
+          <h2 className={styles.section_title}>Revistas destacadas</h2>
           <p className={styles.section_sub}>
             Las revistas con mayor producción de investigadores colombianos.
           </p>

@@ -47,7 +47,7 @@ export default function SourceTypesSection({ data }) {
     },
     {
       key: "ebook platform",
-      label: "Libros electrónicos",
+      label: "Plataforma de libros electrónicos",
       count: getCount("ebook platform"),
       description:
         "Plataformas de libros y monografías académicas digitales, útiles para consultar producción editorial especializada.",
