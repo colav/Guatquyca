@@ -20,7 +20,7 @@ export default async function NewsOnAffiliationsPage({ searchParams, params }) {
 
   return (
     <>
-      <TopMenu person={true} currentTab="research" />
+      <TopMenu currentTab="research" />
       <ResearchTabs activeTab="news" entity={params.entity} />
       <Suspense fallback={<Loading />} key={key}>
         <NewsList
