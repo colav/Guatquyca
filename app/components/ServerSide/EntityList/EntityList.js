@@ -11,6 +11,7 @@ import ProductsCount from "../ProductsCount/ProductsCount";
 /* lib */
 import getData from "@/lib/apis/server.api";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /* Next */
 import Link from "next/link";
@@ -29,12 +30,17 @@ import { Avatar, Col, Row } from "antd";
  * @returns {JSX.Element} A List component containing the entities. The List has a pagination control at the bottom.
  */
 export default async function EntityList({ searchParams, entity }) {
-  const URL = URLBuilder(`/app/search/affiliations/${entity}`, searchParams);
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    entity,
+    `/search/affiliations/${entity}`,
+  );
+  const URL = URLBuilder(`/app/search/affiliations/${entity}`, correctedParams);
   const { data, fullUrl } = await getData(URL);
 
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type={entity}
       csv={false}
@@ -100,7 +106,7 @@ export default async function EntityList({ searchParams, entity }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>

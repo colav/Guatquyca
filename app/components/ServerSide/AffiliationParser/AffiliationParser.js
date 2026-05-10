@@ -122,7 +122,9 @@ export default function AffiliationParser({ affiliations }) {
   function TreeNode({ node, isRoot = false }) {
     const { affiliation, children } = node;
 
-    const yearsLabel = isRoot ? getYearsLabel(affiliation) : null;
+    const isGroupAffiliation = affiliation?.types?.[0]?.type === "group";
+    const yearsLabel =
+      isRoot && !isGroupAffiliation ? getYearsLabel(affiliation) : null;
 
     const tooltipText = getTooltip(affiliation);
 

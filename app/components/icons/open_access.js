@@ -1,11 +1,13 @@
-import Icon from "@ant-design/icons";
+const open_access = (props = {}) => {
+  const { color, style, ...svgProps } = props;
+  const resolvedColor = color || style?.color || "#F68212";
 
-const open_access = (props) => {
   return (
     <svg
-      width="1.1em"
-      height="1.1em"
-      fill={props.color || "#F68212"}
+      {...svgProps}
+      width="1em"
+      height="1em"
+      fill={resolvedColor}
       viewBox="0 0 640 1000"
     >
       <path
@@ -23,5 +25,5 @@ const open_access = (props) => {
 };
 
 export const open_access_icon = (props) => {
-  return <Icon component={() => open_access({ ...props })} />;
+  return open_access(props);
 };

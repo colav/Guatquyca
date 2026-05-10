@@ -2,6 +2,7 @@
 
 /* lib */
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { getDefaultSortForType } from "@/lib/utils/searchRedirect";
 
 /* Next */
 import { usePathname } from "next/navigation";
@@ -46,12 +47,15 @@ export default function SortWorkList({
     ],
   };
 
+  const defaultSort = getDefaultSortForType(type);
+  const selectedSort = queryParams?.sort || defaultSort;
+
   return (
     <Tooltip title="Ordenar">
       <Select
         size="small"
         className={styles.sort_select}
-        value={queryParams.sort || "citations_desc"}
+        value={selectedSort}
         onChange={onChange}
         options={OPTIONS[type]}
       />

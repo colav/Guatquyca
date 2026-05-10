@@ -13,6 +13,7 @@ import styles from "./styles.module.css";
 /* Utilities */
 import ClientLogger from "@/lib/utils/clientLogger";
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /**
  * NewsList is a server-side functional component that fetches and displays a list of news articles related to a specific entity.
@@ -23,16 +24,31 @@ import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function NewsList({ searchParams, params, entity }) {
+  let pathname = "";
+  if (entity === "search") {
+    pathname = "/search/news";
+  } else if (entity === "affiliation") {
+    pathname = `/affiliation/${params.entity}/${params.ID}/research/news`;
+  } else {
+    pathname = `/person/${params.ID}/research/news`;
+  }
+
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "news",
+    pathname,
+  );
+
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/news", searchParams);
+    URL = URLBuilder("/app/search/news", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/app/affiliation/${params.entity}/${params.ID}/research/news`,
-      searchParams,
+      correctedParams,
     );
   } else {
-    URL = URLBuilder(`/app/person/${params.ID}/research/news`, searchParams);
+    URL = URLBuilder(`/app/person/${params.ID}/research/news`, correctedParams);
   }
   const { data, fullUrl } = await getData(URL);
 
@@ -41,7 +57,7 @@ export default async function NewsList({ searchParams, params, entity }) {
   }
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="news"
       csv={false}
@@ -54,7 +70,7 @@ export default async function NewsList({ searchParams, params, entity }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>

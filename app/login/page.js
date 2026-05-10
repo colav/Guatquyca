@@ -126,6 +126,24 @@ export default function LoginPage() {
               Entrar
             </Button>
           </Form>
+          <div className={styles.loginInfoBox}>
+            <span>
+              <h3>¿Aún no tienes una cuenta en ImpactU?</h3>
+              <br />
+              Las cuentas solo están disponibles para usuarios de instituciones
+              miembros.
+              <br />
+              <br />
+              Si tu institución aún no forma parte, puedes unirte al proyecto
+              para gestionar tus datos institucionales, fortalecer tus perfiles
+              académicos y acceder a información de mayor calidad.
+              <br />
+              <br />
+              <a href="mailto:grupo.colav@udea.edu.co">
+                Contáctanos para vincular tu institución
+              </a>
+            </span>
+          </div>
         </div>
       </Col>
     </Row>

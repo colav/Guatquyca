@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import ClientLogger from "@/lib/utils/clientLogger";
 import getData from "@/lib/apis/server.api";
 import URLBuilder from "@/lib/utils/URLBuilder";
+import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 
 /**
  * SourcesList is a server-side functional component that fetches and displays a list of sources related to a specific entity.
@@ -20,7 +21,12 @@ import URLBuilder from "@/lib/utils/URLBuilder";
  * @returns {JSX.Element} The rendered component.
  */
 export default async function SourcesList({ searchParams }) {
-  let URL = URLBuilder("/app/search/sources", searchParams);
+  const correctedParams = ensureSearchParamsOrRedirect(
+    searchParams,
+    "sources",
+    "/search/sources",
+  );
+  let URL = URLBuilder("/app/search/sources", correctedParams);
 
   const { data, fullUrl } = await getData(URL);
 
@@ -29,7 +35,7 @@ export default async function SourcesList({ searchParams }) {
   }
   return (
     <CardWrapper
-      searchParams={searchParams}
+      searchParams={correctedParams}
       total_results={data.total_results}
       type="sources"
       csv={false}
@@ -42,7 +48,7 @@ export default async function SourcesList({ searchParams }) {
       </ul>
       <PaginationController
         totalItems={data.total_results}
-        searchParams={searchParams}
+        searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />
     </CardWrapper>
