@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Claudia Marcela Vélez profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
     // Verify that the search results contain "Claudia Marcela Velez".
     await test.step('Verify search results contain "Claudia Marcela Velez"', async () => {
       await expect(
-        page.getByText(/Claudia Marcela V(e|é)lez/i).first()
+        page.getByText(/Claudia Marcela V(e|é)lez/i).first(),
       ).toBeVisible();
     });
 
@@ -59,7 +58,7 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 117 * 0.8; // 20% error margin
@@ -79,9 +78,11 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -90,15 +91,15 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0001385569, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001385569"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001385569"]`,
+        ),
       ).toBeVisible();
     });
 
     // Verify that the ORCID link with her ID is visible and correct.
     await test.step("Verify ORCID link with ID: 0000-0002-7093-2634, is correct", async () => {
       await expect(
-        page.locator(`a[href="https://orcid.org/0000-0002-7093-2634"]`)
+        page.locator(`a[href="https://orcid.org/0000-0002-7093-2634"]`),
       ).toBeVisible();
     });
 
@@ -106,8 +107,8 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
     await test.step("Verify Scopus link with ID 55325137900, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://www.scopus.com/authid/detail.uri?authorId=55325137900"]`
-        )
+          `a[href="https://www.scopus.com/authid/detail.uri?authorId=55325137900"]`,
+        ),
       ).toBeVisible();
     });
 
@@ -115,8 +116,8 @@ test.describe("Testing Claudia Marcela Vélez profile", () => {
     await test.step("Verify Google Scholar link with ID: RuclEJkAAAAJ, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scholar.google.com/citations?user=RuclEJkAAAAJ"]`
-        )
+          `a[href="https://scholar.google.com/citations?user=RuclEJkAAAAJ"]`,
+        ),
       ).toBeVisible();
     });
 

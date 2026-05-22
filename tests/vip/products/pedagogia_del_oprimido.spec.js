@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("'Pedagogía del oprimido...' article information is complete", () => {

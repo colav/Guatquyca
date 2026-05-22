@@ -31,7 +31,7 @@ test.describe("Testing Departments entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -49,18 +49,18 @@ test.describe("Testing Departments entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Verify that the text "Afiliaciones" is visible, indicating that the search results are displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Verify that the text "Citas" is visible, indicating that the search results are displayed.
+    await expect(page.getByText("Citas").nth(0)).toBeVisible();
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
       "/search/affiliations/department?max=20&page=1&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Navigate to the third page of the search results using pagination.
@@ -73,18 +73,18 @@ test.describe("Testing Departments entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Ensure that "Afiliaciones" text is still visible, confirming that the third page of results is displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Ensure that "Citas" text is still visible, confirming that the third page of results is displayed.
+    await expect(page.getByText("Citas").nth(0)).toBeVisible();
 
     // Check that the URL is updated to reflect the navigation to the third page of results.
     await expect(page).toHaveURL(
       "/search/affiliations/department?max=20&page=3&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
   });
 
@@ -102,7 +102,7 @@ test.describe("Testing Departments entity", () => {
     // Extract the number of departments from the stored text.
     const numberOfDepartments = parseInt(
       departmentsTextContent.match(/(\d+)/)[0],
-      10
+      10,
     );
 
     // Verify that the extracted number of departments is greater than 0.
@@ -114,23 +114,31 @@ test.describe("Testing Departments entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/department?max=10&page=${randomPage}&sort=products_desc`
+      `/search/affiliations/department?max=10&page=${randomPage}&sort=products_desc`,
     );
 
     // Wait for the search results to ensure the page has loaded.
     await page.waitForSelector("text=Unidades académicas");
 
-    // Locate all links on the page with the class name 'searchResult_link'.
-    const departmentLinks = await page.$$(".searchResult_link");
+    // Locate all department profile links in the search results.
+    const departmentLinks = page.locator(
+      'a[href*="/affiliation/department/"][href*="/affiliations"]',
+    );
+
+    // Ensure at least one department link is available before sampling a random result.
+    await expect.poll(async () => departmentLinks.count()).toBeGreaterThan(0);
 
     // Select a random link from the list of located links.
-    const randomIndex = Math.floor(Math.random() * departmentLinks.length);
+    const randomIndex = Math.floor(
+      Math.random() * (await departmentLinks.count()),
+    );
 
     // Retrieve the text content of the randomly selected link.
-    const departmentName = await departmentLinks[randomIndex].textContent();
+    const selectedDepartmentLink = departmentLinks.nth(randomIndex);
+    const departmentName = await selectedDepartmentLink.textContent();
 
     // Click on the randomly selected link to navigate to the corresponding department profile.
-    await departmentLinks[randomIndex].click();
+    await selectedDepartmentLink.click();
 
     // Verify that the department name is visible on the profile page, ensuring the navigation was successful.
     await expect(page.getByText(departmentName)).toBeVisible();
@@ -181,7 +189,7 @@ test.describe("Testing Departments entity", () => {
 
     // Navigate to the search results page for the keyword "Instituto de Física".
     await page.goto(
-      '/search/affiliations/department?max=10&page=1&sort=products_desc&keywords="Instituto%20de%20Física"'
+      '/search/affiliations/department?max=10&page=1&sort=products_desc&keywords="Instituto%20de%20Física"',
     );
 
     // Verify that the search results contain "Instituto de Física".
@@ -228,7 +236,7 @@ test.describe("Testing Departments entity", () => {
           await expect
             .soft(
               responseData.plot.length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else if (
@@ -237,20 +245,20 @@ test.describe("Testing Departments entity", () => {
         ) {
           console.log(
             `Plot keys for "${item}":`,
-            Object.keys(responseData.plot).length
+            Object.keys(responseData.plot).length,
           );
 
           // Check that the response contains data
           await expect
             .soft(
               Object.keys(responseData.plot).length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else {
           console.error(
             `Unexpected "plot" type for "${item}":`,
-            responseData.plot
+            responseData.plot,
           );
 
           // Fail the test if "plot" is neither an array nor an object
@@ -262,7 +270,7 @@ test.describe("Testing Departments entity", () => {
         await expect
           .soft(
             Object.keys(responseData)[0] === "error",
-            `Response data for "${item}" should not be an error`
+            `Response data for "${item}" should not be an error`,
           )
           .toBe(false);
 

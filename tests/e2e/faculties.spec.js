@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 import { PLOTS_BY_ENTITY } from "@/lib/constants";
@@ -31,7 +30,7 @@ test.describe("Testing Faculties entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -46,7 +45,7 @@ test.describe("Testing Faculties entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -54,11 +53,11 @@ test.describe("Testing Faculties entity", () => {
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
       "/search/affiliations/faculty?max=10&page=3&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
-    // Ensure that the "Afiliaciones" text is still visible, confirming that the third page of results is displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Ensure that the "Citas" text is still visible, confirming that the third page of results is displayed.
+    await expect(page.getByText("Citas").nth(0)).toBeVisible();
   });
 
   test("random faculty search, profile page and product list displays correctly", async ({
@@ -75,7 +74,7 @@ test.describe("Testing Faculties entity", () => {
     // Extract the number of faculties from the stored text.
     const numberOfFaculties = parseInt(
       facultiesTextContent.match(/(\d+)/)[0],
-      10
+      10,
     );
 
     // Verify that the extracted number of faculties is greater than 0.
@@ -86,23 +85,31 @@ test.describe("Testing Faculties entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/faculty?max=10&page=${randomPage}&sort=products_desc`
+      `/search/affiliations/faculty?max=10&page=${randomPage}&sort=products_desc`,
     );
 
     // Wait for the search results to ensure the page has loaded.
     await page.waitForSelector("text=Unidades académicas");
 
-    // Locate all links on the page with the class name 'searchResult_link'.
-    const facultyLinks = await page.$$(".searchResult_link");
+    // Locate all faculty profile links in the search results.
+    const facultyLinks = page.locator(
+      'a[href*="/affiliation/faculty/"][href*="/affiliations"]',
+    );
+
+    // Ensure at least one faculty link is available before sampling a random result.
+    await expect.poll(async () => facultyLinks.count()).toBeGreaterThan(0);
 
     // Select a random link from the list of located links.
-    const randomIndex = Math.floor(Math.random() * facultyLinks.length);
+    const randomIndex = Math.floor(
+      Math.random() * (await facultyLinks.count()),
+    );
 
     // Retrieve the text content of the randomly selected link.
-    const facultyName = await facultyLinks[randomIndex].textContent();
+    const selectedFacultyLink = facultyLinks.nth(randomIndex);
+    const facultyName = await selectedFacultyLink.textContent();
 
     // Click on the randomly selected link to navigate to the corresponding faculty profile.
-    await facultyLinks[randomIndex].click();
+    await selectedFacultyLink.click();
 
     // Verify that the faculty name is visible on the profile page, ensuring the navigation was successful.
     await expect(page.getByText(facultyName)).toBeVisible();
@@ -123,7 +130,7 @@ test.describe("Testing Faculties entity", () => {
     await expect(
       page.getByText("Facultad de Ciencias Exactas y Naturales", {
         exact: true,
-      })
+      }),
     ).toBeVisible();
 
     // Click on the faculty name "Facultad de Ciencias Exactas y Naturales" in the search results to navigate to its profile page
@@ -142,7 +149,7 @@ test.describe("Testing Faculties entity", () => {
 
     // Confirm that the faculty's profile page displays the name "Facultad de Ciencias Exactas y Naturales"
     await expect(
-      page.getByText("Facultad de Ciencias Exactas y Naturales")
+      page.getByText("Facultad de Ciencias Exactas y Naturales"),
     ).toBeVisible();
 
     // Check that the production list is visible on the research page.
@@ -159,12 +166,12 @@ test.describe("Testing Faculties entity", () => {
 
     // Navigate to the search results page for the keyword "Facultad de Ciencias Exactas y Naturales".
     await page.goto(
-      '/search/affiliations/faculty?max=10&page=1&sort=products_desc&keywords="Facultad%20de%20Ciencias%20Exactas%20y%20Naturales"'
+      '/search/affiliations/faculty?max=10&page=1&sort=products_desc&keywords="Facultad%20de%20Ciencias%20Exactas%20y%20Naturales"',
     );
 
     // Verify that the search results contain Facultad de Ciencias Exactas y Naturales".
     await expect(
-      page.getByText("Facultad de Ciencias Exactas y Naturales")
+      page.getByText("Facultad de Ciencias Exactas y Naturales"),
     ).toBeVisible();
 
     // Find the link element
@@ -208,7 +215,7 @@ test.describe("Testing Faculties entity", () => {
           await expect
             .soft(
               responseData.plot.length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else if (
@@ -217,20 +224,20 @@ test.describe("Testing Faculties entity", () => {
         ) {
           console.log(
             `Plot keys for "${item}":`,
-            Object.keys(responseData.plot).length
+            Object.keys(responseData.plot).length,
           );
 
           // Check that the response contains data
           await expect
             .soft(
               Object.keys(responseData.plot).length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else {
           console.error(
             `Unexpected "plot" type for "${item}":`,
-            responseData.plot
+            responseData.plot,
           );
 
           // Fail the test if "plot" is neither an array nor an object
@@ -242,7 +249,7 @@ test.describe("Testing Faculties entity", () => {
         await expect
           .soft(
             Object.keys(responseData)[0] === "error",
-            `Response data for "${item}" should not be an error`
+            `Response data for "${item}" should not be an error`,
           )
           .toBe(false);
 

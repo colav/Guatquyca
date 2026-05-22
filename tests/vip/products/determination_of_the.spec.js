@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("'Determination of the IMF...' article information is complete", () => {

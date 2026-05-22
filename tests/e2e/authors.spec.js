@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 import { PLOTS_BY_ENTITY } from "@/lib/constants";
@@ -32,7 +31,7 @@ test.describe("Testing Authors entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -50,18 +49,18 @@ test.describe("Testing Authors entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Verify that the "Afiliaciones" text is visible, indicating that the search results are displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Verify that the "Perfil externo" text is visible, indicating that the search results are displayed.
+    await expect(page.getByText("Perfil externo").nth(0)).toBeVisible();
 
     // Confirm that the URL reflects the search parameters for displaying 50 results per page.
     await expect(page).toHaveURL(
       "/search/person?max=50&page=1&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Navigate to the fifth page of search results using pagination.
@@ -71,23 +70,23 @@ test.describe("Testing Authors entity", () => {
     page.on("response", (response) => {
       const url = response.url();
       const errorCodeMatch = url.match(
-        /\+204\+|\+400\+|\+404\+|\+500\+|\+503\+/
+        /\+204\+|\+400\+|\+404\+|\+500\+|\+503\+/,
       );
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Ensure that the "Afiliaciones" text is still visible, confirming that the fifth page of results is displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Ensure that the "Perfil externo" text is still visible, confirming that the fifth page of results is displayed.
+    await expect(page.getByText("Perfil externo").nth(0)).toBeVisible();
 
     // Check that the URL is updated to reflect the navigation to the fifth page of results.
     await expect(page).toHaveURL(
       "/search/person?max=50&page=5&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
   });
 
@@ -115,26 +114,29 @@ test.describe("Testing Authors entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/person?max=10&page=${randomPage}&sort=products_desc`
+      `/search/person?max=10&page=${randomPage}&sort=products_desc`,
     );
 
     // Wait for the search results to ensure the page has loaded.
     await page.waitForSelector("text=Autores");
 
-    // Locate all links on the page with the class name 'searchResult_link'.
-    const authorLinks = await page.$$(".searchResult_link");
+    // Locate all person profile links in the search results.
+    const authorLinks = page.locator(
+      'a[href*="/person/"][href*="/research/products"]',
+    );
+
+    // Ensure at least one author link is available before sampling a random result.
+    await expect.poll(async () => authorLinks.count()).toBeGreaterThan(0);
 
     // Select a random link from the list of located links.
-    const randomIndex = Math.floor(Math.random() * authorLinks.length);
+    const randomIndex = Math.floor(Math.random() * (await authorLinks.count()));
 
     // Retrieve the text content of the randomly selected link.
-    const authorName = await authorLinks[randomIndex].textContent();
-
-    // Introduce a delay before clicking the link (e.g., 2 seconds).
-    await page.waitForTimeout(1000);
+    const selectedAuthorLink = authorLinks.nth(randomIndex);
+    const authorName = await selectedAuthorLink.textContent();
 
     // Click on the randomly selected link to navigate to the corresponding author profile.
-    await authorLinks[randomIndex].click();
+    await selectedAuthorLink.click();
 
     // Verify that the profile page for the random author is displayed.
     await expect(page.getByText("Proyectos", { exact: true })).toBeVisible({
@@ -163,7 +165,7 @@ test.describe("Testing Authors entity", () => {
 
     // Verify that the search results contain "Diego Alejandro Restrepo Quintero".
     await expect(
-      page.getByText("Diego Alejandro Restrepo Quintero").first()
+      page.getByText("Diego Alejandro Restrepo Quintero").first(),
     ).toBeVisible();
 
     // Click on the link for "Diego Alejandro Restrepo Quintero" to navigate to his profile page.
@@ -187,12 +189,12 @@ test.describe("Testing Authors entity", () => {
 
     // Navigate to the search results page for the keyword "Diego Alejandro Restrepo".
     await page.goto(
-      '/search/person?max=10&page=1&sort=products_desc&keywords="Diego%20Alejandro%20Restrepo"'
+      '/search/person?max=10&page=1&sort=products_desc&keywords="Diego%20Alejandro%20Restrepo"',
     );
 
     // Verify that the search results contain "Diego Alejandro Restrepo Quintero".
     await expect(
-      page.getByText("Diego Alejandro Restrepo Quintero").first()
+      page.getByText("Diego Alejandro Restrepo Quintero").first(),
     ).toBeVisible();
 
     // Find the link element
@@ -238,7 +240,7 @@ test.describe("Testing Authors entity", () => {
           await expect
             .soft(
               responseData.plot.length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else if (
@@ -247,20 +249,20 @@ test.describe("Testing Authors entity", () => {
         ) {
           console.log(
             `Plot keys for "${item}":`,
-            Object.keys(responseData.plot).length
+            Object.keys(responseData.plot).length,
           );
 
           // Check that the response contains data
           await expect
             .soft(
               Object.keys(responseData.plot).length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else {
           console.error(
             `Unexpected "plot" type for "${item}":`,
-            responseData.plot
+            responseData.plot,
           );
 
           // Fail the test if "plot" is neither an array nor an object
@@ -272,7 +274,7 @@ test.describe("Testing Authors entity", () => {
         await expect
           .soft(
             Object.keys(responseData)[0] === "error",
-            `Response data for "${item}" should not be an error`
+            `Response data for "${item}" should not be an error`,
           )
           .toBe(false);
 

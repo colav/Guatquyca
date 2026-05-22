@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
     // Verify that the search results contain "Cesar Alonso Valenzuela Toledo".
     await test.step('Verify search results contain "Cesar Alonso Valenzuela Toledo"', async () => {
       await expect(
-        page.getByText("Cesar Alonso Valenzuela Toledo").first()
+        page.getByText("Cesar Alonso Valenzuela Toledo").first(),
       ).toBeVisible();
     });
 
@@ -59,7 +58,7 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 68 * 0.8; // 20% error margin
@@ -79,9 +78,11 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -90,15 +91,15 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000706663, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000706663"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000706663"]`,
+        ),
       ).toBeVisible();
     });
 
     // Verify that the ORCID link with his ID is visible and correct.
     await test.step("Verify ORCID link with ID: 0000-0002-6380-2778, is correct", async () => {
       await expect(
-        page.locator(`a[href="https://orcid.org/0000-0002-6380-2778"]`)
+        page.locator(`a[href="https://orcid.org/0000-0002-6380-2778"]`),
       ).toBeVisible();
     });
 
@@ -106,8 +107,8 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
     await test.step("Verify Scopus link with ID 25650635800, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://www.scopus.com/authid/detail.uri?authorId=25650635800"]`
-        )
+          `a[href="https://www.scopus.com/authid/detail.uri?authorId=25650635800"]`,
+        ),
       ).toBeVisible();
     });
 
@@ -115,8 +116,8 @@ test.describe("Testing Cesar Alonso Valenzuela Toledo profile", () => {
     await test.step("Verify Google Scholar link with ID: J89OrSkAAAAJ, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scholar.google.com/citations?user=J89OrSkAAAAJ"]`
-        )
+          `a[href="https://scholar.google.com/citations?user=J89OrSkAAAAJ"]`,
+        ),
       ).toBeVisible();
     });
 

@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("'Concerning the Landau pole...' article information is complete", () => {

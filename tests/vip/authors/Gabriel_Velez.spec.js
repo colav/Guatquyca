@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Gabriel Vélez profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Gabriel Vélez profile", () => {
     // Verify that the search results contain "Gabriel Jaime Vélez Cuartas".
     await test.step('Verify search results contain "Gabriel Jaime Vélez Cuartas"', async () => {
       await expect(
-        page.getByText(/Gabriel Jaime V(e|é)lez Cuartas/i).first()
+        page.getByText(/Gabriel Jaime V(e|é)lez Cuartas/i).first(),
       ).toBeVisible();
     });
 
@@ -59,7 +58,7 @@ test.describe("Testing Gabriel Vélez profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 125 * 0.8; // 20% error margin
@@ -77,9 +76,11 @@ test.describe("Testing Gabriel Vélez profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -88,15 +89,15 @@ test.describe("Testing Gabriel Vélez profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000536237, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000536237"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000536237"]`,
+        ),
       ).toBeVisible();
     });
 
     // Verify that the ORCID link with his ID is visible and correct.
     await test.step("Verify ORCID link with ID: 0000-0003-2350-4650, is correct", async () => {
       await expect(
-        page.locator(`a[href="https://orcid.org/0000-0003-2350-4650"]`)
+        page.locator(`a[href="https://orcid.org/0000-0003-2350-4650"]`),
       ).toBeVisible();
     });
 
@@ -104,8 +105,8 @@ test.describe("Testing Gabriel Vélez profile", () => {
     await test.step("Verify Google Scholar link with ID: HcAnZ0MAAAAJ, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scholar.google.com/citations?user=HcAnZ0MAAAAJ"]`
-        )
+          `a[href="https://scholar.google.com/citations?user=HcAnZ0MAAAAJ"]`,
+        ),
       ).toBeVisible();
     });
 
