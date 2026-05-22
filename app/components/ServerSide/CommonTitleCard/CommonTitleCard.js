@@ -99,14 +99,15 @@ export default function CommonTitleCard({ data, entity }) {
             <RORTypesTagList types={types} />
           </div>
 
+          <AffilliationParser affiliations={affiliations} />
+
           {addresses?.[0]?.city && (
             <div className={styles.infoRow}>
               <EnvironmentOutlined /> {addresses?.[0]?.city}, {country}.
-              {year_established && ` Fundada en ${year_established}.`}
+              {year_established &&
+                ` ${entity === "institution" ? "Fundada" : "Fundado"} en ${year_established}.`}
             </div>
           )}
-
-          <AffilliationParser affiliations={affiliations} />
 
           <div className={styles.metricsGrid}>
             {entity === "person" &&
