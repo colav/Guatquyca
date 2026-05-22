@@ -111,11 +111,14 @@ export default function ExternalProfiles({ idsList, entity }) {
    * @returns {string} - The constructed URL.
    */
   const URLMaker = (source, id) => {
+    if (!id) return null;
     // Remove any spaces from the ID
-    const fixedID = id.replace(/\s+/g, "");
+    const fixedID = String(id).replace(/\s+/g, "");
     if (source === "openalex" || source === "scopus" || source === "ror") {
-      return id;
-    } else return `${external[source]?.URL}${fixedID}`;
+      return fixedID;
+    }
+    const base = external[source]?.URL;
+    return base ? `${base}${fixedID}` : null;
   };
 
   /**
