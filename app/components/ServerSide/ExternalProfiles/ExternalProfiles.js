@@ -25,21 +25,46 @@ import { Button, Space } from "antd";
  * @param {Array} idsList - The list of external profiles to display.
  */
 export default function ExternalProfiles({ idsList, entity }) {
-  // Filter out items without 'id' and ensure uniqueness by 'source'
-  const uniqueIdsList = idsList
-    .filter((item) => item.id) // Only keep items with an 'id'
-    .filter(
-      (currentItem, currentIndex, array) =>
-        array.findIndex((item) => item.source === currentItem.source) ===
-        currentIndex,
+  const excludedSources = [
+    "mag",
+    "orgref",
+    "nit",
+    "minciencias",
+    "hesa",
+    "grid",
+    "logo",
+  ];
+
+  const uniqueIdsList = idsList.reduce((acc, item) => {
+    if (!item?.source || excludedSources.includes(item.source)) {
+      return acc;
+    }
+
+    const existingIndex = acc.findIndex(
+      (profile) => profile.source === item.source,
     );
+
+    if (existingIndex === -1) {
+      acc.push(item);
+      return acc;
+    }
+
+    const existingProfile = acc[existingIndex];
+    const shouldReplace = !existingProfile.url && item.url;
+
+    if (shouldReplace) {
+      acc[existingIndex] = item;
+    }
+
+    return acc;
+  }, []);
 
   const external = {
     scienti:
       entity === "group"
         ? {
             icon: gruplac(),
-            URL: "https://scienti.colciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=",
+            URL: "https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=",
           }
         : {
             icon: cvlac(),
@@ -101,37 +126,36 @@ export default function ExternalProfiles({ idsList, entity }) {
    * @param {Array} idsList - The list of external profiles to display.
    * @returns {Array} - The list of buttons for each external profile.
    */
-  const renderedButtons = (uniqueIdsList) => {
-    const excludedSources = [
-      "mag",
-      "orgref",
-      "nit",
-      "minciencias",
-      "hesa",
-      "grid",
-    ];
+  const renderedButtons = (profilesList) => {
+    return profilesList.map((item) => {
+      const href = item.url || URLMaker(item.source, item.id);
 
-    return uniqueIdsList
-      .filter((item) => item.id) // Only render buttons for items with an 'id'
-      .map((item) => {
-        if (!excludedSources.includes(item.source)) {
-          return (
-            <a
-              href={item.url || URLMaker(item.source, item.id)}
-              key={item.source}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Button
-                style={{ alignItems: "flex-start", padding: "0" }}
-                type="link"
-                icon={external[item.source]?.icon}
-              />
-            </a>
-          );
-        }
+      if (!href) {
         return null;
-      });
+      }
+
+      const icon = external[item.source]?.icon;
+
+      return (
+        <a
+          href={href}
+          key={`${item.source}-${href}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button
+            style={{
+              alignItems: "flex-start",
+              padding: "0",
+              width: "28px",
+              height: "28px",
+            }}
+            type="link"
+            icon={icon}
+          />
+        </a>
+      );
+    });
   };
 
   return (
@@ -140,7 +164,7 @@ export default function ExternalProfiles({ idsList, entity }) {
         <UserOutlined /> Perfil externo:
       </h2>
       {uniqueIdsList?.length > 0 ? (
-        <Space size={[6, 10]}>{renderedButtons(uniqueIdsList)}</Space>
+        <Space size={[5, 8]}>{renderedButtons(uniqueIdsList)}</Space>
       ) : (
         <p className={styles.noData}>No disponible</p>
       )}

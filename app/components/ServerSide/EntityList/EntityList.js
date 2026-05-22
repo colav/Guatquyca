@@ -1,12 +1,14 @@
 /* Components */
-import AffiliationLinks from "../AffiliationLinks/AffiliationLinks";
+import AffilliationParser from "../AffiliationParser/AffiliationParser";
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
 import ClientLogger from "@/lib/utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
+import IndexList from "../IndexList/IndexList";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import ProductsCount from "../ProductsCount/ProductsCount";
+import RORTypesTagList from "../RORTypesTagList/RORTypesTagList";
 
 /* lib */
 import getData from "@/lib/apis/server.api";
@@ -16,11 +18,14 @@ import { ensureSearchParamsOrRedirect } from "@/lib/utils/searchRedirect";
 /* Next */
 import Link from "next/link";
 
+/* Icons */
+import { EnvironmentOutlined, ReadOutlined } from "@ant-design/icons";
+
 /* Styles */
 import styles from "./styles.module.css";
 
 /* UI Library Components */
-import { Avatar, Col, Row } from "antd";
+import { Avatar } from "antd";
 
 /**
  * EntityList is a "server-side" function component that displays a list of entities.
@@ -38,6 +43,12 @@ export default async function EntityList({ searchParams, entity }) {
   const URL = URLBuilder(`/app/search/affiliations/${entity}`, correctedParams);
   const { data, fullUrl } = await getData(URL);
 
+  const renderMetricCard = (key, content) => (
+    <div key={key} className={styles.metricCell}>
+      <div className={styles.metricCard}>{content}</div>
+    </div>
+  );
+
   return (
     <CardWrapper
       searchParams={correctedParams}
@@ -48,58 +59,87 @@ export default async function EntityList({ searchParams, entity }) {
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
-          <li key={item.id}>
-            <Row>
-              <Col style={{ width: "80px" }}>
+          <li key={item.id} className={styles.item}>
+            <div className={styles.header}>
+              <div className={styles.avatarBlock}>
                 <Avatar
                   src={item.logo?.length === 0 ? null : item.logo}
                   shape="square"
-                  id={styles.avatar}
                   size={64}
+                  className={styles.avatar}
                 >
-                  {item.name?.charAt(0)}
+                  {item.name?.charAt(0) || <ReadOutlined />}
                 </Avatar>
-              </Col>
-              <Col span={22}>
-                <Row>
-                  <Col span={24} style={{ marginBottom: "7px" }}>
-                    <>
-                      <Link
-                        className="searchResult_link"
-                        href={`/affiliation/${entity}/${item.id}/affiliations`}
-                      >
-                        {item.name}
-                      </Link>{" "}
-                      {entity === "institution" &&
-                        item.addresses?.length &&
-                        item.addresses[0]?.country_code && (
-                          <Flag
-                            country={item.addresses[0]?.country}
-                            countryCode={item.addresses[0]?.country_code}
-                          />
-                        )}
-                    </>
-                  </Col>
-                  {entity != "institution" && (
-                    <Col xs={24} md={6}>
-                      <AffiliationLinks affList={item.affiliations} />
-                    </Col>
-                  )}
-                  {entity === "institution" || entity === "group" ? (
-                    <Col xs={24} md={6}>
+              </div>
+
+              <div className={styles.mainContent}>
+                <div className={styles.titleRow}>
+                  <Link
+                    className={styles.title}
+                    href={`/affiliation/${entity}/${item.id}/affiliations`}
+                  >
+                    {item.name}
+                  </Link>
+                  {entity === "institution" &&
+                    item.addresses?.length &&
+                    item.addresses[0]?.country_code && (
+                      <span className={styles.flagSpace}>
+                        <Flag
+                          country={item.addresses[0]?.country}
+                          countryCode={item.addresses[0]?.country_code}
+                        />
+                      </span>
+                    )}
+                </div>
+
+                <AffilliationParser affiliations={item.affiliations} />
+
+                <div className={styles.tagsRow}>
+                  <RORTypesTagList types={item.types} />
+                </div>
+
+                {item.addresses?.[0]?.city && (
+                  <div className={styles.infoRow}>
+                    <EnvironmentOutlined /> {item.addresses[0]?.city},{" "}
+                    {item.addresses[0]?.country}.
+                  </div>
+                )}
+
+                <div className={styles.metricsGrid}>
+                  {(entity === "institution" || entity === "group") &&
+                    renderMetricCard(
+                      `external-profiles-${item.id}`,
                       <ExternalProfiles
-                        idsList={item.external_ids.concat(item.external_urls)}
-                        entity="group"
-                      />
-                    </Col>
-                  ) : (
-                    ""
-                  )}
-                  <CitationsCount citations_count={item.citations_count} />
-                  <ProductsCount products_count={item.products_count} />
-                </Row>
-              </Col>
-            </Row>
+                        idsList={(item.external_ids || []).concat(
+                          item.external_urls || [],
+                        )}
+                        entity={entity}
+                      />,
+                    )}
+
+                  {item.products_count != null &&
+                    renderMetricCard(
+                      `products-count-${item.id}`,
+                      <ProductsCount products_count={item.products_count} />,
+                    )}
+
+                  {item.citations_count?.length > 0 &&
+                    renderMetricCard(
+                      `citations-count-${item.id}`,
+                      <CitationsCount citations_count={item.citations_count} />,
+                    )}
+
+                  {(item.h_index != null || item.h5_index != null) &&
+                    renderMetricCard(
+                      `index-list-${item.id}`,
+                      <IndexList
+                        h_index={item.h_index}
+                        h5_index={item.h5_index}
+                      />,
+                    )}
+                </div>
+              </div>
+            </div>
             <hr className={styles.hr} />
           </li>
         ))}

@@ -1,5 +1,5 @@
 /* UI Library Components */
-import { Col, Button, Space, Row } from "antd";
+import { Button, Space } from "antd";
 
 /* Icons */
 import { IdcardOutlined } from "@ant-design/icons";
@@ -37,7 +37,7 @@ export default function MemberOf({ id }) {
   const memberships = networks_universities_colombia.members_of[id].networks;
 
   return (
-    <Col xs={24} md={6} lg={7} xl={5}>
+    <>
       <h2 className={styles.title}>
         <IdcardOutlined /> Miembro de:
       </h2>
@@ -52,6 +52,6 @@ export default function MemberOf({ id }) {
           </a>
         ))}
       </Space>
-    </Col>
+    </>
   );
 }

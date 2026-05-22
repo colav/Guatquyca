@@ -54,7 +54,7 @@ export const allies = [
 
 export default function AlliesSection() {
   return (
-    <Row gutter={[50, 12]} justify="center" align="middle">
+    <Row gutter={[85, 12]} justify="center" align="middle">
       <Col span={24} id={styles.title}>
         • Aliados •
       </Col>
@@ -72,8 +72,8 @@ function LinkLogo({ ally, index }) {
         xs={12}
         sm={8}
         md={6}
-        lg={{ flex: "0 0 19%" }}
-        xl={{ flex: "0 0 19%" }}
+        lg={{ flex: "0 0 14%" }}
+        xl={{ flex: "0 0 14%" }}
         className={styles.logoContainer}
       >
         <Link href={ally.href}>
@@ -86,7 +86,7 @@ function LinkLogo({ ally, index }) {
           />
         </Link>
       </Col>
-      {(index + 1) % 5 === 0 && <Col xs={0} sm={0} md={0} lg={0} xl={24} />}
+      {(index + 1) % 7 === 0 && <Col xs={0} sm={0} md={0} lg={0} xl={24} />}
     </>
   );
 }
