@@ -1,8 +1,25 @@
+/* Next.js */
+import dynamic from "next/dynamic";
+
+/* Components */
+import QualityMetrics from "./QualityMetrics";
+import Loading from "../loading";
+
 /* Styles */
 import styles from "./styles.module.css";
 
+/* UI Library Components */
+import { Divider } from "antd";
+
+const MindMapChart = dynamic(
+  () => import("@/app/components/ClientSide/Charts/MindMapChart/MindMapChart"),
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  },
+);
+
 /* Charts */
-import MindMapChart from "@/app/components/ClientSide/Charts/MindMapChart/MindMapChart";
 
 export default function TabDatos() {
   return (
@@ -77,6 +94,28 @@ export default function TabDatos() {
           acuerdos interinstitucionales suscritos.
         </b>
       </p>
+      <Divider />
+      <h3 className={styles.margin0}>Calidad y completitud de los datos</h3>
+      <p>
+        Para garantizar la trazabilidad y mejora continua de la información,
+        ImpactU publica un reporte de calidad de datos que se genera
+        automáticamente al finalizar cada corrida del proceso ETL. Este reporte
+        refleja el estado de completitud de cada colección —productos, autores,
+        afiliaciones (Grupos de investigación, Unidades y Subunidades
+        Académicas, Instituciones) y fuentes— midiendo qué proporción de los
+        registros cuenta con campos clave como DOI, resumen, tipo normalizado,
+        identificadores externos o clasificaciones de procedencia.
+      </p>
+      <p>
+        El seguimiento histórico permite detectar regresiones, validar el
+        impacto de nuevas fuentes de datos y evidenciar el crecimiento de la
+        cobertura a lo largo del tiempo. Este reporte se inició con la ejecución
+        del proceso ETL del primer semestre de 2026; los datos anteriores a esa
+        fecha no están incluidos en el histórico.
+      </p>
+      <QualityMetrics />
+      <Divider />
+      <h3 className={styles.margin0}>Explorando el grafo de conocimiento</h3>
       <p>
         En <b id={styles.impact}>Impact</b>
         <b id={styles.u}>U</b> creemos que la inteligencia institucional se
