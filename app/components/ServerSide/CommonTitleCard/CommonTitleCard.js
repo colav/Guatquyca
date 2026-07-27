@@ -5,6 +5,7 @@ import CitationsCount from "../CitationsCount/CitationsCount";
 import ExternalProfiles from "../ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
 import IndexList from "../IndexList/IndexList";
+import GroupRankTag from "../GroupRankTag/GroupRankTag";
 import MemberOf from "../MemberOf.js/MemberOf";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import RORTypesTagList from "../RORTypesTagList/RORTypesTagList";
@@ -49,6 +50,7 @@ export default function CommonTitleCard({ data, entity }) {
     h5_index,
     types,
     year_established,
+    ranking,
   } = data;
 
   const country = addresses?.[0]?.country;
@@ -92,6 +94,7 @@ export default function CommonTitleCard({ data, entity }) {
                   <Flag country={country} countryCode={countryCode} />
                 </span>
               )}
+              {entity === "group" && <GroupRankTag ranking={ranking} />}
             </h1>
           </div>
 

@@ -80,7 +80,7 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>ImpactU:</b>
           </div>
-          <Link href="/about">Acerca de ImpactU</Link>
+          <Link href="/about/presentacion">Acerca de ImpactU</Link>
           <br />
           <Link href="/manual">Manual de usuario</Link>
           <br />
@@ -116,11 +116,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.15.0
+          ImpactU Versión 3.15.1
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 21/05/2026
+          Interfaz de Usuario: 27/07/2026
           <br />
           Base de Datos: <DBUpdatedAt />
           <br />

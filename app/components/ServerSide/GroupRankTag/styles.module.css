@@ -1,0 +1,9 @@
+#tag {
+  height: 30px;
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-left: 0;
+}

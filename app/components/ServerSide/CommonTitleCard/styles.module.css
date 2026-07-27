@@ -49,6 +49,10 @@
   margin-bottom: 3px;
   min-width: 0;
   font-size: 1.8em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .flagSpace {
