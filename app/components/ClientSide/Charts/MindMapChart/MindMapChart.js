@@ -1,55 +1,105 @@
 "use client";
 
-/* Components */
-import Loading from "@/app/loading";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+
+/* Charts */
 import { MindMap } from "@ant-design/graphs";
 
-/* Hooks */
-import { useState, useEffect } from "react";
-
-/* lib */
+/* Data */
 import ourData from "@/lib/Data/ourData.json";
 
 /* Styles */
+import Loading from "@/app/loading";
 import styles from "./styles.module.css";
 
 /**
- * MindMapChart is a client-side function component that displays an interactive mind map visualization.
+ * MindMapChart renders the ImpactU knowledge-graph mind map lazily.
  *
- * @returns {JSX.Element} A MindMap chart component with collapse/expand functionality and boxed layout.
+ * The layout work performed by @ant-design/graphs can be expensive, so the
+ * component avoids mounting the chart until the container is close to the
+ * viewport and then defers the heavy render to an idle/timeout window.
+ * This keeps the surrounding page responsive while the chart is not yet in
+ * view.
  */
-export default function MindMapChart() {
-  const [data, setData] = useState(null);
+function MindMapChart() {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    setData(ourData);
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
-  if (!data) {
-    return <Loading height={400} />;
-  }
-  const options = {
-    type: "boxed",
-    autoFit: "view",
-    data,
-    transforms: (prev) => [
-      ...prev.filter(
-        (transform) => transform.type !== "collapse-expand-react-node"
-      ),
-      {
-        ...prev.find(
-          (transform) => transform.type === "collapse-expand-react-node"
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let idleId;
+    let timeoutId;
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(() => setShouldRender(true), {
+        timeout: 500,
+      });
+    } else {
+      // Fallback for browsers without requestIdleCallback (e.g. Safari)
+      timeoutId = setTimeout(() => setShouldRender(true), 0);
+    }
+
+    return () => {
+      if (idleId && window.cancelIdleCallback)
+        window.cancelIdleCallback(idleId);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isVisible]);
+
+  const options = useMemo(
+    () => ({
+      type: "boxed",
+      autoFit: "view",
+      data: ourData,
+      transforms: (prev) => [
+        ...prev.filter(
+          (transform) => transform.type !== "collapse-expand-react-node",
         ),
-        enable: true,
-      },
-    ],
-  };
+        {
+          ...prev.find(
+            (transform) => transform.type === "collapse-expand-react-node",
+          ),
+          enable: true,
+        },
+      ],
+    }),
+    [],
+  );
 
   return (
-    <div className={styles.outer_container}>
+    <div className={styles.outer_container} ref={containerRef}>
       <div className={styles.chart}>
-        <MindMap {...options} />
+        {shouldRender ? (
+          <MindMap {...options} />
+        ) : (
+          <Loading height="100%" text="Cargando grafo..." />
+        )}
       </div>
     </div>
   );
 }
+
+export default memo(MindMapChart);

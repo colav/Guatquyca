@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 import { PLOTS_BY_ENTITY } from "@/lib/constants";
@@ -28,7 +27,7 @@ test.describe("Testing Institutions entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -46,7 +45,7 @@ test.describe("Testing Institutions entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -54,7 +53,7 @@ test.describe("Testing Institutions entity", () => {
     // Verify that the URL is updated to reflect the new parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
       "/search/affiliations/institution?max=20&page=1&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Navigate to the fifth page of search results using pagination.
@@ -67,7 +66,7 @@ test.describe("Testing Institutions entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -75,7 +74,7 @@ test.describe("Testing Institutions entity", () => {
     // Confirm that the URL is updated to reflect the navigation to the fifth page of results.
     await expect(page).toHaveURL(
       "/search/affiliations/institution?max=20&page=5&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Ensure that the "Perfil externo" text is visible, confirming that the page has loaded correctly.
@@ -96,7 +95,7 @@ test.describe("Testing Institutions entity", () => {
     // Extract the number of institutions from the stored text.
     const numberOfInstitutions = parseInt(
       institutionsTextContent.match(/(\d+)/)[0],
-      10
+      10,
     );
 
     // Verify that the extracted number of institutions is greater than 0.
@@ -108,23 +107,31 @@ test.describe("Testing Institutions entity", () => {
 
     // Navigate to the randomly selected page of search results.
     await page.goto(
-      `/search/affiliations/institution?max=10&page=${randomPage}&sort=products_desc`
+      `/search/affiliations/institution?max=10&page=${randomPage}&sort=products_desc`,
     );
 
     // Wait for the search results to ensure the page has loaded.
     await page.waitForSelector("text=Instituciones");
 
-    // Locate all links on the page with the class name 'searchResult_link'.
-    const institutionLinks = await page.$$(".searchResult_link");
+    // Locate all institution profile links in the search results.
+    const institutionLinks = page.locator(
+      'a[href*="/affiliation/institution/"][href*="/affiliations"]',
+    );
+
+    // Ensure at least one institution link is available before sampling a random result.
+    await expect.poll(async () => institutionLinks.count()).toBeGreaterThan(0);
 
     // Select a random link from the list of located links.
-    const randomIndex = Math.floor(Math.random() * institutionLinks.length);
+    const randomIndex = Math.floor(
+      Math.random() * (await institutionLinks.count()),
+    );
 
     // Retrieve the text content of the randomly selected link.
-    const institutionName = await institutionLinks[randomIndex].textContent();
+    const selectedInstitutionLink = institutionLinks.nth(randomIndex);
+    const institutionName = await selectedInstitutionLink.textContent();
 
     // Click on the randomly selected link to navigate to the corresponding institution profile.
-    await institutionLinks[randomIndex].click();
+    await selectedInstitutionLink.click();
 
     // Verify that the institution name is visible on the profile page, ensuring the navigation was successful.
     await expect(page.getByText(institutionName)).toBeVisible();
@@ -143,7 +150,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Verify that the search results contain "Universidad de Antioquia".
     await expect(
-      page.getByText("Universidad de Antioquia", { exact: true })
+      page.getByText("Universidad de Antioquia", { exact: true }),
     ).toBeVisible();
 
     // Click on the link for "Universidad de Antioquia" to navigate to its profile page.
@@ -169,7 +176,7 @@ test.describe("Testing Institutions entity", () => {
 
     // Navigate to the search results page for the keyword "Antioquia".
     await page.goto(
-      "/search/affiliations/institution?max=10&page=1&sort=products_desc&keywords=Antioquia"
+      "/search/affiliations/institution?max=10&page=1&sort=products_desc&keywords=Antioquia",
     );
 
     // Verify that the search results contain "Universidad de Antioquia".
@@ -216,7 +223,7 @@ test.describe("Testing Institutions entity", () => {
           await expect
             .soft(
               responseData.plot.length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else if (
@@ -225,20 +232,20 @@ test.describe("Testing Institutions entity", () => {
         ) {
           console.log(
             `Plot keys for "${item}":`,
-            Object.keys(responseData.plot).length
+            Object.keys(responseData.plot).length,
           );
 
           // Check that the response contains data
           await expect
             .soft(
               Object.keys(responseData.plot).length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else {
           console.error(
             `Unexpected "plot" type for "${item}":`,
-            responseData.plot
+            responseData.plot,
           );
 
           // Fail the test if "plot" is neither an array nor an object
@@ -250,7 +257,7 @@ test.describe("Testing Institutions entity", () => {
         await expect
           .soft(
             Object.keys(responseData)[0] === "error",
-            `Response data for "${item}" should not be an error`
+            `Response data for "${item}" should not be an error`,
           )
           .toBe(false);
 

@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 import { PLOTS_BY_ENTITY } from "@/lib/constants";
@@ -28,7 +27,7 @@ test.describe("Testing Groups entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
@@ -46,18 +45,18 @@ test.describe("Testing Groups entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Verify that "Afiliaciones" text is visible, indicating that the search results are displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Verify that "Citas" text is visible, indicating that the search results are displayed.
+    await expect(page.getByText("Citas").nth(0)).toBeVisible();
 
     // Confirm that the URL reflects the search parameters for displaying 20 results per page.
     await expect(page).toHaveURL(
       "/search/affiliations/group?max=20&page=1&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Navigate to the third page of the search results using pagination.
@@ -70,18 +69,18 @@ test.describe("Testing Groups entity", () => {
 
       if (errorCodeMatch) {
         throw new Error(
-          `API response with error code: ${errorCodeMatch} from URL: ${url}`
+          `API response with error code: ${errorCodeMatch} from URL: ${url}`,
         );
       }
     });
 
-    // Ensure that "Afiliaciones" text is still visible, confirming that the third page of results is displayed.
-    await expect(page.getByText("Afiliaciones").nth(0)).toBeVisible();
+    // Ensure that "Citas" text is still visible, confirming that the third page of results is displayed.
+    await expect(page.getByText("Citas").nth(0)).toBeVisible();
 
     // Check that the URL is updated to reflect the navigation to the third page of results.
     await expect(page).toHaveURL(
       "/search/affiliations/group?max=20&page=3&sort=products_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
   });
 
@@ -91,9 +90,16 @@ test.describe("Testing Groups entity", () => {
 
     // Wait for the text indicating the number of "Grupos" to appear and store its content
     const groupsTextContent = await page.getByText(/^\d+ Grupos/).textContent();
+    if (!groupsTextContent) {
+      throw new Error("Groups count text not found");
+    }
 
     // Extract the number of "Grupos" from the stored text
-    const numberOfGroups = parseInt(groupsTextContent.match(/(\d+)/)[0], 10);
+    const groupsMatch = groupsTextContent.match(/(\d+)/);
+    if (!groupsMatch) {
+      throw new Error("Unable to parse groups count");
+    }
+    const numberOfGroups = parseInt(groupsMatch[0], 10);
 
     // Verify that the extracted number of "Grupos" is greater than 0
     expect(numberOfGroups).toBeGreaterThan(0);
@@ -103,23 +109,32 @@ test.describe("Testing Groups entity", () => {
 
     // Navigate to the randomly selected page of search results
     await page.goto(
-      `/search/affiliations/group?max=10&page=${randomPage}&sort=products_desc`
+      `/search/affiliations/group?max=10&page=${randomPage}&sort=products_desc`,
     );
 
     // Wait for the search results, specifically for the text "Grupos", to ensure the page has loaded
     await page.waitForSelector("text=Grupos");
 
-    // Locate all links on the page with the class name 'searchResult_link'
-    const groupLinks = await page.$$(".searchResult_link");
+    // Locate all group profile links in the search results.
+    const groupLinks = page.locator(
+      'a[href*="/affiliation/group/"][href*="/affiliations"]',
+    );
+
+    // Ensure at least one group link is available before sampling a random result.
+    await expect.poll(async () => groupLinks.count()).toBeGreaterThan(0);
 
     // Select a random link from the list of located links
-    const randomIndex = Math.floor(Math.random() * groupLinks.length);
+    const randomIndex = Math.floor(Math.random() * (await groupLinks.count()));
 
     // Retrieve the text content of the randomly selected link
-    const groupName = await groupLinks[randomIndex].textContent();
+    const selectedGroupLink = groupLinks.nth(randomIndex);
+    const groupName = await selectedGroupLink.textContent();
+    if (!groupName) {
+      throw new Error("Group name not found in search result link");
+    }
 
     // Click on the randomly selected link to navigate to the corresponding group profile
-    await groupLinks[randomIndex].click();
+    await selectedGroupLink.click();
 
     // Verify that the group name is visible on the profile page, ensuring the navigation was successful
     await expect(page.getByText(groupName)).toBeVisible();
@@ -138,7 +153,7 @@ test.describe("Testing Groups entity", () => {
 
     // Verify that the search results contain the keyword "Epidemiología"
     await expect(
-      page.getByText("Epidemiología", { exact: true })
+      page.getByText("Epidemiología", { exact: true }),
     ).toBeVisible();
 
     // Click on the search result link with the exact name "Epidemiología" to navigate to the group's profile page
@@ -167,12 +182,12 @@ test.describe("Testing Groups entity", () => {
 
     // Navigate to the search results page for the keyword "Epidemiología".
     await page.goto(
-      "/search/affiliations/group?max=10&page=1&sort=products_desc&keywords=Epidemiología"
+      "/search/affiliations/group?max=10&page=1&sort=products_desc&keywords=Epidemiología",
     );
 
     // Verify that the search results contain "Epidemiología".
     await expect(
-      page.getByText("Epidemiología", { exact: true })
+      page.getByText("Epidemiología", { exact: true }),
     ).toBeVisible();
 
     // Find the link element
@@ -183,6 +198,9 @@ test.describe("Testing Groups entity", () => {
 
     // Extract the href attribute
     const href = await linkElement.getAttribute("href");
+    if (!href) {
+      throw new Error("Group href not found");
+    }
 
     // Use a regex to extract the ID from the URL
     const idMatch = href.match(/group\/([a-zA-Z0-9]+)\//);
@@ -191,6 +209,9 @@ test.describe("Testing Groups entity", () => {
     }
     const groupId = idMatch[1];
 
+    /**
+     * @param {string} item
+     */
     async function fetchAndMeasure(item) {
       // Construct the API URL
       const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/group/${groupId}/research/products?plot=${item}`;
@@ -216,7 +237,7 @@ test.describe("Testing Groups entity", () => {
           await expect
             .soft(
               responseData.plot.length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else if (
@@ -225,20 +246,20 @@ test.describe("Testing Groups entity", () => {
         ) {
           console.log(
             `Plot keys for "${item}":`,
-            Object.keys(responseData.plot).length
+            Object.keys(responseData.plot).length,
           );
 
           // Check that the response contains data
           await expect
             .soft(
               Object.keys(responseData.plot).length > 0,
-              `Response data for "${item}" should not be empty`
+              `Response data for "${item}" should not be empty`,
             )
             .toBe(true);
         } else {
           console.error(
             `Unexpected "plot" type for "${item}":`,
-            responseData.plot
+            responseData.plot,
           );
 
           // Fail the test if "plot" is neither an array nor an object
@@ -250,7 +271,7 @@ test.describe("Testing Groups entity", () => {
         await expect
           .soft(
             Object.keys(responseData)[0] === "error",
-            `Response data for "${item}" should not be an error`
+            `Response data for "${item}" should not be an error`,
           )
           .toBe(false);
 
@@ -271,6 +292,9 @@ test.describe("Testing Groups entity", () => {
       }
     }
 
+    /**
+     * @param {string[]} plotlist
+     */
     async function runSequentially(plotlist) {
       for (const item of plotlist) {
         await fetchAndMeasure(item);

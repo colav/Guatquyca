@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Works entity", () => {
@@ -29,7 +28,7 @@ test.describe("Testing Works entity", () => {
     // Ensure the URL reflects the selected option for 20 results per page, on the first page
     await expect(page).toHaveURL(
       "/search/works?max=20&page=1&sort=citations_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
 
     // Navigate to the third page of the search results
@@ -41,7 +40,7 @@ test.describe("Testing Works entity", () => {
     // Confirm the URL is updated to reflect the navigation to the third page of results
     await expect(page).toHaveURL(
       "/search/works?max=20&page=3&sort=citations_desc",
-      { timeout: 12000 }
+      { timeout: 12000 },
     );
   });
 
@@ -68,7 +67,7 @@ test.describe("Testing Works entity", () => {
 
     // Navigate to the randomly selected page of search results
     await page.goto(
-      `/search/works?max=10&page=${randomPage}&sort=citations_desc`
+      `/search/works?max=10&page=${randomPage}&sort=citations_desc`,
     );
 
     // Wait for the search results, specifically for the text "Publicado", to ensure the page has loaded
@@ -98,14 +97,14 @@ test.describe("Testing Works entity", () => {
     // Introduce another delay of 1 second after clicking, before performing the next action
     await page.waitForTimeout(1000);
 
-    // Verify that the product name is visible on the profile page, ensuring the navigation was successful
-    await expect(page.getByRole("dialog").getByText(worksName)).toBeVisible({
+    // Verify that the modal contains the selected work title, ensuring the navigation was successful.
+    await expect(page.getByRole("dialog")).toContainText(worksName, {
       timeout: 10000,
     });
 
     // Veryfy that the text "Abstract" is visible on the work modal
     await expect(
-      page.getByRole("heading", { name: "Abstract:" })
+      page.getByRole("heading", { name: "Abstract:" }),
     ).toBeVisible();
   });
 
@@ -114,7 +113,7 @@ test.describe("Testing Works entity", () => {
     await page
       .getByPlaceholder("Búsqueda por palabra clave")
       .pressSequentially(
-        '"Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"'
+        '"Radiative seesaw model: Warm dark matter, collider signatures, and lepton flavor violating signals"',
       );
 
     // Click on the Search button to initiate the search
@@ -129,9 +128,9 @@ test.describe("Testing Works entity", () => {
     // Set up a listener for any dialog that appears and automatically accept it
     page.on("dialog", (dialog) => dialog.accept());
 
-    // Verify that the detailed profile page for the work displays the beginning of the work's title
-    await expect(
-      page.getByRole("dialog").getByText("Radiative seesaw model: Warm")
-    ).toBeVisible();
+    // Verify that the modal contains the beginning of the work's title.
+    await expect(page.getByRole("dialog")).toContainText(
+      "Radiative seesaw model: Warm",
+    );
   });
 });

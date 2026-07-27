@@ -1,11 +1,11 @@
-/* UI Library Components */
-import { Col } from "antd";
-
 /* icons */
 import { CopyOutlined } from "@ant-design/icons";
 
 /* Styles */
 import styles from "./styles.module.css";
+
+/* Utils */
+import { formatNumber } from "@/lib/utils/formatNumber";
 
 /**
  * ProductsCount is a function component that displays the count of products in a column.
@@ -24,13 +24,15 @@ export default function ProductsCount({ products_count, size = "default" }) {
     );
   }
   return (
-    <Col xs={24} md={6} lg={7} xl={5}>
+    <>
       <h2 className={styles.title}>
         <CopyOutlined /> Productos:
       </h2>
       <div className={styles.text}>
-        {products_count ? products_count : "No disponible"}
+        {products_count != null
+          ? formatNumber(products_count)
+          : "No disponible"}
       </div>
-    </Col>
+    </>
   );
 }

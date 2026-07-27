@@ -39,22 +39,32 @@ export default function SortSearchResults({ searchParams, type }) {
     institution: [
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
+      { value: "h_desc", label: "Mayor H-index" },
+      { value: "h5_desc", label: "Mayor H5-index" },
     ],
     faculty: [
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
+      { value: "h_desc", label: "Mayor H-index" },
+      { value: "h5_desc", label: "Mayor H5-index" },
     ],
     department: [
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
+      { value: "h_desc", label: "Mayor H-index" },
+      { value: "h5_desc", label: "Mayor H5-index" },
     ],
     person: [
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
+      { value: "h_desc", label: "Mayor H-index" },
+      { value: "h5_desc", label: "Mayor H5-index" },
     ],
     group: [
       { value: "products_desc", label: "Mayor producción" },
       { value: "citations_desc", label: "Más citado" },
+      { value: "h_desc", label: "Mayor H-index" },
+      { value: "h5_desc", label: "Mayor H5-index" },
     ],
     news: [
       { value: "year_desc", label: "Más reciente" },

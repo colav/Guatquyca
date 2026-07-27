@@ -27,8 +27,25 @@ export default function Foot() {
   return (
     <Footer id={styles.footer_container}>
       <AlliesSection />
+      <div className={styles.operatorSection}>
+        <div className={styles.operatorTitle}>Operador administrativo</div>
+        <Link
+          href="https://www.fundacionudea.com/sitio/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Image
+            src="/media/logo_fua.svg"
+            alt="Logotipo FUA"
+            width={180}
+            height={60}
+            className={styles.logo}
+            priority={false}
+          />
+        </Link>
+      </div>
       <Row gutter={[5, 5]}>
-        <Divider style={{ marginTop: "20px" }} />
+        <Divider style={{ marginTop: "10px" }} />
         <Col xs={24} md={8}>
           <div style={{ marginBottom: "15px" }}>
             <b>Producto desarrollado por:</b>
@@ -63,7 +80,7 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>ImpactU:</b>
           </div>
-          <Link href="/about">Acerca de ImpactU</Link>
+          <Link href="/about/presentacion">Acerca de ImpactU</Link>
           <br />
           <Link href="/manual">Manual de usuario</Link>
           <br />
@@ -99,11 +116,11 @@ export default function Foot() {
           <div style={{ marginBottom: "10px" }}>
             <b>Información:</b>
           </div>
-          ImpactU Versión 3.14.5
+          ImpactU Versión 3.15.1
           <br />
           Última actualización:
           <br />
-          Interfaz de Usuario: 02/05/2026
+          Interfaz de Usuario: 27/07/2026
           <br />
           Base de Datos: <DBUpdatedAt />
           <br />

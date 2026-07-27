@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Roberto Martínez Vélez profile", () => {
@@ -19,7 +18,7 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
     await test.step('Fill search bar with "Roberto Enrique Martínez Martínez"', async () => {
       await page
         .getByPlaceholder("Búsqueda por palabra clave")
-        .pressSequentially('"Roberto Enrique Martínez Martínez"');
+        .fill('"Roberto Enrique Martínez Martínez"');
     });
 
     // Click on the search button to initiate the search.
@@ -30,7 +29,7 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
     // Verify that the search results contain "Roberto Enrique Martínez Martínez".
     await test.step('Verify search results contain "Roberto Enrique Martínez Martínez"', async () => {
       await expect(
-        page.getByText(/Roberto Enrique Mart(i|í)nez Mart(i|í)nez/i).first()
+        page.getByText(/Roberto Enrique Mart(i|í)nez Mart(i|í)nez/i).first(),
       ).toBeVisible();
     });
 
@@ -61,7 +60,7 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 254 * 0.8; // 20% error margin
@@ -76,9 +75,11 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -87,8 +88,8 @@ test.describe("Testing Roberto Martínez Vélez profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000066214, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000066214"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000066214"]`,
+        ),
       ).toBeVisible();
     });
 

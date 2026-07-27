@@ -1,4 +1,7 @@
-#pattern {
+.pattern h2 {
+  font-size: 1.2em;
+}
+.pattern {
   background-color: white;
   border-radius: 7px;
   padding: 20px;
@@ -9,12 +12,66 @@
   position: relative;
 }
 
-#avatar {
+.header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.infoRow {
+  margin-top: 10px;
+  color: #636a72;
+  font-size: 0.9em;
+}
+
+.avatarBlock {
+  flex: 0 0 170px;
+  width: 170px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.mainContent {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 3px;
+  min-width: 0;
+  font-size: 1.8em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.flagSpace {
+  margin-left: 6px;
+}
+
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.avatar {
   background-color: white;
   border: 1px solid lightgray;
 }
 
-#avatar > img {
+.avatar > img {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
@@ -22,21 +79,50 @@
   width: unset;
 }
 
-#col {
-  width: 180px;
+.metricCard {
+  height: 82px;
+  width: 100%;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 1) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 251, 243, 0.46),
+    rgba(255, 255, 255, 0.18)
+  ) !important;
+  box-shadow: 2px 7px 10px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: blur(2px) saturate(250%);
+  -webkit-backdrop-filter: blur(2px) saturate(250%);
 }
 
-#title {
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
+  gap: 10px;
   margin-top: 10px;
-  margin-bottom: 3px;
+  width: 100%;
 }
 
-.link {
-  font-size: 17px;
+.metricCell {
+  min-width: 0;
+  width: 100%;
+  display: flex;
 }
 
-.text {
-  font-weight: 500;
-  color: rgb(82, 99, 126);
-  font-size: 18px;
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .avatarBlock {
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .mainContent {
+    width: 100%;
+  }
 }

@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
     // Verify that the search results contain "Oscar Alberto Zapata Noreña".
     await test.step('Verify search results contain "Oscar Alberto Zapata Noreña"', async () => {
       await expect(
-        page.getByText("Oscar Alberto Zapata Noreña").first()
+        page.getByText("Oscar Alberto Zapata Noreña").first(),
       ).toBeVisible();
     });
 
@@ -61,7 +60,7 @@ test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 92 * 0.8; // 20% error margin
@@ -80,9 +79,11 @@ test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -91,15 +92,15 @@ test.describe("Testing Oscar Alberto Zapata Noreña profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000707619, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000707619"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000707619"]`,
+        ),
       ).toBeVisible();
     });
 
     // Verify that the ORCID link with his ID is visible and correct.
     await test.step("Verify ORCID link with ID: 0000-0001-5533-4014, is correct", async () => {
       await expect(
-        page.locator(`a[href="https://orcid.org/0000-0001-5533-4014"]`)
+        page.locator(`a[href="https://orcid.org/0000-0001-5533-4014"]`),
       ).toBeVisible();
     });
 

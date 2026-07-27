@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Jairo Alexis Rodriguez profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
     // Verify that the search results contain "Jairo Alexis Rodriguez Lopez".
     await test.step('Verify search results contain "Jairo Alexis Rodriguez Lopez"', async () => {
       await expect(
-        page.getByText(/Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i).first()
+        page.getByText(/Jairo Alexis Rodr(i|í)guez L(o|ó)pez/i).first(),
       ).toBeVisible();
     });
 
@@ -59,7 +58,7 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 404 * 0.8; // 20% error margin
@@ -75,9 +74,11 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -86,8 +87,8 @@ test.describe("Testing Jairo Alexis Rodriguez profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000066249, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000066249"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000066249"]`,
+        ),
       ).toBeVisible();
     });
 

@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from "@playwright/test";
 
 test.describe("Testing Camilo Echandia Castilla profile", () => {
@@ -30,7 +29,7 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
     // Verify that the search results contain "Camilo Echandia Castilla".
     await test.step('Verify search results contain "Camilo Echandia Castilla"', async () => {
       await expect(
-        page.getByText(/Camilo Echand(i|í)a Castilla/i).first()
+        page.getByText(/Camilo Echand(i|í)a Castilla/i).first(),
       ).toBeVisible();
     });
 
@@ -59,7 +58,7 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
       const productsTextContent = await productsElement.textContent();
       const productsNumber = parseInt(
         productsTextContent.match(/(\d+)/)[0],
-        10
+        10,
       );
 
       const threshold = 184 * 0.8; // 20% error margin
@@ -77,9 +76,11 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
       ];
       for (const affiliation of affiliations) {
         await test.step(`Verify affiliation: ${affiliation}`, async () => {
-          await expect(
-            page.getByText(affiliation, { exact: true })
-          ).toBeVisible();
+          const affiliationPattern = new RegExp(
+            `^${affiliation.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s*\\[.*)?$`,
+          );
+
+          await expect(page.getByText(affiliationPattern)).toBeVisible();
         });
       }
     });
@@ -88,15 +89,15 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
     await test.step("Verify CVLAC link with COD_RH: 0000169323, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000169323"]`
-        )
+          `a[href="https://scienti.minciencias.gov.co/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0000169323"]`,
+        ),
       ).toBeVisible();
     });
 
     // Verify that the ORCID link with his ID is visible and correct.
     await test.step("Verify ORCID link with ID: 0000-0002-6536-9090, is correct", async () => {
       await expect(
-        page.locator(`a[href="https://orcid.org/0000-0002-6536-9090"]`)
+        page.locator(`a[href="https://orcid.org/0000-0002-6536-9090"]`),
       ).toBeVisible();
     });
 
@@ -104,8 +105,8 @@ test.describe("Testing Camilo Echandia Castilla profile", () => {
     await test.step("Verify Scopus link with ID 55965548500, is correct", async () => {
       await expect(
         page.locator(
-          `a[href="https://www.scopus.com/authid/detail.uri?authorId=55965548500"]`
-        )
+          `a[href="https://www.scopus.com/authid/detail.uri?authorId=55965548500"]`,
+        ),
       ).toBeVisible();
     });
 
