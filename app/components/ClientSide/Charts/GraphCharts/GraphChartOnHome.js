@@ -76,7 +76,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "institutions",
         description: `${data.total_institutions?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nInstituciones`,
         tooltip: {
           title: "Instituciones",
@@ -110,7 +110,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "faculties",
         description: `${data.total_faculties?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nUnidades\nAcadémicas`,
         tooltip: {
           title: "Unidades Académicas",
@@ -129,7 +129,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "departments",
         description: `${data.total_departments?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nSubunidades\nAcadémicas`,
         tooltip: {
           title: "Subunidades Académicas",
@@ -148,7 +148,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "products",
         description: `${data.total_products?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nProductos`,
         tooltip: {
           title: "Productos",
@@ -182,7 +182,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "projects",
         description: `${data.total_projects?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nProyectos`,
         tooltip: {
           title: "Proyectos",
@@ -199,9 +199,7 @@ const GraphChartOnHome = ({ data }) => {
       },
       {
         id: "news",
-        description: `${data.total_institutions?.toLocaleString(
-          "es-CO"
-        )}\nNoticias`,
+        description: `${data.total_news?.toLocaleString("es-CO")}\nNoticias`,
         tooltip: {
           title: "Noticias",
           content:
@@ -234,7 +232,7 @@ const GraphChartOnHome = ({ data }) => {
       {
         id: "open_access",
         description: `${data.total_open_access?.toLocaleString(
-          "es-CO"
+          "es-CO",
         )}\nAcceso\nAbierto`,
         tooltip: {
           title: "Acceso Abierto",
