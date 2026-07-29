@@ -1,0 +1,51 @@
+.newsletter_section {
+  width: 100%;
+  padding: 50px 20px;
+  margin-top: 25px;
+  text-align: center;
+  height: 500px;
+}
+
+.content_container {
+  margin: 0 auto;
+}
+
+.icon {
+  font-size: 36px;
+  color: #39658c;
+  margin-bottom: 10px;
+}
+
+.main_title {
+  color: #3b72a1;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #58554bff;
+  margin-top: 0;
+}
+
+.description {
+  color: #58554bff;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+#impact {
+  color: #39658c;
+  font-weight: 700;
+}
+
+#u {
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+@media (max-width: 993px) {
+  .newsletter_section {
+    padding: 30px 15px;
+    margin-top: 50px;
+  }
+}

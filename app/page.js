@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import HomeTable from "./components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "./components/ClientSide/SearchBar/SearchBar";
 import OurDataSection from "./components/ClientSide/OurDataSection/OurDataSection";
+import NewsletterSection from "./components/ClientSide/NewsletterSection/NewsletterSection";
 
 /* Icons */
 import { DownloadOutlined, LinkOutlined } from "@ant-design/icons";
@@ -75,6 +76,7 @@ export default function Home() {
       </div>
       <br />
       <OurDataSection />
+      <NewsletterSection />
       <Row justify="center" align="middle" id={styles.cta}>
         <Row
           justify="space-around"
