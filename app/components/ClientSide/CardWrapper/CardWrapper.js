@@ -1,6 +1,5 @@
 /* Components */
-import APIButton from "../APIButton/APIButton";
-import CSVButton from "../CSVButton/CSVButton";
+import ExportMenu from "../ExportMenu/ExportMenu";
 import SortSearchResults from "../SortSearchResults/SortSearchResults";
 
 /* UI Library Components */
@@ -11,7 +10,7 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
 
 /**
  * CardWrapper is a reusable UI component that wraps result lists with a styled Ant Design Card.
- * It displays the total number of results, provides export (CSV/API) and sorting controls, and renders children content.
+ * It displays the total number of results, provides export and sorting controls, and renders children content.
  *
  * @component
  * @param {React.ReactNode} children - The content to display inside the card (typically a list of results).
@@ -28,6 +27,7 @@ export default function CardWrapper({
   total_results,
   type,
   csv,
+  xls,
   apiExpert,
 }) {
   return (
@@ -48,8 +48,12 @@ export default function CardWrapper({
       extra={
         <div style={{ display: "flex" }}>
           <SortSearchResults searchParams={searchParams} type={type} />
-          {csv && <CSVButton searchParams={searchParams} />}
-          <APIButton searchParams={searchParams} apiExpert={apiExpert} />
+          <ExportMenu
+            searchParams={searchParams}
+            apiExpert={apiExpert}
+            csv={csv}
+            xls={xls}
+          />
         </div>
       }
     >

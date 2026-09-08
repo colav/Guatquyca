@@ -67,6 +67,7 @@ export default async function WorkList({ searchParams, params, entity }) {
       total_results={data.total_results}
       type="works"
       csv={entity !== "search"}
+      xls={entity !== "search"}
       apiExpert={true}
     >
       <UseCleanupAltmetric />
