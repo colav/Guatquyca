@@ -26,6 +26,7 @@ import styles from "./styles.module.css";
 
 /* UI Library Components */
 import { Avatar } from "antd";
+import GroupRankTag from "../GroupRankTag/GroupRankTag";
 
 /**
  * EntityList is a "server-side" function component that displays a list of entities.
@@ -90,6 +91,9 @@ export default async function EntityList({ searchParams, entity }) {
                         />
                       </span>
                     )}
+                  {entity === "group" && (
+                    <GroupRankTag ranking={item.ranking} />
+                  )}
                 </div>
 
                 <AffilliationParser affiliations={item.affiliations} />
