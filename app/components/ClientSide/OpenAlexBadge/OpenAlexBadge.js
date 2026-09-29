@@ -15,7 +15,7 @@ export default function OpenAlexBadge({ number }) {
       <Image
         src="/media/OpenAlexBadge.png"
         alt={`Citations: ${number}`}
-        width={124}
+        width={137}
         height={22}
       />
       <div className={styles.numberContainer}>
