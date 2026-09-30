@@ -44,6 +44,21 @@ export default function TreeSelectFilter({ data, filterType }) {
     setValue(newValue);
   };
 
+  const findNodeTitle = (nodes, selectedValue) => {
+    for (const node of nodes) {
+      if (String(node.value ?? node.key) === String(selectedValue)) {
+        return node.title;
+      }
+
+      if (node.children) {
+        const title = findNodeTitle(node.children, selectedValue);
+        if (title) return title;
+      }
+    }
+
+    return selectedValue;
+  };
+
   return (
     <>
       <ConfigProvider
@@ -67,12 +82,32 @@ export default function TreeSelectFilter({ data, filterType }) {
           placeholder={`Selecciona uno o más ${TITLES[filterType]}`}
           treeDefaultExpandAll={false}
           onChange={onChange}
+          tagRender={({ value: selectedValue, closable, onClose }) => (
+            <Tag
+              className={styles.selectedTag}
+              closable={closable}
+              onClose={onClose}
+            >
+              {findNodeTitle(data, selectedValue)}
+            </Tag>
+          )}
           filterTreeNode={(inputValue, treeNode) =>
             treeNode.title.toLowerCase().includes(inputValue.toLowerCase())
           }
           treeTitleRender={(nodeData) => (
             <Row justify="space-between" style={{ width: "100%" }}>
-              <Col xs={19} md={20} className={styles.optionLabel}>
+              <Col
+                span={19}
+                className={`${styles.optionLabel} ${
+                  value?.some(
+                    (selectedValue) =>
+                      String(selectedValue) ===
+                      String(nodeData.value ?? nodeData.key),
+                  )
+                    ? styles.selectedOption
+                    : ""
+                }`}
+              >
                 {nodeData.title}
               </Col>
               {typeof nodeData.count !== "undefined" && (

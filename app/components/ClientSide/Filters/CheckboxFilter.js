@@ -19,6 +19,7 @@ const { Group: CheckboxGroup } = Checkbox;
 
 /* Utils */
 import { formatNumber } from "@/lib/utils/formatNumber";
+import { GROUPS_RANKING_ORDER } from "@/lib/constants";
 
 /**
  * CheckboxFilter is a client-side functional component that provides a checkbox filter for selecting multiple items.
@@ -33,11 +34,27 @@ export default function CheckboxFilter({ data, filterType }) {
   if (!data.length)
     return "No hay datos para este filtro con los criterios previamente seleccionados.";
   const query = useSearchParams();
+  const orderedData =
+    filterType === "groups_ranking"
+      ? [...data].sort((firstItem, secondItem) => {
+          const firstIndex = GROUPS_RANKING_ORDER.indexOf(
+            firstItem.value ?? firstItem.label ?? firstItem.title,
+          );
+          const secondIndex = GROUPS_RANKING_ORDER.indexOf(
+            secondItem.value ?? secondItem.label ?? secondItem.title,
+          );
+
+          return (
+            (firstIndex === -1 ? GROUPS_RANKING_ORDER.length : firstIndex) -
+            (secondIndex === -1 ? GROUPS_RANKING_ORDER.length : secondIndex)
+          );
+        })
+      : data;
   const urlStatus = query.has(filterType)
     ? query.get(filterType).split(",")
     : [];
 
-  const initialState = data.reduce((acc, { value, children }) => {
+  const initialState = orderedData.reduce((acc, { value, children }) => {
     if (children) {
       acc[value] = children
         .map((child) => child.value)
@@ -74,7 +91,7 @@ export default function CheckboxFilter({ data, filterType }) {
 
   return (
     <div className={styles.bold}>
-      {data.map(({ title, value, count, children, label }) => {
+      {orderedData.map(({ title, value, count, children, label }) => {
         if (children) {
           const allChildrenChecked =
             statusState[value].length === children.length;

@@ -16,6 +16,7 @@ import Foot from "./components/ServerSide/Footer/Footer";
 
 /* Utils */
 import ScrollToTop from "@/lib/ScrollToTop";
+import "@/lib/utils/dayjsConfig";
 
 /* Sentry */
 import * as Sentry from "@sentry/nextjs";

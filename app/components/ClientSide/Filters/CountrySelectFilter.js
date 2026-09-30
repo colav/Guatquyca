@@ -54,7 +54,7 @@ export default function CountrySelectFilter({ data, filterType }) {
         options={data}
         optionRender={(item) => (
           <Row justify="space-between" style={{ width: "100%" }}>
-            <Col xs={19} md={20} className={styles.optionLabel}>
+            <Col span={19} className={styles.optionLabel}>
               <Space>
                 <Flag
                   country={item.label}

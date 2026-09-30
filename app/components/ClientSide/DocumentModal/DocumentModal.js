@@ -22,6 +22,7 @@ import {
 /* lib */
 import { APIRequest } from "@/lib/apis/client.api";
 import { LANGUAGES } from "@/lib/constants";
+import formatSourceISSNs from "@/lib/utils/formatSourceISSNs";
 
 /* Styles */
 import style from "./styles.module.css";
@@ -65,9 +66,18 @@ export default function DocumentModal({ documentID }) {
     bibliographic_info,
   } = state.data.data;
   const { name, scimago_quartile } = source || {};
-  const { pissn, issn, scimago, openalex } = source.external_ids || {};
+  const sourceExternalIDs = Array.isArray(source?.external_ids)
+    ? source.external_ids
+    : [];
+  const sourceISSNs = Array.isArray(source?.issn) ? source.issn : [];
+  const getSourceID = (sourceName) =>
+    sourceExternalIDs.find((item) => item.source === sourceName)?.id;
+  const scimago = getSourceID("scimago");
+  const openalex = getSourceID("openalex");
   const { issue, volume, start_page, end_page, bibtex } =
     bibliographic_info || {};
+  const notAvailable = "No disponible";
+  const sourceISSNItems = formatSourceISSNs(sourceISSNs);
 
   const htmlFields = {
     doi: doi,
@@ -79,23 +89,22 @@ export default function DocumentModal({ documentID }) {
   const html = hasHtmlInfo ? htmlFields : undefined;
 
   const sourceItems = [
-    { key: "4", label: "Fuente", children: name || "No disponible" },
+    { key: "4", label: "Fuente", children: name || notAvailable },
     {
       key: "5",
       label: "Cuartil año de publicación",
-      children: scimago_quartile || "No disponible",
+      children: scimago_quartile || notAvailable,
     },
-    { key: "6", label: "Volumen", children: volume || "No disponible" },
-    { key: "7", label: "Issue", children: issue || "No disponible" },
+    { key: "6", label: "Volumen", children: volume || notAvailable },
+    { key: "7", label: "Issue", children: issue || notAvailable },
     {
       key: "8",
       label: "Páginas",
-      children: `${start_page || "No disponible"} - ${
-        end_page || "No disponible"
-      }`,
+      children: `${start_page || notAvailable} - ${end_page || notAvailable}`,
     },
-    { key: "9", label: "pISSN", children: pissn || "No disponible" },
-    { key: "10", label: "ISSN", children: issn || "No disponible" },
+    ...(sourceISSNItems.length > 0
+      ? sourceISSNItems
+      : [{ key: "issn", label: "ISSN", children: notAvailable }]),
     {
       key: "11",
       label: "Perfil OpenAlex",
@@ -104,7 +113,7 @@ export default function DocumentModal({ documentID }) {
           {openalex}
         </a>
       ) : (
-        "No disponible"
+        notAvailable
       ),
     },
   ];

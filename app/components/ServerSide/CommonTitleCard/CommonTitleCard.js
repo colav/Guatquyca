@@ -6,6 +6,7 @@ import ExternalProfiles from "../ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
 import IndexList from "../IndexList/IndexList";
 import GroupRankTag from "../GroupRankTag/GroupRankTag";
+import GlassCard from "../GlassCard/GlassCard";
 import MemberOf from "../MemberOf.js/MemberOf";
 import ProductsCount from "../ProductsCount/ProductsCount";
 import RORTypesTagList from "../RORTypesTagList/RORTypesTagList";
@@ -65,7 +66,7 @@ export default function CommonTitleCard({ data, entity }) {
 
   const renderMetricCard = (key, content) => (
     <div key={key} className={styles.metricCell}>
-      <div className={styles.metricCard}>{content}</div>
+      <GlassCard>{content}</GlassCard>
     </div>
   );
 

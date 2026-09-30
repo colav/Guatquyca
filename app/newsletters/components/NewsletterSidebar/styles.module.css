@@ -1,0 +1,79 @@
+.sidebar {
+  height: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.sidebarScroll {
+  height: 100%;
+  padding: 20px 16px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.title {
+  padding: 0 8px;
+  margin-bottom: 16px;
+}
+
+.empty {
+  padding: 0 8px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}
+
+.group {
+  margin-bottom: 20px;
+}
+
+.groupLabel {
+  display: block;
+  padding: 0 8px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.item:hover {
+  background-color: #f5f7f9;
+  color: inherit;
+}
+
+.itemActive {
+  background-color: #eef4f8;
+  border-left-color: #003e65;
+}
+
+.itemTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.itemDate {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+}
