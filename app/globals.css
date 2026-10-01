@@ -14,7 +14,7 @@ b {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 15px;
   color: rgb(134, 134, 149);
   font-weight: 400;
 }
@@ -60,7 +60,8 @@ a:hover {
 
 @keyframes button3d {
   to {
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px,
+    box-shadow:
+      rgba(0, 0, 0, 0.3) 2px 2px 6px,
       rgba(0, 0, 0, 0.2) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.05) 0px -3px 0px inset,
       rgba(250, 250, 250, 0.3) 2px 4px 5px inset;
@@ -68,5 +69,5 @@ a:hover {
 }
 
 .searchResult_link {
-  font-size: 20px;
+  font-size: 18px;
 }

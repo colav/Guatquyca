@@ -37,7 +37,7 @@ export default function MemberOf({ id }) {
   const memberships = networks_universities_colombia.members_of[id].networks;
 
   return (
-    <>
+    <div style={{ padding: "10px 0 5px 10px" }}>
       <h2 className={styles.title}>
         <IdcardOutlined /> Miembro de:
       </h2>
@@ -45,13 +45,16 @@ export default function MemberOf({ id }) {
         {memberships.map((item) => (
           <a href={item.url} key={item.name} target="_blank" rel="noreferrer">
             <Button
-              style={{ alignItems: "flex-start", padding: "0" }}
+              style={{
+                alignItems: "flex-start",
+                padding: "1px",
+              }}
               type="link"
               icon={icons[item.name]}
             />
           </a>
         ))}
       </Space>
-    </>
+    </div>
   );
 }

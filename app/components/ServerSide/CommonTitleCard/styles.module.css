@@ -1,6 +1,3 @@
-.pattern h2 {
-  font-size: 1.2em;
-}
 .pattern {
   background-color: white;
   border-radius: 7px;
@@ -20,7 +17,7 @@
 .infoRow {
   margin-top: 10px;
   color: #636a72;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .avatarBlock {
@@ -48,7 +45,7 @@
   margin-top: 0;
   margin-bottom: 3px;
   min-width: 0;
-  font-size: 1.8em;
+  font-size: 1.6em;
   display: flex;
   align-items: center;
   gap: 8px;

@@ -24,7 +24,7 @@ export default function ProductsCount({ products_count, size = "default" }) {
     );
   }
   return (
-    <>
+    <div style={{ padding: "10px 0 0 10px" }}>
       <h2 className={styles.title}>
         <CopyOutlined /> Productos:
       </h2>
@@ -33,6 +33,6 @@ export default function ProductsCount({ products_count, size = "default" }) {
           ? formatNumber(products_count)
           : "No disponible"}
       </div>
-    </>
+    </div>
   );
 }

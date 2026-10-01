@@ -42,14 +42,14 @@ const iconList = {
  */
 export default function AuthorsExternalProfiles({ profilesList }) {
   const openalexProfiles = profilesList.filter(
-    (profile) => profile.source === "openalex"
+    (profile) => profile.source === "openalex",
   );
 
   const scholarProfiles = profilesList
     .filter((profile) => profile.source === "scholar")
     .filter(
       (profile, index, self) =>
-        index === self.findIndex((p) => p.id === profile.id)
+        index === self.findIndex((p) => p.id === profile.id),
     );
 
   const uniqueProfilesList = profilesList.reduce((acc, current) => {
@@ -87,8 +87,8 @@ export default function AuthorsExternalProfiles({ profilesList }) {
   };
 
   return (
-    <>
-      <h2 style={{ margin: "0 0 5px 0", color: "gray" }}>
+    <div style={{ padding: "10px" }}>
+      <h2 style={{ margin: "0 0 5px 0", color: "gray", fontSize: "16px" }}>
         <UserOutlined /> Perfil externo:
       </h2>
       {profilesList?.length > 0 ? (
@@ -110,6 +110,6 @@ export default function AuthorsExternalProfiles({ profilesList }) {
       ) : (
         <p className={styles.noData}>No disponible</p>
       )}
-    </>
+    </div>
   );
 }
