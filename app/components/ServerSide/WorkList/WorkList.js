@@ -45,16 +45,23 @@ export default async function WorkList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/search/works", correctedParams);
+    URL = URLBuilder("/search/works", correctedParams, { view: "summary" });
   } else if (entity === "affiliation") {
     URL = URLBuilder(
       `/affiliation/${params.entity}/${params.ID}/research/products`,
       correctedParams,
+      { view: "summary" },
     );
   } else if (entity === "source") {
-    URL = URLBuilder(`/source/${params.ID}/products`, correctedParams);
+    URL = URLBuilder(`/source/${params.ID}/products`, correctedParams, {
+      view: "summary",
+    });
   } else {
-    URL = URLBuilder(`/person/${params.ID}/research/products`, correctedParams);
+    URL = URLBuilder(
+      `/person/${params.ID}/research/products`,
+      correctedParams,
+      { view: "summary" },
+    );
   }
   const { data, fullUrl } = await getData(URL);
 
