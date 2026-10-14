@@ -22,9 +22,9 @@ export default function IndexList({ h_index, h5_index }) {
   }
 
   return (
-    <>
+    <div>
       <div>
-        <h2 style={{ margin: "0 0 5px 0", color: "gray" }}>
+        <h2 style={{ margin: "0 0 5px 0", color: "gray", fontSize: "16px" }}>
           <LineChartOutlined /> Índices:
         </h2>
       </div>
@@ -40,6 +40,6 @@ export default function IndexList({ h_index, h5_index }) {
           </Tag>
         )}
       </div>
-    </>
+    </div>
   );
 }

@@ -16,7 +16,7 @@ import styles from "./styles.module.css";
  */
 export default function CitationsCount({ citations_count }) {
   return (
-    <div style={{ padding: "10px 0 5px 10px" }}>
+    <div>
       <h2 className={styles.title}>
         <CitationsIcon fill="gray" /> Citas:
       </h2>

@@ -4,6 +4,7 @@ import AuthorsExternalProfiles from "@/app/components/ServerSide/ExternalProfile
 import CardWrapper from "../../ClientSide/CardWrapper/CardWrapper";
 import CitationsCount from "../CitationsCount/CitationsCount";
 import ClientLogger from "@/lib/utils/clientLogger";
+import GlassCard from "../GlassCard/GlassCard";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
 import IndexList from "@/app/components/ServerSide/IndexList/IndexList";
 import ProductsCount from "../ProductsCount/ProductsCount";
@@ -38,19 +39,19 @@ export default async function PersonList({ searchParams }) {
     "person",
     "/search/person",
   );
-  const URL = URLBuilder("/app/search/person", correctedParams);
+  const URL = URLBuilder("/search/person", correctedParams);
   const { data, fullUrl } = await getData(URL);
 
   const renderMetricCard = (key, content) => (
     <div key={key} className={styles.metricCell}>
-      <div className={styles.metricCard}>{content}</div>
+      <GlassCard className={styles.metricCard}>{content}</GlassCard>
     </div>
   );
 
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="person"
       csv={false}
       api={true}
@@ -118,7 +119,7 @@ export default async function PersonList({ searchParams }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

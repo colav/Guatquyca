@@ -87,7 +87,7 @@ export default function AuthorsExternalProfiles({ profilesList }) {
   };
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div>
       <h2 style={{ margin: "0 0 5px 0", color: "gray", fontSize: "16px" }}>
         <UserOutlined /> Perfil externo:
       </h2>

@@ -26,7 +26,7 @@ export default async function SourcesList({ searchParams }) {
     "sources",
     "/search/sources",
   );
-  let URL = URLBuilder("/app/search/sources", correctedParams);
+  let URL = URLBuilder("/search/sources", correctedParams);
 
   const { data, fullUrl } = await getData(URL);
 
@@ -36,10 +36,9 @@ export default async function SourcesList({ searchParams }) {
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="sources"
       csv={false}
-      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -47,7 +46,7 @@ export default async function SourcesList({ searchParams }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

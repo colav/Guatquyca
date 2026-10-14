@@ -162,7 +162,7 @@ export default function ExternalProfiles({ idsList, entity }) {
   };
 
   return (
-    <div style={{ padding: "10px 0 5px 10px" }}>
+    <div>
       <h2 style={{ margin: "0 0 5px 0", color: "gray", fontSize: "16px" }}>
         <UserOutlined /> Perfil externo:
       </h2>

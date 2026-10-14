@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
  * @returns {JSX.Element} A div containing a CommonTitleCard component displaying the entity data and the child components.
  */
 export default async function EntityPage({ params, children }) {
-  const URL = `/app/affiliation/${params.entity}/${params.ID}`;
+  const URL = `/affiliation/${params.entity}/${params.ID}`;
   const { data, fullUrl } = await getData(URL);
 
   return (

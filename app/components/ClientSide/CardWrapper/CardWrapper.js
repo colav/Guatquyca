@@ -18,7 +18,6 @@ import { SINGULAR_TITLES, TITLES } from "@/lib/constants";
  * @param {number} total_results - The total number of results to display in the card title.
  * @param {string} type - The type of entity being listed (used for title pluralization).
  * @param {boolean} [csv] - If true, shows the CSV export button.
- * @param {boolean} [apiExpert] - If true, links the /apiExpert endpoint instead /app.
  * @returns {JSX.Element} The wrapped card component with controls and children.
  */
 export default function CardWrapper({
@@ -28,7 +27,6 @@ export default function CardWrapper({
   type,
   csv,
   xls,
-  apiExpert,
 }) {
   return (
     <Card
@@ -48,12 +46,7 @@ export default function CardWrapper({
       extra={
         <div style={{ display: "flex" }}>
           <SortSearchResults searchParams={searchParams} type={type} />
-          <ExportMenu
-            searchParams={searchParams}
-            apiExpert={apiExpert}
-            csv={csv}
-            xls={xls}
-          />
+          <ExportMenu searchParams={searchParams} csv={csv} xls={xls} />
         </div>
       }
     >

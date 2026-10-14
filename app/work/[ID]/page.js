@@ -52,7 +52,7 @@ export const metadata = {
  *
  */
 export default async function WorkPage({ params }) {
-  const URL = `/app/work/${params.ID}`;
+  const URL = `/work/${params.ID}`;
   const { data } = await getData(URL);
   const workData = data.data;
 

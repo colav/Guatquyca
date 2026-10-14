@@ -50,7 +50,7 @@ export default function FileFetcher({
 
     fetch(
       URLBuilder(
-        `${process.env.NEXT_PUBLIC_CLIENT_API}/app${pathname}/${fileType}`,
+        `${process.env.NEXT_PUBLIC_CLIENT_API}${pathname}/${fileType}`,
         filteredQueryParams,
       ),
       {

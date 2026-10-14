@@ -20,7 +20,7 @@ import { Col, Row } from "antd";
  *
  */
 export default async function OurDataSection() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/app/info`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/info`, {
     cache: "force-cache",
   });
 

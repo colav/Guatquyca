@@ -40,17 +40,14 @@ export default async function ProjectsList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/projects", correctedParams);
+    URL = URLBuilder("/search/projects", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
-      `/app/affiliation/${params.entity}/${params.ID}/research/projects`,
+      `/affiliation/${params.entity}/${params.ID}/research/projects`,
       correctedParams,
     );
   } else {
-    URL = URLBuilder(
-      `/app/person/${params.ID}/research/projects`,
-      correctedParams,
-    );
+    URL = URLBuilder(`/person/${params.ID}/research/projects`, correctedParams);
   }
   const { data, fullUrl } = await getData(URL);
 
@@ -60,10 +57,9 @@ export default async function ProjectsList({ searchParams, params, entity }) {
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="projects"
       csv={false}
-      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -71,7 +67,7 @@ export default async function ProjectsList({ searchParams, params, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

@@ -14,7 +14,7 @@ export async function generateMetadata() {
 }
 
 export default async function SourceLayout({ params, children }) {
-  const URL = `/app/source/${params.ID}`;
+  const URL = `/source/${params.ID}`;
   const { data, fullUrl } = await getData(URL);
 
   return (

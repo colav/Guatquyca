@@ -5,6 +5,7 @@ import CitationsCount from "../CitationsCount/CitationsCount";
 import ClientLogger from "@/lib/utils/clientLogger";
 import ExternalProfiles from "@/app/components/ServerSide/ExternalProfiles/ExternalProfiles";
 import Flag from "../Flag/Flag";
+import GlassCard from "../GlassCard/GlassCard";
 import GroupRankTag from "../GroupRankTag/GroupRankTag";
 import IndexList from "../IndexList/IndexList";
 import PaginationController from "@/app/components/ClientSide/PaginationController/PaginationController";
@@ -41,22 +42,21 @@ export default async function EntityList({ searchParams, entity }) {
     entity,
     `/search/affiliations/${entity}`,
   );
-  const URL = URLBuilder(`/app/search/affiliations/${entity}`, correctedParams);
+  const URL = URLBuilder(`/search/affiliations/${entity}`, correctedParams);
   const { data, fullUrl } = await getData(URL);
 
   const renderMetricCard = (key, content) => (
     <div key={key} className={styles.metricCell}>
-      <div className={styles.metricCard}>{content}</div>
+      <GlassCard className={styles.metricCard}>{content}</GlassCard>
     </div>
   );
 
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type={entity}
       csv={false}
-      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -149,7 +149,7 @@ export default async function EntityList({ searchParams, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

@@ -40,7 +40,7 @@ export default function ShowMoreAPICall({
         setLoading(true);
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${workID}/authors`
+            `${process.env.NEXT_PUBLIC_CLIENT_API}/work/${workID}/authors`,
           );
           if (!response.ok) {
             throw new Error("Network response was not ok");

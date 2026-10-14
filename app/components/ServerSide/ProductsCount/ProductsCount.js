@@ -24,7 +24,7 @@ export default function ProductsCount({ products_count, size = "default" }) {
     );
   }
   return (
-    <div style={{ padding: "10px 0 0 10px" }}>
+    <div>
       <h2 className={styles.title}>
         <CopyOutlined /> Productos:
       </h2>

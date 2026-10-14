@@ -25,12 +25,11 @@ import { App, Button, Dropdown } from "antd";
  * ExportMenu groups the API, CSV, and Excel actions into one compact control.
  *
  * @param {Object} searchParams - The query parameters used to build the export URLs.
- * @param {boolean} apiExpert - If true, links to the /apiExpert endpoint instead of /app.
  * @param {boolean} csv - If true, shows the CSV export action.
  * @param {boolean} xls - If true, shows the Excel export action.
  * @returns {JSX.Element} The export dropdown.
  */
-function ExportMenuContent({ searchParams, apiExpert, csv, xls }) {
+function ExportMenuContent({ searchParams, csv, xls }) {
   const pathname = usePathname();
   const { modal } = App.useApp();
 
@@ -59,9 +58,10 @@ function ExportMenuContent({ searchParams, apiExpert, csv, xls }) {
       icon: <CodeOutlined />,
       onClick: () => {
         window.open(
-          `${process.env.NEXT_PUBLIC_CLIENT_API}${
-            apiExpert ? "" : "/app"
-          }${URLBuilder(pathname, searchParams)}`,
+          `${process.env.NEXT_PUBLIC_CLIENT_API}${URLBuilder(
+            pathname,
+            searchParams,
+          )}`,
           "_blank",
           "noopener,noreferrer",
         );

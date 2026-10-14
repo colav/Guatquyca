@@ -45,30 +45,26 @@ export default async function WorkList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/works", correctedParams);
+    URL = URLBuilder("/search/works", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
-      `/app/affiliation/${params.entity}/${params.ID}/research/products`,
+      `/affiliation/${params.entity}/${params.ID}/research/products`,
       correctedParams,
     );
   } else if (entity === "source") {
-    URL = URLBuilder(`/app/source/${params.ID}/products`, correctedParams);
+    URL = URLBuilder(`/source/${params.ID}/products`, correctedParams);
   } else {
-    URL = URLBuilder(
-      `/app/person/${params.ID}/research/products`,
-      correctedParams,
-    );
+    URL = URLBuilder(`/person/${params.ID}/research/products`, correctedParams);
   }
   const { data, fullUrl } = await getData(URL);
 
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="works"
       csv={entity !== "search"}
       xls={entity !== "search"}
-      apiExpert={true}
     >
       <UseCleanupAltmetric />
       <MathJax />
@@ -80,7 +76,7 @@ export default async function WorkList({ searchParams, params, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

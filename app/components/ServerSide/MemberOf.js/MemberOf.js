@@ -37,7 +37,7 @@ export default function MemberOf({ id }) {
   const memberships = networks_universities_colombia.members_of[id].networks;
 
   return (
-    <div style={{ padding: "10px 0 5px 10px" }}>
+    <div>
       <h2 className={styles.title}>
         <IdcardOutlined /> Miembro de:
       </h2>

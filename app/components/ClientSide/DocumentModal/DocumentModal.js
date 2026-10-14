@@ -40,7 +40,7 @@ import { Col, Divider, Descriptions, Row } from "antd";
  * If the document's information is still loading, a Loading component is returned.
  */
 export default function DocumentModal({ documentID }) {
-  const [state] = APIRequest(`/app/work/${documentID}`);
+  const [state] = APIRequest(`/work/${documentID}`);
 
   if (state.isError) {
     return <Error />;

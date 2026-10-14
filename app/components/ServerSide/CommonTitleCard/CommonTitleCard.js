@@ -66,7 +66,7 @@ export default function CommonTitleCard({ data, entity }) {
 
   const renderMetricCard = (key, content) => (
     <div key={key} className={styles.metricCell}>
-      <GlassCard>{content}</GlassCard>
+      <GlassCard className={styles.metricCard}>{content}</GlassCard>
     </div>
   );
 
