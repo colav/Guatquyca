@@ -30,10 +30,9 @@ export default function NumberRangeFilter({ data, filterType }) {
   const [value, setValue] = useState(() => {
     const param = query.get(filterType);
     const [min, max] = param?.split("-") || [];
-    const maxAuthors = data?.max_authors;
     return [
-      min && maxAuthors ? Math.min(Number(min), maxAuthors) : null,
-      max && maxAuthors ? Math.min(Number(max), maxAuthors) : null,
+      min ? Math.max(Number(min), 1) : null,
+      max ? Math.max(Number(max), 1) : null,
     ];
   });
 
@@ -44,6 +43,8 @@ export default function NumberRangeFilter({ data, filterType }) {
   const [minValue, maxValue] = value;
   const hasBothValues = minValue !== null && maxValue !== null;
   const hasValidOrder = !hasBothValues || minValue <= maxValue;
+  const normalizeValue = (nextValue) =>
+    nextValue === null ? null : Math.max(nextValue, 1);
 
   return (
     <>
@@ -51,8 +52,11 @@ export default function NumberRangeFilter({ data, filterType }) {
         <div className={styles.numberRangeField}>
           <span className={styles.numberRangeLabel}>Min</span>
           <InputNumber
+            min={1}
             value={minValue}
-            onChange={(nextValue) => setValue([nextValue, maxValue])}
+            onChange={(nextValue) =>
+              setValue([normalizeValue(nextValue), maxValue])
+            }
             style={{ width: "100%" }}
           />
         </div>
@@ -60,9 +64,12 @@ export default function NumberRangeFilter({ data, filterType }) {
         <div className={styles.numberRangeField}>
           <span className={styles.numberRangeLabel}>Max</span>
           <InputNumber
+            min={1}
             value={maxValue}
             status={!hasValidOrder ? "error" : undefined}
-            onChange={(nextValue) => setValue([minValue, nextValue])}
+            onChange={(nextValue) =>
+              setValue([minValue, normalizeValue(nextValue)])
+            }
             style={{ width: "100%" }}
           />
         </div>
