@@ -18,9 +18,15 @@ import URLBuilder from "@/lib/utils/URLBuilder";
  * @param {Array} value - The selected filter values.
  * @param {string} filterType - The type of filter to apply.
  * @param {URLSearchParams} query - The current query parameters.
+ * @param {string} [separator=","] - The separator used to serialize values.
  * @returns {JSX.Element} The ApplyFilter component.
  */
-export default function ApplyFilter({ value, filterType, query }) {
+export default function ApplyFilter({
+  value,
+  filterType,
+  query,
+  separator = ",",
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,7 +40,7 @@ export default function ApplyFilter({ value, filterType, query }) {
     queryParams.max = 10;
     queryParams.page = 1;
     const URL = URLBuilder(pathname, queryParams, {
-      [filterType]: value.join(","),
+      [filterType]: value.join(separator),
     });
     if (value?.length) {
       router.push(URL);
@@ -53,7 +59,7 @@ export default function ApplyFilter({ value, filterType, query }) {
         type="primary"
         size="small"
         onClick={onClick}
-        disabled={applyFilterButtonChecker(value, query, filterType)}
+        disabled={applyFilterButtonChecker(value, query, filterType, separator)}
       >
         Aplicar filtro
       </Button>

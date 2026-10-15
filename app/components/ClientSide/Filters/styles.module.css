@@ -45,6 +45,33 @@
   margin-right: 10px;
 }
 
+.numberRange {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.numberRangeField {
+  position: relative;
+  flex: 1;
+}
+
+.numberRangeLabel {
+  position: absolute;
+  top: -7px;
+  left: 10px;
+  z-index: 1;
+  padding: 0 4px;
+  background-color: #fafafa;
+  color: #595959;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.numberRangeSeparator {
+  color: #595959;
+}
+
 .collapse_header {
   background-color: #3983de !important;
 }
