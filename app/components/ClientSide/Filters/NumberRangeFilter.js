@@ -54,6 +54,7 @@ export default function NumberRangeFilter({ data, filterType }) {
           <InputNumber
             min={1}
             value={minValue}
+            placeholder={`Desde (${data.min_authors || 1})`}
             onChange={(nextValue) =>
               setValue([normalizeValue(nextValue), maxValue])
             }
@@ -67,6 +68,7 @@ export default function NumberRangeFilter({ data, filterType }) {
             min={1}
             value={maxValue}
             status={!hasValidOrder ? "error" : undefined}
+            placeholder={`Hasta (${data.max_authors})`}
             onChange={(nextValue) =>
               setValue([minValue, normalizeValue(nextValue)])
             }

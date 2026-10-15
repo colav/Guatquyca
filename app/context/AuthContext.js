@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   /**
-   * Rehydrates session state from /app/me
+   * Rehydrates session state from /me
    */
   useEffect(() => {
     getMe()
