@@ -46,3 +46,5 @@ node_modules/
 
 # Copilot
 copilot-instructions.md
+# observatories: test data copied from the published artifacts (never committed)
+/mock-data/
