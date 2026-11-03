@@ -56,23 +56,21 @@ export const CANDIDATE_COUNT = 120;
 /**
  * Two-phase review (01 D-089, D-090, D-097). Phase 1 is the cosine list with
  * no classification buttons; phase 2 is the same 120 topics reordered by the
- * reranker, with buttons, a visible position and a tooltip.
- *
- * [mock] The reranker endpoint (`POST /app/theme/candidates/rerank`, contract
- * 02 version 8) does not exist yet, so phase 2 is simulated by
- * lib/rerankMock.js. When the backend deploys it, replace that call in
- * new/page.js with the real API function and delete the mock module.
+ * reranker, with buttons, a visible position and a tooltip. Phase 2 is
+ * `POST /app/theme/candidates/rerank` (contract 02 version 8, §3.10); it takes
+ * about 11 s with a GPU.
  */
-export const RERANK_MOCK_DELAY_MS = 10000;
 
 /** Phase 1 notice, with a spinner, while the list is being reordered. Text proposed by the frontend; Luis has not approved it. */
 export const RERANK_PENDING_MESSAGE =
   "Esta es una lista temporal, ordenada solo por similitud. La estamos reorganizando para recomendarte primero los tópicos más cercanos al eje (tarda unos 10 segundos).";
 
 /**
- * Shown when the reordering is not available or fails: the cosine list is
- * kept and the buttons are enabled. This is the frontend's reading of the
- * proposal in 01 D-097, still pending Luis's decision; text not approved.
+ * Shown when the reordering is not available (`reranking_available: false`)
+ * or fails (503 `reranker_unavailable`, any other error): the cosine list is
+ * kept and the buttons are enabled (02 §3.10.7). Design option (a) approved by
+ * architecture, pending Luis's final confirmation; text not yet approved by
+ * Luis (he approves it on screen).
  */
 export const RERANK_FALLBACK_MESSAGE =
   "No se pudo reorganizar la lista, así que se conserva el orden por similitud. Ya puedes clasificar los tópicos.";

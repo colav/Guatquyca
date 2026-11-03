@@ -4,7 +4,11 @@
 import { useRouter } from "next/navigation";
 
 /* APIs */
-import { createTheme, getCandidates } from "@/lib/apis/theme.api";
+import {
+  createTheme,
+  getCandidates,
+  rerankCandidates,
+} from "@/lib/apis/theme.api";
 
 /* Components */
 import FlowHeader from "@/app/theme-curation/components/FlowHeader";
@@ -22,7 +26,6 @@ import styles from "@/app/theme-curation/styles.module.css";
 import { CANDIDATE_COUNT } from "@/app/theme-curation/lib/constants";
 import { errorMessage } from "@/app/theme-curation/lib/errors";
 import { persistAllTopics } from "@/app/theme-curation/lib/persist";
-import { mockRerankCandidates } from "@/app/theme-curation/lib/rerankMock";
 
 /**
  * ThemeCurationNewPage drives the full multi-step Theme Curation creation
@@ -77,16 +80,28 @@ export default function ThemeCurationNewPage() {
   // connection, ...); null when it did not (01 D-052).
   const [failureReason, setFailureReason] = useState(null);
 
-  // Phase 2 [mock]: reorders the phase 1 list. The real call is
-  // POST /app/theme/candidates/rerank (contract 02 version 8, not deployed);
-  // swap it in here and delete lib/rerankMock.js when it exists.
-  const startRerank = async (phaseOneList) => {
+  // Phase 2 (02 §3.10, D-097): POST /app/theme/candidates/rerank with the
+  // phase 1 list in its order; the answer is the same topics reordered. Any
+  // failure (503 `reranker_unavailable`, 400, no connection, a request that
+  // takes too long) keeps the cosine list with the buttons on (02 §3.10.7).
+  const startRerank = async (phaseOneList, seed) => {
     const run = ++rerankRun.current;
     setRerankStatus("pending");
     try {
-      const reordered = await mockRerankCandidates(phaseOneList);
+      const reordered = await rerankCandidates({
+        seedText: seed,
+        topicIds: phaseOneList.map((t) => t.topic_id),
+      });
       if (run !== rerankRun.current) return;
-      setCandidates(reordered.data);
+      // Keep every phase 1 field and take the new order and positions from
+      // the answer; the reranker's own score is never sent (D-090).
+      const byId = new Map(phaseOneList.map((t) => [t.topic_id, t]));
+      setCandidates(
+        reordered.data.map((t) => ({
+          ...byId.get(t.topic_id),
+          ...t,
+        })),
+      );
       setRerankStatus("done");
     } catch {
       if (run !== rerankRun.current) return;
@@ -108,14 +123,18 @@ export default function ThemeCurationNewPage() {
       setTotalResults(result.total_results ?? 0);
       setTruncated(result.truncated === true);
       setCurrent(1);
-      // `reranking_available` is announced for contract 02 version 8; the
-      // deployed backend does not send it yet, so only an explicit false
-      // skips the reordering.
-      if (result.reranking_available === false) {
+      // `reranking_available: false` (02 §3.1) means the reranker did not
+      // answer a health check, so the cosine list stays from the start.
+      // A backend that does not send the field (before version 8) is treated
+      // as available.
+      if (list.length === 0) {
+        rerankRun.current += 1;
+        setRerankStatus("idle");
+      } else if (result.reranking_available === false) {
         rerankRun.current += 1;
         setRerankStatus("failed");
       } else {
-        startRerank(list);
+        startRerank(list, seedText);
       }
     } catch (e) {
       setError(
