@@ -33,3 +33,10 @@ test("no chart component of the observatories writes a hex colour", () => {
   roots.forEach(walk);
   expect(offenders).toEqual([]);
 });
+
+test("the colours of Board 2 come from PALETTE too", async () => {
+  const { COLLAB_TYPE_COLORS, SECTOR_COLORS, NORTH_SOUTH_COLORS, CENTER_COLORS, CENTER_OTHER_COLOR } = await import("../../lib/observatories/palette");
+  [...COLLAB_TYPE_COLORS, ...Object.values(SECTOR_COLORS), ...Object.values(NORTH_SOUTH_COLORS), ...CENTER_COLORS, CENTER_OTHER_COLOR].forEach((c) => expect(PALETTE).toContain(c));
+  expect(new Set(COLLAB_TYPE_COLORS).size).toBe(COLLAB_TYPE_COLORS.length);
+  expect(new Set(Object.values(SECTOR_COLORS)).size).toBe(Object.keys(SECTOR_COLORS).length);
+});

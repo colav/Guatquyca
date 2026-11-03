@@ -19,6 +19,7 @@ const BOARDS = [
     key: "board-2",
     title: "Tablero 2 · Colaboración, redes y hélices",
     description: "Colaboración entre grupos, con organizaciones no académicas y entre países.",
+    href: "/observatories/vri-udea/board-2",
   },
   {
     key: "board-3",

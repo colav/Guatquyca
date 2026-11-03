@@ -1,0 +1,312 @@
+"use client";
+
+/* Hooks */
+import { useEffect, useMemo, useState } from "react";
+
+/* Components */
+import ChartCard from "@/app/observatories/components/ChartCard";
+import DonutChart from "@/app/observatories/components/DonutChart";
+import CollabGraph from "./CollabGraph";
+import FiltersBar from "./FiltersBar";
+import TileCartogram from "./TileCartogram";
+import { CountriesTable, DomainTable, GoalsTable, KpiRow, Note, StatTiles } from "./Board2Parts";
+import { SegmentedBarsChart, TrendLinesChart, WorldBubblesChart } from "./Charts";
+
+/* lib */
+import {
+  AXIS_TABS,
+  COLLAB_FILTER_DEBOUNCE_MS,
+  DEFAULT_COLLAB_FILTERS,
+  LIMITS,
+  NON_ACADEMIC_SECTORS,
+  SUBREGION_TABS,
+  computeCollaboration,
+  parseCollabFilters,
+  sameCollabFilters,
+  serializeCollabFilters,
+} from "@/lib/observatories/collaboration";
+import { loadBoard2Dataset } from "@/lib/observatories/data/collaborationAdapter";
+import { COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
+import { useStableValue } from "@/app/observatories/components/useStableValue";
+import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
+
+/* Texts */
+import {
+  BOARD_EYEBROW,
+  BOARD_LEAD,
+  BOARD_TITLE,
+  COLOMBIA_GRID,
+  COLOMBIA_TILES,
+  FOOTER_TEXT,
+  MOCK_TAG,
+  NOTES,
+  NOTICE,
+  SIDE_LABELS,
+  SUBREGION_GRID,
+  SUBREGION_TILES,
+  abbreviate,
+} from "./boardTexts";
+import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
+
+/* UI Library Components */
+import { Alert, Col, Collapse, Result, Row, Segmented, Skeleton, Tag, Typography } from "antd";
+
+/* Constants */
+const fmt = (n) => Number(n).toLocaleString("es-CO");
+const URL_FILTERS = {
+  defaults: DEFAULT_COLLAB_FILTERS,
+  parse: parseCollabFilters,
+  serialize: serializeCollabFilters,
+  same: sameCollabFilters,
+  debounceMs: COLLAB_FILTER_DEBOUNCE_MS,
+};
+const SEGMENT = (series, value) => ({ series, value });
+const TAB_OPTIONS = (labels) => labels.map((label, value) => ({ label, value }));
+
+/**
+ * Board 2 · Colaboración, redes y hélices. Loads the dataset through the adapter; all the
+ * computation lives in lib/observatories/collaboration (pure functions).
+ */
+export default function Board2() {
+  const [state, setState] = useState({ status: "loading" });
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadBoard2Dataset({ signal: controller.signal })
+      .then((dataset) => setState({ status: "ready", dataset }))
+      .catch((error) => {
+        if (error.name !== "AbortError") setState({ status: "error", error });
+      });
+    return () => controller.abort();
+  }, []);
+
+  if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
+  if (state.status === "error") {
+    return (
+      <Result
+        status="warning"
+        title="No se pudieron cargar los datos del tablero."
+        subTitle={state.error.status === 404 ? "Los datos de prueba no están disponibles en este equipo." : "Intente de nuevo en unos minutos."}
+      />
+    );
+  }
+  return <Board2Content dataset={state.dataset} />;
+}
+
+function Board2Content({ dataset }) {
+  const { raw } = dataset;
+  const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
+  const [domainTab, setDomainTab] = useState(0);
+  const [axisTab, setAxisTab] = useState(AXIS_TABS.length - 1);
+  const [subregionTab, setSubregionTab] = useState(0);
+
+  const result = useMemo(() => computeCollaboration(dataset, applied), [dataset, applied]);
+
+  /* Colours by series label (from palette.js). */
+  const typeColors = useMemo(() => Object.fromEntries(raw.tipos.map((t, i) => [t, COLLAB_TYPE_COLORS[i]])), [raw]);
+  const trendColors = useMemo(() => ({ ...typeColors, "Proyectos (inicio)": COLLAB_TYPE_COLORS[4] }), [typeColors]);
+  const sectorColors = useMemo(() => Object.fromEntries(raw.sectors.map((s, i) => [raw.sectorsEs[i], SECTOR_COLORS[s]])), [raw]);
+  const nonAcademicColors = useMemo(() => Object.fromEntries(NON_ACADEMIC_SECTORS.map((s) => [raw.sectorsEs[dataset.sectorIndex[s]], SECTOR_COLORS[s]])), [raw, dataset]);
+  const sideColors = useMemo(() => ({ [SIDE_LABELS.north]: NORTH_SOUTH_COLORS.north, [SIDE_LABELS.south]: NORTH_SOUTH_COLORS.south }), []);
+  const rankingColors = useMemo(() => ({ Subcampos: RANKING_COLOR }), []);
+
+  /* Each chart receives a value that keeps its reference while its content does not change. */
+  const transdisciplinary = useStableValue(
+    result.transdisciplinary.map((r) => ({ label: r.label, detail: `${r.value} subcampos · ${r.fields} campos · ${r.articles} artículos`, segments: [SEGMENT("Subcampos", r.value)] })),
+  );
+  const organizations = useStableValue(
+    result.organizations.map((r) => ({ label: r.label + (r.verify ? " (verificar)" : ""), segments: raw.tipos.map((t, i) => SEGMENT(t, r.byType[i])) })),
+  );
+  const sectorValues = useStableValue(result.sectors.map((s) => s.value));
+  const sectorLabels = useStableValue(result.sectors.map((s) => s.label));
+  const sectorDonutColors = useStableValue(result.sectors.map((s) => SECTOR_COLORS[s.sector]));
+  const years = useStableValue(result.years);
+  const trendArticles = useStableValue(result.trendArticles);
+  const trendOthers = useStableValue(result.trendOthers);
+  const regions = useStableValue(result.regions.map((r) => ({ label: r.label, segments: [SEGMENT(r.north ? SIDE_LABELS.north : SIDE_LABELS.south, r.value)] })));
+  const world = useStableValue(
+    result.countries.map((c, i) => ({ name: c.n, region: c.r, lat: c.ll[0], lon: c.ll[1], value: c.value, north: raw.regions.indexOf(c.r) < 4, label: i < 7 ? `${c.n} ${fmt(c.value)}` : "" })),
+  );
+  const worldTable = useStableValue(result.countries.slice(0, LIMITS.countriesTable).map((c) => ({ name: c.n, region: c.r, value: c.value })));
+  const axisRows = useMemo(() => result.axisRows(axisTab).map((r) => ({ label: r.label, segments: NON_ACADEMIC_SECTORS.map((s) => SEGMENT(raw.sectorsEs[dataset.sectorIndex[s]], r.counts[s])) })), [result, axisTab, raw, dataset]);
+  const axisRowsStable = useStableValue(axisRows);
+  const domainRows = useStableValue(useMemo(() => result.domainRows(domainTab), [result, domainTab]));
+  const subregionCounts = useStableValue(useMemo(() => result.subregionCounts(subregionTab), [result, subregionTab]));
+  const departments = useStableValue(result.departments);
+  const funders = useMemo(
+    () => raw.funders.slice(0, 25).map((f) => ({ label: f.nm.trim(), segments: [SEGMENT(raw.sectorsEs[dataset.sectorIndex[f.fsector]], f.proyectos)] })),
+    [raw, dataset],
+  );
+
+  /* Centres of the graph in colour order (first appearance among the nodes). */
+  const graphCenters = useStableValue([...new Set(result.graph.nodes.map((n) => n.center))].filter((c) => c >= 0));
+  const graph = useStableValue(result.graph);
+  const kpis = useStableValue(result.kpis);
+  const h = result.helices;
+  const helices = useStableValue([
+    { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` },
+    { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects },
+    { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
+    { label: "artículos con empresa", value: h.withCompany },
+    { label: "artículos con gobierno", value: h.withGovernment },
+    { label: "artículos con hospitales/clínicas", value: h.withHealthcare },
+  ]);
+  const quadruple = useStableValue([
+    { label: "artículos UdeA + empresa + ONG + gobierno", value: h.quadruple },
+    { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects },
+    { label: "apropiación social con empresa u ONG", value: h.appropriationWithCompanyOrNonprofit, detail: `${fmt(h.appropriationTotal)} productos de apropiación en el filtro` },
+    { label: "artículos con sin ánimo de lucro", value: h.withNonprofit },
+    { label: "artículos gobierno + ONG", value: h.governmentNonprofit },
+    { label: "artículos empresa + ONG", value: h.companyNonprofit },
+  ]);
+  const iap = result.iap;
+  const iapStats = useStableValue([
+    { label: "productos que mencionan IAP en el título", value: iap.works, detail: `${fmt(iap.articles)} artículos · ${fmt(iap.chapters)} capítulos` },
+    { label: "proyectos que mencionan IAP", value: iap.projects },
+  ]);
+  const northSouth = useStableValue([
+    { label: "productos Sur–Norte", value: result.northSouth.north },
+    { label: "productos Sur–Sur", value: result.northSouth.south },
+  ]);
+
+  const departmentCounts = departments;
+  const unassigned = departments["Sin asignar"];
+
+  return (
+    <div>
+      <header style={{ marginBottom: 16 }}>
+        <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
+        <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
+        <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
+        <div style={{ marginBottom: 8 }}>
+          <Tag color="gold">{MOCK_TAG}</Tag>
+          {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
+        </div>
+        <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={NOTICE} style={{ marginBottom: 8 }} />
+        <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
+      </header>
+
+      <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
+      {pending ? <Typography.Text type="secondary">Actualizando…</Typography.Text> : null}
+      <KpiRow kpis={kpis} />
+
+      <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
+        <Col xs={24} xl={12}>
+          <ChartCard title="01 · Transdisciplinariedad grupal" empty={!transdisciplinary.length}>
+            <SegmentedBarsChart rows={transdisciplinary} colors={rankingColors} labelSize={40} />
+            <Note>{NOTES.v1}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={12}>
+          <ChartCard title="02 · Grafo de colaboración entre grupos" empty={!graph.nodes.length}>
+            <CollabGraph graph={graph} centers={graphCenters} centerNames={raw.centros} />
+            <Note>{NOTES.v2}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24} xl={12}>
+          <ChartCard title="03 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
+            <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend />
+            <Note>{NOTES.v3}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={12}>
+          <ChartCard title="04 · Productos por sector no académico" empty={!sectorValues.length}>
+            <DonutChart labels={sectorLabels} values={sectorValues} colors={sectorDonutColors} />
+            <Note>{NOTES.v4}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24} xl={12}>
+          <ChartCard title="05a · Tendencia de artículos">
+            <TrendLinesChart years={years} series={trendArticles} colors={trendColors} />
+            <Note>{NOTES.v5}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={12}>
+          <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
+            <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
+            <Note>{NOTES.v5b}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24} xl={8}>
+          <ChartCard title="06 · Colaboraciones de triple hélice">
+            <StatTiles stats={helices} />
+            <Note>{NOTES.v6}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={8}>
+          <ChartCard title="07 · Colaboraciones de cuádruple hélice">
+            <StatTiles stats={quadruple} />
+            <Note>{NOTES.v7}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={8}>
+          <ChartCard title="08 · Investigación acción participativa">
+            <StatTiles stats={iapStats} />
+            <Note>{NOTES.v8}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24} lg={12} xl={8}>
+          <ChartCard title="09 · Colaboración interdepartamental">
+            <TileCartogram tiles={COLOMBIA_TILES} grid={COLOMBIA_GRID} counts={departmentCounts} unit="productos en coautoría" label={abbreviate} />
+            {unassigned ? <Note>{fmt(unassigned)} productos con instituciones colombianas sin departamento asignado. Escala logarítmica de color.</Note> : <Note>{NOTES.v9}</Note>}
+          </ChartCard>
+        </Col>
+        <Col xs={24} lg={12} xl={8}>
+          <ChartCard title="09b · Capacidades por subregión de Antioquia">
+            <Segmented block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
+            <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
+            <Note>{NOTES.v15}</Note>
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={8}>
+          <ChartCard title="11 · 12 · Sur–Norte y Sur–Sur">
+            <StatTiles stats={northSouth} />
+            <SegmentedBarsChart rows={regions} colors={sideColors} labelSize={30} legend />
+            <Note>{NOTES.v11}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24}>
+          <ChartCard title="10 · Colaboración internacional" empty={!world.length}>
+            <Row gutter={[12, 12]}>
+              <Col xs={24} xl={16}><WorldBubblesChart points={world} /></Col>
+              <Col xs={24} xl={8}><CountriesTable rows={worldTable} /></Col>
+            </Row>
+            <Note>{NOTES.v10}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24}>
+          <ChartCard title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
+            <Segmented options={TAB_OPTIONS(raw.doms)} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
+            <DomainTable rows={domainRows} />
+            <Note>{NOTES.v13}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24}>
+          <ChartCard title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
+            <Segmented options={TAB_OPTIONS(AXIS_TABS.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
+            <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend />
+            <Note>{NOTES.v14}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24}>
+          <ChartCard title="+ Entidades que financian o cofinancian proyectos (no académicas)">
+            <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend />
+            <Note>{NOTES.v16}</Note>
+          </ChartCard>
+        </Col>
+
+        <Col xs={24}>
+          <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{FOOTER_TEXT}</Typography.Paragraph>
+        </Col>
+      </Row>
+    </div>
+  );
+}

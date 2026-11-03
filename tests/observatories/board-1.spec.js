@@ -19,10 +19,10 @@ test("the home lists the VRI-UdeA observatory", async ({ page }) => {
   await expect(page.getByText("VRI-UdeA").first()).toBeVisible();
 });
 
-test("the cover shows Board 1 active and Boards 2 and 3 as coming soon", async ({ page }) => {
+test("the cover shows Boards 1 and 2 active and Board 3 as coming soon", async ({ page }) => {
   await page.goto("/observatories/vri-udea");
-  await expect(page.getByRole("link", { name: "Abrir tablero" })).toHaveCount(1);
-  await expect(page.getByText("Próximamente")).toHaveCount(2);
+  await expect(page.getByRole("link", { name: "Abrir tablero" })).toHaveCount(2);
+  await expect(page.getByText("Próximamente")).toHaveCount(1);
 });
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {

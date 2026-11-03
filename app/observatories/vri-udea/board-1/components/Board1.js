@@ -4,8 +4,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 /* Components */
-import ChartCard from "./ChartCard";
-import DonutChart from "./DonutChart";
+import ChartCard from "@/app/observatories/components/ChartCard";
+import DonutChart from "@/app/observatories/components/DonutChart";
 import FiltersBar from "./FiltersBar";
 import TopicScatter from "./TopicScatter";
 import {
