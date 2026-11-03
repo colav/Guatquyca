@@ -13,15 +13,16 @@ import ReviewStep from "@/app/theme-curation/components/ReviewStep";
 import SaveStep from "@/app/theme-curation/components/SaveStep";
 
 /* Hooks */
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 /* Styles */
 import styles from "@/app/theme-curation/styles.module.css";
 
 /* Constants & utils */
-import { TOPIC_COUNT_DEFAULT } from "@/app/theme-curation/lib/constants";
+import { CANDIDATE_COUNT } from "@/app/theme-curation/lib/constants";
 import { errorMessage } from "@/app/theme-curation/lib/errors";
 import { persistAllTopics } from "@/app/theme-curation/lib/persist";
+import { mockRerankCandidates } from "@/app/theme-curation/lib/rerankMock";
 
 /**
  * ThemeCurationNewPage drives the full multi-step Theme Curation creation
@@ -49,7 +50,6 @@ export default function ThemeCurationNewPage() {
 
   const [name, setName] = useState("");
   const [seedText, setSeedText] = useState("");
-  const [topicCount, setTopicCount] = useState(TOPIC_COUNT_DEFAULT);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -59,6 +59,12 @@ export default function ThemeCurationNewPage() {
   // True when /candidates reported it truncated the seed (`truncated: true`,
   // 01 D-008, deployed in B7). Absent only on a backend without D-008.
   const [truncated, setTruncated] = useState(false);
+  // Two-phase review (01 D-089, D-097): "idle" (no reordering requested),
+  // "pending" (phase 1, cosine list without buttons), "done" (phase 2, list
+  // reordered) or "failed" (the cosine list stays and the buttons come on).
+  const [rerankStatus, setRerankStatus] = useState("idle");
+  // Id of the latest reordering; an older answer that arrives late is dropped.
+  const rerankRun = useRef(0);
 
   const [manualTopics, setManualTopics] = useState([]);
   const [classifications, setClassifications] = useState({});
@@ -71,16 +77,46 @@ export default function ThemeCurationNewPage() {
   // connection, ...); null when it did not (01 D-052).
   const [failureReason, setFailureReason] = useState(null);
 
+  // Phase 2 [mock]: reorders the phase 1 list. The real call is
+  // POST /app/theme/candidates/rerank (contract 02 version 8, not deployed);
+  // swap it in here and delete lib/rerankMock.js when it exists.
+  const startRerank = async (phaseOneList) => {
+    const run = ++rerankRun.current;
+    setRerankStatus("pending");
+    try {
+      const reordered = await mockRerankCandidates(phaseOneList);
+      if (run !== rerankRun.current) return;
+      setCandidates(reordered.data);
+      setRerankStatus("done");
+    } catch {
+      if (run !== rerankRun.current) return;
+      setRerankStatus("failed");
+    }
+  };
+
   const handleSearchCandidates = async () => {
     setError(null);
     setLoading(true);
 
     try {
-      const result = await getCandidates({ seedText, topN: topicCount });
-      setCandidates(result.data ?? []);
+      const result = await getCandidates({
+        seedText,
+        topN: CANDIDATE_COUNT,
+      });
+      const list = result.data ?? [];
+      setCandidates(list);
       setTotalResults(result.total_results ?? 0);
       setTruncated(result.truncated === true);
       setCurrent(1);
+      // `reranking_available` is announced for contract 02 version 8; the
+      // deployed backend does not send it yet, so only an explicit false
+      // skips the reordering.
+      if (result.reranking_available === false) {
+        rerankRun.current += 1;
+        setRerankStatus("failed");
+      } else {
+        startRerank(list);
+      }
     } catch (e) {
       setError(
         errorMessage(
@@ -122,7 +158,12 @@ export default function ThemeCurationNewPage() {
     );
   };
 
-  const handleBackToSeed = () => setCurrent(0);
+  const handleBackToSeed = () => {
+    // Leaving Screen 2 drops a reordering still in flight.
+    rerankRun.current += 1;
+    if (rerankStatus === "pending") setRerankStatus("idle");
+    setCurrent(0);
+  };
   const handleBackToReview = () => setCurrent(1);
   const handleContinueToSave = () => setCurrent(2);
 
@@ -205,10 +246,11 @@ export default function ThemeCurationNewPage() {
   };
 
   const handleStartNewTheme = () => {
+    rerankRun.current += 1;
+    setRerankStatus("idle");
     setCurrent(0);
     setName("");
     setSeedText("");
-    setTopicCount(TOPIC_COUNT_DEFAULT);
     setError(null);
     setCandidates([]);
     setTotalResults(0);
@@ -238,8 +280,6 @@ export default function ThemeCurationNewPage() {
           onNameChange={setName}
           seedText={seedText}
           onSeedTextChange={handleSeedTextChange}
-          topicCount={topicCount}
-          onTopicCountChange={setTopicCount}
           onSubmit={handleSearchCandidates}
           onCancel={handleCancelSeed}
           loading={loading}
@@ -254,6 +294,7 @@ export default function ThemeCurationNewPage() {
           manualTopics={manualTopics}
           classifications={classifications}
           truncated={truncated}
+          rerankStatus={rerankStatus}
           onClassify={handleClassify}
           onAddManualTopic={handleAddManualTopic}
           onBack={handleBackToSeed}

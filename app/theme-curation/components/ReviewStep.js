@@ -12,7 +12,6 @@ import {
   CloseCircleOutlined,
   FlagOutlined,
   MinusCircleOutlined,
-  QuestionCircleOutlined,
 } from "@ant-design/icons";
 
 /* Components */
@@ -22,7 +21,10 @@ import TopicKeywords from "./TopicKeywords";
 
 /* Constants & utils */
 import {
-  CLASSIFICATION_STATUSES,
+  RERANK_FALLBACK_MESSAGE,
+  RERANK_PENDING_MESSAGE,
+  REVIEW_TITLE_COSINE,
+  REVIEW_TITLE_RERANKED,
   SEED_TRUNCATED_MESSAGE,
 } from "../lib/constants";
 import { computeCounts } from "../lib/classification";
@@ -36,6 +38,7 @@ import {
   Popconfirm,
   Popover,
   Space,
+  Spin,
   Table,
   Tag,
   Tooltip,
@@ -66,6 +69,7 @@ const { TextArea } = Input;
  * @param {Object[]} manualTopics - Topics added via manual search.
  * @param {Object.<string, {status: string, justification?: string}>} classifications - Keyed by topic_id.
  * @param {boolean} [truncated] - True when /candidates reported that the backend truncated the seed; shows the long-seed warning.
+ * @param {"idle"|"pending"|"done"|"failed"} [rerankStatus] - Two-phase review (01 D-089, D-097). "pending" is phase 1: the cosine list with a spinner notice and NO classification buttons; "done" is phase 2: the reordered list with buttons, a visible position and a tooltip (cosine and previous place; never the reranker score, D-090); "failed" keeps the cosine list with buttons and a notice; "idle" (default) is the plain cosine list with buttons.
  * @param {function} onClassify - (topicId, {status, justification}) => void
  * @param {function} onAddManualTopic - (topic) => void
  * @param {function} onBack - Go back to Screen 1.
@@ -77,11 +81,15 @@ export default function ReviewStep({
   manualTopics,
   classifications,
   truncated = false,
+  rerankStatus = "idle",
   onClassify,
   onAddManualTopic,
   onBack,
   onContinue,
 }) {
+  const reranking = rerankStatus === "pending";
+  const reranked = rerankStatus === "done";
+
   const [detailTopic, setDetailTopic] = useState(null);
   const [borderlineTopicId, setBorderlineTopicId] = useState(null);
   const [borderlineDraft, setBorderlineDraft] = useState("");
@@ -190,7 +198,7 @@ export default function ReviewStep({
       },
     },
     {
-      title: "Similitud",
+      title: reranked ? "Posición" : "Similitud",
       key: "similarity",
       width: 130,
       render: (_, topic) => {
@@ -199,6 +207,27 @@ export default function ReviewStep({
             <Text type="secondary" style={{ fontSize: 12 }}>
               Agregado manualmente
             </Text>
+          );
+        }
+
+        // Phase 2: the position is the headline; the cosine and the place
+        // the topic had before reordering go in the tooltip. The reranker's
+        // own score is never shown (01 D-090).
+        if (reranked && typeof topic.rank === "number") {
+          return (
+            <Tooltip
+              title={
+                <>
+                  Coseno: {topic.similarity_score.toFixed(2)}
+                  <br />
+                  Puesto antes de reordenar: #{topic.cosine_rank}
+                </>
+              }
+            >
+              <span className={styles.positionBadge} tabIndex={0}>
+                #{topic.rank}
+              </span>
+            </Tooltip>
           );
         }
 
@@ -324,6 +353,11 @@ export default function ReviewStep({
     },
   ];
 
+  // Phase 1 has no classification buttons (nor the filter on them).
+  const visibleColumns = reranking
+    ? columns.filter((column) => column.key !== "classification")
+    : columns;
+
   return (
     <Card className={styles.stepCard}>
       {truncated && (
@@ -335,19 +369,40 @@ export default function ReviewStep({
         />
       )}
 
+      {reranking && (
+        <Alert
+          type="info"
+          showIcon
+          icon={<Spin size="small" />}
+          style={{ marginBottom: 16 }}
+          message={RERANK_PENDING_MESSAGE}
+        />
+      )}
+
+      {rerankStatus === "failed" && (
+        <Alert
+          type="warning"
+          showIcon
+          style={{ marginBottom: 16 }}
+          message={RERANK_FALLBACK_MESSAGE}
+        />
+      )}
+
       <div className={styles.reviewHeader}>
         <Text strong className={styles.reviewHeaderTitle}>
-          Tópicos candidatos (ordenados por similitud)
+          {reranked ? REVIEW_TITLE_RERANKED : REVIEW_TITLE_COSINE}
         </Text>
-        <ManualTopicSearch
-          existingTopicIds={existingTopicIds}
-          onAdd={onAddManualTopic}
-        />
+        {!reranking && (
+          <ManualTopicSearch
+            existingTopicIds={existingTopicIds}
+            onAdd={onAddManualTopic}
+          />
+        )}
       </div>
 
       <Table
         rowKey="topic_id"
-        columns={columns}
+        columns={visibleColumns}
         dataSource={allTopics}
         size="small"
         bordered
@@ -358,23 +413,31 @@ export default function ReviewStep({
 
       <div className={styles.summaryBar}>
         <div className={styles.summaryTags}>
-          <Tag color="success" icon={<CheckCircleOutlined />}>
-            {counts.included} incluidos
-          </Tag>
-          <Tag color="warning" icon={<FlagOutlined />}>
-            {counts.borderline} frontera
-          </Tag>
-          <Tag color="error" icon={<CloseCircleOutlined />}>
-            {counts.excluded} excluidos
-          </Tag>
-          <Tag icon={<MinusCircleOutlined />}>
-            {counts.unclassified} sin clasificar
-          </Tag>
+          {!reranking && (
+            <>
+              <Tag color="success" icon={<CheckCircleOutlined />}>
+                {counts.included} incluidos
+              </Tag>
+              <Tag color="warning" icon={<FlagOutlined />}>
+                {counts.borderline} frontera
+              </Tag>
+              <Tag color="error" icon={<CloseCircleOutlined />}>
+                {counts.excluded} excluidos
+              </Tag>
+              <Tag icon={<MinusCircleOutlined />}>
+                {counts.unclassified} sin clasificar
+              </Tag>
+            </>
+          )}
         </div>
 
         <div className={styles.summaryActions}>
           <Button onClick={onBack}>Volver</Button>
-          {counts.unclassified > 0 ? (
+          {reranking ? (
+            <Button type="primary" disabled>
+              Continuar y guardar eje
+            </Button>
+          ) : counts.unclassified > 0 ? (
             <Popconfirm
               title="Aún tienes tópicos sin clasificar"
               description={`${counts.unclassified} tópico(s) quedarán fuera del eje. ¿Continuar de todas formas?`}

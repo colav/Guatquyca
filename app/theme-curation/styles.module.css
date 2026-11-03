@@ -93,6 +93,21 @@
   max-width: 480px;
 }
 
+/* Position of a topic after the reranking (phase 2, 01 D-097): the headline of its row. */
+.positionBadge {
+  display: inline-block;
+  min-width: 52px;
+  padding: 2px 12px;
+  border-radius: 16px;
+  background-color: #fff4e0;
+  color: #7a4e00;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+  cursor: help;
+}
+
 .similarityBarTrack {
   width: 88px;
   height: 4px;

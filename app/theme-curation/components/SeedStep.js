@@ -7,7 +7,6 @@ import styles from "../styles.module.css";
 import {
   Card,
   Input,
-  InputNumber,
   Alert,
   Typography,
   Button,
@@ -22,10 +21,6 @@ import {
   SEED_LONG_MESSAGE,
   SEED_TRUNCATED_MESSAGE,
   SEED_TIPS,
-  TOPIC_COUNT_MIN,
-  TOPIC_COUNT_MAX,
-  TOPIC_COUNT_DEFAULT,
-  TOPIC_COUNT_STEP,
 } from "../lib/constants";
 
 const { TextArea } = Input;
@@ -51,8 +46,6 @@ function formatThousands(value) {
  * @param {function} onNameChange
  * @param {string} seedText - Current seed text.
  * @param {function} onSeedTextChange
- * @param {number} topicCount - How many candidates to request from /app/theme/candidates.
- * @param {function} onTopicCountChange
  * @param {function} onSubmit - Called when the curator asks to search candidates.
  * @param {function} onCancel - Called when the curator discards the current draft.
  * @param {boolean} loading - Whether the candidates request is in flight.
@@ -65,8 +58,6 @@ export default function SeedStep({
   onNameChange,
   seedText,
   onSeedTextChange,
-  topicCount,
-  onTopicCountChange,
   onSubmit,
   onCancel,
   loading,
@@ -132,32 +123,6 @@ export default function SeedStep({
               message={truncated ? SEED_TRUNCATED_MESSAGE : SEED_LONG_MESSAGE}
             />
           )}
-        </div>
-
-        <div className={styles.field}>
-          <Text strong>Cantidad de tópicos a buscar</Text>
-          <div style={{ marginTop: 8 }}>
-            <InputNumber
-              min={TOPIC_COUNT_MIN}
-              max={TOPIC_COUNT_MAX}
-              step={TOPIC_COUNT_STEP}
-              value={topicCount}
-              onChange={(value) =>
-                onTopicCountChange(value ?? TOPIC_COUNT_DEFAULT)
-              }
-              addonAfter="tópicos"
-            />
-          </div>
-          <div
-            className={styles.wordCounter}
-            style={{ textAlign: "left", marginTop: 4 }}
-          >
-            <Text type="secondary">
-              Recomendamos {TOPIC_COUNT_DEFAULT}: suele cubrir bien el eje sin
-              alargar demasiado la revisión. Puedes pedir hasta{" "}
-              {TOPIC_COUNT_MAX}.
-            </Text>
-          </div>
         </div>
 
         <Space style={{ marginTop: 8 }}>

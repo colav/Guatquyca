@@ -46,23 +46,40 @@ export const SEED_TIPS = [
 ];
 
 /**
- * Bounds for the candidate topic count control on Screen 1.
- *
- * TOPIC_COUNT_DEFAULT (150) is a curatorial recommendation, not a backend
- * limit: /app/theme/candidates itself defaults top_n to 300 when the field
- * is omitted, but 300 is more than most curators need to review and makes
- * Screen 2 noticeably longer. We default the UI lower and always send an
- * explicit top_n so the curator's choice (not the backend default) is what
- * takes effect.
- *
- * TOPIC_COUNT_MAX (300) mirrors today's backend default as a ceiling for
- * the UI. It is a UI choice, not a backend limit: the backend validates
- * top_n between 1 and 4,516 (D-004, D-008), deployed in quyca-dev.
+ * Number of candidate topics the tool always shows, all at once (01 D-097,
+ * 3 Nov): the 120 nearest topics by cosine, with no control to choose a count
+ * and no "load 40 more". It replaces the 50-300 selector (D-004 UI side) and
+ * is always sent as an explicit `top_n`; the backend still validates 1-4,516.
  */
-export const TOPIC_COUNT_MIN = 50;
-export const TOPIC_COUNT_MAX = 300;
-export const TOPIC_COUNT_DEFAULT = 150;
-export const TOPIC_COUNT_STEP = 25;
+export const CANDIDATE_COUNT = 120;
+
+/**
+ * Two-phase review (01 D-089, D-090, D-097). Phase 1 is the cosine list with
+ * no classification buttons; phase 2 is the same 120 topics reordered by the
+ * reranker, with buttons, a visible position and a tooltip.
+ *
+ * [mock] The reranker endpoint (`POST /app/theme/candidates/rerank`, contract
+ * 02 version 8) does not exist yet, so phase 2 is simulated by
+ * lib/rerankMock.js. When the backend deploys it, replace that call in
+ * new/page.js with the real API function and delete the mock module.
+ */
+export const RERANK_MOCK_DELAY_MS = 10000;
+
+/** Phase 1 notice, with a spinner, while the list is being reordered. Text proposed by the frontend; Luis has not approved it. */
+export const RERANK_PENDING_MESSAGE =
+  "Esta es una lista temporal, ordenada solo por similitud. La estamos reorganizando para recomendarte primero los tópicos más cercanos al eje (tarda unos 10 segundos).";
+
+/**
+ * Shown when the reordering is not available or fails: the cosine list is
+ * kept and the buttons are enabled. This is the frontend's reading of the
+ * proposal in 01 D-097, still pending Luis's decision; text not approved.
+ */
+export const RERANK_FALLBACK_MESSAGE =
+  "No se pudo reorganizar la lista, así que se conserva el orden por similitud. Ya puedes clasificar los tópicos.";
+
+/** Header of the candidates table, by phase (the second text is not approved by Luis yet). */
+export const REVIEW_TITLE_COSINE = "Tópicos candidatos (ordenados por similitud)";
+export const REVIEW_TITLE_RERANKED = "Tópicos candidatos (ordenados por relevancia)";
 
 /**
  * How many OpenAlex keywords show under a topic's name in the tables of
