@@ -124,6 +124,15 @@ export const METHOD_LABELS = {
   manual: "Manual",
 };
 
+/**
+ * Hover title of the "Ver producción asociada" link of the topic modal (01
+ * D-101). The works search filters by the work's primary topic (D-075), which
+ * is not the same as the work-theme pairs of the project, so the text says
+ * what the link shows and no more. Text fixed by Luis (3 Nov).
+ */
+export const PRODUCTION_LINK_TITLE =
+  "Obras de ImpactU cuyo tópico principal es este";
+
 /** Visible lines of the seed in the Screen 5 card before "Ver más" (01 D-047). */
 export const SEED_PREVIEW_LINES = 5;
 

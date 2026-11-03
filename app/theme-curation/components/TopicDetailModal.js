@@ -1,13 +1,17 @@
 "use client";
 
 /* Icons */
-import { LinkOutlined } from "@ant-design/icons";
+import { FileSearchOutlined, LinkOutlined } from "@ant-design/icons";
 
 /* UI Library Components */
 import { Flex, Modal, Tag, Typography } from "antd";
 
 /* Styles */
 import styles from "../styles.module.css";
+
+/* Constants & utils */
+import { PRODUCTION_LINK_TITLE } from "../lib/constants";
+import { topicProductionPath } from "../lib/format";
 
 const { Paragraph, Text } = Typography;
 
@@ -26,7 +30,8 @@ const HIERARCHY_LEVELS = (topic) => [
 /**
  * TopicDetailModal shows everything about a single topic that doesn't fit
  * in the review table's row: the full hierarchy path, summary, keywords,
- * and a link to its Wikipedia reference.
+ * a link to the ImpactU production filtered by the topic (01 D-101; always
+ * shown when the topic has an id) and a link to its Wikipedia reference.
  *
  * All of these fields already come back from /app/theme/candidates and
  * /app/theme/search (02 §2 and §3.1-3.2) — opening this modal never triggers a new API call, it just
@@ -40,6 +45,7 @@ const HIERARCHY_LEVELS = (topic) => [
 export default function TopicDetailModal({ open, topic, onClose }) {
   if (!topic) return null;
 
+  const productionPath = topicProductionPath(topic.topic_id);
   const hierarchy = HIERARCHY_LEVELS(topic).filter((level) => level.value);
   const keywordList = (topic.keywords || "")
     .split(";")
@@ -95,6 +101,19 @@ export default function TopicDetailModal({ open, topic, onClose }) {
         </div>
       )}
 
+      {productionPath && (
+        <div className={styles.detailSection}>
+          <a
+            href={productionPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={PRODUCTION_LINK_TITLE}
+          >
+            <FileSearchOutlined /> Ver producción asociada
+          </a>
+        </div>
+      )}
+
       {topic.wikipedia_url && (
         <div className={styles.detailSection}>
           <a
@@ -102,7 +121,7 @@ export default function TopicDetailModal({ open, topic, onClose }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <LinkOutlined /> Ver en Wikipedia
+            <LinkOutlined /> Ver tópico en Wikipedia
           </a>
         </div>
       )}
