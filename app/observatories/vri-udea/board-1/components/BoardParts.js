@@ -3,6 +3,9 @@
 /* Hooks */
 import { memo } from "react";
 
+/* lib */
+import { NEUTRAL, SCATTER_COLORS, sequentialTile } from "@/lib/observatories/palette";
+
 /* Texts */
 import { RULES_TABLE } from "./boardTexts";
 
@@ -87,14 +90,27 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
 
 /** Legend of the colours of the scatter. */
 export function ScatterLegend() {
-  const dot = (color, border) => (
-    <i style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: color, border: `1px solid ${border}`, marginRight: 6 }} />
+  const mark = (color, shape) => (
+    <i
+      style={{
+        display: "inline-block",
+        width: 10,
+        height: 10,
+        marginRight: 6,
+        background: shape === "triangle" ? "transparent" : color,
+        border: shape === "triangle" ? 0 : `1px solid ${NEUTRAL.border}`,
+        borderRadius: shape === "circle" ? "50%" : 0,
+        borderLeft: shape === "triangle" ? "5px solid transparent" : undefined,
+        borderRight: shape === "triangle" ? "5px solid transparent" : undefined,
+        borderBottom: shape === "triangle" ? `10px solid ${color}` : undefined,
+      }}
+    />
   );
   return (
     <div style={{ fontSize: 12, display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 6 }}>
-      <span>{dot("#eb6834", "#eb6834")}Consolidado / líder (benchmark global · proxy FWCI)</span>
-      <span>{dot("#2a78d6", "#2a78d6")}En consolidación (provisional: benchmark nacional)</span>
-      <span>{dot("#fff", "#9aa193")}Otros tópicos</span>
+      <span>{mark(SCATTER_COLORS.highlight, "circle")}Consolidado / líder (benchmark global · proxy FWCI)</span>
+      <span>{mark(SCATTER_COLORS.consolidating, "triangle")}En consolidación (provisional: benchmark nacional)</span>
+      <span>{mark(SCATTER_COLORS.other, "circle")}Otros tópicos</span>
       <span>Tamaño = FWCI</span>
     </div>
   );
@@ -132,7 +148,7 @@ export const SubregionTiles = memo(function SubregionTiles({ subregions }) {
         const intensity = name === "Valle de Aburrá" ? 1 : 0.15 + (0.85 * s.n_title) / max;
         return (
           <Col key={name} span={8}>
-            <div style={{ background: `color-mix(in srgb, #1f7a3f ${Math.round(intensity * 55)}%, #fff)`, padding: 8, minHeight: 86, borderRadius: 6 }}>
+            <div style={{ ...sequentialTile(intensity), padding: 8, minHeight: 86, borderRadius: 6 }}>
               <div style={{ fontSize: 12 }}>{name}</div>
               <div style={{ fontSize: 20, fontWeight: 600 }}>
                 {fmt(s.n_title)}

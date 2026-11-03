@@ -1,12 +1,15 @@
 "use client";
 
+/* lib */
+import { BRAND } from "@/lib/observatories/palette";
+
 /* UI Library Components */
 import { Card, Empty, Typography } from "antd";
 
 /* Constants */
 const CARD_HEADER_STYLE = {
-  backgroundColor: "#003e65",
-  color: "white",
+  backgroundColor: BRAND.header,
+  color: BRAND.white,
   padding: "6px 10px",
   overflow: "visible",
 };
@@ -25,7 +28,7 @@ export default function ChartCard({ title, note, empty = false, children, style 
       style={style}
       styles={{ header: CARD_HEADER_STYLE, body: { padding: 10 } }}
       title={title}
-      extra={note ? <span style={{ color: "white", fontSize: 12 }}>{note}</span> : null}
+      extra={note ? <span style={{ color: BRAND.white, fontSize: 12 }}>{note}</span> : null}
     >
       {empty ? (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<Typography.Text>Sin datos para este filtro.</Typography.Text>} />

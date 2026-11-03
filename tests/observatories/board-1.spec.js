@@ -45,3 +45,14 @@ test("the evidence state is not named in any screen", async ({ page }) => {
   await expect(page.getByText("Datos de prueba")).toBeVisible({ timeout: 60000 });
   await expect(page.locator("body")).not.toContainText("ai_panel_unreviewed");
 });
+
+test("the pages use the full width up to 1,920 px, centered", async ({ page }) => {
+  for (const [width, expected] of [[1400, 1400], [2400, 1920]]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/observatories");
+    const box = await page.locator("main").first().boundingBox();
+    expect(Math.round(box.width)).toBeGreaterThanOrEqual(expected - 40) /* the site container keeps 15 px per side */;
+    expect(Math.round(box.width)).toBeLessThanOrEqual(expected);
+    if (width > 1920) expect(Math.round(box.x)).toBeGreaterThan(200);
+  }
+});

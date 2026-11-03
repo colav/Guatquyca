@@ -10,6 +10,9 @@ import { memo, useMemo } from "react";
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
 const Column = dynamic(() => import("@ant-design/charts").then((mod) => mod.Column), { ssr: false });
 
+/* lib */
+import { RANKING_COLOR } from "@/lib/observatories/palette";
+
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
 
@@ -30,7 +33,7 @@ function RankingBars({ rows, labelSize = 34 }) {
       animate: false,
       height: Math.max(220, rows.length * 24 + 40),
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key } },
-      style: { fill: "#1f7a3f" },
+      style: { fill: RANKING_COLOR },
       tooltip: {
         title: (d) => d.name,
         items: [{ field: "value", name: "Valor" }, { field: "detail", name: "Detalle" }],

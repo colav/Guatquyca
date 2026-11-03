@@ -8,6 +8,7 @@ import { memo, useCallback, useMemo, useRef } from "react";
 
 /* lib */
 import { CATEGORY } from "@/lib/observatories/capacity";
+import { BRAND, NEUTRAL, SCATTER_COLORS } from "@/lib/observatories/palette";
 
 /* Libraries */
 const Scatter = dynamic(() => import("@ant-design/charts").then((mod) => mod.Scatter), {
@@ -16,13 +17,15 @@ const Scatter = dynamic(() => import("@ant-design/charts").then((mod) => mod.Sca
 
 /* Constants */
 const FWCI_CAP = 8;
-const COLORS = { orange: "#eb6834", blue: "#2a78d6", white: "#ffffff" };
+const COLORS = { highlight: SCATTER_COLORS.highlight, consolidating: SCATTER_COLORS.consolidating, other: SCATTER_COLORS.other };
+/* Shape per class, so the classes are not told apart by colour alone. */
+const SHAPES = { highlight: "point", consolidating: "triangle", other: "point" };
 
-/** Colour class of a point: orange = consolidated or leader, blue = consolidating, white = the rest. */
+/** Class of a point: highlight = consolidated or leader, consolidating = in consolidation, other = the rest. */
 const colorClass = (category) => {
-  if (category === CATEGORY.LEADER || category === CATEGORY.CONSOLIDATED) return "orange";
-  if (category === CATEGORY.CONSOLIDATING) return "blue";
-  return "white";
+  if (category === CATEGORY.LEADER || category === CATEGORY.CONSOLIDATED) return "highlight";
+  if (category === CATEGORY.CONSOLIDATING) return "consolidating";
+  return "other";
 };
 
 /**
@@ -55,6 +58,7 @@ function TopicScatter({ points, selectedId, onSelect }) {
       yField: "y",
       sizeField: "size",
       colorField: "cls",
+      shapeField: "cls",
       animate: false,
       legend: false,
       height: 400,
@@ -63,6 +67,7 @@ function TopicScatter({ points, selectedId, onSelect }) {
         y: { type: "log", base: 10, nice: true },
         size: { type: "sqrt", range: [3, 14] },
         color: { domain: Object.keys(COLORS), range: Object.values(COLORS) },
+        shape: { domain: Object.keys(SHAPES), range: Object.values(SHAPES) },
       },
       axis: {
         x: { title: "Número de productos (escala log)" },
@@ -71,7 +76,7 @@ function TopicScatter({ points, selectedId, onSelect }) {
       style: {
         fill: (d) => COLORS[d.cls],
         fillOpacity: 0.9,
-        stroke: (d) => (d.id === selectedId ? "#003e65" : "#9aa193"),
+        stroke: (d) => (d.id === selectedId ? BRAND.selected : NEUTRAL.border),
         lineWidth: (d) => (d.id === selectedId ? 2.5 : 0.8),
       },
       tooltip: {

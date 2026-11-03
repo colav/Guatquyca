@@ -32,6 +32,7 @@ import {
   rankGroups,
 } from "@/lib/observatories/capacity";
 import { loadBoard1Dataset } from "@/lib/observatories/data/artifactAdapter";
+import { QUARTILE_COLORS, TYPE_COLORS, accessColor } from "@/lib/observatories/palette";
 
 /* Texts */
 import {
@@ -48,6 +49,9 @@ import { useBoardFilters, useStableValue } from "./hooks";
 
 /* UI Library Components */
 import { Alert, Col, Collapse, Result, Row, Skeleton, Tag, Typography } from "antd";
+
+/* Colours of the access route donut, one per label (palette of lib/constants.js). */
+const ACCESS_COLORS = DONUT_LABELS.access.map(accessColor);
 
 const fmtFwci = (v) => (Number.isFinite(v) ? v.toFixed(2) : "–");
 
@@ -197,9 +201,9 @@ function Board1Content({ dataset }) {
         <Col xs={24}>
           <ChartCard title="7 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
             <Row gutter={[12, 12]}>
-              <Col xs={24} md={8}><Typography.Text strong>Tipo de producto</Typography.Text><DonutChart labels={DONUT_LABELS.type} values={typeValues} /></Col>
-              <Col xs={24} md={8}><Typography.Text strong>Cuartil Scimago</Typography.Text><DonutChart labels={DONUT_LABELS.quartile} values={quartileValues} /></Col>
-              <Col xs={24} md={8}><Typography.Text strong>Ruta de acceso</Typography.Text><DonutChart labels={DONUT_LABELS.access} values={accessValues} /></Col>
+              <Col xs={24} md={8}><Typography.Text strong>Tipo de producto</Typography.Text><DonutChart labels={DONUT_LABELS.type} values={typeValues} colors={TYPE_COLORS} /></Col>
+              <Col xs={24} md={8}><Typography.Text strong>Cuartil Scimago</Typography.Text><DonutChart labels={DONUT_LABELS.quartile} values={quartileValues} colors={QUARTILE_COLORS} /></Col>
+              <Col xs={24} md={8}><Typography.Text strong>Ruta de acceso</Typography.Text><DonutChart labels={DONUT_LABELS.access} values={accessValues} colors={ACCESS_COLORS} /></Col>
             </Row>
           </ChartCard>
         </Col>
