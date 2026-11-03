@@ -145,23 +145,14 @@ export const json = (route, status, body) =>
  * accepts it, and with a 500 when none does, so an unexpected call fails the
  * test instead of reaching a real backend.
  *
- * It also sets the delay of the simulated reranker (01 D-097, lib/rerankMock.js,
- * [mock]): 0 by default, so Screen 2 reaches phase 2 (list with buttons) at
- * once; pass `rerankDelayMs` to hold phase 1, or `rerankFails` to see the
- * fallback.
+ * `POST /app/theme/candidates/rerank` (phase 2 of Screen 2, 02 §3.10) gets a
+ * default answer, [mock], unless a handler of the test matches it first: the
+ * same topics in the same order, with `rank` and `cosine_rank` equal to their
+ * place in the request. So Screen 2 reaches phase 2 (list with buttons) at
+ * once. Use `rerankHandler` to reorder, delay or fail it.
  */
-export async function mockThemeApi(
-  page,
-  handlers,
-  { rerankDelayMs = 0, rerankFails = false } = {},
-) {
-  await page.addInitScript(
-    ({ delay, fails }) => {
-      window.__THEME_RERANK_MOCK_DELAY_MS = delay;
-      window.__THEME_RERANK_MOCK_FAIL = fails;
-    },
-    { delay: rerankDelayMs, fails: rerankFails },
-  );
+export async function mockThemeApi(page, handlers) {
+  const withDefaults = [...handlers, identityRerankHandler];
   await page.route(
     (url) => url.pathname.startsWith("/app/theme"),
     async (route) => {
@@ -170,12 +161,76 @@ export async function mockThemeApi(
         return route.fulfill({ status: 204, headers: CORS });
       }
       const url = new URL(request.url());
-      const handler = handlers.find((h) => h.match(url, request));
+      const handler = withDefaults.find((h) => h.match(url, request));
       if (handler) return handler.reply(route, request);
       return json(route, 500, { error: `unmocked ${url.pathname}` });
     },
   );
 }
+
+const isRerank = (url, request) =>
+  url.pathname === "/app/theme/candidates/rerank" && request.method() === "POST";
+
+// [mock] Phase 2 answer: the ids as received, `rank` = `cosine_rank` = place.
+// Only the fields the contract names are sent; the page keeps the rest from
+// phase 1.
+const identityRerankHandler = {
+  match: isRerank,
+  reply: (route, request) => {
+    const { topic_ids: ids } = request.postDataJSON();
+    return json(route, 200, {
+      data: ids.map((id, i) => ({
+        topic_id: id,
+        rank: i + 1,
+        cosine_rank: i + 1,
+      })),
+      total_results: ids.length,
+    });
+  },
+};
+
+/**
+ * [mock] Handler for the phase 2 endpoint that reorders the received ids
+ * (each moves up to 15 places, deterministically), optionally after a delay
+ * or as an error. The answer carries `similarity_score` from `scores` (a map
+ * topic_id -> cosine) when given, as the real one does, and never a reranker
+ * score.
+ *
+ * @param {Object} [options]
+ * @param {number} [options.delayMs=0]
+ * @param {{status: number, body: Object}|"abort"} [options.fail] - Answer with this error instead, or cut the connection.
+ * @param {Object.<string, number>} [options.scores]
+ * @param {{ bodies: Object[] }} [options.calls] - Collects the request bodies.
+ */
+export const rerankHandler = ({
+  delayMs = 0,
+  fail,
+  scores = {},
+  calls,
+} = {}) => ({
+  match: isRerank,
+  reply: async (route, request) => {
+    const body = request.postDataJSON();
+    if (calls) calls.bodies.push(body);
+    if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs));
+    if (fail === "abort") return route.abort();
+    if (fail) return json(route, fail.status, fail.body);
+    const hash = (id) =>
+      [...String(id)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 100003, 0);
+    const moved = body.topic_ids
+      .map((id, i) => ({ id, cosineRank: i + 1, key: i + 1 + (hash(id) % 31) - 15 }))
+      .sort((a, b) => a.key - b.key || a.cosineRank - b.cosineRank);
+    return json(route, 200, {
+      data: moved.map(({ id, cosineRank }, i) => ({
+        topic_id: id,
+        rank: i + 1,
+        cosine_rank: cosineRank,
+        ...(scores[id] !== undefined ? { similarity_score: scores[id] } : {}),
+      })),
+      total_results: moved.length,
+    });
+  },
+});
 
 export const detailHandler = (theme) => ({
   match: (url) => url.pathname === "/app/theme/t1",
