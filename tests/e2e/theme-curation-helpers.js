@@ -144,8 +144,24 @@ export const json = (route, status, body) =>
  * Answers every /app/theme* request with the first handler whose `match`
  * accepts it, and with a 500 when none does, so an unexpected call fails the
  * test instead of reaching a real backend.
+ *
+ * It also sets the delay of the simulated reranker (01 D-097, lib/rerankMock.js,
+ * [mock]): 0 by default, so Screen 2 reaches phase 2 (list with buttons) at
+ * once; pass `rerankDelayMs` to hold phase 1, or `rerankFails` to see the
+ * fallback.
  */
-export async function mockThemeApi(page, handlers) {
+export async function mockThemeApi(
+  page,
+  handlers,
+  { rerankDelayMs = 0, rerankFails = false } = {},
+) {
+  await page.addInitScript(
+    ({ delay, fails }) => {
+      window.__THEME_RERANK_MOCK_DELAY_MS = delay;
+      window.__THEME_RERANK_MOCK_FAIL = fails;
+    },
+    { delay: rerankDelayMs, fails: rerankFails },
+  );
   await page.route(
     (url) => url.pathname.startsWith("/app/theme"),
     async (route) => {

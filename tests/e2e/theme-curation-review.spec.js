@@ -15,7 +15,8 @@ const NOTICE_PLURAL = (n) =>
   `Se agregaron ${n} tópicos correctamente. Los encontrarás al final de la lista, en la última página.`;
 const NOTICE_SINGULAR =
   "Se agregó 1 tópico correctamente. Lo encontrarás al final de la lista, en la última página.";
-const TITLE = "Tópicos candidatos (ordenados por similitud)";
+// The title changes with the phase (similitud, then relevancia; 01 D-097), so only its start is fixed.
+const TITLE = /^Tópicos candidatos \(ordenados por/;
 
 const manyResults = Array.from({ length: 30 }, (_, i) => ({
   topic_id: `m${i + 1}`,
