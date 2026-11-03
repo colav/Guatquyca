@@ -46,3 +46,8 @@ node_modules/
 
 # Copilot
 copilot-instructions.md
+
+# Environment files (never commit)
+.env
+.env.*
+!.env.example
