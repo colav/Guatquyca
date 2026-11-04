@@ -22,7 +22,7 @@ test.describe("Testing the Screen 3 success view spacing", () => {
     reply: (route) =>
       json(route, 200, {
         data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-        total_results: 1,
+        meta: { count: 1 },
       }),
   };
 
@@ -95,7 +95,7 @@ test.describe("Testing the reason of a failed save or retry (D-052)", () => {
         reply: (route) =>
           json(route, 200, {
             data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-            total_results: 1,
+            meta: { count: 1 },
           }),
       },
       {

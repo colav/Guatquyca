@@ -26,7 +26,7 @@ test.describe("Testing the long-seed alert (truncated) with simulated API", () =
             subfield_name: "S",
           },
         ],
-        total_results: 2,
+        meta: { count: 2 },
         ...(truncated === undefined ? {} : { truncated }),
       }),
   });

@@ -120,7 +120,8 @@ export default function ThemeCurationNewPage() {
       });
       const list = result.data ?? [];
       setCandidates(list);
-      setTotalResults(result.total_results ?? 0);
+      // TODO(D-103): drop the `total_results` fallback once quyca (B77c) and this tool are deployed together.
+      setTotalResults(result.meta?.count ?? result.total_results ?? 0);
       setTruncated(result.truncated === true);
       setCurrent(1);
       // `reranking_available: false` (02 §3.1) means the reranker did not

@@ -190,7 +190,7 @@ test.describe("Testing the production link in the Screen 2 modal with simulated 
                 ...catalogFields("Topic one"),
               },
             ],
-            total_results: 1,
+            meta: { count: 1 },
             reranking_available: true,
           }),
       },

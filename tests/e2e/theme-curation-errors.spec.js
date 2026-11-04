@@ -89,7 +89,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   const candidatesOk = (route) =>
     json(route, 200, {
       data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-      total_results: 1,
+      meta: { count: 1 },
     });
 
   const toCandidates = async (page) => {
@@ -286,7 +286,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("'Sin resultados...' only for an empty 200", async ({ page }) => {
     await mockThemeApi(page, [
       candidatesPost(candidatesOk),
-      searchGet((route) => json(route, 200, { data: [], total_results: 0 })),
+      searchGet((route) => json(route, 200, { data: [], meta: { count: 0 } })),
     ]);
     await toReview(page);
     await typeSearch(page);

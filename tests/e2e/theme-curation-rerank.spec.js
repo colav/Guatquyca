@@ -43,7 +43,7 @@ const candidatesHandler = (extra = {}) => ({
     lastCandidatesBody = request.postDataJSON();
     return json(route, 200, {
       data: candidates,
-      total_results: candidates.length,
+      meta: { count: candidates.length },
       truncated: false,
       reranking_available: true,
       ...extra,

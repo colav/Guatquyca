@@ -184,7 +184,7 @@ const identityRerankHandler = {
         rank: i + 1,
         cosine_rank: i + 1,
       })),
-      total_results: ids.length,
+      meta: { count: ids.length },
     });
   },
 };
@@ -227,7 +227,7 @@ export const rerankHandler = ({
         cosine_rank: cosineRank,
         ...(scores[id] !== undefined ? { similarity_score: scores[id] } : {}),
       })),
-      total_results: moved.length,
+      meta: { count: moved.length },
     });
   },
 });
