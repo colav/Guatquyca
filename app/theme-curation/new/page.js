@@ -41,7 +41,7 @@ import { persistAllTopics } from "@/app/theme-curation/lib/persist";
  * Classification (Screen 2) is kept entirely in this component's state and
  * is NOT sent to the backend as the curator classifies — PATCH/POST for
  * topics need a theme_id, which only exists after Screen 3 successfully
- * creates the theme (POST /app/theme, which also needs `curator`, only
+ * creates the theme (POST /theme, which also needs `curator`, only
  * collected on Screen 3). See lib/classification.js and lib/persist.js.
  *
  * @returns {JSX.Element}
@@ -80,7 +80,7 @@ export default function ThemeCurationNewPage() {
   // connection, ...); null when it did not (01 D-052).
   const [failureReason, setFailureReason] = useState(null);
 
-  // Phase 2 (02 §3.10, D-097): POST /app/theme/candidates/rerank with the
+  // Phase 2 (02 §3.10, D-097): POST /theme/candidates/rerank with the
   // phase 1 list in its order; the answer is the same topics reordered. Any
   // failure (503 `reranker_unavailable`, 400, no connection, a request that
   // takes too long) keeps the cosine list with the buttons on (02 §3.10.7).
@@ -120,7 +120,8 @@ export default function ThemeCurationNewPage() {
       });
       const list = result.data ?? [];
       setCandidates(list);
-      setTotalResults(result.total_results ?? 0);
+      // TODO(D-103): drop the `total_results` fallback once quyca (B77c) and this tool are deployed together.
+      setTotalResults(result.meta?.count ?? result.total_results ?? 0);
       setTruncated(result.truncated === true);
       setCurrent(1);
       // `reranking_available: false` (02 §3.1) means the reranker did not

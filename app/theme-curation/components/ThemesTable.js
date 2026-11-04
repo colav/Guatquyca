@@ -22,7 +22,7 @@ const { Text } = Typography;
 
 /**
  * Total topic count for a theme, from its `summary` object
- * ({included, excluded, borderline, manual}) — GET /app/theme started
+ * ({included, excluded, borderline, manual}) — GET /theme started
  * returns this per theme (02 §3.4).
  *
  * `manual` is NOT added on top of included/excluded/borderline: every
@@ -46,14 +46,14 @@ function topicCount(summary) {
 
 /**
  * ThemesTable is the listing table for Screen 4 ("Mis ejes temáticos"): a
- * name search box plus a table of every curated theme from GET /app/theme.
+ * name search box plus a table of every curated theme from GET /theme.
  *
  * Filtering is name-only and pagination is client-side, since GET
- * /app/theme has no query params for either (02 §9) — this mirrors the same
+ * /theme has no query params for either (02 §9) — this mirrors the same
  * client-side-filter pattern already used by app/admin/users.
  *
  * The "Tópicos" column reads `theme.summary` (same shape as the `summary`
- * object GET /app/theme/<id> already returned) — GET /app/theme includes it
+ * object GET /theme/<id> already returned) — GET /theme includes it
  * per theme (02 §3.4). See topicCount() below for why it isn't a plain sum of every
  * field in `summary`.
  *

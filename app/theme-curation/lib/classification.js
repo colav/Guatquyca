@@ -3,7 +3,7 @@
  * the Theme Curation flow. Classifications live only in frontend state
  * until the theme is created on Screen 3 (Guardar eje) — see the module
  * doc in lib/apis/theme.api.js for why: PATCH/POST topic endpoints need a
- * theme_id, which doesn't exist until POST /app/theme succeeds, and that
+ * theme_id, which doesn't exist until POST /theme succeeds, and that
  * call needs `curator`, which is only collected on Screen 3.
  */
 

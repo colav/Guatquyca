@@ -20,9 +20,9 @@ test.describe("Testing Theme Curation listing", () => {
   test.beforeEach(async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme",
+        match: (url) => url.pathname === "/theme",
         reply: (route) =>
-          json(route, 200, { data: bioThemes, total_results: 3 }),
+          json(route, 200, { data: bioThemes, meta: { count: 3 } }),
       },
     ]);
     await page.goto("/theme-curation");
@@ -76,7 +76,7 @@ test.describe("Testing Theme Curation listing", () => {
     await page.unroute(() => true);
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme",
+        match: (url) => url.pathname === "/theme",
         reply: (route) =>
           route.fulfill({
             status: 429,

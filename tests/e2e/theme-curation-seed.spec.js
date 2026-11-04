@@ -9,7 +9,7 @@ import {
 test.describe("Testing the long-seed alert (truncated) with simulated API", () => {
   const candidates = (truncated) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply: (route) =>
       json(route, 200, {
         data: [
@@ -26,7 +26,7 @@ test.describe("Testing the long-seed alert (truncated) with simulated API", () =
             subfield_name: "S",
           },
         ],
-        total_results: 2,
+        meta: { count: 2 },
         ...(truncated === undefined ? {} : { truncated }),
       }),
   });

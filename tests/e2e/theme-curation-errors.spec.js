@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import {
   CORS,
   NOT_FOUND_THEME,
+  NOT_FOUND_OTHER,
+  NOT_CONFIGURED,
   NETWORK,
   RATE_SEARCH,
   RATE_GENERAL,
@@ -18,7 +20,7 @@ import {
 test.describe("Testing status texts for the other backend errors", () => {
   const post = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply,
   });
 
@@ -61,7 +63,7 @@ test.describe("Testing status texts for the other backend errors", () => {
   test("detail 500 shows the service problem text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: (route) => json(route, 500, { error: "Internal server error" }),
       },
     ]);
@@ -75,21 +77,21 @@ test.describe("Testing status texts for the other backend errors", () => {
 test.describe("Testing the error texts by context (D-049)", () => {
   const candidatesPost = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply,
   });
   const searchGet = (reply) => ({
-    match: (url) => url.pathname === "/app/theme/search",
+    match: (url) => url.pathname === "/theme/search",
     reply,
   });
   const listGet = (reply) => ({
-    match: (url) => url.pathname === "/app/theme",
+    match: (url) => url.pathname === "/theme",
     reply,
   });
   const candidatesOk = (route) =>
     json(route, 200, {
       data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-      total_results: 1,
+      meta: { count: 1 },
     });
 
   const toCandidates = async (page) => {
@@ -113,7 +115,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   };
   const createPost = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme" && request.method() === "POST",
+      url.pathname === "/theme" && request.method() === "POST",
     reply,
   });
   const alertText = (page) =>
@@ -151,7 +153,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("no connection opening a theme", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: (route) => route.abort(),
       },
     ]);
@@ -172,7 +174,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("a 404 opening a theme has its own text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t9",
+        match: (url) => url.pathname === "/theme/t9",
         reply: (route) => json(route, 404, { error: "no existe" }),
       },
     ]);
@@ -180,12 +182,53 @@ test.describe("Testing the error texts by context (D-049)", () => {
     await expect(alertText(page)).toHaveText(NOT_FOUND_THEME);
   });
 
-  test("other 404s keep the server message", async ({ page }) => {
+  test("other 404s use the 'ya no existe' text, never the server's", async ({
+    page,
+  }) => {
     await mockThemeApi(page, [
-      candidatesPost((route) => json(route, 404, { error: "Not found here" })),
+      candidatesPost((route) =>
+        json(route, 404, { error: "El eje temático con id zzz no existe." }),
+      ),
     ]);
     await toCandidates(page);
-    await expect(alertText(page)).toHaveText("Not found here");
+    await expect(alertText(page)).toHaveText(NOT_FOUND_OTHER);
+    await expect(alertText(page)).not.toContainText("zzz");
+  });
+
+  // --- 503 by `code` (F25d) ---
+  for (const code of ["curation_not_configured", "embeddings_not_configured"]) {
+    test(`503 ${code} in the listing has its own text`, async ({ page }) => {
+      await mockThemeApi(page, [
+        listGet((route) =>
+          json(route, 503, { code, error: "The service is not configured." }),
+        ),
+      ]);
+      await page.goto("/theme-curation");
+      await expect(alertText(page)).toHaveText(NOT_CONFIGURED);
+      await expect(alertText(page)).not.toContainText("configured.");
+    });
+
+    test(`503 ${code} asking for candidates has its own text`, async ({
+      page,
+    }) => {
+      await mockThemeApi(page, [
+        candidatesPost((route) =>
+          json(route, 503, { code, error: "The service is not configured." }),
+        ),
+      ]);
+      await toCandidates(page);
+      await expect(alertText(page)).toHaveText(NOT_CONFIGURED);
+    });
+  }
+
+  test("503 with an unknown code keeps the service problem text", async ({
+    page,
+  }) => {
+    await mockThemeApi(page, [
+      listGet((route) => json(route, 503, { code: "other_code", error: "x" })),
+    ]);
+    await page.goto("/theme-curation");
+    await expect(alertText(page)).toHaveText(SERVER_PROBLEM);
   });
 
   // --- 429 ---
@@ -212,7 +255,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("429 opening a theme uses the general text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: html429,
       },
     ]);
@@ -286,7 +329,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("'Sin resultados...' only for an empty 200", async ({ page }) => {
     await mockThemeApi(page, [
       candidatesPost(candidatesOk),
-      searchGet((route) => json(route, 200, { data: [], total_results: 0 })),
+      searchGet((route) => json(route, 200, { data: [], meta: { count: 0 } })),
     ]);
     await toReview(page);
     await typeSearch(page);

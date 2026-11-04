@@ -28,15 +28,15 @@ const manyResults = Array.from({ length: 30 }, (_, i) => ({
 const reviewApi = (getSearchReply) => [
   {
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply: (route) =>
       json(route, 200, {
         data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-        total_results: 1,
+        meta: { count: 1 },
       }),
   },
   {
-    match: (url) => url.pathname === "/app/theme/search",
+    match: (url) => url.pathname === "/theme/search",
     reply: (route) => getSearchReply()(route),
   },
 ];
@@ -70,20 +70,20 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
 
   test.beforeEach(async ({ page }) => {
     searchReply = (route) =>
-      json(route, 200, { data: results, total_results: results.length });
+      json(route, 200, { data: results, meta: { count: results.length } });
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {
             data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
-            total_results: 1,
+            meta: { count: 1 },
           }),
       },
       {
-        match: (url) => url.pathname === "/app/theme/search",
+        match: (url) => url.pathname === "/theme/search",
         reply: (route) => searchReply(route),
       },
     ]);
@@ -298,7 +298,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
     searchReply = (route) =>
       json(route, 200, {
         data: [{ topic_id: "z1", name: "Zebra Studies", keywords: "zoology" }],
-        total_results: 1,
+        meta: { count: 1 },
       });
     await search(page, "zebra");
     await option(page, "Zebra Studies").click();
@@ -341,7 +341,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
     page.on("request", (req) => {
       if (
         ["POST", "PATCH", "PUT", "DELETE"].includes(req.method()) &&
-        /\/app\/theme/.test(req.url()) &&
+        /\/theme/.test(req.url()) &&
         !req.url().endsWith("/candidates")
       )
         writes.push(req.url());
@@ -353,7 +353,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
   });
 
   test("an empty list says the catalog is in English", async ({ page }) => {
-    searchReply = (route) => json(route, 200, { data: [], total_results: 0 });
+    searchReply = (route) => json(route, 200, { data: [], meta: { count: 0 } });
     await search(page, "bioeconomia");
     await expect(page.locator(".ant-select-dropdown")).toContainText(
       "Sin resultados. Recuerda que el catálogo de tópicos está en inglés.",
@@ -396,7 +396,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
       "El servicio tuvo un problema.",
     );
     searchReply = (route) =>
-      json(route, 200, { data: results, total_results: results.length });
+      json(route, 200, { data: results, meta: { count: results.length } });
     await search(page, "bioeco");
     await expect(page.getByText("Health Policy")).toBeVisible();
     await expect(page.locator(".ant-select-dropdown")).not.toContainText(
@@ -408,7 +408,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
 test.describe("Testing Screen 2: fixed header, notice and dropdown strip", () => {
   let searchReply;
   const reply30 = (route) =>
-    json(route, 200, { data: manyResults, total_results: 30 });
+    json(route, 200, { data: manyResults, meta: { count: 30 } });
 
   test.beforeEach(async ({ page }) => {
     searchReply = reply30;
@@ -752,7 +752,7 @@ test.describe("Testing Screen 2: fixed header, notice and dropdown strip", () =>
           { topic_id: "1", name: "Topic one" },
           { topic_id: "n2", name: "Fresh topic" },
         ],
-        total_results: 2,
+        meta: { count: 2 },
       });
     await toReviewScreen(page);
     await searchBox(page).fill("topic");
@@ -779,7 +779,7 @@ test.describe("Testing the keywords line under the topic name (Screen 2) with si
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {
@@ -803,7 +803,7 @@ test.describe("Testing the keywords line under the topic name (Screen 2) with si
                 keywords: null,
               },
             ],
-            total_results: 3,
+            meta: { count: 3 },
           }),
       },
     ]);

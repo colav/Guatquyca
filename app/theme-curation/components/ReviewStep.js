@@ -50,7 +50,7 @@ const { TextArea } = Input;
 
 /**
  * ReviewStep is Screen 2 of the Theme Curation flow: the curator reviews
- * every candidate topic returned by /app/theme/candidates, classifies each
+ * every candidate topic returned by /theme/candidates, classifies each
  * as included/excluded/borderline, and can search the full catalog to add
  * topics the embedding search missed.
  *
@@ -65,7 +65,7 @@ const { TextArea } = Input;
  * hierarchy) — those fields already come back from candidates/search, so
  * no extra API call happens there.
  *
- * @param {Object[]} candidates - Candidates from /app/theme/candidates, assumed sorted by similarity.
+ * @param {Object[]} candidates - Candidates from /theme/candidates, assumed sorted by similarity.
  * @param {Object[]} manualTopics - Topics added via manual search.
  * @param {Object.<string, {status: string, justification?: string}>} classifications - Keyed by topic_id.
  * @param {boolean} [truncated] - True when /candidates reported that the backend truncated the seed; shows the long-seed warning.

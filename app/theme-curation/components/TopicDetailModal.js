@@ -33,8 +33,8 @@ const HIERARCHY_LEVELS = (topic) => [
  * a link to the ImpactU production filtered by the topic (01 D-101; always
  * shown when the topic has an id) and a link to its Wikipedia reference.
  *
- * All of these fields already come back from /app/theme/candidates and
- * /app/theme/search (02 §2 and §3.1-3.2) — opening this modal never triggers a new API call, it just
+ * All of these fields already come back from /theme/candidates and
+ * /theme/search (02 §2 and §3.1-3.2) — opening this modal never triggers a new API call, it just
  * surfaces data the topic object already carries.
  *
  * @param {boolean} open

@@ -146,7 +146,8 @@ test.describe("Testing the topic modal links with simulated API", () => {
     page.on("request", (request) => {
       if (
         request.method() !== "GET" &&
-        new URL(request.url()).pathname.startsWith("/app/theme")
+        (new URL(request.url()).pathname === "/theme" ||
+          new URL(request.url()).pathname.startsWith("/theme/"))
       )
         writes.push(request.url());
     });
@@ -178,7 +179,7 @@ test.describe("Testing the production link in the Screen 2 modal with simulated 
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {
@@ -190,7 +191,7 @@ test.describe("Testing the production link in the Screen 2 modal with simulated 
                 ...catalogFields("Topic one"),
               },
             ],
-            total_results: 1,
+            meta: { count: 1 },
             reranking_available: true,
           }),
       },

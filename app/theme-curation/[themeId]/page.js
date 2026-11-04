@@ -48,7 +48,7 @@ const { Paragraph, Text } = Typography;
  * Counts of a theme's topics by status. Prefers the `summary` the backend
  * sends (02 §2); falls back to counting `topics` if it is missing.
  *
- * @param {Object} theme - The theme detail (GET /app/theme/<id>).
+ * @param {Object} theme - The theme detail (GET /theme/<id>).
  * @returns {{included: number, borderline: number, excluded: number, manual: number}}
  */
 function themeCounts(theme) {
@@ -65,7 +65,7 @@ function themeCounts(theme) {
 
 /**
  * ThemeDetailPage is Screen 5 of the Theme Curation flow: the detail of one
- * saved theme (GET /app/theme/<theme_id>) with its header data, counts by
+ * saved theme (GET /theme/<theme_id>) with its header data, counts by
  * status, CSV/JSON export and the table of its classified topics.
  *
  * It follows the topic shape proposed in 02 §9 (D-009: name, hierarchy and

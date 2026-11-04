@@ -38,12 +38,12 @@ const scores = Object.fromEntries(
 let lastCandidatesBody;
 const candidatesHandler = (extra = {}) => ({
   match: (url, request) =>
-    url.pathname === "/app/theme/candidates" && request.method() === "POST",
+    url.pathname === "/theme/candidates" && request.method() === "POST",
   reply: (route, request) => {
     lastCandidatesBody = request.postDataJSON();
     return json(route, 200, {
       data: candidates,
-      total_results: candidates.length,
+      meta: { count: candidates.length },
       truncated: false,
       reranking_available: true,
       ...extra,

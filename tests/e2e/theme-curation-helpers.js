@@ -21,6 +21,10 @@ export const CORS = {
 
 export const NOT_FOUND_THEME =
   "Este Eje Temático no existe o el enlace es incorrecto.";
+export const NOT_FOUND_OTHER =
+  "Este Eje Temático ya no existe o el enlace es incorrecto.";
+export const NOT_CONFIGURED =
+  "Esta función aún no está activa en este ambiente. Avisa al equipo de ImpactU.";
 export const NETWORK =
   "No se pudo conectar con el servicio. Revisa tu conexión e inténtalo de nuevo.";
 export const RATE_SEARCH =
@@ -141,11 +145,11 @@ export const json = (route, status, body) =>
   });
 
 /**
- * Answers every /app/theme* request with the first handler whose `match`
+ * Answers every /theme* request with the first handler whose `match`
  * accepts it, and with a 500 when none does, so an unexpected call fails the
  * test instead of reaching a real backend.
  *
- * `POST /app/theme/candidates/rerank` (phase 2 of Screen 2, 02 §3.10) gets a
+ * `POST /theme/candidates/rerank` (phase 2 of Screen 2, 02 §3.10) gets a
  * default answer, [mock], unless a handler of the test matches it first: the
  * same topics in the same order, with `rank` and `cosine_rank` equal to their
  * place in the request. So Screen 2 reaches phase 2 (list with buttons) at
@@ -154,7 +158,7 @@ export const json = (route, status, body) =>
 export async function mockThemeApi(page, handlers) {
   const withDefaults = [...handlers, identityRerankHandler];
   await page.route(
-    (url) => url.pathname.startsWith("/app/theme"),
+    (url) => url.pathname === "/theme" || url.pathname.startsWith("/theme/"),
     async (route) => {
       const request = route.request();
       if (request.method() === "OPTIONS") {
@@ -169,7 +173,7 @@ export async function mockThemeApi(page, handlers) {
 }
 
 const isRerank = (url, request) =>
-  url.pathname === "/app/theme/candidates/rerank" && request.method() === "POST";
+  url.pathname === "/theme/candidates/rerank" && request.method() === "POST";
 
 // [mock] Phase 2 answer: the ids as received, `rank` = `cosine_rank` = place.
 // Only the fields the contract names are sent; the page keeps the rest from
@@ -184,7 +188,7 @@ const identityRerankHandler = {
         rank: i + 1,
         cosine_rank: i + 1,
       })),
-      total_results: ids.length,
+      meta: { count: ids.length },
     });
   },
 };
@@ -227,13 +231,13 @@ export const rerankHandler = ({
         cosine_rank: cosineRank,
         ...(scores[id] !== undefined ? { similarity_score: scores[id] } : {}),
       })),
-      total_results: moved.length,
+      meta: { count: moved.length },
     });
   },
 });
 
 export const detailHandler = (theme) => ({
-  match: (url) => url.pathname === "/app/theme/t1",
+  match: (url) => url.pathname === "/theme/t1",
   reply: (route) => json(route, 200, { data: theme }),
 });
 

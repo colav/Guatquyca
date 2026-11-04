@@ -30,7 +30,7 @@ export const SEED_LONG_MESSAGE =
   "La semilla es más larga de lo recomendado. Una semilla más larga no da mejores resultados; prioriza los términos que definen el eje.";
 
 /**
- * Warning shown on Screens 1-2 when /app/theme/candidates answers
+ * Warning shown on Screens 1-2 when /theme/candidates answers
  * `truncated: true` (01 D-008, 11 B7): the model really cut the seed. It
  * takes precedence over SEED_LONG_MESSAGE when both apply. Text fixed by
  * Luis (26 Oct).
@@ -57,7 +57,7 @@ export const CANDIDATE_COUNT = 120;
  * Two-phase review (01 D-089, D-090, D-097). Phase 1 is the cosine list with
  * no classification buttons; phase 2 is the same 120 topics reordered by the
  * reranker, with buttons, a visible position and a tooltip. Phase 2 is
- * `POST /app/theme/candidates/rerank` (contract 02 version 8, §3.10); it takes
+ * `POST /theme/candidates/rerank` (contract 02 version 8, §3.10); it takes
  * about 11 s with a GPU.
  */
 
@@ -155,6 +155,13 @@ export const BAD_REQUEST_MESSAGES = {
 };
 export const SERVER_ERROR_MESSAGE =
   "El servicio tuvo un problema. Inténtalo de nuevo.";
+/** 503 with a `code` of "service not configured" (D-106 Q2, F25d). */
+export const NOT_CONFIGURED_CODES = ["curation_not_configured", "embeddings_not_configured"];
+export const NOT_CONFIGURED_MESSAGE =
+  "Esta función aún no está activa en este ambiente. Avisa al equipo de ImpactU.";
+/** 404 outside Screen 5 (never the server's text). */
+export const NOT_FOUND_OTHER_MESSAGE =
+  "Este Eje Temático ya no existe o el enlace es incorrecto.";
 
 /** Manual topic search texts (01 D-033 a). */
 export const MANUAL_SEARCH_PLACEHOLDER = "Buscar tópico en inglés...";
