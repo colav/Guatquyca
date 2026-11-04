@@ -155,6 +155,13 @@ export const BAD_REQUEST_MESSAGES = {
 };
 export const SERVER_ERROR_MESSAGE =
   "El servicio tuvo un problema. Inténtalo de nuevo.";
+/** 503 with a `code` of "service not configured" (D-106 Q2, F25d). */
+export const NOT_CONFIGURED_CODES = ["curation_not_configured", "embeddings_not_configured"];
+export const NOT_CONFIGURED_MESSAGE =
+  "Esta función aún no está activa en este ambiente. Avisa al equipo de ImpactU.";
+/** 404 outside Screen 5 (never the server's text). */
+export const NOT_FOUND_OTHER_MESSAGE =
+  "Este Eje Temático ya no existe o el enlace es incorrecto.";
 
 /** Manual topic search texts (01 D-033 a). */
 export const MANUAL_SEARCH_PLACEHOLDER = "Buscar tópico en inglés...";

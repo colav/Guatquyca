@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import {
   CORS,
   NOT_FOUND_THEME,
+  NOT_FOUND_OTHER,
+  NOT_CONFIGURED,
   NETWORK,
   RATE_SEARCH,
   RATE_GENERAL,
@@ -180,12 +182,53 @@ test.describe("Testing the error texts by context (D-049)", () => {
     await expect(alertText(page)).toHaveText(NOT_FOUND_THEME);
   });
 
-  test("other 404s keep the server message", async ({ page }) => {
+  test("other 404s use the 'ya no existe' text, never the server's", async ({
+    page,
+  }) => {
     await mockThemeApi(page, [
-      candidatesPost((route) => json(route, 404, { error: "Not found here" })),
+      candidatesPost((route) =>
+        json(route, 404, { error: "El eje temático con id zzz no existe." }),
+      ),
     ]);
     await toCandidates(page);
-    await expect(alertText(page)).toHaveText("Not found here");
+    await expect(alertText(page)).toHaveText(NOT_FOUND_OTHER);
+    await expect(alertText(page)).not.toContainText("zzz");
+  });
+
+  // --- 503 by `code` (F25d) ---
+  for (const code of ["curation_not_configured", "embeddings_not_configured"]) {
+    test(`503 ${code} in the listing has its own text`, async ({ page }) => {
+      await mockThemeApi(page, [
+        listGet((route) =>
+          json(route, 503, { code, error: "The service is not configured." }),
+        ),
+      ]);
+      await page.goto("/theme-curation");
+      await expect(alertText(page)).toHaveText(NOT_CONFIGURED);
+      await expect(alertText(page)).not.toContainText("configured.");
+    });
+
+    test(`503 ${code} asking for candidates has its own text`, async ({
+      page,
+    }) => {
+      await mockThemeApi(page, [
+        candidatesPost((route) =>
+          json(route, 503, { code, error: "The service is not configured." }),
+        ),
+      ]);
+      await toCandidates(page);
+      await expect(alertText(page)).toHaveText(NOT_CONFIGURED);
+    });
+  }
+
+  test("503 with an unknown code keeps the service problem text", async ({
+    page,
+  }) => {
+    await mockThemeApi(page, [
+      listGet((route) => json(route, 503, { code: "other_code", error: "x" })),
+    ]);
+    await page.goto("/theme-curation");
+    await expect(alertText(page)).toHaveText(SERVER_PROBLEM);
   });
 
   // --- 429 ---

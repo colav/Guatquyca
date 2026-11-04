@@ -21,6 +21,10 @@ export const CORS = {
 
 export const NOT_FOUND_THEME =
   "Este Eje Temático no existe o el enlace es incorrecto.";
+export const NOT_FOUND_OTHER =
+  "Este Eje Temático ya no existe o el enlace es incorrecto.";
+export const NOT_CONFIGURED =
+  "Esta función aún no está activa en este ambiente. Avisa al equipo de ImpactU.";
 export const NETWORK =
   "No se pudo conectar con el servicio. Revisa tu conexión e inténtalo de nuevo.";
 export const RATE_SEARCH =

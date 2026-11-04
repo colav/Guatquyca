@@ -7,6 +7,9 @@
 /* Constants & utils */
 import {
   BAD_REQUEST_MESSAGES,
+  NOT_CONFIGURED_CODES,
+  NOT_CONFIGURED_MESSAGE,
+  NOT_FOUND_OTHER_MESSAGE,
   NOT_FOUND_THEME_MESSAGE,
   RATE_LIMIT_GENERAL_MESSAGE,
   RATE_LIMIT_MESSAGE,
@@ -28,11 +31,12 @@ import {
  *   connection text, already carried by the error (`isNetwork`);
  * - 429: the "búsquedas" text for the search and the candidates, the general
  *   one elsewhere;
- * - 5xx: the service-problem text;
+ * - 503 with a `code` of "service not configured" (F25d): its own text;
+ * - other 5xx: the service-problem text;
  * - 400: one text per context;
- * - 404 opening a theme (Screen 5): its own text;
- * - anything else (other 404s, ...): what the error carried (the server's
- *   message) or `fallback`.
+ * - 404 opening a theme (Screen 5): its own text; any other 404: the "ya no
+ *   existe" text (F25d, never the server's);
+ * - anything else: what the error carried or `fallback`.
  *
  * @param {Error & {status?: number, isNetwork?: boolean}} err
  * @param {string} fallback
@@ -47,12 +51,17 @@ export function errorMessage(err, fallback, context = "other") {
       ? RATE_LIMIT_MESSAGE
       : RATE_LIMIT_GENERAL_MESSAGE;
   }
+  if (status === 503 && NOT_CONFIGURED_CODES.includes(err?.code)) {
+    return NOT_CONFIGURED_MESSAGE;
+  }
   if (status >= 500 && status <= 599) return SERVER_ERROR_MESSAGE;
   if (status === 400) {
     return BAD_REQUEST_MESSAGES[context] ?? BAD_REQUEST_MESSAGES.other;
   }
-  if (status === 404 && context === "themeDetail") {
-    return NOT_FOUND_THEME_MESSAGE;
+  if (status === 404) {
+    return context === "themeDetail"
+      ? NOT_FOUND_THEME_MESSAGE
+      : NOT_FOUND_OTHER_MESSAGE;
   }
   return err?.message || fallback;
 }
