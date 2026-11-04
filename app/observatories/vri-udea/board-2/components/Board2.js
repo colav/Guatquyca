@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 /* Components */
+import CutoffNote from "@/app/observatories/components/CutoffNote";
 import ChartCard from "@/app/observatories/components/ChartCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
@@ -307,6 +308,7 @@ function Board2Content({ dataset }) {
           <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{FOOTER_TEXT}</Typography.Paragraph>
         </Col>
       </Row>
+      <CutoffNote />
     </div>
   );
 }

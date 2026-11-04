@@ -18,9 +18,6 @@ export const STAFF_LABEL = "profesores según la tabla de personal anterior";
 /** Provisional label of the panels whose indicator is replaced by a proxy (D-106). */
 export const PROXY_LABEL = "provisional: se reemplazará por el nivel de formación de la planta";
 
-/** Provisional footer with the cut-off date (to be confirmed by Luis; it changes in this one place). */
-export const CUTOFF_FOOTER = "Datos de ImpactU extraídos del 4 al 16 oct 2026; tópicos v2 consultados el 31 oct; 2025 y 2026 pueden estar incompletos.";
-
 export const FOOTER_TEXT =
   "Fuentes: bases UdeA en CSV (works, work_authors, authors, work_topics, work_groups, instituciones_coautoras), BD_Grupos de investigación y Centros (hojas Grupos, Investigadores, consultasoljulio), ListadoProyectos03_07_2025, Productos de creación.xlsx, topicos_openalex.xlsx y Tableros_thesaurus_5.xlsx (términos Núcleo). Población de Antioquia: CNPV 2018 (DANE). Los conteos de «profesores» usan los autores con tipo de contrato en la base; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
 

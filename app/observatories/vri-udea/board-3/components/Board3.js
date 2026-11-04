@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
+import CutoffNote from "@/app/observatories/components/CutoffNote";
 import FiltersBar from "./FiltersBar";
 import { Note } from "../../board-2/components/Board2Parts";
 import { AreasTreemapChart, ArtsScatterChart, BubbleGridChart, HBarsChart, LinesChart, StackedBarsChart } from "./Charts";
@@ -35,7 +36,6 @@ import {
   BOARD_EYEBROW,
   BOARD_LEAD,
   BOARD_TITLE,
-  CUTOFF_FOOTER,
   FOOTER_TEXT,
   MOCK_TAG,
   PROXY_LABEL,
@@ -47,7 +47,7 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Alert, Card, Col, Collapse, Divider, Result, Row, Skeleton, Statistic, Table, Tag, Typography } from "antd";
+import { Card, Col, Collapse, Divider, Result, Row, Skeleton, Statistic, Table, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -416,7 +416,7 @@ function Board3Content({ dataset }) {
         </Col>
       </Row>
 
-      <Alert type="info" showIcon style={{ marginTop: 16 }} message={CUTOFF_FOOTER} />
+      <CutoffNote />
       <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 12 }}>{FOOTER_TEXT}</Typography.Paragraph>
     </div>
   );

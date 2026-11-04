@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import CutoffNote from "@/app/observatories/components/CutoffNote";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import FiltersBar from "./FiltersBar";
 import TopicScatter from "./TopicScatter";
@@ -236,6 +237,7 @@ function Board1Content({ dataset }) {
           />
         </Col>
       </Row>
+      <CutoffNote />
     </div>
   );
 }

@@ -19,6 +19,7 @@ test("Board 2 loads the test data with the KPIs of the artifact and no 'Aplicar'
   await expect(page.getByRole("heading", { name: "Colaboración, redes y hélices" }).first()).toBeVisible({ timeout: 90000 });
   await expect(page.getByText("51.093", { exact: false }).first()).toBeVisible();
   await expect(page.getByText("Datos de prueba · ensayo con limitaciones de datos")).toBeVisible();
+  await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Aplicar" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Limpiar filtros" })).toBeVisible();
 });
