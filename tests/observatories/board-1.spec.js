@@ -19,10 +19,19 @@ test("the home lists the VRI-UdeA observatory", async ({ page }) => {
   await expect(page.getByText("VRI-UdeA").first()).toBeVisible();
 });
 
-test("the cover shows Boards 1 and 2 active and Board 3 as coming soon", async ({ page }) => {
+test("the cover has three tabs, loads the first board and keeps the filters of each board apart", async ({ page }) => {
   await page.goto("/observatories/vri-udea");
-  await expect(page.getByRole("link", { name: "Abrir tablero" })).toHaveCount(2);
-  await expect(page.getByText("Próximamente")).toHaveCount(1);
+  const tabs = page.getByRole("tab");
+  await expect(tabs).toHaveText(["Masa crítica temática", "Colaboración, redes y hélices", "Capacidades de base UdeA"]);
+  await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByText("Tablero 1")).toHaveCount(0);
+  await expect(page.getByText("Datos de prueba · métrica de liderazgo provisional")).toBeVisible({ timeout: 60000 });
+  await page.goto("/observatories/vri-udea/board-1?doc=CONPES%204144");
+  await page.getByRole("tab", { name: "Colaboración, redes y hélices" }).click();
+  await expect(page).toHaveURL(/board-2$/, { timeout: 60000 });
+  await page.getByRole("tab", { name: "Capacidades de base UdeA" }).click();
+  await expect(page).toHaveURL(/board-3$/, { timeout: 60000 });
+  await expect(page.getByText("Próximamente")).toBeVisible();
 });
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {

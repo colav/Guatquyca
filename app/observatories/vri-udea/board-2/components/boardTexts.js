@@ -3,9 +3,9 @@
  * The state of the evidence of the Eje Temático is not named in any screen.
  */
 
-export const BOARD_TITLE = "Tablero 2 · Colaboración, redes y hélices";
+export const BOARD_TITLE = "Colaboración, redes y hélices";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026 · Ensayo 1 del Tablero 2";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026 · Ensayo 1";
 
 export const BOARD_LEAD =
   "Los indicadores de este tablero sintetizan las demandas, metas y programas que, en doce documentos de política, mencionan la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta; caracteriza cómo colabora la Universidad y con quién.";

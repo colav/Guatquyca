@@ -1,42 +1,29 @@
 "use client";
 
+/* React */
+import { Suspense } from "react";
+
 /* Components */
 import PageContainer from "../../components/PageContainer";
-import { BoardList } from "../../components/ObservatoryCards";
+import BoardTabs from "./BoardTabs";
+import Board1 from "../board-1/components/Board1";
 
 /* UI Library Components */
 import { Typography } from "antd";
 
-/* Constants (provisional texts, pending approval of Luis) */
-const BOARDS = [
-  {
-    key: "board-1",
-    title: "Tablero 1 · Masa crítica temática",
-    description: "Capacidad de la UdeA para generar impacto con su producción en cada tópico de OpenAlex, medida en seis categorías y asociada a los Ejes Temáticos de las agendas públicas.",
-    href: "/observatories/vri-udea/board-1",
-  },
-  {
-    key: "board-2",
-    title: "Tablero 2 · Colaboración, redes y hélices",
-    description: "Colaboración entre grupos, con organizaciones no académicas y entre países.",
-    href: "/observatories/vri-udea/board-2",
-  },
-  {
-    key: "board-3",
-    title: "Tablero 3 · Capacidades de base UdeA",
-    description: "Talento investigador, grupos, tesis, apropiación social y ciencia abierta.",
-  },
-];
-
 /**
- * Cover of the VRI-UdeA observatory: Board 1 active; Boards 2 and 3 "próximamente".
+ * Cover of the VRI-UdeA observatory (F27, D-106 Q5): three tabs, the first board loaded by
+ * default. The other tabs go to their own routes, so their data loads only when they are opened.
  */
 export default function CoverContent() {
   return (
     <PageContainer trail={[{ title: "Observatorios", href: "/observatories" }, { title: "VRI-UdeA" }]}>
       <Typography.Title level={2}>Observatorio VRI-UdeA</Typography.Title>
       <Typography.Paragraph>Universidad de Antioquia · Capacidades VRI 2026.</Typography.Paragraph>
-      <BoardList boards={BOARDS} />
+      <BoardTabs active="board-1" />
+      <Suspense fallback={null}>
+        <Board1 />
+      </Suspense>
     </PageContainer>
   );
 }

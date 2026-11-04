@@ -3,7 +3,7 @@
  * The state of the evidence of the Eje Temático is not named in any screen.
  */
 
-export const BOARD_TITLE = "Tablero 1 · Masa crítica temática: campos de conocimiento demandados";
+export const BOARD_TITLE = "Masa crítica temática: campos de conocimiento demandados";
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 · Ensayo";
 
