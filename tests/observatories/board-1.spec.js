@@ -31,7 +31,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
   await expect(page).toHaveURL(/board-2$/, { timeout: 60000 });
   await page.getByRole("tab", { name: "Capacidades de base UdeA" }).click();
   await expect(page).toHaveURL(/board-3$/, { timeout: 60000 });
-  await expect(page.getByText("Próximamente")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Capacidades de base del sistema: talento, producción e infraestructura" })).toBeVisible({ timeout: 60000 });
 });
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {

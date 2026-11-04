@@ -40,3 +40,16 @@ test("the colours of Board 2 come from PALETTE too", async () => {
   expect(new Set(COLLAB_TYPE_COLORS).size).toBe(COLLAB_TYPE_COLORS.length);
   expect(new Set(Object.values(SECTOR_COLORS)).size).toBe(Object.keys(SECTOR_COLORS).length);
 });
+
+test("the colours of Board 3 come from PALETTE and the open-access palette", async () => {
+  const { FOUNDATIONS_COLORS } = await import("../../lib/observatories/palette");
+  const colors = [
+    ...FOUNDATIONS_COLORS.series, ...Object.values(FOUNDATIONS_COLORS.sex), ...FOUNDATIONS_COLORS.contracts,
+    ...Object.values(FOUNDATIONS_COLORS.identifiers), ...Object.values(FOUNDATIONS_COLORS.repository),
+    ...Object.values(FOUNDATIONS_COLORS.bars), ...Object.values(FOUNDATIONS_COLORS.arts),
+  ];
+  colors.forEach((c) => expect(PALETTE).toContain(c));
+  [FOUNDATIONS_COLORS.openAccess.open, FOUNDATIONS_COLORS.openAccess.closed].forEach((c) => expect(Object.values(OPEN_ACCESS_PALETTE)).toContain(c));
+  expect(PALETTE).toContain(FOUNDATIONS_COLORS.openAccess.noData);
+  expect(new Set(FOUNDATIONS_COLORS.contracts).size).toBe(FOUNDATIONS_COLORS.contracts.length);
+});

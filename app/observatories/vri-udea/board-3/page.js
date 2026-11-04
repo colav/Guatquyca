@@ -1,11 +1,16 @@
+/* React */
+import { Suspense } from "react";
+
 /* Components */
 import PageContainer from "../../components/PageContainer";
 import BoardTabs from "../components/BoardTabs";
+import Board3 from "./components/Board3";
 
 export const metadata = { title: "Capacidades de base UdeA | Observatorio VRI-UdeA | ImpactU" };
 
 /**
- * Third board of the VRI-UdeA observatory: placeholder until the board is mounted (F26).
+ * Board 3 of the VRI-UdeA observatory. The Suspense boundary is required by the filters, which
+ * read the URL (useSearchParams).
  */
 export default function Board3Page() {
   return (
@@ -17,7 +22,9 @@ export default function Board3Page() {
       ]}
     >
       <BoardTabs active="board-3" />
-      <p>Próximamente</p>
+      <Suspense fallback={null}>
+        <Board3 />
+      </Suspense>
     </PageContainer>
   );
 }

@@ -1,0 +1,89 @@
+"use client";
+
+/* Hooks */
+import { memo, useMemo } from "react";
+
+/* lib */
+import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundations";
+
+/* Texts */
+import { SCOPE_LABELS } from "./boardTexts";
+
+/* UI Library Components */
+import { Button, Col, Row, Select, Typography } from "antd";
+
+/* Constants */
+const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
+const SCOPE_OPTIONS = SCOPE_LABELS.map((label, value) => ({ value, label }));
+const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 4 };
+const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
+
+function Field({ label, children }) {
+  return (
+    <Col xs={24} sm={12} md={6}>
+      <label style={labelStyle}>{label}</label>
+      {children}
+    </Col>
+  );
+}
+
+/**
+ * Filters of Board 3 (report section 4). They apply at once and are combined with AND; the
+ * entity filters (centre, unit, subunit, subfield) expand to the topics where the entity takes part.
+ *
+ * @param {Object} raw - Tables of the dataset.
+ * @param {Object} filters - Current (draft) filters.
+ * @param {Function} onChange - Receives a patch of the filters.
+ * @param {Function} onReset - Restores the defaults.
+ */
+function FiltersBar({ raw, filters, onChange, onReset }) {
+  const documents = useMemo(
+    () => raw.agendas_all.map((name, i) => ({ value: i, label: i < ACTIVE_POLICY_DOCUMENTS ? name : `${name} (sin términos)`, disabled: i >= ACTIVE_POLICY_DOCUMENTS })),
+    [raw],
+  );
+  const centers = useMemo(() => raw.centros.map((name, i) => ({ value: i, label: name })).filter((o) => o.label !== "Sin centro"), [raw]);
+  const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
+  const units = useMemo(() => indexOptions(raw.deps), [raw]);
+  const subfields = useMemo(() => indexOptions(raw.subs), [raw]);
+
+  const select = (key, options, placeholder) => (
+    <Select
+      showSearch
+      allowClear
+      style={{ width: "100%" }}
+      placeholder={placeholder}
+      options={options}
+      filterOption={searchFilter}
+      value={filters[key] >= 0 ? filters[key] : undefined}
+      onChange={(v) => onChange({ [key]: v === undefined || v === null ? -1 : v })}
+    />
+  );
+
+  return (
+    <section aria-label="Filtros" style={{ marginBottom: 16 }}>
+      <Row gutter={[12, 12]}>
+        <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
+        <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
+        <Field label="Centro de investigación">{select("centerIndex", centers, "Todos")}</Field>
+        <Field label="Temporalidad">
+          <div style={{ display: "flex", gap: 8 }}>
+            <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />
+            <Select style={{ width: "50%" }} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={(v) => onChange({ yearTo: v })} />
+          </div>
+        </Field>
+        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas")}</Field>
+        <Field label="Subunidad académica">{select("departmentIndex", units, "Todas")}</Field>
+        <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos")}</Field>
+        <Col xs={24} sm={12} md={6} style={{ display: "flex", alignItems: "flex-end" }}>
+          <Button onClick={onReset}>Limpiar filtros</Button>
+        </Col>
+      </Row>
+      <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+        Los filtros se aplican al instante y quedan en la dirección de la página. Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.
+      </Typography.Text>
+    </section>
+  );
+}
+
+export default memo(FiltersBar);
