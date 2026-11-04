@@ -158,7 +158,7 @@ export const json = (route, status, body) =>
 export async function mockThemeApi(page, handlers) {
   const withDefaults = [...handlers, identityRerankHandler];
   await page.route(
-    (url) => url.pathname.startsWith("/theme"),
+    (url) => url.pathname === "/theme" || url.pathname.startsWith("/theme/"),
     async (route) => {
       const request = route.request();
       if (request.method() === "OPTIONS") {

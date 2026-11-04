@@ -146,7 +146,8 @@ test.describe("Testing the topic modal links with simulated API", () => {
     page.on("request", (request) => {
       if (
         request.method() !== "GET" &&
-        new URL(request.url()).pathname.startsWith("/theme")
+        (new URL(request.url()).pathname === "/theme" ||
+          new URL(request.url()).pathname.startsWith("/theme/"))
       )
         writes.push(request.url());
     });
