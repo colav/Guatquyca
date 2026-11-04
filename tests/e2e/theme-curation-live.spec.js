@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 // is set, for example:  E2E_LIVE=1 npx playwright test theme-curation-live
 //
 // These tests only read: they open the first theme of the listing and ask for
-// candidates (POST /app/theme/candidates computes, it stores nothing). They
+// candidates (POST /theme/candidates computes, it stores nothing). They
 // never reach the save step and never create or classify anything.
 
 const LIVE = !!process.env.E2E_LIVE;
@@ -15,7 +15,7 @@ const STATUS_LABELS = {
   excluded: "Excluido",
 };
 
-const THEME_DETAIL_PATH = /^\/app\/theme\/[0-9a-f-]{36}$/;
+const THEME_DETAIL_PATH = /^\/theme\/[0-9a-f-]{36}$/;
 
 // Synthetic technical text written for these tests (no user data).
 const SENTENCES = [
@@ -129,13 +129,13 @@ test.describe("Testing Theme Curation against a real backend (read-only)", () =>
         page.getByRole("link", { name: /Descargar CSV/ }),
       ).toHaveAttribute(
         "href",
-        new RegExp(`/app/theme/${detail.theme_id}/export\\?format=csv$`),
+        new RegExp(`/theme/${detail.theme_id}/export\\?format=csv$`),
       );
       await expect(
         page.getByRole("link", { name: /Descargar JSON/ }),
       ).toHaveAttribute(
         "href",
-        new RegExp(`/app/theme/${detail.theme_id}/export\\?format=json$`),
+        new RegExp(`/theme/${detail.theme_id}/export\\?format=json$`),
       );
     });
   });
@@ -149,7 +149,7 @@ test.describe("Testing Theme Curation against a real backend (read-only)", () =>
         page.waitForResponse(
           (r) =>
             r.request().method() === "POST" &&
-            new URL(r.url()).pathname === "/app/theme/candidates",
+            new URL(r.url()).pathname === "/theme/candidates",
         ),
         page.getByRole("button", { name: "Buscar tópicos candidatos" }).click(),
       ]);
@@ -217,7 +217,7 @@ test.describe("Testing the manual topic search against a real backend (read-only
       page.waitForResponse(
         (r) =>
           r.request().method() === "GET" &&
-          new URL(r.url()).pathname === "/app/theme/search",
+          new URL(r.url()).pathname === "/theme/search",
       ),
       page.getByPlaceholder("Buscar tópico en inglés...").fill("bioeco"),
     ]);
@@ -301,13 +301,13 @@ test.describe("Testing the two-phase candidate list against a real backend (read
       await page.getByPlaceholder(/^Describe el eje/).fill(seed);
 
       const phaseOnePromise = page.waitForResponse((r) =>
-        isPath(r, "/app/theme/candidates"),
+        isPath(r, "/theme/candidates"),
       );
       const rerankRequestPromise = page.waitForRequest((r) =>
-        r.url().endsWith("/app/theme/candidates/rerank"),
+        r.url().endsWith("/theme/candidates/rerank"),
       );
       const rerankResponsePromise = page.waitForResponse(
-        (r) => isPath(r, "/app/theme/candidates/rerank"),
+        (r) => isPath(r, "/theme/candidates/rerank"),
         { timeout: 90000 },
       );
       await page

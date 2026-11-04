@@ -83,10 +83,10 @@ test.describe("Testing Theme Curation detail (Screen 5) with simulated API", () 
   test("links to the CSV and JSON exports", async ({ page }) => {
     await expect(
       page.getByRole("link", { name: /Descargar CSV/ }),
-    ).toHaveAttribute("href", /\/app\/theme\/t1\/export\?format=csv$/);
+    ).toHaveAttribute("href", /\/theme\/t1\/export\?format=csv$/);
     await expect(
       page.getByRole("link", { name: /Descargar JSON/ }),
-    ).toHaveAttribute("href", /\/app\/theme\/t1\/export\?format=json$/);
+    ).toHaveAttribute("href", /\/theme\/t1\/export\?format=json$/);
   });
 
   test("opens the topic modal with hierarchy and summary", async ({ page }) => {
@@ -157,7 +157,7 @@ test.describe("Testing Theme Curation detail errors", () => {
     attempts = 0;
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t404",
+        match: (url) => url.pathname === "/theme/t404",
         reply: (route) => {
           attempts += 1;
           return attempts === 1

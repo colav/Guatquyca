@@ -18,7 +18,7 @@ import {
 test.describe("Testing status texts for the other backend errors", () => {
   const post = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply,
   });
 
@@ -61,7 +61,7 @@ test.describe("Testing status texts for the other backend errors", () => {
   test("detail 500 shows the service problem text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: (route) => json(route, 500, { error: "Internal server error" }),
       },
     ]);
@@ -75,15 +75,15 @@ test.describe("Testing status texts for the other backend errors", () => {
 test.describe("Testing the error texts by context (D-049)", () => {
   const candidatesPost = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply,
   });
   const searchGet = (reply) => ({
-    match: (url) => url.pathname === "/app/theme/search",
+    match: (url) => url.pathname === "/theme/search",
     reply,
   });
   const listGet = (reply) => ({
-    match: (url) => url.pathname === "/app/theme",
+    match: (url) => url.pathname === "/theme",
     reply,
   });
   const candidatesOk = (route) =>
@@ -113,7 +113,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   };
   const createPost = (reply) => ({
     match: (url, request) =>
-      url.pathname === "/app/theme" && request.method() === "POST",
+      url.pathname === "/theme" && request.method() === "POST",
     reply,
   });
   const alertText = (page) =>
@@ -151,7 +151,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("no connection opening a theme", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: (route) => route.abort(),
       },
     ]);
@@ -172,7 +172,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("a 404 opening a theme has its own text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t9",
+        match: (url) => url.pathname === "/theme/t9",
         reply: (route) => json(route, 404, { error: "no existe" }),
       },
     ]);
@@ -212,7 +212,7 @@ test.describe("Testing the error texts by context (D-049)", () => {
   test("429 opening a theme uses the general text", async ({ page }) => {
     await mockThemeApi(page, [
       {
-        match: (url) => url.pathname === "/app/theme/t1",
+        match: (url) => url.pathname === "/theme/t1",
         reply: html429,
       },
     ]);

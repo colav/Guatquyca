@@ -30,7 +30,7 @@ export const SEED_LONG_MESSAGE =
   "La semilla es más larga de lo recomendado. Una semilla más larga no da mejores resultados; prioriza los términos que definen el eje.";
 
 /**
- * Warning shown on Screens 1-2 when /app/theme/candidates answers
+ * Warning shown on Screens 1-2 when /theme/candidates answers
  * `truncated: true` (01 D-008, 11 B7): the model really cut the seed. It
  * takes precedence over SEED_LONG_MESSAGE when both apply. Text fixed by
  * Luis (26 Oct).
@@ -57,7 +57,7 @@ export const CANDIDATE_COUNT = 120;
  * Two-phase review (01 D-089, D-090, D-097). Phase 1 is the cosine list with
  * no classification buttons; phase 2 is the same 120 topics reordered by the
  * reranker, with buttons, a visible position and a tooltip. Phase 2 is
- * `POST /app/theme/candidates/rerank` (contract 02 version 8, §3.10); it takes
+ * `POST /theme/candidates/rerank` (contract 02 version 8, §3.10); it takes
  * about 11 s with a GPU.
  */
 

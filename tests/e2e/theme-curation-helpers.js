@@ -141,11 +141,11 @@ export const json = (route, status, body) =>
   });
 
 /**
- * Answers every /app/theme* request with the first handler whose `match`
+ * Answers every /theme* request with the first handler whose `match`
  * accepts it, and with a 500 when none does, so an unexpected call fails the
  * test instead of reaching a real backend.
  *
- * `POST /app/theme/candidates/rerank` (phase 2 of Screen 2, 02 §3.10) gets a
+ * `POST /theme/candidates/rerank` (phase 2 of Screen 2, 02 §3.10) gets a
  * default answer, [mock], unless a handler of the test matches it first: the
  * same topics in the same order, with `rank` and `cosine_rank` equal to their
  * place in the request. So Screen 2 reaches phase 2 (list with buttons) at
@@ -154,7 +154,7 @@ export const json = (route, status, body) =>
 export async function mockThemeApi(page, handlers) {
   const withDefaults = [...handlers, identityRerankHandler];
   await page.route(
-    (url) => url.pathname.startsWith("/app/theme"),
+    (url) => url.pathname.startsWith("/theme"),
     async (route) => {
       const request = route.request();
       if (request.method() === "OPTIONS") {
@@ -169,7 +169,7 @@ export async function mockThemeApi(page, handlers) {
 }
 
 const isRerank = (url, request) =>
-  url.pathname === "/app/theme/candidates/rerank" && request.method() === "POST";
+  url.pathname === "/theme/candidates/rerank" && request.method() === "POST";
 
 // [mock] Phase 2 answer: the ids as received, `rank` = `cosine_rank` = place.
 // Only the fields the contract names are sent; the page keeps the rest from
@@ -233,7 +233,7 @@ export const rerankHandler = ({
 });
 
 export const detailHandler = (theme) => ({
-  match: (url) => url.pathname === "/app/theme/t1",
+  match: (url) => url.pathname === "/theme/t1",
   reply: (route) => json(route, 200, { data: theme }),
 });
 

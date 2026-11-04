@@ -12,13 +12,13 @@ import {
 test.describe("Testing the Screen 3 success view spacing", () => {
   const saveOk = {
     match: (url, request) =>
-      url.pathname === "/app/theme" && request.method() === "POST",
+      url.pathname === "/theme" && request.method() === "POST",
     reply: (route) =>
       json(route, 201, { data: { ...THEME, topics: undefined } }),
   };
   const candidatesOk = {
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply: (route) =>
       json(route, 200, {
         data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
@@ -90,7 +90,7 @@ test.describe("Testing the reason of a failed save or retry (D-052)", () => {
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {
@@ -100,12 +100,12 @@ test.describe("Testing the reason of a failed save or retry (D-052)", () => {
       },
       {
         match: (url, request) =>
-          url.pathname === "/app/theme" && request.method() === "POST",
+          url.pathname === "/theme" && request.method() === "POST",
         reply: (route) =>
           json(route, 201, { data: { ...THEME, topics: undefined } }),
       },
       {
-        match: (url) => url.pathname === "/app/theme/t1/topics/bulk",
+        match: (url) => url.pathname === "/theme/t1/topics/bulk",
         reply: (route) => bulkReply(route),
       },
     ]);

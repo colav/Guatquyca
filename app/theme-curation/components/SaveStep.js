@@ -42,7 +42,7 @@ const { Text } = Typography;
  * SaveStep is Screen 3 of the Theme Curation flow: the curator confirms the
  * theme's final name, writes a public description and their curator
  * credit, reviews a summary of how Screen 2's classification landed, and
- * saves — which creates the theme (POST /app/theme) and then persists
+ * saves — which creates the theme (POST /theme) and then persists
  * every classified topic against it (see lib/persist.js).
  *
  * Two things here intentionally diverge from the original high-fidelity
@@ -61,7 +61,7 @@ const { Text } = Typography;
  * @param {Object.<string, {status: string, justification?: string}>} classifications
  * @param {boolean} saving
  * @param {string|null} saveError
- * @param {Object|null} savedTheme - The created theme (from POST /app/theme) once saved.
+ * @param {Object|null} savedTheme - The created theme (from POST /theme) once saved.
  * @param {{topicId: string, ok: boolean, error?: string}[]} failedTopics - Topics that failed to persist even though the theme itself saved.
  * @param {function} onSave - ({curator, description}) => void
  * @param {string|null} [failureReason] - Why the last attempt to save the topics failed as a whole (429, 5xx, no connection, ...); shown in the warning with the failed topics.

@@ -52,7 +52,7 @@ function sortTopics(topics) {
  * (opens the topic detail modal), hierarchy, status, method, justification
  * and classification date, with a name search and status/method filters.
  *
- * Each topic follows the shape proposed in 02 §9 for GET /app/theme/<id>:
+ * Each topic follows the shape proposed in 02 §9 for GET /theme/<id>:
  * the ThemeTopic fields plus the same flat fields as a Candidate, so the
  * element goes straight into TopicDetailModal. `similarity_score` is
  * deliberately NOT shown (undecided, 01 D-032; see 30 "Decisiones

@@ -28,7 +28,7 @@ const manyResults = Array.from({ length: 30 }, (_, i) => ({
 const reviewApi = (getSearchReply) => [
   {
     match: (url, request) =>
-      url.pathname === "/app/theme/candidates" && request.method() === "POST",
+      url.pathname === "/theme/candidates" && request.method() === "POST",
     reply: (route) =>
       json(route, 200, {
         data: [{ topic_id: "1", name: "Topic one", similarity_score: 0.5 }],
@@ -36,7 +36,7 @@ const reviewApi = (getSearchReply) => [
       }),
   },
   {
-    match: (url) => url.pathname === "/app/theme/search",
+    match: (url) => url.pathname === "/theme/search",
     reply: (route) => getSearchReply()(route),
   },
 ];
@@ -74,7 +74,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {
@@ -83,7 +83,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
           }),
       },
       {
-        match: (url) => url.pathname === "/app/theme/search",
+        match: (url) => url.pathname === "/theme/search",
         reply: (route) => searchReply(route),
       },
     ]);
@@ -341,7 +341,7 @@ test.describe("Testing the manual topic search (Screen 2) with simulated API", (
     page.on("request", (req) => {
       if (
         ["POST", "PATCH", "PUT", "DELETE"].includes(req.method()) &&
-        /\/app\/theme/.test(req.url()) &&
+        /\/theme/.test(req.url()) &&
         !req.url().endsWith("/candidates")
       )
         writes.push(req.url());
@@ -779,7 +779,7 @@ test.describe("Testing the keywords line under the topic name (Screen 2) with si
     await mockThemeApi(page, [
       {
         match: (url, request) =>
-          url.pathname === "/app/theme/candidates" &&
+          url.pathname === "/theme/candidates" &&
           request.method() === "POST",
         reply: (route) =>
           json(route, 200, {

@@ -30,7 +30,7 @@ const { Text } = Typography;
 /**
  * ThemeCurationListPage is Screen 4 of the Theme Curation flow: "Mis ejes
  * temáticos" — a filterable listing of every theme curated so far (GET
- * /app/theme), with a way to open the wizard (/theme-curation/new) to
+ * /theme), with a way to open the wizard (/theme-curation/new) to
  * curate a new one.
  *
  * This is the root /theme-curation route. The 3-step creation wizard that

@@ -52,7 +52,7 @@ const debounce = (fn, delay) => {
 
 /**
  * ManualTopicSearch is the "Buscar tópico en inglés..." control from
- * Screen 2: a debounced lexical search (GET /app/theme/search) against the
+ * Screen 2: a debounced lexical search (GET /theme/search) against the
  * full topic catalog, for topics the embedding search didn't surface.
  *
  * Clicking a result adds it to a selection that accumulates across
