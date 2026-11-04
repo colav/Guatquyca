@@ -1,0 +1,445 @@
+.page {
+  max-width: min(1120px, 80%);
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+.breadcrumb {
+  margin-bottom: 12px;
+}
+
+.headerTitle {
+  margin-bottom: 4px;
+  margin-top: 16px;
+}
+
+.headerDescription {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.steps {
+  margin-bottom: 24px;
+}
+
+.stepCard {
+  margin-bottom: 24px;
+}
+
+.stepTitle {
+  margin-bottom: 4px;
+}
+
+.stepDescription {
+  display: block;
+  color: gray;
+  margin-bottom: 24px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.wordCounter {
+  text-align: right;
+  margin-top: 4px;
+}
+
+.tipsCard {
+  background-color: #fafafa;
+  margin-bottom: 24px;
+}
+
+.tipsList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.tipsList li {
+  margin-bottom: 4px;
+}
+
+/* Screen 2 — Review topics */
+
+.reviewHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+/* The title stays at the top when the search card grows with the chosen
+   topics (01 D-052). Its margin centers it on the search box: search box
+   offset in the card (0) + half the box height (16) - half the text height
+   (11) = 5 px. It is not needed when the title wraps to its own row. */
+.reviewHeaderTitle {
+  margin-top: 5px;
+}
+
+@media (max-width: 900px) {
+  .reviewHeaderTitle {
+    margin-top: 0;
+  }
+}
+
+.reviewTable {
+  margin-bottom: 16px;
+}
+
+.justificationPreview {
+  margin-top: 2px;
+  max-width: 480px;
+}
+
+/* Position of a topic after the reranking (phase 2, 01 D-097): the headline of its row. */
+.positionBadge {
+  display: inline-block;
+  min-width: 52px;
+  padding: 2px 12px;
+  border-radius: 16px;
+  background-color: #fff4e0;
+  color: #7a4e00;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+  cursor: help;
+}
+
+.similarityBarTrack {
+  width: 88px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #f0f0f0;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.similarityBarFill {
+  height: 100%;
+  background-color: #3b72a1;
+  border-radius: 2px;
+}
+
+.summaryBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summaryTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.summaryActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Screen 3 — Save theme */
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.summaryRow:last-of-type {
+  border-bottom: none;
+}
+
+.saveActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.topicNameLink {
+  padding: 0;
+  height: auto;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.88) !important;
+}
+
+.topicNameLink:hover {
+  color: #f9b250 !important;
+  text-decoration: underline;
+}
+
+/* One-line keywords under a topic's name (TopicKeywords). */
+.topicKeywords {
+  max-width: 480px;
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.classificationHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.classificationHelpIcon {
+  color: #999;
+  cursor: help;
+}
+
+.statusBtn {
+  border-width: 1.5px;
+}
+
+.statusBtn:hover {
+  opacity: 0.85;
+}
+
+.statusIncluded {
+  color: #52c41a;
+  border-color: #b7eb8f;
+}
+
+.statusIncluded.statusActive {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+  color: #fff !important;
+}
+
+.statusBorderline {
+  color: #d48806;
+  border-color: #ffe58f;
+}
+
+.statusBorderline.statusActive {
+  background-color: #faad14 !important;
+  border-color: #faad14 !important;
+  color: #fff !important;
+}
+
+.statusExcluded {
+  color: #ff4d4f;
+  border-color: #ffccc7;
+}
+
+.statusExcluded.statusActive {
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: #fff !important;
+}
+
+.borderlinePopoverActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Topic detail modal */
+
+.detailSection {
+  margin-bottom: 16px;
+}
+
+.detailSection:last-child {
+  margin-bottom: 0;
+}
+
+.detailLabel {
+  display: block;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.hierarchyLevelLabel {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.hierarchySeparator {
+  margin: 0 2px 4px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Screen 4 — Themes listing */
+
+.listHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.themeSearchInput {
+  max-width: 360px;
+  margin-bottom: 16px;
+}
+
+.themeNameLink {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.88);
+}
+
+.themeNameLink:hover {
+  color: #f9b250;
+}
+
+.tableSpinner {
+  margin: 15px 0 0 -15px !important;
+}
+
+/* Screen 5 — Theme detail */
+
+.detailLoading {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.detailCard {
+  margin-bottom: 16px;
+}
+
+.hierarchyTag {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-inline-end: 0;
+}
+
+.justificationCell {
+  display: block;
+  max-width: 240px;
+}
+
+@media (max-width: 950px) {
+  .page {
+    max-width: 100%;
+    padding: 0 2px 16px;
+  }
+}
+
+/* Manual topic search results (01 D-045): the antd option content is
+   nowrap with an ellipsis by default, which cut every name ("Hea…"). */
+.manualSearchPopup :global(.ant-select-item-option-content) {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.manualResultRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.manualResultName {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Listing: the theme name is the link to the detail (01 D-048). */
+.themeNameText {
+  text-decoration: none;
+}
+
+.themeNameLink:hover .themeNameText {
+  text-decoration: underline;
+}
+
+.themeNameArrow {
+  margin-inline-start: 6px;
+  font-size: 12px;
+}
+
+/* Manual topic search: selection under the search box (01 D-050). */
+/* The search box takes the free space of the header row (01 D-055); when the
+   title wraps to its own row it takes the whole row. */
+.manualSearch {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.manualPendingTag {
+  cursor: pointer;
+  margin-inline-end: 0;
+}
+
+.manualSelection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  max-height: var(--selection-max-height, 120px);
+  overflow-y: auto;
+}
+
+@media (max-width: 576px) {
+  .manualSelection {
+    max-height: var(--selection-max-height-small, 88px);
+  }
+}
+
+/* Dropdown with the strip of chosen topics, the results and the add button. */
+.manualPopup {
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 16px);
+}
+
+.manualPopupStrip {
+  padding: 4px 8px 0;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+}
+
+.manualPopupStrip .manualSelection {
+  margin: 4px 0 8px;
+}
+
+.manualPopupTitle {
+  line-height: 22px;
+}
+
+.manualPopupFooter {
+  padding: 8px;
+  border-top: 1px solid rgba(5, 5, 5, 0.06);
+}
+
+.manualSelectionTag {
+  max-width: 100%;
+  margin-inline-end: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.manualResultCheck {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: #52c41a;
+}
+
+/* Screen 3 success view: the four buttons share one gap, also when wrapping. */
+.successActions {
+  margin-bottom: 8px;
+}

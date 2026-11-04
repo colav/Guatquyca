@@ -48,3 +48,8 @@ node_modules/
 copilot-instructions.md
 # observatories: test data copied from the published artifacts (never committed)
 /mock-data/
+
+# Environment files (never commit)
+.env
+.env.*
+!.env.example
