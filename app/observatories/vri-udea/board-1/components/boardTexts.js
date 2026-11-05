@@ -144,6 +144,22 @@ export const AXES_PANEL_NOTE = {
   topics: "n.º de tópicos con producción UdeA",
 };
 
+/**
+ * Tooltip of the legend entry whose points are fewer than its units (F39b): the units without any
+ * production in the range are not drawn. Figures come from the data.
+ */
+export function undrawnTooltip({ drawn, total, noun, category = "none" }) {
+  const fmt = (n) => n.toLocaleString("es-CO");
+  /* With a range of years the other categories can also have units without production in the range. */
+  if (category !== "none") return `${fmt(drawn)} ${noun} de esta categoría aparecen en la gráfica; otros ${fmt(total - drawn)} no tienen producción en el rango de años y no se dibujan`;
+  return `${fmt(drawn)} ${noun} con producción antes de 2021 aparecen en la gráfica; otros ${fmt(total - drawn)} no tienen ninguna producción en el rango y no se dibujan`;
+}
+
+/** Foot of the panel 1 (F39b): how many units are not drawn. */
+export function undrawnNote({ count, noun }) {
+  return `Los ${noun} sin ninguna producción en el rango no se dibujan (${count.toLocaleString("es-CO")})`;
+}
+
 /* Legend of the scatter (F39). Provisional texts: Luis approves them. */
 export const SIZE_NOTE = "Tamaño = FWCI, solo productos con registro en OpenAlex";
 export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";

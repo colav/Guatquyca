@@ -6,9 +6,13 @@ import dynamic from "next/dynamic";
 /* Hooks */
 import { memo, useCallback, useMemo, useRef } from "react";
 
+/* Components */
+import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
+
 /* lib */
 import { CATEGORY_MARKS, BRAND, darken } from "@/lib/observatories/palette";
 import { FWCI_CAP, SIZE_RANGE } from "@/lib/observatories/scatterSize";
+import { WIDE_TOOLTIP, tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 import { star } from "@/lib/observatories/shapes";
 
 /* Libraries */
@@ -74,6 +78,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
       shapeField: "cls",
       animate: false,
       legend: false,
+      interaction: tooltipInteraction(WIDE_TOOLTIP),
       height,
       scale: {
         x: { type: "log", base: 10, nice: true },
@@ -127,7 +132,12 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
     });
   }, []);
 
-  return <Scatter {...config} onReady={onReady} />;
+  const wrapper = useTooltipInside();
+  return (
+    <div ref={wrapper}>
+      <Scatter {...config} onReady={onReady} />
+    </div>
+  );
 }
 
 export default memo(TopicScatter);

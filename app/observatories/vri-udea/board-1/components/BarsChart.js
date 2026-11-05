@@ -11,6 +11,8 @@ const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), {
 
 /* lib */
 import { calculatorBarsConfig } from "@/lib/observatories/capacity";
+import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
 import { RANKING_COLOR } from "@/lib/observatories/palette";
 
 /* Utils */
@@ -35,6 +37,7 @@ function RankingBars({ rows, labelSize = 34, complete = false }) {
       xField: "key",
       yField: "value",
       animate: false,
+      interaction: tooltipInteraction(),
       height: Math.max(220, rows.length * 24 + 40),
       axis: {
         x: { labelAutoRotate: false, ...(complete ? { labelAutoEllipsis: false, labelAutoHide: false } : {}), labelFormatter: (key) => labels[key] ?? key },
@@ -66,6 +69,7 @@ export const RankingBarsChart = memo(RankingBars);
 function CalculatorBars({ items, noun, active = [], onSelect }) {
   const config = useMemo(() => calculatorBarsConfig(items, noun, active), [items, noun, active]);
   /* A click on a bar does the same as a click on the legend (F39); the ref keeps the latest handler. */
+  const wrapper = useTooltipInside();
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
   const byLabel = useMemo(() => Object.fromEntries(items.map((i) => [i.label, i.category])), [items]);
@@ -82,7 +86,7 @@ function CalculatorBars({ items, noun, active = [], onSelect }) {
   /* The chart is a canvas: the wrapper says the same in text for assistive technology and for the tests. */
   const summary = items.map((i) => `${i.label}: ${i.value.toLocaleString("es-CO")}`).join("; ");
   return (
-    <div role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars" style={onSelect ? { cursor: "pointer" } : undefined}>
+    <div ref={wrapper} role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars" style={onSelect ? { cursor: "pointer" } : undefined}>
       <Bar {...config} onReady={onReady} />
     </div>
   );

@@ -61,6 +61,8 @@ import {
   RULE_LINE,
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
+  undrawnNote,
+  undrawnTooltip,
   TREND_LABELS,
   realDataWarnings,
 } from "./boardTexts";
@@ -148,8 +150,14 @@ function Board1Content({ dataset, source }) {
   );
   const visiblePoints = useStableValue(shown.length ? points.filter((p) => shown.includes(p.category)) : points);
   const legendItems = useStableValue(
-    result.categoryOrder.map((c) => ({ category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length })),
+    result.categoryOrder.map((c) => {
+      const count = points.filter((p) => p.category === c).length;
+      const total = result.categoryCounts[c];
+      return { category: c, label: CATEGORY_LABELS[c], count, total, hint: total > count ? undrawnTooltip({ category: c, drawn: count, total, noun: DIMENSION_NOUN[applied.dimension].toLowerCase() }) : "" };
+    }),
   );
+  /* Units that have no production at all in the range: counted in the panel 2 but not drawn (F39b). */
+  const undrawn = legendItems.reduce((n, i) => n + (i.total - i.count), 0);
   const calcTotal = result.categoryOrder.reduce((n, c) => n + result.categoryCounts[c], 0);
   const withProduction = calcTotal - (result.categoryCounts[CATEGORY.NONE] || 0);
   const calculator = useStableValue(
@@ -236,6 +244,11 @@ function Board1Content({ dataset, source }) {
               {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
+            {undrawn > 0 ? (
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="undrawn-note">
+                {undrawnNote({ count: undrawn, noun: DIMENSION_NOUN[applied.dimension].toLowerCase() })}
+              </Typography.Paragraph>
+            ) : null}
           </ChartCard>
         </Col>
         <Col xs={24} lg={10}>

@@ -11,7 +11,7 @@ import { sizeFor } from "@/lib/observatories/scatterSize";
 import CategoryMark from "@/app/observatories/components/CategoryMark";
 
 /* UI Library Components */
-import { Typography } from "antd";
+import { Tooltip, Typography } from "antd";
 
 /* Constants */
 const LINE = 28;
@@ -41,7 +41,8 @@ const entryStyle = (active, dimmed) => ({
  * or Shift adds more; a click on the active one or on «Ver todas» shows them all. The height is
  * fixed (two lines), so the panel does not jump when the width changes.
  *
- * @param {{ category: string, label: string, count: number }[]} items
+ * @param {{ category: string, label: string, count: number, total: number, hint?: string }[]} items
+ *   `count` = points drawn; `total` = units of the category (panel 2); `hint` = why they differ.
  * @param {string[]} selected - Categories shown ([] = all).
  * @param {(category: string, additive: boolean) => void} onToggle
  * @param {() => void} onClear
@@ -58,7 +59,8 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
       >
         {items.map((item) => {
           const active = selected.includes(item.category);
-          return (
+          const partial = item.total > item.count;
+          const entry = (
             <button
               key={item.category}
               type="button"
@@ -71,9 +73,10 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
             >
               <CategoryMark category={item.category} size={14} />
               <span>{item.label}</span>
-              <b>{item.count.toLocaleString("es-CO")}</b>
+              <b>{partial ? `${item.count.toLocaleString("es-CO")} de ${item.total.toLocaleString("es-CO")}` : item.count.toLocaleString("es-CO")}</b>
             </button>
           );
+          return partial && item.hint ? <Tooltip key={item.category} title={item.hint}>{entry}</Tooltip> : entry;
         })}
         <button type="button" onClick={onClear} disabled={!selected.length} style={{ ...entryStyle(false, false), opacity: selected.length ? 1 : 0.45, cursor: selected.length ? "pointer" : "default" }} className="obs-legend-entry">
           Ver todas
