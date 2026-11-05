@@ -39,7 +39,7 @@ import {
   rankOds,
 } from "@/lib/observatories/capacity";
 import { MOCK_SOURCE, loadBoard1Dataset } from "@/lib/observatories/data/artifactAdapter";
-import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
+import LoadError from "@/app/observatories/components/LoadError";
 import { QUARTILE_COLORS, TYPE_COLORS, accessColor } from "@/lib/observatories/palette";
 
 /* Texts */
@@ -65,7 +65,7 @@ import {
 import { useBoardFilters, useStableValue } from "./hooks";
 
 /* UI Library Components */
-import { Alert, Col, Collapse, Result, Row, Skeleton, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Row, Skeleton, Tag, Typography } from "antd";
 
 /* Colours of the access route donut, one per label (palette of lib/constants.js). */
 const ACCESS_COLORS = DONUT_LABELS.access.map(accessColor);
@@ -79,6 +79,7 @@ const fmtFwci = (v) => (Number.isFinite(v) ? v.toFixed(2) : "–");
  */
 export default function Board1() {
   const [state, setState] = useState({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
   /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
   const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
@@ -90,17 +91,17 @@ export default function Board1() {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, [source]);
+  }, [source, attempt]);
+
+  /* "Reintentar": asks for the bundle again without reloading the page. */
+  const retry = () => {
+    setState({ status: "loading" });
+    setAttempt((a) => a + 1);
+  };
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
-    return (
-      <Result
-        status="warning"
-        title="No se pudieron cargar los datos del tablero."
-        subTitle={loadErrorSubtitle(state.error)}
-      />
-    );
+    return <LoadError error={state.error} onRetry={retry} />;
   }
   return <Board1Content dataset={state.dataset} source={state.source} />;
 }

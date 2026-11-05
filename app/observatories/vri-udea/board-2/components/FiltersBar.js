@@ -7,11 +7,11 @@ import { memo, useMemo } from "react";
 import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
-import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
+import { CENTER_TOOLTIP, POLICY_DOCUMENTS, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { SCOPE_OPTIONS } from "./boardTexts";
 
 /* UI Library Components */
-import { Button, Col, Row, Select, Typography } from "antd";
+import { Button, Col, Row, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
@@ -19,11 +19,12 @@ const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBott
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
-function Field({ label, children, span = 6 }) {
+function Field({ label, children, span = 6, note = "" }) {
   return (
     <Col xs={24} sm={12} md={span}>
       <label style={labelStyle}>{label}</label>
       {children}
+      {note ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 11, marginTop: 4 }}>{note}</Typography.Text> : null}
     </Col>
   );
 }
@@ -56,6 +57,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     return groups;
   }, [raw]);
   const centers = useMemo(() => indexOptions(raw.centros), [raw]);
+  /* Coverage note of the centre filter, from the data of the board (D-126). */
+  const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
   const units = useMemo(() => indexOptions(raw.deps), [raw]);
 
@@ -77,7 +80,11 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       <Row gutter={[12, 12]}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
         <Field label="Documento de política">{select("policyDoc", docs, "Todos", false)}</Field>
-        <Field label="Centro de investigación">{select("centerIndex", centers, "Todos", true)}</Field>
+        <Field label="Centro de investigación" note={centerNote}>
+          <Tooltip title={CENTER_TOOLTIP}>
+            <div>{select("centerIndex", centers, "Todos", true)}</div>
+          </Tooltip>
+        </Field>
         <Field label="Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
             <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />

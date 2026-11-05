@@ -7,10 +7,11 @@ import { memo, useMemo } from "react";
 import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundations";
 
 /* Texts */
+import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { SCOPE_LABELS } from "./boardTexts";
 
 /* UI Library Components */
-import { Button, Col, Row, Select, Typography } from "antd";
+import { Button, Col, Row, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
@@ -19,11 +20,12 @@ const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBott
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
-function Field({ label, children }) {
+function Field({ label, children, note = "" }) {
   return (
     <Col xs={24} sm={12} md={6}>
       <label style={labelStyle}>{label}</label>
       {children}
+      {note ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 11, marginTop: 4 }}>{note}</Typography.Text> : null}
     </Col>
   );
 }
@@ -33,16 +35,19 @@ function Field({ label, children }) {
  * entity filters (centre, unit, subunit, subfield) expand to the topics where the entity takes part.
  *
  * @param {Object} raw - Tables of the dataset.
+ * @param {{ withCenter: number, total: number }} centerCoverage - Products that belong to a research centre.
  * @param {Object} filters - Current (draft) filters.
  * @param {Function} onChange - Receives a patch of the filters.
  * @param {Function} onReset - Restores the defaults.
  */
-function FiltersBar({ raw, filters, onChange, onReset }) {
+function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
   const documents = useMemo(
     () => raw.agendas_all.map((name, i) => ({ value: i, label: i < ACTIVE_POLICY_DOCUMENTS ? name : `${name} (sin términos)`, disabled: i >= ACTIVE_POLICY_DOCUMENTS })),
     [raw],
   );
   const centers = useMemo(() => raw.centros.map((name, i) => ({ value: i, label: name })).filter((o) => o.label !== "Sin centro"), [raw]);
+  /* Coverage note of the centre filter (D-126). "Sin centro" is not an option but counts as a product without centre. */
+  const centerNote = useMemo(() => centerCoverageNote(centerCoverage), [centerCoverage]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
   const units = useMemo(() => indexOptions(raw.deps), [raw]);
   const subfields = useMemo(() => indexOptions(raw.subs), [raw]);
@@ -65,7 +70,11 @@ function FiltersBar({ raw, filters, onChange, onReset }) {
       <Row gutter={[12, 12]}>
         <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
         <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
-        <Field label="Centro de investigación">{select("centerIndex", centers, "Todos")}</Field>
+        <Field label="Centro de investigación" note={centerNote}>
+          <Tooltip title={CENTER_TOOLTIP}>
+            <div>{select("centerIndex", centers, "Todos")}</div>
+          </Tooltip>
+        </Field>
         <Field label="Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
             <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />

@@ -30,7 +30,7 @@ import {
 } from "@/lib/observatories/collaboration";
 import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
 import { loadBoard2Dataset } from "@/lib/observatories/data/collaborationAdapter";
-import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
+import LoadError from "@/app/observatories/components/LoadError";
 import { COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
 import { useStableValue } from "@/app/observatories/components/useStableValue";
 import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
@@ -58,7 +58,7 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Alert, Col, Collapse, Result, Row, Segmented, Skeleton, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Row, Segmented, Skeleton, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -78,6 +78,7 @@ const TAB_OPTIONS = (labels) => labels.map((label, value) => ({ label, value }))
  */
 export default function Board2() {
   const [state, setState] = useState({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
   /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
   const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
@@ -89,17 +90,17 @@ export default function Board2() {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, [source]);
+  }, [source, attempt]);
+
+  /* "Reintentar": asks for the bundle again without reloading the page. */
+  const retry = () => {
+    setState({ status: "loading" });
+    setAttempt((a) => a + 1);
+  };
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
-    return (
-      <Result
-        status="warning"
-        title="No se pudieron cargar los datos del tablero."
-        subTitle={loadErrorSubtitle(state.error)}
-      />
-    );
+    return <LoadError error={state.error} onRetry={retry} />;
   }
   return <Board2Content dataset={state.dataset} source={state.source} />;
 }

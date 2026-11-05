@@ -28,7 +28,7 @@ import {
 } from "@/lib/observatories/foundations";
 import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
 import { loadBoard3Dataset } from "@/lib/observatories/data/capacidadesAdapter";
-import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
+import LoadError from "@/app/observatories/components/LoadError";
 import { BRAND, FOUNDATIONS_COLORS } from "@/lib/observatories/palette";
 import { useStableValue } from "@/app/observatories/components/useStableValue";
 import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
@@ -41,6 +41,7 @@ import {
   BOARD_TITLE,
   FOOTER_TEXT,
   MOCK_TAG,
+  linkageNote,
   PROXY_LABEL,
   REAL_FOOTER_TEXT,
   REAL_STAFF_LABEL,
@@ -53,7 +54,7 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Card, Col, Collapse, Divider, Result, Row, Skeleton, Statistic, Table, Tag, Typography } from "antd";
+import { Card, Col, Collapse, Divider, Row, Skeleton, Statistic, Table, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -85,6 +86,7 @@ const ART_GROUPS = ["vinculado", "ocasional", "otro/desconocido"];
  */
 export default function Board3() {
   const [state, setState] = useState({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
   /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
   const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
@@ -96,17 +98,17 @@ export default function Board3() {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, [source]);
+  }, [source, attempt]);
+
+  /* "Reintentar": asks for the bundle again without reloading the page. */
+  const retry = () => {
+    setState({ status: "loading" });
+    setAttempt((a) => a + 1);
+  };
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
-    return (
-      <Result
-        status="warning"
-        title="No se pudieron cargar los datos del tablero."
-        subTitle={loadErrorSubtitle(state.error)}
-      />
-    );
+    return <LoadError error={state.error} onRetry={retry} />;
   }
   return <Board3Content dataset={state.dataset} source={state.source} />;
 }
@@ -225,7 +227,7 @@ function Board3Content({ dataset, source }) {
         />
       </header>
 
-      <FiltersBar raw={raw} filters={draft} onChange={update} onReset={reset} />
+      <FiltersBar raw={raw} centerCoverage={dataset.centerCoverage} filters={draft} onChange={update} onReset={reset} />
       <Typography.Text type="secondary" style={{ display: "block", marginBottom: 12 }}>
         {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
         {pending ? " · Actualizando…" : ""}
@@ -262,7 +264,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="02 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
             <AreasTreemapChart items={areas.items} colors={AREA_COLORS} />
-            <Note>{`${fmt(areas.active)} investigadores activos con grupo (con al menos un producto desde ${areas.from}; área OCDE del grupo principal). ${talent.inv_sheet.personas > 0 ? ` La hoja «Investigadores» de BD_Grupos (convocatoria 894) registra ${fmt(talent.inv_sheet.personas)} personas (regular ${talent.inv_sheet.por_vinculacion.Regular}, cátedra ${talent.inv_sheet.por_vinculacion["Cátedra"]}, ocasional ${talent.inv_sheet.por_vinculacion.Ocasional}).` : ""}`}</Note>
+            <Note>{`${fmt(areas.active)} investigadores activos con grupo (con al menos un producto desde ${areas.from}; área OCDE del grupo principal). ${linkageNote(talent.inv_sheet)}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
