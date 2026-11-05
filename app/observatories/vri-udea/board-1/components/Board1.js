@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import FiltersBar from "./FiltersBar";
@@ -217,7 +218,9 @@ function Board1Content({ dataset, source }) {
         <Col xs={24} lg={16}>
           <ChartCard title="1 · Dispersión de tópicos: producción vs. citas" note={`${summary.withProduction.toLocaleString("es-CO")} puntos con producción`} empty={!points.length}>
             <ScatterLegend legacy={!modern} />
-            <TopicScatter points={points} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} />
+            <FillHeight min={400}>
+              {(height) => <TopicScatter points={points} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
+            </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
           </ChartCard>
         </Col>
@@ -264,7 +267,7 @@ function Board1Content({ dataset, source }) {
           <>
             <Col xs={24} lg={12}>
               <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible" empty={!ods.some((o) => o.value)}>
-                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} />
+                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete />
                 <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
                   Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
                 </Typography.Paragraph>

@@ -3,8 +3,12 @@
 /* Hooks */
 import { memo } from "react";
 
+/* Components */
+import CompactTable from "@/app/observatories/components/CompactTable";
+import KpiCard from "@/app/observatories/components/KpiCard";
+
 /* UI Library Components */
-import { Card, Col, Row, Statistic, Table, Typography } from "antd";
+import { Col, Row, Typography } from "antd";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -22,9 +26,7 @@ export const KpiRow = memo(function KpiRow({ kpis }) {
     <Row gutter={[12, 12]}>
       {items.map(([value, label]) => (
         <Col key={label} xs={12} md={8} lg={4}>
-          <Card size="small">
-            <Statistic title={label} value={fmt(value)} valueStyle={{ fontSize: 22 }} />
-          </Card>
+          <KpiCard label={label} value={fmt(value)} />
         </Col>
       ))}
     </Row>
@@ -41,10 +43,7 @@ export const StatTiles = memo(function StatTiles({ stats }) {
     <Row gutter={[8, 8]}>
       {stats.map((s) => (
         <Col key={s.label} xs={12} md={8}>
-          <Card size="small">
-            <Statistic title={s.label} value={typeof s.value === "number" ? fmt(s.value) : s.value} valueStyle={{ fontSize: 20 }} />
-            {s.detail ? <Typography.Text type="secondary" style={{ fontSize: 11 }}>{s.detail}</Typography.Text> : null}
-          </Card>
+          <KpiCard label={s.label} value={typeof s.value === "number" ? fmt(s.value) : s.value} detail={s.detail} withDetail={stats.some((x) => x.detail)} valueFontSize={20} />
         </Col>
       ))}
     </Row>
@@ -61,9 +60,7 @@ export const DomainTable = memo(function DomainTable({ rows }) {
   if (!rows.length) return <Typography.Text type="secondary">Sin productos en este dominio con el filtro actual.</Typography.Text>;
   const num = { align: "right", render: fmt };
   return (
-    <Table
-      size="small"
-      pagination={false}
+    <CompactTable
       rowKey="id"
       dataSource={rows}
       columns={[
@@ -82,9 +79,7 @@ export const DomainTable = memo(function DomainTable({ rows }) {
 /** Top countries table next to the bubbles. */
 export const CountriesTable = memo(function CountriesTable({ rows }) {
   return (
-    <Table
-      size="small"
-      pagination={false}
+    <CompactTable
       rowKey="name"
       dataSource={rows}
       columns={[
@@ -99,9 +94,7 @@ export const CountriesTable = memo(function CountriesTable({ rows }) {
 /** The 55 collaboration goals that the policy documents assign to this board. */
 export const GoalsTable = memo(function GoalsTable({ goals }) {
   return (
-    <Table
-      size="small"
-      pagination={false}
+    <CompactTable
       scroll={{ y: 360 }}
       rowKey={(r) => `${r.Agenda}|${r["Código del desafío"]}`}
       dataSource={goals}

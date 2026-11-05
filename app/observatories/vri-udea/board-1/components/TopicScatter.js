@@ -41,7 +41,7 @@ const colorClass = (category) => {
  * @param {string} [dimension] - "topic", "subfield" or "field": decides which hierarchy lines the tooltip has.
  * @param {string} [referent] - "Colombia" or "Mundo": name of the reference of the capacity ratio in the tooltip.
  */
-function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia" }) {
+function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia", height = 400 }) {
   const config = useMemo(
     () => ({
       data: points.map((p) => ({
@@ -69,7 +69,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
       shapeField: "cls",
       animate: false,
       legend: false,
-      height: 400,
+      height,
       scale: {
         x: { type: "log", base: 10, nice: true },
         y: { type: "log", base: 10, nice: true },
@@ -106,7 +106,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
         ],
       },
     }),
-    [points, selectedId, dimension, referent],
+    [points, selectedId, dimension, referent, height],
   );
 
   /* The wrapper's onEvent relay does not deliver G2 clicks (checked on the page), so the click is

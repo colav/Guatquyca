@@ -22,24 +22,31 @@ const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2
  *
  * @param {{ id: *, label: string, fullLabel?: string, detail?: string, value: number }[]} rows
  * @param {number} [labelSize] - Characters kept in the axis label.
+ * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
+ *   longest one, as in the calculator.
  */
-function RankingBars({ rows, labelSize = 34 }) {
+function RankingBars({ rows, labelSize = 34, complete = false }) {
   const config = useMemo(() => {
-    const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
+    const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : truncate(r.label, labelSize)]));
+    const longest = Math.max(0, ...rows.map((r) => r.label.length));
     return {
+      ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)), paddingRight: 24 } : {}),
       data: rows.map((r, i) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", value: r.value })),
       xField: "key",
       yField: "value",
       animate: false,
       height: Math.max(220, rows.length * 24 + 40),
-      axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key } },
+      axis: {
+        x: { labelAutoRotate: false, ...(complete ? { labelAutoEllipsis: false, labelAutoHide: false } : {}), labelFormatter: (key) => labels[key] ?? key },
+        y: { labelAutoRotate: false },
+      },
       style: { fill: RANKING_COLOR },
       tooltip: {
         title: (d) => d.name,
         items: [{ field: "value", name: "Valor" }, { field: "detail", name: "Detalle" }],
       },
     };
-  }, [rows, labelSize]);
+  }, [rows, labelSize, complete]);
 
   return <Bar {...config} />;
 }

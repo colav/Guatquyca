@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import CompactTable from "@/app/observatories/components/CompactTable";
+import KpiCard from "@/app/observatories/components/KpiCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import FiltersBar from "./FiltersBar";
@@ -54,7 +56,7 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Card, Col, Collapse, Divider, Row, Skeleton, Statistic, Table, Tag, Typography } from "antd";
+import { Col, Collapse, Divider, Row, Skeleton, Statistic, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -119,9 +121,7 @@ function Tiles({ tiles, staffLabel }) {
     <Row gutter={[12, 12]}>
       {TILE_LABELS.map(([key, label]) => [key, key === "staff" ? `profesores (${staffLabel})` : label]).map(([key, label]) => (
         <Col key={key} xs={12} md={8} lg={6} xl={3}>
-          <Card size="small">
-            <Statistic title={label} value={fmt(tiles[key])} valueStyle={{ fontSize: 22 }} />
-          </Card>
+          <KpiCard label={label} value={fmt(tiles[key])} />
         </Col>
       ))}
     </Row>
@@ -209,9 +209,8 @@ function Board3Content({ dataset, source }) {
               key: "goals",
               label: `Ver las ${goals.length} metas sobre capacidades de base que los documentos de política asignan a este tablero`,
               children: (
-                <Table
-                  size="small"
-                  pagination={false}
+                <CompactTable
+                  
                   scroll={{ y: 360 }}
                   rowKey={(r) => `${r.agenda}|${r.cod}`}
                   dataSource={goals}
@@ -249,7 +248,7 @@ function Board3Content({ dataset, source }) {
                   : []),
               ].map(([value, label]) => (
                 <Col key={label} xs={12}>
-                  <Statistic title={label} value={value} valueStyle={{ fontSize: 18 }} />
+                  <KpiCard label={label} value={value} valueFontSize={18} />
                 </Col>
               ))}
             </Row>
@@ -410,9 +409,8 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="18 · Cobertura de identificadores persistentes (PID)">
             <StackedBarsChart rows={pidRows} series={ID_SERIES} colors={ID_COLORS} unit="Registros" />
-            <Table
-              size="small"
-              pagination={false}
+            <CompactTable
+              
               rowKey="label"
               dataSource={pid}
               columns={[

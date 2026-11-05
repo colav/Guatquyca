@@ -1,6 +1,7 @@
 "use client";
 
 /* lib */
+import { CARD_SHADOW } from "@/lib/observatories/layout";
 import { BRAND } from "@/lib/observatories/palette";
 
 /* UI Library Components */
@@ -25,8 +26,9 @@ export default function ChartCard({ title, note, empty = false, children, style 
   return (
     <Card
       size="small"
-      style={style}
-      styles={{ header: CARD_HEADER_STYLE, body: { padding: 10 } }}
+      data-testid="chart-card"
+      style={{ height: "100%", display: "flex", flexDirection: "column", boxShadow: CARD_SHADOW, ...style }}
+      styles={{ header: CARD_HEADER_STYLE, body: { padding: 10, flex: "1 1 auto", display: "flex", flexDirection: "column" } }}
       title={title}
       extra={note ? <span style={{ color: BRAND.white, fontSize: 12 }}>{note}</span> : null}
     >

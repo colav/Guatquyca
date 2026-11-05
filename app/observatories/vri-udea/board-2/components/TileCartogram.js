@@ -4,6 +4,7 @@
 import { memo } from "react";
 
 /* lib */
+import { CARD_SHADOW } from "@/lib/observatories/layout";
 import { NEUTRAL, sequentialTile } from "@/lib/observatories/palette";
 
 /* UI Library Components */
@@ -38,7 +39,7 @@ function TileCartogram({ tiles, grid, counts, unit, label = (n) => n, tileHeight
             return (
               <Col key={x} flex={`0 0 ${100 / grid.columns}%`}>
                 {name ? (
-                  <div title={`${name}: ${fmt(value)} ${unit}`} style={{ ...tile, height: tileHeight, borderRadius: 4, padding: "2px 4px", fontSize: 11, lineHeight: 1.2, textAlign: "center", overflow: "hidden" }}>
+                  <div data-testid="map-tile" title={`${name}: ${fmt(value)} ${unit}`} style={{ ...tile, height: tileHeight, borderRadius: 4, boxShadow: CARD_SHADOW, padding: "2px 4px", fontSize: 11, lineHeight: 1.2, textAlign: "center", overflow: "hidden" }}>
                     <div>{label(name)}</div>
                     <span style={{ fontWeight: 600, color: "inherit" }}>{value ? fmt(value) : ""}</span>
                   </div>

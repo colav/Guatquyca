@@ -4,13 +4,18 @@
 import { memo } from "react";
 
 /* lib */
+import { CARD_SHADOW, TILE, clampLines } from "@/lib/observatories/layout";
 import { NEUTRAL, SCATTER_COLORS, sequentialTile } from "@/lib/observatories/palette";
+
+/* Components */
+import CompactTable from "@/app/observatories/components/CompactTable";
+import KpiCard from "@/app/observatories/components/KpiCard";
 
 /* Texts */
 import { RULES_TABLE, RULES_TABLE_LEGACY } from "./boardTexts";
 
 /* UI Library Components */
-import { Card, Col, Descriptions, Row, Statistic, Table, Typography } from "antd";
+import { Col, Descriptions, Row, Typography } from "antd";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -34,9 +39,7 @@ export const KpiRow = memo(function KpiRow({ kpis, fwciLabel = "FWCI del conjunt
     <Row gutter={[12, 12]}>
       {items.map(([value, label]) => (
         <Col key={label} xs={12} md={8} lg={4}>
-          <Card size="small">
-            <Statistic title={label} value={value} valueStyle={{ fontSize: 22 }} />
-          </Card>
+          <KpiCard label={label} value={value} />
         </Col>
       ))}
       {fwciNote ? (
@@ -126,14 +129,12 @@ export function ScatterLegend({ legacy = false }) {
 /** Rules of the categories, next to the calculator. */
 export const RulesTable = memo(function RulesTable({ legacy = false, caption = "" }) {
   return (
-    <Table
-      size="small"
-      pagination={false}
+    <CompactTable
       dataSource={legacy ? RULES_TABLE_LEGACY : RULES_TABLE}
       aria-label="Reglas de clasificación"
       columns={[
-        { title: "Categoría", dataIndex: "category" },
-        { title: legacy ? "Cociente (proxy FWCI ≤ 1)" : "Razón de capacidad", dataIndex: "ratio" },
+        { title: "Categoría", dataIndex: "category", width: "30%" },
+        { title: legacy ? "Cociente (proxy FWCI ≤ 1)" : "Razón de capacidad", dataIndex: "ratio", width: "26%" },
         { title: legacy ? "Producción 5 años" : "Tendencia 2021–2025", dataIndex: "trend" },
       ]}
       caption={caption}
@@ -161,13 +162,13 @@ export const SubregionTiles = memo(function SubregionTiles({ subregions, counts 
         const intensity = name === "Valle de Aburrá" ? 1 : 0.15 + (0.85 * s.n_title) / max;
         return (
           <Col key={name} span={8}>
-            <div style={{ ...sequentialTile(intensity), padding: 8, minHeight: 86, borderRadius: 6 }}>
-              <div style={{ fontSize: 12 }}>{name}</div>
+            <div data-testid="mosaic-tile" style={{ ...sequentialTile(intensity), padding: TILE.padding, height: TILE.subregionHeight, borderRadius: 6, boxShadow: CARD_SHADOW, overflow: "hidden" }}>
+              <div style={{ fontSize: 12, lineHeight: "16px", ...clampLines(1) }} title={name}>{name}</div>
               <div style={{ fontSize: 20, fontWeight: 600 }}>
                 {fmt(s.n_title)}
                 {s.n_regprog ? <span style={{ fontSize: 12, fontWeight: 400 }}> ({s.n_regprog})</span> : null}
               </div>
-              <div style={{ fontSize: 11 }}>{s.topics.slice(0, 2).map((t) => t[0]).join(" · ")}</div>
+              <div style={{ fontSize: 11, lineHeight: "15px", ...clampLines(2) }} title={s.topics.slice(0, 2).map((t) => t[0]).join(" · ")}>{s.topics.slice(0, 2).map((t) => t[0]).join(" · ")}</div>
             </div>
           </Col>
         );
@@ -187,9 +188,7 @@ export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
         .slice(0, 22)
         .map((a, i) => ({ key: i, name: a.n, country: a.c, type: clean(a.t), products: a.p }));
   return (
-    <Table
-      size="small"
-      pagination={false}
+    <CompactTable
       scroll={{ y: 360 }}
       dataSource={rows}
       columns={[
@@ -236,8 +235,8 @@ export const OdsTiles = memo(function OdsTiles({ items }) {
     <Row gutter={[8, 8]}>
       {[...items].sort((a, b) => a.number - b.number).map((o) => (
         <Col key={o.number} xs={12} md={8} lg={6}>
-          <div style={{ ...sequentialTile(0.15 + (0.85 * o.value) / max), padding: 8, minHeight: 72, borderRadius: 6 }}>
-            <div style={{ fontSize: 12 }}>{o.number} · {o.name}</div>
+          <div data-testid="mosaic-tile" style={{ ...sequentialTile(0.15 + (0.85 * o.value) / max), padding: TILE.padding, height: TILE.odsHeight, borderRadius: 6, boxShadow: CARD_SHADOW, overflow: "hidden" }}>
+            <div style={{ fontSize: 12, lineHeight: "16px", ...clampLines(3) }} title={`${o.number} · ${o.name}`}>{o.number} · {o.name}</div>
             <div style={{ fontSize: 18, fontWeight: 600 }}>{fmt(o.value)}</div>
           </div>
         </Col>
