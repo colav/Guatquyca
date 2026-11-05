@@ -4,6 +4,7 @@ import { GithubOutlined, MailOutlined } from "@ant-design/icons";
 /* Components */
 import DBUpdatedAt from "./DBUpdatedAt";
 import AlliesSection from "./AlliesSection";
+import LicenseBadge from "./LicenseBadge";
 
 /* Next */
 import Link from "next/link";
@@ -124,7 +125,7 @@ export default function Foot() {
           <br />
           Base de Datos: <DBUpdatedAt />
           <br />
-          Hecho en Colombia
+          <LicenseBadge />
         </Col>
       </Row>
     </Footer>
