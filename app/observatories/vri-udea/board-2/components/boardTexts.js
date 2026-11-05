@@ -69,3 +69,12 @@ const ABBREVIATIONS = {
 export const abbreviate = (name) => ABBREVIATIONS[name] || name;
 
 export const SIDE_LABELS = { north: "Norte global", south: "Sur global" };
+
+/** Tag of the board when the data come from the API (provisional text, Luis approves it). */
+export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
+
+/** Footer with the sources of the data of the API (provisional text, Luis approves it). */
+export const REAL_FOOTER_TEXT =
+  "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras y proyectos), tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin coordenadas no aparecen en el mapa.";
+
+export const NO_COORDINATES_NOTE = (count) => `${count} ${count === 1 ? "país con productos no aparece" : "países con productos no aparecen"} en el mapa porque no tienen coordenadas; sí cuentan en la tabla.`;

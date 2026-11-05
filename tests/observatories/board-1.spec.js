@@ -20,7 +20,7 @@ test("the home lists the VRI-UdeA observatory", async ({ page }) => {
 });
 
 test("the cover has three tabs, loads the first board and keeps the filters of each board apart", async ({ page }) => {
-  await page.goto("/observatories/vri-udea");
+  await page.goto("/observatories/vri-udea?source=mock");
   const tabs = page.getByRole("tab");
   await expect(tabs).toHaveText(["Masa crítica temática", "Colaboración, redes y hélices", "Capacidades de base UdeA"]);
   await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
@@ -35,7 +35,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
 });
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1");
+  await page.goto("/observatories/vri-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba · métrica de liderazgo provisional")).toBeVisible({ timeout: 60000 });
   await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
   await expect(page.getByText("41.653", { exact: false }).first()).toBeVisible();
@@ -51,7 +51,7 @@ test("the filters are read from the URL", async ({ page }) => {
 });
 
 test("the evidence state is not named in any screen", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1");
+  await page.goto("/observatories/vri-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba")).toBeVisible({ timeout: 60000 });
   await expect(page.locator("body")).not.toContainText("ai_panel_unreviewed");
 });

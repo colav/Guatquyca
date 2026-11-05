@@ -137,9 +137,15 @@ export const RulesTable = memo(function RulesTable({ trendRule }) {
 /** Subregion tiles (complement): approximate north-south layout. */
 const SUBREGION_ORDER = ["Urabá", "Norte", "Bajo Cauca", "Occidente", "Valle de Aburrá", "Nordeste", "Suroeste", "Oriente", "Magdalena Medio"];
 
-export const SubregionTiles = memo(function SubregionTiles({ subregions }) {
-  const bySub = new Map(subregions.map((s) => [s.sub, s]));
-  const max = Math.max(...subregions.filter((s) => s.sub !== "Valle de Aburrá").map((s) => s.n_title));
+/**
+ * @param {Object[]} subregions - Catalogue of the bundle (name, n_title, n_regprog, topics).
+ * @param {number[]} [counts] - Products by subregion for the current filters (same order as the
+ *   catalogue). Without it, the fixed n_title of the artifact is shown.
+ */
+export const SubregionTiles = memo(function SubregionTiles({ subregions, counts }) {
+  const count = (s, i) => (counts ? counts[i] : s.n_title);
+  const bySub = new Map(subregions.map((s, i) => [s.sub, { ...s, n_title: count(s, i) }]));
+  const max = Math.max(1, ...[...bySub.values()].filter((s) => s.sub !== "Valle de Aburrá").map((s) => s.n_title));
   return (
     <Row gutter={[8, 8]}>
       {SUBREGION_ORDER.map((name) => {
@@ -164,17 +170,15 @@ export const SubregionTiles = memo(function SubregionTiles({ subregions }) {
 });
 
 /** Non-academic co-authoring actors table (complement, current proxy). */
-export const ActorsTable = memo(function ActorsTable({ actors }) {
-  const rows = actors
-    .filter((a) => a.t !== "Sin clasificar")
-    .slice(0, 22)
-    .map((a, i) => ({
-      key: i,
-      name: a.n,
-      country: a.c,
-      type: a.t.replace(" (públicos y privados)", "").replace(" (no universitarios)", ""),
-      products: a.p,
-    }));
+export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
+  const clean = (t) => t.replace(" (públicos y privados)", "").replace(" (no universitarios)", "");
+  /* `ranked` (bundle): rows already counted for the current filters; otherwise the fixed list of the artifact. */
+  const rows = ranked
+    ? ranked.map((a, i) => ({ key: i, name: a.name, country: a.country, type: clean(a.type), products: a.products }))
+    : actors
+        .filter((a) => a.t !== "Sin clasificar")
+        .slice(0, 22)
+        .map((a, i) => ({ key: i, name: a.n, country: a.c, type: clean(a.t), products: a.p }));
   return (
     <Table
       size="small"
@@ -212,3 +216,25 @@ export function OdsPlaceholders() {
     </Row>
   );
 }
+
+/**
+ * Tiles of the 17 ODS (panel 8): one tile per goal with its product count for the current
+ * filters; the colour intensity follows the count (same scale rule as the subregion tiles).
+ *
+ * @param {{ number: number, name: string, value: number }[]} items - From rankOds.
+ */
+export const OdsTiles = memo(function OdsTiles({ items }) {
+  const max = Math.max(1, ...items.map((o) => o.value));
+  return (
+    <Row gutter={[8, 8]}>
+      {[...items].sort((a, b) => a.number - b.number).map((o) => (
+        <Col key={o.number} xs={12} md={8} lg={6}>
+          <div style={{ ...sequentialTile(0.15 + (0.85 * o.value) / max), padding: 8, minHeight: 72, borderRadius: 6 }}>
+            <div style={{ fontSize: 12 }}>{o.number} · {o.name}</div>
+            <div style={{ fontSize: 18, fontWeight: 600 }}>{fmt(o.value)}</div>
+          </div>
+        </Col>
+      ))}
+    </Row>
+  );
+});

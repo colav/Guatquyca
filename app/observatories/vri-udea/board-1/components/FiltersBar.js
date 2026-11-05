@@ -4,13 +4,15 @@
 import { memo, useMemo } from "react";
 
 /* lib */
-import { YEAR_RANGE } from "@/lib/observatories/capacity";
+import { PAIR_LEVEL, YEAR_RANGE } from "@/lib/observatories/capacity";
 
 /* Texts */
 import {
   ALL_SCOPES,
   DIMENSION_OPTIONS,
   POLICY_DOCUMENTS,
+  PAIR_LEVEL_OPTIONS,
+  PAIR_LEVEL_TOOLTIP,
   RATIO_BASIS_OPTIONS,
   TREND_RULE_OPTIONS,
 } from "./boardTexts";
@@ -107,6 +109,15 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
             </div>
           </Tooltip>
         </Field>
+        {dataset.hasFactDetails ? (
+          <Field label="Confianza de la asignación a ejes (IA)">
+            <Tooltip title={PAIR_LEVEL_TOOLTIP}>
+              <div>
+                <Segmented block options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
+              </div>
+            </Tooltip>
+          </Field>
+        ) : null}
         <Col xs={24} sm={12} md={6} style={{ display: "flex", alignItems: "flex-end" }}>
           <Button onClick={onReset}>Restablecer filtros</Button>
         </Col>

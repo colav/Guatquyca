@@ -2,6 +2,7 @@
 
 /* Hooks */
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 /* Components */
 import CutoffNote from "@/app/observatories/components/CutoffNote";
@@ -26,7 +27,9 @@ import {
   sameCollabFilters,
   serializeCollabFilters,
 } from "@/lib/observatories/collaboration";
+import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
 import { loadBoard2Dataset } from "@/lib/observatories/data/collaborationAdapter";
+import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
 import { COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
 import { useStableValue } from "@/app/observatories/components/useStableValue";
 import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
@@ -40,8 +43,11 @@ import {
   COLOMBIA_TILES,
   FOOTER_TEXT,
   MOCK_TAG,
+  NO_COORDINATES_NOTE,
   NOTES,
   NOTICE,
+  REAL_FOOTER_TEXT,
+  REAL_TAG,
   SIDE_LABELS,
   SUBREGION_GRID,
   SUBREGION_TILES,
@@ -70,16 +76,18 @@ const TAB_OPTIONS = (labels) => labels.map((label, value) => ({ label, value }))
  */
 export default function Board2() {
   const [state, setState] = useState({ status: "loading" });
+  /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
+  const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
   useEffect(() => {
     const controller = new AbortController();
-    loadBoard2Dataset({ signal: controller.signal })
-      .then((dataset) => setState({ status: "ready", dataset }))
+    loadBoard2Dataset({ signal: controller.signal, source })
+      .then((loaded) => setState({ status: "ready", ...loaded }))
       .catch((error) => {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, []);
+  }, [source]);
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
@@ -87,15 +95,16 @@ export default function Board2() {
       <Result
         status="warning"
         title="No se pudieron cargar los datos del tablero."
-        subTitle={state.error.status === 404 ? "Los datos de prueba no están disponibles en este equipo." : "Intente de nuevo en unos minutos."}
+        subTitle={loadErrorSubtitle(state.error)}
       />
     );
   }
-  return <Board2Content dataset={state.dataset} />;
+  return <Board2Content dataset={state.dataset} source={state.source} />;
 }
 
-function Board2Content({ dataset }) {
+function Board2Content({ dataset, source }) {
   const { raw } = dataset;
+  const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const [domainTab, setDomainTab] = useState(0);
   const [axisTab, setAxisTab] = useState(AXIS_TABS.length - 1);
@@ -126,8 +135,9 @@ function Board2Content({ dataset }) {
   const trendOthers = useStableValue(result.trendOthers);
   const regions = useStableValue(result.regions.map((r) => ({ label: r.label, segments: [SEGMENT(r.north ? SIDE_LABELS.north : SIDE_LABELS.south, r.value)] })));
   const world = useStableValue(
-    result.countries.map((c, i) => ({ name: c.n, region: c.r, lat: c.ll[0], lon: c.ll[1], value: c.value, north: raw.regions.indexOf(c.r) < 4, label: i < 7 ? `${c.n} ${fmt(c.value)}` : "" })),
+    result.countries.filter((c) => c.ll).map((c, i) => ({ name: c.n, region: c.r, lat: c.ll[0], lon: c.ll[1], value: c.value, north: raw.regions.indexOf(c.r) < 4, label: i < 7 ? `${c.n} ${fmt(c.value)}` : "" })),
   );
+  const withoutCoordinates = result.countries.filter((c) => !c.ll).length;
   const worldTable = useStableValue(result.countries.slice(0, LIMITS.countriesTable).map((c) => ({ name: c.n, region: c.r, value: c.value })));
   const axisRows = useMemo(() => result.axisRows(axisTab).map((r) => ({ label: r.label, segments: NON_ACADEMIC_SECTORS.map((s) => SEGMENT(raw.sectorsEs[dataset.sectorIndex[s]], r.counts[s])) })), [result, axisTab, raw, dataset]);
   const axisRowsStable = useStableValue(axisRows);
@@ -180,7 +190,7 @@ function Board2Content({ dataset }) {
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
         <div style={{ marginBottom: 8 }}>
-          <Tag color="gold">{MOCK_TAG}</Tag>
+          <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </div>
         <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={NOTICE} style={{ marginBottom: 8 }} />
@@ -278,6 +288,7 @@ function Board2Content({ dataset }) {
               <Col xs={24} xl={8}><CountriesTable rows={worldTable} /></Col>
             </Row>
             <Note>{NOTES.v10}</Note>
+            {withoutCoordinates ? <Note>{NO_COORDINATES_NOTE(withoutCoordinates)}</Note> : null}
           </ChartCard>
         </Col>
 
@@ -305,7 +316,7 @@ function Board2Content({ dataset }) {
         </Col>
 
         <Col xs={24}>
-          <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{FOOTER_TEXT}</Typography.Paragraph>
+          <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
         </Col>
       </Row>
       <CutoffNote />

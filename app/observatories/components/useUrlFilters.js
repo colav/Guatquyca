@@ -23,7 +23,11 @@ export function useUrlFilters({ defaults, parse, serialize, same, debounceMs }) 
     if (same(draft, applied)) return undefined;
     const id = setTimeout(() => {
       setApplied(draft);
-      const query = serialize(draft);
+      /* Only the parameters of the filters change; others (such as `source`) stay in the URL. */
+      const params = new URLSearchParams(window.location.search);
+      new URLSearchParams(serialize(applied)).forEach((_value, name) => params.delete(name));
+      new URLSearchParams(serialize(draft)).forEach((value, name) => params.set(name, value));
+      const query = params.toString();
       router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
     }, debounceMs);
     return () => clearTimeout(id);

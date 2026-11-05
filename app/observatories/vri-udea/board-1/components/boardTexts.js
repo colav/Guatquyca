@@ -75,3 +75,37 @@ export const DATA_WARNINGS = [
   "Cobertura: 50.341 productos de los tipos solicitados; 41.653 (83 %) tienen tópico. Hay DOI y títulos repetidos entre fuentes SCIENTI/OpenAlex y años atípicos.",
   "Sin ODS, sin ubicación geográfica de la investigación y sin agendas internacionales: los paneles de ODS, el mapa y el ámbito «Internacional» requieren campos adicionales.",
 ];
+
+/** Tag of the board when the data come from the API (provisional text, Luis approves it). */
+export const REAL_TAG = "Datos de ImpactU · métrica de liderazgo provisional";
+
+
+/**
+ * Warnings of the board with the data of the bundle: the coverage comes from `meta` and the ODS
+ * and geography lines describe what the bundle has now (the first three are the same as before).
+ *
+ * @param {{ n_sel: number, n_topic: number }} meta
+ * @returns {string[]}
+ */
+export function realDataWarnings(meta) {
+  const fmt = (n) => n.toLocaleString("es-CO");
+  const share = Math.round((100 * meta.n_topic) / meta.n_sel);
+  return [
+    ...DATA_WARNINGS.slice(0, 3),
+    `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,
+    "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
+  ];
+}
+
+/* Confidence of the axis–work pairs (D-092, Q8). Provisional texts: Luis approves them. */
+export const PAIR_LEVEL_OPTIONS = [
+  { value: "core", label: "Alta y media" },
+  { value: "all", label: "Incluir baja" },
+];
+export const PAIR_LEVEL_TOOLTIP =
+  "Cada producto se asigna a un Eje Temático con una confianza (alta, media o baja) calculada por inteligencia artificial, sin validación humana. Por defecto se cuentan solo las asignaciones de confianza alta y media.";
+export const AXES_PANEL_NOTE = {
+  core: "productos con asignación de confianza alta o media",
+  all: "productos con asignación de cualquier confianza (incluye baja)",
+  topics: "n.º de tópicos con producción UdeA",
+};

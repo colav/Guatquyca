@@ -2,6 +2,7 @@
 
 /* Hooks */
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
@@ -13,6 +14,7 @@ import {
   ActorsTable,
   KpiRow,
   OdsPlaceholders,
+  OdsTiles,
   RulesTable,
   ScatterLegend,
   SubregionTiles,
@@ -28,11 +30,14 @@ import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   computeCapacity,
+  rankActors,
   rankAxes,
   rankGoals,
   rankGroups,
+  rankOds,
 } from "@/lib/observatories/capacity";
-import { loadBoard1Dataset } from "@/lib/observatories/data/artifactAdapter";
+import { MOCK_SOURCE, loadBoard1Dataset } from "@/lib/observatories/data/artifactAdapter";
+import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
 import { QUARTILE_COLORS, TYPE_COLORS, accessColor } from "@/lib/observatories/palette";
 
 /* Texts */
@@ -44,7 +49,10 @@ import {
   DIMENSION_NOUN,
   DONUT_LABELS,
   HELP_TEXT,
+  AXES_PANEL_NOTE,
   MOCK_TAG,
+  REAL_TAG,
+  realDataWarnings,
 } from "./boardTexts";
 import { useBoardFilters, useStableValue } from "./hooks";
 
@@ -62,16 +70,18 @@ const fmtFwci = (v) => (Number.isFinite(v) ? v.toFixed(2) : "–");
  */
 export default function Board1() {
   const [state, setState] = useState({ status: "loading" });
+  /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
+  const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
   useEffect(() => {
     const controller = new AbortController();
-    loadBoard1Dataset({ signal: controller.signal })
-      .then((dataset) => setState({ status: "ready", dataset }))
+    loadBoard1Dataset({ signal: controller.signal, source })
+      .then((loaded) => setState({ status: "ready", ...loaded }))
       .catch((error) => {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, []);
+  }, [source]);
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
@@ -79,14 +89,15 @@ export default function Board1() {
       <Result
         status="warning"
         title="No se pudieron cargar los datos del tablero."
-        subTitle={state.error.status === 404 ? "Los datos de prueba no están disponibles en este equipo." : "Intente de nuevo en unos minutos."}
+        subTitle={loadErrorSubtitle(state.error)}
       />
     );
   }
-  return <Board1Content dataset={state.dataset} />;
+  return <Board1Content dataset={state.dataset} source={state.source} />;
 }
 
-function Board1Content({ dataset }) {
+function Board1Content({ dataset, source }) {
+  const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useBoardFilters();
   const [selectedId, setSelectedId] = useState(null);
 
@@ -111,6 +122,9 @@ function Board1Content({ dataset }) {
     CATEGORY_ORDER.map((c) => ({ category: c, label: CATEGORY_LABELS[c], value: result.categoryCounts[c], color: CATEGORY_COLORS[c] })),
   );
   const groups = useStableValue(rankGroups(dataset, result));
+  const actors = useStableValue(rankActors(dataset, result));
+  const ods = useStableValue(rankOds(dataset, result));
+  const subregionCounts = useStableValue(result.subregionCounts);
   const axes = useStableValue(rankAxes(dataset, result));
   const goals = useStableValue(rankGoals(dataset, result));
   const typeValues = useStableValue(result.pies.type);
@@ -152,7 +166,7 @@ function Board1Content({ dataset }) {
         <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
-        <Tag color="gold">{MOCK_TAG}</Tag>
+        <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
         <Tag>{dataset.meta.n_sel.toLocaleString("es-CO")} productos en la base · {dataset.meta.n_topic.toLocaleString("es-CO")} con tópico</Tag>
         <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
         <Collapse
@@ -189,7 +203,7 @@ function Board1Content({ dataset }) {
           </ChartCard>
         </Col>
         <Col xs={24} md={12} lg={8}>
-          <ChartCard title="4 · Ejes Temáticos públicos" note="n.º de tópicos con producción UdeA" empty={!axes.length}>
+          <ChartCard title="4 · Ejes Temáticos públicos" note={dataset.hasFactDetails ? AXES_PANEL_NOTE[applied.pairLevel] : AXES_PANEL_NOTE.topics} empty={!axes.length}>
             <RankingBarsChart rows={axes} />
           </ChartCard>
         </Col>
@@ -209,21 +223,39 @@ function Board1Content({ dataset }) {
           </ChartCard>
         </Col>
 
-        <Col xs={24}><OdsPlaceholders /></Col>
+        {dataset.hasFactDetails && dataset.ods ? (
+          <>
+            <Col xs={24} lg={12}>
+              <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible" empty={!ods.some((o) => o.value)}>
+                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} />
+                <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
+                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de 0,40 o más; una obra puede tener varios ODS.
+                </Typography.Paragraph>
+              </ChartCard>
+            </Col>
+            <Col xs={24} lg={12}>
+              <ChartCard title="8 · Producción por ODS" note="mosaico de los 17 objetivos" empty={!ods.some((o) => o.value)}>
+                <OdsTiles items={ods} />
+              </ChartCard>
+            </Col>
+          </>
+        ) : (
+          <Col xs={24}><OdsPlaceholders /></Col>
+        )}
 
         <Col xs={24} lg={12}>
           <ChartCard title="Complemento · Mapa esquemático por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
-            <SubregionTiles subregions={dataset.subregions} />
+            <SubregionTiles subregions={dataset.subregions} counts={dataset.hasFactDetails ? subregionCounts : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
-              Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, entre paréntesis, productos con autores adscritos a los Programas de Regionalización. Disposición aproximada norte–sur. No responde a los filtros.
+              Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, entre paréntesis, productos con autores adscritos a los Programas de Regionalización. Disposición aproximada norte–sur. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra entre paréntesis no." : "No responde a los filtros."}
             </Typography.Paragraph>
           </ChartCard>
         </Col>
         <Col xs={24} lg={12}>
-          <ChartCard title="Complemento · Actores no académicos coautores" note="productos en coautoría, toda la base">
-            <ActorsTable actors={dataset.actors} />
+          <ChartCard title="Complemento · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
+            <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
-              Clasificación por palabras clave del nombre (hospital, ministerio, S.A., fundación…); requiere revisión manual. Se excluyen universidades e instituciones universitarias. No responde a los filtros.
+              Clasificación estimada del tipo de actor; requiere revisión manual. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
             </Typography.Paragraph>
           </ChartCard>
         </Col>
@@ -233,7 +265,7 @@ function Board1Content({ dataset }) {
             type="info"
             showIcon
             message="Advertencias de datos y método"
-            description={<ol style={{ margin: 0, paddingLeft: 18 }}>{DATA_WARNINGS.map((w) => <li key={w.slice(0, 24)}>{w}</li>)}</ol>}
+            description={<ol style={{ margin: 0, paddingLeft: 18 }}>{(isMock ? DATA_WARNINGS : realDataWarnings(dataset.meta)).map((w) => <li key={w.slice(0, 24)}>{w}</li>)}</ol>}
           />
         </Col>
       </Row>
