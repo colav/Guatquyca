@@ -13,10 +13,10 @@ import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
 
 /* Texts */
-import { RULES_HEADERS, RULES_TABLE, RULES_TABLE_LEGACY } from "./boardTexts";
+import { RULES_HEADERS, RULES_TABLE, RULES_TABLE_LEGACY, lowCapacityDefinition } from "./boardTexts";
 
 /* UI Library Components */
-import { Col, Descriptions, Row, Typography } from "antd";
+import { Col, Descriptions, Row, Tooltip, Typography } from "antd";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -104,7 +104,7 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
  * colour of the legend; the headers are short (the full text goes in the `title`) and the columns
  * leave room for the longest text, so nothing is cut (F39).
  */
-export const RulesTable = memo(function RulesTable({ legacy = false, caption = "" }) {
+export const RulesTable = memo(function RulesTable({ legacy = false, caption = "", ratioBasis = "national" }) {
   const head = (text, full) => <span title={full}>{text}</span>;
   return (
     <>
@@ -118,12 +118,16 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
             dataIndex: "category",
             width: "42%",
             ellipsis: false,
-            render: (text, row) => (
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-                <CategoryMark category={row.key} size={14} />
-                {text}
-              </span>
-            ),
+            render: (text, row) => {
+              const cell = (
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+                  <CategoryMark category={row.key} size={14} />
+                  {text}
+                </span>
+              );
+              /* The definition of «capacidad relativa baja» is in the row itself (D-136). */
+              return !legacy && row.key === "lowCapacity" ? <Tooltip title={lowCapacityDefinition(ratioBasis)}>{cell}</Tooltip> : cell;
+            },
           },
           { title: head(RULES_HEADERS.ratio.short, legacy ? "Cociente (proxy FWCI ≤ 1)" : RULES_HEADERS.ratio.full), dataIndex: "ratio", width: "14%", ellipsis: false },
           { title: head(legacy ? "Producción" : RULES_HEADERS.trend.short, legacy ? "Producción 5 años" : RULES_HEADERS.trend.full), dataIndex: "trend", ellipsis: false },

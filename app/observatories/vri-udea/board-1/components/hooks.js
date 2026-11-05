@@ -1,7 +1,7 @@
 "use client";
 
 /* Hooks */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /* lib */
@@ -58,21 +58,27 @@ export function useBoardFilters() {
 export { useStableValue } from "@/app/observatories/components/useStableValue";
 
 /**
- * Categories that the scatter shows (F39), kept in `?cat=` of the URL. It is a view of the panels
- * 1 and 2, not a filter: it does not touch the filters, the other panels or the KPI.
+ * Categories that the scatter shows (F43c), kept in `?cat=` of the URL ([] = all). It is a view of the
+ * panels 1 and 2, not a filter: it does not touch the filters, the other panels or the KPI. Only the
+ * drawable categories are accepted (no production is not drawn).
  *
+ * @param {string[]} drawable - Categories that can be isolated.
  * @returns {{ selected: string[], toggle: (category: string, additive?: boolean) => void, clear: () => void }}
  */
-export function useCategorySelection() {
+export function useCategorySelection(drawable) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [selected, setSelected] = useState(() => parseCategories(searchParams.get(CATEGORY_PARAM)));
+  const [selected, setSelected] = useState(() => parseCategories(searchParams.get(CATEGORY_PARAM)).filter((c) => drawable.includes(c)));
+  /* The latest value, so that two quick clicks do not read a stale state. */
+  const selectedRef = useRef(selected);
 
   const write = useCallback(
     (next) => {
+      selectedRef.current = next;
       setSelected(next);
       const params = new URLSearchParams(window.location.search);
+      params.delete("ocultas"); // the parameter of the hide mode (F43b) is dropped
       const value = serializeCategories(next);
       if (value) params.set(CATEGORY_PARAM, value);
       else params.delete(CATEGORY_PARAM);
@@ -81,7 +87,7 @@ export function useCategorySelection() {
     },
     [router, pathname],
   );
-  const toggle = useCallback((category, additive = false) => write(toggleCategory(selected, category, additive)), [write, selected]);
+  const toggle = useCallback((category, additive = false) => write(toggleCategory(selectedRef.current, category, additive)), [write]);
   const clear = useCallback(() => write([]), [write]);
   return { selected, toggle, clear };
 }

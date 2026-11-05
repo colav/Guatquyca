@@ -27,6 +27,8 @@ import { CalculatorBarsChart, RankingBarsChart } from "./BarsChart";
 import {
   CATEGORY,
   CATEGORY_COLORS,
+  CATEGORY_ORDER,
+  CATEGORY_ORDER_LEGACY,
   CATEGORY_LABELS,
   MIN_TREND_VOLUME,
   ODS_MIN_SCORE,
@@ -61,8 +63,10 @@ import {
   RULE_LINE,
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
+  SNAPSHOT_NOTE,
+  lowCapacityDefinition,
+  noProductionTooltip,
   undrawnNote,
-  undrawnTooltip,
   TREND_LABELS,
   realDataWarnings,
 } from "./boardTexts";
@@ -115,13 +119,14 @@ function Board1Content({ dataset, source }) {
   const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useBoardFilters();
   const [selectedId, setSelectedId] = useState(null);
-  /* Which categories the scatter shows (F39): a view of the panels 1 and 2, not a filter of the board. */
-  const { selected: shown, toggle: toggleCategory, clear: clearCategories } = useCategorySelection();
 
   const result = useMemo(() => computeCapacity(dataset, applied), [dataset, applied]);
 
   /* Each chart receives a value that keeps its reference while its content does not change. */
   const modern = result.model === "capacity";
+  /* Which categories the scatter shows (F43c): a view of the panels 1 and 2, not a filter of the board. */
+  const drawableCategories = useMemo(() => (modern ? CATEGORY_ORDER : CATEGORY_ORDER_LEGACY).filter((c) => c !== CATEGORY.NONE), [modern]);
+  const { selected, toggle: toggleCategory, clear: clearCategories } = useCategorySelection(drawableCategories);
   const referent = REFERENCE_NAME[applied.ratioBasis];
   const fmtRatio = (v) => (Number.isFinite(v) ? v.toFixed(2).replace(".", ",") : "–");
   const points = useStableValue(
@@ -138,26 +143,28 @@ function Board1Content({ dataset, source }) {
         fwciLine: modern ? `${fmtFwci(u.fwci).replace(".", ",")} (sobre ${fmt(u.recordProducts)} productos con registro)` : fmtFwci(u.fwci).replace(".", ","),
         productsLine: fmt(u.products),
         citationsLine: fmt(u.citations),
-        referentLine: modern ? u.referent || "" : "",
         trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? ` * (indicativa: menos de ${MIN_TREND_VOLUME} productos)` : ""}`,
         yearsLine: u.yearCounts.join(", "),
-        ratioText: modern ? `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.citations)} frente a ${fmt(u.leaderCitations)} del referente)` : fmtRatio(u.ratio),
+        ratioText: modern ? `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.citations)} frente a ${fmt(u.leaderCitations)} de ${u.referent || "los referentes de sus tópicos"})` : fmtRatio(u.ratio),
         subfield: u.subfield,
         field: u.field,
         category: u.category,
         categoryLabel: CATEGORY_LABELS[u.category],
       })),
   );
-  const visiblePoints = useStableValue(shown.length ? points.filter((p) => shown.includes(p.category)) : points);
+  const visiblePoints = useStableValue(selected.length ? points.filter((p) => selected.includes(p.category)) : points);
+  const nounLower = DIMENSION_NOUN[applied.dimension].toLowerCase();
+  /* The numbers of the buttons are the totals of the category and do not change when one is isolated. «Sin producción»
+     is informative: it is not drawn (no production in 2021–2025), so it has no click (F43b, D-134). */
   const legendItems = useStableValue(
-    result.categoryOrder.map((c) => {
-      const count = points.filter((p) => p.category === c).length;
-      const total = result.categoryCounts[c];
-      return { category: c, label: CATEGORY_LABELS[c], count, total, hint: total > count ? undrawnTooltip({ category: c, drawn: count, total, noun: DIMENSION_NOUN[applied.dimension].toLowerCase() }) : "" };
-    }),
+    result.categoryOrder.map((c) =>
+      c === CATEGORY.NONE
+        ? { category: c, label: CATEGORY_LABELS[c], count: result.categoryCounts[c], informative: true, hint: result.noProduction ? noProductionTooltip({ ...result.noProduction, noun: nounLower }) : "" }
+        : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: modern && c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : "" },
+    ),
   );
-  /* Units that have no production at all in the range: counted in the panel 2 but not drawn (F39b). */
-  const undrawn = legendItems.reduce((n, i) => n + (i.total - i.count), 0);
+  /* Units without production in 2021–2025: counted in the panel 2, not drawn in the panel 1. */
+  const undrawn = result.categoryCounts[CATEGORY.NONE] || 0;
   const calcTotal = result.categoryOrder.reduce((n, c) => n + result.categoryCounts[c], 0);
   const withProduction = calcTotal - (result.categoryCounts[CATEGORY.NONE] || 0);
   const calculator = useStableValue(
@@ -236,31 +243,33 @@ function Board1Content({ dataset, source }) {
         <Col xs={24} lg={14}>
           <ChartCard
             title="1 · Dispersión de tópicos: producción vs. citas"
-            note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${shown.length ? ` · solo ${shown.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
+            note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${selected.length ? ` · solo ${selected.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
             empty={!points.length}
           >
-            <CategoryLegend items={legendItems} selected={shown} onToggle={toggleCategory} onClear={clearCategories} sizeNote={modern ? SIZE_NOTE : SIZE_NOTE_LEGACY} />
+            {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
+            <CategoryLegend items={legendItems} selected={selected} onToggle={toggleCategory} onClear={clearCategories} sizeNote={modern ? SIZE_NOTE : SIZE_NOTE_LEGACY} />
             <FillHeight min={400}>
               {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
             {undrawn > 0 ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="undrawn-note">
-                {undrawnNote({ count: undrawn, noun: DIMENSION_NOUN[applied.dimension].toLowerCase() })}
+                {undrawnNote({ count: undrawn, noun: nounLower })}
               </Typography.Paragraph>
             ) : null}
           </ChartCard>
         </Col>
         <Col xs={24} lg={10}>
           <ChartCard title="2 · Calculadora de capacidades" note={`${noun} por categoría`}>
-            <CalculatorBarsChart items={calculator} noun={noun} active={shown} onSelect={toggleCategory} />
+            {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
+            <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
               {modern
                 ? `Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = cero productos en 2021–2025.`
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
             {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}
-            <RulesTable legacy={!modern} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
+            <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>
 

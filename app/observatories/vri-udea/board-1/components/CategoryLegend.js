@@ -18,17 +18,18 @@ const LINE = 28;
 const GAP = 6;
 const SIZE_SAMPLES = [0.5, 2, 8];
 
-const entryStyle = (active, dimmed) => ({
+const entryStyle = ({ active = false, dimmed = false, informative = false } = {}) => ({
+  boxSizing: "border-box",
   display: "inline-flex",
   alignItems: "center",
   gap: 6,
   height: LINE,
   padding: "0 8px",
-  border: `1px solid ${active ? C.activeBorder : C.idleBorder}`,
+  border: `1px ${informative ? "dashed" : "solid"} ${active ? C.activeBorder : C.idleBorder}`,
   borderRadius: 14,
   background: active ? C.activeBackground : C.background,
   opacity: dimmed ? 0.55 : 1,
-  cursor: "pointer",
+  cursor: informative ? "default" : "pointer",
   font: "inherit",
   fontSize: 12,
   whiteSpace: "nowrap",
@@ -36,14 +37,15 @@ const entryStyle = (active, dimmed) => ({
 });
 
 /**
- * Own legend of the scatter (F39): one button per category with its shape, its colour, its name
- * and the number of points it has with the current filters. A click shows only that category; Ctrl
- * or Shift adds more; a click on the active one or on «Ver todas» shows them all. The height is
- * fixed (two lines), so the panel does not jump when the width changes.
+ * Own legend of the scatter (F39, F43c): one button per drawable category with its shape, colour, name and
+ * the number of units it has with the current filters. Without a selection all are shown and no button is
+ * off; a click leaves only that category, a click on the active one or on Ver todas shows all again, and
+ * Ctrl, Shift or Meta add more. The numbers do not change with the selection. No production is
+ * informative: it has no click and no selected state, because it is not drawn. The height is fixed (two
+ * lines), so the panel does not jump when the width changes.
  *
- * @param {{ category: string, label: string, count: number, total: number, hint?: string }[]} items
- *   `count` = points drawn; `total` = units of the category (panel 2); `hint` = why they differ.
- * @param {string[]} selected - Categories shown ([] = all).
+ * @param {{ category: string, label: string, count: number, informative?: boolean, hint?: string }[]} items
+ * @param {string[]} selected - Isolated categories ([] = all shown).
  * @param {(category: string, additive: boolean) => void} onToggle
  * @param {() => void} onClear
  * @param {string} sizeNote - Note about the size of the points.
@@ -58,8 +60,25 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
         style={{ display: "flex", flexWrap: "wrap", alignContent: "flex-start", gap: GAP, height: 2 * LINE + GAP, overflow: "hidden" }}
       >
         {items.map((item) => {
+          const count = item.count.toLocaleString("es-CO");
+          if (item.informative) {
+            const info = (
+              <span
+                tabIndex={0}
+                data-category={item.category}
+                data-count={item.count}
+                data-informative="true"
+                style={entryStyle({ informative: true })}
+                className="obs-legend-entry"
+              >
+                <CategoryMark category={item.category} size={14} />
+                <span>{item.label}</span>
+                <b>{count}</b>
+              </span>
+            );
+            return item.hint ? <Tooltip key={item.category} title={item.hint}>{info}</Tooltip> : info;
+          }
           const active = selected.includes(item.category);
-          const partial = item.total > item.count;
           const entry = (
             <button
               key={item.category}
@@ -68,17 +87,17 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
               data-category={item.category}
               data-count={item.count}
               onClick={(event) => onToggle(item.category, event.ctrlKey || event.shiftKey || event.metaKey)}
-              style={entryStyle(active, selected.length > 0 && !active)}
+              style={entryStyle({ active, dimmed: selected.length > 0 && !active })}
               className="obs-legend-entry"
             >
               <CategoryMark category={item.category} size={14} />
               <span>{item.label}</span>
-              <b>{partial ? `${item.count.toLocaleString("es-CO")} de ${item.total.toLocaleString("es-CO")}` : item.count.toLocaleString("es-CO")}</b>
+              <b>{count}</b>
             </button>
           );
-          return partial && item.hint ? <Tooltip key={item.category} title={item.hint}>{entry}</Tooltip> : entry;
+          return item.hint ? <Tooltip key={item.category} title={item.hint}>{entry}</Tooltip> : entry;
         })}
-        <button type="button" onClick={onClear} disabled={!selected.length} style={{ ...entryStyle(false, false), opacity: selected.length ? 1 : 0.45, cursor: selected.length ? "pointer" : "default" }} className="obs-legend-entry">
+        <button type="button" onClick={onClear} disabled={!selected.length} style={{ ...entryStyle(), opacity: selected.length ? 1 : 0.45, cursor: selected.length ? "pointer" : "default" }} className="obs-legend-entry">
           Ver todas
         </button>
       </div>

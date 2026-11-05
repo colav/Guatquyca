@@ -132,8 +132,10 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     const sum = (r) => CATEGORY_ORDER.reduce((n, c) => n + r.categoryCounts[c], 0);
     expect(sum(colombia)).toBe(colombia.units.length);
     expect(sum(world)).toBe(world.units.length);
-    // With the world as reference nobody reaches 0.50 of the leader: no leader, consolidated, consolidating or at risk.
-    for (const c of ["leader", "consolidated", "consolidating", "atRisk"]) expect(world.categoryCounts[c]).toBe(0);
+    // With the world as reference almost nobody reaches 0.50 of the referent (D-135 d): no leader or consolidated and 99 % below it.
+    for (const c of ["leader", "consolidated"]) expect(world.categoryCounts[c]).toBe(0);
+    const withProduction = world.units.length - world.categoryCounts.none;
+    expect(world.categoryCounts.emerging + world.categoryCounts.lowCapacity).toBeGreaterThan(0.99 * withProduction);
     // Colombia is more demanding on ties: it has leaders.
     expect(colombia.categoryCounts.leader).toBeGreaterThan(0);
     // The 2021-2025 window does not depend on the years filter.
@@ -176,13 +178,13 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
       [CATEGORY_ORDER.map((c) => CATEGORY_LABELS[c]), CALCULATOR_FONT_SIZE],
     );
     expect(longest).toBeLessThan(CALCULATOR_LABEL_WIDTH - 20);
-    // Reference "Mundo": several categories at 0 and the figures still match.
+    // Reference "Mundo": the two highest categories at 0 and the figures still match (D-135 d: almost nobody reaches 0,50).
     await page.getByText("Mundo", { exact: true }).click();
     await expect(page).toHaveURL(/basis=global/, { timeout: 5000 });
-    await expect.poll(async () => (await parse()).map((r) => r[1]).join(","), { timeout: 10000 }).toContain("0,0,0");
+    await expect.poll(async () => (await parse()).map((r) => r[1]).join(","), { timeout: 10000 }).toContain("0,0,");
     const world = computeCapacity(dataset, { ratioBasis: "global" });
     await expectFrom(world);
-    expect(world.categoryCounts.leader + world.categoryCounts.consolidated + world.categoryCounts.consolidating + world.categoryCounts.atRisk).toBe(0);
+    expect(world.categoryCounts.leader + world.categoryCounts.consolidated).toBe(0);
     // The footer follows the reference and the indicative count.
     await expect(page.getByText("Referente: Mundo").first()).toBeVisible();
     await expect(page.getByText("con tendencia indicativa (*)").first()).toBeVisible();
@@ -214,7 +216,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     }
     // F39 (11): Citas on its own line, and the ratio says what it was calculated from.
     expect(text).not.toMatch(/Productos[^\n]*Citas/);
-    expect(text).toMatch(/\(citas de la UdeA [\d.]+ frente a [\d.]+ del referente\)/);
+    expect(text).toMatch(/\(citas de la UdeA [\d.]+ frente a [\d.]+ de [^)]+\)/);
     // The five yearly counts of the window.
     const years = text.split("Productos por año (2021–2025)")[1].split("\n").map((s) => s.trim()).filter(Boolean)[0];
     expect(years.split(",").map((n) => n.trim())).toHaveLength(5);

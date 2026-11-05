@@ -1,22 +1,23 @@
 /*
- * F39b: the legend of the panel 1 says «811 de 2.095» for «sin producción» (points drawn over units of
- * the panel 2), a note at the foot says how many are not drawn, and the tooltip of the scatter is wide
- * enough for its longest lines. The first block needs no server; the second reads the real quyca and
- * the dev server of Luis (D-100) and only runs with E2E_LIVE=1.
+ * F39b (adjusted by F43b, D-134): the legend of the panel 1 shows «sin producción» as an informative
+ * entry with the complete figure of 2021–2025, a note at the foot says that those units are not drawn,
+ * and the tooltip of the scatter is wide enough for its longest lines. The first block needs no server;
+ * the second reads the real quyca and the dev server of Luis (D-100) and only runs with E2E_LIVE=1.
  */
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { undrawnNote, undrawnTooltip } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { noProductionTooltip, undrawnNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 import { WIDE_TOOLTIP, tooltipInteraction } from "../../lib/observatories/tooltipStyle";
 
 test.describe("texts and style (no server)", () => {
-  test("the tooltip of the legend and the note at the foot are built from the figures", () => {
-    expect(undrawnTooltip({ drawn: 811, total: 2095, noun: "tópicos" })).toBe(
-      "811 tópicos con producción antes de 2021 aparecen en la gráfica; otros 1.284 no tienen ninguna producción en el rango y no se dibujan",
+  test("the tooltip of «sin producción» and the note at the foot are built from the figures", () => {
+    expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe(
+      "Tópicos sin producción en 2021–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica",
     );
-    expect(undrawnNote({ count: 1284, noun: "tópicos" })).toBe("Los tópicos sin ninguna producción en el rango no se dibujan (1.284)");
+    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toBe("Los tópicos sin producción en 2021–2025 no se dibujan (2.095)");
     expect(undrawnNote({ count: 12, noun: "subcampos" })).toContain("subcampos");
+    expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "campos" })).toMatch(/^Campos sin producción/);
   });
 
   test("the tooltip is 460 to 560 px wide, a long value goes on a second line and nothing is cut with an ellipsis", () => {
@@ -35,12 +36,12 @@ const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query
 const fmt = (n) => n.toLocaleString("es-CO");
 
 async function figures(page) {
-  return page.getByTestId("category-legend").locator("button[data-category]").evaluateAll((nodes) =>
-    Object.fromEntries(nodes.map((n) => [n.dataset.category, { drawn: +n.dataset.count, text: n.innerText.replace(/\s+/g, " ").trim() }])),
+  return page.getByTestId("category-legend").locator("[data-category]").evaluateAll((nodes) =>
+    Object.fromEntries(nodes.map((n) => [n.dataset.category, { count: +n.dataset.count, text: n.innerText.replace(/\s+/g, " ").trim() }])),
   );
 }
 
-test.describe("legend «811 de 2.095» and wide tooltip (real quyca)", () => {
+test.describe("legend with «sin producción» informative and wide tooltip (real quyca)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   let raw;
@@ -50,55 +51,37 @@ test.describe("legend «811 de 2.095» and wide tooltip (real quyca)", () => {
 
   for (const [name, query, filters] of [
     ["without filters", "", {}],
-    ["with years 2015 to 2022", "from=2015&to=2022", { yearFrom: 2015, yearTo: 2022 }],
+    ["with years 2015 to 2022 (ignored by the panels)", "from=2015&to=2022", { yearFrom: 2015, yearTo: 2022 }],
+    ["with a unit filter", "faculty=1", { facultyIndex: 1 }],
   ]) {
-    test(`the legend and the note agree with the panel 2 ${name}`, async ({ page }) => {
+    test(`the legend and the foot agree with the panel 2 ${name}`, async ({ page }) => {
       const result = computeCapacity(createDataset(raw), filters);
-      const drawn = result.units.filter((u) => u.products > 0);
-      const none = drawn.filter((u) => u.category === "none").length;
       const noneTotal = result.categoryCounts.none;
-      // With a range of years other categories can also have units without production in it.
-      const undrawn = result.units.length - drawn.length;
+      const drawn = result.units.filter((u) => u.products > 0);
       await page.goto(PAGE(query));
       await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(1500);
       const legend = await figures(page);
-      expect(Object.values(legend).reduce((a, e) => a + e.drawn, 0)).toBe(drawn.length);
-      expect(legend.none.drawn).toBe(none);
-      if (noneTotal > none) expect(legend.none.text).toContain(`${fmt(none)} de ${fmt(noneTotal)}`);
-      if (undrawn > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin ninguna producción en el rango no se dibujan (${fmt(undrawn)})`);
-      // Without a range of years the other six categories coincide with the panel 2: no «N de M».
-      if (!query) {
-        for (const [category, entry] of Object.entries(legend)) {
-          if (category !== "none") expect(entry.text, category).not.toMatch(/d de d/);
-        }
-      }
+      // The complete figure of the window, no «N de M».
+      expect(legend.none.count).toBe(noneTotal);
+      expect(legend.none.text).toBe(`sin producción ${fmt(noneTotal)}`);
+      const { none, ...rest } = legend;
+      expect(Object.values(rest).reduce((a, e) => a + e.count, 0)).toBe(drawn.length);
+      for (const entry of Object.values(legend)) expect(entry.text).not.toMatch(/\d de \d/);
       await expect(page.getByText(`${fmt(drawn.length)} puntos con producción`).first()).toBeVisible();
+      if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin producción en 2021–2025 no se dibujan (${fmt(noneTotal)})`);
     });
   }
 
-  test("the legend and the note follow the unit filter", async ({ page }) => {
-    const dataset = createDataset(raw);
-    const fact = raw.facts.find((f) => f[6].length);
-    const unit = fact[6][0];
-    const result = computeCapacity(dataset, { facultyIndex: unit });
-    const drawn = result.units.filter((u) => u.products > 0);
-    const none = drawn.filter((u) => u.category === "none").length;
-    await page.goto(PAGE(`faculty=${unit}`));
-    await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
-    await page.waitForTimeout(1500);
-    const legend = await figures(page);
-    expect(legend.none.drawn).toBe(none);
-    expect(Object.values(legend).reduce((a, e) => a + e.drawn, 0)).toBe(drawn.length);
-    if (result.categoryCounts.none > none) expect(legend.none.text).toContain(`${fmt(none)} de ${fmt(result.categoryCounts.none)}`);
-  });
-
-  test("hovering «sin producción» explains the two figures", async ({ page }) => {
+  test("hovering «sin producción» explains the two figures with the same filters", async ({ page }) => {
+    const result = computeCapacity(createDataset(raw));
     await page.goto(PAGE());
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1500);
-    await page.locator('button[data-category="none"]').hover();
-    await expect(page.getByText(/tópicos con producción antes de 2021 aparecen en la gráfica; otros [\d.]+ no tienen ninguna producción en el rango y no se dibujan/)).toBeVisible({ timeout: 5000 });
+    await page.locator('[data-category="none"]').hover();
+    const { otherYears, never } = result.noProduction;
+    await expect(page.getByText(`Tópicos sin producción en 2021–2025 (${fmt(otherYears)} con producción anterior y ${fmt(never)} sin ninguna): no se dibujan en la gráfica`)).toBeVisible({ timeout: 5000 });
+    expect(otherYears + never).toBe(result.categoryCounts.none);
   });
 
   for (const width of [1280, 768]) {
@@ -111,7 +94,7 @@ test.describe("legend «811 de 2.095» and wide tooltip (real quyca)", () => {
         const card = page.getByTestId("chart-card").first();
         await card.scrollIntoViewIfNeeded();
         const box = await card.boundingBox();
-        const from = side === "right" ? box.x + box.width - 140 : box.x + 120;
+        const from = side === "right" ? box.x + box.width * 0.62 : box.x + 120;
         const to = side === "right" ? box.x + box.width - 20 : box.x + box.width * 0.6;
         let report = null;
         for (let y = box.y + 220; y < box.y + box.height - 140 && !report; y += 10) {

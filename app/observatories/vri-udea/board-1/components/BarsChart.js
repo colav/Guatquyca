@@ -77,8 +77,9 @@ function CalculatorBars({ items, noun, active = [], onSelect }) {
     (plot) => {
       plot.chart.on("element:click", (event) => {
         const category = byLabel[event?.data?.data?.label];
+        /* "Sin producción" is not drawn in the scatter: its bar does not answer to the click (F43b). */
         const native = event?.nativeEvent || event?.originalEvent || event;
-        if (category && onSelectRef.current) onSelectRef.current(category, !!(native.ctrlKey || native.shiftKey || native.metaKey));
+        if (category && category !== "none" && onSelectRef.current) onSelectRef.current(category, !!(native.ctrlKey || native.shiftKey || native.metaKey));
       });
     },
     [byLabel],

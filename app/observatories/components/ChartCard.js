@@ -30,7 +30,7 @@ export default function ChartCard({ title, note, empty = false, children, style 
       style={{ height: "100%", display: "flex", flexDirection: "column", boxShadow: CARD_SHADOW, ...style }}
       styles={{ header: CARD_HEADER_STYLE, body: { padding: 10, flex: "1 1 auto", display: "flex", flexDirection: "column" } }}
       title={title}
-      extra={note ? <span style={{ color: BRAND.white, fontSize: 12 }}>{note}</span> : null}
+      extra={note ? <span title={typeof note === "string" ? note : undefined} style={{ color: BRAND.white, fontSize: 12, display: "inline-block", maxWidth: "60vw", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", verticalAlign: "middle" }}>{note}</span> : null}
     >
       {empty ? (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<Typography.Text>Sin datos para este filtro.</Typography.Text>} />

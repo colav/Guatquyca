@@ -14,7 +14,7 @@ export const BOARD_LEAD =
 
 /** Lead of the board with the data of the API: seven categories (D-122), not the six of the artifact. Provisional text. */
 export const BOARD_LEAD_REAL =
-  "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en siete categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad baja y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
+  "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en siete categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
 export const MOCK_TAG = "Datos de prueba · métrica de liderazgo provisional";
 
@@ -81,9 +81,19 @@ export const RULES_TABLE = [
   { key: "consolidating", category: "En consolidación", ratio: "> 0,50", trend: "creciente o estable" },
   { key: "emerging", category: "Emergente", ratio: "≤ 0,50", trend: "creciente" },
   { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
-  { key: "lowCapacity", category: "Capacidad baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
+  { key: "lowCapacity", category: "Capacidad relativa baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
   { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2021–2025" },
 ];
+
+/**
+ * Definition of the category «capacidad relativa baja» (D-136), for the tooltip of the legend and of the row
+ * of the table of rules. With the world as referent it says «del mundo». Provisional text: Luis approves it.
+ *
+ * @param {string} [ratioBasis] - "national" (default) or "global".
+ */
+export function lowCapacityDefinition(ratioBasis = "national") {
+  return `Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en ese tópico) y producción sin crecimiento.`;
+}
 
 /** One-line rule of each category for the tooltip of the calculator. */
 export const RULE_LINE = Object.fromEntries(
@@ -96,8 +106,8 @@ export const METHOD_NOTE =
 
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
-  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de siete categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad baja y sin producción. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución más citada de Colombia o del mundo, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
-  "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex.",
+  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de siete categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja y sin producción. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
+  "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
 ];
 
 export const DATA_WARNINGS = [
@@ -144,20 +154,23 @@ export const AXES_PANEL_NOTE = {
   topics: "n.º de tópicos con producción UdeA",
 };
 
+/** Notice of the panels 1 and 2 (D-133, F43). Provisional text: Luis approves it. */
+export const SNAPSHOT_NOTE = "Fotografía 2021–2025; no responde al filtro de años";
+
+const fmtCount = (n) => n.toLocaleString("es-CO");
+
 /**
- * Tooltip of the legend entry whose points are fewer than its units (F39b): the units without any
- * production in the range are not drawn. Figures come from the data.
+ * Tooltip of the informative entry «sin producción» of the legend (F43b, D-134): the units that have
+ * no production in 2021–2025, how many had some in other years and how many none at all. Figures
+ * come from the data.
  */
-export function undrawnTooltip({ drawn, total, noun, category = "none" }) {
-  const fmt = (n) => n.toLocaleString("es-CO");
-  /* With a range of years the other categories can also have units without production in the range. */
-  if (category !== "none") return `${fmt(drawn)} ${noun} de esta categoría aparecen en la gráfica; otros ${fmt(total - drawn)} no tienen producción en el rango de años y no se dibujan`;
-  return `${fmt(drawn)} ${noun} con producción antes de 2021 aparecen en la gráfica; otros ${fmt(total - drawn)} no tienen ninguna producción en el rango y no se dibujan`;
+export function noProductionTooltip({ otherYears, never, noun }) {
+  return `${noun[0].toUpperCase()}${noun.slice(1)} sin producción en 2021–2025 (${fmtCount(otherYears)} con producción anterior y ${fmtCount(never)} sin ninguna): no se dibujan en la gráfica`;
 }
 
-/** Foot of the panel 1 (F39b): how many units are not drawn. */
+/** Foot of the panel 1 (F43b): the units without production in 2021–2025 are not drawn. */
 export function undrawnNote({ count, noun }) {
-  return `Los ${noun} sin ninguna producción en el rango no se dibujan (${count.toLocaleString("es-CO")})`;
+  return `Los ${noun} sin producción en 2021–2025 no se dibujan (${fmtCount(count)})`;
 }
 
 /* Legend of the scatter (F39). Provisional texts: Luis approves them. */
