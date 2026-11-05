@@ -2,6 +2,7 @@
 
 /* Hooks */
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
@@ -25,7 +26,9 @@ import {
   sameFoundationsFilters,
   serializeFoundationsFilters,
 } from "@/lib/observatories/foundations";
+import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
 import { loadBoard3Dataset } from "@/lib/observatories/data/capacidadesAdapter";
+import { loadErrorSubtitle } from "@/lib/observatories/data/loadError";
 import { BRAND, FOUNDATIONS_COLORS } from "@/lib/observatories/palette";
 import { useStableValue } from "@/app/observatories/components/useStableValue";
 import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
@@ -39,6 +42,9 @@ import {
   FOOTER_TEXT,
   MOCK_TAG,
   PROXY_LABEL,
+  REAL_FOOTER_TEXT,
+  REAL_STAFF_LABEL,
+  REAL_TAG,
   SECTIONS,
   SEX_SERIES,
   STAFF_LABEL,
@@ -79,16 +85,18 @@ const ART_GROUPS = ["vinculado", "ocasional", "otro/desconocido"];
  */
 export default function Board3() {
   const [state, setState] = useState({ status: "loading" });
+  /* `?source=mock` reads the local test data instead of the API (not shown in the interface). */
+  const source = useSearchParams().get("source") === MOCK_SOURCE ? MOCK_SOURCE : "api";
 
   useEffect(() => {
     const controller = new AbortController();
-    loadBoard3Dataset({ signal: controller.signal })
-      .then((dataset) => setState({ status: "ready", dataset }))
+    loadBoard3Dataset({ signal: controller.signal, source })
+      .then((loaded) => setState({ status: "ready", ...loaded }))
       .catch((error) => {
         if (error.name !== "AbortError") setState({ status: "error", error });
       });
     return () => controller.abort();
-  }, []);
+  }, [source]);
 
   if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
   if (state.status === "error") {
@@ -96,18 +104,18 @@ export default function Board3() {
       <Result
         status="warning"
         title="No se pudieron cargar los datos del tablero."
-        subTitle={state.error.status === 404 ? "Los datos de prueba no están disponibles en este equipo." : "Intente de nuevo en unos minutos."}
+        subTitle={loadErrorSubtitle(state.error)}
       />
     );
   }
-  return <Board3Content dataset={state.dataset} />;
+  return <Board3Content dataset={state.dataset} source={state.source} />;
 }
 
 /** Row of summary tiles. */
-function Tiles({ tiles }) {
+function Tiles({ tiles, staffLabel }) {
   return (
     <Row gutter={[12, 12]}>
-      {TILE_LABELS.map(([key, label]) => (
+      {TILE_LABELS.map(([key, label]) => [key, key === "staff" ? `profesores (${staffLabel})` : label]).map(([key, label]) => (
         <Col key={key} xs={12} md={8} lg={6} xl={3}>
           <Card size="small">
             <Statistic title={label} value={fmt(tiles[key])} valueStyle={{ fontSize: 22 }} />
@@ -118,8 +126,10 @@ function Tiles({ tiles }) {
   );
 }
 
-function Board3Content({ dataset }) {
+function Board3Content({ dataset, source }) {
   const { raw } = dataset;
+  const isMock = source === MOCK_SOURCE;
+  const staffLabel = isMock ? STAFF_LABEL : REAL_STAFF_LABEL;
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
 
@@ -185,7 +195,7 @@ function Board3Content({ dataset }) {
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
         <div style={{ marginBottom: 8 }}>
-          <Tag color="gold">{MOCK_TAG}</Tag>
+          <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </div>
         <Collapse
@@ -215,22 +225,24 @@ function Board3Content({ dataset }) {
 
       <FiltersBar raw={raw} filters={draft} onChange={update} onReset={reset} />
       <Typography.Text type="secondary" style={{ display: "block", marginBottom: 12 }}>
-        {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores (${STAFF_LABEL}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
+        {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
         {pending ? " · Actualizando…" : ""}
       </Typography.Text>
-      <Tiles tiles={tiles} />
+      <Tiles tiles={tiles} staffLabel={staffLabel} />
 
       <Divider orientation="left">{SECTIONS.researchers}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard title="01 · Talento investigador por nivel (proxy)">
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>
+          <ChartCard title={isMock ? "01 · Talento investigador por nivel (proxy)" : "01 · Talento investigador por nivel (categoría Minciencias)"}>
+            {isMock ? <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag> : null}
             <Row gutter={[8, 8]} style={{ marginBottom: 8 }}>
               {[
                 [fmt(talent.staff_total), "profesores con contrato · agregado UdeA"],
                 [dens(talent.staff_total, talent.poblacion_ajustada), `por 100.000 hab. (población ajustada ${fmt(talent.poblacion_ajustada)})`],
                 [dens(talent.staff_total, talent.poblacion_censada), `por 100.000 hab. (población censada ${fmt(talent.poblacion_censada)})`],
-                [fmt(talent.inv_sheet.personas), `investigadores en grupos (conv. 894) · ${dens(talent.inv_sheet.personas, talent.poblacion_ajustada)} por 100.000 hab.`],
+                ...(talent.inv_sheet.personas > 0
+                  ? [[fmt(talent.inv_sheet.personas), `investigadores en grupos (conv. 894) · ${dens(talent.inv_sheet.personas, talent.poblacion_ajustada)} por 100.000 hab.`]]
+                  : []),
               ].map(([value, label]) => (
                 <Col key={label} xs={12}>
                   <Statistic title={label} value={value} valueStyle={{ fontSize: 18 }} />
@@ -239,14 +251,16 @@ function Board3Content({ dataset }) {
             </Row>
             <HBarsChart rows={talentRows} color={SERIES[0]} unit="Profesores" />
             <Note>
-              {`No existe campo de nivel de formación en las bases; abajo, la categoría Minciencias de los profesores con contrato y su densidad por 100.000 habitantes (población ajustada). Pendiente: incorporar nivel de formación desde la base de talento humano. Planta 2021-2: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`}
+              {isMock
+                ? `No existe campo de nivel de formación en las bases; abajo, la categoría Minciencias de los profesores con contrato y su densidad por 100.000 habitantes (población ajustada). Pendiente: incorporar nivel de formación desde la base de talento humano. Planta 2021-2: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`
+                : `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`}
             </Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="02 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
             <AreasTreemapChart items={areas.items} colors={AREA_COLORS} />
-            <Note>{`${fmt(areas.active)} investigadores activos con grupo (con al menos un producto desde ${areas.from}; área OCDE del grupo principal). La hoja «Investigadores» de BD_Grupos (convocatoria 894) registra ${fmt(talent.inv_sheet.personas)} personas (regular ${talent.inv_sheet.por_vinculacion.Regular}, cátedra ${talent.inv_sheet.por_vinculacion["Cátedra"]}, ocasional ${talent.inv_sheet.por_vinculacion.Ocasional}).`}</Note>
+            <Note>{`${fmt(areas.active)} investigadores activos con grupo (con al menos un producto desde ${areas.from}; área OCDE del grupo principal). ${talent.inv_sheet.personas > 0 ? ` La hoja «Investigadores» de BD_Grupos (convocatoria 894) registra ${fmt(talent.inv_sheet.personas)} personas (regular ${talent.inv_sheet.por_vinculacion.Regular}, cátedra ${talent.inv_sheet.por_vinculacion["Cátedra"]}, ocasional ${talent.inv_sheet.por_vinculacion.Ocasional}).` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -295,14 +309,14 @@ function Board3Content({ dataset }) {
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
           <ChartCard title="10 · Profesores con productos de apropiación social, por unidad académica" empty={!appropriationRows.length}>
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{STAFF_LABEL}</Tag>
+            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={appropriationRows} color={BAR_COLORS.appropriation} unit="Profesores" />
             <Note>{`${fmt(appropriation.staff)} profesores con apropiación social, sobre los profesores de la unidad con producción en la selección. 735 de los 752 registros de apropiación no tienen año; la unidad se infiere de la unidad más frecuente del autor.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{STAFF_LABEL}</Tag>
+            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
             <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La base no tiene tipo de organización: la clasificación por nombre identifica 472 empresas entre 8.168 instituciones coautoras y requiere revisión manual.`}</Note>
           </ChartCard>
@@ -315,7 +329,7 @@ function Board3Content({ dataset }) {
           <ChartCard title="12 · Profesores con productos artísticos, por número de productos y tipo de contrato" empty={!arts.points.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>
             <ArtsScatterChart points={arts.points} groups={ART_GROUPS} colors={FOUNDATIONS_COLORS.arts} />
-            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato. 42 de las 57 personas de Productos de creación.xlsx se cruzaron con la planta. No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " 42 de las 57 personas de Productos de creación.xlsx se cruzaron con la planta." : ""} No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -360,9 +374,9 @@ function Board3Content({ dataset }) {
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="16 · Conjuntos de datos abiertos por tópico" empty={!datasetRows.length}>
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{STAFF_LABEL}</Tag>
+            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={datasetRows} color={BAR_COLORS.datasets} unit="Conjuntos de datos" />
-            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. Sin tipos «dataset» en SCIENTI; 119 de los 406 registros tienen año 2026 (fecha de carga, no de creación).`}</Note>
+            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI; 119 de los 406 registros tienen año 2026 (fecha de carga, no de creación)." : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -409,7 +423,7 @@ function Board3Content({ dataset }) {
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="c · Profesores por tipo de producto (sin artículos, libros ni capítulos)" empty={!staffTypeRows.length}>
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{STAFF_LABEL}</Tag>
+            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <StackedBarsChart rows={staffTypeRows} series={CONTRACTS} colors={CONTRACT_COLOR_MAP} unit="Profesores" />
             <Note>{`Productos de creación (Productos de creación.xlsx, no cruzables con la base): ${fmt(creation.obras)} obras únicas de ${fmt(creation.personas)} personas en ${creation.grupos} grupos, 2010–2024.`}</Note>
           </ChartCard>
@@ -417,7 +431,7 @@ function Board3Content({ dataset }) {
       </Row>
 
       <CutoffNote />
-      <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 12 }}>{FOOTER_TEXT}</Typography.Paragraph>
+      <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
     </div>
   );
 }

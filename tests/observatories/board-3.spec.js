@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 
 const BASE = "http://localhost:3000";
 const ROUTE = "/observatories/vri-udea/board-3";
+const MOCK = "source=mock"; /* the board reads the API by default; these tests are written for the test data */
 
 test.beforeEach(async () => {
   let up = true;
@@ -19,7 +20,7 @@ test("Board 3 loads the test data, shows its panels and never the retired one or
   page.on("pageerror", (e) => errors.push(e.message));
   const requests = [];
   page.on("request", (r) => { if (r.url().endsWith("/data")) requests.push(new URL(r.url()).pathname); });
-  await page.goto(ROUTE);
+  await page.goto(`${ROUTE}?${MOCK}`);
   await expect(page.getByText("01 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
   await expect(page.getByText("83.161 productos · 32.509 autores UdeA")).toBeVisible();
   for (const title of ["02 · Investigadores activos", "08 · Tesis", "11 · Profesores con productos compartidos", "17 · Acceso abierto", "18 · Cobertura", "c · Profesores por tipo de producto"]) {
@@ -38,7 +39,7 @@ test("Board 3 loads the test data, shows its panels and never the retired one or
 });
 
 test("a filter in the URL applies and a change goes to the URL (rebound of 200 ms)", async ({ page }) => {
-  await page.goto(`${ROUTE}?doc=1`);
+  await page.goto(`${ROUTE}?doc=1&${MOCK}`);
   await expect(page.getByText("44.444 productos · 25.761 autores UdeA")).toBeVisible({ timeout: 120000 });
   await page.getByRole("button", { name: "Limpiar filtros" }).click();
   await expect(page.getByText("83.161 productos · 32.509 autores UdeA")).toBeVisible({ timeout: 10000 });
@@ -47,7 +48,7 @@ test("a filter in the URL applies and a change goes to the URL (rebound of 200 m
 
 test("the page uses the width up to 1,920 px", async ({ page }) => {
   await page.setViewportSize({ width: 2400, height: 1000 });
-  await page.goto(ROUTE);
+  await page.goto(`${ROUTE}?${MOCK}`);
   await expect(page.getByText("01 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
   const box = await page.locator("main").first().boundingBox();
   expect(box.width).toBeLessThanOrEqual(1920);
