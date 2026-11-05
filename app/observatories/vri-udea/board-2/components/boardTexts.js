@@ -3,6 +3,9 @@
  * The state of the evidence of the Eje Temático is not named in any screen.
  */
 
+/* Numbers of the notes come from the constants of the calculation, not from the text. */
+import { GRAPH_MIN_EDGE, LIMITS } from "../../../../../lib/observatories/collaboration/constants";
+
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026 · Ensayo 1";
@@ -28,7 +31,7 @@ export const SCOPE_OPTIONS = [
 /* Notes of each panel (as in the artifact). */
 export const NOTES = {
   v1: "Subcampos OpenAlex con al menos un artículo del grupo (tópico primario). Grupos UdeA con 2 o más subcampos. Ránking descendente hasta 2 subcampos. La etiqueta indica también los campos distintos: participación en tópicos de campos diferentes es señal de transdisciplina.",
-  v2: "Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los 60 grupos con mayor grado ponderado y aristas con 2 o más productos.",
+  v2: `Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
   v3: "Productos por tipo (barras apiladas), 15 primeras. Sector asignado por reglas sobre el nombre; requiere revisión manual.",
   v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
   v5: "Artículos de revista por año de publicación.",
