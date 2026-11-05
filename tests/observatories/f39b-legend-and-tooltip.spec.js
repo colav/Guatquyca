@@ -13,11 +13,11 @@ import { WIDE_TOOLTIP, tooltipInteraction } from "../../lib/observatories/toolti
 test.describe("texts and style (no server)", () => {
   test("the tooltip of «sin producción» and the note at the foot are built from the figures", () => {
     expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe(
-      "Tópicos sin producción en 2021–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica",
+      "Tópicos sin productos con ese tópico principal en 2021–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica",
     );
-    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toBe("Los tópicos sin producción en 2021–2025 no se dibujan (2.095)");
+    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toBe("Los tópicos sin productos con ese tópico principal en 2021–2025 no se dibujan (2.095)");
     expect(undrawnNote({ count: 12, noun: "subcampos" })).toContain("subcampos");
-    expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "campos" })).toMatch(/^Campos sin producción/);
+    expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "campos" })).toMatch(/^Campos sin productos con ese tópico principal/);
   });
 
   test("the tooltip is 460 to 560 px wide, a long value goes on a second line and nothing is cut with an ellipsis", () => {
@@ -69,7 +69,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
       expect(Object.values(rest).reduce((a, e) => a + e.count, 0)).toBe(drawn.length);
       for (const entry of Object.values(legend)) expect(entry.text).not.toMatch(/\d de \d/);
       await expect(page.getByText(`${fmt(drawn.length)} puntos con producción`).first()).toBeVisible();
-      if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin producción en 2021–2025 no se dibujan (${fmt(noneTotal)})`);
+      if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmt(noneTotal)})`);
     });
   }
 
@@ -80,7 +80,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
     await page.waitForTimeout(1500);
     await page.locator('[data-category="none"]').hover();
     const { otherYears, never } = result.noProduction;
-    await expect(page.getByText(`Tópicos sin producción en 2021–2025 (${fmt(otherYears)} con producción anterior y ${fmt(never)} sin ninguna): no se dibujan en la gráfica`)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(`Tópicos sin productos con ese tópico principal en 2021–2025 (${fmt(otherYears)} con producción anterior y ${fmt(never)} sin ninguna): no se dibujan en la gráfica`)).toBeVisible({ timeout: 5000 });
     expect(otherYears + never).toBe(result.categoryCounts.none);
   });
 

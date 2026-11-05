@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import LinkedText from "@/app/observatories/components/LinkedText";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import DonutChart from "@/app/observatories/components/DonutChart";
@@ -233,7 +234,7 @@ function Board1Content({ dataset, source }) {
         <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
         <Collapse
           ghost
-          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : HELP_TEXT_REAL).map((t) => <Typography.Paragraph key={t.slice(0, 20)}>{t}</Typography.Paragraph>) }]}
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : HELP_TEXT_REAL).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
         />
       </header>
 
@@ -256,7 +257,7 @@ function Board1Content({ dataset, source }) {
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
             {undrawn > 0 ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="undrawn-note">
-                {undrawnNote({ count: undrawn, noun: nounLower })}
+                <LinkedText text={undrawnNote({ count: undrawn, noun: nounLower })} />
               </Typography.Paragraph>
             ) : null}
           </ChartCard>
@@ -267,7 +268,7 @@ function Board1Content({ dataset, source }) {
             <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
               {modern
-                ? `Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = cero productos en 2021–2025.`
+                ? <LinkedText text={`Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = sin productos con ese tópico principal en 2021–2025.`} />
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
             {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}

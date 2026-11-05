@@ -30,7 +30,7 @@ test.describe("marks and selection of categories (no server)", () => {
       expect(CATEGORY_MARKS[c].color).toBe(CATEGORY_COLORS[c]);
       expect(CATEGORY_MARKS[c].color).toBe(CATEGORY_PALETTE[c]);
     }
-    expect(CATEGORY_ORDER.map((c) => CATEGORY_MARKS[c].shape)).toEqual(["star", "square", "hexagon", "triangle", "triangleDown", "point", "cross", "diamond"]);
+    expect(CATEGORY_ORDER.map((c) => CATEGORY_MARKS[c].shape)).toEqual(["star", "square", "hexagon", "triangle", "triangleDown", "point", "x", "diamond"]);
   });
 
   test("every shape has an outline, the border is a darker tone and the size grows with the FWCI", () => {

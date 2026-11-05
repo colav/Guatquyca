@@ -16,7 +16,7 @@ test.describe("punctual presence (no server)", () => {
     expect(CATEGORY_ORDER).toHaveLength(8);
     expect(CATEGORY_ORDER.indexOf(CATEGORY.PUNCTUAL)).toBe(CATEGORY_ORDER.indexOf(CATEGORY.LOW_CAPACITY) + 1);
     expect(CATEGORY_ORDER[CATEGORY_ORDER.length - 1]).toBe(CATEGORY.NONE);
-    expect(CATEGORY_MARKS.punctual.shape).toBe("cross");
+    expect(CATEGORY_MARKS.punctual.shape).toBe("x"); // an X since F46 (D-139)
     expect(CATEGORY_MARKS.punctual.color).toBe(CATEGORY_PALETTE.punctual);
     expect(CATEGORY_SLUGS[CATEGORY.PUNCTUAL]).toBe("presencia-puntual");
   });

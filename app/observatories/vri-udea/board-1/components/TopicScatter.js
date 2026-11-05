@@ -11,9 +11,9 @@ import { useTooltipInside } from "@/app/observatories/components/useTooltipInsid
 
 /* lib */
 import { CATEGORY_MARKS, BRAND, darken } from "@/lib/observatories/palette";
-import { FWCI_CAP, SIZE_RANGE } from "@/lib/observatories/scatterSize";
+import { pointRadius } from "@/lib/observatories/scatterSize";
 import { WIDE_TOOLTIP, tooltipInteraction } from "@/lib/observatories/tooltipStyle";
-import { cross, star } from "@/lib/observatories/shapes";
+import { star, xmark } from "@/lib/observatories/shapes";
 
 /* Libraries */
 const Scatter = dynamic(
@@ -23,8 +23,8 @@ const Scatter = dynamic(
          outline from the symbol of the same name: registering the star under that name makes
          that shape a star, with no new dependency. */
       mod.register("symbol.bowtie", star);
-      /* Same for the thick cross of punctual presence (F45): the shape "cross" is only used here. */
-      mod.register("symbol.cross", cross);
+      /* Same for the X of punctual presence (F46): the shape "cross" is only used here and draws an X. */
+      mod.register("symbol.cross", xmark);
       return mod.Scatter;
     }),
   { ssr: false },
@@ -33,7 +33,7 @@ const Scatter = dynamic(
 /* Constants: colour and shape of every category come from the shared map (palette.js). */
 const CATEGORIES = Object.keys(CATEGORY_MARKS);
 const COLORS = Object.values(CATEGORY_MARKS).map((m) => m.color);
-const G2_SHAPE = { star: "bowtie" };
+const G2_SHAPE = { star: "bowtie", x: "cross" };
 const SHAPES = Object.values(CATEGORY_MARKS).map((m) => G2_SHAPE[m.shape] || m.shape);
 
 /**
@@ -58,7 +58,8 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
         name: p.label,
         x: p.products,
         y: p.citations + 1,
-        size: Math.min(Number.isFinite(p.fwci) ? p.fwci : 0, FWCI_CAP),
+        /* Radius in px already (identity scale): the one of the FWCI, 70 % smaller for punctual presence (F46b). */
+        size: pointRadius(Number.isFinite(p.fwci) ? p.fwci : 0, p.category === "punctual"),
         cls: p.category,
         products: p.products,
         citations: p.citations,
@@ -84,7 +85,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
       scale: {
         x: { type: "log", base: 10, nice: true },
         y: { type: "log", base: 10, nice: true },
-        size: { type: "sqrt", domain: [0, FWCI_CAP], range: SIZE_RANGE },
+        size: { type: "identity" },
         color: { domain: CATEGORIES, range: COLORS },
         shape: { domain: CATEGORIES, range: SHAPES },
       },

@@ -117,6 +117,7 @@ export const METHOD_NOTE =
 export const HELP_TEXT_REAL = [
   "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2021–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
   "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
+  "«Sin producción» significa sin productos con ese tópico principal en 2021–2025.",
 ];
 
 export const DATA_WARNINGS = [
@@ -165,6 +166,11 @@ export const AXES_PANEL_NOTE = {
 
 /** Notice of the panels 1 and 2 (D-133, F43). Provisional text: Luis approves it. */
 import { MIN_PRODUCTS_CLASSIFY } from "../../../../../lib/observatories/capacity/constants";
+import { PUNTUAL_SIZE_FACTOR } from "../../../../../lib/observatories/scatterSize";
+
+/** Definition in OpenAlex of the primary topic of a work (D-139): the link of the texts about «sin producción». */
+export const PRIMARY_TOPIC_URL = "https://help.openalex.org/data/works/attributes/#primary_topic";
+export const PRIMARY_TOPIC_LINK_TEXT = "tópico principal";
 
 export const SNAPSHOT_NOTE = "Fotografía 2021–2025; no responde al filtro de años";
 
@@ -176,16 +182,16 @@ const fmtCount = (n) => n.toLocaleString("es-CO");
  * come from the data.
  */
 export function noProductionTooltip({ otherYears, never, noun }) {
-  return `${noun[0].toUpperCase()}${noun.slice(1)} sin producción en 2021–2025 (${fmtCount(otherYears)} con producción anterior y ${fmtCount(never)} sin ninguna): no se dibujan en la gráfica`;
+  return `${noun[0].toUpperCase()}${noun.slice(1)} sin productos con ese tópico principal en 2021–2025 (${fmtCount(otherYears)} con producción anterior y ${fmtCount(never)} sin ninguna): no se dibujan en la gráfica`;
 }
 
 /** Foot of the panel 1 (F43b): the units without production in 2021–2025 are not drawn. */
 export function undrawnNote({ count, noun }) {
-  return `Los ${noun} sin producción en 2021–2025 no se dibujan (${fmtCount(count)})`;
+  return `Los ${noun} sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmtCount(count)})`;
 }
 
 /* Legend of the scatter (F39). Provisional texts: Luis approves them. */
-export const SIZE_NOTE = "Tamaño = FWCI, solo productos con registro en OpenAlex";
+export const SIZE_NOTE = `Tamaño = FWCI, solo productos con registro en OpenAlex; presencia puntual se dibuja ${Math.round((1 - PUNTUAL_SIZE_FACTOR) * 100)} % más pequeña`;
 export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";
 export const RULES_HEADERS = {
   category: "Categoría",
