@@ -10,7 +10,6 @@ import { PAIR_LEVEL, YEAR_RANGE } from "@/lib/observatories/capacity";
 import {
   ALL_SCOPES,
   DIMENSION_OPTIONS,
-  POLICY_DOCUMENTS,
   PAIR_LEVEL_OPTIONS,
   PAIR_LEVEL_TOOLTIP,
   CENTER_TOOLTIP,
@@ -51,14 +50,8 @@ const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().incl
  * @param {Function} onReset - Restores the defaults.
  */
 function FiltersBar({ dataset, filters, onChange, onReset }) {
-  const policyOptions = useMemo(
-    () =>
-      POLICY_DOCUMENTS.map((name) => {
-        const available = dataset.policyDocs.includes(name);
-        return { value: name, label: available ? name : `${name} (sin thesaurus en v5)`, disabled: !available };
-      }),
-    [dataset],
-  );
+  /* Only the documents with curated axes (D-129); the names come from the bundle. */
+  const policyOptions = useMemo(() => dataset.policyDocs.map((name) => ({ value: name, label: name })), [dataset]);
   const scopeOptions = useMemo(
     () => ALL_SCOPES.map((s) => ({ value: s, label: dataset.scopes.includes(s) ? s : `${s} (sin agendas en v5)`, disabled: !dataset.scopes.includes(s) })),
     [dataset],

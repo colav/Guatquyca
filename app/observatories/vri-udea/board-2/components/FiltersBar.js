@@ -7,7 +7,7 @@ import { memo, useMemo } from "react";
 import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
-import { CENTER_TOOLTIP, POLICY_DOCUMENTS, centerCoverageNote } from "../../board-1/components/boardTexts";
+import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { SCOPE_OPTIONS } from "./boardTexts";
 
 /* UI Library Components */
@@ -39,13 +39,8 @@ function Field({ label, children, span = 6, note = "" }) {
  */
 function FiltersBar({ dataset, filters, onChange, onReset }) {
   const { raw } = dataset;
-  const docs = useMemo(
-    () => POLICY_DOCUMENTS.map((name) => {
-      const available = dataset.policyDocs.includes(name);
-      return { value: name, label: available ? name : `${name} (sin términos en el thesaurus)`, disabled: !available };
-    }),
-    [dataset],
-  );
+  /* The filter acts on the works through the terms of the thesaurus (axes), not on goals: only the documents with terms (D-129). */
+  const docs = useMemo(() => dataset.policyDocs.map((name) => ({ value: name, label: name })), [dataset]);
   const subfields = useMemo(() => {
     const order = raw.subfields.map((_, i) => i).sort((a, b) => (raw.sfField[a] + raw.subfields[a]).localeCompare(raw.sfField[b] + raw.subfields[b]));
     const groups = [];

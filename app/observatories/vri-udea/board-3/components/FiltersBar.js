@@ -41,10 +41,12 @@ function Field({ label, children, note = "" }) {
  * @param {Function} onReset - Restores the defaults.
  */
 function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
-  const documents = useMemo(
-    () => raw.agendas_all.map((name, i) => ({ value: i, label: i < ACTIVE_POLICY_DOCUMENTS ? name : `${name} (sin términos)`, disabled: i >= ACTIVE_POLICY_DOCUMENTS })),
-    [raw],
-  );
+  /* The filter acts on the products through the axes (bit of the document in the agenda mask), not on goals:
+     only the documents with axes (D-129). The value is the position in `agendas_all`, the bit of the mask. */
+  const documents = useMemo(() => {
+    const withAxes = raw.agendas || raw.agendas_all.slice(0, ACTIVE_POLICY_DOCUMENTS);
+    return withAxes.map((name) => ({ value: raw.agendas_all.indexOf(name), label: name }));
+  }, [raw]);
   const centers = useMemo(() => raw.centros.map((name, i) => ({ value: i, label: name })).filter((o) => o.label !== "Sin centro"), [raw]);
   /* Coverage note of the centre filter (D-126). "Sin centro" is not an option but counts as a product without centre. */
   const centerNote = useMemo(() => centerCoverageNote(centerCoverage), [centerCoverage]);
