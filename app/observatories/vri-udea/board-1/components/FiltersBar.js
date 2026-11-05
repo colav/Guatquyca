@@ -13,7 +13,9 @@ import {
   POLICY_DOCUMENTS,
   PAIR_LEVEL_OPTIONS,
   PAIR_LEVEL_TOOLTIP,
+  CENTER_TOOLTIP,
   RATIO_BASIS_OPTIONS,
+  centerCoverageNote,
 } from "./boardTexts";
 
 /* UI Library Components */
@@ -27,11 +29,12 @@ const YEAR_OPTIONS = Array.from(
 
 const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 4 };
 
-function Field({ label, children, span = 6 }) {
+function Field({ label, children, span = 6, note = "" }) {
   return (
     <Col xs={24} sm={12} md={span}>
       <label style={labelStyle}>{label}</label>
       {children}
+      {note ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 11, marginTop: 4 }}>{note}</Typography.Text> : null}
     </Col>
   );
 }
@@ -61,6 +64,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     [dataset],
   );
   const centerOptions = useMemo(() => indexOptions(dataset.centers), [dataset]);
+  /* Coverage note of the centre filter, from the data of the board (no fixed figures, D-124). */
+  const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
@@ -82,7 +87,11 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       <Row gutter={[12, 12]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>
-        <Field label="3 · Centro de investigación">{select("centerIndex", centerOptions, "Todos", true)}</Field>
+        <Field label="3 · Centro de investigación" note={centerNote}>
+          <Tooltip title={CENTER_TOOLTIP}>
+            <div>{select("centerIndex", centerOptions, "Todos", true)}</div>
+          </Tooltip>
+        </Field>
         <Field label="4 · Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
             <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />
@@ -92,8 +101,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         <Field label="5 · Dimensión">
           <Segmented block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
         </Field>
-        <Field label="6 · Facultad">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
-        <Field label="7 · Departamento">{select("departmentIndex", departmentOptions, "Todos", true)}</Field>
+        <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
+        <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
         <Field label="Referente">
           <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
             <div>

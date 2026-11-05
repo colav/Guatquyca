@@ -137,6 +137,8 @@ function Board3Content({ dataset, source }) {
   const status = result.status;
   const talent = result.talent;
   const students = useStableValue(result.students);
+  /* Institutions with a name and those that the name rules classify as companies (from the data, F36). */
+  const instStats = useMemo(() => ({ institutions: raw.inst.filter((i) => i[0]).length, companies: raw.inst.filter((i) => i[2] === "empresa").length }), [raw]);
   const datasets = useStableValue(result.datasets);
   const areas = useStableValue(result.areas);
   const groupGrid = useStableValue(result.groupGrid);
@@ -294,7 +296,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="07 · Estudiantes en proyectos por nivel">
             <LinesChart years={students.years} series={students.series} colors={STUDENT_COLORS} unit="Personas" />
-            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : "Responde solo al filtro de centro y temporalidad."} 2025 es parcial (corte 3 jul 2025).`}</Note>
+            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -318,7 +320,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
-            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La base no tiene tipo de organización: la clasificación por nombre identifica 472 empresas entre 8.168 instituciones coautoras y requiere revisión manual.`}</Note>
+            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La base no tiene tipo de organización: la clasificación por nombre identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y requiere revisión manual.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -335,13 +337,13 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="13 · Proyectos de los grupos del Centro de Investigación de Artes" empty={!projectsGroupRows.length}>
             <HBarsChart rows={projectsGroupRows} color={BAR_COLORS.artsProjects} unit="Proyectos" />
-            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos (37 proyectos únicos; algunos tienen varios grupos). No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos ${arts.uniqueProjects > 0 ? ` (${fmt(arts.uniqueProjects)} proyectos únicos; algunos tienen varios grupos)` : ""}. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24}>
           <ChartCard title="14 · Unidades académicas en proyectos de investigación-creación, creación y obra" empty={!creationRows.length}>
             <HBarsChart rows={creationRows} color={BAR_COLORS.artsCreation} unit="Obras" />
-            <Note>{`${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación (${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas); 18 registros sin código de grupo en BD_Grupos. No responde a los filtros.`}</Note>
+            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; 18 registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -418,7 +420,7 @@ function Board3Content({ dataset, source }) {
                 { title: "%", render: (_, r) => pct(r.withId, r.total), align: "right" },
               ]}
             />
-            <Note>No hay Handle en las bases. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR. 447 DOI duplicados en works.csv.</Note>
+            <Note>{`No hay Handle en las bases. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR. ${isMock ? "447 DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

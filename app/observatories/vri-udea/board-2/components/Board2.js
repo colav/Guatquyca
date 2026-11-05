@@ -22,6 +22,7 @@ import {
   LIMITS,
   NON_ACADEMIC_SECTORS,
   SUBREGION_TABS,
+  WORK_TYPE,
   computeCollaboration,
   parseCollabFilters,
   sameCollabFilters,
@@ -46,6 +47,7 @@ import {
   NO_COORDINATES_NOTE,
   NOTES,
   NOTICE,
+  realNotice,
   REAL_FOOTER_TEXT,
   REAL_TAG,
   SIDE_LABELS,
@@ -144,6 +146,17 @@ function Board2Content({ dataset, source }) {
   const domainRows = useStableValue(useMemo(() => result.domainRows(domainTab), [result, domainTab]));
   const subregionCounts = useStableValue(useMemo(() => result.subregionCounts(subregionTab), [result, subregionTab]));
   const departments = useStableValue(result.departments);
+  /* Notice of the board: with the data of the API every figure is calculated (Q57, provisional). */
+  const notice = useMemo(() => {
+    if (isMock) return NOTICE;
+    const appropriation = raw.works.filter((w) => w[1] === WORK_TYPE.APPROPRIATION);
+    return realNotice({
+      documentsWithTerms: raw.thesaurus.agendas.length,
+      documents: POLICY_DOCUMENTS.length,
+      appropriationWithoutYear: appropriation.filter((w) => !w[0]).length,
+      appropriation: appropriation.length,
+    });
+  }, [isMock, raw]);
   const funders = useMemo(
     () => raw.funders.slice(0, 25).map((f) => ({ label: f.nm.trim(), segments: [SEGMENT(raw.sectorsEs[dataset.sectorIndex[f.fsector]], f.proyectos)] })),
     [raw, dataset],
@@ -155,7 +168,7 @@ function Board2Content({ dataset, source }) {
   const kpis = useStableValue(result.kpis);
   const h = result.helices;
   const helices = useStableValue([
-    { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` },
+    { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: dataset.flaggedInstitution >= 0 ? `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` : undefined },
     { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects },
     { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
     { label: "artículos con empresa", value: h.withCompany },
@@ -193,7 +206,7 @@ function Board2Content({ dataset, source }) {
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </div>
-        <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={NOTICE} style={{ marginBottom: 8 }} />
+        <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={notice} style={{ marginBottom: 8 }} />
         <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
       </header>
 

@@ -78,3 +78,16 @@ export const REAL_FOOTER_TEXT =
   "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras y proyectos), tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin coordenadas no aparecen en el mapa.";
 
 export const NO_COORDINATES_NOTE = (count) => `${count} ${count === 1 ? "país con productos no aparece" : "países con productos no aparecen"} en el mapa porque no tienen coordenadas; sí cuentan en la tabla.`;
+
+/**
+ * Provisional version (for Luis, Q57) of the notice «Ensayo con limitaciones de datos» for the data
+ * of the API: every figure is calculated from the bundle. It drops the sentence on «Alcaldía de
+ * Medellín» (562 products): the bundle has no institution with that name, so it cannot be confirmed.
+ *
+ * @param {{ documentsWithTerms: number, documents: number, appropriationWithoutYear: number, appropriation: number }} figures
+ * @returns {string}
+ */
+export function realNotice({ documentsWithTerms, documents, appropriationWithoutYear, appropriation }) {
+  const fmt = (n) => n.toLocaleString("es-CO");
+  return `El filtro por documento de política y el ránking por Eje Temático (14) usan los términos Núcleo del thesaurus (${documentsWithTerms} de los ${documents} documentos tienen términos; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración) enlazados a tópicos OpenAlex por coincidencia de términos en títulos. La base no contiene patentes ni resúmenes; ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
+}

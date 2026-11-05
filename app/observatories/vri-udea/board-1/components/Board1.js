@@ -28,6 +28,9 @@ import {
   CATEGORY,
   CATEGORY_COLORS,
   CATEGORY_LABELS,
+  MIN_TREND_VOLUME,
+  ODS_MIN_SCORE,
+  TREND_BAND,
   computeCapacity,
   rankActors,
   rankAxes,
@@ -43,6 +46,7 @@ import { QUARTILE_COLORS, TYPE_COLORS, accessColor } from "@/lib/observatories/p
 import {
   BOARD_EYEBROW,
   BOARD_LEAD,
+  BOARD_LEAD_REAL,
   BOARD_TITLE,
   DATA_WARNINGS,
   DIMENSION_NOUN,
@@ -125,7 +129,7 @@ function Board1Content({ dataset, source }) {
         /* Lines of the tooltip (F34/F35). */
         fwciLine: modern ? `${fmtFwci(u.fwci).replace(".", ",")} (sobre ${fmt(u.recordProducts)} productos con registro)` : fmtFwci(u.fwci).replace(".", ","),
         productsLine: `${fmt(u.products)} · Citas: ${fmt(u.citations)}`,
-        trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? " * (indicativa: menos de 10 productos)" : ""}`,
+        trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? ` * (indicativa: menos de ${MIN_TREND_VOLUME} productos)` : ""}`,
         yearsLine: u.yearCounts.join(", "),
         ratioText: fmtRatio(u.ratio),
         subfield: u.subfield,
@@ -194,7 +198,7 @@ function Board1Content({ dataset, source }) {
       <header style={{ marginBottom: 16 }}>
         <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
-        <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
+        <Typography.Paragraph>{isMock ? BOARD_LEAD : BOARD_LEAD_REAL}</Typography.Paragraph>
         <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
         <Tag>{dataset.meta.n_sel.toLocaleString("es-CO")} productos en la base · {dataset.meta.n_topic.toLocaleString("es-CO")} con tópico</Tag>
         <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
@@ -225,7 +229,7 @@ function Board1Content({ dataset, source }) {
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
             {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}
-            <RulesTable legacy={!modern} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±10 %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
+            <RulesTable legacy={!modern} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>
 
@@ -261,7 +265,7 @@ function Board1Content({ dataset, source }) {
               <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible" empty={!ods.some((o) => o.value)}>
                 <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} />
                 <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
-                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de 0,40 o más; una obra puede tener varios ODS.
+                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
                 </Typography.Paragraph>
               </ChartCard>
             </Col>

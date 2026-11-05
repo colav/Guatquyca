@@ -1,3 +1,5 @@
+import { MIN_TREND_VOLUME } from "@/lib/observatories/capacity/constants";
+
 /**
  * Visible texts and fixed lists of Board 1 (taken from the published artifact; D-102).
  * The state of the evidence of the Eje Temático is not named in any screen.
@@ -9,6 +11,10 @@ export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 �
 
 export const BOARD_LEAD =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en seis categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
+
+/** Lead of the board with the data of the API: seven categories (D-122), not the six of the artifact. Provisional text. */
+export const BOARD_LEAD_REAL =
+  "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en siete categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad baja y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
 export const MOCK_TAG = "Datos de prueba · métrica de liderazgo provisional";
 
@@ -90,7 +96,7 @@ export const METHOD_NOTE =
 
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
-  HELP_TEXT[0],
+  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de siete categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad baja y sin producción. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución más citada de Colombia o del mundo, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
   "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex.",
 ];
 
@@ -118,7 +124,7 @@ export function realDataWarnings(meta) {
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
     "Capacidad relativa. La razón compara las citas de la UdeA en cada tópico con las de la institución más citada de Colombia o del mundo en cada año; los tópicos sin referencia nacional usan la mundial. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.",
-    "Tendencia indicativa (*). Con menos de 10 productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.",
+    `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
@@ -137,3 +143,20 @@ export const AXES_PANEL_NOTE = {
   all: "productos con asignación de cualquier confianza (incluye baja)",
   topics: "n.º de tópicos con producción UdeA",
 };
+
+/* Centre of research filter (D-124). Provisional texts: Luis approves them. */
+export const CENTER_TOOLTIP = "Centro de investigación al que se adscriben los grupos que firman el producto";
+
+/**
+ * Coverage note of the centre filter: how many works belong to a research centre. Both figures come
+ * from the data of the board; nothing is fixed in the text.
+ *
+ * @param {{ withCenter: number, total: number }} coverage
+ * @returns {string}
+ */
+export function centerCoverageNote({ withCenter, total }) {
+  if (!total) return "";
+  const share = ((100 * withCenter) / total).toFixed(1).replace(".", ",");
+  const fmt = (n) => n.toLocaleString("es-CO");
+  return `${fmt(withCenter)} de ${fmt(total)} productos (${share} %) están en algún centro de investigación; el resto no tiene grupo asignado a un centro.`;
+}
