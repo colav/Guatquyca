@@ -38,8 +38,10 @@ const colorClass = (category) => {
  * @param {Object[]} points - Units with production: { id, label, products, citations, fwci, category, categoryLabel, fwciText }.
  * @param {string|null} selectedId - Id of the pinned unit.
  * @param {Function} onSelect - Called with the id of the clicked point.
+ * @param {string} [dimension] - "topic", "subfield" or "field": decides which hierarchy lines the tooltip has.
+ * @param {string} [referent] - "Colombia" or "Mundo": name of the reference of the capacity ratio in the tooltip.
  */
-function TopicScatter({ points, selectedId, onSelect }) {
+function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia" }) {
   const config = useMemo(
     () => ({
       data: points.map((p) => ({
@@ -51,7 +53,13 @@ function TopicScatter({ points, selectedId, onSelect }) {
         cls: colorClass(p.category),
         products: p.products,
         citations: p.citations,
-        fwciText: p.fwciText,
+        fwciLine: p.fwciLine,
+        trendLine: p.trendLine,
+        yearsLine: p.yearsLine,
+        ratioText: p.ratioText,
+        productsLine: p.productsLine,
+        subfield: p.subfield,
+        field: p.field,
         categoryLabel: p.categoryLabel,
       })),
       xField: "x",
@@ -79,17 +87,26 @@ function TopicScatter({ points, selectedId, onSelect }) {
         stroke: (d) => (d.id === selectedId ? BRAND.selected : NEUTRAL.border),
         lineWidth: (d) => (d.id === selectedId ? 2.5 : 0.8),
       },
+      /* One labelled line per datum (F34/F35): hierarchy by dimension, products and citations, FWCI,
+         trend, products per year of the window, capacity ratio and category. */
       tooltip: {
-        title: (d) => d.name,
+        title: false,
         items: [
-          { field: "products", name: "Productos" },
-          { field: "citations", name: "Citas" },
-          { field: "fwciText", name: "FWCI" },
+          ...(dimension === "topic"
+            ? [{ field: "name", name: "Tópico" }, { field: "subfield", name: "Subcampo" }, { field: "field", name: "Campo" }]
+            : dimension === "subfield"
+              ? [{ field: "name", name: "Subcampo" }, { field: "field", name: "Campo" }]
+              : [{ field: "name", name: "Campo" }]),
+          { field: "productsLine", name: "Productos" },
+          { field: "fwciLine", name: "FWCI" },
+          { field: "trendLine", name: "Tendencia" },
+          { field: "yearsLine", name: "Productos por año (2021–2025)" },
+          { field: "ratioText", name: `Razón de capacidad (${referent})` },
           { field: "categoryLabel", name: "Categoría" },
         ],
       },
     }),
-    [points, selectedId],
+    [points, selectedId, dimension, referent],
   );
 
   /* The wrapper's onEvent relay does not deliver G2 clicks (checked on the page), so the click is

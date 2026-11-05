@@ -14,7 +14,6 @@ import {
   PAIR_LEVEL_OPTIONS,
   PAIR_LEVEL_TOOLTIP,
   RATIO_BASIS_OPTIONS,
-  TREND_RULE_OPTIONS,
 } from "./boardTexts";
 
 /* UI Library Components */
@@ -95,15 +94,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         </Field>
         <Field label="6 · Facultad">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
         <Field label="7 · Departamento">{select("departmentIndex", departmentOptions, "Todos", true)}</Field>
-        <Field label="Regla de tendencia (5 años · ventana 2021–2025)">
-          <Tooltip title="Estricta: creciente = ningún año cae respecto al anterior. Pendiente: creciente = pendiente de regresión ≥ 0.">
-            <div>
-              <Segmented block options={TREND_RULE_OPTIONS} value={filters.trendRule} onChange={(v) => onChange({ trendRule: v })} />
-            </div>
-          </Tooltip>
-        </Field>
-        <Field label="Razón de capacidad">
-          <Tooltip title="Global o nacional. Con los datos de prueba ambas dan el mismo resultado: el benchmark real aún no existe.">
+        <Field label="Referente">
+          <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
             <div>
               <Segmented block options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
             </div>

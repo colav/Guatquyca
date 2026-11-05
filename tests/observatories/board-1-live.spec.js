@@ -8,7 +8,7 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { computeCapacity, createDataset, rankActors, rankAxes, rankOds } from "../../lib/observatories/capacity";
+import { CALCULATOR_FONT_SIZE, CALCULATOR_LABEL_WIDTH, CATEGORY_LABELS, CATEGORY_ORDER, computeCapacity, createDataset, rankActors, rankAxes, rankOds } from "../../lib/observatories/capacity";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -37,7 +37,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     // No envelope: it is not a list, so there is no meta.count (02 §3.11).
     expect(raw.meta).not.toHaveProperty("count");
     // facts[0..9] keep their positions; 10 to 13 are the new ones.
-    expect(raw.facts[0]).toHaveLength(14);
+    expect(raw.facts[0].length).toBeGreaterThanOrEqual(14); // [14] (record in OpenAlex) arrives with B97
     expect(raw.facts[0][1]).toBeGreaterThanOrEqual(raw.meta.years[0]);
     expect(raw.facts.length).toBe(raw.meta.n_topic);
   });
@@ -123,9 +123,104 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     await expect(page.getByText("productos con asignación de confianza alta o media")).toBeVisible();
   });
 
+  test("the model of D-121 and D-122 with the real bundle: reference counts, FWCI over the works with a record", async () => {
+    expect(raw.facts[0]).toHaveLength(15); // facts[14]: record in OpenAlex (B97)
+    const dataset = createDataset(raw);
+    expect(dataset.hasCapacityModel).toBe(true);
+    const colombia = computeCapacity(dataset);
+    const world = computeCapacity(dataset, { ratioBasis: "global" });
+    const sum = (r) => CATEGORY_ORDER.reduce((n, c) => n + r.categoryCounts[c], 0);
+    expect(sum(colombia)).toBe(colombia.units.length);
+    expect(sum(world)).toBe(world.units.length);
+    // With the world as reference nobody reaches 0.50 of the leader: no leader, consolidated, consolidating or at risk.
+    for (const c of ["leader", "consolidated", "consolidating", "atRisk"]) expect(world.categoryCounts[c]).toBe(0);
+    // Colombia is more demanding on ties: it has leaders.
+    expect(colombia.categoryCounts.leader).toBeGreaterThan(0);
+    // The 2021-2025 window does not depend on the years filter.
+    const narrow = computeCapacity(dataset, { yearFrom: 2010, yearTo: 2015 });
+    expect(narrow.categoryCounts.none).toBe(colombia.categoryCounts.none);
+    // FWCI: only over the works with record; the two groups add up to the products.
+    expect(colombia.fwciBasis.withRecord + colombia.fwciBasis.withoutRecord).toBe(colombia.products);
+    expect(colombia.fwciBasis.withoutRecord).toBeGreaterThan(0);
+    expect(colombia.setFwci).toBeGreaterThan(1);
+    expect(colombia.indicativeUnits).toBeLessThanOrEqual(colombia.unitsInWindow);
+  });
+
+  test("the calculator is horizontal bars: seven complete labels in order, figures that match the calculation, zeros with the world as reference", async ({ page }) => {
+    await page.goto("/observatories/vri-udea/board-1");
+    const chart = page.getByTestId("calculator-bars");
+    await expect(chart).toBeVisible({ timeout: 120000 });
+    const dataset = createDataset(raw);
+    const parse = async () => {
+      const label = await chart.getAttribute("aria-label");
+      const rows = label.split(". ")[1].split("; ").map((s) => s.split(": "));
+      return rows;
+    };
+    const expectFrom = async (result) => {
+      const rows = await parse();
+      expect(rows.map((r) => r[0])).toEqual(CATEGORY_ORDER.map((c) => CATEGORY_LABELS[c])); // the seven labels, complete, in order
+      const figures = rows.map((r) => Number(r[1].replace(/\./g, "")));
+      expect(figures).toEqual(CATEGORY_ORDER.map((c) => result.categoryCounts[c]));
+      expect(figures.reduce((a, b) => a + b, 0)).toBe(result.units.length);
+    };
+    await expectFrom(computeCapacity(dataset));
+    // A canvas is drawn and the longest label fits in the room that the chart reserves for them.
+    const box = await chart.locator("canvas").first().boundingBox();
+    expect(box.width).toBeGreaterThan(200);
+    const longest = await page.evaluate(
+      ([labels, size]) => {
+        const ctx = document.createElement("canvas").getContext("2d");
+        ctx.font = size + "px sans-serif";
+        return Math.max(...labels.map((l) => ctx.measureText(l).width));
+      },
+      [CATEGORY_ORDER.map((c) => CATEGORY_LABELS[c]), CALCULATOR_FONT_SIZE],
+    );
+    expect(longest).toBeLessThan(CALCULATOR_LABEL_WIDTH - 20);
+    // Reference "Mundo": several categories at 0 and the figures still match.
+    await page.getByText("Mundo", { exact: true }).click();
+    await expect(page).toHaveURL(/basis=global/, { timeout: 5000 });
+    await expect.poll(async () => (await parse()).map((r) => r[1]).join(","), { timeout: 10000 }).toContain("0,0,0");
+    const world = computeCapacity(dataset, { ratioBasis: "global" });
+    await expectFrom(world);
+    expect(world.categoryCounts.leader + world.categoryCounts.consolidated + world.categoryCounts.consolidating + world.categoryCounts.atRisk).toBe(0);
+    // The footer follows the reference and the indicative count.
+    await expect(page.getByText("Referente: Mundo").first()).toBeVisible();
+    await expect(page.getByText("con tendencia indicativa (*)").first()).toBeVisible();
+  });
+
+  test("the tooltip of the scatter has one labelled line per datum (F34)", async ({ page }) => {
+    await page.goto("/observatories/vri-udea/board-1");
+    const card = page.locator(".ant-card", { hasText: "Dispersión de tópicos" }).first();
+    await expect(card.locator("canvas").first()).toBeVisible({ timeout: 120000 });
+    await page.waitForTimeout(2000);
+    await card.evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 120));
+    await page.waitForTimeout(500);
+    const box = await card.locator("canvas").first().boundingBox();
+    let text = "";
+    // Sweep the plot area until the tooltip of a point appears (the tooltip fills in a moment after the first hover).
+    for (let y = box.y + 40; y < box.y + box.height - 60 && !text; y += 8) {
+      for (let x = box.x + 80; x < box.x + box.width - 20 && !text; x += 8) {
+        await page.mouse.move(x, y);
+        const tip = page.locator(".g2-tooltip:visible").first();
+        if (await tip.count()) {
+          const t = (await tip.innerText().catch(() => "")) || "";
+          if (t.includes("Categoría")) text = t;
+        }
+      }
+    }
+    expect(text, "a tooltip appeared").not.toBe("");
+    for (const label of ["Tópico", "Subcampo", "Campo", "Productos", "FWCI", "Tendencia", "Productos por año (2021–2025)", "Razón de capacidad (Colombia)", "Categoría"]) {
+      expect(text, label).toContain(label);
+    }
+    // The five yearly counts of the window.
+    const years = text.split("Productos por año (2021–2025)")[1].split("\n").map((s) => s.trim()).filter(Boolean)[0];
+    expect(years.split(",").map((n) => n.trim())).toHaveLength(5);
+    expect(text).toMatch(/creciente|estable|decreciente/);
+  });
+
   test("the page loads the bundle, shows the footer from /cut and no 'Datos de prueba'", async ({ page }) => {
     await page.goto("/observatories/vri-udea/board-1");
-    await expect(page.getByText("Datos de ImpactU · métrica de liderazgo provisional")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Datos de ImpactU · capacidad frente a la institución más citada")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
     await expect(page.getByText("Ránking ODS")).toBeVisible();

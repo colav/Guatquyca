@@ -21,14 +21,13 @@ import {
   SummaryLine,
   UnitDetail,
 } from "./BoardParts";
-import { CalculatorColumnsChart, RankingBarsChart } from "./BarsChart";
+import { CalculatorBarsChart, RankingBarsChart } from "./BarsChart";
 
 /* lib */
 import {
   CATEGORY,
   CATEGORY_COLORS,
   CATEGORY_LABELS,
-  CATEGORY_ORDER,
   computeCapacity,
   rankActors,
   rankAxes,
@@ -49,9 +48,14 @@ import {
   DIMENSION_NOUN,
   DONUT_LABELS,
   HELP_TEXT,
+  HELP_TEXT_REAL,
   AXES_PANEL_NOTE,
+  METHOD_NOTE,
   MOCK_TAG,
   REAL_TAG,
+  REFERENCE_NAME,
+  RULE_LINE,
+  TREND_LABELS,
   realDataWarnings,
 } from "./boardTexts";
 import { useBoardFilters, useStableValue } from "./hooks";
@@ -62,6 +66,7 @@ import { Alert, Col, Collapse, Result, Row, Skeleton, Tag, Typography } from "an
 /* Colours of the access route donut, one per label (palette of lib/constants.js). */
 const ACCESS_COLORS = DONUT_LABELS.access.map(accessColor);
 
+const fmt = (n) => Number(n).toLocaleString("es-CO");
 const fmtFwci = (v) => (Number.isFinite(v) ? v.toFixed(2) : "–");
 
 /**
@@ -104,6 +109,9 @@ function Board1Content({ dataset, source }) {
   const result = useMemo(() => computeCapacity(dataset, applied), [dataset, applied]);
 
   /* Each chart receives a value that keeps its reference while its content does not change. */
+  const modern = result.model === "capacity";
+  const referent = REFERENCE_NAME[applied.ratioBasis];
+  const fmtRatio = (v) => (Number.isFinite(v) ? v.toFixed(2).replace(".", ",") : "–");
   const points = useStableValue(
     result.units
       .filter((u) => u.products > 0)
@@ -114,13 +122,34 @@ function Board1Content({ dataset, source }) {
         citations: u.citations,
         fwci: Number.isFinite(u.fwci) ? Math.round(u.fwci * 1000) / 1000 : null,
         fwciText: fmtFwci(u.fwci),
+        /* Lines of the tooltip (F34/F35). */
+        fwciLine: modern ? `${fmtFwci(u.fwci).replace(".", ",")} (sobre ${fmt(u.recordProducts)} productos con registro)` : fmtFwci(u.fwci).replace(".", ","),
+        productsLine: `${fmt(u.products)} · Citas: ${fmt(u.citations)}`,
+        trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? " * (indicativa: menos de 10 productos)" : ""}`,
+        yearsLine: u.yearCounts.join(", "),
+        ratioText: fmtRatio(u.ratio),
+        subfield: u.subfield,
+        field: u.field,
         category: u.category,
         categoryLabel: CATEGORY_LABELS[u.category],
       })),
   );
+  const calcTotal = result.categoryOrder.reduce((n, c) => n + result.categoryCounts[c], 0);
+  const withProduction = calcTotal - (result.categoryCounts[CATEGORY.NONE] || 0);
   const calculator = useStableValue(
-    CATEGORY_ORDER.map((c) => ({ category: c, label: CATEGORY_LABELS[c], value: result.categoryCounts[c], color: CATEGORY_COLORS[c] })),
+    result.categoryOrder.map((c) => ({
+      category: c,
+      label: CATEGORY_LABELS[c],
+      value: result.categoryCounts[c],
+      color: CATEGORY_COLORS[c],
+      pctText: c === CATEGORY.NONE || !withProduction ? "—" : `${((100 * result.categoryCounts[c]) / withProduction).toFixed(1).replace(".", ",")} %`,
+      rule: RULE_LINE[c] || "",
+    })),
   );
+  const noun = DIMENSION_NOUN[applied.dimension].toLowerCase();
+  const fwciNote = result.fwciBasis
+    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas.`
+    : "";
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));
   const ods = useStableValue(rankOds(dataset, result));
@@ -171,29 +200,32 @@ function Board1Content({ dataset, source }) {
         <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
         <Collapse
           ghost
-          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: HELP_TEXT.map((t) => <Typography.Paragraph key={t.slice(0, 20)}>{t}</Typography.Paragraph>) }]}
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : HELP_TEXT_REAL).map((t) => <Typography.Paragraph key={t.slice(0, 20)}>{t}</Typography.Paragraph>) }]}
         />
       </header>
 
       <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
       <SummaryLine summary={summary} noun={DIMENSION_NOUN[applied.dimension]} pending={pending} />
-      <KpiRow kpis={kpis} />
+      <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
 
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
         <Col xs={24} lg={16}>
           <ChartCard title="1 · Dispersión de tópicos: producción vs. citas" note={`${summary.withProduction.toLocaleString("es-CO")} puntos con producción`} empty={!points.length}>
-            <ScatterLegend />
-            <TopicScatter points={points} selectedId={selectedId} onSelect={setSelectedId} />
+            <ScatterLegend legacy={!modern} />
+            <TopicScatter points={points} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} />
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
           </ChartCard>
         </Col>
         <Col xs={24} lg={8}>
-          <ChartCard title="2 · Calculadora de capacidades" note="unidades por categoría">
-            <CalculatorColumnsChart items={calculator} />
+          <ChartCard title="2 · Calculadora de capacidades" note={`${noun} por categoría`}>
+            <CalculatorBarsChart items={calculator} noun={noun} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
-              Sobre {summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida. Regla {applied.trendRule === "strict" ? "estricta" : "por pendiente"}, ventana 2021–2025. «Sin producción» = cero productos en la ventana.
+              {modern
+                ? `Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = cero productos en 2021–2025.`
+                : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
-            <RulesTable trendRule={applied.trendRule} />
+            {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}
+            <RulesTable legacy={!modern} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±10 %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>
 

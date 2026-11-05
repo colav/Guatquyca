@@ -8,9 +8,9 @@ import { memo, useMemo } from "react";
 
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
-const Column = dynamic(() => import("@ant-design/charts").then((mod) => mod.Column), { ssr: false });
 
 /* lib */
+import { calculatorBarsConfig } from "@/lib/observatories/capacity";
 import { RANKING_COLOR } from "@/lib/observatories/palette";
 
 /* Utils */
@@ -47,28 +47,24 @@ function RankingBars({ rows, labelSize = 34 }) {
 export const RankingBarsChart = memo(RankingBars);
 
 /**
- * Columns of the capacity calculator: one bar per category with its colour.
+ * Horizontal bars of the capacity calculator: one bar per category, from top to bottom in the
+ * order given, all starting at zero. The label of each category is complete (no rotation, no
+ * truncation) at the left and the figure is always visible at the end of the bar, also for zero
+ * and for the very short bars (the figure then sits outside the bar). The scale is linear and
+ * starts at zero; it leaves room on the right for the longest figure.
  *
- * @param {{ category: string, label: string, value: number, color: string }[]} items
+ * @param {{ category: string, label: string, value: number, color: string, pctText: string, rule: string }[]} items
+ * @param {string} noun - What is counted ("tópicos", "subcampos" or "campos").
  */
-function CalculatorColumns({ items }) {
-  const config = useMemo(
-    () => ({
-      data: items.map((i) => ({ label: i.label, value: i.value })),
-      xField: "label",
-      yField: "value",
-      colorField: "label",
-      animate: false,
-      legend: false,
-      height: 220,
-      scale: { color: { domain: items.map((i) => i.label), range: items.map((i) => i.color) } },
-      axis: { x: { labelAutoRotate: true } },
-      label: { text: "value", position: "top" },
-      tooltip: { items: [{ field: "value", name: "Unidades" }] },
-    }),
-    [items],
+function CalculatorBars({ items, noun }) {
+  const config = useMemo(() => calculatorBarsConfig(items, noun), [items, noun]);
+  /* The chart is a canvas: the wrapper says the same in text for assistive technology and for the tests. */
+  const summary = items.map((i) => `${i.label}: ${i.value.toLocaleString("es-CO")}`).join("; ");
+  return (
+    <div role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars">
+      <Bar {...config} />
+    </div>
   );
-  return <Column {...config} />;
 }
 
-export const CalculatorColumnsChart = memo(CalculatorColumns);
+export const CalculatorBarsChart = memo(CalculatorBars);

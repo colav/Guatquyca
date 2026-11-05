@@ -48,17 +48,17 @@ export const DIMENSION_OPTIONS = [
 
 export const DIMENSION_NOUN = { topic: "Tópicos", subfield: "Subcampos", field: "Campos" };
 
-export const TREND_RULE_OPTIONS = [
-  { label: "Estricta", value: "strict" },
-  { label: "Pendiente", value: "slope" },
-];
-
+/** Reference of the capacity ratio (D-122): Colombia by default, or the world. */
 export const RATIO_BASIS_OPTIONS = [
-  { label: "Global", value: "global" },
-  { label: "Nacional", value: "national" },
+  { label: "Colombia", value: "national" },
+  { label: "Mundo", value: "global" },
 ];
+export const REFERENCE_NAME = { national: "Colombia", global: "Mundo" };
 
-export const RULES_TABLE = [
+export const TREND_LABELS = { increasing: "creciente", stable: "estable", decreasing: "decreciente", none: "sin producción" };
+
+/** Rules of the old model (artifact data, `?source=mock`). */
+export const RULES_TABLE_LEGACY = [
   { key: "leader", category: "Líder", ratio: "= 1", trend: "creciente" },
   { key: "consolidated", category: "Consolidado", ratio: "> 0,75", trend: "creciente" },
   { key: "consolidating", category: "En consolidación", ratio: "> 0,50", trend: "creciente" },
@@ -66,6 +66,32 @@ export const RULES_TABLE = [
   { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
   { key: "uncategorized", category: "Sin categoría", ratio: "huecos de las reglas anteriores", trend: "—" },
   { key: "none", category: "Sin producción", ratio: "—", trend: "ninguna" },
+];
+
+/** Rules of the seven categories (D-122), also shown in the tooltip of the calculator. */
+export const RULES_TABLE = [
+  { key: "leader", category: "Líder", ratio: "= 1", trend: "creciente o estable" },
+  { key: "consolidated", category: "Consolidado", ratio: "> 0,75", trend: "creciente o estable" },
+  { key: "consolidating", category: "En consolidación", ratio: "> 0,50", trend: "creciente o estable" },
+  { key: "emerging", category: "Emergente", ratio: "≤ 0,50", trend: "creciente" },
+  { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
+  { key: "lowCapacity", category: "Capacidad baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
+  { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2021–2025" },
+];
+
+/** One-line rule of each category for the tooltip of the calculator. */
+export const RULE_LINE = Object.fromEntries(
+  RULES_TABLE.map((r) => [r.key, r.ratio === "—" ? `${r.category}: ${r.trend}` : `${r.category}: razón ${r.ratio} y tendencia ${r.trend}`]),
+);
+
+/** Methodological note of the calculator (provisional text: Luis approves it, D-121). */
+export const METHOD_NOTE =
+  "Cada tópico se clasifica por su capacidad relativa (citas de la UdeA frente a la institución más citada en Colombia o en el mundo) y por la tendencia de su producción en 2021–2025 (pendiente de la recta ajustada a los conteos anuales). Con pocos productos la tendencia es indicativa (*).";
+
+/** Help text of the board with the data of the API (provisional: Luis approves it). */
+export const HELP_TEXT_REAL = [
+  HELP_TEXT[0],
+  "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex.",
 ];
 
 export const DATA_WARNINGS = [
@@ -77,7 +103,7 @@ export const DATA_WARNINGS = [
 ];
 
 /** Tag of the board when the data come from the API (provisional text, Luis approves it). */
-export const REAL_TAG = "Datos de ImpactU · métrica de liderazgo provisional";
+export const REAL_TAG = "Datos de ImpactU · capacidad frente a la institución más citada";
 
 
 /**
@@ -91,7 +117,9 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    ...DATA_WARNINGS.slice(0, 3),
+    "Capacidad relativa. La razón compara las citas de la UdeA en cada tópico con las de la institución más citada de Colombia o del mundo en cada año; los tópicos sin referencia nacional usan la mundial. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.",
+    "Tendencia indicativa (*). Con menos de 10 productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.",
+    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
   ];

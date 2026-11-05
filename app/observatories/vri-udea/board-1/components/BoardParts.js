@@ -7,7 +7,7 @@ import { memo } from "react";
 import { NEUTRAL, SCATTER_COLORS, sequentialTile } from "@/lib/observatories/palette";
 
 /* Texts */
-import { RULES_TABLE } from "./boardTexts";
+import { RULES_TABLE, RULES_TABLE_LEGACY } from "./boardTexts";
 
 /* UI Library Components */
 import { Card, Col, Descriptions, Row, Statistic, Table, Typography } from "antd";
@@ -18,12 +18,14 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  * Six KPI cards of the top row.
  *
  * @param {{ products: number, citations: number, fwci: number, leaders: number, emerging: number, atRisk: number }} kpis
+ * @param {string} [fwciLabel] - Label of the FWCI card.
+ * @param {string} [fwciNote] - Note under the cards: on how many products the FWCI is calculated.
  */
-export const KpiRow = memo(function KpiRow({ kpis }) {
+export const KpiRow = memo(function KpiRow({ kpis, fwciLabel = "FWCI del conjunto filtrado (proxy)", fwciNote = "" }) {
   const items = [
     [fmt(kpis.products), "productos (artículos, libros, capítulos)"],
     [fmt(kpis.citations), "citas acumuladas (OpenAlex)"],
-    [kpis.fwci.toFixed(2), "FWCI del conjunto filtrado (proxy)"],
+    [kpis.fwci.toFixed(2), fwciLabel],
     [fmt(kpis.leaders), "unidades líder + consolidado"],
     [fmt(kpis.emerging), "unidades emergentes + en consolidación"],
     [fmt(kpis.atRisk), "unidades en riesgo de desaparecer"],
@@ -37,6 +39,11 @@ export const KpiRow = memo(function KpiRow({ kpis }) {
           </Card>
         </Col>
       ))}
+      {fwciNote ? (
+        <Col span={24}>
+          <Typography.Text type="secondary" style={{ fontSize: 12 }}>{fwciNote}</Typography.Text>
+        </Col>
+      ) : null}
     </Row>
   );
 });
@@ -64,8 +71,8 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
   return (
     <div>
       <b>{unit.label}</b>
-      {unit.field ? ` · ${unit.field}${unit.subfield ? ` › ${unit.subfield}` : ""}` : ""} · categoría <b>{unit.categoryLabel}</b> (FWCI {unit.fwciText};{" "}
-      {unit.yearCounts.join(", ")} productos en la ventana).
+      {unit.field ? ` · ${unit.field}${unit.subfield ? ` › ${unit.subfield}` : ""}` : ""} · categoría <b>{unit.categoryLabel}</b> (FWCI {unit.fwciText}; tendencia {unit.trendLabel}{unit.indicative ? " *" : ""};{" "}
+      {unit.yearCounts.join(", ")} productos por año en 2021–2025).
       {axes ? (
         <>
           {" "}Ejes Temáticos asociados por términos Núcleo (n.º de productos que enlazan):
@@ -89,7 +96,7 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
 });
 
 /** Legend of the colours of the scatter. */
-export function ScatterLegend() {
+export function ScatterLegend({ legacy = false }) {
   const mark = (color, shape) => (
     <i
       style={{
@@ -108,28 +115,28 @@ export function ScatterLegend() {
   );
   return (
     <div style={{ fontSize: 12, display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 6 }}>
-      <span>{mark(SCATTER_COLORS.highlight, "circle")}Consolidado / líder (benchmark global · proxy FWCI)</span>
-      <span>{mark(SCATTER_COLORS.consolidating, "triangle")}En consolidación (provisional: benchmark nacional)</span>
+      <span>{mark(SCATTER_COLORS.highlight, "circle")}{legacy ? "Consolidado / líder (benchmark global · proxy FWCI)" : "Consolidado / líder"}</span>
+      <span>{mark(SCATTER_COLORS.consolidating, "triangle")}{legacy ? "En consolidación (provisional: benchmark nacional)" : "En consolidación"}</span>
       <span>{mark(SCATTER_COLORS.other, "circle")}Otros tópicos</span>
-      <span>Tamaño = FWCI</span>
+      <span>{legacy ? "Tamaño = FWCI" : "Tamaño = FWCI (solo productos con registro en OpenAlex)"}</span>
     </div>
   );
 }
 
 /** Rules of the categories, next to the calculator. */
-export const RulesTable = memo(function RulesTable({ trendRule }) {
+export const RulesTable = memo(function RulesTable({ legacy = false, caption = "" }) {
   return (
     <Table
       size="small"
       pagination={false}
-      dataSource={RULES_TABLE}
+      dataSource={legacy ? RULES_TABLE_LEGACY : RULES_TABLE}
       aria-label="Reglas de clasificación"
       columns={[
         { title: "Categoría", dataIndex: "category" },
-        { title: "Cociente (proxy FWCI ≤ 1)", dataIndex: "ratio" },
-        { title: "Producción 5 años", dataIndex: "trend" },
+        { title: legacy ? "Cociente (proxy FWCI ≤ 1)" : "Razón de capacidad", dataIndex: "ratio" },
+        { title: legacy ? "Producción 5 años" : "Tendencia 2021–2025", dataIndex: "trend" },
       ]}
-      caption={`Regla ${trendRule === "strict" ? "estricta" : "por pendiente"}, ventana 2021–2025.`}
+      caption={caption}
     />
   );
 });

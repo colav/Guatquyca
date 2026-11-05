@@ -157,12 +157,12 @@ test.describe("computeCapacity on a small dataset", () => {
 
 test.describe("URL filters", () => {
   test("round trip and invalid values", () => {
-    const filters = { scope: "Local", policyDoc: "CONPES 4069", centerIndex: 3, facultyIndex: -1, departmentIndex: -1, yearFrom: 2018, yearTo: 2024, dimension: "subfield", trendRule: "slope", ratioBasis: "national" };
+    const filters = { scope: "Local", policyDoc: "CONPES 4069", centerIndex: 3, facultyIndex: -1, departmentIndex: -1, yearFrom: 2018, yearTo: 2024, dimension: "subfield", ratioBasis: "global" }; /* the trend rule left the URL (D-121); the reference is Colombia by default (D-122) */
     const qs = serializeFilters(filters);
     expect(parseFilters(new URLSearchParams(qs))).toEqual(filters);
     expect(serializeFilters(parseFilters(new URLSearchParams("")))).toBe("");
     const bad = parseFilters(new URLSearchParams("from=1900&to=abc&dimension=zzz&faculty=-4&rule=x"));
-    expect(bad).toMatchObject({ yearFrom: 2010, yearTo: 2026, dimension: "topic", facultyIndex: -1, trendRule: "strict" });
+    expect(bad).toMatchObject({ yearFrom: 2010, yearTo: 2026, dimension: "topic", facultyIndex: -1, ratioBasis: "national" });
   });
 });
 
