@@ -117,9 +117,9 @@ test.describe("F36 against the real quyca (read-only)", () => {
     }
   });
 
-  test("texts with figures: Board 1 lead and help say seven categories; Board 2 notice and Board 3 notes are calculated", async ({ page }) => {
+  test("texts with figures: Board 1 lead and help say eight categories; Board 2 notice and Board 3 notes are calculated", async ({ page }) => {
     await page.goto(BOARD(1));
-    await expect(page.getByText("medida en siete categorías")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("medida en ocho categorías")).toBeVisible({ timeout: 120000 });
     expect(await page.locator("main").innerText()).not.toContain("seis categorías");
 
     await page.goto(BOARD(2));

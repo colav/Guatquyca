@@ -13,7 +13,7 @@ import { useTooltipInside } from "@/app/observatories/components/useTooltipInsid
 import { CATEGORY_MARKS, BRAND, darken } from "@/lib/observatories/palette";
 import { FWCI_CAP, SIZE_RANGE } from "@/lib/observatories/scatterSize";
 import { WIDE_TOOLTIP, tooltipInteraction } from "@/lib/observatories/tooltipStyle";
-import { star } from "@/lib/observatories/shapes";
+import { cross, star } from "@/lib/observatories/shapes";
 
 /* Libraries */
 const Scatter = dynamic(
@@ -23,6 +23,8 @@ const Scatter = dynamic(
          outline from the symbol of the same name: registering the star under that name makes
          that shape a star, with no new dependency. */
       mod.register("symbol.bowtie", star);
+      /* Same for the thick cross of punctual presence (F45): the shape "cross" is only used here. */
+      mod.register("symbol.cross", cross);
       return mod.Scatter;
     }),
   { ssr: false },

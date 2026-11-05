@@ -15,23 +15,23 @@ import { Tooltip, Typography } from "antd";
 
 /* Constants */
 const LINE = 28;
-const GAP = 6;
+const GAP = 5;
 const SIZE_SAMPLES = [0.5, 2, 8];
 
 const entryStyle = ({ active = false, dimmed = false, informative = false } = {}) => ({
   boxSizing: "border-box",
   display: "inline-flex",
   alignItems: "center",
-  gap: 6,
+  gap: 5,
   height: LINE,
-  padding: "0 8px",
+  padding: "0 6px",
   border: `1px ${informative ? "dashed" : "solid"} ${active ? C.activeBorder : C.idleBorder}`,
   borderRadius: 14,
   background: active ? C.activeBackground : C.background,
   opacity: dimmed ? 0.55 : 1,
   cursor: informative ? "default" : "pointer",
   font: "inherit",
-  fontSize: 12,
+  fontSize: 11,
   whiteSpace: "nowrap",
   flex: "0 0 auto",
 });
@@ -71,7 +71,7 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
                 style={entryStyle({ informative: true })}
                 className="obs-legend-entry"
               >
-                <CategoryMark category={item.category} size={14} />
+                <CategoryMark category={item.category} size={12} />
                 <span>{item.label}</span>
                 <b>{count}</b>
               </span>
@@ -90,16 +90,13 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
               style={entryStyle({ active, dimmed: selected.length > 0 && !active })}
               className="obs-legend-entry"
             >
-              <CategoryMark category={item.category} size={14} />
+              <CategoryMark category={item.category} size={12} />
               <span>{item.label}</span>
               <b>{count}</b>
             </button>
           );
           return item.hint ? <Tooltip key={item.category} title={item.hint}>{entry}</Tooltip> : entry;
         })}
-        <button type="button" onClick={onClear} disabled={!selected.length} style={{ ...entryStyle(), opacity: selected.length ? 1 : 0.45, cursor: selected.length ? "pointer" : "default" }} className="obs-legend-entry">
-          Ver todas
-        </button>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, minHeight: 22, marginTop: 4, fontSize: 12 }}>
         <Typography.Text type="secondary" style={{ fontSize: 12 }}>{sizeNote}</Typography.Text>
@@ -111,6 +108,9 @@ function CategoryLegend({ items, selected, onToggle, onClear, sizeNote }) {
             </svg>
           ))}
         </span>
+        <button type="button" onClick={onClear} disabled={!selected.length} style={{ ...entryStyle(), marginLeft: "auto", opacity: selected.length ? 1 : 0.45, cursor: selected.length ? "pointer" : "default" }} className="obs-legend-entry">
+          Ver todas
+        </button>
       </div>
     </div>
   );

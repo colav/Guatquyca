@@ -4,6 +4,7 @@ import { test, expect } from "@playwright/test";
 import {
   CATEGORY,
   CATEGORY_ORDER,
+  MIN_PRODUCTS_CLASSIFY,
   MIN_TREND_VOLUME,
   TREND,
   TREND_BAND,
@@ -33,7 +34,7 @@ test.describe("trendByBand (slope over the mean, band ±10 %)", () => {
   });
 });
 
-test.describe("categoryByCapacity (the seven categories of D-122)", () => {
+test.describe("categoryByCapacity (the eight categories of D-122 and D-138)", () => {
   const cat = (trend, ratio, products = 12) => categoryByCapacity({ products, trend, ratio });
   test("increasing or stable trend", () => {
     for (const trend of [TREND.INCREASING, TREND.STABLE]) {
@@ -56,10 +57,23 @@ test.describe("categoryByCapacity (the seven categories of D-122)", () => {
     expect(cat(TREND.DECREASING, 0.51)).toBe(CATEGORY.AT_RISK);
     expect(cat(TREND.DECREASING, 0.5)).toBe(CATEGORY.LOW_CAPACITY);
   });
+  test("fewer than 5 products is punctual presence, not classified by ratio or trend; 5 or more classify", () => {
+    expect(MIN_PRODUCTS_CLASSIFY).toBe(5);
+    expect(cat(TREND.INCREASING, 1, 1)).toBe(CATEGORY.PUNCTUAL); // one product with ratio 1,00 is not a leader
+    expect(cat(TREND.INCREASING, 0.1, 4)).toBe(CATEGORY.PUNCTUAL); // four products growing are not emerging
+    expect(cat(TREND.DECREASING, 1, 3)).toBe(CATEGORY.PUNCTUAL); // nor at risk
+    expect(cat(TREND.STABLE, 0, 2)).toBe(CATEGORY.PUNCTUAL);
+    expect(cat(TREND.INCREASING, 1, 5)).toBe(CATEGORY.LEADER); // five products classify
+    expect(cat(TREND.INCREASING, 0.1, MIN_PRODUCTS_CLASSIFY)).toBe(CATEGORY.EMERGING);
+    expect(cat(TREND.NONE, 1, 0)).toBe(CATEGORY.NONE); // 0 products is still «sin producción»
+    // the threshold comes from the constant, and it can be overridden
+    expect(categoryByCapacity({ products: MIN_PRODUCTS_CLASSIFY - 1, trend: TREND.INCREASING, ratio: 1 })).toBe(CATEGORY.PUNCTUAL);
+    expect(categoryByCapacity({ products: 3, trend: TREND.INCREASING, ratio: 1 }, { minProducts: 3 })).toBe(CATEGORY.LEADER);
+  });
   test("no production, and a non-finite ratio counts as 0; there is no 'sin categoría'", () => {
     expect(cat(TREND.NONE, 1, 0)).toBe(CATEGORY.NONE);
     expect(cat(TREND.INCREASING, NaN)).toBe(CATEGORY.EMERGING);
-    expect(CATEGORY_ORDER).toEqual([CATEGORY.LEADER, CATEGORY.CONSOLIDATED, CATEGORY.CONSOLIDATING, CATEGORY.EMERGING, CATEGORY.AT_RISK, CATEGORY.LOW_CAPACITY, CATEGORY.NONE]);
+    expect(CATEGORY_ORDER).toEqual([CATEGORY.LEADER, CATEGORY.CONSOLIDATED, CATEGORY.CONSOLIDATING, CATEGORY.EMERGING, CATEGORY.AT_RISK, CATEGORY.LOW_CAPACITY, CATEGORY.PUNCTUAL, CATEGORY.NONE]);
     expect(CATEGORY_ORDER).not.toContain(CATEGORY.UNCATEGORIZED);
   });
 });
@@ -81,8 +95,8 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
       ),
       // T1 in 2015 (outside the window)
       fact(0, 2015, 5, 1),
-      // T2: only 4 works (2021 to 2024, nothing in 2025)
-      fact(1, 2021, 15, 1), fact(1, 2022, 15, 1), fact(1, 2023, 15, 1), fact(1, 2024, 15, 1),
+      // T2: 5 works (two in 2021, then 2022 to 2024, nothing in 2025), 12 citations each
+      fact(1, 2021, 12, 1), fact(1, 2021, 12, 1), fact(1, 2022, 12, 1), fact(1, 2023, 12, 1), fact(1, 2024, 12, 1),
     ],
     ejes: [],
     groups: [["G0", "Grupo 0", "A1"]],
@@ -148,7 +162,7 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     expect(unit(narrow, "T1").products).toBe(12);
     // the products of the board do follow the years filter: only the work of 2015
     expect(narrow.products).toBe(1);
-    expect(all.products).toBe(17);
+    expect(all.products).toBe(18);
     // another filter does move the units
     expect(unit(computeCapacity(dataset, { facultyIndex: 5 }), "T1").products).toBe(0);
   });
@@ -184,10 +198,10 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     const r = computeCapacity(dataset);
     expect(unit(r, "T1").category).toBe(CATEGORY.CONSOLIDATING); // 205 / 300 = 0.68 > 0.50, increasing
     expect(unit(r, "T1").indicative).toBe(false); // 12 products in the window
-    expect(unit(r, "T2").yearCounts).toEqual([1, 1, 1, 1, 0]);
+    expect(unit(r, "T2").yearCounts).toEqual([2, 1, 1, 1, 0]);
     expect(unit(r, "T2").trend).toBe(TREND.DECREASING); // nothing in 2025
     expect(unit(r, "T2").category).toBe(CATEGORY.AT_RISK); // 0.60 > 0.50 and decreasing
-    expect(unit(r, "T2").indicative).toBe(true); // 4 < MIN_TREND_VOLUME
+    expect(unit(r, "T2").indicative).toBe(true); // 5 < MIN_TREND_VOLUME
     expect(MIN_TREND_VOLUME).toBe(10);
     expect(r.indicativeUnits).toBe(1);
     expect(r.unitsInWindow).toBe(2);
@@ -195,6 +209,29 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     expect(unit(world, "T1").category).toBe(CATEGORY.LEADER);
     // the counts of the seven categories add up to the units
     expect(Object.values(r.categoryCounts).reduce((a, b) => a + b, 0)).toBe(r.units.length);
+  });
+
+  test("a topic with 1 to 4 products in 2021–2025 is punctual presence even with ratio 1; the eight categories add up to the units", () => {
+    const punctual = createDataset({
+      ...raw,
+      topics: [...raw.topics, { id: "T3", t: "Topic 3", sf: "S1", f: "F1", d: "D", gm: 5, gw: 10, link: [] }],
+      facts: [...raw.facts, fact(2, 2024, 1000, 1)],
+      ref_2125: [...raw.ref_2125, [2, 1, 1, 1, 5], [2, 0, 1, 1, 5]],
+      ref_nacional: [0, 2],
+    });
+    const result = computeCapacity(punctual);
+    const t3 = unit(result, "T3");
+    expect(t3.products).toBe(1);
+    expect(t3.ratio).toBe(1); // 1000 / 5 capped
+    expect(t3.category).toBe(CATEGORY.PUNCTUAL);
+    expect(result.categoryCounts[CATEGORY.PUNCTUAL]).toBe(1);
+    expect(Object.values(result.categoryCounts).reduce((a, b) => a + b, 0)).toBe(result.units.length);
+    // the years filter does not move it
+    expect(unit(computeCapacity(punctual, { yearFrom: 2010, yearTo: 2015 }), "T3").category).toBe(CATEGORY.PUNCTUAL);
+    // a coarser dimension classifies by the mass of the group: 1 + 12 + 5 products are 18
+    const sub = computeCapacity(punctual, { dimension: "subfield" });
+    expect(sub.units).toHaveLength(1);
+    expect(sub.units[0].category).not.toBe(CATEGORY.PUNCTUAL);
   });
 
   test("FWCI only over the works with a record in OpenAlex", () => {

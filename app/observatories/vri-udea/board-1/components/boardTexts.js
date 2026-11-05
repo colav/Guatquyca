@@ -14,7 +14,7 @@ export const BOARD_LEAD =
 
 /** Lead of the board with the data of the API: seven categories (D-122), not the six of the artifact. Provisional text. */
 export const BOARD_LEAD_REAL =
-  "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en siete categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
+  "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en ocho categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
 export const MOCK_TAG = "Datos de prueba · métrica de liderazgo provisional";
 
@@ -82,6 +82,7 @@ export const RULES_TABLE = [
   { key: "emerging", category: "Emergente", ratio: "≤ 0,50", trend: "creciente" },
   { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
   { key: "lowCapacity", category: "Capacidad relativa baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
+  { key: "punctual", category: "Presencia puntual", ratio: "—", trend: `menos de ${MIN_PRODUCTS_CLASSIFY} productos` },
   { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2021–2025" },
 ];
 
@@ -92,7 +93,15 @@ export const RULES_TABLE = [
  * @param {string} [ratioBasis] - "national" (default) or "global".
  */
 export function lowCapacityDefinition(ratioBasis = "national") {
-  return `Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en ese tópico) y producción sin crecimiento.`;
+  return `Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en ese tópico) y producción sin crecimiento, con ${MIN_PRODUCTS_CLASSIFY} o más productos.`;
+}
+
+/** Tooltip of the category «presencia puntual» (F45): in the legend and in the row of the table of rules. */
+export const PUNCTUAL_DEFINITION = `Menos de ${MIN_PRODUCTS_CLASSIFY} productos en 2021–2025: no se clasifica por razón ni por tendencia.`;
+
+/** Text of the line «Categoría» of the tooltip of a point (F45). */
+export function categoryLine(category, label) {
+  return category === "punctual" ? `${label} (menos de ${MIN_PRODUCTS_CLASSIFY} productos: no se clasifica)` : label;
 }
 
 /** One-line rule of each category for the tooltip of the calculator. */
@@ -106,7 +115,7 @@ export const METHOD_NOTE =
 
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
-  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de siete categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja y sin producción. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
+  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2021–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
   "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
 ];
 
@@ -155,6 +164,8 @@ export const AXES_PANEL_NOTE = {
 };
 
 /** Notice of the panels 1 and 2 (D-133, F43). Provisional text: Luis approves it. */
+import { MIN_PRODUCTS_CLASSIFY } from "../../../../../lib/observatories/capacity/constants";
+
 export const SNAPSHOT_NOTE = "Fotografía 2021–2025; no responde al filtro de años";
 
 const fmtCount = (n) => n.toLocaleString("es-CO");

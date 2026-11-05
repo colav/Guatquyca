@@ -98,17 +98,21 @@ test.describe("snapshot 2021–2025 against the real quyca (read-only)", () => {
     expect(text).not.toContain("Referente principal");
   });
 
-  test("with ref_2125 of B106 the figures agree with its report: 437 topics above 0,75 and the referent of Particle physics", async () => {
+  test("with ref_2125 every topic with production has a named referent and a ratio between 0 and 1; the units without production are 2.095", async () => {
     test.skip(!Array.isArray(raw.ref_2125), "The bundle has no ref_2125 yet.");
     const result = computeCapacity(createDataset(raw));
     expect(result.referentSource).toBe("ref_2125");
     const drawn = result.units.filter((u) => u.products > 0);
-    expect(drawn.filter((u) => u.ratio > 0.75)).toHaveLength(437);
-    expect(drawn.filter((u) => u.ratio > 0.5 && u.ratio <= 0.75)).toHaveLength(197);
+    for (const u of drawn) {
+      expect(u.ratio).toBeGreaterThanOrEqual(0);
+      expect(u.ratio).toBeLessThanOrEqual(1);
+    }
+    // The figures of B106 (437 above 0,75 with the first ref_2125) change when B108 replaces the values: only the structure is fixed here.
+    expect(drawn.filter((u) => u.referent).length).toBeGreaterThan(0.9 * drawn.length);
     expect(result.noProduction).toEqual({ total: 2095, otherYears: 811, never: 1284 });
     const pp = result.units.find((u) => u.label === "Particle physics theoretical and experimental studies");
-    expect(pp.referent).toBe("Universidad Nacional de Colombia");
-    expect(pp.leaderCitations).toBe(8805);
+    expect(pp.referent.length).toBeGreaterThan(0);
+    expect(pp.leaderCitations).toBeGreaterThan(0);
   });
 
   test("lideres and mundo_anio are not read by the board when ref_2125 is there (B107 can remove them)", async () => {

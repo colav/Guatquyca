@@ -135,7 +135,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     // With the world as reference almost nobody reaches 0.50 of the referent (D-135 d): no leader or consolidated and 99 % below it.
     for (const c of ["leader", "consolidated"]) expect(world.categoryCounts[c]).toBe(0);
     const withProduction = world.units.length - world.categoryCounts.none;
-    expect(world.categoryCounts.emerging + world.categoryCounts.lowCapacity).toBeGreaterThan(0.99 * withProduction);
+    expect(world.categoryCounts.emerging + world.categoryCounts.lowCapacity + world.categoryCounts.punctual).toBeGreaterThan(0.99 * withProduction);
     // Colombia is more demanding on ties: it has leaders.
     expect(colombia.categoryCounts.leader).toBeGreaterThan(0);
     // The 2021-2025 window does not depend on the years filter.
@@ -148,7 +148,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     expect(colombia.indicativeUnits).toBeLessThanOrEqual(colombia.unitsInWindow);
   });
 
-  test("the calculator is horizontal bars: seven complete labels in order, figures that match the calculation, zeros with the world as reference", async ({ page }) => {
+  test("the calculator is horizontal bars: eight complete labels in order, figures that match the calculation, zeros with the world as reference", async ({ page }) => {
     await page.goto("/observatories/vri-udea/board-1");
     const chart = page.getByTestId("calculator-bars");
     await expect(chart).toBeVisible({ timeout: 120000 });
@@ -160,7 +160,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     };
     const expectFrom = async (result) => {
       const rows = await parse();
-      expect(rows.map((r) => r[0])).toEqual(CATEGORY_ORDER.map((c) => CATEGORY_LABELS[c])); // the seven labels, complete, in order
+      expect(rows.map((r) => r[0])).toEqual(CATEGORY_ORDER.map((c) => CATEGORY_LABELS[c])); // the eight labels, complete, in order
       const figures = rows.map((r) => Number(r[1].replace(/\./g, "")));
       expect(figures).toEqual(CATEGORY_ORDER.map((c) => result.categoryCounts[c]));
       expect(figures.reduce((a, b) => a + b, 0)).toBe(result.units.length);

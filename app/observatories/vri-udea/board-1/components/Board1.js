@@ -65,6 +65,8 @@ import {
   SIZE_NOTE_LEGACY,
   SNAPSHOT_NOTE,
   lowCapacityDefinition,
+  PUNCTUAL_DEFINITION,
+  categoryLine,
   noProductionTooltip,
   undrawnNote,
   TREND_LABELS,
@@ -149,7 +151,7 @@ function Board1Content({ dataset, source }) {
         subfield: u.subfield,
         field: u.field,
         category: u.category,
-        categoryLabel: CATEGORY_LABELS[u.category],
+        categoryLabel: categoryLine(u.category, CATEGORY_LABELS[u.category]),
       })),
   );
   const visiblePoints = useStableValue(selected.length ? points.filter((p) => selected.includes(p.category)) : points);
@@ -160,7 +162,7 @@ function Board1Content({ dataset, source }) {
     result.categoryOrder.map((c) =>
       c === CATEGORY.NONE
         ? { category: c, label: CATEGORY_LABELS[c], count: result.categoryCounts[c], informative: true, hint: result.noProduction ? noProductionTooltip({ ...result.noProduction, noun: nounLower }) : "" }
-        : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: modern && c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : "" },
+        : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: !modern ? "" : c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : c === CATEGORY.PUNCTUAL ? PUNCTUAL_DEFINITION : "" },
     ),
   );
   /* Units without production in 2021–2025: counted in the panel 2, not drawn in the panel 1. */
@@ -209,7 +211,7 @@ function Board1Content({ dataset, source }) {
   const selectedUnit = useMemo(() => {
     const unit = result.units.find((u) => u.id === selectedId);
     if (!unit) return null;
-    return { ...unit, categoryLabel: CATEGORY_LABELS[unit.category], fwciText: fmtFwci(unit.fwci) };
+    return { ...unit, categoryLabel: categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci) };
   }, [result, selectedId]);
   const selectedAxes = useMemo(() => {
     if (!selectedUnit || selectedUnit.topicIndex < 0) return null;

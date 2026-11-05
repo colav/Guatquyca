@@ -13,7 +13,7 @@ import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
 
 /* Texts */
-import { RULES_HEADERS, RULES_TABLE, RULES_TABLE_LEGACY, lowCapacityDefinition } from "./boardTexts";
+import { PUNCTUAL_DEFINITION, RULES_HEADERS, RULES_TABLE, RULES_TABLE_LEGACY, lowCapacityDefinition } from "./boardTexts";
 
 /* UI Library Components */
 import { Col, Descriptions, Row, Tooltip, Typography } from "antd";
@@ -126,7 +126,10 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
                 </span>
               );
               /* The definition of «capacidad relativa baja» is in the row itself (D-136). */
-              return !legacy && row.key === "lowCapacity" ? <Tooltip title={lowCapacityDefinition(ratioBasis)}>{cell}</Tooltip> : cell;
+              if (legacy) return cell;
+              if (row.key === "lowCapacity") return <Tooltip title={lowCapacityDefinition(ratioBasis)}>{cell}</Tooltip>;
+              /* The row of punctual presence carries its sentence in the tooltip (F45). */
+              return row.key === "punctual" ? <Tooltip title={PUNCTUAL_DEFINITION}>{cell}</Tooltip> : cell;
             },
           },
           { title: head(RULES_HEADERS.ratio.short, legacy ? "Cociente (proxy FWCI ≤ 1)" : RULES_HEADERS.ratio.full), dataIndex: "ratio", width: "14%", ellipsis: false },

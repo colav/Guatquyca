@@ -12,7 +12,7 @@ import { CATEGORY, CATEGORY_LABELS, CATEGORY_SLUGS } from "../../lib/observatori
 import { HELP_TEXT_REAL, RULES_TABLE, RULE_LINE, lowCapacityDefinition } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 
 const DEFINITION_COLOMBIA =
-  "Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas del país en ese tópico) y producción sin crecimiento.";
+  "Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas del país en ese tópico) y producción sin crecimiento, con 5 o más productos.";
 
 test.describe("label and definition (no server)", () => {
   test("the label is «capacidad relativa baja»; the key and the key of the URL do not change", () => {
@@ -77,7 +77,7 @@ test.describe("label and definition in the page (real quyca)", () => {
           cut: [...box.querySelectorAll("button, [data-informative]")].filter((b) => b.scrollWidth > b.clientWidth + 1).map((b) => b.innerText),
         };
       });
-      expect(report.height).toBe(62);
+      expect(report.height).toBe(61);
       expect(report.clipped).toBe(false);
       expect(report.cut).toEqual([]);
     });

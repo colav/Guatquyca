@@ -22,15 +22,15 @@ import { shapePath } from "../../lib/observatories/shapes";
 import { sizeFor } from "../../lib/observatories/scatterSize";
 
 test.describe("marks and selection of categories (no server)", () => {
-  test("the seven categories have a different shape and a different colour, and the colour is the one of their bar", () => {
+  test("the eight categories have a different shape and a different colour, and the colour is the one of their bar", () => {
     const marks = CATEGORY_ORDER.map((c) => CATEGORY_MARKS[c]);
-    expect(new Set(marks.map((m) => m.shape)).size).toBe(7);
-    expect(new Set(marks.map((m) => m.color)).size).toBe(7);
+    expect(new Set(marks.map((m) => m.shape)).size).toBe(8);
+    expect(new Set(marks.map((m) => m.color)).size).toBe(8);
     for (const c of CATEGORY_ORDER) {
       expect(CATEGORY_MARKS[c].color).toBe(CATEGORY_COLORS[c]);
       expect(CATEGORY_MARKS[c].color).toBe(CATEGORY_PALETTE[c]);
     }
-    expect(CATEGORY_ORDER.map((c) => CATEGORY_MARKS[c].shape)).toEqual(["star", "square", "hexagon", "triangle", "triangleDown", "point", "diamond"]);
+    expect(CATEGORY_ORDER.map((c) => CATEGORY_MARKS[c].shape)).toEqual(["star", "square", "hexagon", "triangle", "triangleDown", "point", "cross", "diamond"]);
   });
 
   test("every shape has an outline, the border is a darker tone and the size grows with the FWCI", () => {
@@ -100,12 +100,12 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
         };
       });
       expect(report.clipped, JSON.stringify(report)).toBe(false);
-      expect(report.height).toBe(62);
+      expect(report.height).toBe(61);
       for (const entry of report.entries) {
         expect(entry.cutX, entry.text).toBe(false);
         expect(entry.inside, entry.text).toBe(true);
       }
-      expect(report.entries.length).toBe(8); // six buttons, the informative «sin producción» and "Ver todas"
+      expect(report.entries.length).toBe(LIVE ? 8 : 7); // the buttons and the informative «sin producción» (the test data have the old seven categories)
       await expect(page.getByText("Tamaño = FWCI").first()).toBeVisible();
     });
 
@@ -121,7 +121,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
       await expect(table.locator("th span[title='Razón de capacidad']")).toHaveCount(1);
       const align = await page.getByText(/^Referente: .*banda estable/).evaluate((el) => getComputedStyle(el).textAlign);
       expect(["left", "start"]).toContain(align);
-      expect(await table.locator("svg").count()).toBe(7); // the shape of every category in the first column
+      expect(await table.locator("svg").count()).toBe(8); // the shape of every category in the first column
     });
   }
 
@@ -245,7 +245,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
       const counts = await legendCounts(page);
       const { none, ...drawable } = counts;
       expect(await shownPoints(page)).toBe(Object.values(drawable).reduce((a, n) => a + n, 0));
-      expect(Object.keys(counts).length).toBe(7);
+      expect(Object.keys(counts).length).toBe(8);
     });
   }
 });
