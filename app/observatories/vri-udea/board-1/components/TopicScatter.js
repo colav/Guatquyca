@@ -7,26 +7,28 @@ import dynamic from "next/dynamic";
 import { memo, useCallback, useMemo, useRef } from "react";
 
 /* lib */
-import { CATEGORY } from "@/lib/observatories/capacity";
-import { BRAND, NEUTRAL, SCATTER_COLORS } from "@/lib/observatories/palette";
+import { CATEGORY_MARKS, BRAND, darken } from "@/lib/observatories/palette";
+import { FWCI_CAP, SIZE_RANGE } from "@/lib/observatories/scatterSize";
+import { star } from "@/lib/observatories/shapes";
 
 /* Libraries */
-const Scatter = dynamic(() => import("@ant-design/charts").then((mod) => mod.Scatter), {
-  ssr: false,
-});
+const Scatter = dynamic(
+  () =>
+    import("@ant-design/charts").then((mod) => {
+      /* G2 has no star. The point shape "bowtie" (filled, not used anywhere else in the app) takes its
+         outline from the symbol of the same name: registering the star under that name makes
+         that shape a star, with no new dependency. */
+      mod.register("symbol.bowtie", star);
+      return mod.Scatter;
+    }),
+  { ssr: false },
+);
 
-/* Constants */
-const FWCI_CAP = 8;
-const COLORS = { highlight: SCATTER_COLORS.highlight, consolidating: SCATTER_COLORS.consolidating, other: SCATTER_COLORS.other };
-/* Shape per class, so the classes are not told apart by colour alone. */
-const SHAPES = { highlight: "point", consolidating: "triangle", other: "point" };
-
-/** Class of a point: highlight = consolidated or leader, consolidating = in consolidation, other = the rest. */
-const colorClass = (category) => {
-  if (category === CATEGORY.LEADER || category === CATEGORY.CONSOLIDATED) return "highlight";
-  if (category === CATEGORY.CONSOLIDATING) return "consolidating";
-  return "other";
-};
+/* Constants: colour and shape of every category come from the shared map (palette.js). */
+const CATEGORIES = Object.keys(CATEGORY_MARKS);
+const COLORS = Object.values(CATEGORY_MARKS).map((m) => m.color);
+const G2_SHAPE = { star: "bowtie" };
+const SHAPES = Object.values(CATEGORY_MARKS).map((m) => G2_SHAPE[m.shape] || m.shape);
 
 /**
  * Scatter of topics (production vs. citations, log scales, size = FWCI).
@@ -44,13 +46,14 @@ const colorClass = (category) => {
 function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia", height = 400 }) {
   const config = useMemo(
     () => ({
-      data: points.map((p) => ({
+      /* The most capable categories are drawn last, so a leader is never hidden behind grey points. */
+      data: [...points].sort((a, b) => CATEGORIES.indexOf(b.category) - CATEGORIES.indexOf(a.category)).map((p) => ({
         id: p.id,
         name: p.label,
         x: p.products,
         y: p.citations + 1,
         size: Math.min(Number.isFinite(p.fwci) ? p.fwci : 0, FWCI_CAP),
-        cls: colorClass(p.category),
+        cls: p.category,
         products: p.products,
         citations: p.citations,
         fwciLine: p.fwciLine,
@@ -58,6 +61,8 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
         yearsLine: p.yearsLine,
         ratioText: p.ratioText,
         productsLine: p.productsLine,
+        citationsLine: p.citationsLine,
+        referentLine: p.referentLine,
         subfield: p.subfield,
         field: p.field,
         categoryLabel: p.categoryLabel,
@@ -73,19 +78,19 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
       scale: {
         x: { type: "log", base: 10, nice: true },
         y: { type: "log", base: 10, nice: true },
-        size: { type: "sqrt", range: [3, 14] },
-        color: { domain: Object.keys(COLORS), range: Object.values(COLORS) },
-        shape: { domain: Object.keys(SHAPES), range: Object.values(SHAPES) },
+        size: { type: "sqrt", domain: [0, FWCI_CAP], range: SIZE_RANGE },
+        color: { domain: CATEGORIES, range: COLORS },
+        shape: { domain: CATEGORIES, range: SHAPES },
       },
       axis: {
         x: { title: "Número de productos (escala log)" },
         y: { title: "Citas (escala log)" },
       },
       style: {
-        fill: (d) => COLORS[d.cls],
+        fill: (d) => CATEGORY_MARKS[d.cls].color,
         fillOpacity: 0.9,
-        stroke: (d) => (d.id === selectedId ? BRAND.selected : NEUTRAL.border),
-        lineWidth: (d) => (d.id === selectedId ? 2.5 : 0.8),
+        stroke: (d) => (d.id === selectedId ? BRAND.selected : darken(CATEGORY_MARKS[d.cls].color)),
+        lineWidth: (d) => (d.id === selectedId ? 2.5 : 1),
       },
       /* One labelled line per datum (F34/F35): hierarchy by dimension, products and citations, FWCI,
          trend, products per year of the window, capacity ratio and category. */
@@ -98,10 +103,12 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
               ? [{ field: "name", name: "Subcampo" }, { field: "field", name: "Campo" }]
               : [{ field: "name", name: "Campo" }]),
           { field: "productsLine", name: "Productos" },
+          { field: "citationsLine", name: "Citas" },
           { field: "fwciLine", name: "FWCI" },
           { field: "trendLine", name: "Tendencia" },
           { field: "yearsLine", name: "Productos por año (2021–2025)" },
           { field: "ratioText", name: `Razón de capacidad (${referent})` },
+          (d) => (d.referentLine ? { name: "Referente principal", value: d.referentLine } : undefined),
           { field: "categoryLabel", name: "Categoría" },
         ],
       },

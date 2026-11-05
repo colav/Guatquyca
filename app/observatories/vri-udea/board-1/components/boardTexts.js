@@ -144,6 +144,15 @@ export const AXES_PANEL_NOTE = {
   topics: "n.º de tópicos con producción UdeA",
 };
 
+/* Legend of the scatter (F39). Provisional texts: Luis approves them. */
+export const SIZE_NOTE = "Tamaño = FWCI, solo productos con registro en OpenAlex";
+export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";
+export const RULES_HEADERS = {
+  category: "Categoría",
+  ratio: { short: "Razón", full: "Razón de capacidad" },
+  trend: { short: "Tendencia", full: "Tendencia 2021–2025" },
+};
+
 /* Centre of research filter (D-124). Provisional texts: Luis approves them. */
 export const CENTER_TOOLTIP = "Centro de investigación al que se adscriben los grupos que firman el producto";
 

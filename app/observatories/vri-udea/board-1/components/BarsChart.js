@@ -4,7 +4,7 @@
 import dynamic from "next/dynamic";
 
 /* Hooks */
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo, useRef } from "react";
 
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
@@ -63,13 +63,27 @@ export const RankingBarsChart = memo(RankingBars);
  * @param {{ category: string, label: string, value: number, color: string, pctText: string, rule: string }[]} items
  * @param {string} noun - What is counted ("tópicos", "subcampos" or "campos").
  */
-function CalculatorBars({ items, noun }) {
-  const config = useMemo(() => calculatorBarsConfig(items, noun), [items, noun]);
+function CalculatorBars({ items, noun, active = [], onSelect }) {
+  const config = useMemo(() => calculatorBarsConfig(items, noun, active), [items, noun, active]);
+  /* A click on a bar does the same as a click on the legend (F39); the ref keeps the latest handler. */
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+  const byLabel = useMemo(() => Object.fromEntries(items.map((i) => [i.label, i.category])), [items]);
+  const onReady = useCallback(
+    (plot) => {
+      plot.chart.on("element:click", (event) => {
+        const category = byLabel[event?.data?.data?.label];
+        const native = event?.nativeEvent || event?.originalEvent || event;
+        if (category && onSelectRef.current) onSelectRef.current(category, !!(native.ctrlKey || native.shiftKey || native.metaKey));
+      });
+    },
+    [byLabel],
+  );
   /* The chart is a canvas: the wrapper says the same in text for assistive technology and for the tests. */
   const summary = items.map((i) => `${i.label}: ${i.value.toLocaleString("es-CO")}`).join("; ");
   return (
-    <div role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars">
-      <Bar {...config} />
+    <div role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars" style={onSelect ? { cursor: "pointer" } : undefined}>
+      <Bar {...config} onReady={onReady} />
     </div>
   );
 }

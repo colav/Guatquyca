@@ -5,14 +5,15 @@ import { memo } from "react";
 
 /* lib */
 import { CARD_SHADOW, TILE, clampLines } from "@/lib/observatories/layout";
-import { NEUTRAL, SCATTER_COLORS, sequentialTile } from "@/lib/observatories/palette";
+import { sequentialTile } from "@/lib/observatories/palette";
 
 /* Components */
+import CategoryMark from "@/app/observatories/components/CategoryMark";
 import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
 
 /* Texts */
-import { RULES_TABLE, RULES_TABLE_LEGACY } from "./boardTexts";
+import { RULES_HEADERS, RULES_TABLE, RULES_TABLE_LEGACY } from "./boardTexts";
 
 /* UI Library Components */
 import { Col, Descriptions, Row, Typography } from "antd";
@@ -98,47 +99,37 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
   );
 });
 
-/** Legend of the colours of the scatter. */
-export function ScatterLegend({ legacy = false }) {
-  const mark = (color, shape) => (
-    <i
-      style={{
-        display: "inline-block",
-        width: 10,
-        height: 10,
-        marginRight: 6,
-        background: shape === "triangle" ? "transparent" : color,
-        border: shape === "triangle" ? 0 : `1px solid ${NEUTRAL.border}`,
-        borderRadius: shape === "circle" ? "50%" : 0,
-        borderLeft: shape === "triangle" ? "5px solid transparent" : undefined,
-        borderRight: shape === "triangle" ? "5px solid transparent" : undefined,
-        borderBottom: shape === "triangle" ? `10px solid ${color}` : undefined,
-      }}
-    />
-  );
-  return (
-    <div style={{ fontSize: 12, display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 6 }}>
-      <span>{mark(SCATTER_COLORS.highlight, "circle")}{legacy ? "Consolidado / líder (benchmark global · proxy FWCI)" : "Consolidado / líder"}</span>
-      <span>{mark(SCATTER_COLORS.consolidating, "triangle")}{legacy ? "En consolidación (provisional: benchmark nacional)" : "En consolidación"}</span>
-      <span>{mark(SCATTER_COLORS.other, "circle")}Otros tópicos</span>
-      <span>{legacy ? "Tamaño = FWCI" : "Tamaño = FWCI (solo productos con registro en OpenAlex)"}</span>
-    </div>
-  );
-}
-
-/** Rules of the categories, next to the calculator. */
+/**
+ * Rules of the categories, next to the calculator. The category column carries the shape and the
+ * colour of the legend; the headers are short (the full text goes in the `title`) and the columns
+ * leave room for the longest text, so nothing is cut (F39).
+ */
 export const RulesTable = memo(function RulesTable({ legacy = false, caption = "" }) {
+  const head = (text, full) => <span title={full}>{text}</span>;
   return (
-    <CompactTable
-      dataSource={legacy ? RULES_TABLE_LEGACY : RULES_TABLE}
-      aria-label="Reglas de clasificación"
-      columns={[
-        { title: "Categoría", dataIndex: "category", width: "30%" },
-        { title: legacy ? "Cociente (proxy FWCI ≤ 1)" : "Razón de capacidad", dataIndex: "ratio", width: "26%" },
-        { title: legacy ? "Producción 5 años" : "Tendencia 2021–2025", dataIndex: "trend" },
-      ]}
-      caption={caption}
-    />
+    <>
+      {caption ? <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginBottom: 6, textAlign: "left" }}>{caption}</Typography.Paragraph> : null}
+      <CompactTable
+        dataSource={legacy ? RULES_TABLE_LEGACY : RULES_TABLE}
+        aria-label="Reglas de clasificación"
+        columns={[
+          {
+            title: RULES_HEADERS.category,
+            dataIndex: "category",
+            width: "42%",
+            ellipsis: false,
+            render: (text, row) => (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+                <CategoryMark category={row.key} size={14} />
+                {text}
+              </span>
+            ),
+          },
+          { title: head(RULES_HEADERS.ratio.short, legacy ? "Cociente (proxy FWCI ≤ 1)" : RULES_HEADERS.ratio.full), dataIndex: "ratio", width: "14%", ellipsis: false },
+          { title: head(legacy ? "Producción" : RULES_HEADERS.trend.short, legacy ? "Producción 5 años" : RULES_HEADERS.trend.full), dataIndex: "trend", ellipsis: false },
+        ]}
+      />
+    </>
   );
 });
 

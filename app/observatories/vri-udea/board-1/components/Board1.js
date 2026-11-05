@@ -17,7 +17,6 @@ import {
   OdsPlaceholders,
   OdsTiles,
   RulesTable,
-  ScatterLegend,
   SubregionTiles,
   SummaryLine,
   UnitDetail,
@@ -60,10 +59,13 @@ import {
   REAL_TAG,
   REFERENCE_NAME,
   RULE_LINE,
+  SIZE_NOTE,
+  SIZE_NOTE_LEGACY,
   TREND_LABELS,
   realDataWarnings,
 } from "./boardTexts";
-import { useBoardFilters, useStableValue } from "./hooks";
+import CategoryLegend from "./CategoryLegend";
+import { useBoardFilters, useCategorySelection, useStableValue } from "./hooks";
 
 /* UI Library Components */
 import { Alert, Col, Collapse, Row, Skeleton, Tag, Typography } from "antd";
@@ -111,6 +113,8 @@ function Board1Content({ dataset, source }) {
   const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useBoardFilters();
   const [selectedId, setSelectedId] = useState(null);
+  /* Which categories the scatter shows (F39): a view of the panels 1 and 2, not a filter of the board. */
+  const { selected: shown, toggle: toggleCategory, clear: clearCategories } = useCategorySelection();
 
   const result = useMemo(() => computeCapacity(dataset, applied), [dataset, applied]);
 
@@ -130,15 +134,21 @@ function Board1Content({ dataset, source }) {
         fwciText: fmtFwci(u.fwci),
         /* Lines of the tooltip (F34/F35). */
         fwciLine: modern ? `${fmtFwci(u.fwci).replace(".", ",")} (sobre ${fmt(u.recordProducts)} productos con registro)` : fmtFwci(u.fwci).replace(".", ","),
-        productsLine: `${fmt(u.products)} · Citas: ${fmt(u.citations)}`,
+        productsLine: fmt(u.products),
+        citationsLine: fmt(u.citations),
+        referentLine: modern ? u.referent || "" : "",
         trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? ` * (indicativa: menos de ${MIN_TREND_VOLUME} productos)` : ""}`,
         yearsLine: u.yearCounts.join(", "),
-        ratioText: fmtRatio(u.ratio),
+        ratioText: modern ? `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.citations)} frente a ${fmt(u.leaderCitations)} del referente)` : fmtRatio(u.ratio),
         subfield: u.subfield,
         field: u.field,
         category: u.category,
         categoryLabel: CATEGORY_LABELS[u.category],
       })),
+  );
+  const visiblePoints = useStableValue(shown.length ? points.filter((p) => shown.includes(p.category)) : points);
+  const legendItems = useStableValue(
+    result.categoryOrder.map((c) => ({ category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length })),
   );
   const calcTotal = result.categoryOrder.reduce((n, c) => n + result.categoryCounts[c], 0);
   const withProduction = calcTotal - (result.categoryCounts[CATEGORY.NONE] || 0);
@@ -215,18 +225,22 @@ function Board1Content({ dataset, source }) {
       <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
 
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
-        <Col xs={24} lg={16}>
-          <ChartCard title="1 · Dispersión de tópicos: producción vs. citas" note={`${summary.withProduction.toLocaleString("es-CO")} puntos con producción`} empty={!points.length}>
-            <ScatterLegend legacy={!modern} />
+        <Col xs={24} lg={14}>
+          <ChartCard
+            title="1 · Dispersión de tópicos: producción vs. citas"
+            note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${shown.length ? ` · solo ${shown.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
+            empty={!points.length}
+          >
+            <CategoryLegend items={legendItems} selected={shown} onToggle={toggleCategory} onClear={clearCategories} sizeNote={modern ? SIZE_NOTE : SIZE_NOTE_LEGACY} />
             <FillHeight min={400}>
-              {(height) => <TopicScatter points={points} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
+              {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
           </ChartCard>
         </Col>
-        <Col xs={24} lg={8}>
+        <Col xs={24} lg={10}>
           <ChartCard title="2 · Calculadora de capacidades" note={`${noun} por categoría`}>
-            <CalculatorBarsChart items={calculator} noun={noun} />
+            <CalculatorBarsChart items={calculator} noun={noun} active={shown} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
               {modern
                 ? `Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = cero productos en 2021–2025.`

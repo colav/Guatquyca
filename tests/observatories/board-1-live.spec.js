@@ -209,9 +209,12 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
       }
     }
     expect(text, "a tooltip appeared").not.toBe("");
-    for (const label of ["Tópico", "Subcampo", "Campo", "Productos", "FWCI", "Tendencia", "Productos por año (2021–2025)", "Razón de capacidad (Colombia)", "Categoría"]) {
+    for (const label of ["Tópico", "Subcampo", "Campo", "Productos", "Citas", "FWCI", "Tendencia", "Productos por año (2021–2025)", "Razón de capacidad (Colombia)", "Categoría"]) {
       expect(text, label).toContain(label);
     }
+    // F39 (11): Citas on its own line, and the ratio says what it was calculated from.
+    expect(text).not.toMatch(/Productos[^\n]*Citas/);
+    expect(text).toMatch(/\(citas de la UdeA [\d.]+ frente a [\d.]+ del referente\)/);
     // The five yearly counts of the window.
     const years = text.split("Productos por año (2021–2025)")[1].split("\n").map((s) => s.trim()).filter(Boolean)[0];
     expect(years.split(",").map((n) => n.trim())).toHaveLength(5);

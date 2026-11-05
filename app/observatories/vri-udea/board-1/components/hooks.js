@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /* lib */
-import { DEFAULT_FILTERS, PAIR_LEVEL } from "@/lib/observatories/capacity";
+import { CATEGORY_PARAM, DEFAULT_FILTERS, PAIR_LEVEL, parseCategories, serializeCategories, toggleCategory } from "@/lib/observatories/capacity";
 import {
   FILTER_DEBOUNCE_MS,
   FILTER_PARAM_NAMES,
@@ -56,3 +56,32 @@ export function useBoardFilters() {
 
 /* useStableValue lives in the shared components of the observatories. */
 export { useStableValue } from "@/app/observatories/components/useStableValue";
+
+/**
+ * Categories that the scatter shows (F39), kept in `?cat=` of the URL. It is a view of the panels
+ * 1 and 2, not a filter: it does not touch the filters, the other panels or the KPI.
+ *
+ * @returns {{ selected: string[], toggle: (category: string, additive?: boolean) => void, clear: () => void }}
+ */
+export function useCategorySelection() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [selected, setSelected] = useState(() => parseCategories(searchParams.get(CATEGORY_PARAM)));
+
+  const write = useCallback(
+    (next) => {
+      setSelected(next);
+      const params = new URLSearchParams(window.location.search);
+      const value = serializeCategories(next);
+      if (value) params.set(CATEGORY_PARAM, value);
+      else params.delete(CATEGORY_PARAM);
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [router, pathname],
+  );
+  const toggle = useCallback((category, additive = false) => write(toggleCategory(selected, category, additive)), [write, selected]);
+  const clear = useCallback(() => write([]), [write]);
+  return { selected, toggle, clear };
+}

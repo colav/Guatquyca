@@ -3,14 +3,14 @@ import fs from "fs";
 import path from "path";
 import { test, expect } from "@playwright/test";
 
-import { MAP_PALETTE, OPEN_ACCESS_PALETTE, PALETTE } from "../../lib/constants";
+import { CATEGORY_PALETTE, MAP_PALETTE, OPEN_ACCESS_PALETTE, PALETTE } from "../../lib/constants";
 import { CATEGORY_COLORS, CATEGORY_ORDER } from "../../lib/observatories/capacity";
 import { QUARTILE_COLORS, RANKING_COLOR, SCATTER_COLORS, TYPE_COLORS, accessColor, sequentialTile } from "../../lib/observatories/palette";
 
-test("capacity categories use distinct colours of PALETTE", () => {
+test("capacity categories use distinct colours of their own pastel palette", () => {
   const colors = CATEGORY_ORDER.map((c) => CATEGORY_COLORS[c]);
   expect(new Set(colors).size).toBe(CATEGORY_ORDER.length);
-  colors.forEach((c) => expect(PALETTE).toContain(c));
+  colors.forEach((c) => expect(Object.values(CATEGORY_PALETTE)).toContain(c));
 });
 
 test("every other chart colour comes from the palettes of lib/constants.js", () => {
