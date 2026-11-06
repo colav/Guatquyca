@@ -8,7 +8,7 @@ import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { SCOPE_OPTIONS } from "./boardTexts";
+import { AXIS_FILTER_NOTE, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
 import FilterHelp from "@/app/observatories/components/FilterHelp";
@@ -70,6 +70,17 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   /* Subunits without works are not offered (B3, F50). */
   const units = useMemo(() => indexOptions(raw.deps).filter((o) => dataset.unitsWithWorks.has(o.value)), [raw, dataset]);
 
+  /* Eje Temático (F59, D-159): grouped by document of policy; with a document chosen it lists only the axes of that document. */
+  const axisGroups = useMemo(() => dataset.axisGroups.map((g) => ({ label: g.agenda, options: g.axes.map((a) => ({ value: a.id, label: a.label })) })), [dataset]);
+  const axisOptions = filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups;
+  const axisLabel = (id) => axisGroups.flatMap((g) => g.options).find((o) => o.value === id)?.label ?? String(id);
+  /* A document that does not contain the chosen axis clears it (otherwise the two would leave nothing). */
+  const changeDocument = (v) => {
+    const doc = v || "";
+    const owner = dataset.axisById.get(filters.axisId)?.agenda;
+    onChange({ policyDoc: doc, ...(doc && owner && owner !== doc ? { axisId: -1 } : {}) });
+  };
+
   const select = (key, options, placeholder, isIndex) => (
     <Select
       showSearch
@@ -87,6 +98,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   const active = [
     filters.scope && `Ámbito: ${SCOPE_OPTIONS.find((o) => o.value === filters.scope)?.label ?? filters.scope}`,
     filters.policyDoc && `Documento: ${filters.policyDoc}`,
+    dataset.hasAxisPairs && filters.axisId >= 0 && dataset.axisById.has(filters.axisId) && `Eje: ${axisLabel(filters.axisId)}`,
     filters.centerIndex >= 0 && `Centro: ${raw.centros[filters.centerIndex]}`,
     (filters.yearFrom !== YEAR_RANGE.min || filters.yearTo !== YEAR_RANGE.max) && `Años: ${filters.yearFrom}–${filters.yearTo}`,
     filters.facultyIndex >= 0 && `Unidad: ${raw.facs[filters.facultyIndex]}`,
@@ -98,7 +110,35 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
       <Row gutter={[12, 6]}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
-        <Field label="Documento de política">{select("policyDoc", docs, "Todos", false)}</Field>
+        <Field label="Documento de política">
+          <Select
+            showSearch
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Todos"
+            options={docs}
+            filterOption={searchFilter}
+            value={filters.policyDoc || undefined}
+            onChange={changeDocument}
+          />
+        </Field>
+        {dataset.hasAxisPairs ? (
+          <Field label="Eje Temático" help={AXIS_FILTER_NOTE}>
+            <Select
+              showSearch
+              allowClear
+              data-testid="axis-filter"
+              style={{ width: "100%" }}
+              popupMatchSelectWidth={false}
+              listHeight={320}
+              placeholder="Todos"
+              options={axisOptions}
+              filterOption={searchFilter}
+              value={filters.axisId >= 0 ? filters.axisId : undefined}
+              onChange={(v) => onChange({ axisId: v === undefined || v === null ? -1 : v })}
+            />
+          </Field>
+        ) : null}
         <Field label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centers, "Todos", true)}</div>
@@ -116,6 +156,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental.
+        {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {AXIS_FILTER_NOTE}</span> : null}
       </Typography.Text>
     </StickyFilters>
   );

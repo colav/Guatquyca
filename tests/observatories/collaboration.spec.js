@@ -15,7 +15,7 @@ const MOCK_FILE = path.join(__dirname, "..", "..", "mock-data", "observatories",
 
 test.describe("URL filters of Board 2", () => {
   test("round trip, defaults and invalid values", () => {
-    const filters = { scope: "int", policyDoc: "CONPES 4144", centerIndex: 3, yearFrom: 2018, yearTo: 2022, facultyIndex: 5, departmentIndex: 7, subfieldIndex: 9 };
+    const filters = { scope: "int", policyDoc: "CONPES 4144", centerIndex: 3, yearFrom: 2018, yearTo: 2022, facultyIndex: 5, departmentIndex: 7, subfieldIndex: 9, axisId: 98 };
     expect(parseCollabFilters(new URLSearchParams(serializeCollabFilters(filters)))).toEqual(filters);
     expect(serializeCollabFilters(DEFAULT_COLLAB_FILTERS)).toBe("");
     expect(parseCollabFilters(new URLSearchParams("scope=zzz&from=1900&faculty=-2"))).toMatchObject({ scope: "", yearFrom: 2010, facultyIndex: -1 });

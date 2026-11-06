@@ -21,6 +21,13 @@ export const NOTICE =
 export const FOOTER_TEXT =
   "Fuentes: works, work_authors, work_groups, work_topics (ImpactU/OpenAlex/SCIENTI), instituciones_coautoras, ListadoProyectos03_de_julio.xlsx, BD_Grupos y Centros UdeA, Tableros_thesaurus_5.xlsx (términos Núcleo y metas de colaboración). Universo: artículos, libros y capítulos 2010–2026 y productos de innovación y apropiación (todos los años). Problemas detectados en las bases: 636 registros con DOI repetido y 4.697 con título repetido; 3.899 productos elegibles sin año (excluidos salvo apropiación social); una misma institución con hasta cuatro identificadores (ROR, scienti_, snies_); nombres de instituciones en galés, vasco o finés; NIT de aportantes con dígitos de más y razones sociales genéricas en el listado de proyectos.";
 
+/* Filter of Eje Temático (F59, D-159); provisional texts. */
+export const AXIS_FILTER_NOTE =
+  "El filtro de eje solo se aplica a artículos, libros y capítulos con eje asignado por nuestra metodología (confianza alta o media). La apropiación social y los proyectos no tienen eje: no se cuentan en la apropiación y no cambian en los proyectos.";
+export const NO_AXIS_RESPONSE = "no responde al eje";
+export const smallSampleNote = (n) => `Muestra pequeña: ${n} productos con el eje elegido en este panel. Las cifras pueden cambiar mucho con pocos productos.`;
+export const AXIS_14_NOTE = "Con un eje elegido solo se muestra ese eje, contado con la misma definición del filtro (productos con eje asignado de confianza alta o media), no por tópico principal; sin eje elegido se cuenta por los tópicos del eje.";
+
 export const SCOPE_OPTIONS = [
   { value: "local", label: "Local" },
   { value: "dep", label: "Departamental" },

@@ -21,6 +21,7 @@ import {
   DEFAULT_COLLAB_FILTERS,
   LIMITS,
   NON_ACADEMIC_SECTORS,
+  SMALL_SAMPLE,
   SUBREGION_TABS,
   WORK_TYPE,
   computeCollaboration,
@@ -43,8 +44,10 @@ import {
   BOARD_TITLE,
   COLOMBIA_GRID,
   COLOMBIA_TILES,
+  AXIS_14_NOTE,
   FOOTER_TEXT,
   MOCK_TAG,
+  NO_AXIS_RESPONSE,
   NO_COORDINATES_NOTE,
   NOTES,
   NOTICE,
@@ -55,6 +58,7 @@ import {
   SUBREGION_GRID,
   SUBREGION_TILES,
   abbreviate,
+  smallSampleNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
@@ -173,9 +177,11 @@ function Board2Content({ dataset, source }) {
   const graph = useStableValue(result.graph);
   const kpis = useStableValue(result.kpis);
   const h = result.helices;
+  /* Axis chosen (F59): the cards of projects do not answer to it and say so. */
+  const axis = result.axis;
   const helices = useStableValue([
     { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: dataset.flaggedInstitution >= 0 ? `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` : undefined },
-    { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects },
+    { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects, detail: axis ? NO_AXIS_RESPONSE : undefined },
     { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
     { label: "artículos con empresa", value: h.withCompany },
     { label: "artículos con gobierno", value: h.withGovernment },
@@ -183,7 +189,7 @@ function Board2Content({ dataset, source }) {
   ]);
   const quadruple = useStableValue([
     { label: "artículos UdeA + empresa + ONG + gobierno", value: h.quadruple },
-    { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects },
+    { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects, detail: axis ? NO_AXIS_RESPONSE : undefined },
     { label: "apropiación social con empresa u ONG", value: h.appropriationWithCompanyOrNonprofit, detail: `${fmt(h.appropriationTotal)} productos de apropiación en el filtro` },
     { label: "artículos con sin ánimo de lucro", value: h.withNonprofit },
     { label: "artículos gobierno + ONG", value: h.governmentNonprofit },
@@ -192,7 +198,7 @@ function Board2Content({ dataset, source }) {
   const iap = result.iap;
   const iapStats = useStableValue([
     { label: "productos que mencionan IAP en el título", value: iap.works, detail: `${fmt(iap.articles)} artículos · ${fmt(iap.chapters)} capítulos` },
-    { label: "proyectos que mencionan IAP", value: iap.projects },
+    { label: "proyectos que mencionan IAP", value: iap.projects, detail: axis ? NO_AXIS_RESPONSE : undefined },
   ]);
   const northSouth = useStableValue([
     { label: "productos Sur–Norte", value: result.northSouth.north },
@@ -218,7 +224,7 @@ function Board2Content({ dataset, source }) {
 
       <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
       {pending ? <Typography.Text type="secondary">Actualizando…</Typography.Text> : null}
-      <KpiRow kpis={kpis} />
+      <KpiRow kpis={kpis} projectDetail={axis ? NO_AXIS_RESPONSE : ""} />
 
       {registry ? (
         <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginTop: 6 }} data-testid="official-groups-note">
@@ -236,6 +242,7 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="02 · Grafo de colaboración entre grupos" empty={!graph.nodes.length}>
             <CollabGraph graph={graph} centers={graphCenters} centerNames={raw.centros} />
             <Note>{NOTES.v2}</Note>
+            {axis && result.sample.graph < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.graph)}</Note> : null}
           </ChartCard>
         </Col>
 
@@ -262,6 +269,7 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
             <Note>{NOTES.v5b}</Note>
+            {axis ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
           </ChartCard>
         </Col>
 
@@ -269,18 +277,21 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="06 · Colaboraciones de triple hélice">
             <StatTiles stats={helices} />
             <Note>{NOTES.v6}</Note>
+            {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
           <ChartCard title="07 · Colaboraciones de cuádruple hélice">
             <StatTiles stats={quadruple} />
             <Note>{NOTES.v7}</Note>
+            {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
           <ChartCard title="08 · Investigación acción participativa">
             <StatTiles stats={iapStats} />
             <Note>{NOTES.v8}</Note>
+            {axis ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
           </ChartCard>
         </Col>
 
@@ -294,7 +305,7 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="09b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
-            <Note>{NOTES.v15}</Note>
+            <Note>{NOTES.v15}{axis && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
@@ -329,13 +340,14 @@ function Board2Content({ dataset, source }) {
             <Segmented size="small" options={TAB_OPTIONS(AXIS_TABS.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
             <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend />
             <Note>{NOTES.v14}</Note>
+            {axis ? <Note data-testid="axis-14-note">{AXIS_14_NOTE}</Note> : null}
           </ChartCard>
         </Col>
 
         <Col xs={24}>
           <ChartCard title="+ Entidades que financian o cofinancian proyectos (no académicas)">
             <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend />
-            <Note>{NOTES.v16}</Note>
+            <Note>{NOTES.v16}{axis ? ` ${NO_AXIS_RESPONSE[0].toUpperCase()}${NO_AXIS_RESPONSE.slice(1)}.` : ""}</Note>
           </ChartCard>
         </Col>
 

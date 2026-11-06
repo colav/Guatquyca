@@ -13,20 +13,20 @@ import { Col, Row, Typography } from "antd";
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
 /** Cards of the KPI row. */
-export const KpiRow = memo(function KpiRow({ kpis }) {
+export const KpiRow = memo(function KpiRow({ kpis, projectDetail = "" }) {
   const items = [
     [kpis.works, "productos en el universo filtrado"],
     [kpis.withExternal, "con al menos un coautor externo"],
     [kpis.withNonAcademic, "con actor no académico (empresa, gobierno, ONG, salud)"],
     [kpis.withInternational, "con coautoría internacional"],
-    [kpis.projects, "proyectos SIIU"],
-    [kpis.projectsExternal, "proyectos con aportante externo"],
+    [kpis.projects, "proyectos SIIU", projectDetail],
+    [kpis.projectsExternal, "proyectos con aportante externo", projectDetail],
   ];
   return (
     <Row gutter={[12, 12]}>
-      {items.map(([value, label]) => (
+      {items.map(([value, label, detail]) => (
         <Col key={label} xs={12} md={8} lg={4}>
-          <KpiCard label={label} value={fmt(value)} />
+          <KpiCard label={label} value={fmt(value)} detail={detail} withDetail={!!projectDetail} />
         </Col>
       ))}
     </Row>
@@ -51,8 +51,8 @@ export const StatTiles = memo(function StatTiles({ stats }) {
 });
 
 /** Note under a panel. */
-export function Note({ children }) {
-  return <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8, marginBottom: 0 }}>{children}</Typography.Paragraph>;
+export function Note({ children, ...rest }) {
+  return <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8, marginBottom: 0 }} {...rest}>{children}</Typography.Paragraph>;
 }
 
 /** Table of the groups with non-academic actors (indicator 13). */
