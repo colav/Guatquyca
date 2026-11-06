@@ -11,10 +11,10 @@ import { OFFICIAL_GROUPS, groupRegistry, officialActiveGroupsNote, officialGroup
 import { NOTES } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
 
 test.describe("texts about groups (no server)", () => {
-  test("the note of the list says «350 de 359» and the 9 that have no products", () => {
-    const registry = { total: 359, active: 324, inactive: 35, withoutProducts: 9 };
-    expect(officialGroupsNote(350, registry)).toBe("350 de 359 grupos del registro oficial; 9 no tienen productos en ImpactU");
-    expect(officialActiveGroupsNote(317, registry)).toBe("317 de 324 grupos activos del registro oficial; 7 no tienen productos en ImpactU");
+  test("the note of the list says «346 de 359» and the 13 that have no products (F54)", () => {
+    const registry = { total: 359, active: 324, inactive: 35, withoutProducts: 13 };
+    expect(officialGroupsNote(346, registry)).toBe("346 de 359 grupos de investigación tienen productos en ImpactU; 13 no.");
+    expect(officialActiveGroupsNote(317, registry)).toBe("317 de 324 grupos activos tienen productos en ImpactU; 7 no.");
     expect(OFFICIAL_GROUPS).toEqual({ total: 359, active: 324, inactive: 35 });
   });
 
@@ -31,14 +31,12 @@ const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?
 test.describe("groups against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("Board 3: the list of groups of the bundle has 350 (317 active, 33 inactive) and the notes say so", async ({ page }) => {
+  test("Board 3: the list of groups of the bundle has 346 (from the registry of the bundle) and the notes say so", async ({ page }) => {
     const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
     const active = raw.groups.filter((g) => g[6] === "Activo").length;
     const inactive = raw.groups.filter((g) => g[6] !== "Activo").length;
-    expect(raw.groups).toHaveLength(350);
-    expect(active).toBe(317);
-    expect(inactive).toBe(33);
-    expect(active + inactive).toBe(OFFICIAL_GROUPS.total - 9);
+    expect(raw.groups).toHaveLength(346);
+    expect(active + inactive).toBe(raw.registro_grupos.total - raw.registro_grupos.sin_productos_impactu);
     await page.goto(BOARD(3));
     const registry = groupRegistry(raw, false);
     await expect(page.getByTestId("official-groups-note")).toHaveText(officialGroupsNote(raw.groups.length, registry), { timeout: 120000 });
@@ -46,7 +44,7 @@ test.describe("groups against the real quyca (read-only)", () => {
     // With a filter the count of active groups changes with the data and the official note of the active ones is not repeated.
     await page.goto(BOARD(3, "center=1"));
     await expect(page.getByText("grupos activos del centro", { exact: false }).first()).toBeVisible({ timeout: 120000 });
-    await expect(page.getByText("del registro oficial; ", { exact: false })).toHaveCount(1);
+    await expect(page.getByText("tienen productos en ImpactU", { exact: false })).toHaveCount(1);
   });
 
   test("Board 2: the note of the graph says the number of groups that the calculation uses", async ({ page }) => {

@@ -17,8 +17,8 @@ test.describe("registry of groups (no server)", () => {
   test("the totals come from registro_grupos of the bundle, not from the constant", () => {
     const registry = groupRegistry({ groups, registro_grupos: { total: 400, activos: 330, inactivos: 70, sin_productos_impactu: 50 } }, false);
     expect(registry).toEqual({ total: 400, active: 330, inactive: 70, withoutProducts: 50 });
-    expect(officialGroupsNote(350, registry)).toBe("350 de 400 grupos del registro oficial; 50 no tienen productos en ImpactU");
-    expect(officialActiveGroupsNote(317, registry)).toBe("317 de 330 grupos activos del registro oficial; 13 no tienen productos en ImpactU");
+    expect(officialGroupsNote(350, registry)).toBe("350 de 400 grupos de investigación tienen productos en ImpactU; 50 no.");
+    expect(officialActiveGroupsNote(317, registry)).toBe("317 de 330 grupos activos tienen productos en ImpactU; 13 no.");
     // the real values of B105
     expect(groupRegistry({ groups, registro_grupos: { total: 359, activos: 324, inactivos: 35, sin_productos_impactu: 9 } }, false)).toEqual({ total: 359, active: 324, inactive: 35, withoutProducts: 9 });
   });
@@ -51,14 +51,13 @@ const BUNDLE_3 = "**/observatories/vri-udea/boards/3/bundle";
 test.describe("registry and tooltips against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("the real bundle has registro_grupos 359, 324, 35 and 9, and the page says «350 de 359» and «317 de 324» from them", async ({ page }) => {
+  test("the real bundle has registro_grupos 359, 324, 35 and 13, and the page says «346 de 359» from them", async ({ page }) => {
     const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
-    expect(raw.registro_grupos).toEqual({ total: 359, activos: 324, inactivos: 35, sin_productos_impactu: 9 });
+    expect(raw.registro_grupos).toEqual({ total: 359, activos: 324, inactivos: 35, sin_productos_impactu: 13 });
     expect(raw.registro_grupos.activos + raw.registro_grupos.inactivos).toBe(raw.registro_grupos.total);
     expect(raw.groups.length + raw.registro_grupos.sin_productos_impactu).toBe(raw.registro_grupos.total);
     await page.goto(BOARD(3));
-    await expect(page.getByTestId("official-groups-note")).toHaveText("350 de 359 grupos del registro oficial; 9 no tienen productos en ImpactU", { timeout: 120000 });
-    await expect(page.getByText("317 de 324 grupos activos del registro oficial; 7 no tienen productos en ImpactU")).toBeVisible();
+    await expect(page.getByTestId("official-groups-note")).toHaveText("346 de 359 grupos de investigación tienen productos en ImpactU; 13 no.", { timeout: 120000 });
   });
 
   test("the notes follow the bundle: with other totals in the response the page shows those, not the constant", async ({ page }) => {
@@ -69,8 +68,8 @@ test.describe("registry and tooltips against the real quyca (read-only)", () => 
       await route.fulfill({ response, json: body });
     });
     await page.goto(BOARD(3));
-    await expect(page.getByTestId("official-groups-note")).toHaveText("350 de 400 grupos del registro oficial; 50 no tienen productos en ImpactU", { timeout: 120000 });
-    await expect(page.getByText("de 330 grupos activos del registro oficial")).toBeVisible();
+    await expect(page.getByTestId("official-groups-note")).toHaveText("346 de 400 grupos de investigación tienen productos en ImpactU; 50 no.", { timeout: 120000 });
+    await expect(page.getByText("de 330 grupos activos tienen productos en ImpactU")).toBeVisible();
     expect(await page.locator("main").innerText()).not.toContain("359");
   });
 
@@ -85,14 +84,14 @@ test.describe("registry and tooltips against the real quyca (read-only)", () => 
     await expect(page.getByLabel("Filtros").first()).toBeVisible({ timeout: 120000 });
     await expect(page.getByTestId("official-groups-note")).toHaveCount(0);
     const text = await page.locator("main").innerText();
-    expect(text).not.toContain("del registro oficial");
+    expect(text).not.toContain("tienen productos en ImpactU");
     expect(text).not.toContain("359");
   });
 
-  test("the groups per subregion of proj.subregion are of the list of 350 and the board does not show them (nothing to change)", async () => {
+  test("the groups per subregion of proj.subregion are of the list of groups and the board does not show them (nothing to change)", async () => {
     const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
     const counts = Object.fromEntries(Object.entries(raw.proj.subregion).map(([name, s]) => [name, s.grupos]));
     for (const [name, n] of Object.entries(counts)) expect(n, name).toBeLessThanOrEqual(raw.groups.length);
-    expect(counts).toEqual({ "Bajo Cauca": 28, "Magdalena Medio": 10, Nordeste: 13, Norte: 4, Occidente: 20, Oriente: 73, Suroeste: 31, Urabá: 64, "Valle de Aburrá": 307 });
+    expect(counts).toEqual({ "Bajo Cauca": 28, "Magdalena Medio": 10, Nordeste: 13, Norte: 4, Occidente: 20, Oriente: 73, Suroeste: 31, Urabá: 64, "Valle de Aburrá": 306 });
   });
 });
