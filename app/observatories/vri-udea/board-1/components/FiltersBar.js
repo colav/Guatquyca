@@ -15,6 +15,8 @@ import {
   CENTER_TOOLTIP,
   RATIO_BASIS_OPTIONS,
   centerCoverageNote,
+  AXIS_FILTER_LABEL,
+  AXIS_FILTER_TOOLTIP,
 } from "./boardTexts";
 
 /* Components */
@@ -65,6 +67,15 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   const centerOptions = useMemo(() => indexOptions(dataset.centers), [dataset]);
   /* Coverage note of the centre filter, from the data of the board (no fixed figures, D-124). */
   const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
+  /* Ejes Temáticos grouped by policy document, in the order of the documents of the filter. */
+  const axisOptions = useMemo(
+    () =>
+      dataset.policyDocs.map((agenda) => ({
+        label: agenda,
+        options: dataset.axes.filter((e) => e.agenda === agenda).map((e) => ({ value: e.id, label: e.eje })),
+      })),
+    [dataset],
+  );
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
@@ -102,6 +113,27 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         </Field>
         <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
         <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
+        {dataset.hasFactDetails ? (
+          <Field label={AXIS_FILTER_LABEL} span={12}>
+            <Tooltip title={AXIS_FILTER_TOOLTIP}>
+              <div>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  showSearch
+                  style={{ width: "100%" }}
+                  placeholder="Todos"
+                  maxTagCount="responsive"
+                  options={axisOptions}
+                  filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                  value={filters.axisIds}
+                  onChange={(v) => onChange({ axisIds: v })}
+                  aria-label="Eje Temático"
+                />
+              </div>
+            </Tooltip>
+          </Field>
+        ) : null}
         <Field label="Referente">
           <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
             <div>

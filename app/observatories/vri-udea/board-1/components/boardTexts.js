@@ -190,6 +190,17 @@ export function undrawnNote({ count, noun }) {
   return `Los ${noun} sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmtCount(count)})`;
 }
 
+/* Table «Tópicos del Eje Temático» (F49, D-142, D-143). Provisional texts: Luis approves them. */
+export const AXIS_TOPICS_TITLE = "Tópicos del Eje Temático";
+export const AXIS_FILTER_LABEL = "Eje Temático (uno o más)";
+export const AXIS_FILTER_TOOLTIP = "Recorta todo el tablero a los productos enlazados a los ejes elegidos, con la confianza de asignación del filtro correspondiente";
+
+/** Line above the table: the table follows the years filter, unlike the panels 1 and 2 (D-143 1). */
+export const axisTopicsYears = (yearFrom, yearTo) => `Años aplicados: ${yearFrom}–${yearTo}`;
+
+/** Short name of an axis for the column «Ejes»: the first words, cut with «…». */
+export const shortAxisName = (name, size = 38) => (name.length > size ? `${name.slice(0, size - 1).trimEnd()}…` : name);
+
 /* Panel 6 (F48b, D-143). Provisional texts: Luis approves them. */
 export const NO_PARENT_GOAL_LABEL = "Sin meta superior definida";
 export const NO_PARENT_GOAL_TOOLTIP = "Los ejes de la Misión de sabios 2019 son en sí mismos metas y retos; no tienen una meta superior";

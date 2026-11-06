@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import AxisTopicsTable from "./AxisTopicsTable";
 import LinkedText from "@/app/observatories/components/LinkedText";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
@@ -37,6 +38,7 @@ import {
   computeCapacity,
   rankActors,
   rankAxes,
+  rankAxisTopics,
   rankGoals,
   rankGroups,
   rankOds,
@@ -65,6 +67,8 @@ import {
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
   SNAPSHOT_NOTE,
+  AXIS_TOPICS_TITLE,
+  axisTopicsYears,
   goalRows,
   lowCapacityDefinition,
   PUNCTUAL_DEFINITION,
@@ -191,6 +195,8 @@ function Board1Content({ dataset, source }) {
   const subregionCounts = useStableValue(result.subregionCounts);
   const axes = useStableValue(rankAxes(dataset, result));
   const goals = useStableValue(goalRows(rankGoals(dataset, result)));
+  /* Table of the topics of the chosen axes (F49): all the filters apply, the years included. */
+  const axisTopics = useStableValue(rankAxisTopics(dataset, result));
   const typeValues = useStableValue(result.pies.type);
   const quartileValues = useStableValue(result.pies.quartile);
   const accessValues = useStableValue(result.pies.access);
@@ -243,6 +249,19 @@ function Board1Content({ dataset, source }) {
       <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
       <SummaryLine summary={summary} noun={DIMENSION_NOUN[applied.dimension]} pending={pending} />
       <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
+
+      {applied.axisIds.length ? (
+        <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
+          <Col span={24}>
+            <ChartCard title={AXIS_TOPICS_TITLE} note={axisTopicsYears(applied.yearFrom, applied.yearTo)} empty={!axisTopics.length}>
+              <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="axis-topics-note">
+                {axisTopicsYears(applied.yearFrom, applied.yearTo)}. {fmt(applied.axisIds.length)} {applied.axisIds.length === 1 ? "eje elegido" : "ejes elegidos"}; los tópicos sin productos con los filtros actuales aparecen con 0.
+              </Typography.Text>
+              <AxisTopicsTable rows={axisTopics} severalAxes={applied.axisIds.length > 1} />
+            </ChartCard>
+          </Col>
+        </Row>
+      ) : null}
 
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
         <Col xs={24} lg={14}>

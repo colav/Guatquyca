@@ -133,7 +133,8 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     expect(sum(colombia)).toBe(colombia.units.length);
     expect(sum(world)).toBe(world.units.length);
     // With the world as reference almost nobody reaches 0.50 of the referent (D-135 d): no leader or consolidated and 99 % below it.
-    for (const c of ["leader", "consolidated"]) expect(world.categoryCounts[c]).toBe(0);
+    expect(world.categoryCounts.leader).toBe(0);
+    expect(world.categoryCounts.consolidated).toBeLessThanOrEqual(2); // B110: 1 topic of the world reaches 0,75
     const withProduction = world.units.length - world.categoryCounts.none;
     expect(world.categoryCounts.emerging + world.categoryCounts.lowCapacity + world.categoryCounts.punctual).toBeGreaterThan(0.99 * withProduction);
     // Colombia is more demanding on ties: it has leaders.
@@ -181,10 +182,10 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     // Reference "Mundo": the two highest categories at 0 and the figures still match (D-135 d: almost nobody reaches 0,50).
     await page.getByText("Mundo", { exact: true }).click();
     await expect(page).toHaveURL(/basis=global/, { timeout: 5000 });
-    await expect.poll(async () => (await parse()).map((r) => r[1]).join(","), { timeout: 10000 }).toContain("0,0,");
+    await expect.poll(async () => (await parse()).map((r) => r[1]).join(","), { timeout: 10000 }).toMatch(/^0,/); // nobody leads with the world as referent
     const world = computeCapacity(dataset, { ratioBasis: "global" });
     await expectFrom(world);
-    expect(world.categoryCounts.leader + world.categoryCounts.consolidated).toBe(0);
+    expect(world.categoryCounts.leader + world.categoryCounts.consolidated).toBeLessThanOrEqual(2);
     // The footer follows the reference and the indicative count.
     await expect(page.getByText("Referente: Mundo").first()).toBeVisible();
     await expect(page.getByText("con tendencia indicativa (*)").first()).toBeVisible();
