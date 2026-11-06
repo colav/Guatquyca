@@ -37,7 +37,7 @@ const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
 const bundle = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
 
 async function listedDocuments(page, labelText) {
-  const field = page.locator("label", { hasText: labelText }).first().locator("xpath=..");
+  const field = page.locator("label", { hasText: labelText }).first().locator("xpath=../..");
   await field.locator(".ant-select").click();
   const dropdown = page.locator(".ant-select-dropdown:visible").last();
   await dropdown.locator(".ant-select-item-option").first().waitFor();

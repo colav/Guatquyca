@@ -125,7 +125,7 @@ test.describe("tooltip, bold number and trend against the real quyca (read-only)
     const slugs = { leader: "lider", consolidated: "consolidado", consolidating: "en-consolidacion", emerging: "emergente", atRisk: "riesgo", lowCapacity: "capacidad-baja", punctual: "presencia-puntual" };
     for (const [category, slug] of Object.entries(slugs)) {
       await open(page, 1280, `cat=${slug}`);
-      const point = await findPoint(page);
+      const point = await findPoint(page, { columns: 36, rows: 20 }); // some categories have few points
       expect(point, `a point of ${category}`).not.toBeNull();
       const tooltipTrend = (point.text.split("\n").map((s) => s.trim()).filter(Boolean)).find((_, i, lines) => lines[i - 1] === "Tendencia");
       await page.mouse.click(point.x, point.y);

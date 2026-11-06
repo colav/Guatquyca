@@ -116,7 +116,7 @@ export const METHOD_NOTE =
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
   "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2021–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
-  "Los colores del gráfico: naranja = consolidado o líder; azul = en consolidación; blanco = el resto. El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
+  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
   "«Sin producción» significa sin productos con ese tópico principal en 2021–2025.",
 ];
 
