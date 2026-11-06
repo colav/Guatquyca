@@ -153,7 +153,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           </Tooltip>
         </Field>
         {dataset.hasFactDetails ? (
-          <Field label="Confianza de la asignación a ejes (IA)">
+          <Field label="Confianza de la asignación a ejes">
             <Tooltip title={PAIR_LEVEL_TOOLTIP}>
               <div>
                 <Segmented size="small" block options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />

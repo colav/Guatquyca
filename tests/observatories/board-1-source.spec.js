@@ -8,6 +8,6 @@ test("a filter change keeps ?source=mock in the URL (it does not flip to the API
   await expect(page).toHaveURL(/dimension=subfield/, { timeout: 5000 });
   await expect(page).toHaveURL(/source=mock/);
   // The artifact has no axis–work pairs: the control of confidence is not shown and the tag stays.
-  await expect(page.getByText("Confianza de la asignación a ejes (IA)")).toHaveCount(0);
+  await expect(page.getByText("Confianza de la asignación a ejes")).toHaveCount(0);
   await expect(page.getByText("Datos de prueba · métrica de liderazgo provisional")).toBeVisible();
 });

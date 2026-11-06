@@ -114,7 +114,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
 
   test("the confidence control goes to the URL (?pairs=all) and keeps the other parameters", async ({ page }) => {
     await page.goto("/observatories/vri-udea/board-1");
-    await expect(page.getByText("Confianza de la asignación a ejes (IA)")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Confianza de la asignación a ejes")).toBeVisible({ timeout: 120000 });
     await page.getByText("Incluir baja", { exact: true }).click();
     await expect(page).toHaveURL(/pairs=all/, { timeout: 5000 });
     await expect(page.getByText("productos con asignación de cualquier confianza (incluye baja)")).toBeVisible();
