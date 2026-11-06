@@ -47,21 +47,28 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   const { raw } = dataset;
   /* The filter acts on the works through the terms of the thesaurus (axes), not on goals: only the documents with terms (D-129). */
   const docs = useMemo(() => dataset.policyDocs.map((name) => ({ value: name, label: name })), [dataset]);
+  /* A subfield name that two fields share carries its field in parentheses, as in Board 3 (B2, F50). */
+  const subfieldLabel = useMemo(() => {
+    const count = new Map();
+    for (const name of raw.subfields) count.set(name, (count.get(name) || 0) + 1);
+    return (i) => (count.get(raw.subfields[i]) > 1 ? `${raw.subfields[i]} (${raw.sfField[i]})` : raw.subfields[i]);
+  }, [raw]);
   const subfields = useMemo(() => {
     const order = raw.subfields.map((_, i) => i).sort((a, b) => (raw.sfField[a] + raw.subfields[a]).localeCompare(raw.sfField[b] + raw.subfields[b]));
     const groups = [];
     for (const i of order) {
       const last = groups[groups.length - 1];
       if (!last || last.label !== raw.sfField[i]) groups.push({ label: raw.sfField[i], options: [] });
-      groups[groups.length - 1].options.push({ value: i, label: raw.subfields[i] });
+      groups[groups.length - 1].options.push({ value: i, label: subfieldLabel(i) });
     }
     return groups;
-  }, [raw]);
+  }, [raw, subfieldLabel]);
   const centers = useMemo(() => indexOptions(raw.centros), [raw]);
   /* Coverage note of the centre filter, from the data of the board (D-126). */
   const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
-  const units = useMemo(() => indexOptions(raw.deps), [raw]);
+  /* Subunits without works are not offered (B3, F50). */
+  const units = useMemo(() => indexOptions(raw.deps).filter((o) => dataset.unitsWithWorks.has(o.value)), [raw, dataset]);
 
   const select = (key, options, placeholder, isIndex) => (
     <Select
@@ -76,8 +83,19 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     />
   );
 
+  /* Active filters for the folded bar (F50). */
+  const active = [
+    filters.scope && `Ámbito: ${SCOPE_OPTIONS.find((o) => o.value === filters.scope)?.label ?? filters.scope}`,
+    filters.policyDoc && `Documento: ${filters.policyDoc}`,
+    filters.centerIndex >= 0 && `Centro: ${raw.centros[filters.centerIndex]}`,
+    (filters.yearFrom !== YEAR_RANGE.min || filters.yearTo !== YEAR_RANGE.max) && `Años: ${filters.yearFrom}–${filters.yearTo}`,
+    filters.facultyIndex >= 0 && `Unidad: ${raw.facs[filters.facultyIndex]}`,
+    filters.departmentIndex >= 0 && `Subunidad: ${raw.deps[filters.departmentIndex]}`,
+    filters.subfieldIndex >= 0 && `Subcampo: ${subfieldLabel(filters.subfieldIndex)}`,
+  ].filter(Boolean);
+
   return (
-    <StickyFilters>
+    <StickyFilters active={active}>
       <Row gutter={[12, 12]}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
         <Field label="Documento de política">{select("policyDoc", docs, "Todos", false)}</Field>

@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import { CARD_SHADOW } from "@/lib/observatories/layout";
 
 /* UI Library Components */
-import { theme } from "antd";
+import { Button, Tag, theme } from "antd";
+
+/* Whether the container was folded: it lasts as long as the page session (module memory, no localStorage, F50). */
+let foldedMemory = false;
 
 /**
  * Container of the filters of a board, fixed at the top when the page scrolls (F48b, D-143): opaque, with the
@@ -16,9 +19,18 @@ import { theme } from "antd";
  * and the tooltips (z-index of Ant Design, 1050 and above). It publishes in `--obs-sticky-offset` the height
  * that header and filters take, so that the cards keep their title visible when the page scrolls to them.
  *
+ * Foldable (F50, D-147): the button «Filtros (n)» folds the container into a bar of one line with the active
+ * filters as tags (at most 56 px); open by default.
+ *
  * @param {React.ReactNode} children
+ * @param {string[]} active - Active filters as short texts (e.g. «Unidad: Facultad de Medicina»).
  */
-export default function StickyFilters({ children }) {
+export default function StickyFilters({ children, active = [] }) {
+  const [folded, setFolded] = useState(foldedMemory);
+  const toggle = () => {
+    foldedMemory = !folded;
+    setFolded(!folded);
+  };
   const ref = useRef(null);
   const { token } = theme.useToken();
   const [top, setTop] = useState(0);
@@ -47,7 +59,7 @@ export default function StickyFilters({ children }) {
       if (observer) observer.disconnect();
       document.documentElement.style.removeProperty("--obs-sticky-offset");
     };
-  }, []);
+  }, [folded]);
 
   return (
     <section
@@ -61,11 +73,23 @@ export default function StickyFilters({ children }) {
         background: token.colorBgContainer,
         boxShadow: CARD_SHADOW,
         borderRadius: token.borderRadiusLG,
-        padding: 12,
+        padding: folded ? 8 : 12,
         marginBottom: 16,
       }}
     >
-      {children}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: folded ? 0 : 8, minHeight: 32 }}>
+        <Button size="small" aria-expanded={!folded} data-testid="filters-toggle" onClick={toggle}>
+          {folded ? "▸" : "▾"} Filtros ({active.length})
+        </Button>
+        {folded ? (
+          <div data-testid="filters-folded-tags" style={{ display: "flex", gap: 4, overflow: "hidden", whiteSpace: "nowrap", minWidth: 0, flex: 1 }}>
+            {active.length ? active.map((text) => <Tag key={text} style={{ margin: 0, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis" }} title={text}>{text}</Tag>) : <span style={{ fontSize: 12, color: "rgba(0,0,0,.45)" }}>Sin filtros activos</span>}
+          </div>
+        ) : null}
+      </div>
+      <div hidden={folded} data-testid="filters-body">
+        {children}
+      </div>
     </section>
   );
 }

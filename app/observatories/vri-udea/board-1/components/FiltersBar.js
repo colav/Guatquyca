@@ -92,8 +92,19 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     />
   );
 
+  /* Active filters for the folded bar (F50). */
+  const active = [
+    filters.scope && `Ámbito: ${filters.scope}`,
+    filters.policyDoc && `Documento: ${filters.policyDoc}`,
+    filters.centerIndex >= 0 && `Centro: ${dataset.centers[filters.centerIndex]}`,
+    (filters.yearFrom !== YEAR_RANGE.min || filters.yearTo !== YEAR_RANGE.max) && `Años: ${filters.yearFrom}–${filters.yearTo}`,
+    filters.facultyIndex >= 0 && `Unidad: ${dataset.faculties[filters.facultyIndex]}`,
+    filters.departmentIndex >= 0 && `Subunidad: ${dataset.departments[filters.departmentIndex]}`,
+    filters.axisIds && filters.axisIds.length && `Ejes: ${filters.axisIds.length}`,
+  ].filter(Boolean);
+
   return (
-    <StickyFilters>
+    <StickyFilters active={active}>
       <Row gutter={[12, 12]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>

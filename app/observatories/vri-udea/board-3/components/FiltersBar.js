@@ -53,7 +53,9 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
     const withAxes = raw.agendas || raw.agendas_all.slice(0, ACTIVE_POLICY_DOCUMENTS);
     return withAxes.map((name) => ({ value: raw.agendas_all.indexOf(name), label: name }));
   }, [raw]);
-  const centers = useMemo(() => raw.centros.map((name, i) => ({ value: i, label: name })).filter((o) => o.label !== "Sin centro"), [raw]);
+  /* «Sin centro» is the 26.ª option, labelled «Sin centro asignado» and at the end of the list (M1, F50). */
+  const centerLabel = (i) => (raw.centros[i] === "Sin centro" ? "Sin centro asignado" : raw.centros[i]);
+  const centers = useMemo(() => raw.centros.map((name, i) => ({ value: i, label: name === "Sin centro" ? "Sin centro asignado" : name })).sort((a, b) => (a.label === "Sin centro asignado") - (b.label === "Sin centro asignado")), [raw]);
   /* Coverage note of the centre filter (D-126). "Sin centro" is not an option but counts as a product without centre. */
   const centerNote = useMemo(() => centerCoverageNote(centerCoverage), [centerCoverage]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
@@ -73,8 +75,19 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
     />
   );
 
+  /* Active filters for the folded bar (F50). */
+  const active = [
+    filters.scopeIndex >= 0 && `Ámbito: ${SCOPE_LABELS[filters.scopeIndex]}`,
+    filters.policyIndex >= 0 && `Documento: ${raw.agendas_all[filters.policyIndex]}`,
+    filters.centerIndex >= 0 && `Centro: ${centerLabel(filters.centerIndex)}`,
+    (filters.yearFrom !== YEAR_RANGE.min || filters.yearTo !== YEAR_RANGE.max) && `Años: ${filters.yearFrom}–${filters.yearTo}`,
+    filters.facultyIndex >= 0 && `Unidad: ${raw.facs[filters.facultyIndex]}`,
+    filters.departmentIndex >= 0 && `Subunidad: ${raw.deps[filters.departmentIndex]}`,
+    filters.subfieldIndex >= 0 && `Subcampo: ${raw.subs[filters.subfieldIndex]}`,
+  ].filter(Boolean);
+
   return (
-    <StickyFilters>
+    <StickyFilters active={active}>
       <Row gutter={[12, 12]}>
         <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
         <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
