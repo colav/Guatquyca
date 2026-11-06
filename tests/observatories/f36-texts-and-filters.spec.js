@@ -84,10 +84,15 @@ test.describe("F36 against the real quyca (read-only)", () => {
     const cov = createDataset(raw1).centerCoverage;
     const expected = centerCoverageNote(cov);
     expect(expected).toContain(cov.withCenter.toLocaleString("es-CO"));
-    await expect(page.getByText(expected)).toBeVisible();
-    // The tooltip appears on the select of the filter.
-    await page.getByText("3 · Centro de investigación").locator("xpath=..").locator(".ant-select").hover();
-    await expect(page.getByText(CENTER_TOOLTIP)).toBeVisible({ timeout: 5000 });
+    // Since F48b the note is in the tooltip of the help icon of the filter (not under the control).
+    const field = page.locator("label", { hasText: "3 · Centro de investigación" }).first().locator("xpath=../..");
+    await expect(field.getByText(expected)).toHaveCount(0);
+    await field.getByTestId("filter-help").hover();
+    await expect(page.getByText(expected)).toBeVisible({ timeout: 5000 });
+    await page.mouse.move(5, 5);
+    // The tooltip of the control stays on the select of the filter.
+    await field.locator(".ant-select").hover();
+    await expect(page.getByText(CENTER_TOOLTIP).last()).toBeVisible({ timeout: 5000 });
   });
 
   test("the unit and the subunit filters stack (calculation and page)", async ({ page }) => {

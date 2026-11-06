@@ -69,9 +69,15 @@ test.describe("F36b against the real quyca (read-only)", () => {
       expect(cov.withCenter).toBeGreaterThan(0);
       expect(cov.withCenter).toBeLessThan(cov.total);
       await page.goto(BOARD(n));
-      await expect(page.getByText(centerCoverageNote(cov))).toBeVisible({ timeout: 120000 });
-      await page.getByText("Centro de investigación").first().locator("xpath=..").locator(".ant-select").hover();
-      await expect(page.getByText(CENTER_TOOLTIP)).toBeVisible({ timeout: 5000 });
+      // Since F48b the note is in the tooltip of the help icon of the filter.
+      const field = page.locator("label", { hasText: "Centro de investigación" }).first().locator("xpath=../..");
+      await expect(field.getByTestId("filter-help")).toBeVisible({ timeout: 120000 });
+      await expect(field.getByText(centerCoverageNote(cov))).toHaveCount(0);
+      await field.getByTestId("filter-help").hover();
+      await expect(page.getByText(centerCoverageNote(cov))).toBeVisible({ timeout: 5000 });
+      await page.mouse.move(5, 5);
+      await field.locator(".ant-select").hover();
+      await expect(page.getByText(CENTER_TOOLTIP).last()).toBeVisible({ timeout: 5000 });
     }
   });
 

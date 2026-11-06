@@ -190,6 +190,26 @@ export function undrawnNote({ count, noun }) {
   return `Los ${noun} sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmtCount(count)})`;
 }
 
+/* Panel 6 (F48b, D-143). Provisional texts: Luis approves them. */
+export const NO_PARENT_GOAL_LABEL = "Sin meta superior definida";
+export const NO_PARENT_GOAL_TOOLTIP = "Los ejes de la Misión de sabios 2019 son en sí mismos metas y retos; no tienen una meta superior";
+
+/**
+ * Rows of the panel 6 from rankGoals: the bar is labelled with the end of the route of the goal (cut at the
+ * start with «…» when it is long, by the chart); the full route and the agenda go in the tooltip. The axes that
+ * have no goal above them (the 8 of the Misión de sabios 2019) are «Sin meta superior definida» with the
+ * agenda below.
+ *
+ * @param {{ id: string, label: string, end: string, noParent: boolean, detail: string, value: number }[]} goals
+ */
+export function goalRows(goals) {
+  return goals.map((g) =>
+    g.noParent
+      ? { id: g.id, label: `${NO_PARENT_GOAL_LABEL}\n${g.detail}`, fullLabel: NO_PARENT_GOAL_TOOLTIP, detail: g.detail, value: g.value }
+      : { id: g.id, label: g.end, fullLabel: g.label, detail: g.detail, value: g.value },
+  );
+}
+
 /* Legend of the scatter (F39). Provisional texts: Luis approves them. */
 export const SIZE_NOTE = `Tamaño = FWCI, solo productos con registro en OpenAlex; presencia puntual se dibuja ${Math.round((1 - PUNTUAL_SIZE_FACTOR) * 100)} % más pequeña`;
 export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";

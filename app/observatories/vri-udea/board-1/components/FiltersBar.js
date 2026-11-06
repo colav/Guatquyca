@@ -17,6 +17,10 @@ import {
   centerCoverageNote,
 } from "./boardTexts";
 
+/* Components */
+import FilterHelp from "@/app/observatories/components/FilterHelp";
+import StickyFilters from "@/app/observatories/components/StickyFilters";
+
 /* UI Library Components */
 import { Button, Col, Row, Segmented, Select, Tooltip, Typography } from "antd";
 
@@ -28,12 +32,14 @@ const YEAR_OPTIONS = Array.from(
 
 const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 4 };
 
-function Field({ label, children, span = 6, note = "" }) {
+function Field({ label, children, span = 6, help = null }) {
   return (
     <Col xs={24} sm={12} md={span}>
-      <label style={labelStyle}>{label}</label>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <label style={labelStyle}>{label}</label>
+        {help ? <FilterHelp label={label}>{help}</FilterHelp> : null}
+      </div>
       {children}
-      {note ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 11, marginTop: 4 }}>{note}</Typography.Text> : null}
     </Col>
   );
 }
@@ -76,11 +82,11 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   );
 
   return (
-    <section aria-label="Filtros" style={{ marginBottom: 16 }}>
+    <StickyFilters>
       <Row gutter={[12, 12]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>
-        <Field label="3 · Centro de investigación" note={centerNote}>
+        <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centerOptions, "Todos", true)}</div>
           </Tooltip>
@@ -119,7 +125,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         Los filtros se aplican al instante y quedan en la dirección de la página.
       </Typography.Text>
-    </section>
+    </StickyFilters>
   );
 }
 

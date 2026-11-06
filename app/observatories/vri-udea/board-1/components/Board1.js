@@ -65,6 +65,7 @@ import {
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
   SNAPSHOT_NOTE,
+  goalRows,
   lowCapacityDefinition,
   PUNCTUAL_DEFINITION,
   categoryLine,
@@ -189,7 +190,7 @@ function Board1Content({ dataset, source }) {
   const ods = useStableValue(rankOds(dataset, result));
   const subregionCounts = useStableValue(result.subregionCounts);
   const axes = useStableValue(rankAxes(dataset, result));
-  const goals = useStableValue(rankGoals(dataset, result));
+  const goals = useStableValue(goalRows(rankGoals(dataset, result)));
   const typeValues = useStableValue(result.pies.type);
   const quartileValues = useStableValue(result.pies.quartile);
   const accessValues = useStableValue(result.pies.access);
@@ -289,7 +290,7 @@ function Board1Content({ dataset, source }) {
         </Col>
         <Col xs={24} md={12} lg={8}>
           <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados" empty={!goals.length}>
-            <RankingBarsChart rows={goals} labelSize={40} />
+            <RankingBarsChart rows={goals} labelSize={40} startCut />
           </ChartCard>
         </Col>
 

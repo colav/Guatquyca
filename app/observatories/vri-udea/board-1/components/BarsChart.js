@@ -18,6 +18,8 @@ import { RANKING_COLOR } from "@/lib/observatories/palette";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
+/** Cuts at the start (the end of a route is what tells two goals apart). */
+const truncateStart = (text, size) => (text.length > size ? `…${text.slice(text.length - size + 1)}` : text);
 
 /**
  * Horizontal ranking (top N). Categories use a unique key because labels can repeat
@@ -25,12 +27,13 @@ const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2
  *
  * @param {{ id: *, label: string, fullLabel?: string, detail?: string, value: number }[]} rows
  * @param {number} [labelSize] - Characters kept in the axis label.
+ * @param {boolean} [startCut] - Long labels are cut at the start («…» first) and not at the end.
  * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
  *   longest one, as in the calculator.
  */
-function RankingBars({ rows, labelSize = 34, complete = false }) {
+function RankingBars({ rows, labelSize = 34, complete = false, startCut = false }) {
   const config = useMemo(() => {
-    const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : truncate(r.label, labelSize)]));
+    const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : (startCut ? truncateStart : truncate)(r.label, labelSize)]));
     const longest = Math.max(0, ...rows.map((r) => r.label.length));
     return {
       ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)), paddingRight: 24 } : {}),
@@ -50,7 +53,7 @@ function RankingBars({ rows, labelSize = 34, complete = false }) {
         items: [{ field: "value", name: "Valor" }, { field: "detail", name: "Detalle" }],
       },
     };
-  }, [rows, labelSize, complete]);
+  }, [rows, labelSize, complete, startCut]);
 
   return (
     <TooltipBox>
