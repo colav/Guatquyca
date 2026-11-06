@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import ChartCard from "@/app/observatories/components/ChartCard";
 import AxisTopicsTable from "./AxisTopicsTable";
 import LinkedText from "@/app/observatories/components/LinkedText";
+import { sourceSentences } from "@/lib/observatories/cutDate";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import DonutChart from "@/app/observatories/components/DonutChart";
@@ -67,6 +68,8 @@ import {
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
   SNAPSHOT_NOTE,
+  TYPES_FOOT,
+  TYPES_HELP,
   AXIS_TOPICS_TITLE,
   axisTopicsYears,
   goalRows,
@@ -186,8 +189,10 @@ function Board1Content({ dataset, source }) {
     })),
   );
   const noun = DIMENSION_NOUN[applied.dimension].toLowerCase();
+  /* Sources and dates (F47): the dates of OpenAlex come from meta.corte_openalex, in Bogotá time. */
+  const sources = useMemo(() => sourceSentences(dataset.meta, dataset.obsCut), [dataset]);
   const fwciNote = result.fwciBasis
-    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas.`
+    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas. ${sources.citations}`
     : "";
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));
@@ -242,7 +247,7 @@ function Board1Content({ dataset, source }) {
         <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
         <Collapse
           ghost
-          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : HELP_TEXT_REAL).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : [...HELP_TEXT_REAL, sources.full, TYPES_HELP]).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
         />
       </header>
 
@@ -276,6 +281,11 @@ function Board1Content({ dataset, source }) {
               {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
+            {modern ? (
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="source-note">
+                {sources.full}
+              </Typography.Paragraph>
+            ) : null}
             {undrawn > 0 ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="undrawn-note">
                 <LinkedText text={undrawnNote({ count: undrawn, noun: nounLower })} />
@@ -293,6 +303,11 @@ function Board1Content({ dataset, source }) {
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
             {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}
+            {modern ? (
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12 }} data-testid="source-note">
+                {sources.full} {TYPES_FOOT}
+              </Typography.Paragraph>
+            ) : null}
             <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>

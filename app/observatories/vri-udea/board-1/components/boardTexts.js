@@ -190,6 +190,11 @@ export function undrawnNote({ count, noun }) {
   return `Los ${noun} sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmtCount(count)})`;
 }
 
+/* Types of product (F47, D-141). Provisional texts: Luis approves them. */
+export const TYPES_HELP =
+  "Se comparan artículos, libros y capítulos. En la UdeA el tipo es el normalizado de ImpactU, que cruza varias fuentes y asigna el de la fuente en la que más confía; el referente usa el tipo de OpenAlex (article, book, book-chapter). Pueden diferir en algunos productos, por ejemplo las reseñas.";
+export const TYPES_FOOT = "Tipos según cada fuente; ver ayuda.";
+
 /* Table «Tópicos del Eje Temático» (F49, D-142, D-143). Provisional texts: Luis approves them. */
 export const AXIS_TOPICS_TITLE = "Tópicos del Eje Temático";
 export const AXIS_FILTER_LABEL = "Eje Temático (uno o más)";
