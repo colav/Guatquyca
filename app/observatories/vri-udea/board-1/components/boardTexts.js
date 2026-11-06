@@ -99,9 +99,23 @@ export function lowCapacityDefinition(ratioBasis = "national") {
 /** Tooltip of the category «presencia puntual» (F45): in the legend and in the row of the table of rules. */
 export const PUNCTUAL_DEFINITION = `Menos de ${MIN_PRODUCTS_CLASSIFY} productos en 2021–2025: no se clasifica por razón ni por tendencia.`;
 
+/** Ratio of a field or subfield (F57, D-153, rule b): only the topics with ${MIN_PRODUCTS_CLASSIFY} or more products add up. Provisional texts. */
+export const FIELD_RATIO_RULE = `En campos y subcampos la razón suma solo los tópicos en los que la UdeA tiene ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos: citas de la UdeA en esos tópicos ÷ citas del referente en los mismos tópicos (máximo 1). Los tópicos con menos productos no entran en la razón.`;
+export const NO_RATIO_TEXT = `Sin tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos: no se calcula la razón`;
+export const NO_RATIO_DEFINITION = `${PUNCTUAL_DEFINITION} En campos y subcampos también: sin ningún tópico con ${MIN_PRODUCTS_CLASSIFY} o más productos no hay razón y no se clasifica.`;
+/** Sentence of the tooltip of a point with ratio: «0,49 (citas de la UdeA … frente a … de …, en N tópicos con 5 o más productos)». */
+export const ratioTopicsText = (n) => `en ${n.toLocaleString("es-CO")} ${n === 1 ? "tópico" : "tópicos"} con ${MIN_PRODUCTS_CLASSIFY} o más productos`;
+/** Note under the scatter when some fields or subfields have no ratio. */
+export const withoutRatioNote = (count, noun) => `${count.toLocaleString("es-CO")} ${noun} sin ningún tópico con ${MIN_PRODUCTS_CLASSIFY} o más productos: no tienen razón y se muestran como «presencia puntual».`;
+
 /** Text of the line «Categoría» of the tooltip of a point (F45). */
 export function categoryLine(category, label) {
   return category === "punctual" ? `${label} (menos de ${MIN_PRODUCTS_CLASSIFY} productos: no se clasifica)` : label;
+}
+
+/** Line «Categoría» of a field or subfield without ratio (F57): the reason is the lack of topics, not of products. */
+export function categoryLineNoRatio(label) {
+  return `${label} (${NO_RATIO_TEXT.charAt(0).toLowerCase()}${NO_RATIO_TEXT.slice(1)})`;
 }
 
 /** One-line rule of each category for the tooltip of the calculator. */
@@ -143,7 +157,7 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    "Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.",
+    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.`,
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,

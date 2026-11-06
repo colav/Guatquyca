@@ -63,6 +63,7 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
         const p = u.windowTotal;
         if (p === 0) expect(u.category, JSON.stringify(filters)).toBe(CATEGORY.NONE);
         else if (p < MIN_PRODUCTS_CLASSIFY) expect(u.category, `${u.label} ${p}`).toBe(CATEGORY.PUNCTUAL);
+        else if (u.noRatio) expect(u.category, `${u.label} (F57: no topic of 5 or more products)`).toBe(CATEGORY.PUNCTUAL); // rule (b), D-153
         else expect([CATEGORY.NONE, CATEGORY.PUNCTUAL]).not.toContain(u.category);
       }
       // the eight categories add up to the units of the dimension

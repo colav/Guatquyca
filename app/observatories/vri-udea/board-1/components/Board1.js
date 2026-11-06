@@ -78,6 +78,12 @@ import {
   lowCapacityDefinition,
   PUNCTUAL_DEFINITION,
   categoryLine,
+  categoryLineNoRatio,
+  FIELD_RATIO_RULE,
+  NO_RATIO_DEFINITION,
+  NO_RATIO_TEXT,
+  ratioTopicsText,
+  withoutRatioNote,
   noProductionTooltip,
   undrawnNote,
   TREND_LABELS,
@@ -158,11 +164,11 @@ function Board1Content({ dataset, source }) {
         citationsLine: fmt(u.citations),
         trendLine: `${TREND_LABELS[u.trend]}${u.indicative ? ` * (indicativa: menos de ${MIN_TREND_VOLUME} productos)` : ""}`,
         yearsLine: u.yearCounts.join(", "),
-        ratioText: modern ? `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.citations)} frente a ${fmt(u.leaderCitations)} de ${u.referent || "los referentes de sus tópicos"})` : fmtRatio(u.ratio),
+        ratioText: !modern ? fmtRatio(u.ratio) : u.noRatio ? NO_RATIO_TEXT : `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.ratioCitations)} frente a ${fmt(u.leaderCitations)} de ${u.referent || "los referentes de sus tópicos"}${u.ratioTopics !== null ? `, ${ratioTopicsText(u.ratioTopics)}` : ""})`,
         subfield: u.subfield,
         field: u.field,
         category: u.category,
-        categoryLabel: categoryLine(u.category, CATEGORY_LABELS[u.category]),
+        categoryLabel: u.noRatio ? categoryLineNoRatio(CATEGORY_LABELS[u.category]) : categoryLine(u.category, CATEGORY_LABELS[u.category]),
       })),
   );
   const visiblePoints = useStableValue(selected.length ? points.filter((p) => selected.includes(p.category)) : points);
@@ -173,7 +179,7 @@ function Board1Content({ dataset, source }) {
     result.categoryOrder.map((c) =>
       c === CATEGORY.NONE
         ? { category: c, label: CATEGORY_LABELS[c], count: result.categoryCounts[c], informative: true, hint: result.noProduction ? noProductionTooltip({ ...result.noProduction, noun: nounLower }) : "" }
-        : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: !modern ? "" : c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : c === CATEGORY.PUNCTUAL ? PUNCTUAL_DEFINITION : "" },
+        : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: !modern ? "" : c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : c === CATEGORY.PUNCTUAL ? (result.unitsWithoutRatio ? NO_RATIO_DEFINITION : PUNCTUAL_DEFINITION) : "" },
     ),
   );
   /* Units without production in 2021–2025: counted in the panel 2, not drawn in the panel 1. */
@@ -228,7 +234,7 @@ function Board1Content({ dataset, source }) {
     const unit = result.units.find((u) => u.id === selectedId);
     if (!unit) return null;
     /* The detail takes the same trend as the tooltip (F48 3): the label was missing and it said «tendencia ;». */
-    return { ...unit, categoryLabel: categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci), trendLabel: TREND_LABELS[unit.trend] };
+    return { ...unit, categoryLabel: unit.noRatio ? categoryLineNoRatio(CATEGORY_LABELS[unit.category]) : categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci), trendLabel: TREND_LABELS[unit.trend] };
   }, [result, selectedId]);
   const selectedAxes = useMemo(() => {
     if (!selectedUnit || selectedUnit.topicIndex < 0) return null;
@@ -287,6 +293,12 @@ function Board1Content({ dataset, source }) {
             {modern ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="source-note">
                 {sources.full}
+              </Typography.Paragraph>
+            ) : null}
+            {modern && applied.dimension !== "topic" ? (
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="field-ratio-note">
+                {FIELD_RATIO_RULE}
+                {result.unitsWithoutRatio ? ` ${withoutRatioNote(result.unitsWithoutRatio, nounLower)}` : ""}
               </Typography.Paragraph>
             ) : null}
             {undrawn > 0 ? (
