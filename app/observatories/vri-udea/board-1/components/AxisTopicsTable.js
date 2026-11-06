@@ -26,13 +26,22 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
 /* Value of the header filter for the row «Otros productos asignados al eje». */
 const BY_PRODUCTS = "products";
 /* Same width for every tag of the column: the one the text «Por productos» takes (measured, F51b). */
+/* Key of the row of reconciliation inside the body. */
+const OTHER_KEY = "__other__";
+/* The reconciliation row never moves: whatever the direction, its sorter puts it after the others. */
+const keepLast = (compare) => (a, b, sortOrder) => {
+  if (a.isOther || b.isOther) return (a.isOther ? 1 : -1) * (sortOrder === "ascend" ? 1 : -1);
+  return compare(a, b);
+};
 const TAG_STYLE = { margin: 0, display: "inline-block", width: LINK_TAG_WIDTH, textAlign: "center" };
 
 /**
  * Table «Tópicos del Eje Temático» (F49): topic (name and code), products, citations, link with the axis (F51b,
  * D-148: «Incluido» green, «Frontera» orange, «—» when the bundle does not carry the state) and, with several
  * axes, the axes of each topic. Sortable by column, highest products first by default, with a row «Otros
- * productos asignados al eje» (F50) tagged «Por productos» (F51c) and a row of totals. The header filter of the
+ * productos asignados al eje» (F50) tagged «Por productos» (F51c) and a row of totals. Since F55 the row of the others is
+ * the last row of the BODY (same columns, padding and scrollbar as the rest; before it was in the fixed footer, which
+ * does not discount the scrollbar of the body and left its tag about 10 px off the centre); every sorter keeps it last. The header filter of the
  * link has the two states and «Por productos»; the row of the others is always last and only disappears when
  * the filter leaves «Por productos» out.
  *
@@ -44,6 +53,10 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
   const [linkFilter, setLinkFilter] = useState(null);
   const shown = useMemo(() => (linkFilter && linkFilter.length ? rows.filter((r) => linkFilter.includes(String(r.state))) : rows), [rows, linkFilter]);
   const showOther = !linkFilter || !linkFilter.length || linkFilter.includes(BY_PRODUCTS);
+  const dataSource = useMemo(
+    () => (showOther ? [...shown, { index: OTHER_KEY, isOther: true, id: "", label: AXIS_TOPICS_OTHER_LABEL, state: null, products: other.products, citations: other.citations, axes: [] }] : shown),
+    [shown, other, showOther],
+  );
   const total = useMemo(
     () => ({
       products: shown.reduce((a, r) => a + r.products, 0) + (showOther ? other.products : 0),
@@ -51,14 +64,21 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
     }),
     [shown, other, showOther],
   );
-  const linkTag = (state) => {
+  const linkTag = (state, row) => {
+    if (row.isOther) {
+      return (
+        <Tooltip title={AXIS_LINK_BY_PRODUCTS_HELP} overlayStyle={{ maxWidth: 480 }}>
+          <Tag color="geekblue" style={TAG_STYLE} data-testid="axis-topics-other-link">{AXIS_LINK_BY_PRODUCTS}</Tag>
+        </Tooltip>
+      );
+    }
     const s = AXIS_LINK_STATES[state];
     return s ? <Tag color={s.color} style={TAG_STYLE}>{s.label}</Tag> : "—";
   };
   const columns = [
-    { title: "Tópico", dataIndex: "label", sorter: (a, b) => a.label.localeCompare(b.label), render: (label, row) => <span title={`${label} (${row.id})`}>{label} <small style={{ color: "rgba(0,0,0,.45)" }}>{row.id}</small></span>, width: severalAxes ? "34%" : "50%" },
-    { title: "Productos", dataIndex: "products", align: "right", sorter: (a, b) => a.products - b.products, defaultSortOrder: "descend", render: fmt, width: 110 },
-    { title: "Citas", dataIndex: "citations", align: "right", sorter: (a, b) => a.citations - b.citations, render: fmt, width: 110 },
+    { title: "Tópico", dataIndex: "label", sorter: keepLast((a, b) => a.label.localeCompare(b.label)), render: (label, row) => (row.isOther ? <span title={label}>{label}</span> : <span title={`${label} (${row.id})`}>{label} <small style={{ color: "rgba(0,0,0,.45)" }}>{row.id}</small></span>), width: severalAxes ? "34%" : "50%" },
+    { title: "Productos", dataIndex: "products", align: "right", sorter: keepLast((a, b) => a.products - b.products), defaultSortOrder: "descend", render: (v, row) => (row.isOther ? <span data-testid="axis-topics-other-products">{fmt(v)}</span> : fmt(v)), width: 110 },
+    { title: "Citas", dataIndex: "citations", align: "right", sorter: keepLast((a, b) => a.citations - b.citations), render: (v, row) => (row.isOther ? <span data-testid="axis-topics-other-citations">{fmt(v)}</span> : fmt(v)), width: 110 },
     {
       title: <Tooltip title={AXIS_LINK_HELP}><span>{AXIS_LINK_TITLE}</span></Tooltip>,
       dataIndex: "state",
@@ -66,7 +86,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
       align: "center",
       width: 150,
       /* Included before frontier; without state at the end. */
-      sorter: (a, b) => (a.state ?? 9) - (b.state ?? 9),
+      sorter: keepLast((a, b) => (a.state ?? 9) - (b.state ?? 9)),
       render: linkTag,
       filters: [
         { text: "Incluido", value: "0" },
@@ -78,30 +98,20 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
     ...(severalAxes ? [{ title: "Ejes", dataIndex: "axes", render: (axes) => <span title={axes.join("; ")}>{axes.map((a) => shortAxisName(a)).join("; ")}</span> }] : []),
   ];
   const empty = severalAxes ? <Table.Summary.Cell index={4} /> : null;
+  /* The row of reconciliation is a normal row of the body with a soft background and italics, marked for the tests. */
+  const onRow = (row) => (row.isOther ? { "data-testid": "axis-topics-other", style: { background: "rgba(0,0,0,.025)", fontStyle: "italic" } } : {});
   return (
     <CompactTable
       rowKey="index"
       size="small"
       scroll={{ y: 360 }}
-      dataSource={shown}
+      dataSource={dataSource}
+      onRow={onRow}
       columns={columns}
       aria-label="Tópicos del Eje Temático"
       onChange={(_, filters) => setLinkFilter(filters.state || null)}
       summary={() => (
         <Table.Summary fixed>
-          {showOther ? (
-            <Table.Summary.Row data-testid="axis-topics-other">
-              <Table.Summary.Cell index={0}><span title={AXIS_TOPICS_OTHER_LABEL}>{AXIS_TOPICS_OTHER_LABEL}</span></Table.Summary.Cell>
-              <Table.Summary.Cell index={1} align="right"><span data-testid="axis-topics-other-products">{fmt(other.products)}</span></Table.Summary.Cell>
-              <Table.Summary.Cell index={2} align="right"><span data-testid="axis-topics-other-citations">{fmt(other.citations)}</span></Table.Summary.Cell>
-              <Table.Summary.Cell index={3} align="center">
-                <Tooltip title={AXIS_LINK_BY_PRODUCTS_HELP} overlayStyle={{ maxWidth: 480 }}>
-                  <Tag color="geekblue" style={TAG_STYLE} data-testid="axis-topics-other-link">{AXIS_LINK_BY_PRODUCTS}</Tag>
-                </Tooltip>
-              </Table.Summary.Cell>
-              {empty}
-            </Table.Summary.Row>
-          ) : null}
           <Table.Summary.Row>
             <Table.Summary.Cell index={0}><b>Total ({fmt(shown.length)} tópicos)</b></Table.Summary.Cell>
             <Table.Summary.Cell index={1} align="right"><b data-testid="axis-topics-total-products">{fmt(total.products)}</b></Table.Summary.Cell>

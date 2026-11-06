@@ -80,7 +80,7 @@ test.describe("F51b / F51c against the real quyca (read-only)", () => {
     await expect(page.getByTestId("axis-topics-other-link")).toHaveText("Por productos");
     expect(await page.getByTestId("axis-topics-other-link").evaluate((el) => el.className)).toContain("geekblue");
     await page.getByTestId("axis-topics-other-link").hover();
-    await expect(page.getByText("Estos productos no tienen como tópico principal ninguno de los tópicos del eje.", { exact: false })).toBeVisible();
+    await expect(page.getByText("Estos productos no tienen como tópico principal ninguno de los tópicos del eje, pero alguno de sus tópicos secundarios", { exact: false })).toBeVisible();
     await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(4423));
     expect(rows.reduce((a, r) => a + r.products, 0) + other.products).toBe(4423);
     expect(rows.reduce((a, r) => a + r.products, 0)).toBe(2357);
@@ -134,7 +134,7 @@ test.describe("F51b centring and wording (real quyca)", () => {
     expect(await page.getByTestId("axis-topics-other-link").evaluate((e) => e.getBoundingClientRect().height)).toBeLessThan(26);
     await page.getByTestId("axis-topics-other-link").hover();
     const tip = page.locator(".ant-tooltip:visible");
-    await expect(tip).toContainText("Nuestra metodología los asigna al eje");
+    await expect(tip).toContainText("Nuestra metodología, leyendo su título y resumen, los asignó al eje");
     expect(await tip.innerText()).not.toContain("La IA");
   });
 });
