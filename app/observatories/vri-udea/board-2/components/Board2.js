@@ -29,6 +29,7 @@ import {
   serializeCollabFilters,
 } from "@/lib/observatories/collaboration";
 import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
+import { groupRegistry, officialGroupsNote } from "@/lib/observatories/officialGroups";
 import { loadBoard2Dataset } from "@/lib/observatories/data/collaborationAdapter";
 import LoadError from "@/app/observatories/components/LoadError";
 import { COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
@@ -116,6 +117,8 @@ function Board2Content({ dataset, source }) {
   const [subregionTab, setSubregionTab] = useState(0);
 
   const result = useMemo(() => computeCollaboration(dataset, applied), [dataset, applied]);
+  /* Note of the groups (F60, D-160): the figures come from `registro_grupos` of the bundle, as in Board 3 (F54). */
+  const registry = useMemo(() => groupRegistry(raw, isMock), [raw, isMock]);
 
   /* Colours by series label (from palette.js). */
   const typeColors = useMemo(() => Object.fromEntries(raw.tipos.map((t, i) => [t, COLLAB_TYPE_COLORS[i]])), [raw]);
@@ -217,6 +220,11 @@ function Board2Content({ dataset, source }) {
       {pending ? <Typography.Text type="secondary">Actualizando…</Typography.Text> : null}
       <KpiRow kpis={kpis} />
 
+      {registry ? (
+        <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginTop: 6 }} data-testid="official-groups-note">
+          {officialGroupsNote(raw.groups.length, registry)}
+        </Typography.Text>
+      ) : null}
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
         <Col xs={24} xl={12}>
           <ChartCard title="01 · Transdisciplinariedad grupal" empty={!transdisciplinary.length}>

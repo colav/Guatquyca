@@ -1,6 +1,6 @@
 /*
  * F54 (D-150, D-152): figures of groups from the bundle, tooltip of the tag «Por productos» and reload with the final
- * bundles (T1 20261106-88204812c595, T2 20261106-65ac211a2469, T3 20261106-a44b30863171). The first block needs no
+ * bundles (T1 20261106-88204812c595, T2 20261106-2afc9ab53e0d, T3 20261106-e028d9fadea2). The first block needs no
  * server; the second reads the real quyca and the dev server of Luis and only runs with E2E_LIVE=1.
  */
 import { test, expect } from "@playwright/test";
@@ -34,7 +34,7 @@ test.describe("F54 against the final bundles (read-only)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag"));
     console.log(`[live] ETags: ${etags.join(" ")}`);
-    expect(etags.map((e) => e.replace(/"/g, ""))).toEqual(["20261106-88204812c595", "20261106-65ac211a2469", "20261106-a44b30863171"]);
+    expect(etags.map((e) => e.replace(/"/g, ""))).toEqual(["20261106-88204812c595", "20261106-2afc9ab53e0d", "20261106-e028d9fadea2"]);
   });
 
   test("Board 3: the note says 346 de 359 and 13 from the bundle, and the centres add up", async ({ page }) => {
