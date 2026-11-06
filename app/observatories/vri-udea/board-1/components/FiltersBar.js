@@ -32,7 +32,7 @@ const YEAR_OPTIONS = Array.from(
   (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }),
 );
 
-const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 4 };
+const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
 
 function Field({ label, children, span = 6, help = null }) {
   return (
@@ -105,7 +105,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
 
   return (
     <StickyFilters active={active}>
-      <Row gutter={[12, 12]}>
+      <Row gutter={[12, 6]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>
         <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
@@ -120,7 +120,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           </div>
         </Field>
         <Field label="5 · Dimensión">
-          <Segmented block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
+          <Segmented size="small" block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
         </Field>
         <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
         <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
@@ -148,7 +148,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         <Field label="Referente">
           <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
             <div>
-              <Segmented block options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
+              <Segmented size="small" block options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
             </div>
           </Tooltip>
         </Field>
@@ -156,7 +156,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           <Field label="Confianza de la asignación a ejes (IA)">
             <Tooltip title={PAIR_LEVEL_TOOLTIP}>
               <div>
-                <Segmented block options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
+                <Segmented size="small" block options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
               </div>
             </Tooltip>
           </Field>

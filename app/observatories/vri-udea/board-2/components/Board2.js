@@ -284,7 +284,7 @@ function Board2Content({ dataset, source }) {
         </Col>
         <Col xs={24} lg={12} xl={8}>
           <ChartCard title="09b · Capacidades por subregión de Antioquia">
-            <Segmented block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
+            <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
             <Note>{NOTES.v15}</Note>
           </ChartCard>
@@ -310,7 +310,7 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24}>
           <ChartCard title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
-            <Segmented options={TAB_OPTIONS(raw.doms.map((d) => DOMAIN_LABEL[d] || d))} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
+            <Segmented size="small" options={TAB_OPTIONS(raw.doms.map((d) => DOMAIN_LABEL[d] || d))} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
             <DomainTable rows={domainRows} />
             <Note>{NOTES.v13}</Note>
           </ChartCard>
@@ -318,7 +318,7 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24}>
           <ChartCard title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
-            <Segmented options={TAB_OPTIONS(AXIS_TABS.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
+            <Segmented size="small" options={TAB_OPTIONS(AXIS_TABS.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
             <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend />
             <Note>{NOTES.v14}</Note>
           </ChartCard>

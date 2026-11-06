@@ -72,7 +72,8 @@ export default function StickyFilters({ children, active = [] }) {
         zIndex: 100,
         background: token.colorBgContainer,
         boxShadow: CARD_SHADOW,
-        borderRadius: token.borderRadiusLG,
+        /* Square top corners (F51); the bottom ones keep the radius of the cards. */
+        borderRadius: `0 0 ${token.borderRadiusLG}px ${token.borderRadiusLG}px`,
         padding: folded ? 8 : 12,
         marginBottom: 16,
       }}

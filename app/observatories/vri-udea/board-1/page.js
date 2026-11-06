@@ -15,6 +15,7 @@ export const metadata = { title: "Masa crítica temática | Observatorio VRI-Ude
 export default function Board1Page() {
   return (
     <PageContainer
+      compact
       trail={[
         { title: "Observatorios", href: "/observatories" },
         { title: "VRI-UdeA", href: "/observatories/vri-udea" },

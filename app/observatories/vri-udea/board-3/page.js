@@ -15,6 +15,7 @@ export const metadata = { title: "Capacidades de base UdeA | Observatorio VRI-Ud
 export default function Board3Page() {
   return (
     <PageContainer
+      compact
       trail={[
         { title: "Observatorios", href: "/observatories" },
         { title: "VRI-UdeA", href: "/observatories/vri-udea" },

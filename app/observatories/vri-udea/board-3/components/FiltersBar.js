@@ -20,7 +20,7 @@ import { Button, Col, Row, Select, Tooltip, Typography } from "antd";
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
 const SCOPE_OPTIONS = SCOPE_LABELS.map((label, value) => ({ value, label }));
-const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 4 };
+const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
@@ -88,7 +88,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
 
   return (
     <StickyFilters active={active}>
-      <Row gutter={[12, 12]}>
+      <Row gutter={[12, 6]}>
         <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
         <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
         <Field label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>

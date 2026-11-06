@@ -15,6 +15,7 @@ export const metadata = { title: "Colaboración, redes y hélices | Observatorio
 export default function Board2Page() {
   return (
     <PageContainer
+      compact
       trail={[
         { title: "Observatorios", href: "/observatories" },
         { title: "VRI-UdeA", href: "/observatories/vri-udea" },

@@ -79,7 +79,8 @@ test.describe("fixed filters, help of the centre filter, panel 6 and titles agai
       expect(style.position).toBe("sticky");
       expect(+style.z).toBeLessThan(198); // under the site header
       expect(+style.z).toBeGreaterThan(10); // over the charts
-      expect(style.radius).toBe(style.cardRadius);
+      // F51: square top corners, bottom ones with the radius of the cards
+      expect(style.radius).toBe(`0px 0px ${style.cardRadius} ${style.cardRadius}`);
       expect(style.background).not.toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
       expect(style.shadow).not.toBe("none");
       // the card shadow (same constant): compare with a card of the page
