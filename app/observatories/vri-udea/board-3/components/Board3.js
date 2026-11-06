@@ -12,6 +12,7 @@ import KpiCard from "@/app/observatories/components/KpiCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import FiltersBar from "./FiltersBar";
+import PropertyCard from "./PropertyCard";
 import { Note } from "../../board-2/components/Board2Parts";
 import { AreasTreemapChart, ArtsScatterChart, BubbleGridChart, HBarsChart, LinesChart, StackedBarsChart } from "./Charts";
 
@@ -25,6 +26,7 @@ import {
   OECD_AREAS,
   STUDENT_LEVELS,
   computeFoundations,
+  computePropertyAssets,
   parseFoundationsFilters,
   sameFoundationsFilters,
   serializeFoundationsFilters,
@@ -138,6 +140,10 @@ function Board3Content({ dataset, source }) {
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
 
+  /* Card 11b (F58): the key `pi` of the bundle; without it (test data) the card is not drawn. */
+  const [piView, setPiView] = useState("unit");
+  const piResult = useMemo(() => computePropertyAssets(dataset, applied), [dataset, applied]);
+  const pi = useStableValue(piResult);
   const tiles = useStableValue(result.tiles);
   const status = result.status;
   const talent = result.talent;
@@ -337,6 +343,8 @@ function Board3Content({ dataset, source }) {
           </ChartCard>
         </Col>
       </Row>
+
+      {pi ? <PropertyCard pi={pi} view={piView} onView={setPiView} /> : null}
 
       <Divider orientation="left">{SECTIONS.arts}</Divider>
       <Row gutter={[12, 12]}>

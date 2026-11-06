@@ -74,3 +74,15 @@ export function linkageNote(sheet) {
   const rest = sheet.personas - declared;
   return ` La hoja «Investigadores» de BD_Grupos (convocatoria 894) registra ${fmt(sheet.personas)} personas; ${fmt(declared)} declaran vinculación (regular ${fmt(byLinkage.Regular || 0)}, cátedra ${fmt(byLinkage["Cátedra"] || 0)}, ocasional ${fmt(byLinkage.Ocasional || 0)}) y ${fmt(rest)} no la declaran.`;
 }
+
+/* Card «11b · Propiedad intelectual y patentes» (F58); provisional texts for Luis. */
+export const PI_TITLE = "11b · Propiedad intelectual y patentes";
+export const PI_FILTER_NOTE = "La propiedad intelectual solo se puede filtrar por años, centro o unidad; no tiene subcampo ni documento de política.";
+export const PI_PATENTS_NOTE = "Las patentes registradas son el contador de otra fuente (patentes), sin años ni unidad: no responden a los filtros.";
+export const piNotRespondingNote = (list) => `Filtros activos que no se aplican a esta tarjeta: ${list.join(", ")}.`;
+export const piYearNote = (withoutYear, fullRange) =>
+  fullRange
+    ? `${withoutYear.toLocaleString("es-CO")} activos no tienen año de concesión: cuentan en las cifras, pero no entran a la serie por año.`
+    : `${withoutYear.toLocaleString("es-CO")} activos no tienen año de concesión: con un rango de años elegido no se cuentan; solo cuentan con el rango completo.`;
+export const PI_SERIES_LABEL = "Activos";
+export const PI_VIEWS = [{ label: "Por unidad", value: "unit" }, { label: "Por grupo", value: "group" }];
