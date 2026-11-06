@@ -157,7 +157,7 @@ export const PAIR_LEVEL_OPTIONS = [
   { value: "all", label: "Incluir baja" },
 ];
 export const PAIR_LEVEL_TOOLTIP =
-  "Cada producto se asigna a un Eje Temático con una confianza (alta, media o baja) calculada por inteligencia artificial, sin validación humana. Por defecto se cuentan solo las asignaciones de confianza alta y media.";
+  "Cada producto se asigna a un Eje Temático con una confianza (alta, media o baja) calculada por nuestra metodología, sin validación humana. Por defecto se cuentan solo las asignaciones de confianza alta y media.";
 export const AXES_PANEL_NOTE = {
   core: "productos con asignación de confianza alta o media",
   all: "productos con asignación de cualquier confianza (incluye baja)",
@@ -198,9 +198,9 @@ export const TYPES_FOOT = "Tipos según cada fuente; ver ayuda.";
 /* Table «Tópicos del Eje Temático» (F49, D-142, D-143). Provisional texts: Luis approves them. */
 export const AXIS_TOPICS_TITLE = "Tópicos del Eje Temático";
 export const AXIS_TOPICS_OTHER_LABEL = "Otros productos asignados al eje (su tópico principal no es uno de los tópicos del eje)";
-export const AXIS_TOPICS_RECONCILE_NOTE = "El eje reúne los productos que la IA le asignó (confianza alta y media); algunos tienen como tópico principal uno que no es de los que definen el eje.";
+export const AXIS_TOPICS_RECONCILE_NOTE = "El eje reúne los productos que nuestra metodología le asignó (confianza alta y media); algunos tienen como tópico principal uno que no es de los que definen el eje.";
 export const AXIS_LINK_TITLE = "Vínculo con el eje";
-export const AXIS_LINK_HELP = "Incluido: el panel de IA juzgó que el tópico pertenece al eje. Frontera: el tópico es cercano, pero el panel no lo dio por incluido.";
+export const AXIS_LINK_HELP = "Incluido: el tópico pertenece al eje según nuestra metodología. Frontera: es cercano al eje, pero no se da por incluido.";
 export const AXIS_LINK_STATES = { 0: { label: "Incluido", color: "green" }, 1: { label: "Frontera", color: "orange" } };
 export const AXIS_LINK_BY_PRODUCTS = "Por productos";
 export const AXIS_LINK_BY_PRODUCTS_HELP = "Estos productos no tienen como tópico principal ninguno de los tópicos del eje. Nuestra metodología los asigna al eje a partir de otros tópicos del producto (sus tópicos secundarios), no del principal. Solo se cuentan los de confianza alta y media (los de confianza baja no se muestran por defecto). Por eso aparecen en las tarjetas del eje y no en los tópicos de arriba, y su suma con la tabla coincide con las tarjetas. Siguen los filtros activos, incluido el de años.";

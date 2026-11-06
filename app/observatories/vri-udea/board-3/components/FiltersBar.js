@@ -15,7 +15,7 @@ import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Button, Col, Row, Select, Tooltip, Typography } from "antd";
+import { Col, Row, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
@@ -87,7 +87,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
   ].filter(Boolean);
 
   return (
-    <StickyFilters active={active}>
+    <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
       <Row gutter={[12, 6]}>
         <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
         <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
@@ -105,12 +105,9 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
         <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas")}</Field>
         <Field label="Subunidad académica">{select("departmentIndex", units, "Todas")}</Field>
         <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos")}</Field>
-        <Col xs={24} sm={12} md={6} style={{ display: "flex", alignItems: "flex-end" }}>
-          <Button onClick={onReset}>Limpiar filtros</Button>
-        </Col>
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        Los filtros se aplican al instante y quedan en la dirección de la página. Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.
+        Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.
       </Typography.Text>
     </StickyFilters>
   );

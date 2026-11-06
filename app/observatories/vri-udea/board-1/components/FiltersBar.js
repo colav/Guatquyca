@@ -24,7 +24,7 @@ import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Button, Col, Row, Segmented, Select, Tooltip, Typography } from "antd";
+import { Col, Row, Segmented, Select, Tooltip } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from(
@@ -104,7 +104,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   ].filter(Boolean);
 
   return (
-    <StickyFilters active={active}>
+    <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
       <Row gutter={[12, 6]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>
@@ -161,13 +161,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
             </Tooltip>
           </Field>
         ) : null}
-        <Col xs={24} sm={12} md={6} style={{ display: "flex", alignItems: "flex-end" }}>
-          <Button onClick={onReset}>Restablecer filtros</Button>
-        </Col>
       </Row>
-      <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        Los filtros se aplican al instante y quedan en la dirección de la página.
-      </Typography.Text>
     </StickyFilters>
   );
 }

@@ -116,7 +116,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
     const other = axisTopicsOther(result, rankAxisTopics(dataset, result));
     await expect(page.getByTestId("axis-topics-other-products")).toHaveText(fmt(other.products));
     await expect(page.getByTestId("axis-topics-other")).toContainText("Otros productos asignados al eje (su tópico principal no es uno de los tópicos del eje)");
-    await expect(page.getByTestId("axis-topics-note")).toContainText("El eje reúne los productos que la IA le asignó (confianza alta y media); algunos tienen como tópico principal uno que no es de los que definen el eje.");
+    await expect(page.getByTestId("axis-topics-note")).toContainText("El eje reúne los productos que nuestra metodología le asignó (confianza alta y media); algunos tienen como tópico principal uno que no es de los que definen el eje.");
     await open(page, 1, "axis=98&from=2021&to=2025");
     await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(computeCapacity(dataset, { axisIds: [98], yearFrom: 2021, yearTo: 2025 }).products));
   });

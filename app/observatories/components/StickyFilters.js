@@ -24,8 +24,10 @@ let foldedMemory = false;
  *
  * @param {React.ReactNode} children
  * @param {string[]} active - Active filters as short texts (e.g. «Unidad: Facultad de Medicina»).
+ * @param {Function} onReset - Restores the defaults; its button (dashed, right) is in the row of the button «Filtros (n)», open or folded (F53).
+ * @param {string} resetLabel - Text of that button.
  */
-export default function StickyFilters({ children, active = [] }) {
+export default function StickyFilters({ children, active = [], onReset, resetLabel = "Restablecer filtros" }) {
   const [folded, setFolded] = useState(foldedMemory);
   const toggle = () => {
     foldedMemory = !folded;
@@ -86,7 +88,8 @@ export default function StickyFilters({ children, active = [] }) {
           <div data-testid="filters-folded-tags" style={{ display: "flex", gap: 4, overflow: "hidden", whiteSpace: "nowrap", minWidth: 0, flex: 1 }}>
             {active.length ? active.map((text) => <Tag key={text} style={{ margin: 0, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis" }} title={text}>{text}</Tag>) : <span style={{ fontSize: 12, color: "rgba(0,0,0,.45)" }}>Sin filtros activos</span>}
           </div>
-        ) : null}
+        ) : <div style={{ flex: 1 }} />}
+        {onReset ? <Button size="small" type="dashed" onClick={onReset} data-testid="filters-reset" style={{ flexShrink: 0 }}>{resetLabel}</Button> : null}
       </div>
       <div hidden={folded} data-testid="filters-body">
         {children}
