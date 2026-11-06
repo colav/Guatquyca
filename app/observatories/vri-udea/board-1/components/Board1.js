@@ -212,7 +212,8 @@ function Board1Content({ dataset, source }) {
   const selectedUnit = useMemo(() => {
     const unit = result.units.find((u) => u.id === selectedId);
     if (!unit) return null;
-    return { ...unit, categoryLabel: categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci) };
+    /* The detail takes the same trend as the tooltip (F48 3): the label was missing and it said «tendencia ;». */
+    return { ...unit, categoryLabel: categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci), trendLabel: TREND_LABELS[unit.trend] };
   }, [result, selectedId]);
   const selectedAxes = useMemo(() => {
     if (!selectedUnit || selectedUnit.topicIndex < 0) return null;

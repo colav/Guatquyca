@@ -84,7 +84,7 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
             {axes.length ? (
               axes.map((a) => (
                 <li key={a.id}>
-                  {a.label} <small>· {a.agenda} · {a.count}</small>
+                  {a.label} <small>· {a.agenda} · <b>{a.count}</b></small>
                 </li>
               ))
             ) : (
