@@ -6,6 +6,10 @@ import dynamic from "next/dynamic";
 /* Hooks */
 import { memo, useMemo } from "react";
 
+/* Components & utils */
+import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
 const Line = dynamic(() => import("@ant-design/charts").then((mod) => mod.Line), { ssr: false });
@@ -34,6 +38,7 @@ function HBars({ rows, color, unit, labelSize = 36 }) {
       xField: "key",
       yField: "value",
       animate: false,
+      interaction: tooltipInteraction(),
       height: Math.max(180, rows.length * 24 + 50),
       style: { fill: (d) => d.color },
       labels: [{ text: "text", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
@@ -42,7 +47,11 @@ function HBars({ rows, color, unit, labelSize = 36 }) {
       tooltip: { title: (d) => d.name, items: [{ field: "value", name: unit }, { field: "detail", name: "Detalle" }] },
     };
   }, [rows, color, unit, labelSize]);
-  return <Bar {...config} />;
+  return (
+    <TooltipBox>
+      <Bar {...config} />
+    </TooltipBox>
+  );
 }
 export const HBarsChart = memo(HBars);
 
@@ -63,6 +72,7 @@ function StackedBars({ rows, series, colors, unit, labelSize = 36 }) {
       colorField: "series",
       stack: true,
       animate: false,
+      interaction: tooltipInteraction(),
       height: Math.max(180, rows.length * 24 + 70),
       legend: { color: { position: "top" } },
       scale: { color: { domain: series, range: series.map((s) => colors[s]) } },
@@ -70,7 +80,11 @@ function StackedBars({ rows, series, colors, unit, labelSize = 36 }) {
       tooltip: { title: (d) => d.name, items: [{ field: "value", name: unit }] },
     };
   }, [rows, series, colors, unit, labelSize]);
-  return <Bar {...config} />;
+  return (
+    <TooltipBox>
+      <Bar {...config} />
+    </TooltipBox>
+  );
 }
 export const StackedBarsChart = memo(StackedBars);
 
@@ -89,6 +103,7 @@ function Lines({ years, series, colors, unit, height = 260, legend = true }) {
       yField: "value",
       colorField: "series",
       animate: false,
+      interaction: tooltipInteraction(),
       height,
       scale: { color: { domain: series.map((s) => s.label), range: series.map((s) => colors[s.label]) } },
       legend: legend ? { color: { position: "top" } } : false,
@@ -96,7 +111,11 @@ function Lines({ years, series, colors, unit, height = 260, legend = true }) {
     }),
     [years, series, colors, unit, height, legend],
   );
-  return <Line {...config} />;
+  return (
+    <TooltipBox>
+      <Line {...config} />
+    </TooltipBox>
+  );
 }
 export const LinesChart = memo(Lines);
 
@@ -115,6 +134,7 @@ function AreasTreemap({ items, colors }) {
       valueField: "value",
       colorField: "name",
       animate: false,
+      interaction: tooltipInteraction(),
       height: 280,
       legend: false,
       scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => colors[i.name]) } },
@@ -123,7 +143,11 @@ function AreasTreemap({ items, colors }) {
       tooltip: { title: (d) => d.data?.name ?? d.name, items: [{ field: "value", name: "Investigadores" }, { field: "percent", name: "Porcentaje" }] },
     };
   }, [items, colors]);
-  return <Treemap {...config} />;
+  return (
+    <TooltipBox>
+      <Treemap {...config} />
+    </TooltipBox>
+  );
 }
 export const AreasTreemapChart = memo(AreasTreemap);
 
@@ -141,6 +165,7 @@ function BubbleGrid({ cells, areas, categories, colors }) {
       sizeField: "value",
       colorField: "area",
       animate: false,
+      interaction: tooltipInteraction(),
       height: 340,
       legend: false,
       scale: {
@@ -156,7 +181,11 @@ function BubbleGrid({ cells, areas, categories, colors }) {
     }),
     [cells, areas, categories, colors],
   );
-  return <Scatter {...config} />;
+  return (
+    <TooltipBox>
+      <Scatter {...config} />
+    </TooltipBox>
+  );
 }
 export const BubbleGridChart = memo(BubbleGrid);
 
@@ -174,6 +203,7 @@ function ArtsScatter({ points, groups, colors }) {
       sizeField: "professors",
       colorField: "group",
       animate: false,
+      interaction: tooltipInteraction(),
       height: 300,
       scale: { size: { type: "sqrt", range: [6, 22] }, color: { domain: groups, range: groups.map((g) => colors[g]) } },
       axis: { x: { title: "productos artísticos por profesor (obras + registros en la base)" }, y: { title: "profesores" } },
@@ -183,6 +213,10 @@ function ArtsScatter({ points, groups, colors }) {
     }),
     [points, groups, colors],
   );
-  return <Scatter {...config} />;
+  return (
+    <TooltipBox>
+      <Scatter {...config} />
+    </TooltipBox>
+  );
 }
 export const ArtsScatterChart = memo(ArtsScatter);

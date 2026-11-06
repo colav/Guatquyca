@@ -6,6 +6,10 @@ import dynamic from "next/dynamic";
 /* Hooks */
 import { memo, useMemo } from "react";
 
+/* Components & utils */
+import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
 const Line = dynamic(() => import("@ant-design/charts").then((mod) => mod.Line), { ssr: false });
@@ -42,6 +46,7 @@ function SegmentedBars({ rows, colors, labelSize = 34, legend = false }) {
       colorField: "series",
       stack: true,
       animate: false,
+      interaction: tooltipInteraction(),
       height: Math.max(200, rows.length * 24 + 50),
       legend: legend ? { color: { position: "top" } } : false,
       scale: { color: { domain: series, range: series.map((s) => colors[s]) } },
@@ -50,7 +55,11 @@ function SegmentedBars({ rows, colors, labelSize = 34, legend = false }) {
     };
   }, [rows, colors, labelSize, legend]);
 
-  return <Bar {...config} />;
+  return (
+    <TooltipBox>
+      <Bar {...config} />
+    </TooltipBox>
+  );
 }
 
 export const SegmentedBarsChart = memo(SegmentedBars);
@@ -70,6 +79,7 @@ function TrendLines({ years, series, colors }) {
       yField: "value",
       colorField: "series",
       animate: false,
+      interaction: tooltipInteraction(),
       height: 260,
       scale: { color: { domain: series.map((s) => s.label), range: series.map((s) => colors[s.label]) } },
       legend: { color: { position: "top" } },
@@ -77,7 +87,11 @@ function TrendLines({ years, series, colors }) {
     }),
     [years, series, colors],
   );
-  return <Line {...config} />;
+  return (
+    <TooltipBox>
+      <Line {...config} />
+    </TooltipBox>
+  );
 }
 
 export const TrendLinesChart = memo(TrendLines);
@@ -96,6 +110,7 @@ function WorldBubbles({ points }) {
       sizeField: "value",
       colorField: "side",
       animate: false,
+      interaction: tooltipInteraction(),
       height: 400,
       scale: {
         x: { domain: [-170, 180] },
@@ -115,7 +130,11 @@ function WorldBubbles({ points }) {
     }),
     [points],
   );
-  return <Scatter {...config} />;
+  return (
+    <TooltipBox>
+      <Scatter {...config} />
+    </TooltipBox>
+  );
 }
 
 export const WorldBubblesChart = memo(WorldBubbles);

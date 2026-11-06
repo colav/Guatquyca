@@ -20,9 +20,9 @@ test.describe("texts and style (no server)", () => {
     expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "campos" })).toMatch(/^Campos sin productos con ese tópico principal/);
   });
 
-  test("the tooltip is 460 to 560 px wide, a long value goes on a second line and nothing is cut with an ellipsis", () => {
+  test("the tooltip is at least 460 px wide and at most the width of its longest line (1.000 px) or of the window, a long value goes on a second line and nothing is cut", () => {
     const css = tooltipInteraction(WIDE_TOOLTIP).tooltip.css;
-    expect(css[".g2-tooltip"]).toEqual({ "min-width": "460px", "max-width": "560px" });
+    expect(css[".g2-tooltip"]).toEqual({ "min-width": "460px", "max-width": "min(1000px, calc(100vw - 56px))", width: "max-content" });
     expect(css[".g2-tooltip-list-item"]["flex-wrap"]).toBe("wrap");
     expect(css[".g2-tooltip-list-item-value"]["text-align"]).toBe("right");
     expect(css[".g2-tooltip-list-item-value"]["text-overflow"]).toBe("clip");
@@ -86,7 +86,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
 
   for (const width of [1280, 768]) {
     for (const side of ["middle", "right"]) {
-      test(`at ${width}px the tooltip (${side}) is 460 to 560 px wide, is not cut and stays inside the window`, async ({ page }) => {
+      test(`at ${width}px the tooltip (${side}) is wide enough, is not cut and stays inside the window`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(PAGE());
         await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
@@ -117,7 +117,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
         }
         expect(report, "a tooltip appeared").not.toBeNull();
         expect(report.width, JSON.stringify(report)).toBeGreaterThanOrEqual(WIDE_TOOLTIP.min);
-        expect(report.width).toBeLessThanOrEqual(WIDE_TOOLTIP.max);
+        expect(report.width).toBeLessThanOrEqual(Math.min(1000 + 24, report.vw - 32) + 1);
         expect(report.cut, JSON.stringify(report)).toEqual([]);
         expect(report.ellipsis).toBe(false);
         expect(report.left).toBeGreaterThanOrEqual(0);

@@ -12,6 +12,7 @@ const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), {
 /* lib */
 import { calculatorBarsConfig } from "@/lib/observatories/capacity";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
 import { RANKING_COLOR } from "@/lib/observatories/palette";
 
@@ -51,7 +52,11 @@ function RankingBars({ rows, labelSize = 34, complete = false }) {
     };
   }, [rows, labelSize, complete]);
 
-  return <Bar {...config} />;
+  return (
+    <TooltipBox>
+      <Bar {...config} />
+    </TooltipBox>
+  );
 }
 
 export const RankingBarsChart = memo(RankingBars);

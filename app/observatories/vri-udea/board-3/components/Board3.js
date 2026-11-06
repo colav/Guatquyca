@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
-import { officialActiveGroupsNote, officialGroupsNote } from "@/lib/observatories/officialGroups";
+import { groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "@/lib/observatories/officialGroups";
 import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
@@ -132,6 +132,8 @@ function Tiles({ tiles, staffLabel }) {
 function Board3Content({ dataset, source }) {
   const { raw } = dataset;
   const isMock = source === MOCK_SOURCE;
+  /* Totals of the registry of groups: from the bundle (B105); with the test data, the constant; without them, no note. */
+  const registry = useMemo(() => groupRegistry(raw, isMock), [raw, isMock]);
   const staffLabel = isMock ? STAFF_LABEL : REAL_STAFF_LABEL;
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
@@ -233,11 +235,11 @@ function Board3Content({ dataset, source }) {
         {pending ? " · Actualizando…" : ""}
       </Typography.Text>
       <Tiles tiles={tiles} staffLabel={staffLabel} />
-      {isMock ? null : (
+      {registry ? (
         <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginTop: 6 }} data-testid="official-groups-note">
-          {officialGroupsNote(raw.groups.length)}
+          {officialGroupsNote(raw.groups.length, registry)}
         </Typography.Text>
-      )}
+      ) : null}
 
       <Divider orientation="left">{SECTIONS.researchers}</Divider>
       <Row gutter={[12, 12]}>
@@ -275,7 +277,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="03 · Grupos activos por área OCDE y categoría Minciencias" empty={!groupGrid.cells.length}>
             <BubbleGridChart cells={groupGrid.cells} areas={OECD_AREAS} categories={GROUP_CATEGORIES} colors={AREA_COLORS} />
-            <Note>{`${fmt(groupGrid.total)} grupos activos${applied.centerIndex >= 0 ? ` del centro ${raw.centros[applied.centerIndex]}` : ""}. Con otros filtros se muestran solo los grupos con producción en la selección.${!isMock && sameFoundationsFilters(applied, DEFAULT_FOUNDATIONS_FILTERS) ? ` ${officialActiveGroupsNote(groupGrid.total)}.` : ""}`}</Note>
+            <Note>{`${fmt(groupGrid.total)} grupos activos${applied.centerIndex >= 0 ? ` del centro ${raw.centros[applied.centerIndex]}` : ""}. Con otros filtros se muestran solo los grupos con producción en la selección.${registry && sameFoundationsFilters(applied, DEFAULT_FOUNDATIONS_FILTERS) ? ` ${officialActiveGroupsNote(groupGrid.total, registry)}.` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

@@ -7,13 +7,14 @@
 import { test, expect } from "@playwright/test";
 
 import { GRAPH_MIN_EDGE, LIMITS } from "../../lib/observatories/collaboration";
-import { OFFICIAL_GROUPS, officialActiveGroupsNote, officialGroupsNote } from "../../lib/observatories/officialGroups";
+import { OFFICIAL_GROUPS, groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "../../lib/observatories/officialGroups";
 import { NOTES } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
 
 test.describe("texts about groups (no server)", () => {
   test("the note of the list says «350 de 359» and the 9 that have no products", () => {
-    expect(officialGroupsNote(350)).toBe("350 de 359 grupos del registro oficial; 9 no tienen productos en ImpactU");
-    expect(officialActiveGroupsNote(317)).toBe("317 de 324 grupos activos del registro oficial; 7 no tienen productos en ImpactU");
+    const registry = { total: 359, active: 324, inactive: 35, withoutProducts: 9 };
+    expect(officialGroupsNote(350, registry)).toBe("350 de 359 grupos del registro oficial; 9 no tienen productos en ImpactU");
+    expect(officialActiveGroupsNote(317, registry)).toBe("317 de 324 grupos activos del registro oficial; 7 no tienen productos en ImpactU");
     expect(OFFICIAL_GROUPS).toEqual({ total: 359, active: 324, inactive: 35 });
   });
 
@@ -39,8 +40,9 @@ test.describe("groups against the real quyca (read-only)", () => {
     expect(inactive).toBe(33);
     expect(active + inactive).toBe(OFFICIAL_GROUPS.total - 9);
     await page.goto(BOARD(3));
-    await expect(page.getByTestId("official-groups-note")).toHaveText(officialGroupsNote(raw.groups.length), { timeout: 120000 });
-    await expect(page.getByText(officialActiveGroupsNote(active))).toBeVisible();
+    const registry = groupRegistry(raw, false);
+    await expect(page.getByTestId("official-groups-note")).toHaveText(officialGroupsNote(raw.groups.length, registry), { timeout: 120000 });
+    await expect(page.getByText(officialActiveGroupsNote(active, registry))).toBeVisible();
     // With a filter the count of active groups changes with the data and the official note of the active ones is not repeated.
     await page.goto(BOARD(3, "center=1"));
     await expect(page.getByText("grupos activos del centro", { exact: false }).first()).toBeVisible({ timeout: 120000 });

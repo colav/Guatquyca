@@ -6,6 +6,10 @@ import dynamic from "next/dynamic";
 /* Hooks */
 import { memo, useMemo } from "react";
 
+/* Components & utils */
+import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+
 /* Libraries */
 const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), { ssr: false });
 
@@ -28,6 +32,7 @@ function DonutChart({ labels, values, colors }) {
       colorField: "name",
       innerRadius: 0.62,
       animate: false,
+      interaction: tooltipInteraction(),
       label: false,
       height: 220,
       legend: { color: { position: "bottom", layout: { justifyContent: "center" } } },
@@ -35,7 +40,11 @@ function DonutChart({ labels, values, colors }) {
     };
   }, [labels, values, colors]);
 
-  return <Pie {...config} />;
+  return (
+    <TooltipBox>
+      <Pie {...config} />
+    </TooltipBox>
+  );
 }
 
 export default memo(DonutChart);
