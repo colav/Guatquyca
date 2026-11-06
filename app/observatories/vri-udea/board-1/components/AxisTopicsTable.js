@@ -27,6 +27,8 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
 const BY_PRODUCTS = "products";
 /* Same width for every tag of the column: the one the text «Por productos» takes (measured, F51b). */
 /* Key of the row of reconciliation inside the body. */
+/* Height of the scrolling body (px): 360 until F56, which takes 120 px off; header and footer stay visible. */
+const BODY_HEIGHT = 240;
 const OTHER_KEY = "__other__";
 /* The reconciliation row never moves: whatever the direction, its sorter puts it after the others. */
 const keepLast = (compare) => (a, b, sortOrder) => {
@@ -104,7 +106,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
     <CompactTable
       rowKey="index"
       size="small"
-      scroll={{ y: 360 }}
+      scroll={{ y: BODY_HEIGHT }}
       dataSource={dataSource}
       onRow={onRow}
       columns={columns}

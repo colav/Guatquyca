@@ -4,7 +4,7 @@
 import { memo } from "react";
 
 /* lib */
-import { CARD_SHADOW, TILE, clampLines } from "@/lib/observatories/layout";
+import { TILE, clampLines } from "@/lib/observatories/layout";
 import { sequentialTile } from "@/lib/observatories/palette";
 
 /* Components */
@@ -160,7 +160,7 @@ export const SubregionTiles = memo(function SubregionTiles({ subregions, counts 
         const intensity = name === "Valle de Aburrá" ? 1 : 0.15 + (0.85 * s.n_title) / max;
         return (
           <Col key={name} span={8}>
-            <div data-testid="mosaic-tile" style={{ ...sequentialTile(intensity), padding: TILE.padding, height: TILE.subregionHeight, borderRadius: 6, boxShadow: CARD_SHADOW, overflow: "hidden" }}>
+            <div data-testid="mosaic-tile" style={{ ...sequentialTile(intensity), padding: TILE.padding, height: TILE.subregionHeight, borderRadius: 6, overflow: "hidden" }}>
               <div style={{ fontSize: 12, lineHeight: "16px", ...clampLines(1) }} title={name}>{name}</div>
               <div style={{ fontSize: 20, fontWeight: 600 }}>
                 {fmt(s.n_title)}
@@ -233,7 +233,7 @@ export const OdsTiles = memo(function OdsTiles({ items }) {
     <Row gutter={[8, 8]}>
       {[...items].sort((a, b) => a.number - b.number).map((o) => (
         <Col key={o.number} xs={12} md={8} lg={6}>
-          <div data-testid="mosaic-tile" style={{ ...sequentialTile(0.15 + (0.85 * o.value) / max), padding: TILE.padding, height: TILE.odsHeight, borderRadius: 6, boxShadow: CARD_SHADOW, overflow: "hidden" }}>
+          <div data-testid="mosaic-tile" style={{ ...sequentialTile(0.15 + (0.85 * o.value) / max), padding: TILE.padding, height: TILE.odsHeight, borderRadius: 6, overflow: "hidden" }}>
             <div style={{ fontSize: 12, lineHeight: "16px", ...clampLines(3) }} title={`${o.number} · ${o.name}`}>{o.number} · {o.name}</div>
             <div style={{ fontSize: 18, fontWeight: 600 }}>{fmt(o.value)}</div>
           </div>
