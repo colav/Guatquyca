@@ -186,9 +186,13 @@ function Board3Content({ dataset, source }) {
   const ageTopicRows = useMemo(() => ageByTopic.map((r) => ({ label: r.label, values: r.values })), [ageByTopic]);
   const pidRows = useMemo(() => pid.map((r) => ({ label: r.label, values: [r.withId, r.withoutId] })), [pid]);
   const projectsGroupRows = useMemo(() => arts.projectsByGroup.map((r) => ({ label: r.label, value: r.value })), [arts]);
+  /* The column of projects is hidden while it is 0 in every unit (the bundle does not carry the name of the project yet; M4, F50). */
+  const creationHasProjects = arts.creationByFaculty.some((r) => r.projects > 0);
   const creationRows = useMemo(
-    () => arts.creationByFaculty.map((r) => ({ label: r.label, value: r.works, text: `${r.projects} proy. · ${r.works} obras · ${r.people} pers.`, detail: `${r.projects} proyectos · ${r.people} personas` })),
-    [arts],
+    () => arts.creationByFaculty.map((r) => (creationHasProjects
+      ? { label: r.label, value: r.works, text: `${r.projects} proy. · ${r.works} obras · ${r.people} pers.`, detail: `${r.projects} proyectos · ${r.people} personas` }
+      : { label: r.label, value: r.works, text: `${r.works} obras · ${r.people} pers.`, detail: `${r.people} personas` })),
+    [arts, creationHasProjects],
   );
   const sexSeries = useMemo(() => sexByYear.series.map((s) => ({ label: SEX_SERIES[s.sex], values: s.values })), [sexByYear]);
 
@@ -340,7 +344,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="12 · Profesores con productos artísticos, por número de productos y tipo de contrato" empty={!arts.points.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>
             <ArtsScatterChart points={arts.points} groups={ART_GROUPS} colors={FOUNDATIONS_COLORS.arts} />
-            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " 42 de las 57 personas de Productos de creación.xlsx se cruzaron con la planta." : ""} No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " 42 de las 57 personas de Productos de creación.xlsx se cruzaron con la planta." : ""} No responde a los filtros.${creationHasProjects ? "" : " No se muestra la columna de proyectos porque el bundle aún no los trae (vale 0 en todas las unidades)."}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -404,7 +408,7 @@ function Board3Content({ dataset, source }) {
                 {[
                   [fmt(openAccess.open), `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)`],
                   [fmt(openAccess.datasetsOpen), `conjuntos de datos abiertos de ${fmt(openAccess.datasets)}`],
-                  [fmt(openAccess.preprints), "preprints (tipo OpenAlex, no cubiertos por otro tipo)"],
+                  ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), "preprints (tipo OpenAlex, no cubiertos por otro tipo)"]] : []),
                   [fmt(openAccess.software), "software / código fuente registrado"],
                 ].map(([value, label]) => (
                   <Statistic key={label} title={label} value={value} valueStyle={{ fontSize: 18 }} style={{ marginBottom: 8 }} />

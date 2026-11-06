@@ -71,6 +71,8 @@ const URL_FILTERS = {
 };
 const SEGMENT = (series, value) => ({ series, value });
 const TAB_OPTIONS = (labels) => labels.map((label, value) => ({ label, value }));
+/* Domains with the same label as Boards 1 and 3 (B6, F50). */
+const DOMAIN_LABEL = { "Ciencias de la Salud": "Health Sciences", "Ciencias de la Vida": "Life Sciences", "Ciencias Físicas": "Physical Sciences", "Ciencias Sociales": "Social Sciences" };
 
 /**
  * Board 2 · Colaboración, redes y hélices. Loads the dataset through the adapter; all the
@@ -308,7 +310,7 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24}>
           <ChartCard title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
-            <Segmented options={TAB_OPTIONS(raw.doms)} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
+            <Segmented options={TAB_OPTIONS(raw.doms.map((d) => DOMAIN_LABEL[d] || d))} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
             <DomainTable rows={domainRows} />
             <Note>{NOTES.v13}</Note>
           </ChartCard>
