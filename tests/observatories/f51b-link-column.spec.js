@@ -113,3 +113,24 @@ test.describe("F51b / F51c against the real quyca (read-only)", () => {
     await expect(page.getByTestId("axis-topics-other")).toHaveCount(1);
   });
 });
+
+test.describe("F51b centring and wording (real quyca)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+  test("the tags of the column are centred in it and the tooltip of «Por productos» says «nuestra metodología»", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(PAGE("axis=67"));
+    await expect(page.getByTestId("axis-topics-note")).toBeVisible({ timeout: 120000 });
+    await page.waitForTimeout(800);
+    const centred = async (tag) => {
+      const t = await tag.boundingBox();
+      const c = await tag.locator("xpath=ancestor::*[self::td or self::th][1]").boundingBox();
+      return Math.abs(t.x + t.width / 2 - (c.x + c.width / 2));
+    };
+    expect(await centred(page.locator(".ant-table-tbody .ant-tag-green").first())).toBeLessThan(2);
+    expect(await centred(page.getByTestId("axis-topics-other-link"))).toBeLessThan(2);
+    await page.getByTestId("axis-topics-other-link").hover();
+    const tip = page.locator(".ant-tooltip:visible");
+    await expect(tip).toContainText("Nuestra metodología los asigna al eje");
+    expect(await tip.innerText()).not.toContain("La IA");
+  });
+});

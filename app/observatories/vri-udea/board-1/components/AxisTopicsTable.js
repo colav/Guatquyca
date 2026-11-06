@@ -59,6 +59,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
       title: <Tooltip title={AXIS_LINK_HELP}><span>{AXIS_LINK_TITLE}</span></Tooltip>,
       dataIndex: "state",
       key: "state",
+      align: "center",
       width: 150,
       /* Included before frontier; without state at the end. */
       sorter: (a, b) => (a.state ?? 9) - (b.state ?? 9),
@@ -89,7 +90,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
               <Table.Summary.Cell index={0}><span title={AXIS_TOPICS_OTHER_LABEL}>{AXIS_TOPICS_OTHER_LABEL}</span></Table.Summary.Cell>
               <Table.Summary.Cell index={1} align="right"><span data-testid="axis-topics-other-products">{fmt(other.products)}</span></Table.Summary.Cell>
               <Table.Summary.Cell index={2} align="right"><span data-testid="axis-topics-other-citations">{fmt(other.citations)}</span></Table.Summary.Cell>
-              <Table.Summary.Cell index={3}>
+              <Table.Summary.Cell index={3} align="center">
                 <Tooltip title={AXIS_LINK_BY_PRODUCTS_HELP} overlayStyle={{ maxWidth: 480 }}>
                   <Tag color="geekblue" style={{ margin: 0 }} data-testid="axis-topics-other-link">{AXIS_LINK_BY_PRODUCTS}</Tag>
                 </Tooltip>

@@ -203,7 +203,7 @@ export const AXIS_LINK_TITLE = "Vínculo con el eje";
 export const AXIS_LINK_HELP = "Incluido: el panel de IA juzgó que el tópico pertenece al eje. Frontera: el tópico es cercano, pero el panel no lo dio por incluido.";
 export const AXIS_LINK_STATES = { 0: { label: "Incluido", color: "green" }, 1: { label: "Frontera", color: "orange" } };
 export const AXIS_LINK_BY_PRODUCTS = "Por productos";
-export const AXIS_LINK_BY_PRODUCTS_HELP = "Estos productos no tienen como tópico principal ninguno de los tópicos del eje. La IA los asignó al eje a partir de otros tópicos del producto (sus tópicos secundarios), no del principal. Solo se cuentan los de confianza alta y media (los de confianza baja no se muestran por defecto). Por eso aparecen en las tarjetas del eje y no en los tópicos de arriba, y su suma con la tabla coincide con las tarjetas. Siguen los filtros activos, incluido el de años.";
+export const AXIS_LINK_BY_PRODUCTS_HELP = "Estos productos no tienen como tópico principal ninguno de los tópicos del eje. Nuestra metodología los asigna al eje a partir de otros tópicos del producto (sus tópicos secundarios), no del principal. Solo se cuentan los de confianza alta y media (los de confianza baja no se muestran por defecto). Por eso aparecen en las tarjetas del eje y no en los tópicos de arriba, y su suma con la tabla coincide con las tarjetas. Siguen los filtros activos, incluido el de años.";
 export const AXIS_FILTER_LABEL = "Eje Temático (uno o más)";
 export const AXIS_FILTER_TOOLTIP = "Recorta todo el tablero a los productos enlazados a los ejes elegidos, con la confianza de asignación del filtro correspondiente";
 
