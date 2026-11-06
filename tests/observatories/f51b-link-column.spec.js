@@ -128,6 +128,10 @@ test.describe("F51b centring and wording (real quyca)", () => {
     };
     expect(await centred(page.locator(".ant-table-tbody .ant-tag-green").first())).toBeLessThan(2);
     expect(await centred(page.getByTestId("axis-topics-other-link"))).toBeLessThan(2);
+    // F51b: every tag has the same width, the one the text «Por productos» takes (no wrap, one line)
+    const widths = await page.locator(".ant-table-tbody .ant-tag, [data-testid='axis-topics-other-link']").evaluateAll((els) => [...new Set(els.map((e) => Math.round(e.getBoundingClientRect().width * 10) / 10))]);
+    expect(widths).toHaveLength(1);
+    expect(await page.getByTestId("axis-topics-other-link").evaluate((e) => e.getBoundingClientRect().height)).toBeLessThan(26);
     await page.getByTestId("axis-topics-other-link").hover();
     const tip = page.locator(".ant-tooltip:visible");
     await expect(tip).toContainText("Nuestra metodología los asigna al eje");

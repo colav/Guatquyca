@@ -20,9 +20,13 @@ import {
 /* UI Library Components */
 import { Table, Tag, Tooltip } from "antd";
 
+const LINK_TAG_WIDTH = 102;
+
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 /* Value of the header filter for the row «Otros productos asignados al eje». */
 const BY_PRODUCTS = "products";
+/* Same width for every tag of the column: the one the text «Por productos» takes (measured, F51b). */
+const TAG_STYLE = { margin: 0, display: "inline-block", width: LINK_TAG_WIDTH, textAlign: "center" };
 
 /**
  * Table «Tópicos del Eje Temático» (F49): topic (name and code), products, citations, link with the axis (F51b,
@@ -49,7 +53,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
   );
   const linkTag = (state) => {
     const s = AXIS_LINK_STATES[state];
-    return s ? <Tag color={s.color} style={{ margin: 0 }}>{s.label}</Tag> : "—";
+    return s ? <Tag color={s.color} style={TAG_STYLE}>{s.label}</Tag> : "—";
   };
   const columns = [
     { title: "Tópico", dataIndex: "label", sorter: (a, b) => a.label.localeCompare(b.label), render: (label, row) => <span title={`${label} (${row.id})`}>{label} <small style={{ color: "rgba(0,0,0,.45)" }}>{row.id}</small></span>, width: severalAxes ? "34%" : "50%" },
@@ -92,7 +96,7 @@ function AxisTopicsTable({ rows, other, severalAxes }) {
               <Table.Summary.Cell index={2} align="right"><span data-testid="axis-topics-other-citations">{fmt(other.citations)}</span></Table.Summary.Cell>
               <Table.Summary.Cell index={3} align="center">
                 <Tooltip title={AXIS_LINK_BY_PRODUCTS_HELP} overlayStyle={{ maxWidth: 480 }}>
-                  <Tag color="geekblue" style={{ margin: 0 }} data-testid="axis-topics-other-link">{AXIS_LINK_BY_PRODUCTS}</Tag>
+                  <Tag color="geekblue" style={TAG_STYLE} data-testid="axis-topics-other-link">{AXIS_LINK_BY_PRODUCTS}</Tag>
                 </Tooltip>
               </Table.Summary.Cell>
               {empty}
