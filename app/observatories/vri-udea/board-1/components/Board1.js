@@ -40,6 +40,7 @@ import {
   rankActors,
   rankAxes,
   rankAxisTopics,
+  axisTopicsOther,
   rankGoals,
   rankGroups,
   rankOds,
@@ -71,6 +72,7 @@ import {
   TYPES_FOOT,
   TYPES_HELP,
   AXIS_TOPICS_TITLE,
+  AXIS_TOPICS_RECONCILE_NOTE,
   axisTopicsYears,
   goalRows,
   lowCapacityDefinition,
@@ -202,6 +204,7 @@ function Board1Content({ dataset, source }) {
   const goals = useStableValue(goalRows(rankGoals(dataset, result)));
   /* Table of the topics of the chosen axes (F49): all the filters apply, the years included. */
   const axisTopics = useStableValue(rankAxisTopics(dataset, result));
+  const axisOther = useStableValue(axisTopicsOther(result, axisTopics));
   const typeValues = useStableValue(result.pies.type);
   const quartileValues = useStableValue(result.pies.quartile);
   const accessValues = useStableValue(result.pies.access);
@@ -260,9 +263,9 @@ function Board1Content({ dataset, source }) {
           <Col span={24}>
             <ChartCard title={AXIS_TOPICS_TITLE} note={axisTopicsYears(applied.yearFrom, applied.yearTo)} empty={!axisTopics.length}>
               <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="axis-topics-note">
-                {axisTopicsYears(applied.yearFrom, applied.yearTo)}. {fmt(applied.axisIds.length)} {applied.axisIds.length === 1 ? "eje elegido" : "ejes elegidos"}; los tópicos sin productos con los filtros actuales aparecen con 0.
+                {axisTopicsYears(applied.yearFrom, applied.yearTo)}. {fmt(applied.axisIds.length)} {applied.axisIds.length === 1 ? "eje elegido" : "ejes elegidos"}; los tópicos sin productos con los filtros actuales aparecen con 0. {AXIS_TOPICS_RECONCILE_NOTE}
               </Typography.Text>
-              <AxisTopicsTable rows={axisTopics} severalAxes={applied.axisIds.length > 1} />
+              <AxisTopicsTable rows={axisTopics} other={axisOther} severalAxes={applied.axisIds.length > 1} />
             </ChartCard>
           </Col>
         </Row>

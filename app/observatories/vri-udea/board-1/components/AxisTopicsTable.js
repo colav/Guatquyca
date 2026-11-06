@@ -7,7 +7,7 @@ import { memo, useMemo } from "react";
 import CompactTable from "@/app/observatories/components/CompactTable";
 
 /* Texts */
-import { shortAxisName } from "./boardTexts";
+import { AXIS_TOPICS_OTHER_LABEL, shortAxisName } from "./boardTexts";
 
 /* UI Library Components */
 import { Table } from "antd";
@@ -20,10 +20,11 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  * topics of the axis without products with the current filters show 0.
  *
  * @param {{ index: number, id: string, label: string, products: number, citations: number, axes: string[] }[]} rows
+ * @param {{ products: number, citations: number }} other - Row «Otros productos asignados al eje» (F50): the total adds up to the cards.
  * @param {boolean} severalAxes - Shows the column «Ejes».
  */
-function AxisTopicsTable({ rows, severalAxes }) {
-  const total = useMemo(() => ({ products: rows.reduce((a, r) => a + r.products, 0), citations: rows.reduce((a, r) => a + r.citations, 0) }), [rows]);
+function AxisTopicsTable({ rows, other, severalAxes }) {
+  const total = useMemo(() => ({ products: rows.reduce((a, r) => a + r.products, 0) + other.products, citations: rows.reduce((a, r) => a + r.citations, 0) + other.citations }), [rows, other]);
   const columns = [
     { title: "Tópico", dataIndex: "label", sorter: (a, b) => a.label.localeCompare(b.label), render: (label, row) => <span title={`${label} (${row.id})`}>{label} <small style={{ color: "rgba(0,0,0,.45)" }}>{row.id}</small></span>, width: severalAxes ? "38%" : "58%" },
     { title: "Productos", dataIndex: "products", align: "right", sorter: (a, b) => a.products - b.products, defaultSortOrder: "descend", render: fmt, width: 110 },
@@ -40,6 +41,12 @@ function AxisTopicsTable({ rows, severalAxes }) {
       aria-label="Tópicos del Eje Temático"
       summary={() => (
         <Table.Summary fixed>
+          <Table.Summary.Row data-testid="axis-topics-other">
+            <Table.Summary.Cell index={0}><span title={AXIS_TOPICS_OTHER_LABEL}>{AXIS_TOPICS_OTHER_LABEL}</span></Table.Summary.Cell>
+            <Table.Summary.Cell index={1} align="right"><span data-testid="axis-topics-other-products">{fmt(other.products)}</span></Table.Summary.Cell>
+            <Table.Summary.Cell index={2} align="right"><span data-testid="axis-topics-other-citations">{fmt(other.citations)}</span></Table.Summary.Cell>
+            {severalAxes ? <Table.Summary.Cell index={3} /> : null}
+          </Table.Summary.Row>
           <Table.Summary.Row>
             <Table.Summary.Cell index={0}><b>Total ({fmt(rows.length)} tópicos)</b></Table.Summary.Cell>
             <Table.Summary.Cell index={1} align="right"><b data-testid="axis-topics-total-products">{fmt(total.products)}</b></Table.Summary.Cell>

@@ -143,7 +143,7 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    "Capacidad relativa. La razón compara las citas de la UdeA en cada tópico con las de la institución más citada de Colombia o del mundo en cada año; los tópicos sin referencia nacional usan la mundial. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.",
+    "Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.",
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,
@@ -197,6 +197,8 @@ export const TYPES_FOOT = "Tipos según cada fuente; ver ayuda.";
 
 /* Table «Tópicos del Eje Temático» (F49, D-142, D-143). Provisional texts: Luis approves them. */
 export const AXIS_TOPICS_TITLE = "Tópicos del Eje Temático";
+export const AXIS_TOPICS_OTHER_LABEL = "Otros productos asignados al eje (su tópico principal no es uno de los tópicos del eje)";
+export const AXIS_TOPICS_RECONCILE_NOTE = "El eje reúne los productos que la IA le asignó (confianza alta y media); algunos tienen como tópico principal uno que no es de los que definen el eje.";
 export const AXIS_FILTER_LABEL = "Eje Temático (uno o más)";
 export const AXIS_FILTER_TOOLTIP = "Recorta todo el tablero a los productos enlazados a los ejes elegidos, con la confianza de asignación del filtro correspondiente";
 

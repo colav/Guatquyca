@@ -7,7 +7,7 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { computeCapacity, createDataset, rankAxisTopics, rankGoals } from "../../lib/observatories/capacity";
+import { axisTopicsOther, computeCapacity, createDataset, rankAxisTopics, rankGoals } from "../../lib/observatories/capacity";
 import { parseFilters, serializeFilters, sameFilters } from "../../lib/observatories/filters";
 
 // facts: [topic, year, citations, type, quartile, access, facs, deps, centres, groups, subregions, ods, pairs, actors, record]
@@ -140,8 +140,9 @@ test.describe("axis filter against the real quyca (read-only)", () => {
     const rows = rankAxisTopics(dataset, result);
     await expect(page.getByText("Tópicos del Eje Temático").first()).toBeVisible();
     await expect(page.getByTestId("axis-topics-note")).toContainText("Años aplicados: 2010–2026");
-    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(rows.reduce((a, r) => a + r.products, 0)));
-    await expect(page.getByTestId("axis-topics-total-citations")).toHaveText(fmt(rows.reduce((a, r) => a + r.citations, 0)));
+    // F50: the total includes the row «Otros productos asignados al eje», so it is the one of the cards
+    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(result.products));
+    await expect(page.getByTestId("axis-topics-total-citations")).toHaveText(fmt(result.citations));
     // the cards are cut to the axis: the first KPI is the products of the axis
     await expect(page.locator(".obs-kpi").first()).toContainText(fmt(result.products));
     expect(result.products).toBeLessThan(computeCapacity(dataset).products);
@@ -155,7 +156,7 @@ test.describe("axis filter against the real quyca (read-only)", () => {
     const years = rankAxisTopics(dataset, computeCapacity(dataset, { axisIds: [98], yearFrom: 2021, yearTo: 2025 })).reduce((a, r) => a + r.products, 0);
     expect(years).toBeLessThan(all);
     await expect(page.getByTestId("axis-topics-note")).toContainText("Años aplicados: 2021–2025");
-    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(years));
+    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(computeCapacity(dataset, { axisIds: [98], yearFrom: 2021, yearTo: 2025 }).products));
     const legendWithYears = await page.getByTestId("category-legend").innerText();
     await open(page, "axis=98&from=2012&to=2014");
     expect(await page.getByTestId("category-legend").innerText()).toBe(legendWithYears); // the panel 1 does not follow the years
@@ -167,7 +168,7 @@ test.describe("axis filter against the real quyca (read-only)", () => {
     await expect(page.locator(".obs-kpi").first()).toContainText(fmt(withUnit.products));
     await open(page, "axis=98,203");
     const rows = rankAxisTopics(dataset, computeCapacity(dataset, { axisIds: [98, 203] }));
-    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(rows.reduce((a, r) => a + r.products, 0)));
+    await expect(page.getByTestId("axis-topics-total-products")).toHaveText(fmt(computeCapacity(dataset, { axisIds: [98, 203] }).products));
     await expect(page.locator(".ant-table-thead th", { hasText: /^Ejes$/ })).toHaveCount(1);
     expect(new Set(rows.map((r) => r.index)).size).toBe(rows.length); // no topic twice
     await expect(page.getByTestId("axis-topics-note")).toContainText("2 ejes elegidos");
