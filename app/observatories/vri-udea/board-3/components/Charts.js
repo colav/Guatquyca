@@ -127,10 +127,10 @@ export const LinesChart = memo(Lines);
  * Treemap of the OECD areas (the artifact draws the areas with a value only).
  *
  * @param {{ name: string, value: number }[]} items
- * @param {Object<string, string>} colors - Area -> colour.
+ * @param {string[]} areas - The complete list of areas: the position of each one picks its colour in PALETTE (F77).
  */
-function AreasTreemap({ items, colors }) {
-  const shown = useMemo(() => items.map((i) => ({ key: i.name, name: i.name, value: i.value, color: colors[i.name] })), [items, colors]);
+function AreasTreemap({ items, areas }) {
+  const shown = useMemo(() => items.map((i) => ({ key: i.name, name: i.name, value: i.value, slot: areas.indexOf(i.name) })), [items, areas]);
   return <ObservatoryTreemap items={shown} unitName="Investigadores" height={280} labelWithValue ariaLabel="Treemap de áreas OCDE" testId="areas-treemap" />;
 }
 export const AreasTreemapChart = memo(AreasTreemap);

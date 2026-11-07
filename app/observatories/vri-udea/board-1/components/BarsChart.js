@@ -81,7 +81,7 @@ function RankingBars({ rows, labelSize = 34, complete = false, startCut = false,
 export const RankingBarsChart = memo(RankingBars);
 
 /**
- * Treemap of the 17 ODS (panel 8, F71): the area is the number of products; the colour is the one of each goal. A click
+ * Treemap of the 17 ODS (panel 8, F71): the area is the number of products; the colour is PALETTE by the number of the goal (F77). A click
  * chooses the ODS (the same choice as the bar of the panel 5 and the filter); the others are drawn paler.
  *
  * @param {{ number: number, name: string, color: string, value: number }[]} items - From rankOds.
@@ -89,7 +89,7 @@ export const RankingBarsChart = memo(RankingBars);
  * @param {Function} onSelect - Called with the number of the ODS clicked.
  */
 function OdsTreemap({ items, active = 0, onSelect }) {
-  const shown = useMemo(() => items.map((o) => ({ key: o.number, name: `${o.number} · ${o.name}`, value: o.value, color: o.color })), [items]);
+  const shown = useMemo(() => items.map((o) => ({ key: o.number, name: `${o.number} · ${o.name}`, value: o.value, slot: o.number - 1 })), [items]);
   return <ObservatoryTreemap items={shown} unitName="Productos" height={360} labelFontSize={11} activeKey={active > 0 ? active : null} onSelect={onSelect} ariaLabel="Treemap de ODS" testId="ods-treemap" />;
 }
 

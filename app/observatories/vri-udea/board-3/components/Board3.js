@@ -331,7 +331,7 @@ function Board3Content({ dataset, source }) {
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="02 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
-            <AreasTreemapChart items={areas.items} colors={AREA_COLORS} />
+            <AreasTreemapChart items={areas.items} areas={OECD_AREAS} />
             <Note>{(isMock ? AREAS_NOTE_MOCK : AREAS_NOTE)(fmt(areas.active), areas.from, linkageNote(talent.inv_sheet))}</Note>
           </ChartCard>
         </Col>

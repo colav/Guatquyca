@@ -11,16 +11,18 @@ const Treemap = dynamic(() => import("@ant-design/charts").then((mod) => mod.Tre
 
 /* Components & lib */
 import TooltipBox from "@/app/observatories/components/TooltipBox";
-import { BRAND } from "@/lib/observatories/palette";
+import { paletteColor, textOn } from "@/lib/observatories/palette";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
 /**
  * The treemap of the observatories (F77): the ODS of Board 1 and the OECD areas of Board 3 are the same chart. The area is the
- * value; `color` of each item is its fill.
+ * value; the colour of each item is `PALETTE[slot]` (lib/constants.js) and nothing else: `slot` is the stable position of the item
+ * in the complete list, so the ODS 7 is always the same colour even when a filter hides others. The text takes the colour that
+ * reads on its fill (4,5:1 at least).
  *
- * @param {{ key: string|number, name: string, value: number, color: string }[]} items - Items with a value (the others are not drawn).
+ * @param {{ key: string|number, name: string, value: number, slot: number }[]} items - Items with a value (the others are not drawn).
  * @param {string} unitName - What the value counts, in the tooltip ("Productos", "Investigadores").
  * @param {number} [height]
  * @param {number} [labelFontSize]
@@ -35,6 +37,7 @@ function ObservatoryTreemap({ items, unitName, height = 280, labelFontSize = 12,
     const shown = items.filter((i) => i.value > 0);
     const total = shown.reduce((a, i) => a + i.value, 0) || 1;
     const pick = (d) => d.data ?? d;
+    const fills = Object.fromEntries(shown.map((i) => [i.name, paletteColor(i.slot)]));
     return {
       data: { name: "root", children: shown.map((i) => ({ name: i.name, value: i.value, key: i.key, percent: `${((i.value / total) * 100).toFixed(1).replace(".", ",")} %` })) },
       valueField: "value",
@@ -43,12 +46,12 @@ function ObservatoryTreemap({ items, unitName, height = 280, labelFontSize = 12,
       interaction: tooltipInteraction(),
       height,
       legend: false,
-      scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => i.color) } },
+      scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => fills[i.name]) } },
       layout: { padding: 2 },
       style: {
         fillOpacity: (d) => (activeKey != null && pick(d).key !== activeKey ? 0.35 : 1),
         labelText: (d) => (labelWithValue ? `${pick(d).name} · ${fmt(pick(d).value)}` : `${pick(d).name}`),
-        labelFill: BRAND.white,
+        labelFill: (d) => textOn(fills[pick(d).name] ?? "#ffffff"),
         labelFontSize,
       },
       tooltip: {
