@@ -111,6 +111,31 @@ export const NO_RATIO_TEXT = `Sin tópicos con ${MIN_PRODUCTS_CLASSIFY} o más p
 export const NO_RATIO_DEFINITION = `${PUNCTUAL_DEFINITION} En campos y subcampos también: sin ningún tópico con ${MIN_PRODUCTS_CLASSIFY} o más productos no hay razón y no se clasifica.`;
 /** Sentence of the tooltip of a point with ratio: «0,49 (citas de la UdeA … frente a … de …, en N tópicos con 5 o más productos)». */
 export const ratioTopicsText = (n) => `en ${n.toLocaleString("es-CO")} ${n === 1 ? "tópico" : "tópicos"} con ${MIN_PRODUCTS_CLASSIFY} o más productos`;
+/**
+ * The referent of the ratio is the Universidad de Antioquia itself (F73, D-176): OpenAlex id I35961687, which the bundle
+ * names `Universidad de Antioquia` in `inst_lider`. The tooltip then does not put two figures as if they were of two
+ * institutions (the citations of our products and the aggregate of OpenAlex for the same university).
+ */
+export const OWN_REFERENT_ID = "I35961687";
+export const OWN_REFERENT_NAME = "Universidad de Antioquia";
+export const isOwnReferent = (name) => String(name || "").trim() === OWN_REFERENT_NAME;
+const OWN_UNIT = { topic: "tópico", subfield: "subcampo", field: "campo" };
+export const ownReferentText = (ratioBasis, dimension) =>
+  `La UdeA es la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en este ${OWN_UNIT[dimension] || "tópico"}`;
+
+/**
+ * Text of the line «Razón de capacidad (…)» of the tooltip of a point with ratio. With another institution as referent:
+ * «0,49 (citas de la UdeA 120 frente a 300 de X, en N tópicos…)»; with the UdeA itself as referent: «1,00 · La UdeA es la
+ * institución con más citas del país en este tópico», and the ratio keeps its value (it can be under 1).
+ *
+ * @param {{ ratio: number, ratioCitations: number, leaderCitations: number, referent: string, ratioTopics: number|null }} u
+ * @param {{ ratioBasis: string, dimension: string, fmtRatio: Function, fmt: Function }} options
+ */
+export function ratioSentence(u, { ratioBasis, dimension, fmtRatio, fmt }) {
+  if (isOwnReferent(u.referent)) return `${fmtRatio(u.ratio)} · ${ownReferentText(ratioBasis, dimension)}`;
+  return `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.ratioCitations)} frente a ${fmt(u.leaderCitations)} de ${u.referent || "los referentes de sus tópicos"}${u.ratioTopics !== null ? `, ${ratioTopicsText(u.ratioTopics)}` : ""})`;
+}
+
 /** Note under the scatter when some fields or subfields have no ratio. */
 export const withoutRatioNote = (count, noun) => `${count.toLocaleString("es-CO")} ${noun} sin ningún tópico con ${MIN_PRODUCTS_CLASSIFY} o más productos: no tienen razón y se muestran como «presencia puntual».`;
 
