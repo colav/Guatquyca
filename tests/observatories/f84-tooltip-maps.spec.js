@@ -1,5 +1,5 @@
 /*
- * F84 (D-194): the tooltip of the maps stays inside the box of the map, wraps its values and shows the topics one per line.
+ * F84 (D-146): the tooltip of the maps stays inside the box of the map, wraps its values and shows the topics one per line.
  * The first block needs no server; the second (E2E_LIVE=1) hovers a grid of points on each of the four maps, takes the longest
  * tooltip and measures its box against the box of the map. No screenshots are saved.
  */
