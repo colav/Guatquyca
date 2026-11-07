@@ -7,48 +7,43 @@ import { test, expect } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 
-import { POLYGON_CODE_FIXES, codedFeatures, countryMapData, withoutOutlineText } from "../../lib/observatories/countryGeo";
+import { POLYGON_KEYS, geoMapData, withoutOutlineText } from "../../lib/observatories/geoMap";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
 const geo = JSON.parse(fs.readFileSync(path.join(process.cwd(), "lib/observatories/data/geo/world.json"), "utf8"));
 
 test.describe("join of the countries with the polygons (no server)", () => {
-  test("the file has 215 polygons, seven without code, only four get one (F79b), and it carries no counts", () => {
+  test("the file (B131) has 215 polygons, only three without code (the four fixes come in the file) and it carries no counts", () => {
     expect(geo.features).toHaveLength(215);
-    const empty = geo.features.filter((f) => !f.properties.country_code).map((f) => f.properties.name);
-    expect(empty).toHaveLength(7);
-    expect(Object.keys(POLYGON_CODE_FIXES).sort()).toEqual(["Curacao (neth.)", "Hk", "Mo", "Romania"]);
-    for (const name of Object.keys(POLYGON_CODE_FIXES)) expect(empty).toContain(name);
-    const coded = codedFeatures(geo);
-    expect(coded.filter((f) => !f.properties.country_code).map((f) => f.properties.name).sort()).toEqual(["East timor", "Prince edward island", "Tm"]);
-    expect(coded.filter((f) => ["RO", "CW", "HK", "MO"].includes(f.properties.country_code) && empty.includes(f.properties.name)).map((f) => f.properties.country_code).sort()).toEqual(["CW", "HK", "MO", "RO"]);
+    expect(geo.features.filter((f) => !f.properties.country_code).map((f) => f.properties.name).sort()).toEqual(["East timor", "Prince edward island", "Tm"]);
+    for (const code of ["RO", "CW", "HK", "MO"]) expect(geo.features.some((f) => f.properties.country_code === code)).toBe(true);
+    expect(Object.keys(geo.features[0].properties).sort()).toEqual(["country_code", "name"]);
     // the file has no counts of coauthorships: they are calculated with the filters of the board
     expect(geo.features.every((f) => !("count" in f.properties) && !("log_count" in f.properties))).toBe(true);
-    expect(coded.find((f) => f.properties.name === "Romania").properties.country_code).toBe("RO");
-    // the geometry is not touched
-    expect(coded[0].geometry).toBe(geo.features[0].geometry);
   });
 
   test("count and log_count by country; the polygons without products have 0; the countries without polygon are listed with their products", () => {
     const countries = [
-      { c: "CO", n: "Colombia", r: "Sudamérica", value: 100 },
-      { c: "US", n: "Estados Unidos", r: "Norteamérica", value: 40 },
-      { c: "RO", n: "Rumania", r: "Europa", value: 3 }, // fixed by the table of corrections
-      { c: "TW", n: "Taiwán", r: "Asia", value: 5 }, // no polygon
-      { c: "VA", n: "Ciudad del Vaticano", r: "Europa", value: 2 }, // no polygon
+      { key: "CO", name: "Colombia", region: "Sudamérica", value: 100 },
+      { key: "US", name: "Estados Unidos", region: "Norteamérica", value: 40 },
+      { key: "RO", name: "Rumania", region: "Europa", value: 3 },
+      { key: "TW", name: "Taiwán", region: "Asia", value: 5 }, // no polygon
+      { key: "VA", name: "Ciudad del Vaticano", region: "Europa", value: 2 }, // no polygon
     ];
-    const { data, withoutOutline, drawn } = countryMapData(geo, countries);
+    const { data, withoutOutline, drawn } = geoMapData(geo, countries, POLYGON_KEYS.countries);
     const of = (code) => data.features.filter((f) => f.properties.country_code === code);
     expect(of("CO").every((f) => f.properties.count === 100 && f.properties.log_count === Math.log(100) && f.properties.region === "Sudamérica")).toBe(true);
     expect(of("RO")[0].properties.count).toBe(3);
     expect(data.features.filter((f) => f.properties.count === 0).length).toBeGreaterThan(150);
-    expect(withoutOutline.map((c) => c.c)).toEqual(["TW", "VA"]);
+    expect(withoutOutline.map((c) => c.key)).toEqual(["TW", "VA"]);
     expect(drawn).toBe(3);
+    // the geometry is not touched
+    expect(data.features[0].geometry).toBe(geo.features[0].geometry);
     // the text is calculated, not written by hand
     expect(withoutOutlineText(withoutOutline)).toBe("2 países sin contorno en el mapa: Taiwán, Ciudad del Vaticano; 7 productos. Sí cuentan en la tabla.");
     expect(withoutOutlineText([])).toBe("");
-    expect(withoutOutlineText([{ c: "TW", n: "Taiwán", value: 1 }])).toContain("1 país sin contorno");
+    expect(withoutOutlineText([{ key: "TW", name: "Taiwán", value: 1 }])).toContain("1 país sin contorno");
   });
 });
 
@@ -57,7 +52,7 @@ test.describe("the page of Board 2 (one run)", () => {
   test("the map is drawn, redraws with a filter, and the countries without outline are counted", async ({ page, request }) => {
     test.setTimeout(240000);
     const raw = await (await request.get(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
-    const codes = new Set(codedFeatures(geo).map((f) => f.properties.country_code));
+    const codes = new Set(geo.features.map((f) => f.properties.country_code));
     const bundleMissing = raw.countries.filter((c) => !codes.has(c.c)).map((c) => c.c);
     console.log(`[live] countries of the bundle: ${raw.countries.length}; without polygon even after the corrections: ${bundleMissing.length} (${bundleMissing.join(", ")})`);
 

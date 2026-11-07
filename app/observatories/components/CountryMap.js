@@ -1,13 +1,13 @@
 "use client";
 
 /* Hooks */
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useMemo } from "react";
 
 /* Components & lib */
-import MapChart from "@/app/components/ClientSide/Charts/MapCharts/MapChart";
-import FilterHelp from "@/app/observatories/components/FilterHelp";
-import { countryMapData, withoutOutlineText } from "@/lib/observatories/countryGeo";
+import GeoMap from "@/app/observatories/components/GeoMap";
+import { POLYGON_KEYS, withoutOutlineText } from "@/lib/observatories/geoMap";
 
+const load = () => import("@/lib/observatories/data/geo/world.json");
 const TOOLTIP_ITEMS = [
   { field: "name", alias: "País:" },
   { field: "region", alias: "Región:" },
@@ -15,36 +15,16 @@ const TOOLTIP_ITEMS = [
 ];
 
 /**
- * Choropleth of products by country (F79, D-184): the MapChart of the platform over the static polygons of
- * `lib/observatories/data/geo/world.json`, loaded only when the map is drawn. Colour: quantile of the logarithm of the count
- * (MAP_PALETTE); tooltip «País · Región · Productos»; the countries with products and no polygon go in a «?».
+ * Choropleth of products by country (F79, D-184), the use of `GeoMap` with `world.json`; the join is by `country_code`
+ * (ISO 3166-1 alpha-2) with `countries[].c` of the bundle. Tooltip «País · Región · Productos»; the countries with products and
+ * no polygon go in a «?».
  *
  * @param {{ c: string, n: string, r: string, value: number }[]} countries - Countries of the board with products.
  * @param {number} [height]
  */
 function CountryMap({ countries, height = 400 }) {
-  const [geo, setGeo] = useState(null);
-  useEffect(() => {
-    let alive = true;
-    import("@/lib/observatories/data/geo/world.json").then((mod) => {
-      if (alive) setGeo(mod.default || mod);
-    });
-    return () => {
-      alive = false;
-    };
-  }, []);
-  const map = useMemo(() => (geo ? countryMapData(geo, countries) : null), [geo, countries]);
-  const help = map ? withoutOutlineText(map.withoutOutline) : "";
-  return (
-    <div data-testid="country-map" style={{ position: "relative", height }}>
-      {map ? <MapChart data={map.data} tooltipItems={TOOLTIP_ITEMS} /> : null}
-      {help ? (
-        <div data-testid="country-map-help" style={{ position: "absolute", top: 4, right: 6, zIndex: 5, background: "rgba(255,255,255,.85)", borderRadius: 4, padding: "0 4px" }}>
-          <FilterHelp label="países sin contorno">{help}</FilterHelp>
-        </div>
-      ) : null}
-    </div>
-  );
+  const rows = useMemo(() => countries.map((c) => ({ key: c.c, name: c.n, region: c.r, value: c.value })), [countries]);
+  return <GeoMap load={load} polygonKey={POLYGON_KEYS.countries} rows={rows} tooltipItems={TOOLTIP_ITEMS} helpOf={withoutOutlineText} helpLabel="países sin contorno" height={height} testId="country-map" />;
 }
 
 export default memo(CountryMap);
