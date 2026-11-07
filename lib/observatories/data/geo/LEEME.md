@@ -1,12 +1,12 @@
-> Copia de `out\geo\LEEME.md` para el frontend (F81, F82). Aquí **no** está `antioquia_municipios.json` (173 KB, sin uso todavía). Copiados el 7 nov 2026: `world.json` (B133, Natural Earth), `antioquia_subregiones.json` (B132, DANE) y `colombia.json` (B134, DANE).
+> Copia de `out\geo\LEEME.md` para el frontend (F81, F82, F83). Aquí **no** está `antioquia_municipios.json` (173 KB, sin uso todavía). Copiados el 7 nov 2026: `world.json` (B135, Natural Earth, 1,1 MB), `antioquia_subregiones.json` (B132, DANE) y `colombia.json` (B134, DANE).
 
-# Polígonos para los mapas del observatorio (B131; Antioquia y departamentos de B132; mundo de B133, 7 nov 2026)
+# Polígonos para los mapas del observatorio (B131; Antioquia y departamentos de B132; mundo de B133 y B135, 7 nov 2026)
 
 El frontend copia estos archivos a `lib/observatories/data/geo/`. No llevan conteos: los números salen del bundle. Versión B132 (simplificada con mapshaper 0.7.101, comando en `out\b132\simplificar.sh`); la versión de B131 (shapely) está en `out\b131\geo_anterior\`.
 
 | Archivo | Features | Bytes (gzip) | Propiedades | Llave de cruce con el bundle |
 |---|---|---|---|---|
-| `world.json` | 247 | 424.215 (150.261) | `country_code`, `name` | `country_code` con `countries[].c` del T2 (ISO2; 170 de 170 con contorno) |
+| `world.json` | 247 | 1.140.848 (394.177) | `country_code`, `name` | `country_code` con `countries[].c` del T2 (ISO2; 170 de 170 con contorno) |
 | `colombia.json` | 33 | 129.374 (37.787) | `DPTO` (DANE, 2 dígitos), `NOMBRE_DPT` (nombre del DANE), `nombre_t2` | `nombre_t2` con `depts` del T2 (27 con valor; `null` en Arauca, Putumayo, Guainía, Guaviare, Vaupés y Vichada); preferir cruzar por `DPTO` |
 | `antioquia_subregiones.json` | 9 | 53.629 (15.101) | `subregion` | `subregion` con `subregs` del T2 y del T1 (mismos 9 nombres, con tilde) |
 | `antioquia_municipios.json` | 125 | 172.572 (47.960) | `codigo_dane` (5 dígitos), `municipio`, `subregion` | `codigo_dane` con `obs_dim_municipio.codigo_dane`; `subregion` como arriba |
@@ -23,7 +23,7 @@ Los archivos de Antioquia y de departamentos derivan de datos del DANE. El eleme
 Herramienta: `mapshaper` 0.7.101 (npm), `-simplify <p>% keep-shapes` (Visvalingam; los bordes compartidos se simplifican una sola vez; ningún polígono desaparece). Medidas con `shapely`.
 - **Municipios:** desde el MGN original (711.552 vértices), 1,2 % (`precision=0.0001`) → 8.641 vértices; error de área por municipio máx. 1,46 %, mediana 0,17 %; área total −0,005 %; 125 de 125, 0 inválidos, 0 superposiciones, 0 huecos.
 - **Subregiones:** `-dissolve subregion` de esos municipios (los bordes coinciden); 9 features, 2.962 vértices, 0 superposiciones y 0 huecos; −0,88 % de área frente a Antioquia de `colombia.json`.
-- **Países (B133):** `mapshaper` 0.7.101, `-simplify 20% keep-shapes` (`precision=0.001`) sobre la base compuesta (94.713 vértices) → 23.860 vértices; los 84 países que perdían más del 3 % de su área recuperan una geometría menos simplificada (50 %, 75 % o la de origen); error de área máx. 2,99 %, mediana 0,25 %. Hay 19 superposiciones de borde entre vecinos (máx. 0,047 grados²) por esa restauración; el 3 % ahorra 100 KB pero llega a 2 grados².
+- **Países (B135):** la base de Natural Earth compuesta (94.713 vértices) se divide en 167 polígonos con frontera terrestre y 80 sin ella. Los **167 con frontera se simplifican toda la capa a la vez** (`mapshaper -simplify 75% keep-shapes`, `precision=0.001`: las fronteras compartidas se simplifican una sola vez) y las 80 islas y territorios, aparte, como en B133 (20 %, con la restauración de los que pierden más del 3 % de su área, que no crea costuras). Solo tres enclaves con frontera de menos de 0,05 grados² (Mónaco, San Martín francés, Vaticano) pasaban del 10 % de error y recuperan su geometría de origen. Resultado: 67.487 vértices; solape total 3,6e-5 grados² (2 pares: Francia–Mónaco, Italia–Vaticano), 3 huecos (el mar Caspio y dos de 8e-5 y 6e-4), 0 inválidos, 0 vacíos; error de área máx. 9,1 % (Macao), mediana 0,03 %; excepción de 10 %: Liechtenstein 3,1 %, Macao 9,1 %, San Martín (Sint Maarten) 5,2 %. B133 (solape 0,301, 47 huecos) está en `out\b133\geo_anterior\`.
 - **Departamentos (B134):** `mapshaper` 0.7.101 sobre la capa del DANE (1.025.290 vértices). Los 32 departamentos continentales se simplifican **toda la capa a la vez** (`-simplify 0.7% keep-shapes`, `precision=0.001`: las fronteras compartidas se simplifican una sola vez); San Andrés y Providencia, que no comparte frontera con ningún departamento, se simplifica aparte (`1%`, `precision=0.0001`) porque con el mismo porcentaje perdía 19 % de su área. Resultado: 7.763 vértices; solape total 0, huecos internos 0, 0 inválidos, error de área máx. 0,75 % (Quindío), mediana 0,08 %. Ningún departamento se restauró uno por uno.
 - Para volver a la versión de B131: copiar desde `out\b131\geo_anterior\`.
 
