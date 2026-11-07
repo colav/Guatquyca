@@ -1,7 +1,8 @@
 "use client";
 
 /* Hooks */
-import { useEffect, useMemo, useState } from "react";
+import { Profiler, useEffect, useMemo, useState } from "react";
+import { profileRender, timed } from "@/lib/observatories/optionAvailability";
 import { useSearchParams } from "next/navigation";
 
 /* Components */
@@ -27,6 +28,7 @@ import {
   computeCollaboration,
   parseCollabFilters,
   reconcileAxisDocument,
+  workOptionAvailability,
   sameCollabFilters,
   serializeCollabFilters,
 } from "@/lib/observatories/collaboration";
@@ -133,6 +135,8 @@ function Board2Content({ dataset, source }) {
   const [subregionTab, setSubregionTab] = useState(0);
 
   const result = useMemo(() => computeCollaboration(dataset, applied), [dataset, applied]);
+  /* Lists of options with products (F75, D-178), from the works that pass the filters. */
+  const available = useMemo(() => timed("options", () => workOptionAvailability(dataset, applied)), [dataset, applied]);
   /* Note of the groups (F60, D-160): the figures come from `registro_grupos` of the bundle, as in Board 3 (F54). */
   const registry = useMemo(() => groupRegistry(raw, isMock), [raw, isMock]);
   /* Figures of the notes from the bundle (F69): appropriation without year and foci of the Misión de sabios. */
@@ -247,7 +251,9 @@ function Board2Content({ dataset, source }) {
         <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
       </header>
 
-      <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
+      <Profiler id="filters" onRender={profileRender}>
+        <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} available={available} />
+      </Profiler>
       {pending ? <Typography.Text type="secondary">Actualizando…</Typography.Text> : null}
       <KpiRow kpis={kpis} projectDetail={noProj ? NO_AXIS_RESPONSE : ""} />
 

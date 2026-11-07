@@ -9,6 +9,8 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { DOCUMENT_FILTER_HELP, SCOPE_LABELS } from "./boardTexts";
+import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
 /* Components */
@@ -22,6 +24,8 @@ import { Col, Row, Select, Tooltip, Typography } from "antd";
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
 const SCOPE_OPTIONS = SCOPE_LABELS.map((label, value) => ({ value, label }));
 const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
+/** Filter of the state -> list of the availability (F75). */
+const AVAILABLE_KEY = { scopeIndex: "scope", policyIndex: "policyDoc", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit", subfieldIndex: "subfield" };
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
@@ -47,7 +51,7 @@ function Field({ label, children, help = null }) {
  * @param {Function} onChange - Receives a patch of the filters.
  * @param {Function} onReset - Restores the defaults.
  */
-function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
+function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available = null }) {
   /* The filter acts on the products through the axes (bit of the document in the agenda mask), not on goals:
      only the documents with axes (D-129). The value is the position in `agendas_all`, the bit of the mask. */
   const documents = useMemo(() => {
@@ -63,16 +67,15 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
   const units = useMemo(() => indexOptions(raw.deps), [raw]);
   const subfields = useMemo(() => indexOptions(raw.subs), [raw]);
 
+  /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
+  const stable = useStableChange();
   const select = (key, options, placeholder) => (
-    <Select
-      showSearch
-      allowClear
-      style={{ width: "100%" }}
+    <FilterSelect
       placeholder={placeholder}
-      options={options}
+      options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       filterOption={searchFilter}
       value={filters[key] >= 0 ? filters[key] : undefined}
-      onChange={(v) => onChange({ [key]: v === undefined || v === null ? -1 : v })}
+      onChange={stable(key, (v) => onChange({ [key]: v === undefined || v === null ? -1 : v }))}
     />
   );
 
@@ -99,8 +102,8 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
         </Field>
         <Field label="Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
-            <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />
-            <Select style={{ width: "50%" }} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={(v) => onChange({ yearTo: v })} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
           </div>
         </Field>
         <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas")}</Field>
@@ -108,7 +111,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
         <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos")}</Field>
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.
+        Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad. {OPTIONS_NOTE}
       </Typography.Text>
     </StickyFilters>
   );

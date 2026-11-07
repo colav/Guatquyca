@@ -154,14 +154,19 @@ test.describe("F71 against the real quyca (one run)", () => {
     await page.waitForTimeout(2500);
     const tree = page.getByTestId("ods-treemap");
     await tree.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
     const box = await tree.locator("canvas").first().boundingBox();
-    await page.mouse.click(box.x + box.width * 0.12, box.y + box.height * 0.2);
+    await page.mouse.move(box.x + box.width * 0.49, box.y + box.height * 0.49);
+    await page.waitForTimeout(500);
+    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5, { steps: 5 });
+    await page.waitForTimeout(500);
+    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.5);
     await expect(page).toHaveURL(/ods=\d+/, { timeout: 15000 });
     const chosen = Number(/ods=(\d+)/.exec(page.url())[1]);
     await page.waitForTimeout(1500);
     await expect(kpi()).toContainText(fmt(computeCapacity(d1, { odsNumber: chosen }).products));
     console.log(`[live] click on the treemap chose ODS ${chosen}: ${computeCapacity(d1, { odsNumber: chosen }).products} products`);
-    await page.mouse.click(box.x + box.width * 0.12, box.y + box.height * 0.2);
+    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.5);
     await expect(page).not.toHaveURL(/ods=/, { timeout: 15000 });
     // a click on a bar of the ranking of ODS
     const bars = page.getByTestId("ranking-selectable").last();

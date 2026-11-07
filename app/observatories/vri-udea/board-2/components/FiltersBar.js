@@ -11,6 +11,8 @@ import { CENTER_TOOLTIP, byPolicyOrder, centerCoverageNote } from "../../board-1
 import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, DOCUMENT_FILTER_HELP, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
+import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
@@ -22,6 +24,8 @@ const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 },
 const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
 /* Long names go in two lines, not cut (F62, F67). */
 const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
+/** Filter of the state -> list of the availability (F75). */
+const AVAILABLE_KEY = { scope: "scope", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit", subfieldIndex: "subfield" };
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
@@ -45,7 +49,7 @@ function Field({ label, children, span = 6, help = null }) {
  * @param {Function} onChange - Receives a patch of the filters.
  * @param {Function} onReset - Restores the defaults.
  */
-function FiltersBar({ dataset, filters, onChange, onReset }) {
+function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
   const { raw } = dataset;
   /* The filter acts on the works through the terms of the thesaurus (axes), not on goals: only the documents with terms (D-129). */
   const docs = useMemo(() => [...dataset.policyDocs].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset]);
@@ -74,7 +78,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
 
   /* Eje Temático (F59, D-159): grouped by document of policy; with a document chosen it lists only the axes of that document. */
   const axisGroups = useMemo(() => dataset.axisGroups.map((g) => ({ label: g.agenda, options: g.axes.map((a) => ({ value: a.id, label: a.label })) })), [dataset]);
-  const axisOptions = filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups;
+  const axisOptions = useMemo(() => (filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups), [axisGroups, filters.policyDoc]);
   const axisNote = dataset.hasProjectPairs ? AXIS_FILTER_NOTE : AXIS_FILTER_NOTE_NO_PROJECTS;
   const axisLabel = (id) => axisGroups.flatMap((g) => g.options).find((o) => o.value === id)?.label ?? String(id);
   /* A document that does not contain the chosen axis clears it (otherwise the two would leave nothing). */
@@ -94,16 +98,15 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     setAxisWidth(Math.max(240, Math.round(Math.min(board1, window.innerWidth - 32))));
   };
 
+  /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
+  const stable = useStableChange();
   const select = (key, options, placeholder, isIndex) => (
-    <Select
-      showSearch
-      allowClear
-      style={{ width: "100%" }}
+    <FilterSelect
       placeholder={placeholder}
-      options={options}
+      options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       filterOption={searchFilter}
       value={isIndex ? (filters[key] >= 0 ? filters[key] : undefined) : filters[key] || undefined}
-      onChange={(v) => onChange({ [key]: v === undefined || v === null ? (isIndex ? -1 : "") : v })}
+      onChange={stable(key, (v) => onChange({ [key]: v === undefined || v === null ? (isIndex ? -1 : "") : v }))}
     />
   );
 
@@ -124,33 +127,27 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       <Row gutter={[12, 6]} ref={rowRef}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
         <Field label="Documento de política" help={DOCUMENT_FILTER_HELP}>
-          <Select
-            showSearch
-            allowClear
-            style={{ width: "100%" }}
+          <FilterSelect
             placeholder="Todos"
-            options={docs}
+            options={onlyAvailable(docs, available && available.policyDoc, filters.policyDoc)}
             optionRender={wrapOption}
             filterOption={searchFilter}
             value={filters.policyDoc || undefined}
-            onChange={changeDocument}
+            onChange={stable("policyDoc", changeDocument)}
           />
         </Field>
         {dataset.hasAxisPairs ? (
           <Field label="Eje Temático" help={axisNote}>
-            <Select
-              showSearch
-              allowClear
+            <FilterSelect
               data-testid="axis-filter"
-              style={{ width: "100%" }}
               popupMatchSelectWidth={axisWidth}
-              onOpenChange={onAxisOpen}
-              optionRender={(o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>}
+              onOpenChange={stable("axisOpen", onAxisOpen)}
+              optionRender={wrapOption}
               placeholder="Todos"
-              options={axisOptions}
+              options={onlyAvailable(axisOptions, available && available.axis, filters.axisId)}
               filterOption={searchFilter}
               value={filters.axisId >= 0 ? filters.axisId : undefined}
-              onChange={(v) => onChange({ axisId: v === undefined || v === null ? -1 : v })}
+              onChange={stable("axisId", (v) => onChange({ axisId: v === undefined || v === null ? -1 : v }))}
             />
           </Field>
         ) : null}
@@ -161,8 +158,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         </Field>
         <Field label="Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
-            <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />
-            <Select style={{ width: "50%" }} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={(v) => onChange({ yearTo: v })} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
           </div>
         </Field>
         <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas", true)}</Field>
@@ -171,7 +168,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         {dataset.hasProjectPairs ? "Se combinan con «y»; los proyectos responden a temporalidad, centro, ámbito departamental, eje y documento." : "Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental."}
-        {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {axisNote}</span> : null}
+        {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {axisNote}</span> : null} <span data-testid="options-note">{OPTIONS_NOTE}</span>
       </Typography.Text>
     </StickyFilters>
   );

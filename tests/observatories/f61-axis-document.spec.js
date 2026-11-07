@@ -196,17 +196,13 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
     expect(await kpi2(page)).toBe(alone);
     /* the list is as high as the one of Board 1 (F62) and shows one group at a time: the PDD axis is offered when no document is chosen */
     expect(await searchCount(page, axisSel(), "Determinantes sociales de la salud")).toBeGreaterThan(0);
-    await chooseDoc(page, doc2(page), "CONPES 4144");
-    expect(await kpi2(page)).toBe(conpes); // the axis was cleared, as before
-    await expect(page.getByTestId("axis-filter-note")).toHaveCount(0);
-    // the axis with its own document: the axis alone
-    await chooseDoc(page, doc2(page), "PDD mpal Medellín");
-    await page.getByTestId("axis-filter").locator(".ant-select-selector").click();
-    await page.keyboard.type("Determinantes sociales de la salud");
-    await page.locator(".ant-select-dropdown:visible .ant-select-item-option").first().click();
-    await page.waitForTimeout(800);
+    /* F75 (D-178, D-163): with an axis chosen the list of documents offers only the document that contains it, so another document cannot be chosen */
+    await doc2(page).click();
+    await page.waitForTimeout(400);
+    expect(await page.locator(".ant-select-dropdown:visible .ant-select-item-option").allInnerTexts()).toEqual(["PDD mpal Medellín"]);
+    await page.keyboard.press("Escape");
     expect(await kpi2(page)).toBe(alone);
-    // URL: an axis that is not of the document: the axis wins and the document is dropped (the URL is rewritten)
+        // URL: an axis that is not of the document: the axis wins and the document is dropped (the URL is rewritten)
     await page.goto(`${open2}?doc=CONPES+4144&axis=${pdd.id}`);
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(1200);
@@ -247,10 +243,12 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
     const alone = await kpi1(page);
     expect(alone).toBe(computeCapacity(d1, { axisIds: [pdd.id] }).products);
     expect(await searchCount(page, wrapper(), "Determinantes sociales de la salud")).toBeGreaterThan(0); // with no document the axis of the PDD is offered
-    await chooseDoc(page, docWrapper(), "CONPES 4144");
-    expect(await kpi1(page)).toBe(conpes); // the axis of another document was removed
-    expect(await searchCount(page, wrapper(), "Determinantes sociales de la salud")).toBe(0); // and it is no longer offered
-    // URL with an invalid combination: the axes win and the document is dropped
+    /* F75: with an axis chosen the list of documents offers only the document that contains it */
+    await docWrapper().click();
+    await page.waitForTimeout(400);
+    expect(await page.locator(".ant-select-dropdown:visible .ant-select-item-option").allInnerTexts()).toEqual(["PDD mpal Medellín"]);
+    await page.keyboard.press("Escape");
+        // URL with an invalid combination: the axes win and the document is dropped
     await page.goto(`${open1}?doc=CONPES+4144&axis=${pdd.id}`);
     await wait();
     expect(await kpi1(page)).toBe(alone);

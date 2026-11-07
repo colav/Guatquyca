@@ -26,11 +26,13 @@ import {
 } from "./boardTexts";
 
 /* Components */
+import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Col, Row, Segmented, Select, Tooltip } from "antd";
+import { Col, Row, Segmented, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from(
@@ -54,6 +56,8 @@ function Field({ label, children, span = 6, help = null }) {
 
 /* Long names go in two lines, not cut (F67). */
 const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
+/** Filter of the state -> list of the availability (F75). */
+const AVAILABLE_KEY = { scope: "scope", policyDoc: "policyDoc", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit" };
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
@@ -65,7 +69,7 @@ const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().incl
  * @param {Function} onChange - Receives a patch of the filters.
  * @param {Function} onReset - Restores the defaults.
  */
-function FiltersBar({ dataset, filters, onChange, onReset }) {
+function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
   /* Only the documents with curated axes (D-129); the names come from the bundle. */
   /* Chain Ámbito → Documento → Eje (F64, D-166): the scope limits the documents listed and the axes of those documents. */
   const policyOptions = useMemo(() => [...docsInScope(dataset, filters.scope)].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset, filters.scope]);
@@ -86,9 +90,13 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     [dataset],
   );
   /* With a document chosen the filter lists only the axes of that document (F61, D-163). */
-  const axisOptions = (filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups)
-    .map((g) => (filters.scope ? { ...g, options: g.options.filter((o) => dataset.axes.find((e) => e.id === o.value)?.nivel === filters.scope) } : g))
-    .filter((g) => g.options.length);
+  const axisOptions = useMemo(
+    () =>
+      (filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups)
+        .map((g) => (filters.scope ? { ...g, options: g.options.filter((o) => dataset.axes.find((e) => e.id === o.value)?.nivel === filters.scope) } : g))
+        .filter((g) => g.options.length),
+    [axisGroups, dataset, filters.policyDoc, filters.scope],
+  );
   /* A change of scope clears the document and the axes that no longer belong to it. */
   const changeScope = (v) => onChange(scopeChangePatch(dataset, filters, v || ""));
   /* A document that does not contain some chosen axes removes them from the selection (as in Board 2). */
@@ -115,17 +123,16 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
+  /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
+  const stable = useStableChange();
   const select = (key, options, placeholder, mapIndex = false, custom = null, wrap = false) => (
-    <Select
-      showSearch
-      allowClear
-      style={{ width: "100%" }}
+    <FilterSelect
       placeholder={placeholder}
-      options={options}
+      options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       optionRender={wrap ? wrapOption : undefined}
       filterOption={searchFilter}
       value={mapIndex ? (filters[key] >= 0 ? filters[key] : undefined) : filters[key] || undefined}
-      onChange={custom || ((v) => onChange({ [key]: v === undefined || v === null ? (mapIndex ? -1 : "") : v }))}
+      onChange={stable(key, custom || ((v) => onChange({ [key]: v === undefined || v === null ? (mapIndex ? -1 : "") : v })))}
     />
   );
 
@@ -154,8 +161,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         </Field>
         <Field label="4 · Temporalidad">
           <div style={{ display: "flex", gap: 8 }}>
-            <Select style={{ width: "50%" }} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={(v) => onChange({ yearFrom: v })} />
-            <Select style={{ width: "50%" }} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={(v) => onChange({ yearTo: v })} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
+            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
           </div>
         </Field>
         <Field label="5 · Dimensión (campos, subcampos o tópicos)">
@@ -164,32 +171,26 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
         <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
         <Field label="Campo, subcampo o tópico" span={12}>
-          <Select
-            showSearch
-            allowClear
-            style={{ width: "100%" }}
+          <FilterSelect
             placeholder="Todos"
             options={topicOptions}
             optionRender={wrapOption}
-            filterOption={(input, option) => `${option?.label ?? ""} ${option?.field ?? ""}`.toLowerCase().includes(input.toLowerCase())}
+            filterOption={searchFilter}
             value={filters.topicKey || undefined}
-            onChange={(v) => onChange({ topicKey: v || "" })}
+            onChange={stable("topicKey", (v) => onChange({ topicKey: v || "" }))}
             aria-label="Campo, subcampo o tópico"
             data-testid="topic-filter"
           />
         </Field>
         {odsOptions.length ? (
           <Field label={ODS_FILTER_LABEL} span={12} help={ODS_FILTER_HELP}>
-            <Select
-              showSearch
-              allowClear
-              style={{ width: "100%" }}
+            <FilterSelect
               placeholder="Todos"
               options={odsOptions}
               optionRender={wrapOption}
               filterOption={searchFilter}
               value={filters.odsNumber > 0 ? filters.odsNumber : undefined}
-              onChange={(v) => onChange({ odsNumber: v || 0 })}
+              onChange={stable("odsNumber", (v) => onChange({ odsNumber: v || 0 }))}
               aria-label="ODS"
               data-testid="ods-filter"
             />
@@ -199,17 +200,14 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           <Field label={AXIS_FILTER_LABEL} span={12}>
             <Tooltip title={AXIS_FILTER_TOOLTIP}>
               <div>
-                <Select
+                <FilterSelect
                   mode="multiple"
-                  allowClear
-                  showSearch
-                  style={{ width: "100%" }}
                   placeholder="Todos"
                   maxTagCount="responsive"
-                  options={axisOptions}
-                  filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                  options={onlyAvailable(axisOptions, available && available.axis, filters.axisIds)}
+                  filterOption={searchFilter}
                   value={filters.axisIds}
-                  onChange={(v) => onChange({ axisIds: v })}
+                  onChange={stable("axisIds", (v) => onChange({ axisIds: v }))}
                   aria-label="Eje Temático"
                 />
               </div>
@@ -233,6 +231,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           </Field>
         ) : null}
       </Row>
+      <Typography.Text type="secondary" style={{ fontSize: 12 }} data-testid="options-note">{OPTIONS_NOTE}</Typography.Text>
     </StickyFilters>
   );
 }

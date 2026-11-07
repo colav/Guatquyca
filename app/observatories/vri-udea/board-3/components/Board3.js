@@ -1,7 +1,8 @@
 "use client";
 
 /* Hooks */
-import { useEffect, useMemo, useState } from "react";
+import { Profiler, useEffect, useMemo, useState } from "react";
+import { profileRender, timed } from "@/lib/observatories/optionAvailability";
 import { useSearchParams } from "next/navigation";
 
 /* Components */
@@ -29,6 +30,7 @@ import {
   TYPE,
   computeFoundations,
   computePropertyAssets,
+  productOptionAvailability,
   parseFoundationsFilters,
   sameFoundationsFilters,
   serializeFoundationsFilters,
@@ -156,6 +158,8 @@ function Board3Content({ dataset, source }) {
   const staffLabel = isMock ? STAFF_LABEL : REAL_STAFF_LABEL;
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
+  /* Lists of options with products (F75, D-178), from the products that pass the filters. */
+  const available = useMemo(() => timed("options", () => productOptionAvailability(dataset, applied)), [dataset, applied]);
 
   /* Card 11b (F58): the key `pi` of the bundle; without it (test data) the card is not drawn. */
   const [piView, setPiView] = useState("unit");
@@ -283,7 +287,9 @@ function Board3Content({ dataset, source }) {
         />
       </header>
 
-      <FiltersBar raw={raw} centerCoverage={dataset.centerCoverage} filters={draft} onChange={update} onReset={reset} />
+      <Profiler id="filters" onRender={profileRender}>
+        <FiltersBar raw={raw} centerCoverage={dataset.centerCoverage} filters={draft} onChange={update} onReset={reset} available={available} />
+      </Profiler>
       <Typography.Text type="secondary" style={{ display: "block", marginBottom: 12 }}>
         {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
         {pending ? " · Actualizando…" : ""}

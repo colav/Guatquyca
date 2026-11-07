@@ -1,7 +1,8 @@
 "use client";
 
 /* Hooks */
-import { useEffect, useMemo, useState } from "react";
+import { Profiler, useEffect, useMemo, useState } from "react";
+import { profileRender, timed } from "@/lib/observatories/optionAvailability";
 import { useSearchParams } from "next/navigation";
 
 /* Components */
@@ -35,6 +36,7 @@ import {
   MIN_TREND_VOLUME,
   ODS_MIN_SCORE,
   TREND_BAND,
+  factOptionAvailability,
   reconcileChain,
   computeCapacity,
   rankActors,
@@ -146,6 +148,8 @@ function Board1Content({ dataset, source }) {
   }, [dataset, draft, update]);
 
   const result = useMemo(() => computeCapacity(dataset, applied), [dataset, applied]);
+  /* Lists of options with products (F75, D-178), from the facts that pass the filters. */
+  const available = useMemo(() => timed("options", () => factOptionAvailability(dataset, applied)), [dataset, applied]);
 
   /* Each chart receives a value that keeps its reference while its content does not change. */
   const modern = result.model === "capacity";
@@ -267,7 +271,9 @@ function Board1Content({ dataset, source }) {
         />
       </header>
 
-      <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
+      <Profiler id="filters" onRender={profileRender}>
+        <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} available={available} />
+      </Profiler>
       <SummaryLine summary={summary} noun={DIMENSION_NOUN[applied.dimension]} pending={pending} />
       <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
 
