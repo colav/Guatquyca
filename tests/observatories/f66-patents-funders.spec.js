@@ -154,12 +154,16 @@ test.describe("patents, funders and document against the real quyca (read-only, 
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/observatories/vri-udea/board-2?axis=98");
-    await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 120000 });
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).waitFor({ timeout: 120000 });
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
+    await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 30000 });
     await page.waitForTimeout(1000);
     await expect(page.getByTestId("patents-ignored-note")).toContainText("eje");
     await expect(page.getByText("patentes con empresa como cotitular")).toBeVisible();
     await expect(page.getByText("no indica quién co-inventó", { exact: false }).first()).toBeVisible();
     await expect(page.getByText("Este ránking no responde a los filtros")).toHaveCount(0);
+    await page.mouse.move(0, 0);
+    await page.getByRole("button", { name: "Ayuda del filtro del panel" }).hover(); // the line under the filters is the help of the panel (F77b)
     await expect(page.getByText("responden a temporalidad, centro, ámbito departamental, eje y documento")).toBeVisible();
     await expect(page.getByText("La base no contiene patentes")).toHaveCount(0);
   });

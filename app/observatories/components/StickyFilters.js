@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /* lib */
+import FilterHelp from "@/app/observatories/components/FilterHelp";
 import { CARD_SHADOW } from "@/lib/observatories/layout";
 
 /* UI Library Components */
@@ -26,8 +27,9 @@ let foldedMemory = false;
  * @param {string[]} active - Active filters as short texts (e.g. «Unidad: Facultad de Medicina»).
  * @param {Function} onReset - Restores the defaults; its button (dashed, right) is in the row of the button «Filtros (n)», open or folded (F53).
  * @param {string} resetLabel - Text of that button.
+ * @param {React.ReactNode} [help] - General phrases of the panel (F77b): they go in a «?» next to the button, not under the filters.
  */
-export default function StickyFilters({ children, active = [], onReset, resetLabel = "Restablecer filtros" }) {
+export default function StickyFilters({ children, active = [], onReset, resetLabel = "Restablecer filtros", help = null }) {
   const [folded, setFolded] = useState(foldedMemory);
   const toggle = () => {
     foldedMemory = !folded;
@@ -84,6 +86,7 @@ export default function StickyFilters({ children, active = [], onReset, resetLab
         <Button size="small" aria-expanded={!folded} data-testid="filters-toggle" onClick={toggle}>
           {folded ? "▸" : "▾"} Filtros ({active.length})
         </Button>
+        {help ? <FilterHelp label="del panel">{help}</FilterHelp> : null}
         {folded ? (
           <div data-testid="filters-folded-tags" style={{ display: "flex", gap: 4, overflow: "hidden", whiteSpace: "nowrap", minWidth: 0, flex: 1 }}>
             {active.length ? active.map((text) => <Tag key={text} style={{ margin: 0, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis" }} title={text}>{text}</Tag>) : <span style={{ fontSize: 12, color: "rgba(0,0,0,.45)" }}>Sin filtros activos</span>}

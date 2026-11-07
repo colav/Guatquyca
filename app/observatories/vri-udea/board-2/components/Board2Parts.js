@@ -50,11 +50,6 @@ export const StatTiles = memo(function StatTiles({ stats }) {
   );
 });
 
-/** Note under a panel. */
-export function Note({ children, ...rest }) {
-  return <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8, marginBottom: 0 }} {...rest}>{children}</Typography.Paragraph>;
-}
-
 /** Table of the groups with non-academic actors (indicator 13). */
 export const DomainTable = memo(function DomainTable({ rows }) {
   if (!rows.length) return <Typography.Text type="secondary">Sin productos en este dominio con el filtro actual.</Typography.Text>;

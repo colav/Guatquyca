@@ -12,7 +12,8 @@ import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
 import FiltersBar from "./FiltersBar";
 import TileCartogram from "./TileCartogram";
-import { CountriesTable, DomainTable, GoalsTable, KpiRow, Note, StatTiles } from "./Board2Parts";
+import Note from "@/app/observatories/components/Note";
+import { CountriesTable, DomainTable, GoalsTable, KpiRow, StatTiles } from "./Board2Parts";
 import { SegmentedBarsChart, TrendLinesChart, WorldBubblesChart } from "./Charts";
 
 /* lib */

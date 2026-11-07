@@ -107,7 +107,7 @@ test.describe("filter panel: height by width (one run)", () => {
         // the fields in rows: distinct tops of the controls
         const tops = await page.getByTestId("filters").locator("label").evaluateAll((els) => [...new Set(els.map((e) => Math.round(e.getBoundingClientRect().top)))]);
         const rows = await page.getByTestId("filter-row").count();
-        expect(rows, "three rows").toBe(3);
+        expect(rows, "rows").toBe(board === 1 ? 3 : 2);
         // nothing cut: each label on one line and the text of the switches inside its box
         const labels = await page.getByTestId("filters").locator("label").evaluateAll((els) => els.filter((e) => e.getBoundingClientRect().height > 20).map((e) => e.textContent));
         const clipped = await page.getByTestId("filters").locator(".ant-segmented-item-label").evaluateAll((els) => els.filter((e) => e.scrollWidth > e.clientWidth + 1).map((e) => e.textContent));
@@ -175,4 +175,29 @@ test.describe("treemaps use the whole palette (one run)", () => {
       expect(fromPalette.length, name).toBeGreaterThanOrEqual(3);
     }
   });
+});
+
+test.describe("F77b: phrases of the panel as help and nothing under the last row (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+  for (const board of [1, 2, 3]) {
+    test(`T${board}: the phrase of the lists is in the «?» of the panel, no text under the filters, tooltips over controls gone`, async ({ page }) => {
+      test.setTimeout(240000);
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.getByTestId("filters").waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2500);
+      const body = page.getByTestId("filters-body");
+      // nothing under the last row: the panel body is the rows and nothing else
+      const texts = await body.locator("> *").evaluateAll((els) => els.map((e) => e.getAttribute("data-testid")));
+      expect(texts).toHaveLength(1);
+      expect(await body.locator("[data-testid=filter-rows]").count()).toBe(1);
+      expect((await body.innerText()).includes("Las listas muestran")).toBe(false);
+      await page.getByRole("button", { name: "Ayuda del filtro del panel" }).hover();
+      await expect(page.getByTestId("options-note")).toContainText("Las listas muestran solo las opciones con productos");
+      await page.mouse.move(0, 0);
+      // no Tooltip wraps a control: hovering the centre selector opens none
+      await page.getByTestId("filter-centerIndex").hover();
+      await page.waitForTimeout(900);
+      await expect(page.locator(".ant-tooltip:not(.ant-tooltip-hidden)")).toHaveCount(0);
+    });
+  }
 });

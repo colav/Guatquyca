@@ -6,7 +6,7 @@ import { memo, useMemo } from "react";
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
 import KpiCard from "@/app/observatories/components/KpiCard";
-import { Note } from "../../board-2/components/Board2Parts";
+import Note from "@/app/observatories/components/Note";
 import { HBarsChart, LinesChart } from "./Charts";
 
 /* lib */

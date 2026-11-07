@@ -16,12 +16,13 @@ import { FilterSelect, useStableChange } from "@/app/observatories/components/Fi
 import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
 /* Components */
-import FilterRows, { SWITCH_COLUMN, YEARS_COLUMN } from "@/app/observatories/components/FilterRows";
+import FilterRows from "@/app/observatories/components/FilterRows";
+import YearsField from "@/app/observatories/components/YearsField";
 import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Select, Tooltip, Typography } from "antd";
+import { Select } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
@@ -101,47 +102,32 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
   ].filter(Boolean);
 
   return (
-    <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
+    <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros" help={<><div>Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.</div><div data-testid="options-note" style={{ marginTop: 6 }}>{OPTIONS_NOTE}</div></>}>
       <FilterRows
         rows={[
           {
-            columns: "1fr 1fr 1fr",
+            columns: "1fr 1fr 1fr 1fr",
             cells: [
               <Field key="unit" label="Unidad académica">{select("facultyIndex", faculties, "Todas", (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
               <Field key="subunit" label="Subunidad académica">{select("departmentIndex", units, "Todas")}</Field>,
               <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
-                <Tooltip title={CENTER_TOOLTIP}>
-                  <div>{select("centerIndex", centers, "Todos")}</div>
-                </Tooltip>
+                {select("centerIndex", centers, "Todos")}
               </Field>,
+              <YearsField key="years" options={YEAR_OPTIONS} yearFrom={filters.yearFrom} yearTo={filters.yearTo} onYearFrom={stable("yearFrom", (v) => onChange({ yearFrom: v }))} onYearTo={stable("yearTo", (v) => onChange({ yearTo: v }))} />,
             ],
           },
           {
-            columns: "1fr 1fr 1fr",
+            columns: "1fr 1fr 1fr 1fr",
             cells: [
               <Field key="scope" label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>,
               <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyIndex", documents, "Todos")}</Field>,
-            ],
-          },
-          {
-            columns: `1fr ${YEARS_COLUMN}px`,
-            cells: [
               <Field key="subfield" label="Subcampo de conocimiento">
                 <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
-              </Field>,
-              <Field key="years" label="Temporalidad">
-                <div style={{ display: "flex", gap: 8 }}>
-                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
-                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
-                </div>
               </Field>,
             ],
           },
         ]}
       />
-      <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad. {OPTIONS_NOTE}
-      </Typography.Text>
     </StickyFilters>
   );
 }

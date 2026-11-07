@@ -131,11 +131,13 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
     await page.setViewportSize({ width: 1440, height: 900 });
     const big = bundle.thesaurus.ejes.map((e) => ({ id: e.id, n: directProj(e.id).length })).sort((a, b) => b.n - a.n)[0];
     await page.goto(`/observatories/vri-udea/board-2?axis=${big.id}`);
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1000);
     const kpiProjects = page.locator(".obs-kpi").filter({ hasText: "proyectos SIIU" }).first();
     await expect(kpiProjects).toContainText(big.n.toLocaleString("es-CO"));
     await expect(kpiProjects).not.toContainText(NO_AXIS_RESPONSE);
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toContainText("y a proyectos");
     await expect(page.getByText("La línea de proyectos no responde al eje")).toHaveCount(0);
     await expect(page.getByText("Los proyectos no responde al eje")).toHaveCount(0);

@@ -216,6 +216,7 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(1000);
     expect(await kpi2(page)).toBe(4423);
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toContainText("El documento solo limita los ejes disponibles.");
   });
 

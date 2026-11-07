@@ -169,9 +169,9 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await page.goto("/observatories/vri-udea/board-2");
     await expect(page.getByTestId("filters-toggle")).toBeVisible({ timeout: 120000 });
     const height = Math.round((await page.getByTestId("filters").boundingBox()).height);
-    const rows = await page.getByTestId("filter-row").count(); // F77: three rows of filters
+    const rows = await page.getByTestId("filter-row").count(); // F77b: two rows of filters
     console.log(`[live] height of the container of the filters at 1440: ${height} px, ${rows} rows of filters`);
-    expect(rows).toBe(3);
+    expect(rows).toBe(2);
     const axisSelect = page.getByTestId("axis-filter");
     await expect(axisSelect).toBeVisible();
     await axisSelect.locator(".ant-select-selector").click();
@@ -184,6 +184,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await expect(page.locator(".ant-select-item-option").first()).toBeVisible();
     await page.locator(".ant-select-item-option").first().click();
     await expect(page).toHaveURL(/axis=\d+/, { timeout: 30000 });
+    await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toContainText("confianza alta o media");
     await expect(page.getByText(NO_AXIS_RESPONSE).first()).toBeVisible();
   });

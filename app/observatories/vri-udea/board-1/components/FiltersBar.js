@@ -31,11 +31,12 @@ import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/compo
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import FilterRows, { SWITCH_COLUMN, YEARS_COLUMN } from "@/app/observatories/components/FilterRows";
+import YearsField from "@/app/observatories/components/YearsField";
 import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Segmented, Select, Tooltip, Typography } from "antd";
+import { Segmented, Select } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from(
@@ -154,7 +155,7 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
   ].filter(Boolean);
 
   return (
-    <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
+    <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros" help={<span data-testid="options-note">{OPTIONS_NOTE}</span>}>
       <FilterRows
         rows={[
           {
@@ -163,9 +164,7 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
               <Field key="unit" label="Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>,
               <Field key="subunit" label="Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>,
               <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
-                <Tooltip title={CENTER_TOOLTIP}>
-                  <div>{select("centerIndex", centerOptions, "Todos", true)}</div>
-                </Tooltip>
+                {select("centerIndex", centerOptions, "Todos", true)}
               </Field>,
               <Field key="dimension" label="Dimensión (campos, subcampos o tópicos)">
                 <Segmented size="small" block style={SWITCH_STYLE} options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
@@ -178,9 +177,8 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
               <Field key="scope" label="Ámbito" help={SCOPE_FILTER_HELP}>{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>,
               <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>,
               dataset.hasFactDetails ? (
-                <Field key="axis" label={AXIS_FILTER_LABEL}>
-                  <Tooltip title={AXIS_FILTER_TOOLTIP}>
-                    <div>
+                <Field key="axis" label={AXIS_FILTER_LABEL} help={AXIS_FILTER_TOOLTIP}>
+                  <div>
                       <FilterSelect
                         mode="multiple"
                         placeholder="Todos"
@@ -191,16 +189,11 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
                         onChange={stable("axisIds", (v) => onChange({ axisIds: v }))}
                         aria-label="Eje Temático"
                       />
-                    </div>
-                  </Tooltip>
+                  </div>
                 </Field>
               ) : null,
-              <Field key="ratio" label="Referente">
-                <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
-                  <div>
-                    <Segmented size="small" block style={SWITCH_STYLE} options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
-                  </div>
-                </Tooltip>
+              <Field key="ratio" label="Referente" help="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
+                <Segmented size="small" block style={SWITCH_STYLE} options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
               </Field>,
             ],
           },
@@ -231,26 +224,16 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
                   />
                 </Field>
               ) : null,
-              <Field key="years" label="Temporalidad">
-                <div style={{ display: "flex", gap: 8 }}>
-                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
-                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
-                </div>
-              </Field>,
+              <YearsField key="years" options={YEAR_OPTIONS} yearFrom={filters.yearFrom} yearTo={filters.yearTo} onYearFrom={stable("yearFrom", (v) => onChange({ yearFrom: v }))} onYearTo={stable("yearTo", (v) => onChange({ yearTo: v }))} />,
               dataset.hasFactDetails ? (
-                <Field key="pair" label="Confianza de la asignación a ejes">
-                  <Tooltip title={PAIR_LEVEL_TOOLTIP}>
-                    <div>
-                      <Segmented size="small" block style={SWITCH_STYLE} options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
-                    </div>
-                  </Tooltip>
+                <Field key="pair" label="Confianza de la asignación a ejes" help={PAIR_LEVEL_TOOLTIP}>
+                  <Segmented size="small" block style={SWITCH_STYLE} options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
                 </Field>
               ) : null,
             ],
           },
         ]}
       />
-      <Typography.Text type="secondary" style={{ fontSize: 12 }} data-testid="options-note">{OPTIONS_NOTE}</Typography.Text>
     </StickyFilters>
   );
 }

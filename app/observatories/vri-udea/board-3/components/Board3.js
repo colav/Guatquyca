@@ -14,7 +14,7 @@ import DonutChart from "@/app/observatories/components/DonutChart";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import FiltersBar from "./FiltersBar";
 import PropertyCard from "./PropertyCard";
-import { Note } from "../../board-2/components/Board2Parts";
+import Note from "@/app/observatories/components/Note";
 import { AreasTreemapChart, ArtsScatterChart, BubbleGridChart, HBarsChart, LinesChart, StackedBarsChart } from "./Charts";
 
 /* lib */
