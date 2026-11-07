@@ -27,6 +27,8 @@ import {
 
 /* Components */
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
+import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
@@ -105,28 +107,41 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
     const outside = doc ? axesOutsideDocument(dataset, { policyDoc: doc, axisIds: filters.axisIds }) : [];
     onChange({ policyDoc: doc, ...(outside.length ? { axisIds: filters.axisIds.filter((id) => !outside.includes(id)) } : {}) });
   };
-  /* Field, subfield or topic (F69, T1-02): three groups in one searchable list; the key says which one it is. */
-  const topicOptions = useMemo(() => {
-    const fields = [...new Set(dataset.topics.map((t) => t.f))].sort((a, b) => a.localeCompare(b, "es"));
-    const subfields = [...new Set(dataset.topics.map((t) => `${t.f}|${t.sf}`))].sort((a, b) => a.localeCompare(b, "es"));
-    const topics = dataset.topics.map((t) => ({ value: `t:${t.id}`, label: t.t })).sort((a, b) => a.label.localeCompare(b.label, "es"));
-    return [
-      { label: "Campos", options: fields.map((f) => ({ value: `f:${f}`, label: f })) },
-      { label: "Subcampos", options: subfields.map((s) => ({ value: `s:${s}`, label: `${s.split("|")[1]} (${s.split("|")[0]})` })) },
-      { label: "Tópicos", options: topics },
-    ];
+  /* Field, subfield or topic (F76): the whole hierarchy (domain → field → subfield → topic when the bundle has the domain), any level can be chosen; the key says which one it is. */
+  const topicTree = useMemo(() => {
+    const byDomain = new Map();
+    dataset.topics.forEach((t, i) => {
+      const d = t.d || "";
+      if (!byDomain.has(d)) byDomain.set(d, new Map());
+      const fields = byDomain.get(d);
+      if (!fields.has(t.f)) fields.set(t.f, new Map());
+      const subs = fields.get(t.f);
+      if (!subs.has(t.sf)) subs.set(t.sf, []);
+      subs.get(t.sf).push({ value: `t:${t.id}`, title: t.t, leafId: i });
+    });
+    const byTitle = (a, b) => a.title.localeCompare(b.title, "es");
+    const fieldNodes = (fields) =>
+      [...fields.entries()]
+        .map(([f, subs]) => ({ value: `f:${f}`, title: f, children: [...subs.entries()].map(([sf, topics]) => ({ value: `s:${f}|${sf}`, title: sf, children: topics.sort(byTitle) })).sort(byTitle) }))
+        .sort(byTitle);
+    const hasDomain = dataset.topics.some((t) => t.d);
+    return hasDomain ? [...byDomain.entries()].map(([d, fields]) => ({ value: `d:${d}`, title: d || "Sin dominio", children: fieldNodes(fields) })).sort(byTitle) : fieldNodes([...byDomain.values()][0] || new Map());
   }, [dataset]);
+  const topicPaths = useMemo(() => indexTree(topicTree).path, [topicTree]);
+  const topicShown = pruneTree(topicTree, available && available.topic, filters.topicKey || "");
   /* ODS (F71, C1-07): the 17 goals of the bundle, chosen by number. */
   const odsOptions = useMemo(() => (dataset.hasFactDetails && dataset.ods ? dataset.ods.map(([number, name]) => ({ value: number, label: `${number} · ${name}` })) : []), [dataset]);
   const odsLabel = (n) => odsOptions.find((o) => o.value === n)?.label ?? String(n);
-  const topicLabel = (key) => topicOptions.flatMap((g) => g.options).find((o) => o.value === key)?.label ?? key;
+  const topicLabel = (key) => topicPaths.get(key) ?? key;
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
-  const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
+  /* Unit → subunit (F76, D-180): with a unit chosen only its subunits; without one, grouped by unit. */
+  const departmentOptions = useMemo(() => subunitOptions(dataset.departments, dataset.departmentUnit, dataset.faculties, filters.facultyIndex), [dataset, filters.facultyIndex]);
 
   /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
   const stable = useStableChange();
   const select = (key, options, placeholder, mapIndex = false, custom = null, wrap = false) => (
     <FilterSelect
+      data-testid={`filter-${key}`}
       placeholder={placeholder}
       options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       optionRender={wrap ? wrapOption : undefined}
@@ -168,15 +183,13 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
         <Field label="5 · Dimensión (campos, subcampos o tópicos)">
           <Segmented size="small" block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
         </Field>
-        <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
+        <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>
         <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
         <Field label="Campo, subcampo o tópico" span={12}>
-          <FilterSelect
-            placeholder="Todos"
-            options={topicOptions}
-            optionRender={wrapOption}
-            filterOption={searchFilter}
-            value={filters.topicKey || undefined}
+          <HierarchySelect
+            tree={topicShown}
+            paths={topicPaths}
+            value={filters.topicKey}
             onChange={stable("topicKey", (v) => onChange({ topicKey: v || "" }))}
             aria-label="Campo, subcampo o tópico"
             data-testid="topic-filter"

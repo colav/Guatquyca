@@ -12,6 +12,8 @@ import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, DOCUMENT_FILTER_HELP, S
 
 /* Components */
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
+import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import FilterHelp from "@/app/observatories/components/FilterHelp";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
@@ -69,12 +71,31 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
     }
     return groups;
   }, [raw, subfieldLabel]);
+  /* Tree field → subfield (F76): choosing a field is choosing all its subfields. */
+  const subfieldTree = useMemo(() => {
+    const byField = new Map();
+    raw.subfields.forEach((name, i) => {
+      const f = raw.sfField[i];
+      if (!byField.has(f)) byField.set(f, []);
+      byField.get(f).push({ value: `s:${i}`, title: name, leafId: i });
+    });
+    const byTitle = (a, b) => a.title.localeCompare(b.title, "es");
+    return [...byField.entries()].map(([f, kids]) => ({ value: `f:${f}`, title: f, children: kids.sort(byTitle) })).sort(byTitle);
+  }, [raw]);
+  const subfieldPaths = useMemo(() => indexTree(subfieldTree).path, [subfieldTree]);
+  const subfieldValue = filters.subfieldIndex >= 0 ? `s:${filters.subfieldIndex}` : filters.fieldName ? `f:${filters.fieldName}` : "";
+  const subfieldShown = pruneTree(subfieldTree, available && available.subfield, subfieldValue);
+  const changeSubfield = (v) => {
+    if (!v) onChange({ subfieldIndex: -1, fieldName: "" });
+    else if (v.startsWith("s:")) onChange({ subfieldIndex: Number(v.slice(2)), fieldName: "" });
+    else onChange({ subfieldIndex: -1, fieldName: v.slice(2) });
+  };
   const centers = useMemo(() => indexOptions(raw.centros), [raw]);
   /* Coverage note of the centre filter, from the data of the board (D-126). */
   const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
   /* Subunits without works are not offered (B3, F50). */
-  const units = useMemo(() => indexOptions(raw.deps).filter((o) => dataset.unitsWithWorks.has(o.value)), [raw, dataset]);
+  const units = useMemo(() => subunitOptions(raw.deps, raw.deps_fac, raw.facs, filters.facultyIndex, (i) => dataset.unitsWithWorks.has(i)), [raw, dataset, filters.facultyIndex]);
 
   /* Eje Temático (F59, D-159): grouped by document of policy; with a document chosen it lists only the axes of that document. */
   const axisGroups = useMemo(() => dataset.axisGroups.map((g) => ({ label: g.agenda, options: g.axes.map((a) => ({ value: a.id, label: a.label })) })), [dataset]);
@@ -100,13 +121,14 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
 
   /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
   const stable = useStableChange();
-  const select = (key, options, placeholder, isIndex) => (
+  const select = (key, options, placeholder, isIndex, custom = null) => (
     <FilterSelect
+      data-testid={`filter-${key}`}
       placeholder={placeholder}
       options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       filterOption={searchFilter}
       value={isIndex ? (filters[key] >= 0 ? filters[key] : undefined) : filters[key] || undefined}
-      onChange={stable(key, (v) => onChange({ [key]: v === undefined || v === null ? (isIndex ? -1 : "") : v }))}
+      onChange={stable(key, custom || ((v) => onChange({ [key]: v === undefined || v === null ? (isIndex ? -1 : "") : v })))}
     />
   );
 
@@ -120,6 +142,7 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
     filters.facultyIndex >= 0 && `Unidad: ${raw.facs[filters.facultyIndex]}`,
     filters.departmentIndex >= 0 && `Subunidad: ${raw.deps[filters.departmentIndex]}`,
     filters.subfieldIndex >= 0 && `Subcampo: ${subfieldLabel(filters.subfieldIndex)}`,
+    filters.fieldName && `Campo: ${filters.fieldName}`,
   ].filter(Boolean);
 
   return (
@@ -162,9 +185,11 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
             <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
           </div>
         </Field>
-        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas", true)}</Field>
+        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas", true, (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>
         <Field label="Subunidad académica">{select("departmentIndex", units, "Todas", true)}</Field>
-        <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos", true)}</Field>
+        <Field label="Subcampo de conocimiento">
+          <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
+        </Field>
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         {dataset.hasProjectPairs ? "Se combinan con «y»; los proyectos responden a temporalidad, centro, ámbito departamental, eje y documento." : "Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental."}

@@ -10,6 +10,8 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { DOCUMENT_FILTER_HELP, SCOPE_LABELS } from "./boardTexts";
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
+import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
+import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
 import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
@@ -64,18 +66,37 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
   /* Coverage note of the centre filter (D-126). "Sin centro" is not an option but counts as a product without centre. */
   const centerNote = useMemo(() => centerCoverageNote(centerCoverage), [centerCoverage]);
   const faculties = useMemo(() => indexOptions(raw.facs), [raw]);
-  const units = useMemo(() => indexOptions(raw.deps), [raw]);
-  const subfields = useMemo(() => indexOptions(raw.subs), [raw]);
+  const units = useMemo(() => subunitOptions(raw.deps, raw.deps_fac, raw.facs, filters.facultyIndex), [raw, filters.facultyIndex]);
+  /* Tree field → subfield (F76): choosing a field is choosing all its subfields. */
+  const subfieldTree = useMemo(() => {
+    const byField = new Map();
+    raw.subs.forEach((name, i) => {
+      const f = raw.sub_meta && raw.sub_meta[name] ? raw.sub_meta[name][0] : 0;
+      if (!byField.has(f)) byField.set(f, []);
+      byField.get(f).push({ value: `s:${i}`, title: name, leafId: i });
+    });
+    const byTitle = (a, b) => a.title.localeCompare(b.title, "es");
+    return [...byField.entries()].map(([f, kids]) => ({ value: `f:${f}`, title: (raw.fields && raw.fields[f]) || "Campo", children: kids.sort(byTitle) })).sort(byTitle);
+  }, [raw]);
+  const subfieldPaths = useMemo(() => indexTree(subfieldTree).path, [subfieldTree]);
+  const subfieldValue = filters.subfieldIndex >= 0 ? `s:${filters.subfieldIndex}` : filters.fieldIndex >= 0 ? `f:${filters.fieldIndex}` : "";
+  const subfieldShown = pruneTree(subfieldTree, available && available.subfield, subfieldValue);
+  const changeSubfield = (v) => {
+    if (!v) onChange({ subfieldIndex: -1, fieldIndex: -1 });
+    else if (v.startsWith("s:")) onChange({ subfieldIndex: Number(v.slice(2)), fieldIndex: -1 });
+    else onChange({ subfieldIndex: -1, fieldIndex: Number(v.slice(2)) });
+  };
 
   /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
   const stable = useStableChange();
-  const select = (key, options, placeholder) => (
+  const select = (key, options, placeholder, custom = null) => (
     <FilterSelect
+      data-testid={`filter-${key}`}
       placeholder={placeholder}
       options={onlyAvailable(options, available && available[AVAILABLE_KEY[key]], filters[key])}
       filterOption={searchFilter}
       value={filters[key] >= 0 ? filters[key] : undefined}
-      onChange={stable(key, (v) => onChange({ [key]: v === undefined || v === null ? -1 : v }))}
+      onChange={stable(key, custom || ((v) => onChange({ [key]: v === undefined || v === null ? -1 : v })))}
     />
   );
 
@@ -88,6 +109,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
     filters.facultyIndex >= 0 && `Unidad: ${raw.facs[filters.facultyIndex]}`,
     filters.departmentIndex >= 0 && `Subunidad: ${raw.deps[filters.departmentIndex]}`,
     filters.subfieldIndex >= 0 && `Subcampo: ${raw.subs[filters.subfieldIndex]}`,
+    filters.fieldIndex >= 0 && `Campo: ${raw.fields[filters.fieldIndex]}`,
   ].filter(Boolean);
 
   return (
@@ -106,9 +128,11 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
             <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
           </div>
         </Field>
-        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas")}</Field>
+        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas", (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>
         <Field label="Subunidad académica">{select("departmentIndex", units, "Todas")}</Field>
-        <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos")}</Field>
+        <Field label="Subcampo de conocimiento">
+          <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
+        </Field>
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad. {OPTIONS_NOTE}
