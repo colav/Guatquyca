@@ -9,6 +9,8 @@ import { PAIR_LEVEL, YEAR_RANGE, axesOutsideDocument } from "@/lib/observatories
 /* Texts */
 import {
   ALL_SCOPES,
+  SCOPE_LABELS,
+  byPolicyOrder,
   DIMENSION_OPTIONS,
   PAIR_LEVEL_OPTIONS,
   PAIR_LEVEL_TOOLTIP,
@@ -61,9 +63,9 @@ const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().incl
  */
 function FiltersBar({ dataset, filters, onChange, onReset }) {
   /* Only the documents with curated axes (D-129); the names come from the bundle. */
-  const policyOptions = useMemo(() => dataset.policyDocs.map((name) => ({ value: name, label: name })), [dataset]);
+  const policyOptions = useMemo(() => [...dataset.policyDocs].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset]);
   const scopeOptions = useMemo(
-    () => ALL_SCOPES.map((s) => ({ value: s, label: dataset.scopes.includes(s) ? s : `${s} (sin agendas en v5)`, disabled: !dataset.scopes.includes(s) })),
+    () => ALL_SCOPES.map((s) => ({ value: s, label: dataset.scopes.includes(s) ? SCOPE_LABELS[s] : `${SCOPE_LABELS[s]} (sin agendas)`, disabled: !dataset.scopes.includes(s) })),
     [dataset],
   );
   const centerOptions = useMemo(() => indexOptions(dataset.centers), [dataset]);
@@ -86,6 +88,18 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     const outside = doc ? axesOutsideDocument(dataset, { policyDoc: doc, axisIds: filters.axisIds }) : [];
     onChange({ policyDoc: doc, ...(outside.length ? { axisIds: filters.axisIds.filter((id) => !outside.includes(id)) } : {}) });
   };
+  /* Field, subfield or topic (F69, T1-02): three groups in one searchable list; the key says which one it is. */
+  const topicOptions = useMemo(() => {
+    const fields = [...new Set(dataset.topics.map((t) => t.f))].sort((a, b) => a.localeCompare(b, "es"));
+    const subfields = [...new Set(dataset.topics.map((t) => `${t.f}|${t.sf}`))].sort((a, b) => a.localeCompare(b, "es"));
+    const topics = dataset.topics.map((t) => ({ value: `t:${t.id}`, label: t.t })).sort((a, b) => a.label.localeCompare(b.label, "es"));
+    return [
+      { label: "Campos", options: fields.map((f) => ({ value: `f:${f}`, label: f })) },
+      { label: "Subcampos", options: subfields.map((s) => ({ value: `s:${s}`, label: `${s.split("|")[1]} (${s.split("|")[0]})` })) },
+      { label: "Tópicos", options: topics },
+    ];
+  }, [dataset]);
+  const topicLabel = (key) => topicOptions.flatMap((g) => g.options).find((o) => o.value === key)?.label ?? key;
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
@@ -112,6 +126,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     filters.facultyIndex >= 0 && `Unidad: ${dataset.faculties[filters.facultyIndex]}`,
     filters.departmentIndex >= 0 && `Subunidad: ${dataset.departments[filters.departmentIndex]}`,
     filters.axisIds && filters.axisIds.length && `Ejes: ${filters.axisIds.length}`,
+    filters.topicKey && `Tema: ${topicLabel(filters.topicKey)}`,
   ].filter(Boolean);
 
   return (
@@ -135,6 +150,21 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         </Field>
         <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
         <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
+        <Field label="Campo, subcampo o tópico" span={12}>
+          <Select
+            showSearch
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Todos"
+            options={topicOptions}
+            optionRender={wrapOption}
+            filterOption={(input, option) => `${option?.label ?? ""} ${option?.field ?? ""}`.toLowerCase().includes(input.toLowerCase())}
+            value={filters.topicKey || undefined}
+            onChange={(v) => onChange({ topicKey: v || "" })}
+            aria-label="Campo, subcampo o tópico"
+            data-testid="topic-filter"
+          />
+        </Field>
         {dataset.hasFactDetails ? (
           <Field label={AXIS_FILTER_LABEL} span={12}>
             <Tooltip title={AXIS_FILTER_TOOLTIP}>

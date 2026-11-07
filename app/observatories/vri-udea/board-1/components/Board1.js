@@ -334,17 +334,17 @@ function Board1Content({ dataset, source }) {
 
         <Col xs={24} md={12} lg={8}>
           <ChartCard title="3 · Grupos de investigación" note="productos asociados a los tópicos filtrados" empty={!groups.length}>
-            <RankingBarsChart rows={groups} />
+            <RankingBarsChart rows={groups} unit="Productos" />
           </ChartCard>
         </Col>
         <Col xs={24} md={12} lg={8}>
           <ChartCard title="4 · Ejes Temáticos públicos" note={dataset.hasFactDetails ? AXES_PANEL_NOTE[applied.pairLevel] : AXES_PANEL_NOTE.topics} empty={!axes.length}>
-            <RankingBarsChart rows={axes} />
+            <RankingBarsChart rows={axes} unit={dataset.hasFactDetails ? "Productos" : "Tópicos con producción"} />
           </ChartCard>
         </Col>
         <Col xs={24} md={12} lg={8}>
           <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados" empty={!goals.length}>
-            <RankingBarsChart rows={goals} labelSize={40} startCut />
+            <RankingBarsChart rows={goals} labelSize={40} startCut unit="Ejes Temáticos" />
           </ChartCard>
         </Col>
 
@@ -362,7 +362,7 @@ function Board1Content({ dataset, source }) {
           <>
             <Col xs={24} lg={12}>
               <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible" empty={!ods.some((o) => o.value)}>
-                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete />
+                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" />
                 <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
                   Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
                 </Typography.Paragraph>

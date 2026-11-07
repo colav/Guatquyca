@@ -16,7 +16,6 @@ import { SegmentedBarsChart, TrendLinesChart, WorldBubblesChart } from "./Charts
 
 /* lib */
 import {
-  AXIS_TABS,
   COLLAB_FILTER_DEBOUNCE_MS,
   DEFAULT_COLLAB_FILTERS,
   LIMITS,
@@ -62,6 +61,8 @@ import {
   abbreviate,
   smallSampleNote,
   smallProjectsNote,
+  appropriationYearNote,
+  missionFociNote,
   patentsIgnoredNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
@@ -126,12 +127,18 @@ function Board2Content({ dataset, source }) {
     if (fix) update(fix);
   }, [dataset, draft, update]);
   const [domainTab, setDomainTab] = useState(0);
-  const [axisTab, setAxisTab] = useState(AXIS_TABS.length - 1);
+  const [axisTab, setAxisTab] = useState(dataset.axisTabs.length - 1);
   const [subregionTab, setSubregionTab] = useState(0);
 
   const result = useMemo(() => computeCollaboration(dataset, applied), [dataset, applied]);
   /* Note of the groups (F60, D-160): the figures come from `registro_grupos` of the bundle, as in Board 3 (F54). */
   const registry = useMemo(() => groupRegistry(raw, isMock), [raw, isMock]);
+  /* Figures of the notes from the bundle (F69): appropriation without year and foci of the Misión de sabios. */
+  const appropriationRecords = useMemo(() => {
+    const list = raw.works.filter((w) => w[1] === WORK_TYPE.APPROPRIATION);
+    return { total: list.length, withoutYear: list.filter((w) => !w[0]).length };
+  }, [raw]);
+  const missionFoci = useMemo(() => raw.thesaurus.ejes.filter((e) => e.agenda === "Misión de sabios 2019").length, [raw]);
 
   /* Colours by series label (from palette.js). */
   const typeColors = useMemo(() => Object.fromEntries(raw.tipos.map((t, i) => [t, COLLAB_TYPE_COLORS[i]])), [raw]);
@@ -262,7 +269,7 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24} xl={12}>
           <ChartCard title="03 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
-            <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend />
+            <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend unit="productos" />
             <Note>{NOTES.v3}</Note>
           </ChartCard>
         </Col>
@@ -282,7 +289,7 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
-            <Note>{NOTES.v5b}</Note>
+            <Note>{`${NOTES.v5b} ${appropriationYearNote(appropriationRecords.withoutYear, appropriationRecords.total)}`}</Note>
             {result.hasPatents ? <Note>{NOTES.v5bPatents}</Note> : null}
             {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
             {noProj ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
@@ -314,13 +321,13 @@ function Board2Content({ dataset, source }) {
           </ChartCard>
         </Col>
 
-        <Col xs={24} lg={12} xl={8}>
+        <Col xs={24} lg={12} xl={12}>
           <ChartCard title="09 · Colaboración interdepartamental">
             <TileCartogram tiles={COLOMBIA_TILES} grid={COLOMBIA_GRID} counts={departmentCounts} unit="productos en coautoría" label={abbreviate} />
             {unassigned ? <Note>{fmt(unassigned)} productos con instituciones colombianas sin departamento asignado. Escala logarítmica de color.</Note> : <Note>{NOTES.v9}</Note>}
           </ChartCard>
         </Col>
-        <Col xs={24} lg={12} xl={8}>
+        <Col xs={24} lg={12} xl={12}>
           <ChartCard title="09b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
@@ -328,22 +335,22 @@ function Board2Content({ dataset, source }) {
             {smallProjects && subregionTab < 2 ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
         </Col>
-        <Col xs={24} xl={8}>
-          <ChartCard title="11 · 12 · Sur–Norte y Sur–Sur">
-            <StatTiles stats={northSouth} />
-            <SegmentedBarsChart rows={regions} colors={sideColors} labelSize={30} legend />
-            <Note>{NOTES.v11}</Note>
-          </ChartCard>
-        </Col>
-
-        <Col xs={24}>
+        {/* F69 (T2-01): panel 10 next to 11·12, as in the artifact. */}
+        <Col xs={24} xl={16}>
           <ChartCard title="10 · Colaboración internacional" empty={!world.length}>
             <Row gutter={[12, 12]}>
-              <Col xs={24} xl={16}><WorldBubblesChart points={world} /></Col>
-              <Col xs={24} xl={8}><CountriesTable rows={worldTable} /></Col>
+              <Col xs={24} xl={14}><WorldBubblesChart points={world} /></Col>
+              <Col xs={24} xl={10}><CountriesTable rows={worldTable} /></Col>
             </Row>
             <Note>{NOTES.v10}</Note>
             {withoutCoordinates ? <Note>{NO_COORDINATES_NOTE(withoutCoordinates)}</Note> : null}
+          </ChartCard>
+        </Col>
+        <Col xs={24} xl={8}>
+          <ChartCard title="11 · 12 · Sur–Norte y Sur–Sur">
+            <StatTiles stats={northSouth} />
+            <SegmentedBarsChart rows={regions} colors={sideColors} labelSize={30} legend unit="productos" />
+            <Note>{NOTES.v11}</Note>
           </ChartCard>
         </Col>
 
@@ -357,16 +364,16 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24}>
           <ChartCard title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
-            <Segmented size="small" options={TAB_OPTIONS(AXIS_TABS.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
-            <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend />
-            <Note>{NOTES.v14}</Note>
+            <Segmented size="small" options={TAB_OPTIONS(dataset.axisTabs.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
+            <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend unit="productos" />
+            <Note>{`${NOTES.v14} ${missionFociNote(missionFoci)}`}</Note>
             {axis ? <Note data-testid="axis-14-note">{AXIS_14_NOTE}</Note> : null}
           </ChartCard>
         </Col>
 
         <Col xs={24}>
           <ChartCard title="+ Entidades que financian o cofinancian proyectos (no académicas)">
-            <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend />
+            <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend unit="proyectos" />
             <Note>{result.fundersByProject ? NOTES.v16Filtered : `${NOTES.v16}${axis ? ` ${NO_AXIS_RESPONSE[0].toUpperCase()}${NO_AXIS_RESPONSE.slice(1)}.` : ""}`}</Note>
           </ChartCard>
         </Col>

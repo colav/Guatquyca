@@ -23,6 +23,7 @@ import { SIDE_LABELS } from "./boardTexts";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
+const fmt = (n) => Number(n).toLocaleString("es-CO");
 
 /**
  * Horizontal bars, simple or stacked. Rows use a unique key as category because labels can repeat;
@@ -32,15 +33,20 @@ const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2
  * @param {Object<string, string>} colors - Series label -> colour (from palette.js).
  * @param {number} [labelSize] - Characters kept in the axis label.
  * @param {boolean} [legend] - Shows the legend of the series.
+ * @param {string} [unit] - What the values count, in the tooltip ("productos", "proyectos"); empty = just the figure.
  */
-function SegmentedBars({ rows, colors, labelSize = 34, legend = false }) {
+function SegmentedBars({ rows, colors, labelSize = 34, legend = false, unit = "" }) {
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     const series = Object.keys(colors);
+    /* Tooltip (F69): the name of each series (type, sector), the unit, the total when a row has several segments, and «Detalle» only when some row has it. */
+    const stacked = rows.some((r) => r.segments.filter((s) => s.value > 0).length > 1);
+    const hasDetail = rows.some((r) => r.detail);
     return {
-      data: rows.flatMap((r, i) =>
-        r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", series: s.series, value: s.value })),
-      ),
+      data: rows.flatMap((r, i) => {
+        const total = r.segments.reduce((a, s) => a + s.value, 0);
+        return r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", series: s.series, value: s.value, total }));
+      }),
       xField: "key",
       yField: "value",
       colorField: "series",
@@ -51,9 +57,12 @@ function SegmentedBars({ rows, colors, labelSize = 34, legend = false }) {
       legend: legend ? { color: { position: "top" } } : false,
       scale: { color: { domain: series, range: series.map((s) => colors[s]) } },
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key } },
-      tooltip: { title: (d) => d.name, items: [{ field: "value", name: "Productos" }, { field: "detail", name: "Detalle" }] },
+      tooltip: {
+        title: (d) => (stacked ? `${d.name} · total ${fmt(d.total)}` : d.name),
+        items: [(d) => ({ name: d.series, value: `${fmt(d.value)}${unit ? ` ${unit}` : ""}` }), ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])],
+      },
     };
-  }, [rows, colors, labelSize, legend]);
+  }, [rows, colors, labelSize, legend, unit]);
 
   return (
     <TooltipBox>

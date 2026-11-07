@@ -26,7 +26,7 @@ test.describe("texts of Board 2 (no server)", () => {
       expect(text).not.toMatch(/términos Núcleo|coincidencia de términos|6 de los 12/);
       if (text !== NOTICE) expect(text).toContain("las patentes salen del portafolio de propiedad intelectual"); // F66 changed this sentence in the notice of the API
     }
-    expect(NOTICE).toContain("el 77 % de los productos tiene resumen");
+    expect(NOTICE).toContain("la mayoría de los productos tiene resumen");
     expect(NOTICE).not.toMatch(/patentes ni resúmenes|no incluye resúmenes/);
   });
 

@@ -24,7 +24,9 @@ import {
   FOUNDATIONS_FILTER_DEBOUNCE_MS,
   GROUP_CATEGORIES,
   OECD_AREAS,
+  PRODUCT,
   STUDENT_LEVELS,
+  TYPE,
   computeFoundations,
   computePropertyAssets,
   parseFoundationsFilters,
@@ -154,6 +156,11 @@ function Board3Content({ dataset, source }) {
   const areas = useStableValue(result.areas);
   const groupGrid = useStableValue(result.groupGrid);
   const appropriation = useStableValue(result.appropriation);
+  /* Records of social appropriation and the ones without year, from the bundle (F69: no fixed figures in the texts). */
+  const appropriationRecords = useMemo(() => {
+    const list = raw.P.filter((p) => p[PRODUCT.TYPE] === TYPE.APPROPRIATION);
+    return { total: list.length, withoutYear: list.filter((p) => !p[PRODUCT.YEAR]).length };
+  }, [raw]);
   const company = useStableValue(result.company);
   const repository = useStableValue(result.repository);
   const openAccess = useStableValue(result.openAccess);
@@ -332,7 +339,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="10 · Profesores con productos de apropiación social, por unidad académica" empty={!appropriationRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={appropriationRows} color={BAR_COLORS.appropriation} unit="Profesores" />
-            <Note>{`${fmt(appropriation.staff)} profesores con apropiación social, sobre los profesores de la unidad con producción en la selección. 735 de los 752 registros de apropiación no tienen año; la unidad se infiere de la unidad más frecuente del autor.`}</Note>
+            <Note>{`${fmt(appropriation.staff)} profesores con apropiación social, sobre los profesores de la unidad con producción en la selección. ${fmt(appropriationRecords.withoutYear)} de los ${fmt(appropriationRecords.total)} registros de apropiación no tienen año; la unidad se infiere de la unidad más frecuente del autor.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -352,7 +359,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="12 · Profesores con productos artísticos, por número de productos y tipo de contrato" empty={!arts.points.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>
             <ArtsScatterChart points={arts.points} groups={ART_GROUPS} colors={FOUNDATIONS_COLORS.arts} />
-            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " 42 de las 57 personas de Productos de creación.xlsx se cruzaron con la planta." : ""} No responde a los filtros.${creationHasProjects ? "" : " No se muestra la columna de proyectos porque el bundle aún no los trae (vale 0 en todas las unidades)."}`}</Note>
+            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " Parte de las personas de Productos de creación.xlsx se cruzó con la planta." : ""} No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -364,7 +371,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24}>
           <ChartCard title="14 · Unidades académicas en proyectos de investigación-creación, creación y obra" empty={!creationRows.length}>
             <HBarsChart rows={creationRows} color={BAR_COLORS.artsCreation} unit="Obras" />
-            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; 18 registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.`}</Note>
+            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; hay registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.${creationHasProjects ? "" : " No se muestra la columna de proyectos porque el bundle aún no los trae (vale 0 en todas las unidades)."}`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -399,7 +406,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="16 · Conjuntos de datos abiertos por tópico" empty={!datasetRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={datasetRows} color={BAR_COLORS.datasets} unit="Conjuntos de datos" />
-            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI; 119 de los 406 registros tienen año 2026 (fecha de carga, no de creación)." : ""}`}</Note>
+            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI; parte de los registros tiene año 2026 (fecha de carga, no de creación)." : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -423,7 +430,7 @@ function Board3Content({ dataset, source }) {
                 ))}
               </Col>
             </Row>
-            <Note>{`Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. La especificación menciona 484 repositorios de software en GitHub asociados a la UdeA; esa cifra no está en las bases entregadas y no se verificó. 0 patentes en la base.`}</Note>
+            <Note>{`Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -440,7 +447,7 @@ function Board3Content({ dataset, source }) {
                 { title: "%", render: (_, r) => pct(r.withId, r.total), align: "right" },
               ]}
             />
-            <Note>{`No hay Handle en las bases. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR. ${isMock ? "447 DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
+            <Note>{`No hay Handle en las bases. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR. ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

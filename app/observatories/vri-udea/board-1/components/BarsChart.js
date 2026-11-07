@@ -27,14 +27,16 @@ const truncateStart = (text, size) => (text.length > size ? `…${text.slice(tex
  *
  * @param {{ id: *, label: string, fullLabel?: string, detail?: string, value: number }[]} rows
  * @param {number} [labelSize] - Characters kept in the axis label.
+ * @param {string} [unit] - What the value counts, in the tooltip (F69; "Productos", "Tópicos", "Ejes").
  * @param {boolean} [startCut] - Long labels are cut at the start («…» first) and not at the end.
  * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
  *   longest one, as in the calculator.
  */
-function RankingBars({ rows, labelSize = 34, complete = false, startCut = false }) {
+function RankingBars({ rows, labelSize = 34, complete = false, startCut = false, unit = "Productos" }) {
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : (startCut ? truncateStart : truncate)(r.label, labelSize)]));
     const longest = Math.max(0, ...rows.map((r) => r.label.length));
+    const hasDetail = rows.some((r) => r.detail);
     return {
       ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)), paddingRight: 24 } : {}),
       data: rows.map((r, i) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", value: r.value })),
@@ -50,10 +52,10 @@ function RankingBars({ rows, labelSize = 34, complete = false, startCut = false 
       style: { fill: RANKING_COLOR },
       tooltip: {
         title: (d) => d.name,
-        items: [{ field: "value", name: "Valor" }, { field: "detail", name: "Detalle" }],
+        items: [{ field: "value", name: unit }, ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])],
       },
     };
-  }, [rows, labelSize, complete, startCut]);
+  }, [rows, labelSize, complete, startCut, unit]);
 
   return (
     <TooltipBox>

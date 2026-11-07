@@ -9,6 +9,7 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { SCOPE_LABELS } from "./boardTexts";
+import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
 /* Components */
 import FilterHelp from "@/app/observatories/components/FilterHelp";
@@ -51,7 +52,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
      only the documents with axes (D-129). The value is the position in `agendas_all`, the bit of the mask. */
   const documents = useMemo(() => {
     const withAxes = raw.agendas || raw.agendas_all.slice(0, ACTIVE_POLICY_DOCUMENTS);
-    return withAxes.map((name) => ({ value: raw.agendas_all.indexOf(name), label: name }));
+    return [...withAxes].sort(byPolicyOrder).map((name) => ({ value: raw.agendas_all.indexOf(name), label: name }));
   }, [raw]);
   /* «Sin centro» is the 26.ª option, labelled «Sin centro asignado» and at the end of the list (M1, F50). */
   const centerLabel = (i) => (raw.centros[i] === "Sin centro" ? "Sin centro asignado" : raw.centros[i]);

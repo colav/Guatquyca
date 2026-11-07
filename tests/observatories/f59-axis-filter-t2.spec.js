@@ -179,7 +179,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await expect(groups.first()).toBeVisible();
     // the list is virtual: it renders the groups that fit; the first is the first agenda of the bundle
     console.log(`[live] first group of the list: ${await groups.first().innerText()}`);
-    await expect(groups.first()).toHaveText(bundle.thesaurus.agendas[0].name);
+    await expect(groups.first()).toHaveText("PDD mpal Medellín") /* F69: the groups follow the order of Gabriel */;
     await page.keyboard.type("biodiversidad");
     await expect(page.locator(".ant-select-item-option").first()).toBeVisible();
     await page.locator(".ant-select-item-option").first().click();

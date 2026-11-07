@@ -7,7 +7,7 @@ import { memo, useMemo, useRef, useState } from "react";
 import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
-import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
+import { CENTER_TOOLTIP, byPolicyOrder, centerCoverageNote } from "../../board-1/components/boardTexts";
 import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
@@ -48,7 +48,7 @@ function Field({ label, children, span = 6, help = null }) {
 function FiltersBar({ dataset, filters, onChange, onReset }) {
   const { raw } = dataset;
   /* The filter acts on the works through the terms of the thesaurus (axes), not on goals: only the documents with terms (D-129). */
-  const docs = useMemo(() => dataset.policyDocs.map((name) => ({ value: name, label: name })), [dataset]);
+  const docs = useMemo(() => [...dataset.policyDocs].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset]);
   /* A subfield name that two fields share carries its field in parentheses, as in Board 3 (B2, F50). */
   const subfieldLabel = useMemo(() => {
     const count = new Map();

@@ -33,6 +33,7 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
 function HBars({ rows, color, unit, labelSize = 36 }) {
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
+    const hasDetail = rows.some((r) => r.detail);
     return {
       data: rows.map((r, i) => ({ key: String(i), name: r.label, value: r.value, text: r.text ?? fmt(r.value), detail: r.detail ?? "", color: r.color ?? color })),
       xField: "key",
@@ -44,7 +45,7 @@ function HBars({ rows, color, unit, labelSize = 36 }) {
       labels: [{ text: "text", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
       paddingRight: 150,
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key }, y: { labelAutoRotate: false } },
-      tooltip: { title: (d) => d.name, items: [{ field: "value", name: unit }, { field: "detail", name: "Detalle" }] },
+      tooltip: { title: (d) => d.name, items: [{ field: "value", name: unit }, ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])] },
     };
   }, [rows, color, unit, labelSize]);
   return (
@@ -66,7 +67,10 @@ function StackedBars({ rows, series, colors, unit, labelSize = 36 }) {
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     return {
-      data: rows.flatMap((r, i) => r.values.map((v, j) => ({ key: String(i), name: r.label, series: series[j], value: v })).filter((d) => d.value > 0)),
+      data: rows.flatMap((r, i) => {
+        const total = r.values.reduce((a, v) => a + v, 0);
+        return r.values.map((v, j) => ({ key: String(i), name: r.label, series: series[j], value: v, total })).filter((d) => d.value > 0);
+      }),
       xField: "key",
       yField: "value",
       colorField: "series",
@@ -77,7 +81,8 @@ function StackedBars({ rows, series, colors, unit, labelSize = 36 }) {
       legend: { color: { position: "top" } },
       scale: { color: { domain: series, range: series.map((s) => colors[s]) } },
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key }, y: { labelAutoRotate: false } },
-      tooltip: { title: (d) => d.name, items: [{ field: "value", name: unit }] },
+      /* Tooltip (F69): the name of each series, the unit and the total of the row. */
+      tooltip: { title: (d) => `${d.name} · total ${fmt(d.total)}`, items: [(d) => ({ name: d.series, value: `${fmt(d.value)} ${String(unit).toLowerCase()}` })] },
     };
   }, [rows, series, colors, unit, labelSize]);
   return (
@@ -140,7 +145,7 @@ function AreasTreemap({ items, colors }) {
       scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => colors[i.name]) } },
       layout: { padding: 2 },
       style: { fill: (d) => colors[d.data?.name ?? d.name], labelText: (d) => `${d.data?.name ?? d.name} · ${fmt(d.data?.value ?? d.value)}`, labelFill: BRAND.white, labelFontSize: 12 },
-      tooltip: { title: (d) => d.data?.name ?? d.name, items: [{ field: "value", name: "Investigadores" }, { field: "percent", name: "Porcentaje" }] },
+      tooltip: { title: (d) => d.data?.name ?? d.name, items: [{ field: "value", name: "Investigadores" }, (d) => ({ name: "Porcentaje", value: d.data?.percent ?? d.percent })] },
     };
   }, [items, colors]);
   return (
