@@ -73,29 +73,6 @@ export const NOTES = {
 };
 export const patentsIgnoredNote = (list) => `Las patentes no responden a: ${list.join(", ")}.`;
 
-/* Cartogram of Colombia (columns x rows, approximate positions) and of the subregions of Antioquia. */
-export const COLOMBIA_TILES = {
-  "San Andrés": [0, 0], "La Guajira": [5, 0], Atlántico: [3, 1], Magdalena: [4, 1], Cesar: [5, 1], Sucre: [2, 2], Bolívar: [3, 2],
-  "Norte de Santander": [5, 2], Córdoba: [2, 3], Antioquia: [3, 3], Santander: [4, 3], Arauca: [6, 3], Chocó: [1, 4], Caldas: [2, 4],
-  Boyacá: [4, 4], Casanare: [5, 4], Vichada: [7, 4], Risaralda: [1, 5], Quindío: [2, 5], Cundinamarca: [3, 5], "Bogotá D.C.": [4, 5],
-  Tolima: [3, 6], "Valle del Cauca": [1, 6], Meta: [4, 6], Guainía: [7, 6], Cauca: [1, 7], Huila: [3, 7], Guaviare: [5, 7], Nariño: [1, 8],
-  Putumayo: [2, 8], Caquetá: [4, 8], Vaupés: [6, 8], Amazonas: [5, 9],
-};
-export const COLOMBIA_GRID = { columns: 8, rows: 10 };
-
-export const SUBREGION_TILES = {
-  Urabá: [0, 0], "Bajo Cauca": [2, 0], Norte: [2, 1], Nordeste: [3, 1], Occidente: [1, 2], "Valle de Aburrá": [2, 2],
-  "Magdalena Medio": [4, 2], Suroeste: [1, 3], Oriente: [3, 3],
-};
-export const SUBREGION_GRID = { columns: 5, rows: 4 };
-
-const ABBREVIATIONS = {
-  "Bogotá D.C.": "Bogotá", "Norte de Santander": "N. Sant.", "Valle del Cauca": "Valle", Cundinamarca: "Cund.", "San Andrés": "S. Andrés",
-  "La Guajira": "Guajira", Santander: "Santand.", Magdalena: "Magd.", Risaralda: "Risar.", Putumayo: "Putum.", Casanare: "Casan.",
-  Amazonas: "Amaz.", Atlántico: "Atlánt.", Antioquia: "Antioq.",
-};
-export const abbreviate = (name) => ABBREVIATIONS[name] || name;
-
 export const SIDE_LABELS = { north: "Norte global", south: "Sur global" };
 
 /** Tag of the board when the data come from the API (provisional text, Luis approves it). */
@@ -103,7 +80,7 @@ export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
 
 /** Footer with the sources of the data of the API (provisional text, Luis approves it). */
 export const REAL_FOOTER_TEXT =
-  "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras y proyectos), tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin coordenadas no aparecen en el mapa.";
+  "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras y proyectos), tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin contorno en el mapa se listan en la ayuda «?» de su panel.";
 
 
 /**

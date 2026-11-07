@@ -13,13 +13,6 @@ import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
 const Line = dynamic(() => import("@ant-design/charts").then((mod) => mod.Line), { ssr: false });
-const Scatter = dynamic(() => import("@ant-design/charts").then((mod) => mod.Scatter), { ssr: false });
-
-/* lib */
-import { NORTH_SOUTH_COLORS } from "@/lib/observatories/palette";
-
-/* Texts */
-import { SIDE_LABELS } from "./boardTexts";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
@@ -104,46 +97,3 @@ function TrendLines({ years, series, colors }) {
 }
 
 export const TrendLinesChart = memo(TrendLines);
-
-/**
- * Bubbles on the centroids of the countries (schematic map without outlines, as the artifact).
- *
- * @param {{ name: string, region: string, lat: number, lon: number, value: number, north: boolean, label: string }[]} points
- */
-function WorldBubbles({ points }) {
-  const config = useMemo(
-    () => ({
-      data: points.map((p) => ({ name: p.name, region: p.region, x: p.lon, y: p.lat, value: p.value, side: p.north ? SIDE_LABELS.north : SIDE_LABELS.south, label: p.label })),
-      xField: "x",
-      yField: "y",
-      sizeField: "value",
-      colorField: "side",
-      animate: false,
-      interaction: tooltipInteraction(),
-      height: 400,
-      scale: {
-        x: { domain: [-170, 180] },
-        y: { domain: [-58, 80] },
-        size: { type: "sqrt", range: [2, 26] },
-        color: { domain: [SIDE_LABELS.north, SIDE_LABELS.south], range: [NORTH_SOUTH_COLORS.north, NORTH_SOUTH_COLORS.south] },
-      },
-      axis: false,
-      legend: { color: { position: "top" } },
-      style: {
-        fill: (d) => (d.side === SIDE_LABELS.north ? NORTH_SOUTH_COLORS.north : NORTH_SOUTH_COLORS.south),
-        fillOpacity: 0.65,
-        stroke: (d) => (d.side === SIDE_LABELS.north ? NORTH_SOUTH_COLORS.north : NORTH_SOUTH_COLORS.south),
-      },
-      labels: [{ text: "label", fontSize: 10, transform: [{ type: "overlapDodgeY" }] }],
-      tooltip: { title: (d) => d.name, items: [{ field: "region", name: "Región" }, { field: "value", name: "Productos" }] },
-    }),
-    [points],
-  );
-  return (
-    <TooltipBox>
-      <Scatter {...config} />
-    </TooltipBox>
-  );
-}
-
-export const WorldBubblesChart = memo(WorldBubbles);

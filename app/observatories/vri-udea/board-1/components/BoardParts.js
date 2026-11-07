@@ -140,41 +140,6 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
   );
 });
 
-/** Subregion tiles (complement): approximate north-south layout. */
-const SUBREGION_ORDER = ["Urabá", "Norte", "Bajo Cauca", "Occidente", "Valle de Aburrá", "Nordeste", "Suroeste", "Oriente", "Magdalena Medio"];
-
-/**
- * @param {Object[]} subregions - Catalogue of the bundle (name, n_title, n_regprog, topics).
- * @param {number[]} [counts] - Products by subregion for the current filters (same order as the
- *   catalogue). Without it, the fixed n_title of the artifact is shown.
- */
-export const SubregionTiles = memo(function SubregionTiles({ subregions, counts }) {
-  const count = (s, i) => (counts ? counts[i] : s.n_title);
-  const bySub = new Map(subregions.map((s, i) => [s.sub, { ...s, n_title: count(s, i) }]));
-  const max = Math.max(1, ...[...bySub.values()].filter((s) => s.sub !== "Valle de Aburrá").map((s) => s.n_title));
-  return (
-    <Row gutter={[8, 8]}>
-      {SUBREGION_ORDER.map((name) => {
-        const s = bySub.get(name);
-        if (!s) return null;
-        const intensity = name === "Valle de Aburrá" ? 1 : 0.15 + (0.85 * s.n_title) / max;
-        return (
-          <Col key={name} span={8}>
-            <div data-testid="mosaic-tile" style={{ ...sequentialTile(intensity), padding: TILE.padding, height: TILE.subregionHeight, borderRadius: 6, overflow: "hidden" }}>
-              <div style={{ fontSize: 12, lineHeight: "16px", ...clampLines(1) }} title={name}>{name}</div>
-              <div style={{ fontSize: 20, fontWeight: 600 }}>
-                {fmt(s.n_title)}
-                {s.n_regprog ? <span style={{ fontSize: 12, fontWeight: 400 }}> ({s.n_regprog})</span> : null}
-              </div>
-              <div style={{ fontSize: 11, lineHeight: "15px", ...clampLines(2) }} title={s.topics.slice(0, 2).map((t) => t[0]).join(" · ")}>{s.topics.slice(0, 2).map((t) => t[0]).join(" · ")}</div>
-            </div>
-          </Col>
-        );
-      })}
-    </Row>
-  );
-});
-
 /** Non-academic co-authoring actors table (complement, current proxy). */
 export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
   const clean = (t) => t.replace(" (públicos y privados)", "").replace(" (no universitarios)", "");
