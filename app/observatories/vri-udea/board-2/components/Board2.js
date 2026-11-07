@@ -21,6 +21,7 @@ import {
   DEFAULT_COLLAB_FILTERS,
   LIMITS,
   NON_ACADEMIC_SECTORS,
+  PATENT_SERIES_LABEL,
   SMALL_SAMPLE,
   SUBREGION_TABS,
   WORK_TYPE,
@@ -34,7 +35,7 @@ import { MOCK_SOURCE } from "@/lib/observatories/data/artifactAdapter";
 import { groupRegistry, officialGroupsNote } from "@/lib/observatories/officialGroups";
 import { loadBoard2Dataset } from "@/lib/observatories/data/collaborationAdapter";
 import LoadError from "@/app/observatories/components/LoadError";
-import { COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
+import { COLLAB_PATENT_COLOR, COLLAB_TYPE_COLORS, NORTH_SOUTH_COLORS, RANKING_COLOR, SECTOR_COLORS } from "@/lib/observatories/palette";
 import { useStableValue } from "@/app/observatories/components/useStableValue";
 import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
 
@@ -61,6 +62,7 @@ import {
   abbreviate,
   smallSampleNote,
   smallProjectsNote,
+  patentsIgnoredNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
@@ -133,7 +135,7 @@ function Board2Content({ dataset, source }) {
 
   /* Colours by series label (from palette.js). */
   const typeColors = useMemo(() => Object.fromEntries(raw.tipos.map((t, i) => [t, COLLAB_TYPE_COLORS[i]])), [raw]);
-  const trendColors = useMemo(() => ({ ...typeColors, "Proyectos (inicio)": COLLAB_TYPE_COLORS[4] }), [typeColors]);
+  const trendColors = useMemo(() => ({ ...typeColors, [PATENT_SERIES_LABEL]: COLLAB_PATENT_COLOR, "Proyectos (inicio)": COLLAB_TYPE_COLORS[4] }), [typeColors]);
   const sectorColors = useMemo(() => Object.fromEntries(raw.sectors.map((s, i) => [raw.sectorsEs[i], SECTOR_COLORS[s]])), [raw]);
   const nonAcademicColors = useMemo(() => Object.fromEntries(NON_ACADEMIC_SECTORS.map((s) => [raw.sectorsEs[dataset.sectorIndex[s]], SECTOR_COLORS[s]])), [raw, dataset]);
   const sideColors = useMemo(() => ({ [SIDE_LABELS.north]: NORTH_SOUTH_COLORS.north, [SIDE_LABELS.south]: NORTH_SOUTH_COLORS.south }), []);
@@ -175,8 +177,8 @@ function Board2Content({ dataset, source }) {
     });
   }, [isMock, raw]);
   const funders = useMemo(
-    () => raw.funders.slice(0, 25).map((f) => ({ label: f.nm.trim(), segments: [SEGMENT(raw.sectorsEs[dataset.sectorIndex[f.fsector]], f.proyectos)] })),
-    [raw, dataset],
+    () => result.funders.map((f) => ({ label: f.nm.trim(), segments: [SEGMENT(raw.sectorsEs[dataset.sectorIndex[f.fsector]], f.proyectos)] })),
+    [raw, dataset, result],
   );
 
   /* Centres of the graph in colour order (first appearance among the nodes). */
@@ -192,7 +194,9 @@ function Board2Content({ dataset, source }) {
   const helices = useStableValue([
     { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: dataset.flaggedInstitution >= 0 ? `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` : undefined },
     { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects, detail: noProj ? NO_AXIS_RESPONSE : undefined },
-    { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
+    result.hasPatents
+      ? { label: "patentes con empresa como cotitular", value: h.patentsWithCompany, detail: axis ? NO_AXIS_RESPONSE : `${fmt(h.patents)} patentes en la selección` }
+      : { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
     { label: "artículos con empresa", value: h.withCompany },
     { label: "artículos con gobierno", value: h.withGovernment },
     { label: "artículos con hospitales/clínicas", value: h.withHealthcare },
@@ -279,6 +283,8 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
             <Note>{NOTES.v5b}</Note>
+            {result.hasPatents ? <Note>{NOTES.v5bPatents}</Note> : null}
+            {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
             {noProj ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
             {smallProjects ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
@@ -287,7 +293,8 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} xl={8}>
           <ChartCard title="06 · Colaboraciones de triple hélice">
             <StatTiles stats={helices} />
-            <Note>{NOTES.v6}</Note>
+            <Note>{result.hasPatents ? NOTES.v6Patents : NOTES.v6}</Note>
+            {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note-06">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
             {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
@@ -360,7 +367,7 @@ function Board2Content({ dataset, source }) {
         <Col xs={24}>
           <ChartCard title="+ Entidades que financian o cofinancian proyectos (no académicas)">
             <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend />
-            <Note>{NOTES.v16}{axis ? ` ${NO_AXIS_RESPONSE[0].toUpperCase()}${NO_AXIS_RESPONSE.slice(1)}.` : ""}</Note>
+            <Note>{result.fundersByProject ? NOTES.v16Filtered : `${NOTES.v16}${axis ? ` ${NO_AXIS_RESPONSE[0].toUpperCase()}${NO_AXIS_RESPONSE.slice(1)}.` : ""}`}</Note>
           </ChartCard>
         </Col>
 

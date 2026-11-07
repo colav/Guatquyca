@@ -170,7 +170,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
         <Field label="Subcampo de conocimiento">{select("subfieldIndex", subfields, "Todos", true)}</Field>
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-        Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental.
+        {dataset.hasProjectPairs ? "Se combinan con «y»; los proyectos responden a temporalidad, centro, ámbito departamental, eje y documento." : "Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental."}
         {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {axisNote}</span> : null}
       </Typography.Text>
     </StickyFilters>

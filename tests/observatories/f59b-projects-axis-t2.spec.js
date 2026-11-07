@@ -116,14 +116,14 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
     expect(computeCollaboration(dataset, { axisId: e0.id, policyDoc: e0.agenda }).kpis.projects).toBe(picks[0].n);
   });
 
-  test("for Luis (not changed): does the document respond to the projects today, and how would it with the pairs?", () => {
+  test("the document filters the projects through the pairs of its axes (F66, D-168)", () => {
     const doc = "CONPES 4144";
     const withDoc = computeCollaboration(dataset, { policyDoc: doc }).kpis.projects;
     const all = computeCollaboration(dataset).kpis.projects;
     const inDoc = new Set();
     for (const e of bundle.thesaurus.ejes) if (e.agenda === doc) e.direct_proj.forEach((p, k) => { if (e.direct_proj_conf[k] <= 1) inDoc.add(p); });
     console.log(`[live] document ${doc}: projects with the filter of document today ${withDoc} (all ${all}); with pairs of its axes it would be ${inDoc.size}`);
-    expect(withDoc).toBe(all); // today the document does not touch the projects
+    expect(withDoc).toBe(inDoc.size); /* F66: the document now filters the projects through the pairs of its axes */
   });
 
   test("the page: with an axis the cards of projects answer, without the label «no responde al eje»", async ({ page }) => {

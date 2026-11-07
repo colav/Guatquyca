@@ -48,6 +48,8 @@ export const NOTES = {
   v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
   v5: "Artículos de revista por año de publicación.",
   v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025). Apropiación social: 735 de 752 registros no tienen año.",
+  v6Patents: "Producción de tecnología: patentes distintas del portafolio de propiedad intelectual con al menos una empresa titular (cotitularidad registrada en el portafolio; no indica quién co-inventó). Responden a años, centro y unidad.",
+  v5bPatents: "Patentes: patentes distintas del portafolio de propiedad intelectual, por año de la primera concesión; la última concesión es de 2023, por eso no hay datos en 2024–2026.",
   v6: "Bibliográfica: artículos con coautores de empresa y gobierno además de la UdeA. Proyectos: con aportante empresarial y aportante público. Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
   v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos. Apropiación social: productos con empresa u organización sin ánimo de lucro.",
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
@@ -58,7 +60,9 @@ export const NOTES = {
   v13: "Libros, capítulos de libro y apropiación social (sin artículos) realizados con coautores de empresa, gobierno, sin ánimo de lucro o salud. Dominio = dominio OpenAlex dominante en la producción del grupo. Como referencia se añade la columna con cualquier coautor externo.",
   v14: "Colaboraciones por sector en los tópicos asociados a cada Eje Temático público del thesaurus (artículos, libros y capítulos; un producto cuenta en cada sector presente). Los ocho focos de la Misión de sabios abarcan cientos de tópicos cada uno, por lo que se muestran aparte.",
   v16: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos. La clasificación sectorial es heurística. Este ránking no responde a los filtros (se calcula sobre todos los proyectos 2014–2025).",
+  v16Filtered: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento). La clasificación sectorial es heurística.",
 };
+export const patentsIgnoredNote = (list) => `Las patentes no responden a: ${list.join(", ")}.`;
 
 /* Cartogram of Colombia (columns x rows, approximate positions) and of the subregions of Antioquia. */
 export const COLOMBIA_TILES = {
@@ -104,5 +108,5 @@ export const NO_COORDINATES_NOTE = (count) => `${count} ${count === 1 ? "país c
  */
 export function realNotice({ documentsWithTerms, documents, appropriationWithoutYear, appropriation }) {
   const fmt = (n) => n.toLocaleString("es-CO");
-  return `El filtro por documento de política y el panel 14 (ránking por Eje Temático) se basan en los ejes curados del thesaurus 6 y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración). La base no contiene patentes; ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
+  return `El filtro por documento de política y el panel 14 (ránking por Eje Temático) se basan en los ejes curados del thesaurus 6 y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración). las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias); ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
 }
