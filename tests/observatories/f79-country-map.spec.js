@@ -74,6 +74,18 @@ test.describe("the page of Board 2 (one run)", () => {
 
     expect(bundleMissing).toEqual([]); // B133: 170 of 170 have an outline
     expect(raw.countries.length - bundleMissing.length).toBe(170);
+    // F81: with the real bundle every polygon takes the count of its own country (Taiwan does not add to China)
+    const index = (code) => raw.countries.findIndex((c) => c.c === code);
+    const products = (code) => raw.works.filter((w) => w[4].includes(index(code))).length;
+    const rows = raw.countries.map((c) => ({ key: c.c, name: c.n, region: c.r, value: products(c.c) }));
+    const real = geoMapData(geo, rows, POLYGON_KEYS.countries, "Sin productos en el T2");
+    const polygon = (code) => real.data.features.find((f) => f.properties.country_code === code).properties;
+    console.log(`[live] products by country in the bundle: TW ${polygon("TW").count}, CN ${polygon("CN").count}, PS ${polygon("PS").count}, IL ${polygon("IL").count}, GU ${polygon("GU").count}, MP ${polygon("MP").count}, VA ${polygon("VA").count}, IT ${polygon("IT").count}, AU ${polygon("AU").count}`);
+    expect(polygon("TW").count).toBe(47);
+    expect(polygon("TW").count).toBe(products("TW"));
+    expect(polygon("CN").count).toBe(products("CN")); // not CN + TW
+    expect(polygon("TW").name).toBe(raw.countries[index("TW")].n);
+    expect(real.withoutOutline).toEqual([]);
     const t0 = Date.now();
     await page.goto("/observatories/vri-udea/board-2");
     const box = page.getByTestId("country-map");
