@@ -11,7 +11,7 @@ const Treemap = dynamic(() => import("@ant-design/charts").then((mod) => mod.Tre
 
 /* Components & lib */
 import TooltipBox from "@/app/observatories/components/TooltipBox";
-import { paletteColor, textOn } from "@/lib/observatories/palette";
+import { BRAND, paletteColor, textOn } from "@/lib/observatories/palette";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -49,9 +49,11 @@ function ObservatoryTreemap({ items, unitName, height = 280, labelFontSize = 12,
       scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => fills[i.name]) } },
       layout: { padding: 2 },
       style: {
+        /* the fill is set per item: the scale of colour alone gave one colour to the whole treemap */
+        fill: (d) => fills[pick(d).name] ?? BRAND.white,
         fillOpacity: (d) => (activeKey != null && pick(d).key !== activeKey ? 0.35 : 1),
         labelText: (d) => (labelWithValue ? `${pick(d).name} · ${fmt(pick(d).value)}` : `${pick(d).name}`),
-        labelFill: (d) => textOn(fills[pick(d).name] ?? "#ffffff"),
+        labelFill: (d) => textOn(fills[pick(d).name] ?? BRAND.white),
         labelFontSize,
       },
       tooltip: {
