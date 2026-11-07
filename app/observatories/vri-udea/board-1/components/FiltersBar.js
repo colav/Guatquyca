@@ -18,6 +18,8 @@ import {
   RATIO_BASIS_OPTIONS,
   centerCoverageNote,
   AXIS_FILTER_LABEL,
+  ODS_FILTER_HELP,
+  ODS_FILTER_LABEL,
   AXIS_FILTER_TOOLTIP,
 } from "./boardTexts";
 
@@ -99,6 +101,9 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       { label: "Tópicos", options: topics },
     ];
   }, [dataset]);
+  /* ODS (F71, C1-07): the 17 goals of the bundle, chosen by number. */
+  const odsOptions = useMemo(() => (dataset.hasFactDetails && dataset.ods ? dataset.ods.map(([number, name]) => ({ value: number, label: `${number} · ${name}` })) : []), [dataset]);
+  const odsLabel = (n) => odsOptions.find((o) => o.value === n)?.label ?? String(n);
   const topicLabel = (key) => topicOptions.flatMap((g) => g.options).find((o) => o.value === key)?.label ?? key;
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
@@ -127,6 +132,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     filters.departmentIndex >= 0 && `Subunidad: ${dataset.departments[filters.departmentIndex]}`,
     filters.axisIds && filters.axisIds.length && `Ejes: ${filters.axisIds.length}`,
     filters.topicKey && `Tema: ${topicLabel(filters.topicKey)}`,
+    filters.odsNumber > 0 && `ODS: ${odsLabel(filters.odsNumber)}`,
   ].filter(Boolean);
 
   return (
@@ -145,7 +151,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
             <Select style={{ width: "50%" }} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={(v) => onChange({ yearTo: v })} />
           </div>
         </Field>
-        <Field label="5 · Dimensión">
+        <Field label="5 · Dimensión (campos, subcampos o tópicos)">
           <Segmented size="small" block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
         </Field>
         <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true)}</Field>
@@ -165,6 +171,23 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
             data-testid="topic-filter"
           />
         </Field>
+        {odsOptions.length ? (
+          <Field label={ODS_FILTER_LABEL} span={12} help={ODS_FILTER_HELP}>
+            <Select
+              showSearch
+              allowClear
+              style={{ width: "100%" }}
+              placeholder="Todos"
+              options={odsOptions}
+              optionRender={wrapOption}
+              filterOption={searchFilter}
+              value={filters.odsNumber > 0 ? filters.odsNumber : undefined}
+              onChange={(v) => onChange({ odsNumber: v || 0 })}
+              aria-label="ODS"
+              data-testid="ods-filter"
+            />
+          </Field>
+        ) : null}
         {dataset.hasFactDetails ? (
           <Field label={AXIS_FILTER_LABEL} span={12}>
             <Tooltip title={AXIS_FILTER_TOOLTIP}>

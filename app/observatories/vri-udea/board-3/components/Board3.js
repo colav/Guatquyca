@@ -56,12 +56,18 @@ import {
   SECTIONS,
   SEX_SERIES,
   STAFF_LABEL,
+  TALENT_LEVEL_LABELS,
+  TALENT_LEVEL_TITLE,
+  TALENT_MINCIENCIAS_TITLE,
+  TALENT_VIEWS,
   TILE_LABELS,
+  talentLevelNote,
+  talentMincienciasNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Col, Collapse, Divider, Row, Skeleton, Statistic, Tag, Typography } from "antd";
+import { Col, Collapse, Divider, Row, Segmented, Skeleton, Statistic, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -174,6 +180,28 @@ function Board3Content({ dataset, source }) {
   const creation = result.creation;
 
   /* Rows for the bar charts. */
+  /* Panel 01 by level of education (F71): the bundle carries it in talent.ext.por_nivel_academico; without it, the Minciencias category. */
+  const levels = talent.ext && talent.ext.por_nivel_academico ? talent.ext.por_nivel_academico : null;
+  const [talentView, setTalentView] = useState("level");
+  const levelRows = useMemo(() => {
+    if (!levels) return [];
+    const L = TALENT_LEVEL_LABELS;
+    const medical = levels["especialización médico-quirúrgica"] || 0;
+    const other = levels["especialización"] || 0;
+    const rows = [
+      [L.doctorado, levels["doctorado"] || 0, ""],
+      [L.maestria, levels["maestría"] || 0, ""],
+      [L.especializacion, medical + other, ` · ${fmt(medical)} médico-quirúrgica y ${fmt(other)} otra especialización`],
+      [L.profesional, levels["profesional"] || 0, ""],
+      [L.sinDato, levels["Sin dato"] || 0, ""],
+    ];
+    return rows.map(([label, value, extra]) => ({
+      label,
+      value,
+      text: `${fmt(value)} · ${dens(value, talent.poblacion_ajustada)}/100k`,
+      detail: `${dens(value, talent.poblacion_ajustada)} por 100.000 hab. (ajustada) · ${dens(value, talent.poblacion_censada)} (censada)${extra}`,
+    }));
+  }, [levels, talent]);
   const talentRows = useMemo(() => {
     const mc = talent.por_minciencias;
     const groups = [
@@ -261,7 +289,7 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.researchers}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard title={isMock ? "01 · Talento investigador por nivel (proxy)" : "01 · Talento investigador por nivel (categoría Minciencias)"}>
+          <ChartCard title={isMock ? "01 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE}>
             {isMock ? <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag> : null}
             <Row gutter={[8, 8]} style={{ marginBottom: 8 }}>
               {[
@@ -277,11 +305,12 @@ function Board3Content({ dataset, source }) {
                 </Col>
               ))}
             </Row>
-            <HBarsChart rows={talentRows} color={SERIES[0]} unit="Profesores" />
+            {!isMock && levels ? <Segmented size="small" options={TALENT_VIEWS} value={talentView} onChange={setTalentView} data-testid="talent-view" style={{ marginBottom: 8 }} /> : null}
+            <HBarsChart rows={!isMock && levels && talentView === "level" ? levelRows : talentRows} color={SERIES[0]} unit="Profesores" />
             <Note>
               {isMock
                 ? `No existe campo de nivel de formación en las bases; abajo, la categoría Minciencias de los profesores con contrato y su densidad por 100.000 habitantes (población ajustada). Pendiente: incorporar nivel de formación desde la base de talento humano. Planta 2021-2: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`
-                : `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`}
+                : (levels && talentView === "level" ? talentLevelNote : (staff, planta) => talentMincienciasNote(planta))(fmt(talent.staff_total), `Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más.`)}
             </Note>
           </ChartCard>
         </Col>

@@ -18,13 +18,12 @@ import {
   ActorsTable,
   KpiRow,
   OdsPlaceholders,
-  OdsTiles,
   RulesTable,
   SubregionTiles,
   SummaryLine,
   UnitDetail,
 } from "./BoardParts";
-import { CalculatorBarsChart, RankingBarsChart } from "./BarsChart";
+import { CalculatorBarsChart, OdsTreemapChart, RankingBarsChart } from "./BarsChart";
 
 /* lib */
 import {
@@ -57,6 +56,7 @@ import {
   BOARD_LEAD_REAL,
   BOARD_TITLE,
   DATA_WARNINGS,
+  ODS_SELECTED_NOTE,
   DIMENSION_NOUN,
   DONUT_LABELS,
   HELP_TEXT,
@@ -210,6 +210,7 @@ function Board1Content({ dataset, source }) {
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));
   const ods = useStableValue(rankOds(dataset, result));
+  const hasOds = !!(dataset.hasFactDetails && dataset.ods);
   const subregionCounts = useStableValue(result.subregionCounts);
   const axes = useStableValue(rankAxes(dataset, result));
   const goals = useStableValue(goalRows(rankGoals(dataset, result)));
@@ -342,13 +343,27 @@ function Board1Content({ dataset, source }) {
             <RankingBarsChart rows={axes} unit={dataset.hasFactDetails ? "Productos" : "Tópicos con producción"} />
           </ChartCard>
         </Col>
+        {hasOds ? (
+          <Col xs={24} md={12} lg={8}>
+            <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible; clic en un objetivo para acotar el tablero" empty={!ods.some((o) => o.value)}>
+              <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" active={draft.odsNumber || null} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
+              {draft.odsNumber > 0 ? (
+                <Typography.Paragraph style={{ fontSize: 12, marginBottom: 4 }} data-testid="ods-selected-note">
+                  {ODS_SELECTED_NOTE(`${draft.odsNumber} · ${ods.find((o) => o.number === draft.odsNumber)?.name ?? ""}`)}
+                </Typography.Paragraph>
+              ) : null}
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
+                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
+                </Typography.Paragraph>
+            </ChartCard>
+          </Col>
+        ) : null}
         <Col xs={24} md={12} lg={8}>
           <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados" empty={!goals.length}>
             <RankingBarsChart rows={goals} labelSize={40} startCut unit="Ejes Temáticos" />
           </ChartCard>
         </Col>
-
-        <Col xs={24}>
+        <Col xs={24} lg={16}>
           <ChartCard title="7 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
             <Row gutter={[12, 12]}>
               <Col xs={24} md={8}><Typography.Text strong>Tipo de producto</Typography.Text><DonutChart labels={DONUT_LABELS.type} values={typeValues} colors={TYPE_COLORS} /></Col>
@@ -357,27 +372,15 @@ function Board1Content({ dataset, source }) {
             </Row>
           </ChartCard>
         </Col>
-
-        {dataset.hasFactDetails && dataset.ods ? (
-          <>
-            <Col xs={24} lg={12}>
-              <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible" empty={!ods.some((o) => o.value)}>
-                <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" />
-                <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
-                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
-                </Typography.Paragraph>
-              </ChartCard>
-            </Col>
-            <Col xs={24} lg={12}>
-              <ChartCard title="8 · Producción por ODS" note="mosaico de los 17 objetivos" empty={!ods.some((o) => o.value)}>
-                <OdsTiles items={ods} />
-              </ChartCard>
-            </Col>
-          </>
+        {hasOds ? (
+          <Col xs={24}>
+            <ChartCard title="8 · Producción por ODS" note="treemap de los 17 objetivos: el área es el número de productos" empty={!ods.some((o) => o.value)}>
+              <OdsTreemapChart items={ods} active={draft.odsNumber} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
+            </ChartCard>
+          </Col>
         ) : (
           <Col xs={24}><OdsPlaceholders /></Col>
         )}
-
         <Col xs={24} lg={12}>
           <ChartCard title="Complemento · Mapa esquemático por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
             <SubregionTiles subregions={dataset.subregions} counts={dataset.hasFactDetails ? subregionCounts : undefined} />

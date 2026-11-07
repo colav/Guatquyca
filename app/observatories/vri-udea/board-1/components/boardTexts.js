@@ -13,7 +13,7 @@ export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 �
 export const BOARD_LEAD =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en seis categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
-/** Lead of the board with the data of the API: seven categories (D-122), not the six of the artifact. Provisional text. */
+/** Lead of the board with the data of the API: eight categories (D-136, D-138), not the six of the artifact. Provisional text. */
 export const BOARD_LEAD_REAL =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en ocho categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
@@ -26,6 +26,11 @@ export const HELP_TEXT = [
 
 /* The twelve documents, in the order of Gabriel: single list in lib/observatories/policyDocuments.js (F69). */
 export { POLICY_DOCUMENTS };
+
+/** Filter ODS (F71): labels. Provisional texts for Luis. */
+export const ODS_FILTER_LABEL = "Objetivo de Desarrollo Sostenible (ODS)";
+export const ODS_FILTER_HELP = "Acota la dispersión, la calculadora y las tablas a los productos con ese ODS (puntaje de 0,40 o más). También se elige con un clic en el ránking o en el treemap de ODS.";
+export const ODS_SELECTED_NOTE = (label) => `ODS elegido: ${label}. Un clic en el mismo objetivo, o «Todos» en el filtro, lo quita.`;
 
 export const ALL_SCOPES = ["Local", "Departamental", "Nacional", "Internacional"];
 

@@ -86,3 +86,13 @@ export const piYearNote = (withoutYear, fullRange) =>
     : `${withoutYear.toLocaleString("es-CO")} activos no tienen año de concesión: con un rango de años elegido no se cuentan; solo cuentan con el rango completo.`;
 export const PI_SERIES_LABEL = "Activos";
 export const PI_VIEWS = [{ label: "Por unidad", value: "unit" }, { label: "Por grupo", value: "group" }];
+
+/* Panel 01 (F71, C3-01): talent by level of education (talent.ext.por_nivel_academico) or by Minciencias category; provisional texts for Luis. */
+export const TALENT_VIEWS = [{ label: "Por nivel de formación", value: "level" }, { label: "Por categoría Minciencias", value: "minciencias" }];
+export const TALENT_LEVEL_TITLE = "01 · Talento investigador por nivel de formación";
+export const TALENT_MINCIENCIAS_TITLE = "01 · Talento investigador por categoría Minciencias";
+export const TALENT_LEVEL_LABELS = { doctorado: "Doctorado", maestria: "Maestría", especializacion: "Especialización", profesional: "Profesional", sinDato: "Sin dato" };
+export const talentLevelNote = (staff, planta) =>
+  `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta} Este panel no responde a los filtros.`;
+export const talentMincienciasNote = (planta) =>
+  `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta} Este panel no responde a los filtros.`;

@@ -8,13 +8,14 @@ import { memo, useCallback, useMemo, useRef } from "react";
 
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
+const Treemap = dynamic(() => import("@ant-design/charts").then((mod) => mod.Treemap), { ssr: false });
 
 /* lib */
 import { calculatorBarsConfig } from "@/lib/observatories/capacity";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
-import { RANKING_COLOR } from "@/lib/observatories/palette";
+import { BRAND, RANKING_COLOR } from "@/lib/observatories/palette";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
@@ -28,18 +29,20 @@ const truncateStart = (text, size) => (text.length > size ? `…${text.slice(tex
  * @param {{ id: *, label: string, fullLabel?: string, detail?: string, value: number }[]} rows
  * @param {number} [labelSize] - Characters kept in the axis label.
  * @param {string} [unit] - What the value counts, in the tooltip (F69; "Productos", "Tópicos", "Ejes").
+ * @param {Function} [onSelect] - A click on a bar calls it with the `id` of the row (F71: choosing an ODS).
+ * @param {*} [active] - `id` of the row chosen: the others are drawn paler.
  * @param {boolean} [startCut] - Long labels are cut at the start («…» first) and not at the end.
  * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
  *   longest one, as in the calculator.
  */
-function RankingBars({ rows, labelSize = 34, complete = false, startCut = false, unit = "Productos" }) {
+function RankingBars({ rows, labelSize = 34, complete = false, startCut = false, unit = "Productos", onSelect = null, active = null }) {
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : (startCut ? truncateStart : truncate)(r.label, labelSize)]));
     const longest = Math.max(0, ...rows.map((r) => r.label.length));
     const hasDetail = rows.some((r) => r.detail);
     return {
       ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)), paddingRight: 24 } : {}),
-      data: rows.map((r, i) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", value: r.value })),
+      data: rows.map((r, i) => ({ key: String(i), id: r.id, name: r.fullLabel || r.label, detail: r.detail || "", value: r.value })),
       xField: "key",
       yField: "value",
       animate: false,
@@ -49,22 +52,88 @@ function RankingBars({ rows, labelSize = 34, complete = false, startCut = false,
         x: { labelAutoRotate: false, ...(complete ? { labelAutoEllipsis: false, labelAutoHide: false } : {}), labelFormatter: (key) => labels[key] ?? key },
         y: { labelAutoRotate: false },
       },
-      style: { fill: RANKING_COLOR },
+      style: { fill: RANKING_COLOR, fillOpacity: (d) => (active != null && d.id !== active ? 0.35 : 1) },
       tooltip: {
         title: (d) => d.name,
         items: [{ field: "value", name: unit }, ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])],
       },
     };
-  }, [rows, labelSize, complete, startCut, unit]);
+  }, [rows, labelSize, complete, startCut, unit, active]);
+  /* A click on a bar chooses its row (F71); the ref keeps the latest handler. */
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+  const onReady = useCallback((plot) => {
+    plot.chart.on("element:click", (event) => {
+      const id = event?.data?.data?.id;
+      if (id != null && onSelectRef.current) onSelectRef.current(id);
+    });
+  }, []);
 
   return (
     <TooltipBox>
-      <Bar {...config} />
+      <div data-testid={onSelect ? "ranking-selectable" : undefined} style={onSelect ? { cursor: "pointer" } : undefined}>
+        <Bar {...config} onReady={onReady} />
+      </div>
     </TooltipBox>
   );
 }
 
 export const RankingBarsChart = memo(RankingBars);
+
+/**
+ * Treemap of the 17 ODS (panel 8, F71): the area is the number of products; the colour is the one of each goal. A click
+ * chooses the ODS (the same choice as the bar of the panel 5 and the filter); the others are drawn paler.
+ *
+ * @param {{ number: number, name: string, color: string, value: number }[]} items - From rankOds.
+ * @param {number} active - ODS chosen (0 = none).
+ * @param {Function} onSelect - Called with the number of the ODS clicked.
+ */
+function OdsTreemap({ items, active = 0, onSelect }) {
+  const config = useMemo(() => {
+    const shown = items.filter((o) => o.value > 0);
+    const total = shown.reduce((a, o) => a + o.value, 0) || 1;
+    return {
+      data: { name: "root", children: shown.map((o) => ({ name: `${o.number} · ${o.name}`, value: o.value, number: o.number, color: o.color, percent: `${((o.value / total) * 100).toFixed(1).replace(".", ",")} %` })) },
+      valueField: "value",
+      colorField: "name",
+      animate: false,
+      interaction: tooltipInteraction(),
+      height: 360,
+      legend: false,
+      scale: { color: { domain: shown.map((o) => `${o.number} · ${o.name}`), range: shown.map((o) => o.color) } },
+      layout: { padding: 2 },
+      style: {
+        fillOpacity: (d) => (active > 0 && (d.data?.number ?? d.number) !== active ? 0.35 : 1),
+        labelText: (d) => `${d.data?.name ?? d.name}`,
+        labelFill: BRAND.white,
+        labelFontSize: 11,
+      },
+      tooltip: {
+        title: (d) => d.data?.name ?? d.name,
+        items: [(d) => ({ name: "Productos", value: Number(d.data?.value ?? d.value).toLocaleString("es-CO") }), (d) => ({ name: "Porcentaje", value: d.data?.percent ?? d.percent })],
+      },
+    };
+  }, [items, active]);
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+  const onReady = useCallback((plot) => {
+    plot.chart.on("element:click", (event) => {
+      const d = event?.data?.data;
+      const number = d?.number ?? d?.data?.number;
+      if (number != null && onSelectRef.current) onSelectRef.current(number);
+    });
+  }, []);
+  const summary = items.filter((o) => o.value > 0).map((o) => `${o.number} · ${o.name}: ${o.value.toLocaleString("es-CO")}`).join("; ");
+  return (
+    <TooltipBox>
+      <div role="img" aria-label={`Treemap de ODS. ${summary}`} data-testid="ods-treemap" style={{ cursor: "pointer" }}>
+        <Treemap {...config} onReady={onReady} />
+      </div>
+    </TooltipBox>
+  );
+}
+
+export const OdsTreemapChart = memo(OdsTreemap);
 
 /**
  * Horizontal bars of the capacity calculator: one bar per category, from top to bottom in the
