@@ -3,7 +3,8 @@
 /* lib */
 import MapLegendMaker from "@/lib/utils/MapLegendMaker";
 import { MAP_PALETTE } from "@/lib/constants";
-import { useEffect, useState, useMemo } from "react";
+import { TOOLTIP_DOM_STYLES, fitTooltip, tooltipValue } from "@/lib/observatories/mapTooltip";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 /**
  * MapChart is a client-side function component that displays an area map.
@@ -20,6 +21,7 @@ const DEFAULT_TOOLTIP_ITEMS = [
 
 export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS }) {
   const [AreaMap, setAreaMap] = useState(null);
+  const wrapper = useRef(null);
 
   useEffect(() => {
     import("@ant-design/maps").then((mod) => {
@@ -57,7 +59,9 @@ export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS })
         },
       },
       tooltip: {
-        items: tooltipItems,
+        // F84: values wrap (a line feed is a line break) and the box has a width limit; the placement is in the effect below.
+        items: tooltipItems.map((item) => ({ ...item, customValue: tooltipValue })),
+        domStyles: TOOLTIP_DOM_STYLES,
       },
       zoom: {
         position: "bottomright",
@@ -70,7 +74,23 @@ export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS })
     [data, tooltipItems],
   );
 
-  if (!AreaMap || !data?.features?.length) return null;
+  const ready = !!AreaMap && !!data?.features?.length;
 
-  return <AreaMap {...config} />;
+  /* F84: keeps the tooltip inside the box of the map (flips to the left / up near the edges). It watches the DOM, not the
+     config, so the map is not built again when the cursor moves. */
+  useEffect(() => {
+    const el = wrapper.current;
+    if (!ready || !el) return undefined;
+    const observer = new MutationObserver(() => fitTooltip(el));
+    observer.observe(el, { childList: true, subtree: true, attributes: true, attributeFilter: ["style"] });
+    return () => observer.disconnect();
+  }, [ready]);
+
+  if (!ready) return null;
+
+  return (
+    <div ref={wrapper} style={{ position: "relative", width: "100%", height: "100%" }}>
+      <AreaMap {...config} />
+    </div>
+  );
 }

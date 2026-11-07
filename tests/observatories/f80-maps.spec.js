@@ -66,12 +66,12 @@ test.describe("subregions of Antioquia (no server)", () => {
 
     const catalogue = SUBREGIONS.map((sub, i) => ({ sub, n_title: 100 + i, n_regprog: i % 2 ? 7 : 0, topics: [["Tópico A", 3], ["Tópico B", 2], ["Tópico C", 1]] }));
     const withFilters = subregionRowsFromCatalogue(catalogue, SUBREGIONS.map((_, i) => 10 * i));
-    expect(withFilters[2]).toEqual({ key: "Urabá", name: "Urabá", value: 20, regprog: "—", topics: "Tópico A · Tópico B" });
+    expect(withFilters[2]).toEqual({ key: "Urabá", name: "Urabá", value: 20, regprog: "—", topics: "Tópico A\nTópico B" });
     expect(withFilters[1].regprog).toBe("7");
     expect(subregionRowsFromCatalogue(catalogue)[2].value).toBe(102);
     const b = geoMapData(subregions, withFilters, POLYGON_KEYS.subregions);
     const props = b.data.features.find((f) => f.properties.subregion === "Oriente").properties;
-    expect(props).toMatchObject({ count: 10, regprog: "7", topics: "Tópico A · Tópico B", name: "Oriente" });
+    expect(props).toMatchObject({ count: 10, regprog: "7", topics: "Tópico A\nTópico B", name: "Oriente" });
   });
 
   test("the attribution under the map of departments is the sentence of F82, with its own test id", () => {

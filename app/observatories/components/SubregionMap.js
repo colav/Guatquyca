@@ -14,7 +14,7 @@ const load = () => import("@/lib/observatories/data/geo/antioquia_subregiones.js
 const tooltip = (unit, detailed) => [
   { field: "name", alias: "Subregión:" },
   { field: "count", alias: `${unit}:` },
-  ...(detailed ? [{ field: "regprog", alias: "Productos con autores de Regionalización:" }, { field: "topics", alias: "Tópicos:" }] : []),
+  ...(detailed ? [{ field: "regprog", alias: "Con autores de Regionalización:" }, { field: "topics", alias: "Tópicos principales:" }] : []),
 ];
 /* Module-level: the tooltip keeps its reference between renders, so the map is not drawn again. */
 const TOOLTIPS = { Proyectos: tooltip("Proyectos", false), Productos: tooltip("Productos", false), detailed: tooltip("Productos", true) };
