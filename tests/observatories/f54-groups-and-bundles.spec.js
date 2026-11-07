@@ -34,7 +34,7 @@ test.describe("F54 against the final bundles (read-only)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag"));
     console.log(`[live] ETags: ${etags.join(" ")}`);
-    expect(etags.map((e) => e.replace(/"/g, ""))).toEqual(["20261107-23175beb927f", "20261107-167ad80354ba", "20261107-e38e45aafac1"]); // B126/B126b
+    expect(etags.map((e) => e.replace(/"/g, ""))).toEqual(["20261107-812ab23f70b7", "20261107-78ed7ef6b631", "20261107-1d2cef7970ed"]); // B128 (D-180)
   });
 
   test("Board 3: the note says 346 de 359 and 13 from the bundle, and the centres add up", async ({ page }) => {
