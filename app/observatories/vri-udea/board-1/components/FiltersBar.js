@@ -4,7 +4,7 @@
 import { memo, useMemo } from "react";
 
 /* lib */
-import { PAIR_LEVEL, YEAR_RANGE, axesOutsideDocument } from "@/lib/observatories/capacity";
+import { PAIR_LEVEL, YEAR_RANGE, axesOutsideDocument, docsInScope, scopeChangePatch } from "@/lib/observatories/capacity";
 
 /* Texts */
 import {
@@ -65,7 +65,8 @@ const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().incl
  */
 function FiltersBar({ dataset, filters, onChange, onReset }) {
   /* Only the documents with curated axes (D-129); the names come from the bundle. */
-  const policyOptions = useMemo(() => [...dataset.policyDocs].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset]);
+  /* Chain Ámbito → Documento → Eje (F64, D-166): the scope limits the documents listed and the axes of those documents. */
+  const policyOptions = useMemo(() => [...docsInScope(dataset, filters.scope)].sort(byPolicyOrder).map((name) => ({ value: name, label: name })), [dataset, filters.scope]);
   const scopeOptions = useMemo(
     () => ALL_SCOPES.map((s) => ({ value: s, label: dataset.scopes.includes(s) ? SCOPE_LABELS[s] : `${SCOPE_LABELS[s]} (sin agendas)`, disabled: !dataset.scopes.includes(s) })),
     [dataset],
@@ -83,7 +84,11 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     [dataset],
   );
   /* With a document chosen the filter lists only the axes of that document (F61, D-163). */
-  const axisOptions = filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups;
+  const axisOptions = (filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups)
+    .map((g) => (filters.scope ? { ...g, options: g.options.filter((o) => dataset.axes.find((e) => e.id === o.value)?.nivel === filters.scope) } : g))
+    .filter((g) => g.options.length);
+  /* A change of scope clears the document and the axes that no longer belong to it. */
+  const changeScope = (v) => onChange(scopeChangePatch(dataset, filters, v || ""));
   /* A document that does not contain some chosen axes removes them from the selection (as in Board 2). */
   const changeDocument = (v) => {
     const doc = v || "";
@@ -138,7 +143,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   return (
     <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
       <Row gutter={[12, 6]}>
-        <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
+        <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>
         <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>
         <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
