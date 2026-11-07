@@ -36,7 +36,7 @@ for (const width of WIDTHS) {
       expect(allEqual(after), `long label ${after}`).toBe(true);
 
       // Tiles of a mosaic: the same height in the whole mosaic.
-      for (const testid of ["mosaic-tile", "map-tile"]) {
+      for (const testid of ["mosaic-tile"]) {
         // Each mosaic (its own container) has one height for all its tiles.
         const groups = await page.getByTestId(testid).evaluateAll((nodes) => {
           const map = new Map();

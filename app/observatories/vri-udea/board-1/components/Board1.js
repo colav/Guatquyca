@@ -13,6 +13,7 @@ import { sourceSentences } from "@/lib/observatories/cutDate";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import DonutChart from "@/app/observatories/components/DonutChart";
+import SubregionMap from "@/app/observatories/components/SubregionMap";
 import FiltersBar from "./FiltersBar";
 import TopicScatter from "./TopicScatter";
 import {
@@ -20,13 +21,13 @@ import {
   KpiRow,
   OdsPlaceholders,
   RulesTable,
-  SubregionTiles,
   SummaryLine,
   UnitDetail,
 } from "./BoardParts";
 import { CalculatorBarsChart, OdsTreemapChart, RankingBarsChart } from "./BarsChart";
 
 /* lib */
+import { subregionRowsFromCatalogue } from "@/lib/observatories/geoMap";
 import {
   CATEGORY,
   CATEGORY_COLORS,
@@ -217,6 +218,7 @@ function Board1Content({ dataset, source }) {
   const ods = useStableValue(rankOds(dataset, result));
   const hasOds = !!(dataset.hasFactDetails && dataset.ods);
   const subregionCounts = useStableValue(result.subregionCounts);
+  const subregionRows = useStableValue(subregionRowsFromCatalogue(dataset.subregions, dataset.hasFactDetails ? subregionCounts : undefined));
   const axes = useStableValue(rankAxes(dataset, result));
   const goals = useStableValue(goalRows(rankGoals(dataset, result)));
   /* Table of the topics of the chosen axes (F49): all the filters apply, the years included. */
@@ -389,10 +391,10 @@ function Board1Content({ dataset, source }) {
           <Col xs={24}><OdsPlaceholders /></Col>
         )}
         <Col xs={24} lg={12}>
-          <ChartCard title="Complemento · Mapa esquemático por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
-            <SubregionTiles subregions={dataset.subregions} counts={dataset.hasFactDetails ? subregionCounts : undefined} />
+          <ChartCard title="Complemento · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
+            <SubregionMap rows={subregionRows} detailed />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
-              Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, entre paréntesis, productos con autores adscritos a los Programas de Regionalización. Disposición aproximada norte–sur. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra entre paréntesis no." : "No responde a los filtros."}
+              Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, al pasar el cursor, productos con autores adscritos a los Programas de Regionalización. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra de Regionalización no." : "No responde a los filtros."}
             </Typography.Paragraph>
           </ChartCard>
         </Col>

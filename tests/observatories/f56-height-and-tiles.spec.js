@@ -1,6 +1,6 @@
 /*
  * F56 (D-153): the table of topics of the axis is 120 px lower (the scrolling body goes from 360 to 240 px, header and footer
- * stay) and the blocks of the mosaics have no shadow (the card that holds the panel keeps the shadow of the cards, D-143).
+ * stay) and the treemap of the Board 3 has no shadow (the card keeps the shadow of the cards, D-143). The tests of the tiles of the mosaics were removed in F80: the subregions and departments are maps now, and the ODS are a treemap since F77.
  * Reads the real quyca and the dev server of Luis (D-100): only with E2E_LIVE=1. Computed styles, no screenshots.
  */
 import { test, expect } from "@playwright/test";
@@ -39,40 +39,6 @@ test.describe("F56 against the real quyca (read-only)", () => {
       }
     });
   }
-
-  test("the blocks of the mosaics of the boards 1 and 2 have no shadow and the cards keep theirs", async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    const check = async (testId, expectedCount) => {
-      const styles = await page.evaluate((id) => [...document.querySelectorAll(`[data-testid='${id}']`)].map((t) => { const c = getComputedStyle(t); return { shadow: c.boxShadow, text: c.textShadow, filter: c.filter, bg: c.backgroundColor, radius: c.borderRadius, card: getComputedStyle(t.closest(".ant-card")).boxShadow }; }), testId);
-      expect(styles.length).toBe(expectedCount);
-      for (const s of styles) {
-        expect(s.shadow).toBe("none");
-        expect(s.text).toBe("none");
-        expect(s.filter).toBe("none");
-        expect(s.bg).not.toBe("rgba(0, 0, 0, 0)");
-        expect(s.card).not.toBe("none"); // the shadow of the card stays
-      }
-      return styles.length;
-    };
-    await page.goto(BOARD(1, "axis=98"));
-    await page.getByTestId("mosaic-tile").first().waitFor({ timeout: 120000 });
-    console.log(`[live] board 1: ${await check("mosaic-tile", 26)} tiles without shadow (9 subregions + 17 ODS)`);
-    await page.goto(BOARD(2));
-    await page.getByTestId("map-tile").first().waitFor({ timeout: 120000 });
-    console.log(`[live] board 2: ${await check("map-tile", 42)} tiles without shadow (departments + subregions)`);
-  });
-
-  test("hover over a tile does not bring a shadow (boards 1 and 2)", async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    for (const [n, id] of [[1, "mosaic-tile"], [2, "map-tile"]]) {
-      await page.goto(BOARD(n));
-      const tile = page.getByTestId(id).first();
-      await tile.waitFor({ timeout: 120000 });
-      await tile.hover();
-      await page.waitForTimeout(300);
-      expect(await tile.evaluate((el) => getComputedStyle(el).boxShadow)).toBe("none");
-    }
-  });
 
   test("Board 3: the treemap of the OECD areas is drawn on a canvas and nothing in its panel has a shadow or a filter", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });

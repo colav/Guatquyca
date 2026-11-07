@@ -11,7 +11,9 @@ import ChartCard from "@/app/observatories/components/ChartCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
 import FiltersBar from "./FiltersBar";
-import TileCartogram from "./TileCartogram";
+import DepartmentMap from "@/app/observatories/components/DepartmentMap";
+import SubregionMap from "@/app/observatories/components/SubregionMap";
+import { subregionRowsFromObject } from "@/lib/observatories/geoMap";
 import Note from "@/app/observatories/components/Note";
 import { CountriesTable, DomainTable, GoalsTable, KpiRow, StatTiles } from "./Board2Parts";
 import CountryMap from "@/app/observatories/components/CountryMap";
@@ -47,8 +49,6 @@ import {
   BOARD_EYEBROW,
   BOARD_LEAD,
   BOARD_TITLE,
-  COLOMBIA_GRID,
-  COLOMBIA_TILES,
   AXIS_14_NOTE,
   FOOTER_TEXT,
   MOCK_TAG,
@@ -59,9 +59,6 @@ import {
   REAL_FOOTER_TEXT,
   REAL_TAG,
   SIDE_LABELS,
-  SUBREGION_GRID,
-  SUBREGION_TILES,
-  abbreviate,
   smallSampleNote,
   smallProjectsNote,
   NO_SECTOR_DATA,
@@ -177,6 +174,7 @@ function Board2Content({ dataset, source }) {
   const domainRows = useStableValue(useMemo(() => result.domainRows(domainTab), [result, domainTab]));
   const subregionCounts = useStableValue(useMemo(() => result.subregionCounts(subregionTab), [result, subregionTab]));
   const departments = useStableValue(result.departments);
+  const subregionRows = useStableValue(subregionRowsFromObject(subregionCounts));
   /* Notice of the board: with the data of the API every figure is calculated (Q57, provisional). */
   const notice = useMemo(() => {
     if (isMock) return NOTICE;
@@ -234,7 +232,6 @@ function Board2Content({ dataset, source }) {
   ]);
 
   const departmentCounts = departments;
-  const unassigned = departments["Sin asignar"];
 
   return (
     <div>
@@ -333,14 +330,14 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24} lg={12} xl={12}>
           <ChartCard title="09 · Colaboración interdepartamental">
-            <TileCartogram tiles={COLOMBIA_TILES} grid={COLOMBIA_GRID} counts={departmentCounts} unit="productos en coautoría" label={abbreviate} />
-            {unassigned ? <Note>{fmt(unassigned)} productos con instituciones colombianas sin departamento asignado. Escala logarítmica de color.</Note> : <Note>{NOTES.v9}</Note>}
+            <DepartmentMap departments={departmentCounts} />
+            <Note>{NOTES.v9}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} lg={12} xl={12}>
           <ChartCard title="09b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
-            <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
+            <SubregionMap rows={subregionRows} unit={subregionTab < 2 ? "Proyectos" : "Productos"} />
             <Note>{NOTES.v15}{noProj && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
             {smallProjects && subregionTab < 2 ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
