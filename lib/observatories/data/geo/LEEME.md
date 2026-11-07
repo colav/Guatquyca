@@ -1,3 +1,5 @@
+> Copia de `out\geo\LEEME.md` (B131) para el frontend (F80). Aquí **no** está `antioquia_municipios.json` (776 KB, sin uso todavía). Los archivos de `out\geo\` de B131 se copiaron tal cual el 7 nov 2026; al llegar B132 (polígonos más livianos) se recopian sin cambiar código.
+
 # Polígonos para los mapas del observatorio (B131, 7 nov 2026)
 
 El frontend copia estos archivos a `lib/observatories/data/geo/`. No llevan conteos: los números salen del bundle. Se generaron con `out\b131\generar_geo.py` (shapely 2.2.0).
