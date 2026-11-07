@@ -219,7 +219,7 @@ export const AXIS_LINK_STATES = { 0: { label: "Incluido", color: "green" }, 1: {
 export const AXIS_LINK_BY_PRODUCTS = "Por productos";
 export const AXIS_LINK_BY_PRODUCTS_HELP = "Estos productos no tienen como tópico principal ninguno de los tópicos del eje, pero alguno de sus tópicos secundarios sí pertenece al eje. Nuestra metodología, leyendo su título y resumen, los asignó al eje. Solo se cuentan los de confianza alta y media (los de confianza baja no se muestran por defecto). Por eso aparecen en las tarjetas del eje y no en los tópicos de arriba, y su suma con la tabla coincide con las tarjetas. Siguen los filtros activos, incluido el de años.";
 export const AXIS_FILTER_LABEL = "Eje Temático (uno o más)";
-export const AXIS_FILTER_TOOLTIP = "Recorta todo el tablero a los productos enlazados a los ejes elegidos, con la confianza de asignación del filtro correspondiente";
+export const AXIS_FILTER_TOOLTIP = "Recorta todo el tablero a los productos enlazados a los ejes elegidos, con la confianza de asignación del filtro correspondiente. El documento solo limita los ejes disponibles.";
 
 /** Line above the table: the table follows the years filter, unlike the panels 1 and 2 (D-143 1). */
 export const axisTopicsYears = (yearFrom, yearTo) => `Años aplicados: ${yearFrom}–${yearTo}`;

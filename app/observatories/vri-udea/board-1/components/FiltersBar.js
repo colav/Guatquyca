@@ -4,7 +4,7 @@
 import { memo, useMemo } from "react";
 
 /* lib */
-import { PAIR_LEVEL, YEAR_RANGE } from "@/lib/observatories/capacity";
+import { PAIR_LEVEL, YEAR_RANGE, axesOutsideDocument } from "@/lib/observatories/capacity";
 
 /* Texts */
 import {
@@ -68,7 +68,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   /* Coverage note of the centre filter, from the data of the board (no fixed figures, D-124). */
   const centerNote = useMemo(() => centerCoverageNote(dataset.centerCoverage), [dataset]);
   /* Ejes Temáticos grouped by policy document, in the order of the documents of the filter. */
-  const axisOptions = useMemo(
+  const axisGroups = useMemo(
     () =>
       dataset.policyDocs.map((agenda) => ({
         label: agenda,
@@ -76,10 +76,18 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       })),
     [dataset],
   );
+  /* With a document chosen the filter lists only the axes of that document (F61, D-163). */
+  const axisOptions = filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups;
+  /* A document that does not contain some chosen axes removes them from the selection (as in Board 2). */
+  const changeDocument = (v) => {
+    const doc = v || "";
+    const outside = doc ? axesOutsideDocument(dataset, { policyDoc: doc, axisIds: filters.axisIds }) : [];
+    onChange({ policyDoc: doc, ...(outside.length ? { axisIds: filters.axisIds.filter((id) => !outside.includes(id)) } : {}) });
+  };
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
-  const select = (key, options, placeholder, mapIndex = false) => (
+  const select = (key, options, placeholder, mapIndex = false, custom = null) => (
     <Select
       showSearch
       allowClear
@@ -88,7 +96,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       options={options}
       filterOption={searchFilter}
       value={mapIndex ? (filters[key] >= 0 ? filters[key] : undefined) : filters[key] || undefined}
-      onChange={(v) => onChange({ [key]: v === undefined || v === null ? (mapIndex ? -1 : "") : v })}
+      onChange={custom || ((v) => onChange({ [key]: v === undefined || v === null ? (mapIndex ? -1 : "") : v }))}
     />
   );
 
@@ -107,7 +115,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
       <Row gutter={[12, 6]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
-        <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos")}</Field>
+        <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos", false, changeDocument)}</Field>
         <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centerOptions, "Todos", true)}</div>

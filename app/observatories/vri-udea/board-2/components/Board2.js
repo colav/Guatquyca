@@ -26,6 +26,7 @@ import {
   WORK_TYPE,
   computeCollaboration,
   parseCollabFilters,
+  reconcileAxisDocument,
   sameCollabFilters,
   serializeCollabFilters,
 } from "@/lib/observatories/collaboration";
@@ -116,6 +117,11 @@ function Board2Content({ dataset, source }) {
   const { raw } = dataset;
   const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
+  /* Axis and document that do not go together (from the URL): the axis wins and the document is dropped (F61, D-163). */
+  useEffect(() => {
+    const fix = reconcileAxisDocument(dataset, draft);
+    if (fix) update(fix);
+  }, [dataset, draft, update]);
   const [domainTab, setDomainTab] = useState(0);
   const [axisTab, setAxisTab] = useState(AXIS_TABS.length - 1);
   const [subregionTab, setSubregionTab] = useState(0);

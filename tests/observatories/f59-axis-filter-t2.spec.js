@@ -61,8 +61,9 @@ test.describe("filter of axis, model (no server)", () => {
   });
 
   test("it combines with the document, the years, the unit with «y»", () => {
-    expect(run({ axisId: 1, policyDoc: "D1" }).kpis.works).toBe(2); // 0 and 1 have topic 0; 4 does not
-    expect(run({ axisId: 1, policyDoc: "D2" }).kpis.works).toBe(0);
+    /* F61 (D-163): with an axis chosen the document no longer restricts the products (before: 2 and 0). */
+    expect(run({ axisId: 1, policyDoc: "D1" }).kpis.works).toBe(3);
+    expect(run({ axisId: 1, policyDoc: "D2" }).kpis.works).toBe(3);
     expect(run({ axisId: 1, yearFrom: 2023, yearTo: 2023 }).kpis.works).toBe(1);
     expect(run({ axisId: 1, facultyIndex: 1 }).kpis.works).toBe(1);
     expect(run({ axisId: 1, facultyIndex: 0 }).kpis.works).toBe(0);
@@ -149,17 +150,17 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     expect(ejes.reduce((s, e) => s + e.direct_conf.filter((c) => c <= 1).length, 0)).toBe(76178);
   });
 
-  test("axis plus document: the intersection by topic of the document", () => {
+  test("axis plus document: the axis commands (F61, D-163), the document does not restrict the products", () => {
     const e = bundle.thesaurus.ejes.find((x) => x.id === 98);
     const other = bundle.thesaurus.agendas.find((a) => a.name !== e.agenda);
     const same = computeCollaboration(dataset, { axisId: 98, policyDoc: e.agenda });
     const diff = computeCollaboration(dataset, { axisId: 98, policyDoc: other.name });
     const topics = new Set(bundle.thesaurus.agendas.find((a) => a.name === e.agenda).topics);
-    const expected = direct(98).filter((i) => topics.has(bundle.works[i][12])).length;
+    const expected = direct(98).length;
     console.log(`[live] axis 98 + its document «${e.agenda}»: ${same.kpis.works} (expected ${expected}); + «${other.name}»: ${diff.kpis.works}`);
     expect(same.kpis.works).toBe(expected);
-    const topicsOther = new Set(other.topics);
-    expect(diff.kpis.works).toBe(direct(98).filter((i) => topicsOther.has(bundle.works[i][12])).length);
+    expect(diff.kpis.works).toBe(expected);
+    expect(topics.size).toBeGreaterThan(0);
   });
 
   test("the page: the filter is small, searchable and grouped; the document narrows the list; the URL keeps ?axis=", async ({ page }) => {
@@ -192,7 +193,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     const expected = direct(98).length;
     await page.goto(`/observatories/vri-udea/board-2?axis=98&doc=${encodeURIComponent(e.agenda)}`);
     const topics = new Set(bundle.thesaurus.agendas.find((a) => a.name === e.agenda).topics);
-    const both = direct(98).filter((i) => topics.has(bundle.works[i][12])).length;
+    const both = expected; /* F61: the document does not restrict when there is an axis */
     await expect(page.locator(".obs-kpi").first()).toContainText(both.toLocaleString("es-CO"), { timeout: 120000 });
     await expect(page.getByTestId("axis-14-note")).toContainText("misma definición del filtro");
     await page.getByTestId("axis-filter").locator(".ant-select-selector").click();

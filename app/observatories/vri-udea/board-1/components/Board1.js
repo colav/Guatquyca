@@ -36,6 +36,7 @@ import {
   MIN_TREND_VOLUME,
   ODS_MIN_SCORE,
   TREND_BAND,
+  axesOutsideDocument,
   computeCapacity,
   rankActors,
   rankAxes,
@@ -138,6 +139,10 @@ function Board1Content({ dataset, source }) {
   const isMock = source === MOCK_SOURCE;
   const { draft, applied, pending, update, reset } = useBoardFilters();
   const [selectedId, setSelectedId] = useState(null);
+  /* Axes that are not of the document (from the URL): the axes win and the document is dropped (F61, D-163). */
+  useEffect(() => {
+    if (axesOutsideDocument(dataset, draft).length) update({ policyDoc: "" });
+  }, [dataset, draft, update]);
 
   const result = useMemo(() => computeCapacity(dataset, applied), [dataset, applied]);
 
