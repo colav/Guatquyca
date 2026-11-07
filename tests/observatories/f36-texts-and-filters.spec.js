@@ -50,7 +50,7 @@ test.describe("texts with calculated figures (no server)", () => {
 
   test("the notice of Board 2 for the API is built from the figures it receives", () => {
     const text = realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 });
-    expect(text).toContain("8 de los 12 documentos tienen términos; los otros 4 solo aportan metas");
+    expect(text).toContain("8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas");
     expect(text).toContain("735 de 752 productos de apropiación social no tienen año");
     expect(text).not.toContain("Alcaldía de Medellín");
   });
@@ -131,7 +131,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     await expect(page.getByText("Ensayo con limitaciones de datos").first()).toBeVisible({ timeout: 120000 });
     const t2 = await page.locator("main").innerText();
     const raw2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
-    expect(t2).toContain(`${raw2.thesaurus.agendas.length} de los 12 documentos tienen términos`);
+    expect(t2).toContain(`${raw2.thesaurus.agendas.length} de los 12 documentos tienen ejes`);
     expect(t2).not.toContain("562 productos");
     expect(t2).not.toContain("6 de los 12 documentos");
 

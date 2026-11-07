@@ -46,6 +46,8 @@ function Field({ label, children, span = 6, help = null }) {
   );
 }
 
+/* Long names go in two lines, not cut (F67). */
+const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
@@ -87,13 +89,14 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   const facultyOptions = useMemo(() => indexOptions(dataset.faculties), [dataset]);
   const departmentOptions = useMemo(() => indexOptions(dataset.departments), [dataset]);
 
-  const select = (key, options, placeholder, mapIndex = false, custom = null) => (
+  const select = (key, options, placeholder, mapIndex = false, custom = null, wrap = false) => (
     <Select
       showSearch
       allowClear
       style={{ width: "100%" }}
       placeholder={placeholder}
       options={options}
+      optionRender={wrap ? wrapOption : undefined}
       filterOption={searchFilter}
       value={mapIndex ? (filters[key] >= 0 ? filters[key] : undefined) : filters[key] || undefined}
       onChange={custom || ((v) => onChange({ [key]: v === undefined || v === null ? (mapIndex ? -1 : "") : v }))}
@@ -115,7 +118,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
       <Row gutter={[12, 6]}>
         <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos")}</Field>
-        <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos", false, changeDocument)}</Field>
+        <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>
         <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centerOptions, "Todos", true)}</div>

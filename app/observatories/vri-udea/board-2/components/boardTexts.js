@@ -5,21 +5,22 @@
 
 /* Numbers of the notes come from the constants of the calculation, not from the text. */
 import { GRAPH_MIN_EDGE, LIMITS } from "../../../../../lib/observatories/collaboration/constants";
+import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026 · Ensayo 1";
 
 export const BOARD_LEAD =
-  "Los indicadores de este tablero sintetizan las demandas, metas y programas que, en doce documentos de política, mencionan la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta; caracteriza cómo colabora la Universidad y con quién.";
+  `Los indicadores de este tablero sintetizan las demandas, metas y programas que, en doce documentos de política (${POLICY_DOCUMENTS.join("; ")}), mencionan la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta; caracteriza cómo colabora la Universidad y con quién.`;
 
 export const MOCK_TAG = "Datos de prueba · ensayo con limitaciones de datos";
 
 export const NOTICE =
-  "El filtro por documento de política y el ránking por Eje Temático (14) usan los términos Núcleo del thesaurus (6 de los 12 documentos tienen términos; los otros 6 solo aportan metas de colaboración) enlazados a tópicos OpenAlex por coincidencia de términos en títulos. La base no contiene patentes ni resúmenes; la apropiación social no tiene año; el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse. «Alcaldía de Medellín» (562 productos) parece un error de afiliación de OpenAlex y se marca para verificación.";
+  "El filtro por documento de política y el panel 14 (ránking por Eje Temático) se basan en los ejes curados del thesaurus 6 y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración). La base no contiene patentes; el 77 % de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año; el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse. «Alcaldía de Medellín» (562 productos) parece un error de afiliación de OpenAlex y se marca para verificación.";
 
 export const FOOTER_TEXT =
-  "Fuentes: works, work_authors, work_groups, work_topics (ImpactU/OpenAlex/SCIENTI), instituciones_coautoras, ListadoProyectos03_de_julio.xlsx, BD_Grupos y Centros UdeA, Tableros_thesaurus_5.xlsx (términos Núcleo y metas de colaboración). Universo: artículos, libros y capítulos 2010–2026 y productos de innovación y apropiación (todos los años). Problemas detectados en las bases: 636 registros con DOI repetido y 4.697 con título repetido; 3.899 productos elegibles sin año (excluidos salvo apropiación social); una misma institución con hasta cuatro identificadores (ROR, scienti_, snies_); nombres de instituciones en galés, vasco o finés; NIT de aportantes con dígitos de más y razones sociales genéricas en el listado de proyectos.";
+  "Fuentes: works, work_authors, work_groups, work_topics (ImpactU/OpenAlex/SCIENTI), instituciones_coautoras, ListadoProyectos03_de_julio.xlsx, BD_Grupos y Centros UdeA, Tableros_thesaurus_6.xlsx (ejes curados y metas de colaboración). Universo: artículos, libros y capítulos 2010–2026 y productos de innovación y apropiación (todos los años). Problemas detectados en las bases: 636 registros con DOI repetido y 4.697 con título repetido; 3.899 productos elegibles sin año (excluidos salvo apropiación social); una misma institución con hasta cuatro identificadores (ROR, scienti_, snies_); nombres de instituciones en galés, vasco o finés; NIT de aportantes con dígitos de más y razones sociales genéricas en el listado de proyectos.";
 
 /* Filter of Eje Temático (F59, D-159); provisional texts. */
 export const AXIS_FILTER_NOTE =
@@ -49,7 +50,7 @@ export const NOTES = {
   v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025). Apropiación social: 735 de 752 registros no tienen año.",
   v6: "Bibliográfica: artículos con coautores de empresa y gobierno además de la UdeA. Proyectos: con aportante empresarial y aportante público. Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
   v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos. Apropiación social: productos con empresa u organización sin ánimo de lucro.",
-  v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. La base no incluye resúmenes.",
+  v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
   v9: "Productos con coautores de instituciones colombianas, por departamento de la institución (sin la UdeA). Escala logarítmica de color.",
   v15: "Proyectos con lugar de ejecución en la subregión (SIIU) y productos cuyo título menciona la subregión o sus municipios.",
   v10: "Productos en coautoría con instituciones de otros países. Burbujas sobre centroides (mapa esquemático del ensayo).",
@@ -103,5 +104,5 @@ export const NO_COORDINATES_NOTE = (count) => `${count} ${count === 1 ? "país c
  */
 export function realNotice({ documentsWithTerms, documents, appropriationWithoutYear, appropriation }) {
   const fmt = (n) => n.toLocaleString("es-CO");
-  return `El filtro por documento de política y el ránking por Eje Temático (14) usan los términos Núcleo del thesaurus (${documentsWithTerms} de los ${documents} documentos tienen términos; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración) enlazados a tópicos OpenAlex por coincidencia de términos en títulos. La base no contiene patentes; ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
+  return `El filtro por documento de política y el panel 14 (ránking por Eje Temático) se basan en los ejes curados del thesaurus 6 y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración). La base no contiene patentes; ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
 }

@@ -20,6 +20,8 @@ import { Col, Row, Select, Tooltip, Typography } from "antd";
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
 const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
+/* Long names go in two lines, not cut (F62, F67). */
+const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 
@@ -128,6 +130,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
             style={{ width: "100%" }}
             placeholder="Todos"
             options={docs}
+            optionRender={wrapOption}
             filterOption={searchFilter}
             value={filters.policyDoc || undefined}
             onChange={changeDocument}
