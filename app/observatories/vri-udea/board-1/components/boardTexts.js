@@ -28,6 +28,9 @@ export const HELP_TEXT = [
 export { POLICY_DOCUMENTS };
 
 /** Filter ODS (F71): labels. Provisional texts for Luis. */
+/** Help of the filters Ámbito and Documento (F74, D-177): the document delimits the products by the pairs product–axis. Provisional texts. */
+export const DOCUMENT_FILTER_HELP = "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes, con la confianza del filtro «Confianza de la asignación a ejes». Un producto sin eje asignado no cuenta aunque su tópico esté vinculado.";
+export const SCOPE_FILTER_HELP = "El ámbito es el nivel del documento de política y usa la misma regla con los ejes de los documentos de ese nivel.";
 export const ODS_FILTER_LABEL = "Objetivo de Desarrollo Sostenible (ODS)";
 export const ODS_FILTER_HELP = "Acota la dispersión, la calculadora y las tablas a los productos con ese ODS (puntaje de 0,40 o más). También se elige con un clic en el ránking o en el treemap de ODS.";
 export const ODS_SELECTED_NOTE = (label, noRecord = 0) =>

@@ -112,3 +112,7 @@ export const pieNote = (preprintsFromPublications) =>
   `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones. La composición final se confirma con Gabriel.`;
 export const PID_NOTE =
   "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de SCIENTI o SNIES.";
+
+/** Help of the filter Documento (F74, D-177): the board has no control of confidence. Provisional text. */
+export const DOCUMENT_FILTER_HELP =
+  "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes, con confianza alta o media (este tablero no tiene control de confianza). Un producto sin eje asignado no cuenta aunque su tópico esté vinculado.";

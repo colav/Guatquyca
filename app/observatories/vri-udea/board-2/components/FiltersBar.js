@@ -8,7 +8,7 @@ import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
 import { CENTER_TOOLTIP, byPolicyOrder, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, SCOPE_OPTIONS } from "./boardTexts";
+import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, DOCUMENT_FILTER_HELP, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
 import FilterHelp from "@/app/observatories/components/FilterHelp";
@@ -123,7 +123,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
       <Row gutter={[12, 6]} ref={rowRef}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
-        <Field label="Documento de política">
+        <Field label="Documento de política" help={DOCUMENT_FILTER_HELP}>
           <Select
             showSearch
             allowClear

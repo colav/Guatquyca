@@ -18,7 +18,9 @@ import {
   RATIO_BASIS_OPTIONS,
   centerCoverageNote,
   AXIS_FILTER_LABEL,
+  DOCUMENT_FILTER_HELP,
   ODS_FILTER_HELP,
+  SCOPE_FILTER_HELP,
   ODS_FILTER_LABEL,
   AXIS_FILTER_TOOLTIP,
 } from "./boardTexts";
@@ -143,8 +145,8 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   return (
     <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
       <Row gutter={[12, 6]}>
-        <Field label="1 · Ámbito">{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>
-        <Field label="2 · Documento de política">{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>
+        <Field label="1 · Ámbito" help={SCOPE_FILTER_HELP}>{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>
+        <Field label="2 · Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>
         <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centerOptions, "Todos", true)}</div>

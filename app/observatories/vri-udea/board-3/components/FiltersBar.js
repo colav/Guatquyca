@@ -8,7 +8,7 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { SCOPE_LABELS } from "./boardTexts";
+import { DOCUMENT_FILTER_HELP, SCOPE_LABELS } from "./boardTexts";
 import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
 /* Components */
@@ -91,7 +91,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset }) {
     <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
       <Row gutter={[12, 6]}>
         <Field label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>
-        <Field label="Documento de política">{select("policyIndex", documents, "Todos")}</Field>
+        <Field label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyIndex", documents, "Todos")}</Field>
         <Field label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
           <Tooltip title={CENTER_TOOLTIP}>
             <div>{select("centerIndex", centers, "Todos")}</div>

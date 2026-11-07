@@ -98,7 +98,7 @@ test.describe("axis and document, model (no server)", () => {
     expect(run1({ axisIds: [0], policyDoc: "Doc A" }).products).toBe(4); // its own document: the axis alone (before: 3, the topics of the document)
     expect(run1({ axisIds: [0], policyDoc: "Doc B" }).products).toBe(4); // another document: the axis wins
     expect(run1({ axisIds: [0, 1], policyDoc: "Doc A" }).products).toBe(run1({ axisIds: [0, 1] }).products);
-    expect(run1({ policyDoc: "Doc A" }).products).toBe(3); // without axes: topics linked to the axes of the document (facts 0, 1, 3)
+    expect(run1({ policyDoc: "Doc A" }).products).toBe(4); // without axes: the pairs with the axes of the document (facts 0, 1, 3, 4) (F74: before, the linked topics: 3)
     expect(run1({ policyDoc: "Doc A" }).products).toBeLessThan(run1({}).products);
   });
 
