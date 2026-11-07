@@ -1,7 +1,7 @@
 "use client";
 
 /* Hooks */
-import { memo, useMemo } from "react";
+import { memo, useMemo, useRef, useState } from "react";
 
 /* lib */
 import { YEAR_RANGE } from "@/lib/observatories/collaboration";
@@ -81,6 +81,16 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
     onChange({ policyDoc: doc, ...(doc && owner && owner !== doc ? { axisId: -1 } : {}) });
   };
 
+  /* List of the axes with the size of the list of Board 1 (F62, D-165): the field of Board 1 is half the row (span 12) from md up and the list has the width of the field; here the field is a quarter, so the width is set to the one of Board 1, never wider than the window. Height: the default of Ant Design, as in Board 1. */
+  const rowRef = useRef(null);
+  const [axisWidth, setAxisWidth] = useState(true);
+  const onAxisOpen = (open) => {
+    if (!open || !rowRef.current) return;
+    const row = rowRef.current.offsetWidth;
+    const board1 = window.innerWidth >= 768 ? row / 2 - 12 : row - 12;
+    setAxisWidth(Math.max(240, Math.round(Math.min(board1, window.innerWidth - 32))));
+  };
+
   const select = (key, options, placeholder, isIndex) => (
     <Select
       showSearch
@@ -108,7 +118,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
 
   return (
     <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
-      <Row gutter={[12, 6]}>
+      <Row gutter={[12, 6]} ref={rowRef}>
         <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
         <Field label="Documento de política">
           <Select
@@ -129,8 +139,9 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
               allowClear
               data-testid="axis-filter"
               style={{ width: "100%" }}
-              popupMatchSelectWidth={false}
-              listHeight={320}
+              popupMatchSelectWidth={axisWidth}
+              onOpenChange={onAxisOpen}
+              optionRender={(o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>}
               placeholder="Todos"
               options={axisOptions}
               filterOption={searchFilter}
