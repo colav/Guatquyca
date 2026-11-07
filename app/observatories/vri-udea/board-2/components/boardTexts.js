@@ -23,8 +23,12 @@ export const FOOTER_TEXT =
 
 /* Filter of Eje Temático (F59, D-159); provisional texts. */
 export const AXIS_FILTER_NOTE =
+  "El filtro de eje se aplica a artículos, libros y capítulos, y a proyectos, con eje asignado por nuestra metodología (confianza alta o media). La apropiación social no tiene eje: no se cuenta. El documento solo limita los ejes disponibles.";
+/* Same note for a bundle without pairs of projects (before B121). */
+export const AXIS_FILTER_NOTE_NO_PROJECTS =
   "El filtro de eje solo se aplica a artículos, libros y capítulos con eje asignado por nuestra metodología (confianza alta o media). La apropiación social y los proyectos no tienen eje: no se cuentan en la apropiación y no cambian en los proyectos. El documento solo limita los ejes disponibles.";
 export const NO_AXIS_RESPONSE = "no responde al eje";
+export const smallProjectsNote = (n) => `Muestra pequeña: ${n} proyectos con el eje elegido en este panel. Las cifras pueden cambiar mucho con pocos proyectos.`;
 export const smallSampleNote = (n) => `Muestra pequeña: ${n} productos con el eje elegido en este panel. Las cifras pueden cambiar mucho con pocos productos.`;
 export const AXIS_14_NOTE = "Con un eje elegido solo se muestra ese eje, contado con la misma definición del filtro (productos con eje asignado de confianza alta o media), no por tópico principal; sin eje elegido se cuenta por los tópicos del eje.";
 

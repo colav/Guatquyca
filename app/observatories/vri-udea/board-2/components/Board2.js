@@ -60,6 +60,7 @@ import {
   SUBREGION_TILES,
   abbreviate,
   smallSampleNote,
+  smallProjectsNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
@@ -185,9 +186,12 @@ function Board2Content({ dataset, source }) {
   const h = result.helices;
   /* Axis chosen (F59): the cards of projects do not answer to it and say so. */
   const axis = result.axis;
+  /* The projects answer to the axis through the pairs of B121 (F59b); a bundle without them says so. */
+  const noProj = !!axis && !axis.projectsRespond;
+  const smallProjects = !!axis && axis.projectsRespond && result.sample.projects < SMALL_SAMPLE;
   const helices = useStableValue([
     { label: "artículos UdeA + empresa + gobierno", value: h.triple, detail: dataset.flaggedInstitution >= 0 ? `${fmt(h.tripleWithoutFlagged)} sin contar Alcaldía de Medellín` : undefined },
-    { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects, detail: axis ? NO_AXIS_RESPONSE : undefined },
+    { label: "proyectos con empresa y fondos públicos", value: h.tripleProjects, detail: noProj ? NO_AXIS_RESPONSE : undefined },
     { label: "patentes con empresas", value: "s. d.", detail: "sin patentes en la base" },
     { label: "artículos con empresa", value: h.withCompany },
     { label: "artículos con gobierno", value: h.withGovernment },
@@ -195,7 +199,7 @@ function Board2Content({ dataset, source }) {
   ]);
   const quadruple = useStableValue([
     { label: "artículos UdeA + empresa + ONG + gobierno", value: h.quadruple },
-    { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects, detail: axis ? NO_AXIS_RESPONSE : undefined },
+    { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects, detail: noProj ? NO_AXIS_RESPONSE : undefined },
     { label: "apropiación social con empresa u ONG", value: h.appropriationWithCompanyOrNonprofit, detail: `${fmt(h.appropriationTotal)} productos de apropiación en el filtro` },
     { label: "artículos con sin ánimo de lucro", value: h.withNonprofit },
     { label: "artículos gobierno + ONG", value: h.governmentNonprofit },
@@ -204,7 +208,7 @@ function Board2Content({ dataset, source }) {
   const iap = result.iap;
   const iapStats = useStableValue([
     { label: "productos que mencionan IAP en el título", value: iap.works, detail: `${fmt(iap.articles)} artículos · ${fmt(iap.chapters)} capítulos` },
-    { label: "proyectos que mencionan IAP", value: iap.projects, detail: axis ? NO_AXIS_RESPONSE : undefined },
+    { label: "proyectos que mencionan IAP", value: iap.projects, detail: noProj ? NO_AXIS_RESPONSE : undefined },
   ]);
   const northSouth = useStableValue([
     { label: "productos Sur–Norte", value: result.northSouth.north },
@@ -230,7 +234,7 @@ function Board2Content({ dataset, source }) {
 
       <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} />
       {pending ? <Typography.Text type="secondary">Actualizando…</Typography.Text> : null}
-      <KpiRow kpis={kpis} projectDetail={axis ? NO_AXIS_RESPONSE : ""} />
+      <KpiRow kpis={kpis} projectDetail={noProj ? NO_AXIS_RESPONSE : ""} />
 
       {registry ? (
         <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginTop: 6 }} data-testid="official-groups-note">
@@ -275,7 +279,8 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
             <Note>{NOTES.v5b}</Note>
-            {axis ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
+            {noProj ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
+            {smallProjects ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
         </Col>
 
@@ -297,7 +302,8 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="08 · Investigación acción participativa">
             <StatTiles stats={iapStats} />
             <Note>{NOTES.v8}</Note>
-            {axis ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
+            {noProj ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
+            {smallProjects ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
         </Col>
 
@@ -311,7 +317,8 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="09b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <TileCartogram tiles={SUBREGION_TILES} grid={SUBREGION_GRID} counts={subregionCounts} unit={subregionTab < 2 ? "proyectos" : "productos"} label={(n) => n.replace("Valle de ", "V. ").replace("Magdalena ", "Magd. ")} tileHeight={64} />
-            <Note>{NOTES.v15}{axis && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
+            <Note>{NOTES.v15}{noProj && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
+            {smallProjects && subregionTab < 2 ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>

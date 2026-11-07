@@ -8,7 +8,7 @@ import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { AXIS_FILTER_NOTE, SCOPE_OPTIONS } from "./boardTexts";
+import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
 import FilterHelp from "@/app/observatories/components/FilterHelp";
@@ -73,6 +73,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
   /* Eje Temático (F59, D-159): grouped by document of policy; with a document chosen it lists only the axes of that document. */
   const axisGroups = useMemo(() => dataset.axisGroups.map((g) => ({ label: g.agenda, options: g.axes.map((a) => ({ value: a.id, label: a.label })) })), [dataset]);
   const axisOptions = filters.policyDoc ? axisGroups.filter((g) => g.label === filters.policyDoc) : axisGroups;
+  const axisNote = dataset.hasProjectPairs ? AXIS_FILTER_NOTE : AXIS_FILTER_NOTE_NO_PROJECTS;
   const axisLabel = (id) => axisGroups.flatMap((g) => g.options).find((o) => o.value === id)?.label ?? String(id);
   /* A document that does not contain the chosen axis clears it (otherwise the two would leave nothing). */
   const changeDocument = (v) => {
@@ -133,7 +134,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
           />
         </Field>
         {dataset.hasAxisPairs ? (
-          <Field label="Eje Temático" help={AXIS_FILTER_NOTE}>
+          <Field label="Eje Temático" help={axisNote}>
             <Select
               showSearch
               allowClear
@@ -167,7 +168,7 @@ function FiltersBar({ dataset, filters, onChange, onReset }) {
       </Row>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental.
-        {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {AXIS_FILTER_NOTE}</span> : null}
+        {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {axisNote}</span> : null}
       </Typography.Text>
     </StickyFilters>
   );

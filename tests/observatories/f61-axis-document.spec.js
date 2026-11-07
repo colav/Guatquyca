@@ -194,7 +194,8 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(800);
     expect(await kpi2(page)).toBe(alone);
-    expect((await groupsOf(page, axisSel())).length).toBe(8);
+    /* the list is as high as the one of Board 1 (F62) and shows one group at a time: the PDD axis is offered when no document is chosen */
+    expect(await searchCount(page, axisSel(), "Determinantes sociales de la salud")).toBeGreaterThan(0);
     await chooseDoc(page, doc2(page), "CONPES 4144");
     expect(await kpi2(page)).toBe(conpes); // the axis was cleared, as before
     await expect(page.getByTestId("axis-filter-note")).toHaveCount(0);

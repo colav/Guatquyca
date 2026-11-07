@@ -48,7 +48,7 @@ test.describe("filter of axis, model (no server)", () => {
     expect(run({}).kpis.works).toBe(6);
     const a = run({ axisId: 1 });
     expect(a.kpis.works).toBe(3); // works 0, 1 and 4: not 2 (low), not 3 (appropriation)
-    expect(a.axis).toEqual({ id: 1, label: "Eje A", agenda: "D1" });
+    expect(a.axis).toMatchObject({ id: 1, label: "Eje A", agenda: "D1" });
     expect(a.helices.appropriationTotal).toBe(0);
     expect(run({ axisId: 2 }).kpis.works).toBe(1);
     expect(run({ axisId: 3 }).kpis.works).toBe(0); // an axis without pairs of high or medium confidence
@@ -76,7 +76,7 @@ test.describe("filter of axis, model (no server)", () => {
   });
 
   test("the sample for the cards that need it counts the products of the selection", () => {
-    expect(run({ axisId: 1 }).sample).toEqual({ graph: 3, helices: 3 });
+    expect(run({ axisId: 1 }).sample).toMatchObject({ graph: 3, helices: 3 });
     expect(run({}).sample.graph).toBe(5); // appropriation is not in the graph
   });
 
@@ -139,7 +139,8 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
       console.log(`[live] axis ${id} «${ejes.find((e) => e.id === id).eje.slice(0, 50)}»: ${r.kpis.works} products (direct count ${expected}); appropriation ${r.helices.appropriationTotal}; projects ${r.kpis.projects} (all ${computeCollaboration(dataset).kpis.projects})`);
       expect(r.kpis.works).toBe(expected);
       expect(r.helices.appropriationTotal).toBe(0);
-      expect(r.kpis.projects).toBe(computeCollaboration(dataset).kpis.projects);
+      /* F59b: the projects answer to the axis through direct_proj (see the f59b spec); here only that they are not all */
+      expect(r.kpis.projects).toBeLessThan(computeCollaboration(dataset).kpis.projects);
     }
     // indicator 14 (canvas): only the chosen axis, counted with the definition of the filter
     const rows = computeCollaboration(dataset, { axisId: 98 }).axisRows(6);
@@ -197,9 +198,13 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await expect(page.locator(".obs-kpi").first()).toContainText(both.toLocaleString("es-CO"), { timeout: 120000 });
     await expect(page.getByTestId("axis-14-note")).toContainText("misma definición del filtro");
     await page.getByTestId("axis-filter").locator(".ant-select-selector").click();
+    /* The list opens scrolled to the chosen axis, so the header may be out of view: every option shown must be an axis of the document (F62: the list has the height of Board 1). */
+    await page.waitForTimeout(500);
+    const labels = new Set(bundle.thesaurus.ejes.filter((x) => x.agenda === e.agenda).map((x) => x.eje));
+    const shown = await page.locator(".ant-select-dropdown:visible .ant-select-item-option").evaluateAll((els) => els.map((x) => x.textContent.trim()));
+    expect(shown.length).toBeGreaterThan(0);
+    expect(shown.every((t) => labels.has(t))).toBe(true);
     const groups = page.locator(".ant-select-item-group");
-    await expect(groups).toHaveCount(1);
-    await expect(groups.first()).toHaveText(e.agenda);
-    console.log(`[live] axis 98: ${expected} alone, ${both} with its document; list with the document: 1 group «${e.agenda}»`);
+    console.log(`[live] axis 98: ${expected} alone, ${both} with its document; list with the document: only axes of «${e.agenda}» (${shown.length} shown)`);
   });
 });
