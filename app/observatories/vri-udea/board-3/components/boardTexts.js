@@ -42,7 +42,7 @@ export const TILE_LABELS = [
 
 export const SCOPE_LABELS = [
   "Local (sin coautor externo)",
-  "Departamental (subregión en título)",
+  "Departamental (subregión de Antioquia en el título, sin el Valle de Aburrá)",
   "Nacional (coautor colombiano externo)",
   "Internacional (coautor extranjero)",
 ];
@@ -96,3 +96,19 @@ export const talentLevelNote = (staff, planta) =>
   `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta} Este panel no responde a los filtros.`;
 export const talentMincienciasNote = (planta) =>
   `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta} Este panel no responde a los filtros.`;
+
+/* F72 (D-175): panels 2, 12, 17 and 18 with the new keys of B126/B126b; provisional texts for Luis. */
+export const AREAS_NOTE = (active, from, linkage) =>
+  `${active} investigadores activos, miembros de un grupo (con al menos un producto desde ${from}; área OCDE del grupo del que son miembros). ${linkage}`;
+export const AREAS_NOTE_MOCK = (active, from, linkage) =>
+  `${active} investigadores activos con grupo (con al menos un producto desde ${from}; área OCDE del grupo principal). ${linkage}`;
+export const ARTS_TITLE_LEVEL = "12 · Profesores con productos artísticos, por número de productos y nivel de formación";
+export const ARTS_TITLE_CONTRACT = "12 · Profesores con productos artísticos, por número de productos y tipo de contrato";
+export const ARTS_LEVEL_NOTE = "Nivel de formación de la planta de la Universidad (doctorado, maestría, especialización —médico-quirúrgica incluida—, profesional o sin dato).";
+export const PIE_CLASSES_TITLE = "Producto por clase (cada producto en una sola porción)";
+export const ACCESS_PIE_TITLE = "Publicaciones por acceso";
+export const PIE_CLASSES_LABELS = { publications: "Publicaciones", preprints: "Preprints", datasets: "Datos de investigación", software: "Software" };
+export const pieNote = (preprintsFromPublications) =>
+  `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones. La composición final se confirma con Gabriel.`;
+export const PID_NOTE =
+  "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de SCIENTI o SNIES.";

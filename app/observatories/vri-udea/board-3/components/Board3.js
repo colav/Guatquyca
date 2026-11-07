@@ -49,6 +49,16 @@ import {
   FOOTER_TEXT,
   MOCK_TAG,
   linkageNote,
+  AREAS_NOTE,
+  AREAS_NOTE_MOCK,
+  ARTS_LEVEL_NOTE,
+  ARTS_TITLE_CONTRACT,
+  ARTS_TITLE_LEVEL,
+  ACCESS_PIE_TITLE,
+  PIE_CLASSES_LABELS,
+  PIE_CLASSES_TITLE,
+  PID_NOTE,
+  pieNote,
   PROXY_LABEL,
   REAL_FOOTER_TEXT,
   REAL_STAFF_LABEL,
@@ -91,7 +101,6 @@ const ID_SERIES = ["Con identificador", "Sin identificador"];
 const ID_COLORS = { "Con identificador": FOUNDATIONS_COLORS.identifiers.with, "Sin identificador": FOUNDATIONS_COLORS.identifiers.without };
 const REPO_SERIES = ["Productos (artículos, libros, capítulos)", "Con texto completo en repositorio"];
 const REPO_COLORS = { [REPO_SERIES[0]]: FOUNDATIONS_COLORS.repository.total, [REPO_SERIES[1]]: FOUNDATIONS_COLORS.repository.inRepository };
-const ART_GROUPS = ["vinculado", "ocasional", "otro/desconocido"];
 
 /**
  * Board 3 · Capacidades de base del sistema. Loads the dataset through the adapter; all the
@@ -317,7 +326,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="02 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
             <AreasTreemapChart items={areas.items} colors={AREA_COLORS} />
-            <Note>{`${fmt(areas.active)} investigadores activos con grupo (con al menos un producto desde ${areas.from}; área OCDE del grupo principal). ${linkageNote(talent.inv_sheet)}`}</Note>
+            <Note>{(isMock ? AREAS_NOTE_MOCK : AREAS_NOTE)(fmt(areas.active), areas.from, linkageNote(talent.inv_sheet))}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -385,10 +394,10 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.arts}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard title="12 · Profesores con productos artísticos, por número de productos y tipo de contrato" empty={!arts.points.length}>
-            <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>
-            <ArtsScatterChart points={arts.points} groups={ART_GROUPS} colors={FOUNDATIONS_COLORS.arts} />
-            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). No hay nivel educativo en las bases; se usa el tipo de contrato.${isMock ? " Parte de las personas de Productos de creación.xlsx se cruzó con la planta." : ""} No responde a los filtros.`}</Note>
+          <ChartCard title={arts.byLevel ? ARTS_TITLE_LEVEL : ARTS_TITLE_CONTRACT} empty={!arts.points.length}>
+            {arts.byLevel ? null : <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>}
+            <ArtsScatterChart points={arts.points} groups={arts.groups} colors={FOUNDATIONS_COLORS.arts} />
+            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). ${arts.byLevel ? ARTS_LEVEL_NOTE : "No hay nivel educativo en las bases; se usa el tipo de contrato."}${isMock ? " Parte de las personas de Productos de creación.xlsx se cruzó con la planta." : ""} No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -400,7 +409,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24}>
           <ChartCard title="14 · Unidades académicas en proyectos de investigación-creación, creación y obra" empty={!creationRows.length}>
             <HBarsChart rows={creationRows} color={BAR_COLORS.artsCreation} unit="Obras" />
-            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; hay registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.${creationHasProjects ? "" : " No se muestra la columna de proyectos porque el bundle aún no los trae (vale 0 en todas las unidades)."}`}</Note>
+            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; hay registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -440,26 +449,37 @@ function Board3Content({ dataset, source }) {
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="17 · Acceso abierto">
-            <Row gutter={[12, 12]} align="middle">
+            <Row gutter={[12, 12]} align="top">
               <Col xs={24} md={12}>
+                <Typography.Text strong>{ACCESS_PIE_TITLE}</Typography.Text>
                 <DonutChart
                   labels={[ACCESS_LABELS.open, ACCESS_LABELS.closed, ACCESS_LABELS.noData]}
                   values={[openAccess.open, openAccess.closed, openAccess.noData]}
                   colors={[FOUNDATIONS_COLORS.openAccess.open, FOUNDATIONS_COLORS.openAccess.closed, FOUNDATIONS_COLORS.openAccess.noData]}
                 />
               </Col>
-              <Col xs={24} md={12}>
+              {openAccess.classes.preprints > 0 ? (
+                <Col xs={24} md={12}>
+                  <Typography.Text strong>{PIE_CLASSES_TITLE}</Typography.Text>
+                  <DonutChart
+                    labels={Object.values(PIE_CLASSES_LABELS)}
+                    values={Object.keys(PIE_CLASSES_LABELS).map((k) => openAccess.classes[k])}
+                    colors={Object.keys(PIE_CLASSES_LABELS).map((k) => FOUNDATIONS_COLORS.classes[k])}
+                  />
+                </Col>
+              ) : null}
+              <Col xs={24}>
                 {[
                   [fmt(openAccess.open), `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)`],
                   [fmt(openAccess.datasetsOpen), `conjuntos de datos abiertos de ${fmt(openAccess.datasets)}`],
-                  ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), "preprints (tipo OpenAlex, no cubiertos por otro tipo)"]] : []),
+                  ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), `preprints (marca de OpenAlex; ${fmt(openAccess.preprints - openAccess.preprintsFromPublications)} de otros tipos)`]] : []),
                   [fmt(openAccess.software), "software / código fuente registrado"],
                 ].map(([value, label]) => (
                   <Statistic key={label} title={label} value={value} valueStyle={{ fontSize: 18 }} style={{ marginBottom: 8 }} />
                 ))}
               </Col>
             </Row>
-            <Note>{`Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.`}</Note>
+            <Note>{`Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -476,7 +496,7 @@ function Board3Content({ dataset, source }) {
                 { title: "%", render: (_, r) => pct(r.withId, r.total), align: "right" },
               ]}
             />
-            <Note>{`No hay Handle en las bases. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR. ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
+            <Note>{`${pid.some((r) => r.label.includes("Handle")) ? PID_NOTE : "No hay Handle en este conjunto de datos. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR."} ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

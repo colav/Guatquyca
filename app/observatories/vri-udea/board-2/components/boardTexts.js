@@ -28,6 +28,9 @@ export const AXIS_FILTER_NOTE =
 /* Same note for a bundle without pairs of projects (before B121). */
 export const AXIS_FILTER_NOTE_NO_PROJECTS =
   "El filtro de eje solo se aplica a artículos, libros y capítulos con eje asignado por nuestra metodología (confianza alta o media). La apropiación social y los proyectos no tienen eje: no se cuentan en la apropiación y no cambian en los proyectos. El documento solo limita los ejes disponibles.";
+/** Indicator 7, appropriation with company or non-profit (F72, D-175 (4)(g)): the source only registers co-authors of the education sector. */
+export const NO_SECTOR_DATA = "sin dato en la fuente";
+export const NO_SECTOR_DATA_NOTE = "Apropiación social con empresa u ONG: sin dato en la fuente. Las instituciones coautoras de la apropiación social son solo del sector educación, así que el 0 no es una medición.";
 export const NO_AXIS_RESPONSE = "no responde al eje";
 /** Years of social appropriation (F69): the figures come from the bundle, not from the text. */
 export const appropriationYearNote = (without, total) => `Apropiación social: ${without.toLocaleString("es-CO")} de ${total.toLocaleString("es-CO")} registros no tienen año.`;
@@ -39,7 +42,7 @@ export const AXIS_14_NOTE = "Con un eje elegido solo se muestra ese eje, contado
 
 export const SCOPE_OPTIONS = [
   { value: "local", label: "Local (coautor en Antioquia)" },
-  { value: "dep", label: "Departamental (subregión de Antioquia en el título)" },
+  { value: "dep", label: "Departamental (subregión de Antioquia en el título, sin el Valle de Aburrá)" },
   { value: "nal", label: "Nacional (coautor de otros departamentos)" },
   { value: "int", label: "Internacional (coautor extranjero)" },
 ];

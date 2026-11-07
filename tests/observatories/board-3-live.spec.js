@@ -35,7 +35,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
     for (const key of ["doms", "fields", "subs", "tops", "facs", "deps", "groups", "centros", "agendas", "tipos", "tesis_sub", "ambitos", "inst", "P", "A", "age_bins", "proj", "creacion", "metas", "talent", "artes"]) {
       expect(raw, `key ${key}`).toHaveProperty(key);
     }
-    expect(raw.P[0]).toHaveLength(16);
+    expect(raw.P[0]).toHaveLength(18); // B126b: P[16] handle and P[17] preprint
     expect(raw.A[0]).toHaveLength(13);
     // The bundle carries no personal identifier in the arts table (02 §3.11).
     expect(raw.artes.prof.some((p) => "id" in p)).toBe(false);
@@ -61,7 +61,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
     // Products without year count in the totals and stay out of the series by year.
     expect(raw.P.filter((p) => !p[0]).length).toBeGreaterThan(0);
     // Types that only the bundle has still have a label (no raw code reaches the screen).
-    expect(raw.tipos.length).toBeGreaterThan(13);
+    expect(raw.tipos.length).toBe(13); // B126b: 13 types (the 10 without products left)
   });
 
   test("the computation works with the real vectors and filters stack", async () => {

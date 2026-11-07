@@ -56,7 +56,7 @@ test.describe("corrections of F68 (no server)", () => {
   });
 
   test("the labels of «Ámbito» say what each option means in each board", () => {
-    expect(SCOPE_OPTIONS.map((o) => o.label)).toEqual(["Local (coautor en Antioquia)", "Departamental (subregión de Antioquia en el título)", "Nacional (coautor de otros departamentos)", "Internacional (coautor extranjero)"]);
+    expect(SCOPE_OPTIONS.map((o) => o.label)).toEqual(["Local (coautor en Antioquia)", "Departamental (subregión de Antioquia en el título, sin el Valle de Aburrá)", "Nacional (coautor de otros departamentos)", "Internacional (coautor extranjero)"]);
     expect(T1_SCOPES.Local).toContain("documentos de política de Medellín");
     expect(Object.values(T1_SCOPES)).toHaveLength(4);
     expect(T3_SCOPES).toHaveLength(4);
@@ -65,7 +65,7 @@ test.describe("corrections of F68 (no server)", () => {
   test("the notes calculate their figures (no fixed numbers in the texts)", () => {
     expect(appropriationYearNote(735, 752)).toBe("Apropiación social: 735 de 752 registros no tienen año.");
     expect(missionFociNote(8)).toContain("Los 8 focos de la Misión de sabios");
-    const forbidden = /4\.058|\b472 empresas|8\.168|\b484 repos|\b447 DOI|735 de (los )?752|\b562 productos|\b636 registros|4\.697|3\.899|ocho focos|\b77 %|50\.341|41\.653|42 de las 57|119 de los 406|18 registros sin/;
+    const forbidden = /95\.471|33\.589|\b2\.248\b|4\.058|\b472 empresas|8\.168|\b484 repos|\b447 DOI|735 de (los )?752|\b562 productos|\b636 registros|4\.697|3\.899|ocho focos|\b77 %|50\.341|41\.653|42 de las 57|119 de los 406|18 registros sin/;
     const files = [];
     const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : /\.js$/.test(e.name) && files.push(path.join(d, e.name))));
     walk(ROOT);

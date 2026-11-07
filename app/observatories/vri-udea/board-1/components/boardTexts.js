@@ -30,7 +30,8 @@ export { POLICY_DOCUMENTS };
 /** Filter ODS (F71): labels. Provisional texts for Luis. */
 export const ODS_FILTER_LABEL = "Objetivo de Desarrollo Sostenible (ODS)";
 export const ODS_FILTER_HELP = "Acota la dispersión, la calculadora y las tablas a los productos con ese ODS (puntaje de 0,40 o más). También se elige con un clic en el ránking o en el treemap de ODS.";
-export const ODS_SELECTED_NOTE = (label) => `ODS elegido: ${label}. Un clic en el mismo objetivo, o «Todos» en el filtro, lo quita.`;
+export const ODS_SELECTED_NOTE = (label, noRecord = 0) =>
+  `ODS elegido: ${label}. Un clic en el mismo objetivo, o «Todos» en el filtro, lo quita.${noRecord > 0 ? ` Con un ODS elegido quedan fuera los ${noRecord.toLocaleString("es-CO")} productos sin registro en OpenAlex, que no tienen ODS.` : ""}`;
 
 export const ALL_SCOPES = ["Local", "Departamental", "Nacional", "Internacional"];
 

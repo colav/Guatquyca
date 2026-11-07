@@ -349,7 +349,7 @@ function Board1Content({ dataset, source }) {
               <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" active={draft.odsNumber || null} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
               {draft.odsNumber > 0 ? (
                 <Typography.Paragraph style={{ fontSize: 12, marginBottom: 4 }} data-testid="ods-selected-note">
-                  {ODS_SELECTED_NOTE(`${draft.odsNumber} · ${ods.find((o) => o.number === draft.odsNumber)?.name ?? ""}`)}
+                  {ODS_SELECTED_NOTE(`${draft.odsNumber} · ${ods.find((o) => o.number === draft.odsNumber)?.name ?? ""}`, result.odsNoRecord)}
                 </Typography.Paragraph>
               ) : null}
               <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
