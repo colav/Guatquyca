@@ -17,14 +17,14 @@ const TOOLTIP_ITEMS = [
 /**
  * Choropleth of products by country (F79, D-184), the use of `GeoMap` with `world.json`; the join is by `country_code`
  * (ISO 3166-1 alpha-2) with `countries[].c` of the bundle. Tooltip «País · Región · Productos»; the countries with products and
- * no polygon go in a «?».
+ * no polygon go in a «?» (none since B133: 170 of 170 have one, and then there is no «?»). The polygons the T2 does not use say «Sin productos en el T2» (F81b).
  *
  * @param {{ c: string, n: string, r: string, value: number }[]} countries - Countries of the board with products.
  * @param {number} [height]
  */
 function CountryMap({ countries, height = 400 }) {
   const rows = useMemo(() => countries.map((c) => ({ key: c.c, name: c.n, region: c.r, value: c.value })), [countries]);
-  return <GeoMap load={load} polygonKey={POLYGON_KEYS.countries} rows={rows} tooltipItems={TOOLTIP_ITEMS} helpOf={withoutOutlineText} helpLabel="países sin contorno" height={height} testId="country-map" />;
+  return <GeoMap load={load} polygonKey={POLYGON_KEYS.countries} rows={rows} tooltipItems={TOOLTIP_ITEMS} helpOf={withoutOutlineText} emptyLabel="Sin productos en el T2" helpLabel="países sin contorno" height={height} testId="country-map" />;
 }
 
 export default memo(CountryMap);

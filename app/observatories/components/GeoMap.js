@@ -21,11 +21,12 @@ import { geoMapData } from "@/lib/observatories/geoMap";
  * @param {{ key: string, name: string, value: number }[]} rows - One per place; the other fields go to the tooltip.
  * @param {{ field: string, alias: string }[]} tooltipItems
  * @param {(withoutOutline: Object[]) => string} [helpOf] - Phrase of the «?» from the rows without polygon; empty = no «?».
+ * @param {string} [emptyLabel] - Phrase of the tooltip of the polygons that no row names (F81b).
  * @param {string} [helpLabel] - Accessible name of the «?».
  * @param {number} [height]
  * @param {string} [testId]
  */
-function GeoMap({ load, polygonKey, rows, tooltipItems, helpOf, helpLabel = "sin contorno", height = 400, testId = "geo-map" }) {
+function GeoMap({ load, polygonKey, rows, tooltipItems, helpOf, emptyLabel = "", helpLabel = "sin contorno", height = 400, testId = "geo-map" }) {
   const [geo, setGeo] = useState(null);
   useEffect(() => {
     let alive = true;
@@ -36,7 +37,7 @@ function GeoMap({ load, polygonKey, rows, tooltipItems, helpOf, helpLabel = "sin
       alive = false;
     };
   }, [load]);
-  const map = useMemo(() => (geo ? geoMapData(geo, rows, polygonKey) : null), [geo, rows, polygonKey]);
+  const map = useMemo(() => (geo ? geoMapData(geo, rows, polygonKey, emptyLabel) : null), [geo, rows, polygonKey, emptyLabel]);
   const help = map && helpOf ? helpOf(map.withoutOutline) : "";
   return (
     <div data-testid={testId} style={{ position: "relative", height }}>

@@ -14,36 +14,52 @@ const API = process.env.E2E_API_URL || "http://localhost:8080";
 const geo = JSON.parse(fs.readFileSync(path.join(process.cwd(), "lib/observatories/data/geo/world.json"), "utf8"));
 
 test.describe("join of the countries with the polygons (no server)", () => {
-  test("the file (B131) has 215 polygons, only three without code (the four fixes come in the file) and it carries no counts", () => {
-    expect(geo.features).toHaveLength(215);
-    expect(geo.features.filter((f) => !f.properties.country_code).map((f) => f.properties.name).sort()).toEqual(["East timor", "Prince edward island", "Tm"]);
-    for (const code of ["RO", "CW", "HK", "MO"]) expect(geo.features.some((f) => f.properties.country_code === code)).toBe(true);
+  test("the file (B133, Natural Earth) has 247 polygons: three without code, three with AU, only code and name, no counts", () => {
+    expect(geo.features).toHaveLength(247);
+    expect(geo.features.filter((f) => !f.properties.country_code).map((f) => f.properties.name).sort()).toEqual(["N. Cyprus", "Siachen Glacier", "Somaliland"]);
+    expect(geo.features.filter((f) => f.properties.country_code === "AU").map((f) => f.properties.name).sort()).toEqual(["Ashmore and Cartier Is.", "Australia", "Indian Ocean Ter."]);
+    for (const code of ["TW", "PS", "GU", "VA", "GI", "MC", "MV", "RO", "CW", "HK", "MO", "GF", "GP", "RE"]) expect(geo.features.some((f) => f.properties.country_code === code), code).toBe(true);
     expect(Object.keys(geo.features[0].properties).sort()).toEqual(["country_code", "name"]);
     // the file has no counts of coauthorships: they are calculated with the filters of the board
     expect(geo.features.every((f) => !("count" in f.properties) && !("log_count" in f.properties))).toBe(true);
   });
 
-  test("count and log_count by country; the polygons without products have 0; the countries without polygon are listed with their products", () => {
+  test("every polygon takes the count of its own country: Taiwan does not add to China, Guam to the Marianas, the Vatican to Italy; the polygons with a shared code show the same country", () => {
     const countries = [
-      { key: "CO", name: "Colombia", region: "Sudamérica", value: 100 },
-      { key: "US", name: "Estados Unidos", region: "Norteamérica", value: 40 },
-      { key: "RO", name: "Rumania", region: "Europa", value: 3 },
-      { key: "TW", name: "Taiwán", region: "Asia", value: 5 }, // no polygon
-      { key: "VA", name: "Ciudad del Vaticano", region: "Europa", value: 2 }, // no polygon
+      { key: "CN", name: "China", region: "Asia (resto)", value: 1000 },
+      { key: "TW", name: "Taiwán", region: "Asia (Norte)", value: 47 },
+      { key: "IT", name: "Italia", region: "Europa", value: 300 },
+      { key: "VA", name: "Ciudad del Vaticano", region: "Europa", value: 2 },
+      { key: "MP", name: "Islas Marianas del Norte", region: "Oceanía (resto)", value: 6 },
+      { key: "GU", name: "Guam", region: "Oceanía (resto)", value: 4 },
+      { key: "IL", name: "Israel", region: "MENA", value: 80 },
+      { key: "PS", name: "Palestina", region: "MENA", value: 9 },
+      { key: "AU", name: "Australia", region: "Oceanía (Norte)", value: 70 },
+      { key: "FR", name: "Francia", region: "Europa", value: 500 },
+      { key: "GF", name: "Guayana Francesa", region: "América Latina y el Caribe", value: 3 },
     ];
-    const { data, withoutOutline, drawn } = geoMapData(geo, countries, POLYGON_KEYS.countries);
+    const { data, withoutOutline, drawn } = geoMapData(geo, countries, POLYGON_KEYS.countries, "Sin productos en el T2");
     const of = (code) => data.features.filter((f) => f.properties.country_code === code);
-    expect(of("CO").every((f) => f.properties.count === 100 && f.properties.log_count === Math.log(100) && f.properties.region === "Sudamérica")).toBe(true);
-    expect(of("RO")[0].properties.count).toBe(3);
-    expect(data.features.filter((f) => f.properties.count === 0).length).toBeGreaterThan(150);
-    expect(withoutOutline.map((c) => c.key)).toEqual(["TW", "VA"]);
-    expect(drawn).toBe(3);
+    for (const c of countries) {
+      expect(of(c.key).length, c.key).toBeGreaterThan(0);
+      expect(of(c.key).every((f) => f.properties.count === c.value && f.properties.name === c.name), c.key).toBe(true);
+    }
+    expect(of("AU")).toHaveLength(3); // Australia and its two territories share one country and one count: nothing is added
+    expect(of("AU").every((f) => f.properties.count === 70 && f.properties.name === "Australia")).toBe(true);
+    expect(withoutOutline).toEqual([]);
+    expect(drawn).toBe(countries.length);
+    // what the T2 does not use: the name of the polygon plus the phrase, with 0 products
+    const none = data.features.filter((f) => !countries.some((c) => c.key === f.properties.country_code));
+    expect(none.length).toBe(247 - countries.length - 2); // the two extra polygons of AU
+    expect(none.every((f) => f.properties.count === 0 && f.properties.log_count === 0 && f.properties.name.endsWith(" · Sin productos en el T2"))).toBe(true);
+    expect(none.some((f) => f.properties.name === "Somaliland · Sin productos en el T2")).toBe(true);
+    expect(none.every((f) => !f.properties.name.startsWith("Ashmore"))).toBe(true);
     // the geometry is not touched
     expect(data.features[0].geometry).toBe(geo.features[0].geometry);
     // the text is calculated, not written by hand
-    expect(withoutOutlineText(withoutOutline)).toBe("2 países sin contorno en el mapa: Taiwán, Ciudad del Vaticano; 7 productos. Sí cuentan en la tabla.");
     expect(withoutOutlineText([])).toBe("");
-    expect(withoutOutlineText([{ key: "TW", name: "Taiwán", value: 1 }])).toContain("1 país sin contorno");
+    expect(withoutOutlineText([{ key: "XX", name: "Equis", value: 1 }])).toBe("1 país sin contorno en el mapa: Equis; 1 producto. Sí cuentan en la tabla.");
+    expect(withoutOutlineText([{ key: "XX", name: "Equis", value: 1 }, { key: "YY", name: "Ye", value: 6 }])).toBe("2 países sin contorno en el mapa: Equis, Ye; 7 productos. Sí cuentan en la tabla.");
   });
 });
 
@@ -56,8 +72,8 @@ test.describe("the page of Board 2 (one run)", () => {
     const bundleMissing = raw.countries.filter((c) => !codes.has(c.c)).map((c) => c.c);
     console.log(`[live] countries of the bundle: ${raw.countries.length}; without polygon even after the corrections: ${bundleMissing.length} (${bundleMissing.join(", ")})`);
 
-    expect(bundleMissing.sort()).toEqual(["GI", "GU", "MC", "MV", "PS", "TW", "VA"]); // B130: 163 of 170 have an outline
-    expect(raw.countries.length - bundleMissing.length).toBe(163);
+    expect(bundleMissing).toEqual([]); // B133: 170 of 170 have an outline
+    expect(raw.countries.length - bundleMissing.length).toBe(170);
     const t0 = Date.now();
     await page.goto("/observatories/vri-udea/board-2");
     const box = page.getByTestId("country-map");
@@ -69,24 +85,21 @@ test.describe("the page of Board 2 (one run)", () => {
       const b = await box.screenshot({ type: "png" });
       return b.length;
     };
+    // an empty box is a PNG of 1.5 to 2.7 KB, a drawn map one of 14 KB or more: if the first look is already big it was drawn before we looked
     let drawnAt = 0;
     const start = Date.now();
     let first = await blank();
-    while (Date.now() - start < 60000) {
+    if (first > 8000) drawnAt = 1;
+    while (!drawnAt && Date.now() - start < 60000) {
       await page.waitForTimeout(250);
       const now = await blank();
-      if (Math.abs(now - first) > 2000) {
-        drawnAt = Date.now() - start;
-        break;
-      }
+      if (now > 8000 || Math.abs(now - first) > 2000) drawnAt = Date.now() - start;
     }
     console.log(`[live] map: ${box ? "present" : "absent"}; drawn ${drawnAt ? `${drawnAt} ms after the container appears (${Date.now() - t0} ms from the navigation)` : "NOT detected as drawn in 60 s"}`);
     expect(drawnAt, "the map changed from its first state (WebGL drew)").toBeGreaterThan(0);
-    // the countries without outline are counted in the help «?», with the figures of the real join
-    await page.getByTestId("country-map-help").locator("button").hover();
-    const helpText = await page.locator(".ant-tooltip:not(.ant-tooltip-hidden)").innerText();
-    console.log(`[live] help of the map: ${helpText}`);
-    expect(helpText).toMatch(/^7 países sin contorno en el mapa: .*Taiwán.*; [0-9.]+ productos[.] Sí cuentan en la tabla.$/s);
+    // nothing is left without outline: the «?» of the map does not exist (and it is not left empty)
+    await expect(page.getByTestId("country-map-help")).toHaveCount(0);
+    console.log("[live] help of the map: absent (170 of 170 countries have an outline)");
     await page.mouse.move(0, 0);
     const before = await shot();
     // the tooltip names the country, the region and the products
