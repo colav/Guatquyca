@@ -7,7 +7,7 @@ import { test, expect } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 
-import { DANE_ATTRIBUTION, POLYGON_KEYS, departmentRows, departmentsWithoutOutlineText, geoMapData, subregionRowsFromCatalogue, subregionRowsFromObject } from "../../lib/observatories/geoMap";
+import { DANE_ATTRIBUTION, DANE_ATTRIBUTION_DEPARTMENTS, POLYGON_KEYS, departmentRows, departmentsWithoutOutlineText, geoMapData, subregionRowsFromCatalogue, subregionRowsFromObject } from "../../lib/observatories/geoMap";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -24,7 +24,7 @@ test.describe("departments (no server)", () => {
     const named = colombia.features.filter((f) => f.properties.nombre_t2);
     expect(named).toHaveLength(27);
     expect(new Set(named.map((f) => f.properties.nombre_t2)).size).toBe(27);
-    const unnamed = colombia.features.filter((f) => !f.properties.nombre_t2).map((f) => f.properties.NOMBRE_DPT.toLowerCase());
+    const unnamed = colombia.features.filter((f) => !f.properties.nombre_t2).map((f) => f.properties.NOMBRE_DPT.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase());
     expect(unnamed.sort()).toEqual(["arauca", "guainia", "guaviare", "putumayo", "vaupes", "vichada"]);
   });
 
@@ -72,6 +72,10 @@ test.describe("subregions of Antioquia (no server)", () => {
     const b = geoMapData(subregions, withFilters, POLYGON_KEYS.subregions);
     const props = b.data.features.find((f) => f.properties.subregion === "Oriente").properties;
     expect(props).toMatchObject({ count: 10, regprog: "7", topics: "Tópico A · Tópico B", name: "Oriente" });
+  });
+
+  test("the attribution under the map of departments is the sentence of F82, with its own test id", () => {
+    expect(DANE_ATTRIBUTION_DEPARTMENTS).toBe("Límites departamentales: Departamento Administrativo Nacional de Estadística - DANE (www.dane.gov.co), Marco Geoestadístico Nacional 2024; simplificados.");
   });
 
   test("the attribution of the DANE is the sentence of the order", () => {
@@ -132,6 +136,8 @@ test.describe("maps of Boards 1 and 2 (one run)", () => {
     const depMs = await drawn(page, dep, "map of departments");
     expect(depMs, "the department map is drawn").toBeGreaterThan(0);
     console.log(`[live] department map: ${JSON.stringify(await dep.boundingBox())}; canvas ${JSON.stringify(await fill(dep))}`);
+    await expect(page.getByTestId("dane-attribution-departments")).toBeVisible();
+    await expect(page.getByTestId("dane-attribution-departments")).toHaveText(DANE_ATTRIBUTION_DEPARTMENTS);
     // the help carries «Sin asignar» with its figure
     const helpButton = page.getByTestId("department-map-help").locator("button");
     await helpButton.hover();
