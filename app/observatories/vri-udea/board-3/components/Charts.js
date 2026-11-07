@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { memo, useMemo } from "react";
 
 /* Components & utils */
+import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 
@@ -14,10 +15,8 @@ import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
 const Line = dynamic(() => import("@ant-design/charts").then((mod) => mod.Line), { ssr: false });
 const Scatter = dynamic(() => import("@ant-design/charts").then((mod) => mod.Scatter), { ssr: false });
-const Treemap = dynamic(() => import("@ant-design/charts").then((mod) => mod.Treemap), { ssr: false });
 
 /* lib */
-import { BRAND } from "@/lib/observatories/palette";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
@@ -131,28 +130,8 @@ export const LinesChart = memo(Lines);
  * @param {Object<string, string>} colors - Area -> colour.
  */
 function AreasTreemap({ items, colors }) {
-  const config = useMemo(() => {
-    const shown = items.filter((i) => i.value > 0);
-    const total = shown.reduce((a, i) => a + i.value, 0) || 1;
-    return {
-      data: { name: "root", children: shown.map((i) => ({ name: i.name, value: i.value, percent: `${((i.value / total) * 100).toFixed(1).replace(".", ",")} %` })) },
-      valueField: "value",
-      colorField: "name",
-      animate: false,
-      interaction: tooltipInteraction(),
-      height: 280,
-      legend: false,
-      scale: { color: { domain: shown.map((i) => i.name), range: shown.map((i) => colors[i.name]) } },
-      layout: { padding: 2 },
-      style: { fill: (d) => colors[d.data?.name ?? d.name], labelText: (d) => `${d.data?.name ?? d.name} · ${fmt(d.data?.value ?? d.value)}`, labelFill: BRAND.white, labelFontSize: 12 },
-      tooltip: { title: (d) => d.data?.name ?? d.name, items: [{ field: "value", name: "Investigadores" }, (d) => ({ name: "Porcentaje", value: d.data?.percent ?? d.percent })] },
-    };
-  }, [items, colors]);
-  return (
-    <TooltipBox>
-      <Treemap {...config} />
-    </TooltipBox>
-  );
+  const shown = useMemo(() => items.map((i) => ({ key: i.name, name: i.name, value: i.value, color: colors[i.name] })), [items, colors]);
+  return <ObservatoryTreemap items={shown} unitName="Investigadores" height={280} labelWithValue ariaLabel="Treemap de áreas OCDE" testId="areas-treemap" />;
 }
 export const AreasTreemapChart = memo(AreasTreemap);
 

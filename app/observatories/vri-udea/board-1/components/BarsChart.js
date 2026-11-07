@@ -8,14 +8,14 @@ import { memo, useCallback, useMemo, useRef } from "react";
 
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
-const Treemap = dynamic(() => import("@ant-design/charts").then((mod) => mod.Treemap), { ssr: false });
 
 /* lib */
 import { calculatorBarsConfig } from "@/lib/observatories/capacity";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
-import { BRAND, RANKING_COLOR } from "@/lib/observatories/palette";
+import { RANKING_COLOR } from "@/lib/observatories/palette";
 
 /* Utils */
 const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
@@ -89,48 +89,8 @@ export const RankingBarsChart = memo(RankingBars);
  * @param {Function} onSelect - Called with the number of the ODS clicked.
  */
 function OdsTreemap({ items, active = 0, onSelect }) {
-  const config = useMemo(() => {
-    const shown = items.filter((o) => o.value > 0);
-    const total = shown.reduce((a, o) => a + o.value, 0) || 1;
-    return {
-      data: { name: "root", children: shown.map((o) => ({ name: `${o.number} · ${o.name}`, value: o.value, number: o.number, color: o.color, percent: `${((o.value / total) * 100).toFixed(1).replace(".", ",")} %` })) },
-      valueField: "value",
-      colorField: "name",
-      animate: false,
-      interaction: tooltipInteraction(),
-      height: 360,
-      legend: false,
-      scale: { color: { domain: shown.map((o) => `${o.number} · ${o.name}`), range: shown.map((o) => o.color) } },
-      layout: { padding: 2 },
-      style: {
-        fillOpacity: (d) => (active > 0 && (d.data?.number ?? d.number) !== active ? 0.35 : 1),
-        labelText: (d) => `${d.data?.name ?? d.name}`,
-        labelFill: BRAND.white,
-        labelFontSize: 11,
-      },
-      tooltip: {
-        title: (d) => d.data?.name ?? d.name,
-        items: [(d) => ({ name: "Productos", value: Number(d.data?.value ?? d.value).toLocaleString("es-CO") }), (d) => ({ name: "Porcentaje", value: d.data?.percent ?? d.percent })],
-      },
-    };
-  }, [items, active]);
-  const onSelectRef = useRef(onSelect);
-  onSelectRef.current = onSelect;
-  const onReady = useCallback((plot) => {
-    plot.chart.on("element:click", (event) => {
-      const d = event?.data?.data;
-      const number = d?.number ?? d?.data?.number;
-      if (number != null && onSelectRef.current) onSelectRef.current(number);
-    });
-  }, []);
-  const summary = items.filter((o) => o.value > 0).map((o) => `${o.number} · ${o.name}: ${o.value.toLocaleString("es-CO")}`).join("; ");
-  return (
-    <TooltipBox>
-      <div role="img" aria-label={`Treemap de ODS. ${summary}`} data-testid="ods-treemap" style={{ cursor: "pointer" }}>
-        <Treemap {...config} onReady={onReady} />
-      </div>
-    </TooltipBox>
-  );
+  const shown = useMemo(() => items.map((o) => ({ key: o.number, name: `${o.number} · ${o.name}`, value: o.value, color: o.color })), [items]);
+  return <ObservatoryTreemap items={shown} unitName="Productos" height={360} labelFontSize={11} activeKey={active > 0 ? active : null} onSelect={onSelect} ariaLabel="Treemap de ODS" testId="ods-treemap" />;
 }
 
 export const OdsTreemapChart = memo(OdsTreemap);

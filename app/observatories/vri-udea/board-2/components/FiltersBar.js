@@ -15,33 +15,20 @@ import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailabil
 import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
-import FilterHelp from "@/app/observatories/components/FilterHelp";
+import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Col, Row, Select, Tooltip, Typography } from "antd";
+import { Row, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
-const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
 /* Long names go in two lines, not cut (F62, F67). */
 const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
 /** Filter of the state -> list of the availability (F75). */
 const AVAILABLE_KEY = { scope: "scope", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit", subfieldIndex: "subfield" };
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
-
-function Field({ label, children, span = 6, help = null }) {
-  return (
-    <Col xs={24} sm={12} md={span}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <label style={labelStyle}>{label}</label>
-        {help ? <FilterHelp label={label}>{help}</FilterHelp> : null}
-      </div>
-      {children}
-    </Col>
-  );
-}
 
 /**
  * Filters of Board 2 (report section 4). They apply at once; all of them are combined with AND.

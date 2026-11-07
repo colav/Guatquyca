@@ -16,32 +16,19 @@ import { FilterSelect, useStableChange } from "@/app/observatories/components/Fi
 import { byPolicyOrder } from "../../board-1/components/boardTexts";
 
 /* Components */
-import FilterHelp from "@/app/observatories/components/FilterHelp";
+import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Col, Row, Select, Tooltip, Typography } from "antd";
+import { Row, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
 const SCOPE_OPTIONS = SCOPE_LABELS.map((label, value) => ({ value, label }));
-const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
 /** Filter of the state -> list of the availability (F75). */
 const AVAILABLE_KEY = { scopeIndex: "scope", policyIndex: "policyDoc", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit", subfieldIndex: "subfield" };
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
-
-function Field({ label, children, help = null }) {
-  return (
-    <Col xs={24} sm={12} md={6}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <label style={labelStyle}>{label}</label>
-        {help ? <FilterHelp label={label}>{help}</FilterHelp> : null}
-      </div>
-      {children}
-    </Col>
-  );
-}
 
 /**
  * Filters of Board 3 (report section 4). They apply at once and are combined with AND; the
