@@ -14,7 +14,8 @@ import FiltersBar from "./FiltersBar";
 import TileCartogram from "./TileCartogram";
 import Note from "@/app/observatories/components/Note";
 import { CountriesTable, DomainTable, GoalsTable, KpiRow, StatTiles } from "./Board2Parts";
-import { SegmentedBarsChart, TrendLinesChart, WorldBubblesChart } from "./Charts";
+import CountryMap from "@/app/observatories/components/CountryMap";
+import { SegmentedBarsChart, TrendLinesChart } from "./Charts";
 
 /* lib */
 import {
@@ -52,7 +53,6 @@ import {
   FOOTER_TEXT,
   MOCK_TAG,
   NO_AXIS_RESPONSE,
-  NO_COORDINATES_NOTE,
   NOTES,
   NOTICE,
   realNotice,
@@ -169,10 +169,8 @@ function Board2Content({ dataset, source }) {
   const trendArticles = useStableValue(result.trendArticles);
   const trendOthers = useStableValue(result.trendOthers);
   const regions = useStableValue(result.regions.map((r) => ({ label: r.label, segments: [SEGMENT(r.north ? SIDE_LABELS.north : SIDE_LABELS.south, r.value)] })));
-  const world = useStableValue(
-    result.countries.filter((c) => c.ll).map((c, i) => ({ name: c.n, region: c.r, lat: c.ll[0], lon: c.ll[1], value: c.value, north: raw.regions.indexOf(c.r) < 4, label: i < 7 ? `${c.n} ${fmt(c.value)}` : "" })),
-  );
-  const withoutCoordinates = result.countries.filter((c) => !c.ll).length;
+  /* Countries of the panel 10 (F79): the choropleth and the table read the same list. */
+  const world = useStableValue(result.countries.map((c) => ({ c: c.c, n: c.n, r: c.r, value: c.value })));
   const worldTable = useStableValue(result.countries.slice(0, LIMITS.countriesTable).map((c) => ({ name: c.n, region: c.r, value: c.value })));
   const axisRows = useMemo(() => result.axisRows(axisTab).map((r) => ({ label: r.label, segments: NON_ACADEMIC_SECTORS.map((s) => SEGMENT(raw.sectorsEs[dataset.sectorIndex[s]], r.counts[s])) })), [result, axisTab, raw, dataset]);
   const axisRowsStable = useStableValue(axisRows);
@@ -351,11 +349,10 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} xl={16}>
           <ChartCard title="10 · Colaboración internacional" empty={!world.length}>
             <Row gutter={[12, 12]}>
-              <Col xs={24} xl={14}><WorldBubblesChart points={world} /></Col>
+              <Col xs={24} xl={14}><CountryMap countries={world} /></Col>
               <Col xs={24} xl={10}><CountriesTable rows={worldTable} /></Col>
             </Row>
             <Note>{NOTES.v10}</Note>
-            {withoutCoordinates ? <Note>{NO_COORDINATES_NOTE(withoutCoordinates)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>

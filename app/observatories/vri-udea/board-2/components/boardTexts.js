@@ -64,7 +64,7 @@ export const NOTES = {
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
   v9: "Productos con coautores de instituciones colombianas, por departamento de la institución (sin la UdeA). Escala logarítmica de color.",
   v15: "Proyectos con lugar de ejecución en la subregión (SIIU) y productos cuyo título menciona la subregión o sus municipios.",
-  v10: "Productos en coautoría con instituciones de otros países. Burbujas sobre centroides (mapa esquemático del ensayo).",
+  v10: "Productos en coautoría con instituciones de otros países. Color por país: cuantiles del logaritmo de los productos.",
   v11: "Productos con coautoría del Norte global (Norteamérica, Europa, Asia y Oceanía del Norte) y del Sur global (América Latina y el Caribe, MENA, África Subsahariana, resto de Asia y Oceanía).",
   v13: "Libros, capítulos de libro y apropiación social (sin artículos) realizados con coautores de empresa, gobierno, sin ánimo de lucro o salud. Dominio = dominio OpenAlex dominante en la producción del grupo. Como referencia se añade la columna con cualquier coautor externo.",
   v14: "Colaboraciones por sector en los tópicos asociados a cada Eje Temático público del thesaurus (artículos, libros y capítulos; un producto cuenta en cada sector presente).",
@@ -105,7 +105,6 @@ export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
 export const REAL_FOOTER_TEXT =
   "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras y proyectos), tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin coordenadas no aparecen en el mapa.";
 
-export const NO_COORDINATES_NOTE = (count) => `${count} ${count === 1 ? "país con productos no aparece" : "países con productos no aparecen"} en el mapa porque no tienen coordenadas; sí cuentan en la tabla.`;
 
 /**
  * Provisional version (for Luis, Q57) of the notice «Ensayo con limitaciones de datos» for the data

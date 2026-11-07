@@ -9,9 +9,16 @@ import { useEffect, useState, useMemo } from "react";
  * MapChart is a client-side function component that displays an area map.
  *
  * @param {Object[]} data - The data to display in the map.
+ * @param {{ field: string, alias: string }[]} [tooltipItems] - Fields of the tooltip (F79; the default is the one this chart always had).
  * @returns {JSX.Element|null} An AreaMap component displaying the data.
  */
-export default function MapChart({ data }) {
+const DEFAULT_TOOLTIP_ITEMS = [
+  { field: "NOMBRE_DPT", alias: "Departamento:" },
+  { field: "name", alias: "País:" },
+  { field: "count", alias: "Cantidad:" },
+];
+
+export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS }) {
   const [AreaMap, setAreaMap] = useState(null);
 
   useEffect(() => {
@@ -50,11 +57,7 @@ export default function MapChart({ data }) {
         },
       },
       tooltip: {
-        items: [
-          { field: "NOMBRE_DPT", alias: "Departamento:" },
-          { field: "name", alias: "País:" },
-          { field: "count", alias: "Cantidad:" },
-        ],
+        items: tooltipItems,
       },
       zoom: {
         position: "bottomright",
@@ -64,7 +67,7 @@ export default function MapChart({ data }) {
         customContent: (title, items) => MapLegendMaker(items, data),
       },
     }),
-    [data],
+    [data, tooltipItems],
   );
 
   if (!AreaMap || !data?.features?.length) return null;
