@@ -20,6 +20,8 @@ export const FilterSelect = memo(function FilterSelect({ options, value, placeho
       options={options}
       filterOption={filterOption}
       optionRender={optionRender}
+      popupMatchSelectWidth={false}
+      styles={{ popup: { root: { maxWidth: "min(720px, calc(100vw - 32px))" } } }}
       value={value}
       onChange={onChange}
       {...rest}

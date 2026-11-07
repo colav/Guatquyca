@@ -15,11 +15,12 @@ import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailabil
 import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
+import FilterRows, { SWITCH_COLUMN, YEARS_COLUMN } from "@/app/observatories/components/FilterRows";
 import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Row, Select, Tooltip, Typography } from "antd";
+import { Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from({ length: YEAR_RANGE.max - YEAR_RANGE.min + 1 }, (_, i) => ({ value: YEAR_RANGE.min + i, label: String(YEAR_RANGE.min + i) }));
@@ -96,15 +97,8 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
     onChange({ policyDoc: doc, ...(doc && owner && owner !== doc ? { axisId: -1 } : {}) });
   };
 
-  /* List of the axes with the size of the list of Board 1 (F62, D-165): the field of Board 1 is half the row (span 12) from md up and the list has the width of the field; here the field is a quarter, so the width is set to the one of Board 1, never wider than the window. Height: the default of Ant Design, as in Board 1. */
+  /* The list of the axes opens as in Board 1 (F62, D-165, F77): both take the width of their longest name, never wider than the window, with long names in two lines. */
   const rowRef = useRef(null);
-  const [axisWidth, setAxisWidth] = useState(true);
-  const onAxisOpen = (open) => {
-    if (!open || !rowRef.current) return;
-    const row = rowRef.current.offsetWidth;
-    const board1 = window.innerWidth >= 768 ? row / 2 - 12 : row - 12;
-    setAxisWidth(Math.max(240, Math.round(Math.min(board1, window.innerWidth - 32))));
-  };
 
   /* Each select keeps its handler and only re-renders when its own options or value change (F75). */
   const stable = useStableChange();
@@ -134,50 +128,67 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
 
   return (
     <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros">
-      <Row gutter={[12, 6]} ref={rowRef}>
-        <Field label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>
-        <Field label="Documento de política" help={DOCUMENT_FILTER_HELP}>
-          <FilterSelect
-            placeholder="Todos"
-            options={onlyAvailable(docs, available && available.policyDoc, filters.policyDoc)}
-            optionRender={wrapOption}
-            filterOption={searchFilter}
-            value={filters.policyDoc || undefined}
-            onChange={stable("policyDoc", changeDocument)}
-          />
-        </Field>
-        {dataset.hasAxisPairs ? (
-          <Field label="Eje Temático" help={axisNote}>
-            <FilterSelect
-              data-testid="axis-filter"
-              popupMatchSelectWidth={axisWidth}
-              onOpenChange={stable("axisOpen", onAxisOpen)}
-              optionRender={wrapOption}
-              placeholder="Todos"
-              options={onlyAvailable(axisOptions, available && available.axis, filters.axisId)}
-              filterOption={searchFilter}
-              value={filters.axisId >= 0 ? filters.axisId : undefined}
-              onChange={stable("axisId", (v) => onChange({ axisId: v === undefined || v === null ? -1 : v }))}
-            />
-          </Field>
-        ) : null}
-        <Field label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
-          <Tooltip title={CENTER_TOOLTIP}>
-            <div>{select("centerIndex", centers, "Todos", true)}</div>
-          </Tooltip>
-        </Field>
-        <Field label="Temporalidad">
-          <div style={{ display: "flex", gap: 8 }}>
-            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
-            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
-          </div>
-        </Field>
-        <Field label="Unidad académica">{select("facultyIndex", faculties, "Todas", true, (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>
-        <Field label="Subunidad académica">{select("departmentIndex", units, "Todas", true)}</Field>
-        <Field label="Subcampo de conocimiento">
-          <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
-        </Field>
-      </Row>
+      <div ref={rowRef}>
+        <FilterRows
+          rows={[
+            {
+              columns: "1fr 1fr 1fr",
+              cells: [
+                <Field key="unit" label="Unidad académica">{select("facultyIndex", faculties, "Todas", true, (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
+                <Field key="subunit" label="Subunidad académica">{select("departmentIndex", units, "Todas", true)}</Field>,
+                <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
+                  <Tooltip title={CENTER_TOOLTIP}>
+                    <div>{select("centerIndex", centers, "Todos", true)}</div>
+                  </Tooltip>
+                </Field>,
+              ],
+            },
+            {
+              columns: "1fr 1fr 1fr",
+              cells: [
+                <Field key="scope" label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>,
+                <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>
+                  <FilterSelect
+                    placeholder="Todos"
+                    options={onlyAvailable(docs, available && available.policyDoc, filters.policyDoc)}
+                    optionRender={wrapOption}
+                    filterOption={searchFilter}
+                    value={filters.policyDoc || undefined}
+                    onChange={stable("policyDoc", changeDocument)}
+                  />
+                </Field>,
+                dataset.hasAxisPairs ? (
+                  <Field key="axis" label="Eje Temático" help={axisNote}>
+                    <FilterSelect
+                      data-testid="axis-filter"
+                      optionRender={wrapOption}
+                      placeholder="Todos"
+                      options={onlyAvailable(axisOptions, available && available.axis, filters.axisId)}
+                      filterOption={searchFilter}
+                      value={filters.axisId >= 0 ? filters.axisId : undefined}
+                      onChange={stable("axisId", (v) => onChange({ axisId: v === undefined || v === null ? -1 : v }))}
+                    />
+                  </Field>
+                ) : null,
+              ],
+            },
+            {
+              columns: `1fr ${YEARS_COLUMN}px`,
+              cells: [
+                <Field key="subfield" label="Subcampo de conocimiento">
+                  <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
+                </Field>,
+                <Field key="years" label="Temporalidad">
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
+                    <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
+                  </div>
+                </Field>,
+              ],
+            },
+          ]}
+        />
+      </div>
       <Typography.Text type="secondary" style={{ fontSize: 12 }}>
         {dataset.hasProjectPairs ? "Se combinan con «y»; los proyectos responden a temporalidad, centro, ámbito departamental, eje y documento." : "Se combinan con «y»; los proyectos solo responden a temporalidad, centro y ámbito departamental."}
         {filters.axisId >= 0 && dataset.axisById.has(filters.axisId) ? <span data-testid="axis-filter-note"> {axisNote}</span> : null} <span data-testid="options-note">{OPTIONS_NOTE}</span>

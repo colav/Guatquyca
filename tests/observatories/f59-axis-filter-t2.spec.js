@@ -169,9 +169,9 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await page.goto("/observatories/vri-udea/board-2");
     await expect(page.getByTestId("filters-toggle")).toBeVisible({ timeout: 120000 });
     const height = Math.round((await page.getByTestId("filters").boundingBox()).height);
-    const rows = new Set((await page.getByTestId("filters-body").locator(".ant-col").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top))))).size;
+    const rows = await page.getByTestId("filter-row").count(); // F77: three rows of filters
     console.log(`[live] height of the container of the filters at 1440: ${height} px, ${rows} rows of filters`);
-    expect(rows).toBe(2);
+    expect(rows).toBe(3);
     const axisSelect = page.getByTestId("axis-filter");
     await expect(axisSelect).toBeVisible();
     await axisSelect.locator(".ant-select-selector").click();

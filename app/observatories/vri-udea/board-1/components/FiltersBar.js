@@ -30,11 +30,12 @@ import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailabil
 import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
 import { FilterSelect, useStableChange } from "@/app/observatories/components/FilterSelect";
+import FilterRows, { SWITCH_COLUMN, YEARS_COLUMN } from "@/app/observatories/components/FilterRows";
 import Field from "@/app/observatories/components/Field";
 import StickyFilters from "@/app/observatories/components/StickyFilters";
 
 /* UI Library Components */
-import { Row, Segmented, Select, Tooltip, Typography } from "antd";
+import { Segmented, Select, Tooltip, Typography } from "antd";
 
 /* Constants */
 const YEAR_OPTIONS = Array.from(
@@ -46,6 +47,8 @@ const YEAR_OPTIONS = Array.from(
 const wrapOption = (o) => <div style={{ whiteSpace: "normal", lineHeight: 1.3 }}>{o.label}</div>;
 /** Filter of the state -> list of the availability (F75). */
 const AVAILABLE_KEY = { scope: "scope", policyDoc: "policyDoc", centerIndex: "center", facultyIndex: "unit", departmentIndex: "subunit" };
+/** Compact switches of the last column (F77): 12 px text. */
+const SWITCH_STYLE = { fontSize: 12 };
 const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name }));
 const searchFilter = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
@@ -152,84 +155,101 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
 
   return (
     <StickyFilters active={active} onReset={onReset} resetLabel="Restablecer filtros">
-      <Row gutter={[12, 6]}>
-        <Field label="1 · Ámbito" help={SCOPE_FILTER_HELP}>{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>
-        <Field label="2 · Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>
-        <Field label="3 · Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
-          <Tooltip title={CENTER_TOOLTIP}>
-            <div>{select("centerIndex", centerOptions, "Todos", true)}</div>
-          </Tooltip>
-        </Field>
-        <Field label="4 · Temporalidad">
-          <div style={{ display: "flex", gap: 8 }}>
-            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
-            <FilterSelect style={{ width: "50%" }} showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
-          </div>
-        </Field>
-        <Field label="5 · Dimensión (campos, subcampos o tópicos)">
-          <Segmented size="small" block options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
-        </Field>
-        <Field label="6 · Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>
-        <Field label="7 · Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>
-        <Field label="Campo, subcampo o tópico" span={12}>
-          <HierarchySelect
-            tree={topicShown}
-            paths={topicPaths}
-            value={filters.topicKey}
-            onChange={stable("topicKey", (v) => onChange({ topicKey: v || "" }))}
-            aria-label="Campo, subcampo o tópico"
-            data-testid="topic-filter"
-          />
-        </Field>
-        {odsOptions.length ? (
-          <Field label={ODS_FILTER_LABEL} span={12} help={ODS_FILTER_HELP}>
-            <FilterSelect
-              placeholder="Todos"
-              options={odsOptions}
-              optionRender={wrapOption}
-              filterOption={searchFilter}
-              value={filters.odsNumber > 0 ? filters.odsNumber : undefined}
-              onChange={stable("odsNumber", (v) => onChange({ odsNumber: v || 0 }))}
-              aria-label="ODS"
-              data-testid="ods-filter"
-            />
-          </Field>
-        ) : null}
-        {dataset.hasFactDetails ? (
-          <Field label={AXIS_FILTER_LABEL} span={12}>
-            <Tooltip title={AXIS_FILTER_TOOLTIP}>
-              <div>
-                <FilterSelect
-                  mode="multiple"
-                  placeholder="Todos"
-                  maxTagCount="responsive"
-                  options={onlyAvailable(axisOptions, available && available.axis, filters.axisIds)}
-                  filterOption={searchFilter}
-                  value={filters.axisIds}
-                  onChange={stable("axisIds", (v) => onChange({ axisIds: v }))}
-                  aria-label="Eje Temático"
+      <FilterRows
+        rows={[
+          {
+            columns: `1fr 1fr 1fr ${SWITCH_COLUMN}px`,
+            cells: [
+              <Field key="unit" label="Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>,
+              <Field key="subunit" label="Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>,
+              <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
+                <Tooltip title={CENTER_TOOLTIP}>
+                  <div>{select("centerIndex", centerOptions, "Todos", true)}</div>
+                </Tooltip>
+              </Field>,
+              <Field key="dimension" label="Dimensión (campos, subcampos o tópicos)">
+                <Segmented size="small" block style={SWITCH_STYLE} options={DIMENSION_OPTIONS} value={filters.dimension} onChange={(v) => onChange({ dimension: v })} />
+              </Field>,
+            ],
+          },
+          {
+            columns: `1fr 1fr 1fr ${SWITCH_COLUMN}px`,
+            cells: [
+              <Field key="scope" label="Ámbito" help={SCOPE_FILTER_HELP}>{select("scope", scopeOptions, "Todos", false, changeScope)}</Field>,
+              <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyDoc", policyOptions, "Todos", false, changeDocument, true)}</Field>,
+              dataset.hasFactDetails ? (
+                <Field key="axis" label={AXIS_FILTER_LABEL}>
+                  <Tooltip title={AXIS_FILTER_TOOLTIP}>
+                    <div>
+                      <FilterSelect
+                        mode="multiple"
+                        placeholder="Todos"
+                        maxTagCount="responsive"
+                        options={onlyAvailable(axisOptions, available && available.axis, filters.axisIds)}
+                        filterOption={searchFilter}
+                        value={filters.axisIds}
+                        onChange={stable("axisIds", (v) => onChange({ axisIds: v }))}
+                        aria-label="Eje Temático"
+                      />
+                    </div>
+                  </Tooltip>
+                </Field>
+              ) : null,
+              <Field key="ratio" label="Referente">
+                <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
+                  <div>
+                    <Segmented size="small" block style={SWITCH_STYLE} options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
+                  </div>
+                </Tooltip>
+              </Field>,
+            ],
+          },
+          {
+            columns: `1.4fr 1.4fr ${YEARS_COLUMN}px ${SWITCH_COLUMN}px`,
+            cells: [
+              <Field key="topic" label="Campo, subcampo o tópico">
+                <HierarchySelect
+                  tree={topicShown}
+                  paths={topicPaths}
+                  value={filters.topicKey}
+                  onChange={stable("topicKey", (v) => onChange({ topicKey: v || "" }))}
+                  aria-label="Campo, subcampo o tópico"
+                  data-testid="topic-filter"
                 />
-              </div>
-            </Tooltip>
-          </Field>
-        ) : null}
-        <Field label="Referente">
-          <Tooltip title="Institución con la que se compara la capacidad de cada tópico: la más citada de Colombia o la más citada del mundo. Los tópicos sin referencia nacional usan la mundial.">
-            <div>
-              <Segmented size="small" block options={RATIO_BASIS_OPTIONS} value={filters.ratioBasis} onChange={(v) => onChange({ ratioBasis: v })} />
-            </div>
-          </Tooltip>
-        </Field>
-        {dataset.hasFactDetails ? (
-          <Field label="Confianza de la asignación a ejes">
-            <Tooltip title={PAIR_LEVEL_TOOLTIP}>
-              <div>
-                <Segmented size="small" block options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
-              </div>
-            </Tooltip>
-          </Field>
-        ) : null}
-      </Row>
+              </Field>,
+              odsOptions.length ? (
+                <Field key="ods" label={ODS_FILTER_LABEL} help={ODS_FILTER_HELP}>
+                  <FilterSelect
+                    placeholder="Todos"
+                    options={odsOptions}
+                    optionRender={wrapOption}
+                    filterOption={searchFilter}
+                    value={filters.odsNumber > 0 ? filters.odsNumber : undefined}
+                    onChange={stable("odsNumber", (v) => onChange({ odsNumber: v || 0 }))}
+                    aria-label="ODS"
+                    data-testid="ods-filter"
+                  />
+                </Field>
+              ) : null,
+              <Field key="years" label="Temporalidad">
+                <div style={{ display: "flex", gap: 8 }}>
+                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año inicial" options={YEAR_OPTIONS} value={filters.yearFrom} onChange={stable("yearFrom", (v) => onChange({ yearFrom: v }))} />
+                  <FilterSelect style={{ width: 94 }} popupMatchSelectWidth showSearch={false} allowClear={false} aria-label="Año final" options={YEAR_OPTIONS} value={filters.yearTo} onChange={stable("yearTo", (v) => onChange({ yearTo: v }))} />
+                </div>
+              </Field>,
+              dataset.hasFactDetails ? (
+                <Field key="pair" label="Confianza de la asignación a ejes">
+                  <Tooltip title={PAIR_LEVEL_TOOLTIP}>
+                    <div>
+                      <Segmented size="small" block style={SWITCH_STYLE} options={PAIR_LEVEL_OPTIONS} value={filters.pairLevel || PAIR_LEVEL.CORE} onChange={(v) => onChange({ pairLevel: v })} />
+                    </div>
+                  </Tooltip>
+                </Field>
+              ) : null,
+            ],
+          },
+        ]}
+      />
       <Typography.Text type="secondary" style={{ fontSize: 12 }} data-testid="options-note">{OPTIONS_NOTE}</Typography.Text>
     </StickyFilters>
   );

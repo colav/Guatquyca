@@ -1,7 +1,7 @@
 "use client";
 
 /* Hooks */
-import { memo, useMemo } from "react";
+import { memo, useMemo, useRef, useState } from "react";
 
 /* UI Library Components */
 import { TreeSelect } from "antd";
@@ -20,7 +20,14 @@ export const HierarchySelect = memo(function HierarchySelect({ tree, paths, valu
     const withPath = (list) => list.map((n) => ({ ...n, label: paths.get(n.value) || n.title, children: n.children ? withPath(n.children) : undefined }));
     return withPath(tree);
   }, [tree, paths]);
+  /* The list opens wider than the selector (F77): a quarter more, between 480 and 720 px, never wider than the window. */
+  const box = useRef(null);
+  const [listWidth, setListWidth] = useState(false);
+  const onOpen = (open) => {
+    if (open && box.current) setListWidth(Math.round(Math.min(720, Math.max(480, box.current.offsetWidth * 1.25), window.innerWidth - 32)));
+  };
   return (
+    <div ref={box}>
     <TreeSelect
       showSearch
       allowClear
@@ -31,12 +38,13 @@ export const HierarchySelect = memo(function HierarchySelect({ tree, paths, valu
       treeNodeFilterProp="title"
       treeDefaultExpandAll={false}
       listHeight={360}
-      popupMatchSelectWidth={false}
-      styles={{ popup: { root: { minWidth: 360, maxWidth: "min(720px, calc(100vw - 32px))" } } }}
+      popupMatchSelectWidth={listWidth}
+      onOpenChange={onOpen}
       treeNodeLabelProp="label"
       value={value || undefined}
       onChange={onChange}
       {...rest}
     />
+    </div>
   );
 });

@@ -121,7 +121,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     const numbers = titles.map((t) => /^(\d) ·/.exec(t)?.[1]).filter(Boolean).map(Number);
     console.log(`[live] T1 order of the panels: ${numbers.join(", ")}`);
     expect(numbers.slice(0, 8)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    await expect(page.getByTestId("filters").getByText("5 · Dimensión (campos, subcampos o tópicos)")).toBeVisible();
+    await expect(page.getByTestId("filters").getByText("Dimensión (campos, subcampos o tópicos)")).toBeVisible();
     const kpi = () => page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first();
     const all = computeCapacity(d1, {}).products;
     await expect(kpi()).toContainText(fmt(all));
@@ -166,14 +166,23 @@ test.describe("F71 against the real quyca (one run)", () => {
     await page.waitForTimeout(1500);
     await expect(kpi()).toContainText(fmt(computeCapacity(d1, { odsNumber: chosen }).products));
     console.log(`[live] click on the treemap chose ODS ${chosen}: ${computeCapacity(d1, { odsNumber: chosen }).products} products`);
-    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.5);
+    await tree.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(800);
+    const box2 = await tree.locator("canvas").first().boundingBox();
+    await page.mouse.click(box2.x + box2.width * 0.5, box2.y + box2.height * 0.5);
     await expect(page).not.toHaveURL(/ods=/, { timeout: 15000 });
     // a click on a bar of the ranking of ODS
     const bars = page.getByTestId("ranking-selectable").last();
-    await bars.scrollIntoViewIfNeeded();
+    await bars.evaluate((el) => el.scrollIntoView({ block: "start" }));
+    // the chart must start below the sticky bar of filters (it is 220 px tall since F77)
+    const stickyBottom = (await page.getByTestId("filters").boundingBox()).y + (await page.getByTestId("filters").boundingBox()).height;
+    await page.evaluate((delta) => window.scrollBy(0, -delta), stickyBottom + 8);
+    await page.waitForTimeout(600);
     const bb = await bars.locator("canvas").first().boundingBox();
-    for (let y = 12; y < bb.height - 20 && !/ods=d+/.test(page.url()); y += 14) {
-      await page.mouse.click(bb.x + bb.width * 0.3, bb.y + y);
+    for (let y = 12; y < bb.height - 20 && !/ods=\d+/.test(page.url()); y += 14) {
+      await page.mouse.move(bb.x + bb.width * 0.88, bb.y + y, { steps: 3 });
+      await page.waitForTimeout(250);
+      await page.mouse.click(bb.x + bb.width * 0.88, bb.y + y);
       await page.waitForTimeout(700);
     }
     await expect(page).toHaveURL(/ods=\d+/, { timeout: 15000 });

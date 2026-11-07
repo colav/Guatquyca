@@ -76,8 +76,8 @@ test.describe("F36 against the real quyca (read-only)", () => {
 
   test("Board 1: «Unidad académica» and «Subunidad académica», the coverage note and the tooltip of the centre filter", async ({ page }) => {
     await page.goto(BOARD(1));
-    await expect(page.getByText("6 · Unidad académica")).toBeVisible({ timeout: 120000 });
-    await expect(page.getByText("7 · Subunidad académica")).toBeVisible();
+    await expect(page.getByText("Unidad académica", { exact: true })).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Subunidad académica", { exact: true })).toBeVisible();
     const main = await page.locator("main").innerText();
     expect(main).not.toMatch(/Facultad|Departamento/);
     // The note of the centre filter is the one calculated from this bundle (no fixed figure).
@@ -85,7 +85,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     const expected = centerCoverageNote(cov);
     expect(expected).toContain(cov.withCenter.toLocaleString("es-CO"));
     // Since F48b the note is in the tooltip of the help icon of the filter (not under the control).
-    const field = page.locator("label", { hasText: "3 · Centro de investigación" }).first().locator("xpath=../..");
+    const field = page.locator("label", { hasText: "Centro de investigación" }).first().locator("xpath=../..");
     await expect(field.getByText(expected)).toHaveCount(0);
     await field.getByTestId("filter-help").hover();
     await expect(page.getByText(expected)).toBeVisible({ timeout: 5000 });
@@ -115,8 +115,8 @@ test.describe("F36 against the real quyca (read-only)", () => {
   test("Boards 2 and 3 use the same labels and no «Facultad» or «Departamento» filter", async ({ page }) => {
     for (const n of [2, 3]) {
       await page.goto(BOARD(n));
-      await expect(page.getByText("Unidad académica").first()).toBeVisible({ timeout: 120000 });
-      await expect(page.getByText("Subunidad académica").first()).toBeVisible();
+      await expect(page.getByText("Unidad académica", { exact: true }).first()).toBeVisible({ timeout: 120000 });
+      await expect(page.getByText("Subunidad académica", { exact: true }).first()).toBeVisible();
       const text = await page.locator("main").innerText();
       expect(text, `board ${n}`).not.toMatch(/\bFacultad\b/);
     }

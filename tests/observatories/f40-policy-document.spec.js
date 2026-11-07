@@ -62,7 +62,7 @@ test.describe("filter «Documento de política» against the real quyca (read-on
     expect(withoutAxes).toHaveLength(4);
     await page.goto(BOARD(1));
     await expect(page.getByLabel("Filtros").first()).toBeVisible({ timeout: 120000 });
-    const options = await listedDocuments(page, "2 · Documento de política");
+    const options = await listedDocuments(page, "Documento de política");
     expect(options.map((o) => o.text).sort()).toEqual([...names].sort());
     expect(options.filter((o) => o.disabled)).toEqual([]);
     for (const name of withoutAxes) expect(options.map((o) => o.text)).not.toContain(name);
