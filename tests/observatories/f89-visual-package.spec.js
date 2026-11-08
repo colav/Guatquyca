@@ -184,3 +184,33 @@ test.describe("F89 Q-08 in the browser (one run)", () => {
     expect(a.plotTop - a.legendEnd, "blank rows between the legend and the first bubble or tick").toBeGreaterThanOrEqual(2);
   });
 });
+
+test.describe("F89 Q-10 in the browser (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("Board 3 panel 17: the open share at the centre of the donut, four cards 2×2 at its right with their labels complete, short sentences", async ({ page }) => {
+    test.setTimeout(250000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/observatories/vri-udea/board-3");
+    const card = page.getByTestId("chart-card").filter({ hasText: "17 · Acceso abierto" }).first();
+    await card.waitFor({ timeout: 120000 });
+    await card.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(2500);
+    const centre = (await card.getByTestId("ring-total").first().innerText()).trim();
+    const donut = await card.locator("canvas").first().boundingBox();
+    const tiles = await card.getByTestId("access-cards").locator(".obs-kpi").evaluateAll((els) => els.map((el) => {
+      const r = el.getBoundingClientRect();
+      const label = el.querySelector("[title]");
+      return { x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), h: Math.round(r.height), clipped: label ? label.scrollHeight > label.clientHeight + 1 : false, shadow: getComputedStyle(el).boxShadow };
+    }));
+    const sentences = await card.getByTestId("access-notes").locator("li").allInnerTexts();
+    console.log(`[live] panel 17: centre «${centre}»; donut x ${Math.round(donut.x)}–${Math.round(donut.x + donut.width)}; cards ${JSON.stringify(tiles.map((t) => [t.x, t.y, t.w, t.h, t.clipped]))}; ${sentences.length} sentences, the longest ${Math.max(...sentences.map((s) => s.length))} characters`);
+    expect(centre).toMatch(/^\d+,\d %$/);
+    expect(tiles.length).toBeGreaterThanOrEqual(3);
+    expect(tiles.every((t) => t.x >= donut.x + donut.width - 4), "the cards are at the right of the donut").toBe(true);
+    expect(new Set(tiles.map((t) => t.x)).size, "two columns").toBe(2);
+    expect(new Set(tiles.map((t) => t.y)).size, "two rows").toBe(2);
+    expect(tiles.every((t) => !t.clipped), "no label is cut").toBe(true);
+    expect(sentences.length).toBeGreaterThanOrEqual(3);
+  });
+});

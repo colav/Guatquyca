@@ -22,8 +22,9 @@ const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
  * @param {string[]} labels - Label of each part.
  * @param {number[]} values - Count of each part (zeros are not drawn nor listed).
  * @param {string[]} colors - Colour of each part, from the palettes of lib/constants.js.
+ * @param {string} [centerText] - Text at the centre instead of the total (Q-10: the open-access share).
  */
-function DonutChart({ labels, values, colors }) {
+function DonutChart({ labels, values, colors, centerText = null }) {
   const { total, totalText, parts } = useMemo(() => ringParts(labels, values, colors), [labels, values, colors]);
   const config = useMemo(
     () => ({
@@ -48,7 +49,7 @@ function DonutChart({ labels, values, colors }) {
         <div style={{ position: "relative" }}>
           <Pie {...config} />
           <div data-testid="ring-total" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", fontSize: 20, fontWeight: 600 }}>
-            {total > 0 ? totalText : ""}
+            {total > 0 ? (centerText ?? totalText) : ""}
           </div>
         </div>
       </TooltipBox>

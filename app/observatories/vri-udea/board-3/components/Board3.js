@@ -251,6 +251,8 @@ function Board3Content({ dataset, source }) {
   );
   const sexSeries = useMemo(() => sexByYear.series.map((s) => ({ label: SEX_SERIES[s.sex], values: s.values })), [sexByYear]);
 
+  /* Q-10: the note of the panel 17 (same text as before) in short sentences, one per line. */
+  const accessNote = `Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`.split(/(?<=\.)\s+/);
   const withBirthPct = pct(ageByYear.withBirthYear, ageByYear.authors);
   const goals = raw.metas;
 
@@ -456,17 +458,33 @@ function Board3Content({ dataset, source }) {
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard title="17 · Acceso abierto">
+            {/* Q-10 (D-202): one donut of access with the open share at the centre and the four figures in 2×2 cards at its right, the legend below the donut, the note in short sentences. */}
             <Row gutter={[12, 12]} align="top">
-              <Col xs={24} md={12}>
+              <Col xs={24} md={11}>
                 <Typography.Text strong>{ACCESS_PIE_TITLE}</Typography.Text>
                 <DonutChart
                   labels={[ACCESS_LABELS.open, ACCESS_LABELS.closed, ACCESS_LABELS.noData]}
                   values={[openAccess.open, openAccess.closed, openAccess.noData]}
                   colors={[FOUNDATIONS_COLORS.openAccess.open, FOUNDATIONS_COLORS.openAccess.closed, FOUNDATIONS_COLORS.openAccess.noData]}
+                  centerText={pct(openAccess.open, openAccess.open + openAccess.closed + openAccess.noData)}
                 />
               </Col>
+              <Col xs={24} md={13}>
+                <Row gutter={[8, 8]} data-testid="access-cards">
+                  {[
+                    [fmt(openAccess.open), `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)`],
+                    [fmt(openAccess.datasetsOpen), `conjuntos de datos abiertos de ${fmt(openAccess.datasets)}`],
+                    ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), `preprints (marca de OpenAlex; ${fmt(openAccess.preprints - openAccess.preprintsFromPublications)} de otros tipos)`]] : []),
+                    [fmt(openAccess.software), "software / código fuente registrado"],
+                  ].map(([value, label]) => (
+                    <Col key={label} xs={12}>
+                      <KpiCard label={label} value={value} valueFontSize={20} />
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
               {openAccess.classes.preprints > 0 ? (
-                <Col xs={24} md={12}>
+                <Col xs={24} md={11}>
                   <Typography.Text strong>{PIE_CLASSES_TITLE}</Typography.Text>
                   <DonutChart
                     labels={Object.values(PIE_CLASSES_LABELS)}
@@ -475,18 +493,14 @@ function Board3Content({ dataset, source }) {
                   />
                 </Col>
               ) : null}
-              <Col xs={24}>
-                {[
-                  [fmt(openAccess.open), `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)`],
-                  [fmt(openAccess.datasetsOpen), `conjuntos de datos abiertos de ${fmt(openAccess.datasets)}`],
-                  ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), `preprints (marca de OpenAlex; ${fmt(openAccess.preprints - openAccess.preprintsFromPublications)} de otros tipos)`]] : []),
-                  [fmt(openAccess.software), "software / código fuente registrado"],
-                ].map(([value, label]) => (
-                  <Statistic key={label} title={label} value={value} valueStyle={{ fontSize: 18 }} style={{ marginBottom: 8 }} />
-                ))}
+              <Col xs={24} md={openAccess.classes.preprints > 0 ? 13 : 24}>
+                <ul data-testid="access-notes" style={{ margin: 0, paddingLeft: 16, fontSize: 12 }}>
+                  {accessNote.map((sentence) => (
+                    <li key={sentence} style={{ marginBottom: 4 }}><Typography.Text type="secondary">{sentence}</Typography.Text></li>
+                  ))}
+                </ul>
               </Col>
             </Row>
-            <Note>{`Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
