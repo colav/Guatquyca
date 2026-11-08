@@ -53,7 +53,7 @@ test.describe("F54 against the final bundles (read-only)", () => {
       await page.goto(BOARD(3, `center=${raw.centros.indexOf(name)}`));
       const note = page.getByText(`grupos activos del centro ${name}`, { exact: false }).first();
       // The panel settles after the first paint: wait for the expected figure instead of reading once.
-      await expect(note).toHaveText(new RegExp(`^${active} grupos activos del centro ${name}`), { timeout: 120000 });
+      await expect(note).toHaveText(new RegExp(`^Grupos con estado «Activo» a 2026 y categoría de la convocatoria 957-2023\. ${active} grupos activos del centro ${name}`), { timeout: 120000 });
       console.log(`[live] centre ${name}: ${active} active groups in the panel (${perCenter[name]} in the list)`);
     }
   });

@@ -166,9 +166,10 @@ function BubbleGrid({ cells, areas, categories, colors }) {
         size: { type: "sqrt", range: [8, 30] },
         color: { domain: areas, range: areas.map((a) => colors[a]) },
       },
-      axis: { x: { labelAutoRotate: false, labelFormatter: (a) => truncate(a, 16) } },
+      /* Q-03 (D-202): the six names are always there and complete (they go to another line if they do not fit), and the number sits in the middle of its bubble. */
+      axis: { x: { labelAutoRotate: false, labelAutoHide: false, labelAutoEllipsis: false, labelAutoWrap: true } },
       style: { fill: (d) => colors[d.area], fillOpacity: 0.85, stroke: (d) => colors[d.area] },
-      labels: [{ text: "text", fontSize: 11 }],
+      labels: [{ text: "text", fontSize: 11, position: "inside", textAlign: "center", textBaseline: "middle" }],
       tooltip: { title: (d) => `${d.area} · ${d.category}`, items: [{ field: "value", name: "Grupos" }] },
     }),
     [cells, areas, categories, colors],
