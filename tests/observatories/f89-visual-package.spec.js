@@ -250,7 +250,7 @@ test.describe("F91 Q-17 in the browser (one run)", () => {
       console.log(`[live] Board ${board}: ${kpi.length} KPI (background ${[...new Set(kpi.map((c) => c.bg))].join(" | ")}; heights ${[...new Set(kpi.map((c) => c.h))].join(", ")}; shadow ${kpi.every((c) => c.shadow !== "none")}); ${tiles.length} tiles (background ${[...new Set(tiles.map((c) => c.bg))].join(" | ")}; heights ${[...new Set(tiles.map((c) => c.h))].join(", ")}; lowest contrast ${minTile.toFixed(2)}:1; cut texts ${tiles.filter((c) => c.clipped.length).length})`);
       expect(kpi.length).toBeGreaterThan(2);
       expect(kpi.every((c) => c.bg === "255,255,255" && c.shadow !== "none")).toBe(true);
-      expect(kpi.every((c) => c.h === 116 || c.h === 134)).toBe(true);
+      expect(kpi.every((c) => c.h === 116 || c.h === 134 || c.h === 152)).toBe(true);
       expect(tiles.every((c) => c.shadow === "none")).toBe(true);
       expect(minTile).toBeGreaterThanOrEqual(4.5);
       expect(tiles.filter((c) => c.clipped.length)).toEqual([]);
@@ -404,6 +404,27 @@ test.describe("F91 Q-20 labels of the tiles (one run)", () => {
       expect(labels.every((l) => l.size === "14px" && l.weight === "500" && !l.clipped)).toBe(true);
       const kpi = await page.locator(".obs-kpi div[title]").first().evaluate((el) => getComputedStyle(el).fontSize);
       expect(kpi).toBe("13px");
+    }
+  });
+});
+
+test.describe("F91 Q-21 complete dates (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the staff label says the year and is not cut in the KPI card, nor the tags", async ({ page }) => {
+    test.setTimeout(150000);
+    for (const width of [1440, 1280]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto("/observatories/vri-udea/board-3");
+      await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(1500);
+      const kpi = page.locator(".obs-kpi div[title]").filter({ hasText: "al 30 de mayo de 2026" }).first();
+      const cut = await kpi.evaluate((el) => el.scrollHeight > el.clientHeight + 1);
+      const tags = await page.locator(".ant-tag", { hasText: "al 30 de mayo de 2026" }).evaluateAll((els) => els.map((e) => e.scrollWidth > e.clientWidth + 1 || e.getBoundingClientRect().right > window.innerWidth));
+      console.log(`[live] ${width} px: KPI label cut ${cut}; tags with the label ${tags.length}, cut ${tags.filter(Boolean).length}`);
+      expect(cut).toBe(false);
+      expect(tags.some(Boolean)).toBe(false);
+      expect(await page.locator("body").innerText()).not.toMatch(/al 30 de mayo(?! de 2026)/);
     }
   });
 });

@@ -145,7 +145,7 @@ function Tiles({ tiles, staffLabel }) {
     <Row gutter={[12, 12]}>
       {TILE_LABELS.map(([key, label]) => [key, key === "staff" ? `profesores con producción (${staffLabel})` : label]).map(([key, label]) => (
         <Col key={key} xs={12} md={8} lg={6} xl={3}>
-          <KpiCard label={label} value={fmt(tiles[key])} />
+          <KpiCard label={label} value={fmt(tiles[key])} tall />
         </Col>
       ))}
     </Row>

@@ -190,7 +190,7 @@ test.describe("measures and pages (one run)", () => {
     const t3 = await page.locator("body").innerText();
     expect(t3).toContain("(37 proyectos únicos; algunos tienen varios grupos)"); // F88 restores it with B142
     expect(t3).toMatch(/\d+ proyectos de \d+ grupos \(\d+ proyectos únicos; algunos tienen varios grupos\)\. No responde a los filtros\./);
-    expect(t3).toContain("profesores con producción (con contrato vigente al 30 de mayo)");
+    expect(t3).toContain("profesores con producción (con contrato vigente al 30 de mayo de 2026)");
     expect(t3).toContain("El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes");
     await open(page, "/observatories/vri-udea/board-2");
     await expect(page.getByTestId("patents-last-year-note")).toBeVisible({ timeout: 120000 });

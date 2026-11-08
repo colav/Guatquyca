@@ -55,7 +55,7 @@ export const ACCESS_LABELS = { open: "Acceso abierto", closed: "Cerrado", noData
 export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
 
 /** Label of the cards of "profesores" with the data of the API (the three labels of D-106 Q11). */
-export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo";
+export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo de 2026";
 
 export const REAL_FOOTER_TEXT =
   "Fuentes: obras, autoras y autores, grupos, instituciones coautoras, proyectos y tesis de ImpactU, campos de OpenAlex (acceso abierto y texto completo en repositorio), identificadores de las personas y la planta de la Universidad, tópicos de OpenAlex o del modelo v2 y el catálogo de Ejes Temáticos de los documentos de política. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los «profesores» son los autores con contrato vigente al 30 de mayo de 2026; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título y el sector de cada institución por reglas sobre el nombre.";

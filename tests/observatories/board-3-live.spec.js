@@ -88,7 +88,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("1 · Talento investigador por nivel", { exact: false }).first()).toBeVisible();
     const text = await page.locator("main").innerText();
-    expect(text).toContain("con contrato vigente al 30 de mayo");
+    expect(text).toContain("con contrato vigente al 30 de mayo de 2026");
     expect(text).not.toContain("tabla de personal anterior");
     expect(text).not.toContain("undefined");
     expect(text).not.toMatch(/ai_panel/);

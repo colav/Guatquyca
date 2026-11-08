@@ -16,19 +16,21 @@ import { Card } from "antd";
  * @param {string} [detail] - Short note under the value (one line).
  * @param {number} [valueFontSize]
  * @param {boolean} [withDetail] - Reserve the line of the note (a block where some cards have one).
+ * @param {boolean} [tall] - A row whose label needs 4 lines (Q-21): the height `KPI.tallHeight`, label up to `KPI.tallLabelLines` lines.
  */
-export default function KpiCard({ label, value, detail = "", valueFontSize = KPI.valueFontSize, withDetail = false }) {
+export default function KpiCard({ label, value, detail = "", valueFontSize = KPI.valueFontSize, withDetail = false, tall = false }) {
   const reserve = withDetail || !!detail;
+  const labelLines = tall ? KPI.tallLabelLines : KPI.labelLines;
   return (
     <Card
       size="small"
       className="obs-kpi"
-      style={{ height: reserve ? KPI.heightWithDetail : KPI.height, boxShadow: CARD_SHADOW }}
+      style={{ height: tall ? KPI.tallHeight : reserve ? KPI.heightWithDetail : KPI.height, boxShadow: CARD_SHADOW }}
       styles={{ body: { height: "100%", padding: KPI.padding, display: "flex", flexDirection: "column", justifyContent: "space-between" } }}
     >
       <div
         title={label}
-        style={{ ...clampLines(KPI.labelLines), fontSize: KPI.labelFontSize, lineHeight: `${KPI.labelLineHeight}px`, maxHeight: KPI.labelLines * KPI.labelLineHeight, color: "rgba(0,0,0,.45)" }}
+        style={{ ...clampLines(labelLines), fontSize: KPI.labelFontSize, lineHeight: `${KPI.labelLineHeight}px`, maxHeight: labelLines * KPI.labelLineHeight, color: "rgba(0,0,0,.45)" }}
       >
         {label}
       </div>
