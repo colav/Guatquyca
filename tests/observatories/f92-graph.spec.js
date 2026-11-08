@@ -10,7 +10,7 @@ const LIVE = !!process.env.E2E_LIVE;
 
 test.describe("F92 helpers of the graph (no server)", () => {
   test("variants", () => {
-    expect(GRAPH_VARIANTS).toEqual(["ref", "A", "B", "C"]);
+    expect(GRAPH_VARIANTS).toEqual(["ref", "A", "B", "C", "D"]);
   });
 
   test("an anchor per group on an ellipse, the first one on top", () => {
@@ -105,7 +105,7 @@ test.describe("F92 the four arrangements (one run)", () => {
     console.log(`[live] ${JSON.stringify(results)}`);
     for (const v of GRAPH_VARIANTS) {
       expect(results[v].nodes).toBe(60);
-      expect(results[v].labelOverlapNew, `${v}: labels overlap`).toBe(0);
+      if (v !== "D") expect(results[v].labelOverlapNew, `${v}: labels overlap`).toBe(0); // D places its labels around the node (graphLabelsAround), measured in f94
     }
     expect(results.A.height).toBeGreaterThanOrEqual(520);
     expect(results.ref.height).toBe(460);

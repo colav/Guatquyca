@@ -6,7 +6,7 @@ import { memo, useEffect, useRef, useState } from "react";
 /* Components & lib */
 import FillHeight from "@/app/observatories/components/FillHeight";
 import { BRAND, CENTER_COLORS, CENTER_OTHER_COLOR, NEUTRAL } from "@/lib/observatories/palette";
-import { graphLabels, graphTooltip, GRAPH_VARIANTS, groupAnchors, ringPositions } from "@/lib/observatories/collabGraph";
+import { detectCommunities, graphLabels, graphLabelsAround, graphTooltip, GRAPH_VARIANTS, groupAnchors, ringPositions } from "@/lib/observatories/collabGraph";
 
 /* UI Library Components */
 import { Typography } from "antd";
@@ -32,14 +32,20 @@ const groupOf = (node, centers) => {
   return position >= 0 && position < CENTER_COLORS.length ? position : CENTER_COLORS.length;
 };
 
-function buildData({ nodes, links }, centers, centerNames, preset) {
+function buildData({ nodes, links }, centers, centerNames, preset, partition) {
   const maxDegree = Math.max(1, ...nodes.map((n) => n.degree));
   const maxWeight = Math.max(2, ...links.map((l) => l.weight));
   const byId = new Map(nodes.map((n) => [n.id, n]));
+  /* Q-33 (e): the collaborators of each node in this graph, and how many of them are of another centre. */
+  const neighbours = new Map(nodes.map((n) => [n.id, []]));
+  for (const l of links) {
+    neighbours.get(l.source)?.push(l.target);
+    neighbours.get(l.target)?.push(l.source);
+  }
   return {
     nodes: nodes.map((n) => ({
       id: String(n.id),
-      data: { name: n.name, degree: n.degree, weight: n.weight, center: n.center >= 0 ? centerNames[n.center] : "", color: n.center >= 0 ? centerColor(centers, n.center) : CENTER_OTHER_COLOR, group: groupOf(n, centers), radius: radius(n.degree, maxDegree) },
+      data: { name: n.name, degree: n.degree, weight: n.weight, center: n.center >= 0 ? centerNames[n.center] : "", color: n.center >= 0 ? centerColor(centers, n.center) : CENTER_OTHER_COLOR, group: groupOf(n, centers), radius: radius(n.degree, maxDegree), neighbours: neighbours.get(n.id).length, otherCenter: neighbours.get(n.id).filter((m) => byId.get(m)?.center !== n.center).length, ...(partition ? { community: partition.get(n.id) + 1 } : {}) },
       style: {
         size: radius(n.degree, maxDegree) * 2,
         fill: n.center >= 0 ? centerColor(centers, n.center) : CENTER_OTHER_COLOR,
@@ -69,6 +75,27 @@ function buildData({ nodes, links }, centers, centerNames, preset) {
 /** Layout of the variant: «ref» is the one of before (F92 reference), A and C pull each centre to its own anchor, B is preset. */
 function layoutOf(variant, data, centers, width, height) {
   if (variant === "B") return undefined;
+  if (variant === "D") {
+    /* Q-33 (b): no anchors by centre; the pull of an edge is proportional to its weight, so the groups that collaborate most end up together. */
+    const weights = new Map(data.edges.map((e) => [e.id, e.data.weight]));
+    const maxWeight = Math.max(1, ...weights.values());
+    const sizesD = new Map(data.nodes.map((n) => [n.id, n.data.radius]));
+    const weightOf = (e) => (weights.get(e.id) ?? 1) / maxWeight;
+    /* a mild pull of each node towards the anchor of ITS COMMUNITY (not of its centre), so the communities do not interleave and their hulls can be read */
+    const communityOf = new Map(data.nodes.map((n) => [n.id, n.data.community]));
+    const anchorsD = groupAnchors([...new Set(communityOf.values())].sort((a, b) => a - b), width, height, 0.5);
+    const anchorOfD = (n) => anchorsD.get(communityOf.get(n.id)) ?? { x: width / 2, y: height / 2 };
+    return {
+      type: "d3-force",
+      link: { distance: (e) => 120 - 80 * Math.sqrt(weightOf(e)), strength: (e) => 0.05 + 0.95 * Math.sqrt(weightOf(e)) },
+      manyBody: { strength: -200 },
+      collide: { radius: (n) => (sizesD.get(n.id) ?? 8) + 6, strength: 1, iterations: 3 },
+      x: { x: (n) => anchorOfD(n).x, strength: 0.1 },
+      y: { y: (n) => anchorOfD(n).y, strength: 0.1 },
+      center: false,
+      iterations: 400,
+    };
+  }
   if (variant === "ref") {
     return { type: "d3-force", link: { distance: 40, strength: 0.4 }, manyBody: { strength: -140 }, center: { x: width / 2, y: height / 2 }, collide: { radius: 12 }, iterations: 220 };
   }
@@ -125,10 +152,15 @@ function CollabGraph({ graph, centers, centerNames }) {
       const width = size.w;
       const height = variant === "ref" ? REF_HEIGHT : size.h;
       const preset = variant === "B" ? ringPositions(g.nodes.map((n) => ({ id: n.id, group: groupOf(n, c), r: radius(n.degree, Math.max(1, ...g.nodes.map((m) => m.degree))), degree: n.degree })), width, height) : null;
-      const data = buildData(g, c, names, preset);
+      const partition = variant === "D" ? detectCommunities(g.nodes, g.links) : null;
+      const data = buildData(g, c, names, preset, partition);
       const groups = new Map();
       data.nodes.forEach((n) => groups.set(n.data.group, [...(groups.get(n.data.group) || []), n.id]));
-      const hulls = variant === "C"
+      /* Q-33 (c): the hull of D is the one of each community, in neutral grey */
+      const communityHulls = variant === "D"
+        ? [...new Set(partition.values())].map((k) => ({ k, ids: data.nodes.filter((n) => partition.get(Number(n.id)) === k || partition.get(n.id) === k).map((n) => n.id) })).filter(({ ids }) => ids.length >= 2).map(({ k, ids }) => ({ type: "hull", key: `hull-community-${k}`, members: ids, fill: NEUTRAL.dark, fillOpacity: 0.14, stroke: NEUTRAL.dark, strokeOpacity: 0.6, lineWidth: 1, padding: 12, corner: "smooth", label: true, labelText: `Comunidad ${k + 1}`, labelPlacement: "top", labelFontSize: 11, labelFill: NEUTRAL.dark }))
+        : [];
+      const hulls = variant === "D" ? communityHulls : variant === "C"
         ? [...groups.entries()].filter(([, ids]) => ids.length >= 2).map(([group, ids]) => {
             const color = group < CENTER_COLORS.length ? CENTER_COLORS[group] : CENTER_OTHER_COLOR;
             return { type: "hull", key: `hull-${group}`, members: ids, fill: color, fillOpacity: 0.12, stroke: color, strokeOpacity: 0.4, lineWidth: 1, padding: 12, corner: "smooth" };
@@ -164,7 +196,25 @@ function CollabGraph({ graph, centers, centerNames }) {
         const chosen = graphLabels(placed);
         instance.updateNodeData(data.nodes.map((n) => ({ id: n.id, style: { labelText: chosen.get(n.id) || "" } })));
         /* the new arrangements are fitted to the canvas (the biggest cluster never leaves it); the reference stays as it was */
-        (variant === "ref" ? Promise.resolve() : instance.fitView({ when: "always", direction: "both" }, false).then(() => instance.zoomBy(0.92, false))).catch(() => {}).then(() => instance.draw()).catch(() => {});
+        (variant === "ref" ? Promise.resolve() : instance.fitView({ when: "always", direction: "both" }, false).then(() => instance.zoomBy(variant === "D" ? 0.76 : 0.92, false))).catch(() => {}).then(() => {
+          /* Q-33 (d): in D almost every node has its name (abbreviated to 22 characters); the labels that overlap are hidden by degree, and zooming in shows the missing ones */
+          if (variant !== "D") return undefined;
+          let shown = "";
+          const relabel = () => {
+            if (instance.destroyed) return;
+            const scale = 1 / (instance.getZoom() || 1);
+            const all = graphLabelsAround(placed, { scale, maxChars: 22 });
+            const key = [...all.entries()].map(([id, l]) => `${id}${l.placement}`).join(",");
+            if (key === shown) return;
+            shown = key;
+            instance.updateNodeData(data.nodes.map((n) => ({ id: n.id, style: { labelText: all.get(n.id)?.text || "", labelPlacement: all.get(n.id)?.placement || "bottom" } })));
+            instance.draw().catch(() => {});
+          };
+          relabel();
+          let timer = null;
+          instance.on("aftertransform", () => { clearTimeout(timer); timer = setTimeout(relabel, 120); });
+          return undefined;
+        }).then(() => instance.draw()).catch(() => {});
         if (containerRef.current) {
           containerRef.current.dataset.drawMs = String(Math.round(performance.now() - t0));
           containerRef.current.dataset.variant = variant;
@@ -205,6 +255,11 @@ function CollabGraph({ graph, centers, centerNames }) {
       <FillHeight min={variant === "ref" ? REF_HEIGHT : MIN_HEIGHT} max={variant === "ref" ? REF_HEIGHT : MAX_HEIGHT}>
         {(h) => <GraphCanvas containerRef={containerRef} height={h} onSize={(w, hh) => setSize((s) => (Math.abs(s.w - w) > 24 || Math.abs(s.h - hh) > 24 || !s.w ? { w, h: hh } : s))} />}
       </FillHeight>
+      {variant === "D" ? (
+        <Typography.Text type="secondary" data-testid="community-legend" style={{ fontSize: 12, display: "block", marginTop: 6 }}>
+          Comunidad (envolvente gris): grupos que colaboran más entre sí. El color de cada grupo es el de su centro: una comunidad con varios colores reúne grupos de áreas distintas.
+        </Typography.Text>
+      ) : null}
       <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6 }}>
         {fmt(graph.groupsWithCollaboration)} grupos UdeA con al menos una colaboración y {fmt(graph.pairs)} pares de grupos en el filtro actual.
       </Typography.Paragraph>
