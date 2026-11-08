@@ -73,7 +73,7 @@ export default function StickyFilters({ children, active = [], onReset, resetLab
       style={{
         position: "sticky",
         top,
-        zIndex: 100,
+        zIndex: 1040,
         background: token.colorBgContainer,
         boxShadow: CARD_SHADOW,
         /* Square top corners (F51); the bottom ones keep the radius of the cards. */
