@@ -40,11 +40,13 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
     const stacked = rows.some((r) => r.segments.filter((s) => s.value > 0).length > 1);
     const hasDetail = rows.some((r) => r.detail);
     const detailName = (rows.find((r) => r.detailName) || {}).detailName || "Detalle";
+    /* F93: rows may carry several lines of tooltip (`details`: [{ name, value }]); the names are the ones of the first row that has them. */
+    const detailLines = (rows.find((r) => r.details) || {}).details || [];
     return {
       data: rows.flatMap((r, i) => {
         const total = r.segments.reduce((a, s) => a + s.value, 0);
         /* Q-05: the total of the visible segments is written at the end of the bar (on its last segment). */
-        const parts = r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", series: s.series, value: s.value, total, end: "" }));
+        const parts = r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", ...Object.fromEntries(detailLines.map((_, k) => [`line${k}`, r.details?.[k]?.value ?? ""])), series: s.series, value: s.value, total, end: "" }));
         if (parts.length) parts[parts.length - 1].end = fmt(total);
         return parts;
       }),
@@ -62,7 +64,7 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key } },
       tooltip: {
         title: (d) => (stacked ? `${d.name} · total ${fmt(d.total)}` : d.name),
-        items: [(d) => ({ name: d.series, value: `${fmt(d.value)}${unit ? ` ${unit}` : ""}` }), ...(hasDetail ? [{ field: "detail", name: detailName }] : [])],
+        items: [(d) => ({ name: d.series, value: `${fmt(d.value)}${unit ? ` ${unit}` : ""}` }), ...(hasDetail ? [{ field: "detail", name: detailName }] : []), ...detailLines.map((l, k) => ({ field: `line${k}`, name: l.name }))],
       },
     };
   }, [rows, colors, labelSize, legend, unit]);

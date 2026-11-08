@@ -38,7 +38,7 @@ test.describe("B144 bundles (one run)", () => {
     }
     console.log(`[live] ETags ${t[1].etag} ${t[2].etag} ${t[3].etag}`);
     expect(t[1].etag).toBe('"20261107-812ab23f70b7"');
-    expect(t[2].etag).toBe('"20261107-ca007b23bb20"');
+    expect(t[2].etag).toBe('"20261107-cc4f5f204dd5"');
     expect(t[3].etag).toBe('"20261107-c97503a60029"');
     const b2 = t[2].body.data || t[2].body;
     const originals = b2.ext.nombres_originales;
