@@ -6,6 +6,7 @@ import { memo } from "react";
 /* Components */
 import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
+import PanelTile from "@/app/observatories/components/PanelTile";
 
 /* UI Library Components */
 import { Col, Row, Table, Typography } from "antd";
@@ -43,7 +44,7 @@ export const StatTiles = memo(function StatTiles({ stats }) {
     <Row gutter={[8, 8]}>
       {stats.map((s) => (
         <Col key={s.label} xs={12} md={8}>
-          <KpiCard label={s.label} value={typeof s.value === "number" ? fmt(s.value) : s.value} detail={s.detail} withDetail={stats.some((x) => x.detail)} valueFontSize={20} />
+          <PanelTile label={s.label} value={typeof s.value === "number" ? fmt(s.value) : s.value} detail={s.detail} valueFontSize={20} />
         </Col>
       ))}
     </Row>

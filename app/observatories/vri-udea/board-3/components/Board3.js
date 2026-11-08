@@ -10,6 +10,7 @@ import ChartCard from "@/app/observatories/components/ChartCard";
 import { groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "@/lib/observatories/officialGroups";
 import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
+import PanelTile from "@/app/observatories/components/PanelTile";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import FiltersBar from "./FiltersBar";
@@ -319,7 +320,7 @@ function Board3Content({ dataset, source }) {
                   : []),
               ].map(([value, label]) => (
                 <Col key={label} xs={12}>
-                  <KpiCard label={label} value={value} valueFontSize={18} />
+                  <PanelTile label={label} value={value} valueFontSize={18} />
                 </Col>
               ))}
             </Row>
@@ -478,7 +479,7 @@ function Board3Content({ dataset, source }) {
                     [fmt(openAccess.software), "software / código fuente registrado"],
                   ].map(([value, label]) => (
                     <Col key={label} xs={12}>
-                      <KpiCard label={label} value={value} valueFontSize={20} />
+                      <PanelTile label={label} value={value} valueFontSize={20} />
                     </Col>
                   ))}
                 </Row>

@@ -141,9 +141,9 @@ test.describe("card 11b against the real quyca (read-only)", () => {
     const card = page.getByTestId("pi-card");
     await expect(card).toBeVisible({ timeout: 120000 });
     await expect(card).toContainText("11b · Propiedad intelectual y patentes");
-    await expect(card.locator(".obs-kpi").nth(0)).toContainText("431");
-    await expect(card.locator(".obs-kpi").nth(1)).toContainText("363");
-    await expect(card.locator(".obs-kpi").nth(2)).toContainText("71");
+    await expect(card.locator(".obs-tile").nth(0)).toContainText("431");
+    await expect(card.locator(".obs-tile").nth(1)).toContainText("363");
+    await expect(card.locator(".obs-tile").nth(2)).toContainText("71");
     await expect(page.getByTestId("pi-year-note")).toContainText("16 activos no tienen año de concesión");
     await expect(page.getByTestId("pi-filter-note")).toHaveText(PI_FILTER_NOTE);
     await expect(page.getByTestId("pi-not-responding")).toHaveCount(0);
@@ -169,7 +169,7 @@ test.describe("card 11b against the real quyca (read-only)", () => {
     await expect(note).toBeVisible({ timeout: 120000 });
     await expect(note).toContainText("subunidad, subcampo");
     const inRange = bundle.pi.rows.filter((x) => x[2] >= 2015 && x[2] <= 2020).length;
-    await expect(page.getByTestId("pi-card").locator(".obs-kpi").nth(0)).toContainText(String(inRange));
+    await expect(page.getByTestId("pi-card").locator(".obs-tile").nth(0)).toContainText(String(inRange));
     await expect(page.getByTestId("pi-year-note")).toContainText("con un rango de años elegido no se cuentan");
   });
 });

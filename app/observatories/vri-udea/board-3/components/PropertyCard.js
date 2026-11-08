@@ -5,7 +5,7 @@ import { memo, useMemo } from "react";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
-import KpiCard from "@/app/observatories/components/KpiCard";
+import PanelTile from "@/app/observatories/components/PanelTile";
 import Note from "@/app/observatories/components/Note";
 import { HBarsChart, LinesChart } from "./Charts";
 
@@ -49,9 +49,9 @@ function PropertyCard({ pi, view, onView }) {
       <Col xs={24}>
         <ChartCard title={PI_TITLE}>
           <Row gutter={[8, 8]}>
-            <Col xs={24} md={8}><KpiCard label="activos de propiedad intelectual en la selección" value={fmt(pi.total)} detail="derechos de autor, marcas, diseños, secretos y patentes" valueFontSize={20} withDetail /></Col>
-            <Col xs={24} md={8}><KpiCard label="de ellos, con grupo de investigación" value={fmt(pi.withGroup)} detail={pi.total ? `${((100 * pi.withGroup) / pi.total).toFixed(0)} % de la selección` : ""} valueFontSize={20} withDetail /></Col>
-            <Col xs={24} md={8}><KpiCard label="patentes registradas" value={fmt(pi.patents.n)} detail="otra fuente · no responde a los filtros" valueFontSize={20} withDetail /></Col>
+            <Col xs={24} md={8}><PanelTile label="activos de propiedad intelectual en la selección" value={fmt(pi.total)} detail="derechos de autor, marcas, diseños, secretos y patentes" valueFontSize={20} /></Col>
+            <Col xs={24} md={8}><PanelTile label="de ellos, con grupo de investigación" value={fmt(pi.withGroup)} detail={pi.total ? `${((100 * pi.withGroup) / pi.total).toFixed(0)} % de la selección` : ""} valueFontSize={20} /></Col>
+            <Col xs={24} md={8}><PanelTile label="patentes registradas" value={fmt(pi.patents.n)} detail="otra fuente · no responde a los filtros" valueFontSize={20} /></Col>
           </Row>
           <Note>{PI_PATENTS_NOTE}</Note>
           <Row gutter={[12, 12]} style={{ marginTop: 8 }}>
