@@ -98,8 +98,9 @@ test.describe("part B (no server)", () => {
   });
 
   test("text of the warning of 2025 (provisional)", () => {
-    expect(PROJECTS_2025_WARNING).toContain("2025 es parcial");
+    expect(PROJECTS_2025_WARNING).toContain("listado de la VRI-UdeA con corte al 3 de julio de 2025");
     expect(PROJECTS_2025_WARNING).toContain("18 de junio de 2025");
+    expect(PROJECTS_2025_WARNING).not.toContain("extrajeron");
   });
 });
 
@@ -126,7 +127,7 @@ test.describe("part B with the real bundle (one run)", () => {
     const text = page.locator("body");
     await expect(text).toContainText("408 estudiantes únicos en 374 proyectos", { timeout: 60000 });
     await expect(text).not.toContainText("3.512 estudiantes únicos");
-    await expect(text).toContainText("2025 es parcial: los proyectos se extrajeron del SIIU en julio de 2025");
+    await expect(text).toContainText("Proyectos registrados en el SIIU, listado de la VRI-UdeA con corte al 3 de julio de 2025");
     await expect(text).toContainText("39 proyectos de 11 grupos (37 proyectos únicos; algunos tienen varios grupos). No responde a los filtros.");
   });
 });
