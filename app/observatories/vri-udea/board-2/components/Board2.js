@@ -15,6 +15,7 @@ import DepartmentMap from "@/app/observatories/components/DepartmentMap";
 import SubregionMap from "@/app/observatories/components/SubregionMap";
 import { subregionRowsFromObject } from "@/lib/observatories/geoMap";
 import Note from "@/app/observatories/components/Note";
+import { funderRows } from "@/lib/observatories/funderRows";
 import { CountriesTable, DomainTable, GoalsTable, KpiRow, StatTiles } from "./Board2Parts";
 import CountryMap from "@/app/observatories/components/CountryMap";
 import { SegmentedBarsChart, TrendLinesChart } from "./Charts";
@@ -186,8 +187,9 @@ function Board2Content({ dataset, source }) {
       appropriation: appropriation.length,
     });
   }, [isMock, raw]);
+  /* Q-15 (F90, B144): the normalised name is shown; the original name of the source goes in the tooltip. */
   const funders = useMemo(
-    () => result.funders.map((f) => ({ label: f.nm.trim(), segments: [SEGMENT(raw.sectorsEs[dataset.sectorIndex[f.fsector]], f.proyectos)] })),
+    () => funderRows(result.funders, raw.ext && raw.ext.nombres_originales, (f) => raw.sectorsEs[dataset.sectorIndex[f.fsector]]),
     [raw, dataset, result],
   );
 

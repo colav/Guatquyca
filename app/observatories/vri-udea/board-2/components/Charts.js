@@ -39,6 +39,7 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
     /* Tooltip (F69): the name of each series (type, sector), the unit, the total when a row has several segments, and «Detalle» only when some row has it. */
     const stacked = rows.some((r) => r.segments.filter((s) => s.value > 0).length > 1);
     const hasDetail = rows.some((r) => r.detail);
+    const detailName = (rows.find((r) => r.detailName) || {}).detailName || "Detalle";
     return {
       data: rows.flatMap((r, i) => {
         const total = r.segments.reduce((a, s) => a + s.value, 0);
@@ -61,7 +62,7 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
       axis: { x: { labelAutoRotate: false, labelFormatter: (key) => labels[key] ?? key } },
       tooltip: {
         title: (d) => (stacked ? `${d.name} · total ${fmt(d.total)}` : d.name),
-        items: [(d) => ({ name: d.series, value: `${fmt(d.value)}${unit ? ` ${unit}` : ""}` }), ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])],
+        items: [(d) => ({ name: d.series, value: `${fmt(d.value)}${unit ? ` ${unit}` : ""}` }), ...(hasDetail ? [{ field: "detail", name: detailName }] : [])],
       },
     };
   }, [rows, colors, labelSize, legend, unit]);
