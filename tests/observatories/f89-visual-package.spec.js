@@ -387,3 +387,23 @@ test.describe("F89 Q-16 in the browser (one run)", () => {
     expect(Number(menuZ)).toBeGreaterThan(1040);
   });
 });
+
+test.describe("F91 Q-20 labels of the tiles (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the label of every tile of a panel starts with a capital, at 14 px and weight 500; the KPI row is not touched", async ({ page }) => {
+    test.setTimeout(200000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    for (const board of [2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.locator(".obs-tile").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(1500);
+      const labels = await page.locator(".obs-tile").evaluateAll((els) => els.map((el) => { const d = el.firstElementChild; const cs = getComputedStyle(d); return { text: d.textContent, size: cs.fontSize, weight: cs.fontWeight, clipped: d.scrollHeight > d.clientHeight + 1 }; }));
+      console.log(`[live] Board ${board}: ${labels.length} tile labels; first ones: ${labels.slice(0, 3).map((l) => l.text).join(" | ")}; sizes ${[...new Set(labels.map((l) => l.size))]}; weights ${[...new Set(labels.map((l) => l.weight))]}`);
+      expect(labels.every((l) => /^\p{Lu}|^\d/u.test(l.text))).toBe(true);
+      expect(labels.every((l) => l.size === "14px" && l.weight === "500" && !l.clipped)).toBe(true);
+      const kpi = await page.locator(".obs-kpi div[title]").first().evaluate((el) => getComputedStyle(el).fontSize);
+      expect(kpi).toBe("13px");
+    }
+  });
+});
