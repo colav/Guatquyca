@@ -64,7 +64,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(200000);
     const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
     console.log(`[live] ETag of the T3: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-a7410df8e340"');
+    expect(response.headers().etag).toBe('"20261107-6fc0d22aa24a"'); // B142 (F88); B138 was a7410df8e340
     const body = await response.json();
     const b3 = body.data || body;
     const ds = createFoundationsDataset(b3);

@@ -116,3 +116,6 @@ export const PID_NOTE =
 /** Help of the filter Documento (F74, D-177): the board has no control of confidence. Provisional text. */
 export const DOCUMENT_FILTER_HELP =
   "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes, con confianza alta o media (este tablero no tiene control de confianza). Un producto sin eje asignado no cuenta aunque su tópico esté vinculado.";
+
+/* F88 (D-200, B142 §3): the projects come from the SIIU list of July 2025; text proposed by backend, provisional for Luis. */
+export const PROJECTS_2025_WARNING = "2025 es parcial: los proyectos se extrajeron del SIIU en julio de 2025 y el último inicio registrado es el 18 de junio de 2025; los de mayo y junio pueden estar incompletos.";

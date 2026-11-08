@@ -188,8 +188,8 @@ test.describe("measures and pages (one run)", () => {
     await open(page, "/observatories/vri-udea/board-3");
     await expect(page.getByText("13 · Proyectos de los grupos")).toBeVisible({ timeout: 120000 });
     const t3 = await page.locator("body").innerText();
-    expect(t3).not.toContain("proyectos únicos; algunos tienen varios grupos");
-    expect(t3).toMatch(/\d+ proyectos de \d+ grupos\. No responde a los filtros\./);
+    expect(t3).toContain("(37 proyectos únicos; algunos tienen varios grupos)"); // F88 restores it with B142
+    expect(t3).toMatch(/\d+ proyectos de \d+ grupos \(\d+ proyectos únicos; algunos tienen varios grupos\)\. No responde a los filtros\./);
     expect(t3).toContain("profesores con producción (con contrato vigente al 30 de mayo)");
     expect(t3).toContain("El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes");
     await open(page, "/observatories/vri-udea/board-2");
