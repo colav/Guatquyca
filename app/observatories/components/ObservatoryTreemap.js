@@ -32,6 +32,16 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  * @param {string} [ariaLabel]
  * @param {string} [testId]
  */
+/** Name in lines of at most `size` characters (greedy, at spaces), joined with a line break. */
+const wrapName = (name, size) => {
+  const lines = [];
+  for (const word of String(name).split(" ")) {
+    if (lines.length && `${lines[lines.length - 1]} ${word}`.length <= size) lines[lines.length - 1] += ` ${word}`;
+    else lines.push(word);
+  }
+  return lines.join("\n");
+};
+
 function ObservatoryTreemap({ items, unitName, height = 280, labelFontSize = 12, labelWithValue = false, activeKey = null, onSelect = null, ariaLabel, testId }) {
   const config = useMemo(() => {
     const shown = items.filter((i) => i.value > 0);
@@ -52,7 +62,8 @@ function ObservatoryTreemap({ items, unitName, height = 280, labelFontSize = 12,
         /* the fill is set per item: the scale of colour alone gave one colour to the whole treemap */
         fill: (d) => fills[pick(d).name] ?? BRAND.white,
         fillOpacity: (d) => (activeKey != null && pick(d).key !== activeKey ? 0.35 : 1),
-        labelText: (d) => (labelWithValue ? `${pick(d).name} · ${fmt(pick(d).value)}` : `${pick(d).name}`),
+        /* Q-04: a small block does not cut its label: the name goes to lines of 12 characters at most and the value on its own line. */
+        labelText: (d) => (labelWithValue ? `${wrapName(pick(d).name, 12)}\n${fmt(pick(d).value)}` : `${pick(d).name}`),
         labelFill: (d) => textOn(fills[pick(d).name] ?? BRAND.white),
         labelFontSize,
       },

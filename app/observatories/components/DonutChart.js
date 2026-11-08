@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { memo, useMemo } from "react";
 
 /* Components & utils */
+import FillHeight from "@/app/observatories/components/FillHeight";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { ringParts } from "@/lib/observatories/ringText";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
@@ -43,15 +44,20 @@ function DonutChart({ labels, values, colors, centerText = null }) {
     [parts],
   );
 
+  /* Q-04: the ring takes the height that the panel has left (200 to 320 px); the legend stays under it. */
   return (
-    <div>
-      <TooltipBox>
-        <div style={{ position: "relative" }}>
-          <Pie {...config} />
-          <div data-testid="ring-total" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", fontSize: 20, fontWeight: 600 }}>
-            {total > 0 ? (centerText ?? totalText) : ""}
-          </div>
-        </div>
+    <div style={{ flex: "1 1 auto", display: "flex", flexDirection: "column" }}>
+      <TooltipBox fill>
+        <FillHeight min={200} max={320}>
+          {(h) => (
+            <div style={{ position: "relative", height: h }}>
+              <Pie {...config} height={h} />
+              <div data-testid="ring-total" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", fontSize: 20, fontWeight: 600 }}>
+                {total > 0 ? (centerText ?? totalText) : ""}
+              </div>
+            </div>
+          )}
+        </FillHeight>
       </TooltipBox>
       <ul data-testid="ring-legend" style={{ listStyle: "none", margin: "4px auto 0", padding: 0, maxWidth: 260, fontSize: 12 }}>
         {parts.map((p) => (

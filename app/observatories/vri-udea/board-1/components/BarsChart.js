@@ -14,6 +14,7 @@ import { calculatorBarsConfig } from "@/lib/observatories/capacity";
 import { barsDescending } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
+import FillHeight from "@/app/observatories/components/FillHeight";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
 import { RANKING_COLOR } from "@/lib/observatories/palette";
@@ -75,9 +76,9 @@ function RankingBars({ rows: given, labelSize = 34, complete = false, startCut =
   }, []);
 
   return (
-    <TooltipBox>
-      <div data-testid={onSelect ? "ranking-selectable" : undefined} style={onSelect ? { cursor: "pointer" } : undefined}>
-        <Bar {...config} onReady={onReady} />
+    <TooltipBox fill>
+      <div data-testid={onSelect ? "ranking-selectable" : undefined} style={{ flex: "1 1 auto", display: "flex", flexDirection: "column", ...(onSelect ? { cursor: "pointer" } : {}) }}>
+        <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Bar {...config} height={h} onReady={onReady} />}</FillHeight>
       </div>
     </TooltipBox>
   );

@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { memo, useMemo } from "react";
 
 /* Components & utils */
+import FillHeight from "@/app/observatories/components/FillHeight";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { barsDescending, segmentsTotal } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
@@ -66,8 +67,8 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
   }, [rows, colors, labelSize, legend, unit]);
 
   return (
-    <TooltipBox>
-      <Bar {...config} />
+    <TooltipBox fill>
+      <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Bar {...config} height={h} />}</FillHeight>
     </TooltipBox>
   );
 }
@@ -99,8 +100,8 @@ function TrendLines({ years, series, colors }) {
     [years, series, colors],
   );
   return (
-    <TooltipBox>
-      <Line {...config} />
+    <TooltipBox fill>
+      <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Line {...config} height={h} />}</FillHeight>
     </TooltipBox>
   );
 }

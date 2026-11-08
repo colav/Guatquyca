@@ -255,3 +255,77 @@ test.describe("F89 Q-12 in the browser (one run)", () => {
     expect(seen.size, "one background colour for all").toBe(1);
   });
 });
+
+/* Free vertical space under the content of every panel (px): the height the card has minus what its children take. */
+const FREE_SPACE_IN_PAGE = () =>
+  [...document.querySelectorAll('[data-testid="chart-card"]')].map((card) => {
+    const body = card.querySelector(".ant-card-body");
+    const title = (card.querySelector(".ant-card-head-title")?.textContent || "").slice(0, 40);
+    const used = [...body.children].reduce((a, el) => a + el.getBoundingClientRect().height + (parseFloat(getComputedStyle(el).marginTop) || 0) + (parseFloat(getComputedStyle(el).marginBottom) || 0), 0);
+    const fill = body.querySelector('[data-testid="fill-height"]');
+    return { title, card: Math.round(card.getBoundingClientRect().height), free: Math.round(body.clientHeight - 20 - used), stretched: !!fill };
+  });
+
+test.describe("F89 Q-04 in the browser (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("panels of one row give their chart the height of the taller neighbour (free space under the chart)", async ({ page }) => {
+    test.setTimeout(290000);
+    const report = [];
+    for (const width of [1440, 1280]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const board of [1, 2, 3]) {
+        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
+        await page.waitForTimeout(3500);
+        const cards = await page.evaluate(FREE_SPACE_IN_PAGE);
+        const big = cards.filter((c) => c.free > 40);
+        console.log(`[live] Board ${board} at ${width}: ${cards.length} panels; ${big.length} with more than 40 px free: ${big.map((c) => `${c.title.trim()} (${c.free})`).join("; ") || "none"}`);
+        report.push(...big.map((c) => ({ board, width, ...c })));
+      }
+    }
+    // exceptions (no chart to stretch): a table (Board 1 panel 10), the panels of figure cards only (Board 2 panels 6 and 8), the maps (Board 2 panels 9b and 10: their height was set in F80 from the measure of the drawing)
+    const exception = (r) => (r.board === 1 && r.title.startsWith("10 ·")) || (r.board === 2 && /^(6|8|9b|10) ·/.test(r.title));
+    expect(report.filter((r) => !exception(r)).map((r) => `${r.board}@${r.width} ${r.title} ${r.free}`)).toEqual([]);
+  });
+});
+
+test.describe("F89 Q-04 treemap label (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("Board 3 panel 2: the label of the smallest block («Ciencias Agrícolas») in three lines fits its block", async ({ page }) => {
+    test.setTimeout(250000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/observatories/vri-udea/board-3");
+    const map = page.getByTestId("areas-treemap");
+    await map.waitFor({ timeout: 120000 });
+    await map.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(3000);
+    // blocks = groups of pixels of the same colour (quantised); the smallest solid rectangle is «Ciencias Agrícolas» (3 % of the researchers)
+    const r = await readCanvas(page, map.locator("canvas").first(), (image) => {
+      const { data, width: w, height: h } = image;
+      const groups = new Map();
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) continue;
+        const k = [data[i] >> 3, data[i + 1] >> 3, data[i + 2] >> 3].join(",");
+        const g = groups.get(k) || { n: 0, x0: w, x1: 0, y0: h, y1: 0 };
+        g.n++; g.x0 = Math.min(g.x0, x); g.x1 = Math.max(g.x1, x); g.y0 = Math.min(g.y0, y); g.y1 = Math.max(g.y1, y);
+        groups.set(k, g);
+      }
+      const blocks = [...groups.values()].filter((g) => g.n >= 600 && g.n / ((g.x1 - g.x0 + 1) * (g.y1 - g.y0 + 1)) > 0.7).sort((a, b) => a.n - b.n);
+      const g = blocks[0];
+      return g ? { width: g.x1 - g.x0 + 1, height: g.y1 - g.y0 + 1 } : null;
+    });
+    const need = await page.evaluate(() => {
+      const c = document.createElement("canvas").getContext("2d");
+      c.font = "12px sans-serif";
+      const lines = ["Ciencias", "Agrícolas", "9.999"];
+      return { width: Math.max(...lines.map((l) => c.measureText(l).width)), height: lines.length * 12 * 1.25 };
+    });
+    console.log(`[live] smallest block of the treemap: ${JSON.stringify(r)}; the label in 3 lines needs about ${Math.round(need.width)}×${Math.round(need.height)} px`);
+    expect(r).not.toBeNull();
+    expect(r.width, "the three lines fit in width").toBeGreaterThanOrEqual(need.width + 4);
+    expect(r.height, "the three lines fit in height").toBeGreaterThanOrEqual(need.height + 4);
+  });
+});

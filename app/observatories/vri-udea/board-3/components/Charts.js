@@ -8,6 +8,7 @@ import { memo, useMemo } from "react";
 
 /* Components & utils */
 import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
+import FillHeight from "@/app/observatories/components/FillHeight";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { barsDescending, stackedTotal } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
@@ -50,8 +51,8 @@ function HBars({ rows: given, color, unit, labelSize = 36, keepOrder = false }) 
     };
   }, [rows, color, unit, labelSize]);
   return (
-    <TooltipBox>
-      <Bar {...config} />
+    <TooltipBox fill>
+      <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Bar {...config} height={h} />}</FillHeight>
     </TooltipBox>
   );
 }
@@ -93,8 +94,8 @@ function StackedBars({ rows: given, series, colors, unit, labelSize = 36, keepOr
     };
   }, [rows, series, colors, unit, labelSize]);
   return (
-    <TooltipBox>
-      <Bar {...config} />
+    <TooltipBox fill>
+      <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Bar {...config} height={h} />}</FillHeight>
     </TooltipBox>
   );
 }
@@ -124,8 +125,8 @@ function Lines({ years, series, colors, unit, height = 260, legend = true }) {
     [years, series, colors, unit, height, legend],
   );
   return (
-    <TooltipBox>
-      <Line {...config} />
+    <TooltipBox fill>
+      <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Line {...config} height={h} />}</FillHeight>
     </TooltipBox>
   );
 }
@@ -139,7 +140,11 @@ export const LinesChart = memo(Lines);
  */
 function AreasTreemap({ items, areas }) {
   const shown = useMemo(() => items.map((i) => ({ key: i.name, name: i.name, value: i.value, slot: areas.indexOf(i.name) })), [items, areas]);
-  return <ObservatoryTreemap items={shown} unitName="Investigadores" height={280} labelWithValue ariaLabel="Treemap de áreas OCDE" testId="areas-treemap" />;
+  return (
+    <FillHeight min={280} max={520}>
+      {(h) => <ObservatoryTreemap items={shown} unitName="Investigadores" height={h} labelWithValue ariaLabel="Treemap de áreas OCDE" testId="areas-treemap" />}
+    </FillHeight>
+  );
 }
 export const AreasTreemapChart = memo(AreasTreemap);
 

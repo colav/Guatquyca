@@ -9,20 +9,21 @@ import { useEffect, useRef, useState } from "react";
  * measures what the row gives and hands that height to `children`.
  *
  * @param {number} min - Minimum height (px).
+ * @param {number} [max] - Maximum height (px): a chart is not stretched without sense (Q-04); the rest stays blank.
  * @param {(height: number) => React.ReactNode} children
  */
-export default function FillHeight({ min, children }) {
+export default function FillHeight({ min, max = Infinity, children }) {
   const ref = useRef(null);
   const [height, setHeight] = useState(min);
   useEffect(() => {
     const node = ref.current;
     if (!node || typeof ResizeObserver === "undefined") return undefined;
-    const observer = new ResizeObserver(() => setHeight(Math.max(min, Math.round(node.clientHeight))));
+    const observer = new ResizeObserver(() => setHeight(Math.min(max, Math.max(min, Math.round(node.clientHeight)))));
     observer.observe(node);
     return () => observer.disconnect();
-  }, [min]);
+  }, [min, max]);
   return (
-    <div ref={ref} data-testid="fill-height" style={{ flex: "1 1 auto", position: "relative", minHeight: min }}>
+    <div ref={ref} data-testid="fill-height" style={{ flex: "1 1 auto", position: "relative", minHeight: min, maxHeight: Number.isFinite(max) ? max : undefined }}>
       <div style={{ position: "absolute", inset: 0 }}>{children(height)}</div>
     </div>
   );
