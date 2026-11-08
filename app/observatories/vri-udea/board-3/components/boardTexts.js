@@ -19,7 +19,7 @@ export const STAFF_LABEL = "profesores según la tabla de personal anterior";
 export const PROXY_LABEL = "provisional: se reemplazará por el nivel de formación de la planta";
 
 export const FOOTER_TEXT =
-  "Fuentes: bases UdeA en CSV (works, work_authors, authors, work_topics, work_groups, instituciones_coautoras), BD_Grupos de investigación y Centros (hojas Grupos, Investigadores, consultasoljulio), ListadoProyectos03_07_2025, Productos de creación.xlsx, topicos_openalex.xlsx y Tableros_thesaurus_5.xlsx (términos Núcleo). Población de Antioquia: CNPV 2018 (DANE). Los conteos de «profesores» usan los autores con tipo de contrato en la base; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
+  "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los conteos de «profesores» usan los autores con tipo de contrato en la base; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
 
 export const SECTIONS = {
   researchers: "Base de investigadores",
@@ -58,7 +58,7 @@ export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
 export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo";
 
 export const REAL_FOOTER_TEXT =
-  "Fuentes: tablas del observatorio cargadas en ClickHouse a partir de ImpactU (obras, autoras y autores, grupos, instituciones coautoras, proyectos y tesis), campos de OpenAlex (acceso abierto y texto completo en repositorio), identificadores de las personas y la planta de la Universidad, tópicos de OpenAlex o del modelo v2 y el thesaurus de los documentos de política. Población de Antioquia: CNPV 2018 (DANE). Los «profesores» son los autores con contrato vigente al 30 de mayo de 2026; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título y el sector de cada institución por reglas sobre el nombre.";
+  "Fuentes: obras, autoras y autores, grupos, instituciones coautoras, proyectos y tesis de ImpactU, campos de OpenAlex (acceso abierto y texto completo en repositorio), identificadores de las personas y la planta de la Universidad, tópicos de OpenAlex o del modelo v2 y el catálogo de Ejes Temáticos de los documentos de política. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los «profesores» son los autores con contrato vigente al 30 de mayo de 2026; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título y el sector de cada institución por reglas sobre el nombre.";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -72,7 +72,7 @@ export function linkageNote(sheet) {
   const byLinkage = sheet.por_vinculacion || {};
   const declared = Object.values(byLinkage).reduce((a, n) => a + n, 0);
   const rest = sheet.personas - declared;
-  return ` La hoja «Investigadores» de BD_Grupos (convocatoria 894) registra ${fmt(sheet.personas)} personas; ${fmt(declared)} declaran vinculación (regular ${fmt(byLinkage.Regular || 0)}, cátedra ${fmt(byLinkage["Cátedra"] || 0)}, ocasional ${fmt(byLinkage.Ocasional || 0)}) y ${fmt(rest)} no la declaran.`;
+  return ` El registro de grupos de la convocatoria 894 incluye ${fmt(sheet.personas)} personas; ${fmt(declared)} declaran vinculación (regular ${fmt(byLinkage.Regular || 0)}, cátedra ${fmt(byLinkage["Cátedra"] || 0)}, ocasional ${fmt(byLinkage.Ocasional || 0)}) y ${fmt(rest)} no la declaran.`;
 }
 
 /* Card «11b · Propiedad intelectual y patentes» (F58); provisional texts for Luis. */

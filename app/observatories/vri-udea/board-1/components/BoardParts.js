@@ -171,7 +171,7 @@ export function OdsPlaceholders() {
       <Col xs={24} md={12}>
         <Descriptions size="small" column={1} bordered title="5 · Ránking ODS">
           <Descriptions.Item label="Sin datos en la base entregada">
-            Los CSV no incluyen el campo <code>sustainable_development_goals</code> de OpenAlex. Cuando se agregue (work_id → ODS, score), este panel listará los ODS por número de productos y quedará enlazado a los tópicos del gráfico 1.
+            Las bases no incluyen todavía el dato de objetivos de desarrollo sostenible de OpenAlex. Cuando se agregue, este panel listará los ODS por número de productos y quedará enlazado a los tópicos del gráfico 1.
           </Descriptions.Item>
         </Descriptions>
       </Col>

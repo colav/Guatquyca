@@ -369,7 +369,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="7 · Estudiantes en proyectos por nivel">
             <LinesChart years={students.years} series={students.series} colors={STUDENT_COLORS} unit="Personas" />
-            <Note>{`${students.uniqueStudents != null && students.projects != null ? `${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ` : ""}${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.withoutCenter ? "Ningún proyecto de la tabla de proyectos figura sin centro gestor." : students.centerMissing ? `La tabla de proyectos no trae el centro «${raw.centros[applied.centerIndex]}»: no se muestran proyectos para ese centro.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : students.years.includes(2025) ? ` ${PROJECTS_2025_WARNING}` : ""}`}</Note>
+            <Note>{`${students.uniqueStudents != null && students.projects != null ? `${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ` : ""}${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.withoutCenter ? "Ningún proyecto del listado figura sin centro gestor." : students.centerMissing ? `El listado de proyectos no trae el centro «${raw.centros[applied.centerIndex]}»: no se muestran proyectos para ese centro.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : students.years.includes(2025) ? ` ${PROJECTS_2025_WARNING}` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -418,7 +418,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24}>
           <ChartCard title="14 · Unidades académicas en proyectos de investigación-creación, creación y obra" empty={!creationRows.length}>
             <HBarsChart rows={creationRows} color={BAR_COLORS.artsCreation} unit="Obras" />
-            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en la base de creación ` : "Base de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; hay registros sin código de grupo en BD_Grupos" : ""}. No responde a los filtros.`}</Note>
+            <Note>{`${arts.uniqueProjects > 0 ? `${fmt(arts.uniqueProjects)} proyectos de investigación distintos declarados en el registro de productos de creación ` : "Registro de productos de creación "}(${fmt(creation.registros)} registros, ${fmt(creation.obras)} obras, ${fmt(creation.personas)} personas)${isMock ? "; hay registros sin grupo registrado" : ""}. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -524,7 +524,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="19 · Profesores por tipo de producto (sin artículos, libros ni capítulos)" empty={!staffTypeRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <StackedBarsChart rows={staffTypeRows} series={CONTRACTS} colors={CONTRACT_COLOR_MAP} unit="Profesores" />
-            <Note>{`Productos de creación (Productos de creación.xlsx, no cruzables con la base): ${fmt(creation.obras)} obras únicas de ${fmt(creation.personas)} personas en ${creation.grupos} grupos, 2010–2024.`}</Note>
+            <Note>{`Productos de creación (registro de productos de creación, no cruzables con las obras): ${fmt(creation.obras)} obras únicas de ${fmt(creation.personas)} personas en ${creation.grupos} grupos, 2010–2024.`}</Note>
           </ChartCard>
         </Col>
       </Row>

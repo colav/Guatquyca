@@ -63,3 +63,45 @@ test.describe("Q-06 and Q-07 texts (no server)", () => {
     expect(note).not.toContain("composición final");
   });
 });
+
+import * as texts1 from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+
+/* Q-09 and Q-14: nothing the reader sees names a file, a sheet, a table, a column or says «thesaurus». */
+const FORBIDDEN = /BD_Grupos|\.xlsx|\.csv|\bCSV\b|work_authors|work_groups|work_topics|instituciones_coautoras|ListadoProyectos|Tablero\d?_data|consultasol|\bworks\b|Res-Finales|ClickHouse|\bhojas?\b|obs_|topicos_openalex/i;
+
+function strings(value, out = []) {
+  if (typeof value === "string") out.push(value);
+  else if (Array.isArray(value)) value.forEach((v) => strings(v, out));
+  else if (value && typeof value === "object") Object.values(value).forEach((v) => strings(v, out));
+  return out;
+}
+
+test.describe("Q-09: no file, sheet, table or column in the texts (no server)", () => {
+  for (const [name, mod] of [["Board 1", texts1], ["Board 2", texts2], ["Board 3", texts3]]) {
+    test(`${name}: the exported texts`, () => {
+      const found = strings(Object.values(mod)).filter((s) => !s.startsWith("http") && FORBIDDEN.test(s));
+      expect(found.map((s) => s.slice(0, 90))).toEqual([]);
+    });
+  }
+
+  test("functions that build texts", () => {
+    const built = [
+      texts3.linkageNote({ personas: 100, por_vinculacion: { Regular: 10, Ocasional: 5 } }),
+      texts3.pieNote(5),
+      texts2.smallSampleNote ? texts2.smallSampleNote(3) : "",
+    ];
+    expect(built.filter((s) => FORBIDDEN.test(s))).toEqual([]);
+    expect(texts3.linkageNote({ personas: 100, por_vinculacion: { Regular: 10 } })).toContain("El registro de grupos de la convocatoria 894 incluye 100 personas");
+  });
+
+  test("the sources are explained once in the method text: SIIU and SCIENTI in one sentence each (provisional)", () => {
+    const method = [texts2.FOOTER_TEXT, texts2.REAL_FOOTER_TEXT, texts3.FOOTER_TEXT, texts3.REAL_FOOTER_TEXT].filter(Boolean);
+    expect(method.length).toBeGreaterThan(0);
+    for (const m of method) {
+      expect(m).toContain("SIIU: sistema donde la Universidad registra oficialmente sus proyectos.");
+      expect(m.split("SIIU: sistema").length - 1).toBe(1);
+    }
+  });
+});

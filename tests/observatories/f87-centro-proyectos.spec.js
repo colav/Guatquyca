@@ -106,7 +106,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     await page.goto(`/observatories/vri-udea/board-3?center=${index}`);
     await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const body = page.locator("body");
-    await expect(body).toContainText("Ningún proyecto de la tabla de proyectos figura sin centro gestor.", { timeout: 60000 });
+    await expect(body).toContainText("Ningún proyecto del listado figura sin centro gestor.", { timeout: 60000 });
   });
 
   test("Board 2: the projects of each of the 25 centres by position 7, before (first word) and after; KPI and funders of SIU", async ({ request }) => {
