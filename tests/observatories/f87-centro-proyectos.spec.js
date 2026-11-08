@@ -113,7 +113,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(250000);
     const response = await request.get(`${API}/observatories/vri-udea/boards/2/bundle`);
     console.log(`[live] ETag of the T2: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-cc4f5f204dd5"');
+    expect(response.headers().etag).toBe('"20261107-a919ea5742a7"');
     const body = await response.json();
     const b2 = body.data || body;
     b2.funders = b2.ext.funders; // what the adapter of the page does
