@@ -207,8 +207,10 @@ test.describe("F50 against the real quyca (read-only)", () => {
     expect(empty.length).toBe(3);
     await open(page, 2);
     // domains
-    await expect(page.getByText("Health Sciences", { exact: true }).first()).toBeVisible();
-    expect(await page.locator("main").innerText()).not.toContain("Ciencias de la Salud");
+    // Q-13 (D-202): the tabs of the panel 13 are in Spanish and there is no «Sin dominio» tab
+    await expect(page.locator(".ant-segmented-item-label", { hasText: "Ciencias de la Salud" }).first()).toBeVisible();
+    expect(await page.locator("main").innerText()).not.toContain("Health Sciences");
+    expect(await page.locator("main").innerText()).not.toContain("Sin dominio");
     // subunits
     await page.getByTestId("filters").locator(".ant-col", { hasText: "Subunidad académica" }).last().locator(".ant-select").click();
     // search each empty subunit: it is not offered

@@ -8,7 +8,7 @@ import CompactTable from "@/app/observatories/components/CompactTable";
 import KpiCard from "@/app/observatories/components/KpiCard";
 
 /* UI Library Components */
-import { Col, Row, Typography } from "antd";
+import { Col, Row, Table, Typography } from "antd";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -53,18 +53,22 @@ export const StatTiles = memo(function StatTiles({ stats }) {
 /** Table of the groups with non-academic actors (indicator 13). */
 export const DomainTable = memo(function DomainTable({ rows }) {
   if (!rows.length) return <Typography.Text type="secondary">Sin productos en este dominio con el filtro actual.</Typography.Text>;
-  const num = { align: "right", render: fmt };
+  /* Q-13 (D-202): the name of the group is never cut (two lines if it does not fit); the numeric columns are narrow. */
+  const num = { align: "right", render: fmt, width: 104 };
   return (
-    <CompactTable
+    <Table
+      size="small"
+      pagination={false}
+      tableLayout="fixed"
       rowKey="id"
       dataSource={rows}
       columns={[
-        { title: "Grupo", dataIndex: "group" },
-        { title: "Centro", dataIndex: "center" },
+        { title: "Grupo", dataIndex: "group", width: "34%" },
+        { title: "Centro", dataIndex: "center", width: "16%" },
         { title: "Libros", dataIndex: "books", ...num },
         { title: "Capítulos", dataIndex: "chapters", ...num },
         { title: "Apropiación social", dataIndex: "appropriation", ...num },
-        { title: "Total con actor no académico", dataIndex: "total", align: "right", render: (v) => <b>{fmt(v)}</b> },
+        { title: "Total con actor no académico", dataIndex: "total", align: "right", width: 120, render: (v) => <b>{fmt(v)}</b> },
         { title: "Con cualquier coautor externo", dataIndex: "external", ...num },
       ]}
     />
