@@ -13,6 +13,7 @@ import KpiCard from "@/app/observatories/components/KpiCard";
 import PanelTile from "@/app/observatories/components/PanelTile";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
+import TagRow from "@/app/observatories/components/TagRow";
 import FiltersBar from "./FiltersBar";
 import PropertyCard from "./PropertyCard";
 import Note from "@/app/observatories/components/Note";
@@ -263,10 +264,10 @@ function Board3Content({ dataset, source }) {
         <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
-        <div style={{ marginBottom: 8 }}>
+        <TagRow>
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
-        </div>
+        </TagRow>
         <Collapse
           ghost
           items={[

@@ -453,3 +453,31 @@ test.describe("F91 Q-23 first KPI says what it counts (one run)", () => {
     expect(t1.cut || t2.cut).toBe(false);
   });
 });
+
+test.describe("F91 Q-19 vertical gap of the tags of the header (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the space between lines of tags equals the space between tags, at 1440, 1280 and 390 px, in the three boards", async ({ page }) => {
+    test.setTimeout(280000);
+    for (const board of [1, 2, 3]) {
+      for (const width of [1440, 1280, 390]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/observatories/vri-udea/board-${board}`);
+        const row = page.locator(".obs-tag-row").first();
+        await row.waitFor({ timeout: 120000 });
+        const gaps = await row.locator(".ant-tag").evaluateAll((els) => {
+          const r = els.map((e) => e.getBoundingClientRect());
+          const h = [], v = [];
+          for (let i = 1; i < r.length; i++) {
+            if (Math.abs(r[i].top - r[i - 1].top) < 2) h.push(Math.round((r[i].left - r[i - 1].right) * 10) / 10);
+            else v.push(Math.round((r[i].top - r[i - 1].bottom) * 10) / 10);
+          }
+          return { h, v, n: r.length };
+        });
+        console.log(`[live] Board ${board} at ${width} px: ${gaps.n} tags; horizontal gaps ${[...new Set(gaps.h)]}; vertical gaps between lines ${[...new Set(gaps.v)]}`);
+        expect([...new Set(gaps.h)].every((g) => g === 8)).toBe(true);
+        expect(gaps.v.every((g) => g === 8)).toBe(true);
+      }
+    }
+  });
+});

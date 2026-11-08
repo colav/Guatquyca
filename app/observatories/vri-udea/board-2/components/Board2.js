@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import CutoffNote from "@/app/observatories/components/CutoffNote";
+import TagRow from "@/app/observatories/components/TagRow";
 import ChartCard from "@/app/observatories/components/ChartCard";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
@@ -241,10 +242,10 @@ function Board2Content({ dataset, source }) {
         <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{BOARD_LEAD}</Typography.Paragraph>
-        <div style={{ marginBottom: 8 }}>
+        <TagRow>
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
-        </div>
+        </TagRow>
         <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={notice} style={{ marginBottom: 8 }} />
         <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
       </header>

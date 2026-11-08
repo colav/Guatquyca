@@ -12,6 +12,7 @@ import LinkedText from "@/app/observatories/components/LinkedText";
 import { sourceSentences } from "@/lib/observatories/cutDate";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
+import TagRow from "@/app/observatories/components/TagRow";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import SubregionMap from "@/app/observatories/components/SubregionMap";
 import FiltersBar from "./FiltersBar";
@@ -270,9 +271,11 @@ function Board1Content({ dataset, source }) {
         <Typography.Text type="secondary">{BOARD_EYEBROW}</Typography.Text>
         <Typography.Title level={2} style={{ marginTop: 4 }}>{BOARD_TITLE}</Typography.Title>
         <Typography.Paragraph>{isMock ? BOARD_LEAD : BOARD_LEAD_REAL}</Typography.Paragraph>
-        <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
-        <Tag>{dataset.meta.n_sel.toLocaleString("es-CO")} productos en la base · {dataset.meta.n_topic.toLocaleString("es-CO")} con tópico</Tag>
-        <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
+        <TagRow>
+          <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
+          <Tag>{dataset.meta.n_sel.toLocaleString("es-CO")} productos en la base · {dataset.meta.n_topic.toLocaleString("es-CO")} con tópico</Tag>
+          <Tag>Artículos, libros y capítulos · 2010–2026</Tag>
+        </TagRow>
         <Collapse
           ghost
           items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : [...HELP_TEXT_REAL, sources.full, TYPES_HELP]).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
