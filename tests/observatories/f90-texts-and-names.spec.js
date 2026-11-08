@@ -127,3 +127,26 @@ test.describe("Q-14 panel 14 of Board 2 (no server)", () => {
     expect(texts2.NOTES.v14).not.toMatch(/thesaurus/i);
   });
 });
+
+test.describe("F90 rendered pages (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the three boards show no file, sheet, table, column or «thesaurus»; the sources explain SIIU and SCIENTI; the funders carry their normalised names", async ({ page }) => {
+    test.setTimeout(280000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    for (const board of [1, 2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2500);
+      const text = await page.locator("body").innerText();
+      const hits = [...text.matchAll(new RegExp(FORBIDDEN.source, "gi"))].map((m) => m[0]);
+      console.log(`[live] Board ${board}: ${text.length} characters of text; forbidden words found: ${hits.length ? [...new Set(hits)].join(", ") : "none"}`);
+      expect(hits).toEqual([]);
+      if (board > 1) {
+        expect(text).toContain("SIIU: sistema donde la Universidad registra oficialmente sus proyectos.");
+        expect((text.match(/SIIU: sistema donde/g) || []).length).toBe(1);
+      }
+      if (board === 3) expect(text).toContain("SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos.");
+    }
+  });
+});
