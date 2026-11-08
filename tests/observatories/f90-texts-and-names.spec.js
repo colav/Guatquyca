@@ -69,7 +69,7 @@ import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boa
 import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
 
 /* Q-09 and Q-14: nothing the reader sees names a file, a sheet, a table, a column or says «thesaurus». */
-const FORBIDDEN = /BD_Grupos|\.xlsx|\.csv|\bCSV\b|work_authors|work_groups|work_topics|instituciones_coautoras|ListadoProyectos|Tablero\d?_data|consultasol|\bworks\b|Res-Finales|ClickHouse|\bhojas?\b|obs_|topicos_openalex/i;
+const FORBIDDEN = /BD_Grupos|\.xlsx|\.csv|\bCSV\b|work_authors|work_groups|work_topics|instituciones_coautoras|ListadoProyectos|Tablero\d?_data|thesaurus|consultasol|\bworks\b|Res-Finales|ClickHouse|\bhojas?\b|obs_|topicos_openalex/i;
 
 function strings(value, out = []) {
   if (typeof value === "string") out.push(value);
@@ -117,5 +117,13 @@ test.describe("Q-11 note of the panel 16 (page, one run)", () => {
     await card.waitFor({ timeout: 120000 });
     await expect(card).toContainText("El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.");
     await expect(card).toContainText("119 de los 406 conjuntos de datos tienen año 2026");
+  });
+});
+
+test.describe("Q-14 panel 14 of Board 2 (no server)", () => {
+  test("the note names the Ejes Temáticos of the VRI-UdeA and says that the total adds presences by sector", () => {
+    expect(texts2.NOTES.v14).toContain("cada Eje Temático público de la VRI-UdeA");
+    expect(texts2.NOTES.v14).toContain("presencias por sector");
+    expect(texts2.NOTES.v14).not.toMatch(/thesaurus/i);
   });
 });

@@ -20,7 +20,7 @@ test.describe("texts of Board 2 (no server)", () => {
 
   test("the notice: curated axes of the thesaurus 6 and topics v2, 8 of 12 documents, the abstracts said as they are", () => {
     for (const text of [NOTICE, realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 })]) {
-      expect(text).toContain("ejes curados del thesaurus 6");
+      expect(text).toContain("ejes curados del catálogo de Ejes Temáticos"); // Q-14 (F90): «thesaurus» is not said
       expect(text).toContain("tópicos de OpenAlex v2");
       expect(text).toContain("8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración");
       expect(text).not.toMatch(/términos Núcleo|coincidencia de términos|6 de los 12/);
@@ -31,8 +31,9 @@ test.describe("texts of Board 2 (no server)", () => {
   });
 
   test("the footer cites the thesaurus 6, and the note of the IAP says that only the title is searched", () => {
-    expect(FOOTER_TEXT).toContain("Tableros_thesaurus_6.xlsx");
-    expect(FOOTER_TEXT).not.toContain("thesaurus_5");
+    // Q-09 and Q-14 (F90): the footer names the catalogue of Ejes Temáticos in words, no file
+    expect(FOOTER_TEXT).toContain("catálogo de Ejes Temáticos");
+    expect(FOOTER_TEXT).not.toMatch(/thesaurus|\.xlsx/);
     expect(NOTES.v8).not.toContain("La base no incluye resúmenes");
     expect(NOTES.v8).toContain("En los productos se busca solo en el título; los resúmenes no se usan.");
   });
