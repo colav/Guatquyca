@@ -366,7 +366,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="07 · Estudiantes en proyectos por nivel">
             <LinesChart years={students.years} series={students.series} colors={STUDENT_COLORS} unit="Personas" />
-            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.centerMissing ? `La tabla de proyectos no trae el centro «${raw.centros[applied.centerIndex]}» con ese nombre: los proyectos no se separan por centro y se muestran todos.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : ""}`}</Note>
+            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.withoutCenter ? "Ningún proyecto de la tabla de proyectos figura sin centro gestor." : students.centerMissing ? `La tabla de proyectos no trae el centro «${raw.centros[applied.centerIndex]}»: no se muestran proyectos para ese centro.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

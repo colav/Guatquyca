@@ -57,7 +57,7 @@ test.describe("fixes of the audit (no server)", () => {
     const missing = computeFoundations(ds, { ...DEFAULT_FOUNDATIONS_FILTERS, centerIndex: 0 });
     expect(missing.students.byCenter).toBe(false);
     expect(missing.students.centerMissing).toBe(true);
-    expect(missing.students.series[0].values).toEqual([5]); // all the projects
+    expect(missing.students.series[0].values).toEqual([0]); // no projects (F87), never all of them
     const known = computeFoundations(createFoundationsDataset({ ...raw, centros: ["Otro"] }), { ...DEFAULT_FOUNDATIONS_FILTERS, centerIndex: 0 });
     expect(known.students.byCenter).toBe(true);
     expect(known.students.centerMissing).toBe(false);
