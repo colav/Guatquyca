@@ -287,8 +287,8 @@ test.describe("F89 Q-04 in the browser (one run)", () => {
         report.push(...big.map((c) => ({ board, width, ...c })));
       }
     }
-    // exceptions (no chart to stretch): a table (Board 1 panel 10), the panels of figure cards only (Board 2 panels 6 and 8), the maps (Board 2 panels 9b and 10: their height was set in F80 from the measure of the drawing)
-    const exception = (r) => (r.board === 1 && r.title.startsWith("10 ·")) || (r.board === 2 && /^(6|8|9b|10) ·/.test(r.title));
+    // exceptions (no chart to stretch): a table (Board 1 panel 10), the panels of figure cards only (Board 2 panels 6 and 8), (the maps stretch since Q-18 of F91)
+    const exception = (r) => (r.board === 1 && r.title.startsWith("10 ·")) || (r.board === 2 && /^(6|8) ·/.test(r.title));
     expect(report.filter((r) => !exception(r)).map((r) => `${r.board}@${r.width} ${r.title} ${r.free}`)).toEqual([]);
   });
 });

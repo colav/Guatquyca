@@ -348,8 +348,8 @@ function Board2Content({ dataset, source }) {
         {/* F69 (T2-01): panel 10 next to 11·12, as in the artifact. */}
         <Col xs={24} xl={16}>
           <ChartCard title="10 · Colaboración internacional" empty={!world.length}>
-            <Row gutter={[12, 12]}>
-              <Col xs={24} xl={14}><CountryMap countries={world} /></Col>
+            <Row gutter={[12, 12]} style={{ flex: "1 1 auto" }}>
+              <Col xs={24} xl={14} style={{ display: "flex", flexDirection: "column" }}><CountryMap countries={world} /></Col>
               <Col xs={24} xl={10}><CountriesTable rows={worldTable} /></Col>
             </Row>
             <Note>{NOTES.v10}</Note>

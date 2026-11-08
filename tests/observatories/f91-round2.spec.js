@@ -47,3 +47,35 @@ test.describe("F91 Q-26 donuts, legend at the right (one run)", () => {
     }
   });
 });
+
+test.describe("F91 Q-18 maps take the height of the panel (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("panels 9, 9b and 10 of Board 2 and the map of Board 1: free space under the content, height of the map, and the minimum on a small screen", async ({ page }) => {
+    test.setTimeout(280000);
+    const read = () => page.evaluate(() => [...document.querySelectorAll('[data-testid="chart-card"]')]
+      .filter((card) => card.querySelector('[data-testid$="-map"]'))
+      .map((card) => {
+        const body = card.querySelector(".ant-card-body");
+        const used = [...body.children].reduce((a, el) => a + el.getBoundingClientRect().height, 0);
+        const m = card.querySelector('[data-testid$="-map"]').getBoundingClientRect();
+        const legendCut = [...card.querySelectorAll("canvas")].some((c) => c.getBoundingClientRect().bottom > card.getBoundingClientRect().bottom + 1);
+        return { title: (card.querySelector(".ant-card-head-title")?.textContent || "").trim().slice(0, 34), free: Math.round(body.clientHeight - 20 - used), map: Math.round(m.height), legendCut };
+      }));
+    const report = {};
+    for (const [width, height] of [[1440, 1000], [1280, 1000], [390, 800]]) {
+      await page.setViewportSize({ width, height });
+      for (const board of [1, 2]) {
+        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.locator('[data-testid$="-map"]').first().waitFor({ timeout: 120000 });
+        await page.waitForTimeout(4000);
+        report[`${width}-T${board}`] = await read();
+      }
+    }
+    console.log(`[live] ${JSON.stringify(report)}`);
+    for (const key of ["1440-T2", "1280-T2"]) {
+      for (const p of report[key]) expect(p.free, `${key} ${p.title}`).toBeLessThanOrEqual(40);
+    }
+    for (const key of Object.keys(report)) for (const p of report[key]) { expect(p.map, `${key} ${p.title}`).toBeGreaterThanOrEqual(380); expect(p.legendCut).toBe(false); }
+  });
+});
