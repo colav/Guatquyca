@@ -69,10 +69,15 @@ function StackedBars({ rows: given, series, colors, unit, labelSize = 36, keepOr
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     return {
+      /* Q-05: the total of the visible segments is written at the end of the bar (on its last segment). */
       data: rows.flatMap((r, i) => {
         const total = r.values.reduce((a, v) => a + v, 0);
-        return r.values.map((v, j) => ({ key: String(i), name: r.label, series: series[j], value: v, total })).filter((d) => d.value > 0);
+        const parts = r.values.map((v, j) => ({ key: String(i), name: r.label, series: series[j], value: v, total, end: "" })).filter((d) => d.value > 0);
+        if (parts.length) parts[parts.length - 1].end = fmt(total);
+        return parts;
       }),
+      labels: [{ text: "end", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
+      paddingRight: 64,
       xField: "key",
       yField: "value",
       colorField: "series",

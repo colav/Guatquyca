@@ -41,8 +41,13 @@ function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, un
     return {
       data: rows.flatMap((r, i) => {
         const total = r.segments.reduce((a, s) => a + s.value, 0);
-        return r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", series: s.series, value: s.value, total }));
+        /* Q-05: the total of the visible segments is written at the end of the bar (on its last segment). */
+        const parts = r.segments.filter((s) => s.value > 0).map((s) => ({ key: String(i), name: r.fullLabel || r.label, detail: r.detail || "", series: s.series, value: s.value, total, end: "" }));
+        if (parts.length) parts[parts.length - 1].end = fmt(total);
+        return parts;
       }),
+      labels: [{ text: "end", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
+      paddingRight: 64,
       xField: "key",
       yField: "value",
       colorField: "series",

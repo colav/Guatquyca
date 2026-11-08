@@ -43,8 +43,11 @@ function RankingBars({ rows: given, labelSize = 34, complete = false, startCut =
     const longest = Math.max(0, ...rows.map((r) => r.label.length));
     const hasDetail = rows.some((r) => r.detail);
     return {
-      ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)), paddingRight: 24 } : {}),
-      data: rows.map((r, i) => ({ key: String(i), id: r.id, name: r.fullLabel || r.label, detail: r.detail || "", value: r.value })),
+      ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)) } : {}),
+      /* Q-05: the figure is written at the end of every bar. */
+      paddingRight: 64,
+      labels: [{ text: "text", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
+      data: rows.map((r, i) => ({ key: String(i), id: r.id, name: r.fullLabel || r.label, detail: r.detail || "", value: r.value, text: Number(r.value).toLocaleString("es-CO") })),
       xField: "key",
       yField: "value",
       animate: false,
