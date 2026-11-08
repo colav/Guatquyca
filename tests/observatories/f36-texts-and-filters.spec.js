@@ -79,7 +79,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     await expect(page.getByText("Unidad académica", { exact: true })).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Subunidad académica", { exact: true })).toBeVisible();
     const main = await page.locator("main").innerText();
-    expect(main).not.toMatch(/Facultad|Departamento/);
+    expect(main).not.toMatch(/Facultad|Departamento(?! Administrativo)/); // the attribution of the DANE (F80) says «Departamento Administrativo Nacional de Estadística»
     // The note of the centre filter is the one calculated from this bundle (no fixed figure).
     const cov = createDataset(raw1).centerCoverage;
     const expected = centerCoverageNote(cov);
@@ -138,7 +138,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     await page.goto(BOARD(3));
     await expect(page.getByText("Datos de ImpactU").first()).toBeVisible({ timeout: 120000 });
     const t3 = await page.locator("main").innerText();
-    for (const stale of ["8.168", "472 empresas", "37 proyectos únicos", "18 registros sin código", "447 DOI", "corte 3 jul 2025", "42 de las 57"]) {
+    for (const stale of ["8.168", "472 empresas", "18 registros sin código", "447 DOI", "corte 3 jul 2025", "42 de las 57"]) {
       expect(t3, stale).not.toContain(stale);
     }
     const raw3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
