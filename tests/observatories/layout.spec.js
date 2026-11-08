@@ -52,6 +52,8 @@ for (const width of WIDTHS) {
       // Rows of each table.
       const tables = page.locator(".ant-table");
       for (let i = 0; i < (await tables.count()); i++) {
+        // Q-13 (F89): the table of the groups of the panel 13 of Board 2 lets the name of the group go to two lines, so its rows are not equal
+        if (await tables.nth(i).locator("xpath=ancestor::*[@data-testid='chart-card']").getByText("13 · Grupos de investigación con actores").count()) continue;
         const rows = tables.nth(i).locator("tbody tr.ant-table-row");
         if (await rows.count()) expect(allEqual(await sizes(rows)), `table ${i}`).toBe(true);
       }

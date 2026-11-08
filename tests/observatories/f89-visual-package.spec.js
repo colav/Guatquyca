@@ -329,3 +329,58 @@ test.describe("F89 Q-04 treemap label (one run)", () => {
     expect(r.height, "the three lines fit in height").toBeGreaterThanOrEqual(need.height + 4);
   });
 });
+
+test.describe("F89 Q-16 in the browser (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the sticky filter panel stays above the legends of the maps and below the menus of Ant, in the three boards", async ({ page }) => {
+    test.setTimeout(290000);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const maps = { 1: ["subregion-map"], 2: ["department-map", "subregion-map", "country-map"], 3: [] };
+    for (const board of [1, 2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      const filters = page.getByTestId("filters");
+      await filters.waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2500);
+      const z = await filters.evaluate((el) => getComputedStyle(el).zIndex);
+      expect(z).toBe("1040");
+      for (const id of maps[board]) {
+        const map = page.getByTestId(id);
+        await map.waitFor({ timeout: 120000 });
+        // scroll so that the top of the map goes under the panel, then the middle of it: the panel must answer at its own points
+        const result = [];
+        for (const place of ["start", "center"]) {
+          await map.evaluate((el, p) => {
+            const rect = el.getBoundingClientRect();
+            const panel = document.querySelector('[data-testid="filters"]').getBoundingClientRect();
+            window.scrollBy(0, p === "start" ? rect.top - panel.bottom + 60 : rect.top - panel.bottom - rect.height / 2 + 60);
+          }, place);
+          await page.waitForTimeout(500);
+          result.push(await page.evaluate(() => {
+            const panel = document.querySelector('[data-testid="filters"]');
+            const r = panel.getBoundingClientRect();
+            const points = [];
+            for (let i = 1; i < 12; i++) for (const f of [0.2, 0.5, 0.8]) points.push([r.left + (r.width * i) / 12, r.top + r.height * f]);
+            const outside = points.filter(([x, y]) => { const el = document.elementFromPoint(x, y); return !(el && panel.contains(el)); }).length;
+            const header = document.querySelector("header");
+            return { points: points.length, outside, panelTop: Math.round(r.top), headerBottom: header ? Math.round(header.getBoundingClientRect().bottom) : null };
+          }));
+        }
+        console.log(`[live] Board ${board} ${id}: points of the panel answered by something that is not the panel: ${result.map((r) => `${r.outside}/${r.points}`).join(" and ")}; panel top ${result[0].panelTop}, header bottom ${result[0].headerBottom}`);
+        for (const r of result) {
+          expect(r.outside).toBe(0);
+          if (r.headerBottom != null) expect(r.panelTop).toBeGreaterThanOrEqual(r.headerBottom - 1);
+        }
+      }
+    }
+    // an open menu and a tooltip are above the panel (z-index of Ant: 1050)
+    await page.goto("/observatories/vri-udea/board-2");
+    await page.getByTestId("filters").waitFor({ timeout: 120000 });
+    await page.getByTestId("filters").locator(".ant-select").first().click();
+    const dropdown = page.locator(".ant-select-dropdown:visible").first();
+    await dropdown.waitFor({ timeout: 20000 });
+    const menuZ = await dropdown.evaluate((el) => getComputedStyle(el.closest(".ant-select-dropdown")).zIndex);
+    console.log(`[live] z-index of an open menu of a filter: ${menuZ} (the panel: 1040)`);
+    expect(Number(menuZ)).toBeGreaterThan(1040);
+  });
+});
