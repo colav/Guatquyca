@@ -40,10 +40,12 @@ export const KpiRow = memo(function KpiRow({ kpis, projectDetail = "" }) {
  * @param {{ value: string|number, label: string, detail?: string }[]} stats
  */
 export const StatTiles = memo(function StatTiles({ stats }) {
+  /* Q-30 (F94): five tiles go 2 + 3 (two wide ones, then three), not 3 + 2 with a hole; the columns of a row stretch, so the tiles of a row are equally tall. */
+  const spanOf = (index) => (stats.length === 5 ? (index < 2 ? { xs: 12, md: 12 } : { xs: 12, md: 8 }) : { xs: 12, md: 8 });
   return (
-    <Row gutter={[8, 8]}>
-      {stats.map((s) => (
-        <Col key={s.label} xs={12} md={8}>
+    <Row gutter={[8, 8]} style={stats.length === 5 ? { flex: "1 1 auto", alignContent: "stretch" } : undefined}>
+      {stats.map((s, index) => (
+        <Col key={s.label} {...spanOf(index)}>
           <PanelTile label={s.label} value={typeof s.value === "number" ? fmt(s.value) : s.value} detail={s.detail} valueFontSize={20} />
         </Col>
       ))}

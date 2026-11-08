@@ -63,8 +63,6 @@ import {
   SIDE_LABELS,
   smallSampleNote,
   smallProjectsNote,
-  NO_SECTOR_DATA,
-  NO_SECTOR_DATA_NOTE,
   appropriationYearNote,
   missionFociNote,
   patentsIgnoredNote,
@@ -217,9 +215,6 @@ function Board2Content({ dataset, source }) {
   const quadruple = useStableValue([
     { label: "artículos UdeA + empresa + ONG + gobierno", value: h.quadruple },
     { label: "proyectos con empresa, ONG y fondos públicos", value: h.quadrupleProjects, detail: noProj ? NO_AXIS_RESPONSE : undefined },
-    h.appropriationSectorData || !h.appropriationTotal
-      ? { label: "apropiación social con empresa u ONG", value: h.appropriationWithCompanyOrNonprofit, detail: `${fmt(h.appropriationTotal)} productos de apropiación en el filtro` }
-      : { label: "apropiación social con empresa u ONG", value: "s. d.", detail: `${NO_SECTOR_DATA} · ${fmt(h.appropriationTotal)} productos de apropiación en el filtro` },
     { label: "artículos con sin ánimo de lucro", value: h.withNonprofit },
     { label: "artículos gobierno + ONG", value: h.governmentNonprofit },
     { label: "artículos empresa + ONG", value: h.companyNonprofit },
@@ -317,7 +312,6 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="7 · Colaboraciones de cuádruple hélice">
             <StatTiles stats={quadruple} />
             <Note>{NOTES.v7}</Note>
-            {h.appropriationTotal && !h.appropriationSectorData ? <Note data-testid="no-sector-data-note">{NO_SECTOR_DATA_NOTE}</Note> : null}
             {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>

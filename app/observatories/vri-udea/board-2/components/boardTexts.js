@@ -38,8 +38,6 @@ export const AXIS_FILTER_NOTE_NO_PROJECTS =
 /** Indicator 7, appropriation with company or non-profit (F72, D-175 (4)(g)): the source only registers co-authors of the education sector. */
 /** Help of the filter Documento (F74, D-177). Provisional text. */
 export const DOCUMENT_FILTER_HELP = "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media). Un producto sin eje asignado no cuenta aunque su tópico principal sea del documento. Los proyectos siguen el mismo criterio por sus propios pares.";
-export const NO_SECTOR_DATA = "sin dato en la fuente";
-export const NO_SECTOR_DATA_NOTE = "Apropiación social con empresa u ONG: sin dato en la fuente. Las instituciones coautoras de la apropiación social son solo del sector educación, así que el 0 no es una medición.";
 export const NO_AXIS_RESPONSE = "no responde al eje";
 /** Years of social appropriation (F69): the figures come from the bundle, not from the text. */
 export const appropriationYearNote = (without, total) => `Apropiación social: ${without.toLocaleString("es-CO")} de ${total.toLocaleString("es-CO")} registros no tienen año.`;
@@ -68,7 +66,7 @@ export const NOTES = {
   /* The last year comes from the bundle (F85, M-06): `result.patentsLastYear`. */
   v5bPatents: (lastYear) => `Patentes: patentes distintas del portafolio de propiedad intelectual, por año de la primera concesión${lastYear ? `; la última concesión es de ${lastYear}, por eso no hay datos después de ese año` : ""}.`,
   v6: "Bibliográfica: artículos con coautores de empresa y gobierno además de la UdeA. Proyectos: con aportante empresarial y aportante público. Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
-  v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos. Apropiación social: productos con empresa u organización sin ánimo de lucro.",
+  v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos.",
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
   v9: "Productos con coautores de instituciones colombianas, por departamento de la institución (sin la UdeA). Escala logarítmica de color.",
   v15: "Proyectos con lugar de ejecución en la subregión (SIIU) y productos cuyo título menciona la subregión o sus municipios.",

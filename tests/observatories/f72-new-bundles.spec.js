@@ -9,7 +9,7 @@ import { test, expect } from "@playwright/test";
 import { DEFAULT_FOUNDATIONS_FILTERS, ART_LEVELS, PRODUCT, computeFoundations, createFoundationsDataset } from "../../lib/observatories/foundations";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
 import { SCOPE_LABELS, AREAS_NOTE, PID_NOTE, pieNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
-import { NO_SECTOR_DATA, NO_SECTOR_DATA_NOTE, SCOPE_OPTIONS } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { SCOPE_OPTIONS } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -80,7 +80,7 @@ test.describe("Board 3 with the new keys (no server)", () => {
     expect(pieNote(362)).toContain("362 preprints");
   });
 
-  test("Board 2, indicator 7: with no sector in the social appropriation it says «sin dato en la fuente»", () => {
+  test("Board 2, indicator 7: the calculation still tells whether the social appropriation has a sector", () => {
     const base = {
       sectors: ["academic", "company", "government", "nonprofit", "healthcare"], sectorsEs: ["A", "E", "G", "S", "H"], tipos: ["Artículo", "Capítulo", "Libro", "Apropiación social"],
       regions: [], countries: [], insts: [{ n: "I", s: 0, c: "" }], depts: ["Antioquia"], groups: [], centros: [], deps: [], facs: [], subfields: [], sfField: [], subregs: [], doms: [], projects: [],
@@ -92,8 +92,6 @@ test.describe("Board 3 with the new keys (no server)", () => {
     expect(without.helices.appropriationSectorData).toBe(false);
     const withData = computeCollaboration(createCollaborationDataset({ ...base, works: [work(3, 2), work(0, 2)] }), {});
     expect(withData.helices.appropriationSectorData).toBe(true);
-    expect(NO_SECTOR_DATA).toBe("sin dato en la fuente");
-    expect(NO_SECTOR_DATA_NOTE).toContain("solo del sector educación");
   });
 });
 
@@ -196,8 +194,8 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const p7 = await page.getByTestId("chart-card").filter({ hasText: "7 ·" }).first().innerText();
-    expect(p7).toContain("sin dato en la fuente");
-    await expect(page.getByTestId("no-sector-data-note")).toContainText("solo del sector educación");
+    expect(p7).not.toContain("Apropiación social con empresa"); // Q-30 (F94): the tile is gone
+    expect(p7).not.toContain("sin dato en la fuente");
     expect(await page.locator("main").innerText()).not.toContain("UNAULA");
 
     // Board 1: no «Financiadores»
