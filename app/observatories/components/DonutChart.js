@@ -29,6 +29,8 @@ const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
  */
 const WIDE = 420;
 const LEGEND_WIDTH = 200;
+/* Q-32 (F94): the body of the card already has 10 px of padding; with these 4 px (and the 1 px border) the legend is 15 px from the right edge of the panel. */
+const EDGE_GAP = 4;
 
 function DonutChart({ labels, values, colors, centerText = null, legend = "auto" }) {
   const rootRef = useRef(null);
@@ -76,7 +78,7 @@ function DonutChart({ labels, values, colors, centerText = null, legend = "auto"
         </FillHeight>
       </TooltipBox>
       </div>
-      <ul data-testid="ring-legend" style={right ? { listStyle: "none", margin: 0, padding: 0, flex: `0 0 ${LEGEND_WIDTH}px`, width: LEGEND_WIDTH, fontSize: 12 } : { listStyle: "none", margin: "4px auto 0", padding: 0, maxWidth: 260, width: "100%", fontSize: 12 }}>
+      <ul data-testid="ring-legend" style={right ? { listStyle: "none", margin: 0, padding: 0, flex: `0 0 ${LEGEND_WIDTH}px`, width: LEGEND_WIDTH, marginRight: EDGE_GAP, fontSize: 12 } : { listStyle: "none", margin: "4px auto 0", padding: 0, maxWidth: 260, width: "100%", fontSize: 12 }}>
         {parts.map((p) => (
           <li key={p.name} style={{ display: "flex", alignItems: right ? "flex-start" : "center", gap: 8, lineHeight: "20px", marginBottom: right ? 4 : 0 }}>
             <span aria-hidden="true" style={{ width: 10, height: 10, flex: "none", background: p.color, borderRadius: 2, marginTop: right ? 5 : 0 }} />

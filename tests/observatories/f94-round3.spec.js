@@ -30,3 +30,28 @@ test.describe("F94 Q-30 panel 7 of Board 2 (one run)", () => {
     expect(tiles.filter((t) => t.top === rows[1])).toHaveLength(3);
   });
 });
+
+test.describe("F94 Q-32 legend of the donut 15 px from the edge (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("Board 2 panel 4 at 1440 and 1280 px: 15 px between the legend and the right border of the panel, and the ring does not shrink", async ({ page }) => {
+    test.setTimeout(200000);
+    for (const width of [1440, 1280]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto("/observatories/vri-udea/board-2");
+      const card = page.getByTestId("chart-card").filter({ hasText: "4 ·" }).filter({ has: page.getByTestId("ring-legend") }).first();
+      await card.waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2500);
+      const m = await card.evaluate((c) => {
+        const l = c.querySelector('[data-testid="ring-legend"]').getBoundingClientRect();
+        const cv = c.querySelector("canvas").getBoundingClientRect();
+        const border = c.getBoundingClientRect();
+        return { gap: Math.round((border.right - l.right) * 10) / 10, diameter: Math.round(Math.min(cv.width, cv.height)), legendRight: c.querySelector('[data-testid="ring-root"]').dataset.legend };
+      });
+      console.log(`[live] ${width} px: legend ${m.legendRight}; ${m.gap} px from the right border of the panel; ring ${m.diameter} px (before: ${width === 1440 ? 320 : 320})`);
+      expect(m.legendRight).toBe("right");
+      expect(Math.abs(m.gap - 15)).toBeLessThanOrEqual(0.6);
+      expect(m.diameter).toBeGreaterThanOrEqual(320);
+    }
+  });
+});
