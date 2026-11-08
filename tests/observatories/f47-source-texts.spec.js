@@ -91,7 +91,7 @@ test.describe("texts of the sources against the real quyca (read-only)", () => {
 
   test("the global text of /cut for ImpactU stays", async ({ page }) => {
     await open(page);
-    await expect(page.getByText(/Datos consultados en octubre de 2026/).first()).toBeVisible({ timeout: 20000 });
+    await expect(page.getByText(/Fuentes y fechas de corte/).first()).toBeVisible({ timeout: 20000 });
   });
 
   test("with the two dates different the page shows each one, and without the key it shows no date and does not break", async ({ page }) => {

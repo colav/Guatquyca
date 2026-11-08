@@ -533,7 +533,7 @@ function Board3Content({ dataset, source }) {
         </Col>
       </Row>
 
-      <CutoffNote notes={notesOfMethod} />
+      <CutoffNote board={3} notes={notesOfMethod} />
       <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
     </div>
   );

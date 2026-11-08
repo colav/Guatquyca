@@ -384,7 +384,7 @@ function Board2Content({ dataset, source }) {
           <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
         </Col>
       </Row>
-      <CutoffNote notes={notice} />
+      <CutoffNote board={2} notes={notice} />
     </div>
   );
 }

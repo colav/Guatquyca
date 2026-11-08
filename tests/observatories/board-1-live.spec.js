@@ -228,7 +228,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     await page.goto("/observatories/vri-udea/board-1");
     await expect(page.getByText("Datos de ImpactU · capacidad frente a la institución más citada")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
-    await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
+    await expect(page.getByText("Fuentes y fechas de corte:")).toBeVisible();
     await expect(page.getByText("Ránking ODS")).toBeVisible();
     await expect(page.locator("body")).not.toContainText("ai_panel_unreviewed");
   });

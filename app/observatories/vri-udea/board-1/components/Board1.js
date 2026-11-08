@@ -417,7 +417,7 @@ function Board1Content({ dataset, source }) {
         </Col>
 
       </Row>
-      <CutoffNote notes={isMock ? DATA_WARNINGS : realDataWarnings(dataset.meta)} />
+      <CutoffNote board={1} notes={isMock ? DATA_WARNINGS : realDataWarnings(dataset.meta)} />
     </div>
   );
 }

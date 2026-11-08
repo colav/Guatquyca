@@ -103,10 +103,10 @@ test.describe("F94 note of the amounts (Q-28 iv)", () => {
       const box = page.getByTestId("method-notes");
       await box.waitFor({ timeout: 120000 });
       await page.waitForTimeout(1500);
-      const notes = await box.locator("li").allInnerTexts();
+      const notes = await box.locator("ol > li").allInnerTexts();
       console.log(`[live] notes of Board 2: ${notes.length}; the money note is number ${notes.indexOf(MONEY_NOTE) + 1}`);
       expect(notes[notes.length - 2]).toBe(MONEY_NOTE);
-      expect(notes[notes.length - 1]).toMatch(/^Datos consultados/);
+      expect(notes[notes.length - 1]).toMatch(/^Fuentes y fechas de corte/);
     });
   });
 });

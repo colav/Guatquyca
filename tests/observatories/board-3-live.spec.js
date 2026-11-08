@@ -93,7 +93,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
     expect(text).not.toContain("undefined");
     expect(text).not.toMatch(/ai_panel/);
     expect(text).not.toMatch(/Ondas/);
-    expect(text).toContain("Datos consultados en octubre de 2026.");
+    expect(text).toContain("Fuentes y fechas de corte:");
     expect(errors).toEqual([]);
   });
 });

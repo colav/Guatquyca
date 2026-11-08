@@ -128,13 +128,13 @@ test.describe("F91 Q-22 and Q-24 in the page (one run)", () => {
       const box = page.getByTestId("method-notes");
       await box.waitFor({ timeout: 120000 });
       await page.waitForTimeout(2000);
-      const notes = await box.locator("li").allInnerTexts();
+      const notes = await box.locator("ol > li").allInnerTexts();
       const boxes = await page.locator(".ant-alert").count();
       const text = await page.locator("body").innerText();
       const hits = [...new Set([...text.matchAll(new RegExp(WORKING.source, "gi"))].map((m) => m[0].toLowerCase()))];
       console.log(`[live] Board ${board}: ${boxes} blue box(es); ${notes.length} notes; last «${notes[notes.length - 1]}»; working words found: ${hits.join(", ") || "none"}`);
       expect(await page.getByText("Notas metodológicas").count()).toBe(1);
-      expect(notes[notes.length - 1]).toMatch(/^Datos consultados/);
+      expect(notes[notes.length - 1]).toMatch(/^Fuentes y fechas de corte/);
       expect(notes.length).toBeGreaterThanOrEqual(2);
       expect(hits.filter((h) => h !== "luis")).toEqual([]);
     }
