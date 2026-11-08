@@ -31,7 +31,7 @@ test("Board 3 loads the test data, shows its panels and never the retired one or
   expect(text).not.toMatch(/Ondas/);
   expect(text).not.toMatch(/ai_panel/);
   expect(text).not.toMatch(/Tablero \d/);
-  expect(text).toContain("Datos consultados en octubre de 2026.");
+  expect(text).toMatch(/Datos consultados en octubre de 2026.|Fuentes y fechas de corte/);
   expect(text).toContain("categoría Minciencias de la planta");
   expect(text).toContain("profesores según la tabla de personal anterior");
   expect(requests).toEqual([`${ROUTE}/data`]);

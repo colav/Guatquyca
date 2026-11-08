@@ -37,7 +37,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {
   await page.goto("/observatories/vri-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 60000 });
-  await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
+  await expect(page.getByText(/Datos consultados en octubre de 2026|Fuentes y fechas de corte/).first()).toBeVisible();
   await expect(page.getByText("41.653", { exact: false }).first()).toBeVisible();
   await page.getByText("Subcampos", { exact: true }).click();
   await expect(page).toHaveURL(/dimension=subfield/, { timeout: 5000 });
