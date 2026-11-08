@@ -13,10 +13,13 @@ import { Alert } from "antd";
 export const CUTOFF_FOOTER = "Datos consultados en octubre de 2026.";
 
 /**
- * Note with the cut-off date of the data, at the end of the three boards. The text comes from
- * GET /observatories/vri-udea/cut (02 §3.12, field `texto`); if the call fails the fixed text stays.
+ * The only box of methodological notes at the foot of each board (Q-24, F91): the numbered notes of the board and, as the last one,
+ * the cut-off date of the data. The date comes from GET /observatories/vri-udea/cut (02 §3.12, field `texto`); if the call fails
+ * the fixed text stays.
+ *
+ * @param {string[]} [notes] - Notes of the board, in order (without the date).
  */
-export default function CutoffNote() {
+export default function CutoffNote({ notes = [] }) {
   const [text, setText] = useState(CUTOFF_FOOTER);
 
   useEffect(() => {
@@ -31,5 +34,14 @@ export default function CutoffNote() {
     return () => controller.abort();
   }, []);
 
-  return <Alert type="info" showIcon style={{ marginTop: 16 }} message={text} />;
+  return (
+    <Alert
+      type="info"
+      showIcon
+      data-testid="method-notes"
+      style={{ marginTop: 16 }}
+      message="Notas metodológicas"
+      description={<ol style={{ margin: 0, paddingLeft: 18 }}>{[...notes, text].map((n) => <li key={n.slice(0, 40)}>{n}</li>)}</ol>}
+    />
+  );
 }

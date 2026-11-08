@@ -78,6 +78,7 @@ import {
   talentLevelNote,
   talentMincienciasNote,
   PROJECTS_2025_WARNING,
+  methodNotes,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
@@ -159,6 +160,7 @@ function Board3Content({ dataset, source }) {
   /* Totals of the registry of groups: from the bundle (B105); with the test data, the constant; without them, no note. */
   const registry = useMemo(() => groupRegistry(raw, isMock), [raw, isMock]);
   const staffLabel = isMock ? STAFF_LABEL : REAL_STAFF_LABEL;
+  const notesOfMethod = useMemo(() => methodNotes(staffLabel), [staffLabel]);
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
   /* Lists of options with products (F75, D-178), from the products that pass the filters. */
@@ -395,7 +397,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
-            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La clasificación se hace por el nombre de la organización: identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y requiere revisión manual.`}</Note>
+            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La clasificación se hace por el nombre de la organización: identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y se asigna por reglas sobre el nombre.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -531,7 +533,7 @@ function Board3Content({ dataset, source }) {
         </Col>
       </Row>
 
-      <CutoffNote />
+      <CutoffNote notes={notesOfMethod} />
       <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
     </div>
   );

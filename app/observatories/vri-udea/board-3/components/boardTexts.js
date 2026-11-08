@@ -5,18 +5,18 @@
 
 export const BOARD_TITLE = "Capacidades de base del sistema: talento, producción e infraestructura";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 · Ensayo 1";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
 
 export const BOARD_LEAD =
   "Los indicadores sintetizan preocupaciones comunes de las agendas sobre las capacidades base del sistema (talento, producción, infraestructura abierta, identificadores) y las formas de relación deseables. Se calculan sobre artículos, libros, capítulos, apropiación social, investigación-creación, audiovisuales, conjuntos de datos, software, preprints, tesis y proyectos de la Universidad de Antioquia, 2010–2026, organizados en cinco bases: investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta. El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes; los filtros de centro, unidad, subunidad y subcampo delimitan la producción asociada a los tópicos en los que participa cada entidad.";
 
-export const MOCK_TAG = "Datos de prueba · ensayo con limitaciones de datos";
+export const MOCK_TAG = "Datos de prueba";
 
 /** Provisional label of the cards of "profesores" (D-106 Q11; phase B changes the population). */
 export const STAFF_LABEL = "profesores según la tabla de personal anterior";
 
 /** Provisional label of the panels whose indicator is replaced by a proxy (D-106). */
-export const PROXY_LABEL = "provisional: se reemplazará por el nivel de formación de la planta";
+export const PROXY_LABEL = "categoría Minciencias de la planta";
 
 export const FOOTER_TEXT =
   "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los conteos de «profesores» usan los autores con tipo de contrato en la base; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
@@ -52,7 +52,7 @@ export const SEX_SERIES = { 1: "Hombre", 2: "Mujer", 0: "Sin dato" };
 export const ACCESS_LABELS = { open: "Acceso abierto", closed: "Cerrado", noData: "Sin dato (solo SCIENTI)" };
 
 /* Texts for the data of the API (provisional: Luis approves them). */
-export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
+export const REAL_TAG = "Datos de ImpactU";
 
 /** Label of the cards of "profesores" with the data of the API (the three labels of D-106 Q11). */
 export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo de 2026";
@@ -119,3 +119,17 @@ export const DOCUMENT_FILTER_HELP =
 
 /* Q-06 (F90, D-202): source and cut of the projects, as the team understands it (the list of the VRI-UdeA, cut on 3 July 2025); provisional for Luis. */
 export const PROJECTS_2025_WARNING = "Proyectos registrados en el SIIU, listado de la VRI-UdeA con corte al 3 de julio de 2025; el último inicio registrado es el 18 de junio de 2025 y los de mayo y junio pueden estar incompletos.";
+
+/**
+ * Notes of method at the foot of the board (Q-22, Q-24, F91): the sentences that were spread over the panels, now in one box.
+ * No figure that the bundle does not carry. Provisional for Luis.
+ *
+ * @param {string} staffLabel - «con contrato vigente al 30 de mayo de 2026» (real data) or the label of the test data.
+ * @returns {string[]}
+ */
+export const methodNotes = (staffLabel) => [
+  `Los profesores son los autores UdeA ${staffLabel}.`,
+  PROJECTS_2025_WARNING,
+  "Los datos de 2025 y 2026 pueden estar incompletos.",
+  "La clasificación de las organizaciones coautoras (por ejemplo, las empresas) se hace por reglas sobre su nombre.",
+];

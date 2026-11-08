@@ -128,7 +128,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     expect(await page.locator("main").innerText()).not.toContain("seis categorías");
 
     await page.goto(BOARD(2));
-    await expect(page.getByText("Ensayo con limitaciones de datos").first()).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Notas metodológicas").first()).toBeVisible({ timeout: 120000 });
     const t2 = await page.locator("main").innerText();
     const raw2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
     expect(t2).toContain(`${raw2.thesaurus.agendas.length} de los 12 documentos tienen ejes`);

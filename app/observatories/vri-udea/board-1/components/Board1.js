@@ -411,21 +411,13 @@ function Board1Content({ dataset, source }) {
           <ChartCard title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
-              Clasificación estimada del tipo de actor; requiere revisión manual. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
+              Clasificación estimada del tipo de actor por reglas sobre el nombre de la organización. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
             </Typography.Paragraph>
           </ChartCard>
         </Col>
 
-        <Col xs={24}>
-          <Alert
-            type="info"
-            showIcon
-            message="Advertencias de datos y método"
-            description={<ol style={{ margin: 0, paddingLeft: 18 }}>{(isMock ? DATA_WARNINGS : realDataWarnings(dataset.meta)).map((w) => <li key={w.slice(0, 24)}>{w}</li>)}</ol>}
-          />
-        </Col>
       </Row>
-      <CutoffNote />
+      <CutoffNote notes={isMock ? DATA_WARNINGS : realDataWarnings(dataset.meta)} />
     </div>
   );
 }

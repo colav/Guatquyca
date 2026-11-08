@@ -25,7 +25,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
   await expect(tabs).toHaveText(["Masa crítica temática", "Colaboración, redes y hélices", "Capacidades de base UdeA"]);
   await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
   await expect(page.getByText("Tablero 1")).toHaveCount(0);
-  await expect(page.getByText("Datos de prueba · métrica de liderazgo provisional")).toBeVisible({ timeout: 60000 });
+  await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 60000 });
   await page.goto("/observatories/vri-udea/board-1?doc=CONPES%204144");
   await page.getByRole("tab", { name: "Colaboración, redes y hélices" }).click();
   await expect(page).toHaveURL(/board-2$/, { timeout: 60000 });
@@ -36,7 +36,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {
   await page.goto("/observatories/vri-udea/board-1?source=mock");
-  await expect(page.getByText("Datos de prueba · métrica de liderazgo provisional")).toBeVisible({ timeout: 60000 });
+  await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 60000 });
   await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
   await expect(page.getByText("41.653", { exact: false }).first()).toBeVisible();
   await page.getByText("Subcampos", { exact: true }).click();

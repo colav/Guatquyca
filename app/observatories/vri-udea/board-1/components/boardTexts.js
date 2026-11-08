@@ -8,7 +8,7 @@ import { POLICY_DOCUMENTS, policyRank } from "@/lib/observatories/policyDocument
 
 export const BOARD_TITLE = "Masa crítica temática: campos de conocimiento demandados";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 · Ensayo";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
 
 export const BOARD_LEAD =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en seis categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
@@ -17,11 +17,11 @@ export const BOARD_LEAD =
 export const BOARD_LEAD_REAL =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en ocho categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";
 
-export const MOCK_TAG = "Datos de prueba · métrica de liderazgo provisional";
+export const MOCK_TAG = "Datos de prueba · métrica de liderazgo";
 
 export const HELP_TEXT = [
   "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de seis categorías: líder, consolidado, en consolidación, riesgo de desaparecer, emergente y sin producción. El liderazgo se mide considerando el volumen de citas respecto a los más citados en el tema a nivel nacional y global y las tendencias crecientes y decrecientes de la producción en los últimos 5 años. La categoría más alta, el liderazgo, lo determina si la institución tiene el número de citas más alto y la producción creciente en los últimos 5 años, en un gradiente hasta obtener los temas en los que no hay producción.",
-  "En esta versión el cociente «citas UdeA / institución más citada» no puede calcularse con las bases entregadas; se usa como proxy provisional el FWCI (citas por producto de la UdeA ÷ promedio mundial del tópico, acotado a 1). Los colores del gráfico: naranja = consolidado o líder (benchmark global); azul = en consolidación (provisional; en la versión final: consolidado/líder frente al benchmark nacional); blanco = resto.",
+  "En esta versión el cociente «citas UdeA / institución más citada» no puede calcularse con las bases entregadas; se usa como proxy el FWCI (citas por producto de la UdeA ÷ promedio mundial del tópico, acotado a 1). Los colores del gráfico: naranja = consolidado o líder (benchmark global); azul = en consolidación; blanco = resto.",
 ];
 
 /* The twelve documents, in the order of Gabriel: single list in lib/observatories/policyDocuments.js (F69). */
@@ -170,7 +170,7 @@ export const HELP_TEXT_REAL = [
 ];
 
 export const DATA_WARNINGS = [
-  "Benchmark institucional ausente. Las bases no incluyen citas por institución y tópico (institución más citada global / Colombia). El cociente de liderazgo se sustituye provisionalmente por el FWCI acotado a 1; «líder» aquí significa «cita por encima del promedio mundial con producción creciente», no «institución más citada».",
+  "Benchmark institucional ausente. Las bases no incluyen citas por institución y tópico (institución más citada global / Colombia). El cociente de liderazgo se sustituye por el FWCI acotado a 1; «líder» aquí significa «cita por encima del promedio mundial con producción creciente», no «institución más citada».",
   "Regla de tendencia estricta. Con la definición literal (ningún año puede caer) la mayoría de los tópicos con producción queda en «riesgo de desaparecer». Compare con el interruptor «Pendiente».",
   "FWCI sensible a valores extremos: un solo producto hipercitado eleva el FWCI de campos enteros. Conviene usar mediana o truncar al percentil 99.",
   "Cobertura: no todos los productos de los tipos solicitados tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno).",
@@ -192,7 +192,7 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.`,
+    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). 2025 y 2026 pueden estar incompletos.`,

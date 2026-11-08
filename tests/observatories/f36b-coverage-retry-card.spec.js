@@ -104,7 +104,7 @@ test.describe("F36b against the real quyca (read-only)", () => {
 
   test("Board 2: the notice no longer says the base has no abstracts", async ({ page }) => {
     await page.goto(BOARD(2));
-    await expect(page.getByText("Ensayo con limitaciones de datos").first()).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Notas metodológicas").first()).toBeVisible({ timeout: 120000 });
     const text = await page.locator("main").innerText();
     expect(text).toContain("Las patentes salen del portafolio de propiedad intelectual");
     expect(text).not.toMatch(/patentes ni resúmenes/);

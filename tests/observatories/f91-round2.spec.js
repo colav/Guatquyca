@@ -79,3 +79,64 @@ test.describe("F91 Q-18 maps take the height of the panel (one run)", () => {
     for (const key of Object.keys(report)) for (const p of report[key]) { expect(p.map, `${key} ${p.title}`).toBeGreaterThanOrEqual(380); expect(p.legendCut).toBe(false); }
   });
 });
+
+import * as texts1 from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+
+/* Q-22 and Q-24: nothing visible says «ensayo», «limitaciones de datos», «provisional», «deben revisarse», «requiere revisión manual» or names Luis. */
+const WORKING = /ensayo|limitaciones de datos|provisional|debe(n)? revisarse|requiere revisi[oó]n|no hemos definido|Luis|aprueb/i;
+const strings = (value, out = []) => {
+  if (typeof value === "string") out.push(value);
+  else if (Array.isArray(value)) value.forEach((v) => strings(v, out));
+  else if (value && typeof value === "object") Object.values(value).forEach((v) => strings(v, out));
+  return out;
+};
+
+test.describe("F91 Q-22 and Q-24 texts as a final board (no server)", () => {
+  const SHOWN = {
+    "Board 1": ["BOARD_EYEBROW", "REAL_TAG", "MOCK_TAG", "DATA_WARNINGS"],
+    "Board 2": ["BOARD_EYEBROW", "REAL_TAG", "MOCK_TAG", "NOTICE_NOTES"],
+    "Board 3": ["BOARD_EYEBROW", "REAL_TAG", "MOCK_TAG", "PROXY_LABEL"],
+  };
+  for (const [name, mod] of [["Board 1", texts1], ["Board 2", texts2], ["Board 3", texts3]]) {
+    test(`${name}: eyebrow, tags and notes of method`, () => {
+      const found = strings(SHOWN[name].map((k) => mod[k])).filter((s) => WORKING.test(s));
+      expect(found).toEqual([]);
+    });
+  }
+
+  test("the notes built with the figures of the bundle", () => {
+    const built = [
+      ...texts1.realDataWarnings({ n_sel: 1000, n_topic: 900 }),
+      ...texts2.realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 }),
+      ...texts3.methodNotes("con contrato vigente al 30 de mayo de 2026"),
+    ];
+    expect(built.filter((s) => WORKING.test(s))).toEqual([]);
+    expect(texts3.methodNotes("X")[0]).toContain("X");
+  });
+});
+
+test.describe("F91 Q-22 and Q-24 in the page (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("each board has one box «Notas metodológicas» with the cut-off date as its last note, and none of the working words", async ({ page }) => {
+    test.setTimeout(280000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    for (const board of [1, 2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      const box = page.getByTestId("method-notes");
+      await box.waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2000);
+      const notes = await box.locator("li").allInnerTexts();
+      const boxes = await page.locator(".ant-alert").count();
+      const text = await page.locator("body").innerText();
+      const hits = [...new Set([...text.matchAll(new RegExp(WORKING.source, "gi"))].map((m) => m[0].toLowerCase()))];
+      console.log(`[live] Board ${board}: ${boxes} blue box(es); ${notes.length} notes; last «${notes[notes.length - 1]}»; working words found: ${hits.join(", ") || "none"}`);
+      expect(await page.getByText("Notas metodológicas").count()).toBe(1);
+      expect(notes[notes.length - 1]).toMatch(/^Datos consultados/);
+      expect(notes.length).toBeGreaterThanOrEqual(2);
+      expect(hits.filter((h) => h !== "luis")).toEqual([]);
+    }
+  });
+});

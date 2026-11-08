@@ -86,7 +86,7 @@ test.describe("Board 2 against a real quyca (read-only)", () => {
 
   test("the page loads the bundle, shows the real tag and the footer from /cut", async ({ page }) => {
     await page.goto("/observatories/vri-udea/board-2");
-    await expect(page.getByText("Datos de ImpactU · ensayo con limitaciones de datos")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("Datos de ImpactU")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("Datos consultados en octubre de 2026.")).toBeVisible();
     await expect(page.getByText("10 · Colaboración internacional")).toBeVisible();

@@ -9,15 +9,22 @@ import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026 · Ensayo 1";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026";
 
 export const BOARD_LEAD =
   `Los indicadores de este tablero sintetizan las demandas, metas y programas que, en doce documentos de política (${POLICY_DOCUMENTS.join("; ")}), mencionan la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta; caracteriza cómo colabora la Universidad y con quién.`;
 
-export const MOCK_TAG = "Datos de prueba · ensayo con limitaciones de datos";
+export const MOCK_TAG = "Datos de prueba";
 
-export const NOTICE =
-  "El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media); el panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración). La base no contiene patentes; la mayoría de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año; el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse. «Alcaldía de Medellín» parece un error de afiliación de OpenAlex y se marca para verificación.";
+/** Notes of method of the board with test data (Q-22, Q-24: written as method, not as warnings). */
+export const NOTICE_NOTES = [
+  "El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media).",
+  "El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración).",
+  "La base no contiene patentes; la mayoría de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año.",
+  "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+  "«Alcaldía de Medellín» puede ser un error de afiliación de OpenAlex.",
+];
+export const NOTICE = NOTICE_NOTES.join(" ");
 
 export const FOOTER_TEXT =
   "Fuentes: obras, autores, grupos, tópicos e instituciones coautoras de ImpactU, OpenAlex y SCIENTI; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de grupos de investigación y centros de la UdeA; ejes curados y metas de colaboración del catálogo de Ejes Temáticos. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Universo: artículos, libros y capítulos 2010–2026 y productos de innovación y apropiación (todos los años). Problemas detectados en las bases: registros con DOI o título repetido; productos elegibles sin año (excluidos salvo apropiación social); una misma institución con hasta cuatro identificadores (ROR, scienti_, snies_); nombres de instituciones en galés, vasco o finés; NIT de aportantes con dígitos de más y razones sociales genéricas en el listado de proyectos.";
@@ -53,7 +60,7 @@ export const SCOPE_OPTIONS = [
 export const NOTES = {
   v1: "Subcampos OpenAlex con al menos un artículo del grupo (tópico primario). Grupos UdeA con 2 o más subcampos. Ránking descendente hasta 2 subcampos. La etiqueta indica también los campos distintos: participación en tópicos de campos diferentes es señal de transdisciplina.",
   v2: `Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
-  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector asignado por reglas sobre el nombre; requiere revisión manual.",
+  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector asignado por reglas sobre el nombre de la organización.",
   v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
   v5: "Artículos de revista por año de publicación.",
   v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025).",
@@ -77,7 +84,7 @@ export const patentsIgnoredNote = (list) => `Las patentes no responden a: ${list
 export const SIDE_LABELS = { north: "Norte global", south: "Sur global" };
 
 /** Tag of the board when the data come from the API (provisional text, Luis approves it). */
-export const REAL_TAG = "Datos de ImpactU · ensayo con limitaciones de datos";
+export const REAL_TAG = "Datos de ImpactU";
 
 /** Footer with the sources of the data of the API (provisional text, Luis approves it). */
 export const REAL_FOOTER_TEXT =
@@ -85,14 +92,23 @@ export const REAL_FOOTER_TEXT =
 
 
 /**
- * Provisional version (for Luis, Q57) of the notice «Ensayo con limitaciones de datos» for the data
- * of the API: every figure is calculated from the bundle. It drops the sentence on «Alcaldía de
- * Medellín» (562 products): the bundle has no institution with that name, so it cannot be confirmed.
+ * Notes of method of the board with the data of the API (Q-22, Q-24; before, the notice «Ensayo con limitaciones de datos»): every
+ * figure is calculated from the bundle. It drops the sentence on «Alcaldía de Medellín» (562 products): the bundle has no
+ * institution with that name, so it cannot be confirmed.
  *
  * @param {{ documentsWithTerms: number, documents: number, appropriationWithoutYear: number, appropriation: number }} figures
- * @returns {string}
+ * @returns {string[]}
  */
-export function realNotice({ documentsWithTerms, documents, appropriationWithoutYear, appropriation }) {
+export function realNotes({ documentsWithTerms, documents, appropriationWithoutYear, appropriation }) {
   const fmt = (n) => n.toLocaleString("es-CO");
-  return `El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media); el panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración). Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias); ${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año); el sector de cada organización y el departamento de cada institución colombiana se asignaron por reglas sobre el nombre y deben revisarse.`;
+  return [
+    "El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media).",
+    `El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración).`,
+    "Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias).",
+    `${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año).`,
+    "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+  ];
 }
+
+/** The same notes as one text (the tests read it). */
+export const realNotice = (figures) => realNotes(figures).join(" ");

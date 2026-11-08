@@ -56,8 +56,8 @@ import {
   MOCK_TAG,
   NO_AXIS_RESPONSE,
   NOTES,
-  NOTICE,
-  realNotice,
+  NOTICE_NOTES,
+  realNotes,
   REAL_FOOTER_TEXT,
   REAL_TAG,
   SIDE_LABELS,
@@ -179,9 +179,9 @@ function Board2Content({ dataset, source }) {
   const subregionRows = useStableValue(subregionRowsFromObject(subregionCounts));
   /* Notice of the board: with the data of the API every figure is calculated (Q57, provisional). */
   const notice = useMemo(() => {
-    if (isMock) return NOTICE;
+    if (isMock) return NOTICE_NOTES;
     const appropriation = raw.works.filter((w) => w[1] === WORK_TYPE.APPROPRIATION);
-    return realNotice({
+    return realNotes({
       documentsWithTerms: raw.thesaurus.agendas.length,
       documents: POLICY_DOCUMENTS.length,
       appropriationWithoutYear: appropriation.filter((w) => !w[0]).length,
@@ -246,7 +246,6 @@ function Board2Content({ dataset, source }) {
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </TagRow>
-        <Alert type="info" showIcon message="Ensayo con limitaciones de datos" description={notice} style={{ marginBottom: 8 }} />
         <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
       </header>
 
@@ -391,7 +390,7 @@ function Board2Content({ dataset, source }) {
           <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{isMock ? FOOTER_TEXT : REAL_FOOTER_TEXT}</Typography.Paragraph>
         </Col>
       </Row>
-      <CutoffNote />
+      <CutoffNote notes={notice} />
     </div>
   );
 }
