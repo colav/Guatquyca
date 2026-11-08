@@ -214,3 +214,44 @@ test.describe("F89 Q-10 in the browser (one run)", () => {
     expect(sentences.length).toBeGreaterThanOrEqual(3);
   });
 });
+
+/* WCAG contrast ratio of two [r,g,b] colours, run inside the page. */
+const CONTRAST_IN_PAGE = () => {
+  const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); const p = m[1].split(",").map((v) => parseFloat(v)); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
+  const over = (fg, bg) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a), a: 1 });
+  const lum = ({ r, g, b }) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  const pageBg = over(parse(getComputedStyle(document.body).backgroundColor), { r: 255, g: 255, b: 255, a: 1 });
+  return [...document.querySelectorAll(".obs-kpi")].map((card) => {
+    const bg = over(parse(getComputedStyle(card).backgroundColor), pageBg);
+    const label = card.querySelector("[title]");
+    const small = label ? ratio(over(parse(getComputedStyle(label).color), bg), bg) : null;
+    const detail = [...card.querySelectorAll("[title]")][1];
+    const detailRatio = detail ? ratio(over(parse(getComputedStyle(detail).color), bg), bg) : null;
+    return { bg: `${Math.round(bg.r)},${Math.round(bg.g)},${Math.round(bg.b)}`, shadow: getComputedStyle(card).boxShadow, small, detailRatio, clipped: [...card.querySelectorAll("[title]")].filter((el) => el.scrollHeight > el.clientHeight + 1 && el.getAttribute("title") === el.textContent).map((el) => el.textContent).join(" / ") };
+  });
+};
+
+test.describe("F89 Q-12 in the browser (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("figure cards of the three boards: no shadow, one light grey, small text at 4.5:1 or more, the detail goes to another line", async ({ page }) => {
+    test.setTimeout(280000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    const seen = new Set();
+    for (const board of [1, 2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2000);
+      const cards = await page.evaluate(CONTRAST_IN_PAGE);
+      cards.forEach((c) => seen.add(c.bg));
+      const minSmall = Math.min(...cards.map((c) => c.small ?? 99), ...cards.map((c) => c.detailRatio ?? 99));
+      console.log(`[live] Board ${board}: ${cards.length} cards; background(s) ${[...new Set(cards.map((c) => c.bg))].join(" | ")}; shadows ${[...new Set(cards.map((c) => c.shadow))].join(" | ")}; lowest contrast of the small text ${minSmall.toFixed(2)}:1; cut texts ${cards.filter((c) => c.clipped).map((c) => c.clipped).join(" ; ") || 0}`);
+      expect(cards.length).toBeGreaterThan(2);
+      expect(cards.every((c) => c.shadow === "none")).toBe(true);
+      expect(minSmall).toBeGreaterThanOrEqual(4.5);
+      expect(cards.filter((c) => c.clipped).map((c) => c.clipped)).toEqual([]);
+    }
+    expect(seen.size, "one background colour for all").toBe(1);
+  });
+});
