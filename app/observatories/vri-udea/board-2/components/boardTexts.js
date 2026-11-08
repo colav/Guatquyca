@@ -5,7 +5,7 @@
 
 /* Numbers of the notes come from the constants of the calculation, not from the text. */
 import { GRAPH_MIN_EDGE, LIMITS } from "../../../../../lib/observatories/collaboration/constants";
-import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
+import { INCOMPLETE_YEARS_NOTE, POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
@@ -22,6 +22,7 @@ export const NOTICE_NOTES = [
   "El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración).",
   "La base no contiene patentes; la mayoría de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año.",
   "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+  INCOMPLETE_YEARS_NOTE,
   "«Alcaldía de Medellín» puede ser un error de afiliación de OpenAlex.",
 ];
 export const NOTICE = NOTICE_NOTES.join(" ");
@@ -108,6 +109,7 @@ export function realNotes({ documentsWithTerms, documents, appropriationWithoutY
     "Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias).",
     `${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año).`,
     "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+    INCOMPLETE_YEARS_NOTE,
     MONEY_NOTE,
   ];
 }

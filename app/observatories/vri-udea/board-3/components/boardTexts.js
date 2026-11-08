@@ -3,6 +3,8 @@
  * The state of the evidence of the Eje Temático is not named in any screen.
  */
 
+import { INCOMPLETE_YEARS_NOTE } from "../../board-1/components/boardTexts";
+
 export const BOARD_TITLE = "Capacidades de base del sistema: talento, producción e infraestructura";
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
@@ -130,6 +132,6 @@ export const PROJECTS_2025_WARNING = "Proyectos registrados en el SIIU, listado 
 export const methodNotes = (staffLabel) => [
   `Los profesores son los autores UdeA ${staffLabel}.`,
   PROJECTS_2025_WARNING,
-  "Los datos de 2025 y 2026 pueden estar incompletos.",
+  INCOMPLETE_YEARS_NOTE,
   "La clasificación de las organizaciones coautoras (por ejemplo, las empresas) se hace por reglas sobre su nombre.",
 ];

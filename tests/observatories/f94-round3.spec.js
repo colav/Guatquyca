@@ -230,3 +230,45 @@ test.describe("F94 Q-33 graph D in the page (one run)", () => {
     expect(tip).toContain(`${target.other} de sus ${target.neighbours} colaboradores en este gráfico son de otro centro`);
   });
 });
+
+import { INCOMPLETE_YEARS_NOTE, realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { NOTICE_NOTES } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { methodNotes } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+
+test.describe("F96 note of 2025 and 2026 (D-212)", () => {
+  const PHRASE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de SCIENTI.";
+
+  test("the same sentence in the three boards, with its cause", () => {
+    expect(INCOMPLETE_YEARS_NOTE).toBe(PHRASE);
+    expect(realDataWarnings({ n_sel: 100, n_topic: 90 }).join(" ")).toContain(PHRASE);
+    expect(realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 })).toContain(PHRASE);
+    expect(NOTICE_NOTES).toContain(PHRASE);
+    expect(methodNotes("X")).toContain(PHRASE);
+  });
+
+  test("the old sentences are gone and the notes of the projects (SIIU) and of classification by name stay as they were", () => {
+    const all = [...realDataWarnings({ n_sel: 100, n_topic: 90 }), ...realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 }), ...methodNotes("X")].join(" ");
+    expect(all).not.toContain("Los datos de 2025 y 2026 pueden estar incompletos.");
+    expect(all).not.toMatch(/ 2025 y 2026 pueden estar incompletos\.`?$/);
+    expect(methodNotes("X").some((n) => n.includes("corte al 3 de julio de 2025"))).toBe(true);
+    expect(methodNotes("X").some((n) => n.includes("reglas sobre su nombre"))).toBe(true);
+    expect(realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 }).some((n) => n.includes("reglas sobre el nombre"))).toBe(true);
+  });
+
+  test.describe("in the pages", () => {
+    test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+    test("each board shows the sentence once in its notes of method", async ({ page }) => {
+      test.setTimeout(250000);
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      for (const board of [1, 2, 3]) {
+        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.getByTestId("method-notes").waitFor({ timeout: 120000 });
+        await page.waitForTimeout(1500);
+        const text = await page.getByTestId("method-notes").innerText();
+        const n = text.split("la información de la última convocatoria de medición de SCIENTI").length - 1;
+        console.log(`[live] Board ${board}: the sentence appears ${n} time(s) in the notes of method`);
+        expect(n).toBe(1);
+      }
+    });
+  });
+});
