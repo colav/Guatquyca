@@ -7,6 +7,7 @@ import { test, expect } from "@playwright/test";
 
 import { DEFAULT_FOUNDATIONS_FILTERS, computeFoundations, createFoundationsDataset } from "../../lib/observatories/foundations";
 import { STUDENT_LEVELS } from "../../lib/observatories/foundations/constants";
+import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -106,5 +107,37 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     await expect(page.getByText("07 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const body = page.locator("body");
     await expect(body).toContainText("Ningún proyecto de la tabla de proyectos figura sin centro gestor.", { timeout: 60000 });
+  });
+
+  test("Board 2: the projects of each of the 25 centres by position 7, before (first word) and after; KPI and funders of SIU", async ({ request }) => {
+    test.setTimeout(250000);
+    const response = await request.get(`${API}/observatories/vri-udea/boards/2/bundle`);
+    console.log(`[live] ETag of the T2: ${response.headers().etag}`);
+    expect(response.headers().etag).toBe('"20261107-f873c782c4db"');
+    const body = await response.json();
+    const b2 = body.data || body;
+    b2.funders = b2.ext.funders; // what the adapter of the page does
+    expect(b2.projects.every((p) => p.length === 8)).toBe(true);
+    expect(b2.projects.filter((p) => p[7] === -1)).toHaveLength(0);
+    const after = createCollaborationDataset(b2);
+    const before = createCollaborationDataset({ ...b2, projects: b2.projects.map((p) => p.slice(0, 7)) }); // the old rule: first word of the text
+    const filters = { yearFrom: 2010, yearTo: 2026 };
+    const rows = b2.centros.map((name, i) => ({ name, expected: EXPECTED[name], before: computeCollaboration(before, { ...filters, centerIndex: i }).kpis.projects, after: computeCollaboration(after, { ...filters, centerIndex: i }).kpis.projects }));
+    console.log("[live] centre | projects before (first word) | after (position 7) | expected (B140)");
+    for (const r of rows) console.log(`[live] ${r.name} | ${r.before} | ${r.after} | ${r.expected}`);
+    console.log(`[live] all projects ${computeCollaboration(after, filters).kpis.projects}; sum after ${rows.reduce((a, r) => a + r.after, 0)}; sum before ${rows.reduce((a, r) => a + r.before, 0)}`);
+    expect(rows).toHaveLength(25);
+    for (const r of rows) expect(r.after, `${r.name}: as B140`).toBe(r.expected);
+    expect(rows.reduce((a, r) => a + r.after, 0)).toBe(2524);
+    for (const name of ["SIU", "Medicina", "Derecho", "Farmacia", "Educación", "Odontología", "Bibliotecología", "Deportes", "INER"]) {
+      const r = rows.find((x) => x.name === name);
+      expect(r.before, `${name} showed none before`).toBe(0);
+      expect(r.after, `${name} shows its own now`).toBeGreaterThan(0);
+    }
+    const i = b2.centros.indexOf("SIU");
+    for (const [label, d] of [["before", before], ["after", after]]) {
+      const r = computeCollaboration(d, { ...filters, centerIndex: i });
+      console.log(`[live] SIU ${label}: projects ${r.kpis.projects}, with external funder ${r.kpis.projectsExternal}, funders ${r.funders.length} (projects counted ${r.funders.reduce((a, x) => a + x.proyectos, 0)})`);
+    }
   });
 });

@@ -97,6 +97,20 @@ test.describe("patents, funders and document on projects, model (no server)", ()
     expect(run({ yearFrom: 2014, policyDoc: "D1" }).funders.map((x) => [x.nm, x.proyectos])).toEqual([["Ent A", 2], ["Ent B", 1]]);
   });
 
+  test("F87: the projects filter by their centre (position 7), not by the first word of the text; funders and KPI follow", () => {
+    // every text says «C0», so the old rule would give all five to the centre 0
+    const centers = [1, 1, 0, 0, 0];
+    const withColumn = createCollaborationDataset({ ...base, projects: base.projects.map((p, i) => [...p.slice(0, 6), "C0", centers[i]]) });
+    expect(run({ yearFrom: 2014, centerIndex: 1 }, withColumn).kpis.projects).toBe(2);
+    expect(run({ yearFrom: 2014, centerIndex: 0 }, withColumn).kpis.projects).toBe(3);
+    expect(run({ yearFrom: 2014, centerIndex: 1 }, withColumn).funders.map((x) => [x.nm, x.proyectos])).toEqual([["Ent A", 2], ["Ent B", 1]]);
+    expect(run({ yearFrom: 2014 }, withColumn).kpis.projects).toBe(5);
+    // without the column (test data) the first word of the text still answers
+    const text = createCollaborationDataset({ ...base, projects: base.projects.map((p) => [...p.slice(0, 6), "C0"]) });
+    expect(run({ yearFrom: 2014, centerIndex: 0 }, text).kpis.projects).toBe(5);
+    expect(run({ yearFrom: 2014, centerIndex: 1 }, text).kpis.projects).toBe(0);
+  });
+
   test("the texts: the notice of the API says where the patents come from", () => {
     expect(realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 })).toContain("Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias)");
     expect(NOTES.v6Patents).toContain("no indica quién co-inventó");
