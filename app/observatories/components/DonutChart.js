@@ -4,7 +4,7 @@
 import dynamic from "next/dynamic";
 
 /* Hooks */
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 
 /* Components & utils */
 import FillHeight from "@/app/observatories/components/FillHeight";
@@ -17,15 +17,30 @@ const Pie = dynamic(() => import("@ant-design/charts").then((mod) => mod.Pie), {
 
 /**
  * Donut of a distribution (product type, Scimago quartile or access route) with the total of the parts drawn at the centre of
- * the ring and an own legend underneath, one column: colour, name and percentage on the right (F77, D-182). The centre and the
- * legend are HTML over / under the chart; the ring is the one of Ant Design.
+ * the ring and an own legend, one column: colour, name and percentage on the right (F77, D-182). Q-26: the legend goes at the RIGHT
+ * of the ring when the container is at least `WIDE` px wide (or when `legend` is "right"), and underneath when it is narrower or
+ * `legend` is "below". The centre and the legend are HTML over / beside the chart; the ring is the one of Ant Design.
  *
  * @param {string[]} labels - Label of each part.
  * @param {number[]} values - Count of each part (zeros are not drawn nor listed).
  * @param {string[]} colors - Colour of each part, from the palettes of lib/constants.js.
  * @param {string} [centerText] - Text at the centre instead of the total (Q-10: the open-access share).
+ * @param {"auto"|"right"|"below"} [legend] - Where the legend goes (auto: at the right from `WIDE` px of container).
  */
-function DonutChart({ labels, values, colors, centerText = null }) {
+const WIDE = 420;
+const LEGEND_WIDTH = 200;
+
+function DonutChart({ labels, values, colors, centerText = null, legend = "auto" }) {
+  const rootRef = useRef(null);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node || typeof ResizeObserver === "undefined") return undefined;
+    const observer = new ResizeObserver(() => setWidth(Math.round(node.clientWidth)));
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  const right = legend === "right" || (legend === "auto" && width >= WIDE);
   const { total, totalText, parts } = useMemo(() => ringParts(labels, values, colors), [labels, values, colors]);
   const config = useMemo(
     () => ({
@@ -46,7 +61,8 @@ function DonutChart({ labels, values, colors, centerText = null }) {
 
   /* Q-04: the ring takes the height that the panel has left (200 to 320 px); the legend stays under it. */
   return (
-    <div style={{ flex: "1 1 auto", display: "flex", flexDirection: "column" }}>
+    <div ref={rootRef} data-testid="ring-root" data-legend={right ? "right" : "below"} style={{ flex: "1 1 auto", display: "flex", flexDirection: right ? "row" : "column", alignItems: right ? "center" : "stretch", gap: right ? 12 : 0 }}>
+      <div style={{ flex: "1 1 0", minWidth: 0, alignSelf: "stretch", display: "flex", flexDirection: "column" }}>
       <TooltipBox fill>
         <FillHeight min={200} max={320}>
           {(h) => (
@@ -59,12 +75,13 @@ function DonutChart({ labels, values, colors, centerText = null }) {
           )}
         </FillHeight>
       </TooltipBox>
-      <ul data-testid="ring-legend" style={{ listStyle: "none", margin: "4px auto 0", padding: 0, maxWidth: 260, fontSize: 12 }}>
+      </div>
+      <ul data-testid="ring-legend" style={right ? { listStyle: "none", margin: 0, padding: 0, flex: `0 0 ${LEGEND_WIDTH}px`, width: LEGEND_WIDTH, fontSize: 12 } : { listStyle: "none", margin: "4px auto 0", padding: 0, maxWidth: 260, width: "100%", fontSize: 12 }}>
         {parts.map((p) => (
-          <li key={p.name} style={{ display: "flex", alignItems: "center", gap: 8, lineHeight: "20px" }}>
-            <span aria-hidden="true" style={{ width: 10, height: 10, flex: "none", background: p.color, borderRadius: 2 }} />
-            <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={p.name}>{p.name}</span>
-            <span style={{ flex: "none", fontVariantNumeric: "tabular-nums" }}>{p.percent}</span>
+          <li key={p.name} style={{ display: "flex", alignItems: right ? "flex-start" : "center", gap: 8, lineHeight: "20px", marginBottom: right ? 4 : 0 }}>
+            <span aria-hidden="true" style={{ width: 10, height: 10, flex: "none", background: p.color, borderRadius: 2, marginTop: right ? 5 : 0 }} />
+            <span style={right ? { flex: 1, minWidth: 0, overflowWrap: "anywhere" } : { flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={p.name}>{p.name}</span>
+            <span style={{ flex: "none", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{p.percent}</span>
           </li>
         ))}
       </ul>
