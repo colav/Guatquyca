@@ -450,7 +450,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="16 · Conjuntos de datos abiertos por tópico" empty={!datasetRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={datasetRows} color={BAR_COLORS.datasets} unit="Conjuntos de datos" />
-            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI; parte de los registros tiene año 2026 (fecha de carga, no de creación)." : ""}`}</Note>
+            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI." : ""}${datasets.year2026 > 0 ? ` ${fmt(datasets.year2026)} de los ${fmt(datasets.total)} conjuntos de datos tienen año 2026 (fecha de carga del registro).` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
