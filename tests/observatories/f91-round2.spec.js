@@ -140,3 +140,20 @@ test.describe("F91 Q-22 and Q-24 in the page (one run)", () => {
     }
   });
 });
+
+test.describe("F91 Q-28 part A: no «Nombre original» in the tooltip (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the bundle keeps ext.nombres_originales and the panel does not show it", async ({ page, request }) => {
+    test.setTimeout(200000);
+    const API = process.env.E2E_API_URL || "http://localhost:8080";
+    const body = await (await request.get(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const b2 = body.data || body;
+    expect(Object.keys(b2.ext.nombres_originales).length).toBeGreaterThan(5);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/observatories/vri-udea/board-2");
+    await page.getByTestId("chart-card").filter({ hasText: "Entidades que financian" }).first().waitFor({ timeout: 120000 });
+    await page.waitForTimeout(2500);
+    expect(await page.locator("body").innerText()).not.toContain("Nombre original");
+  });
+});

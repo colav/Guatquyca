@@ -15,14 +15,14 @@ test.describe("Q-15 names of the funders (no server)", () => {
     { nm: "Minciencias", fsector: 2, proyectos: 20 },
   ];
 
-  test("the normalised name is the label; the original of ext.nombres_originales goes in the tooltip, only when it differs", () => {
-    const rows = funderRows(funders, { "Hospital Alma Mater de Antioquia": "HOSPITAL ALMA MATER DE ANTIOQUIA", Minciencias: "Minciencias" }, (f) => `S${f.fsector}`);
-    expect(rows[0]).toEqual({ label: "Hospital Alma Mater de Antioquia", detail: "HOSPITAL ALMA MATER DE ANTIOQUIA", detailName: "Nombre original", segments: [{ series: "S1", value: 34 }] });
+  test("the normalised name is the label and the tooltip has no «Nombre original» (Q-28 A, F91)", () => {
+    const rows = funderRows(funders, (f) => `S${f.fsector}`);
+    expect(rows[0]).toEqual({ label: "Hospital Alma Mater de Antioquia", segments: [{ series: "S1", value: 34 }] });
     expect(rows[1].detail).toBeUndefined();
   });
 
-  test("a bundle without ext.nombres_originales still draws", () => {
-    expect(funderRows(funders, undefined, () => "S")).toHaveLength(2);
+  test("two funders, two rows", () => {
+    expect(funderRows(funders, () => "S")).toHaveLength(2);
   });
 });
 

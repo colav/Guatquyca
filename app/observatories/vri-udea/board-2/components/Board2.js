@@ -188,9 +188,9 @@ function Board2Content({ dataset, source }) {
       appropriation: appropriation.length,
     });
   }, [isMock, raw]);
-  /* Q-15 (F90, B144): the normalised name is shown; the original name of the source goes in the tooltip. */
+  /* Q-15 (F90, B144): the normalised name is shown (Q-28 A, F91: the original name is no longer in the tooltip). */
   const funders = useMemo(
-    () => funderRows(result.funders, raw.ext && raw.ext.nombres_originales, (f) => raw.sectorsEs[dataset.sectorIndex[f.fsector]]),
+    () => funderRows(result.funders, (f) => raw.sectorsEs[dataset.sectorIndex[f.fsector]]),
     [raw, dataset, result],
   );
 
