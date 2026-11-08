@@ -104,7 +104,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     expect(index).toBeGreaterThanOrEqual(0);
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(`/observatories/vri-udea/board-3?center=${index}`);
-    await expect(page.getByText("07 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const body = page.locator("body");
     await expect(body).toContainText("Ningún proyecto de la tabla de proyectos figura sin centro gestor.", { timeout: 60000 });
   });

@@ -21,9 +21,9 @@ test("Board 3 loads the test data, shows its panels and never the retired one or
   const requests = [];
   page.on("request", (r) => { if (r.url().endsWith("/data")) requests.push(new URL(r.url()).pathname); });
   await page.goto(`${ROUTE}?${MOCK}`);
-  await expect(page.getByText("01 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
+  await expect(page.getByText("1 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
   await expect(page.getByText("83.161 productos · 32.509 autores UdeA")).toBeVisible();
-  for (const title of ["02 · Investigadores activos", "08 · Tesis", "11 · Profesores con productos compartidos", "17 · Acceso abierto", "18 · Cobertura", "c · Profesores por tipo de producto"]) {
+  for (const title of ["2 · Investigadores activos", "8 · Tesis", "11 · Profesores con productos compartidos", "17 · Acceso abierto", "18 · Cobertura", "19 · Profesores por tipo de producto"]) {
     await expect(page.getByText(title, { exact: false }).first()).toBeVisible();
   }
   /* Panel 9 (Ondas) is retired; the cut-off footer and the provisional labels are visible; the evidence state is never named. */
@@ -49,7 +49,7 @@ test("a filter in the URL applies and a change goes to the URL (rebound of 200 m
 test("the page uses the width up to 1,920 px", async ({ page }) => {
   await page.setViewportSize({ width: 2400, height: 1000 });
   await page.goto(`${ROUTE}?${MOCK}`);
-  await expect(page.getByText("01 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
+  await expect(page.getByText("1 · Talento investigador por nivel")).toBeVisible({ timeout: 120000 });
   const box = await page.locator("main").first().boundingBox();
   expect(box.width).toBeLessThanOrEqual(1920);
   expect(box.width).toBeGreaterThan(1800);

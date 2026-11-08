@@ -85,8 +85,8 @@ test.describe("F71 against the real quyca (one run)", () => {
     await page.goto("/observatories/vri-udea/board-3");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
-    const card = page.getByTestId("chart-card").filter({ hasText: "01 ·" }).first();
-    await expect(card).toContainText("01 · Talento investigador por nivel de formación");
+    const card = page.getByTestId("chart-card").filter({ hasText: "1 ·" }).first();
+    await expect(card).toContainText("1 · Talento investigador por nivel de formación");
     await expect(card).toContainText(`Nivel de formación de los ${fmt(staff)} profesores`);
     await expect(card).not.toContainText("No existe campo de nivel");
     // the density per 100.000 inhabitants (adjusted and census) in the tooltip of a bar
@@ -105,7 +105,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     expect(tip).toContain("(censada)");
     // the second view
     await card.getByTestId("talent-view").getByText("Por categoría Minciencias").click();
-    await expect(card).toContainText("01 · Talento investigador por categoría Minciencias");
+    await expect(card).toContainText("1 · Talento investigador por categoría Minciencias");
     await expect(card).toContainText("Categoría Minciencias de los profesores con contrato vigente");
     console.log(`[live] levels: ${JSON.stringify(lv)} (suma ${staff})`);
   });

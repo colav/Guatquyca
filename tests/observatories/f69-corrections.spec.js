@@ -176,8 +176,8 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3500);
     // tooltips
-    const t03 = await hover(page, "03 ·", [[0.25, 0.1], [0.25, 0.14], [0.3, 0.2]]);
-    const funders = await hover(page, "+ Entidades", [[0.15, 0.1], [0.2, 0.12], [0.3, 0.1]]);
+    const t03 = await hover(page, "3 ·", [[0.25, 0.1], [0.25, 0.14], [0.3, 0.2]]);
+    const funders = await hover(page, "15 · Entidades", [[0.15, 0.1], [0.2, 0.12], [0.3, 0.1]]);
     const t14 = await hover(page, "14 ·", [[0.2, 0.1], [0.3, 0.1], [0.3, 0.15]]);
     console.log(`[live] T2 03: ${t03} | funders: ${funders} | 14: ${t14}`);
     expect(t03).toMatch(/total/);
@@ -215,7 +215,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
     await page.goto("/observatories/vri-udea/board-3");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3500);
-    const t02 = await hover(page, "02 ·", [[0.3, 0.3], [0.5, 0.5], [0.25, 0.7], [0.7, 0.4]]);
+    const t02 = await hover(page, "2 ·", [[0.3, 0.3], [0.5, 0.5], [0.25, 0.7], [0.7, 0.4]]);
     console.log(`[live] T3 02: ${t02}`);
     expect(t02).toMatch(/Porcentaje \d/);
     expect(t02).not.toContain("undefined");

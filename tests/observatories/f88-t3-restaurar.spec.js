@@ -122,7 +122,7 @@ test.describe("part B with the real bundle (one run)", () => {
     expect([s.uniqueStudents, s.projects]).toEqual([408, 374]);
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(`/observatories/vri-udea/board-3?center=${siu}`);
-    await expect(page.getByText("07 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
+    await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const text = page.locator("body");
     await expect(text).toContainText("408 estudiantes únicos en 374 proyectos", { timeout: 60000 });
     await expect(text).not.toContainText("3.512 estudiantes únicos");

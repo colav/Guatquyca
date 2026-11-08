@@ -35,8 +35,8 @@ test("a filter applies at once and goes to the URL; the URL is read on load", as
 
 test("the panels of the artifact are present and the evidence state is not named", async ({ page }) => {
   await page.goto(`${PATH}?${MOCK}`);
-  await expect(page.getByText("02 · Grafo de colaboración entre grupos")).toBeVisible({ timeout: 90000 });
-  for (const title of ["01 · Transdisciplinariedad grupal", "10 · Colaboración internacional", "13 · Grupos de investigación con actores no académicos", "14 · Ejes Temáticos públicos por tipo de organización"]) {
+  await expect(page.getByText("2 · Grafo de colaboración entre grupos")).toBeVisible({ timeout: 90000 });
+  for (const title of ["1 · Transdisciplinariedad grupal", "10 · Colaboración internacional", "13 · Grupos de investigación con actores no académicos", "14 · Ejes Temáticos públicos por tipo de organización"]) {
     await expect(page.getByText(title, { exact: false }).first()).toBeVisible();
   }
   await expect(page.locator("body")).not.toContainText("ai_panel_unreviewed");

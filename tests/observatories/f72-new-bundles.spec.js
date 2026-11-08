@@ -150,7 +150,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     await page.waitForTimeout(3500);
     const text = (title) => page.getByTestId("chart-card").filter({ hasText: title }).first().innerText();
     await expect(page.locator(".obs-kpi").first()).toContainText("82.589");
-    const p2 = await text("02 ·");
+    const p2 = await text("2 ·");
     expect(p2).toContain("miembros de un grupo");
     expect(p2).not.toContain("9.005");
     const p12 = await text("12 ·");
@@ -195,7 +195,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     await page.goto("/observatories/vri-udea/board-2");
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
-    const p7 = await page.getByTestId("chart-card").filter({ hasText: "07 ·" }).first().innerText();
+    const p7 = await page.getByTestId("chart-card").filter({ hasText: "7 ·" }).first().innerText();
     expect(p7).toContain("sin dato en la fuente");
     await expect(page.getByTestId("no-sector-data-note")).toContainText("solo del sector educación");
     expect(await page.locator("main").innerText()).not.toContain("UNAULA");

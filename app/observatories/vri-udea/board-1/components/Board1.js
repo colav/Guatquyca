@@ -397,7 +397,7 @@ function Board1Content({ dataset, source }) {
           <Col xs={24}><OdsPlaceholders /></Col>
         )}
         <Col xs={24} lg={12}>
-          <ChartCard title="Complemento · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
+          <ChartCard title="9 · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
             <SubregionMap rows={subregionRows} detailed />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, al pasar el cursor, productos con autores adscritos a los Programas de Regionalización. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra de Regionalización no." : "No responde a los filtros."}
@@ -405,7 +405,7 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} lg={12}>
-          <ChartCard title="Complemento · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
+          <ChartCard title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               Clasificación estimada del tipo de actor; requiere revisión manual. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}

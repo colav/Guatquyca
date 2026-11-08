@@ -305,7 +305,7 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.researchers}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard title={isMock ? "01 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE}>
+          <ChartCard title={isMock ? "1 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE}>
             {isMock ? <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag> : null}
             <Row gutter={[8, 8]} style={{ marginBottom: 8 }}>
               {[
@@ -331,31 +331,31 @@ function Board3Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="02 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
+          <ChartCard title="2 · Investigadores activos vinculados a grupos, por gran área OCDE" empty={!areas.items.some((i) => i.value > 0)}>
             <AreasTreemapChart items={areas.items} areas={OECD_AREAS} />
             <Note>{(isMock ? AREAS_NOTE_MOCK : AREAS_NOTE)(fmt(areas.active), areas.from, linkageNote(talent.inv_sheet))}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="03 · Grupos activos por área OCDE y categoría Minciencias" empty={!groupGrid.cells.length}>
+          <ChartCard title="3 · Grupos activos por área OCDE y categoría Minciencias" empty={!groupGrid.cells.length}>
             <BubbleGridChart cells={groupGrid.cells} areas={OECD_AREAS} categories={GROUP_CATEGORIES} colors={AREA_COLORS} />
             <Note>{`${fmt(groupGrid.total)} grupos activos${applied.centerIndex >= 0 ? ` del centro ${raw.centros[applied.centerIndex]}` : ""}. Con otros filtros se muestran solo los grupos con producción en la selección.${registry && sameFoundationsFilters(applied, DEFAULT_FOUNDATIONS_FILTERS) ? ` ${officialActiveGroupsNote(groupGrid.total, registry)}.` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="04 · Autores únicos por grupo etario">
+          <ChartCard title="4 · Autores únicos por grupo etario">
             <LinesChart years={ageByYear.years} series={ageByYear.series} colors={AGE_COLORS} unit="Autores" />
             <Note>{`Cobertura parcial: ${fmt(ageByYear.withBirthYear)} de ${fmt(ageByYear.authors)} autores con fecha de nacimiento (${withBirthPct}); la caída de 2026 es por año incompleto.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="05 · Autores únicos por sexo">
+          <ChartCard title="5 · Autores únicos por sexo">
             <LinesChart years={sexByYear.years} series={sexSeries} colors={SEX_COLOR_MAP} unit="Autores" />
             <Note>{`${fmt(sexByYear.withSex)} de ${fmt(sexByYear.authors)} autores con sexo registrado (${pct(sexByYear.withSex, sexByYear.authors)}). Entre los profesores con contrato la cobertura es casi completa.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="06 · Investigadores por grupo etario y tópico (15 tópicos con más investigadores)" empty={!ageTopicRows.length}>
+          <ChartCard title="6 · Investigadores por grupo etario y tópico (15 tópicos con más investigadores)" empty={!ageTopicRows.length}>
             <StackedBarsChart rows={ageTopicRows} series={AGE_GROUPS} colors={AGE_COLORS} unit="Autores" />
             <Note>Misma cobertura parcial de edad que el panel 4.</Note>
           </ChartCard>
@@ -365,13 +365,13 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.students}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard title="07 · Estudiantes en proyectos por nivel">
+          <ChartCard title="7 · Estudiantes en proyectos por nivel">
             <LinesChart years={students.years} series={students.series} colors={STUDENT_COLORS} unit="Personas" />
             <Note>{`${students.uniqueStudents != null && students.projects != null ? `${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ` : ""}${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.withoutCenter ? "Ningún proyecto de la tabla de proyectos figura sin centro gestor." : students.centerMissing ? `La tabla de proyectos no trae el centro «${raw.centros[applied.centerIndex]}»: no se muestran proyectos para ese centro.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : students.years.includes(2025) ? ` ${PROJECTS_2025_WARNING}` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="08 · Tesis de maestría, doctorado y especialidad por año">
+          <ChartCard title="8 · Tesis de maestría, doctorado y especialidad por año">
             <LinesChart years={theses.years} series={theses.series} colors={colorMap(theses.series.map((s) => s.label), SERIES)} unit="Tesis" />
             <Note>{`${fmt(theses.totals[0])} tesis de doctorado, ${fmt(theses.totals[1])} de maestría o especialidad clínica y ${fmt(theses.totals[2])} monografías de especialización en la selección. SCIENTI no separa maestría de especialidad clínica; la serie de Minciencias («Tesis de maestria») termina en 2020 y la de SCIENTI crece desde 2021, por lo que la curva combina dos fuentes. Las tesis registran como autor al director.`}</Note>
           </ChartCard>
@@ -507,7 +507,7 @@ function Board3Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="c · Profesores por tipo de producto (sin artículos, libros ni capítulos)" empty={!staffTypeRows.length}>
+          <ChartCard title="19 · Profesores por tipo de producto (sin artículos, libros ni capítulos)" empty={!staffTypeRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <StackedBarsChart rows={staffTypeRows} series={CONTRACTS} colors={CONTRACT_COLOR_MAP} unit="Profesores" />
             <Note>{`Productos de creación (Productos de creación.xlsx, no cruzables con la base): ${fmt(creation.obras)} obras únicas de ${fmt(creation.personas)} personas en ${creation.grupos} grupos, 2010–2024.`}</Note>

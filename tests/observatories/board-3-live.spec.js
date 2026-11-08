@@ -86,7 +86,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
     await page.goto("/observatories/vri-udea/board-3");
     await expect(page.getByText("Datos de ImpactU · ensayo con limitaciones de datos")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
-    await expect(page.getByText("01 · Talento investigador por nivel", { exact: false }).first()).toBeVisible();
+    await expect(page.getByText("1 · Talento investigador por nivel", { exact: false }).first()).toBeVisible();
     const text = await page.locator("main").innerText();
     expect(text).toContain("con contrato vigente al 30 de mayo");
     expect(text).not.toContain("tabla de personal anterior");
