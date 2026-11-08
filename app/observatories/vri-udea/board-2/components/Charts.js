@@ -8,6 +8,7 @@ import { memo, useMemo } from "react";
 
 /* Components & utils */
 import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { barsDescending, segmentsTotal } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 import { trendTooltipItem } from "@/lib/observatories/trendTooltip";
 
@@ -29,7 +30,8 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  * @param {boolean} [legend] - Shows the legend of the series.
  * @param {string} [unit] - What the values count, in the tooltip ("productos", "proyectos"); empty = just the figure.
  */
-function SegmentedBars({ rows, colors, labelSize = 34, legend = false, unit = "" }) {
+function SegmentedBars({ rows: given, colors, labelSize = 34, legend = false, unit = "", keepOrder = false }) {
+  const rows = useMemo(() => barsDescending(given, segmentsTotal, keepOrder), [given, keepOrder]);
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     const series = Object.keys(colors);

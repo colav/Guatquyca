@@ -11,6 +11,7 @@ const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), {
 
 /* lib */
 import { calculatorBarsConfig } from "@/lib/observatories/capacity";
+import { barsDescending } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
@@ -35,7 +36,8 @@ const truncateStart = (text, size) => (text.length > size ? `…${text.slice(tex
  * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
  *   longest one, as in the calculator.
  */
-function RankingBars({ rows, labelSize = 34, complete = false, startCut = false, unit = "Productos", onSelect = null, active = null }) {
+function RankingBars({ rows: given, labelSize = 34, complete = false, startCut = false, unit = "Productos", onSelect = null, active = null, keepOrder = false }) {
+  const rows = useMemo(() => barsDescending(given, (r) => r.value, keepOrder), [given, keepOrder]);
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : (startCut ? truncateStart : truncate)(r.label, labelSize)]));
     const longest = Math.max(0, ...rows.map((r) => r.label.length));

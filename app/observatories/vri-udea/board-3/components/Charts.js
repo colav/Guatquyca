@@ -9,6 +9,7 @@ import { memo, useMemo } from "react";
 /* Components & utils */
 import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
 import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { barsDescending, stackedTotal } from "@/lib/observatories/barOrder";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
 
 /* Libraries */
@@ -29,7 +30,8 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  * @param {string} color - Colour of the bars (from palette.js).
  * @param {string} unit - Name of the value in the tooltip.
  */
-function HBars({ rows, color, unit, labelSize = 36 }) {
+function HBars({ rows: given, color, unit, labelSize = 36, keepOrder = false }) {
+  const rows = useMemo(() => barsDescending(given, (r) => r.value, keepOrder), [given, keepOrder]);
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     const hasDetail = rows.some((r) => r.detail);
@@ -62,7 +64,8 @@ export const HBarsChart = memo(HBars);
  * @param {string[]} series - Names of the series, in the order of `values`.
  * @param {Object<string, string>} colors - Series label -> colour.
  */
-function StackedBars({ rows, series, colors, unit, labelSize = 36 }) {
+function StackedBars({ rows: given, series, colors, unit, labelSize = 36, keepOrder = false }) {
+  const rows = useMemo(() => barsDescending(given, stackedTotal, keepOrder), [given, keepOrder]);
   const config = useMemo(() => {
     const labels = Object.fromEntries(rows.map((r, i) => [String(i), truncate(r.label, labelSize)]));
     return {
