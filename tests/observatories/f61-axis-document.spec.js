@@ -135,7 +135,7 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
   });
 
   const kpi2 = async (page) => Number((await page.locator(".obs-kpi").first().innerText()).split("\n").pop().replace(/\./g, ""));
-  const kpi1 = async (page) => Number((await page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first().innerText()).split("\n").pop().replace(/\./g, ""));
+  const kpi1 = async (page) => Number((await page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first().innerText()).split("\n").pop().replace(/\./g, ""));
   const groupsOf = async (page, wrapper) => {
     await wrapper.click();
     await page.waitForTimeout(400);

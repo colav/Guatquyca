@@ -428,3 +428,28 @@ test.describe("F91 Q-21 complete dates (one run)", () => {
     }
   });
 });
+
+test.describe("F91 Q-23 first KPI says what it counts (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("T1 «productos con tópico» and T2 «… y apropiación social», complete (not cut) and the numbers differ by 752 + 514", async ({ page }) => {
+    test.setTimeout(200000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    const read = async (board, label) => {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(1500);
+      const card = page.locator(".obs-kpi").first();
+      const t = card.locator("div[title]").first();
+      const info = await t.evaluate((el) => ({ text: el.textContent, cut: el.scrollHeight > el.clientHeight + 1 }));
+      const value = Number((await card.innerText()).split("\n").pop().replace(/\./g, ""));
+      return { ...info, value };
+    };
+    const t1 = await read(1);
+    const t2 = await read(2);
+    console.log(`[live] T1 «${t1.text}» ${t1.value} cut ${t1.cut}; T2 «${t2.text}» ${t2.value} cut ${t2.cut}`);
+    expect(t1.text).toBe("productos con tópico (artículos, libros, capítulos)");
+    expect(t2.text).toBe("productos (artículos, libros, capítulos y apropiación social)");
+    expect(t1.cut || t2.cut).toBe(false);
+  });
+});

@@ -16,7 +16,7 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
 /** Cards of the KPI row. */
 export const KpiRow = memo(function KpiRow({ kpis, projectDetail = "" }) {
   const items = [
-    [kpis.works, "productos en el universo filtrado"],
+    [kpis.works, "productos (artículos, libros, capítulos y apropiación social)"],
     [kpis.withExternal, "con al menos un coautor externo"],
     [kpis.withNonAcademic, "con actor no académico (empresa, gobierno, ONG, salud)"],
     [kpis.withInternational, "con coautoría internacional"],

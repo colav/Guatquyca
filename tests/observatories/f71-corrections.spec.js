@@ -122,7 +122,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     console.log(`[live] T1 order of the panels: ${numbers.join(", ")}`);
     expect(numbers.slice(0, 8)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     await expect(page.getByTestId("filters").getByText("Dimensión (campos, subcampos o tópicos)")).toBeVisible();
-    const kpi = () => page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first();
+    const kpi = () => page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first();
     const all = computeCapacity(d1, {}).products;
     await expect(kpi()).toContainText(fmt(all));
     // ODS from the URL

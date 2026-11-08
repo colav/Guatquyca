@@ -29,7 +29,7 @@ const fmt = (n) => Number(n).toLocaleString("es-CO");
  */
 export const KpiRow = memo(function KpiRow({ kpis, fwciLabel = "FWCI del conjunto filtrado (proxy)", fwciNote = "" }) {
   const items = [
-    [fmt(kpis.products), "productos (artículos, libros, capítulos)"],
+    [fmt(kpis.products), "productos con tópico (artículos, libros, capítulos)"],
     [fmt(kpis.citations), "citas acumuladas (OpenAlex)"],
     [kpis.fwci.toFixed(2), fwciLabel],
     [fmt(kpis.leaders), "unidades líder + consolidado (2021–2025)"],

@@ -127,7 +127,7 @@ test.describe("document by pairs against the real quyca (one run)", () => {
     await page.goto("/observatories/vri-udea/board-1?doc=CONPES+4144");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
-    await expect(page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first()).toContainText("1.651");
+    await expect(page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first()).toContainText("1.651");
     await page.goto("/observatories/vri-udea/board-2?doc=CONPES+4144");
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);

@@ -249,7 +249,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
     await page.goto(`/observatories/vri-udea/board-1?topic=${encodeURIComponent(`f:${field}`)}`);
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1500);
-    await expect(page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first()).toContainText(expected.toLocaleString("es-CO"));
+    await expect(page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first()).toContainText(expected.toLocaleString("es-CO"));
     await expect(page.getByTestId("topic-filter")).toContainText(field);
   });
 

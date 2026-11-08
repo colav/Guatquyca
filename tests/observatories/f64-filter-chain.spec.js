@@ -109,7 +109,7 @@ test.describe("chain in Board 1 against the real quyca (one run)", () => {
     expect(page.url()).toContain(`axis=${national.id}`);
     const all = computeCapacity(dataset, { axisIds: [national.id] }).products;
     expect(computeCapacity(dataset, { scope: "Local", axisIds: [national.id] }).products).toBe(all); // the axis commands
-    await expect(page.locator(".obs-kpi").filter({ hasText: "productos (artículos" }).first()).toContainText(all.toLocaleString("es-CO"));
+    await expect(page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first()).toContainText(all.toLocaleString("es-CO"));
     console.log(`[live] axis ${national.id} of scope Nacional with scope Local in the URL: ${all} products (the axis alone)`);
   });
 });
