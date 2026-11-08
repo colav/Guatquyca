@@ -393,7 +393,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
-            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La base no tiene tipo de organización: la clasificación por nombre identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y requiere revisión manual.`}</Note>
+            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La clasificación se hace por el nombre de la organización: identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y requiere revisión manual.`}</Note>
           </ChartCard>
         </Col>
       </Row>

@@ -52,3 +52,14 @@ test.describe("B144 bundles (one run)", () => {
     expect(Object.keys(b3.artes.fac_creacion).join("|")).not.toContain("BD_Grupos");
   });
 });
+
+import { pieNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+
+test.describe("Q-06 and Q-07 texts (no server)", () => {
+  test("the note of the pie of classes has no working phrase", () => {
+    const note = pieNote(1234);
+    expect(note).toContain("1.234 preprints");
+    expect(note).not.toContain("Gabriel");
+    expect(note).not.toContain("composición final");
+  });
+});

@@ -109,7 +109,7 @@ export const PIE_CLASSES_TITLE = "Producto por clase (cada producto en una sola 
 export const ACCESS_PIE_TITLE = "Publicaciones por acceso";
 export const PIE_CLASSES_LABELS = { publications: "Publicaciones", preprints: "Preprints", datasets: "Datos de investigación", software: "Software" };
 export const pieNote = (preprintsFromPublications) =>
-  `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones. La composición final se confirma con Gabriel.`;
+  `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones.`;
 export const PID_NOTE =
   "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de SCIENTI o SNIES.";
 
