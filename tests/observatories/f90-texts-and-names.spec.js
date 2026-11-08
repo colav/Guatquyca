@@ -105,3 +105,17 @@ test.describe("Q-09: no file, sheet, table or column in the texts (no server)", 
     }
   });
 });
+
+test.describe("Q-11 note of the panel 16 (page, one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the note says that the topic is the main one of OpenAlex v2 and why it does not match the artifact", async ({ page }) => {
+    test.setTimeout(200000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto("/observatories/vri-udea/board-3");
+    const card = page.getByTestId("chart-card").filter({ hasText: "16 · Conjuntos de datos abiertos por tópico" }).first();
+    await card.waitFor({ timeout: 120000 });
+    await expect(card).toContainText("El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.");
+    await expect(card).toContainText("119 de los 406 conjuntos de datos tienen año 2026");
+  });
+});
