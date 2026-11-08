@@ -153,3 +153,34 @@ test.describe("F89 Q-03 in the browser (one run)", () => {
     expect(result.edgeInk, "no name touches the edge of the canvas (not cut)").toBeFalsy();
   });
 });
+
+test.describe("F89 Q-08 in the browser (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("Board 3 panel 12: no bubble climbs into the legend, with the default filters", async ({ page }) => {
+    test.setTimeout(250000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    const measure = async () => {
+      const card = page.getByTestId("chart-card").filter({ hasText: "12 · Profesores con productos artísticos" }).first();
+      await card.waitFor({ timeout: 120000 });
+      await card.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(3000);
+      return readCanvas(page, card.locator("canvas").first(), (image) => {
+        const { data, width: w, height: h } = image;
+        const at = (x, y) => { const i = (y * w + x) * 4; return [data[i], data[i + 1], data[i + 2]]; };
+        const white = (x, y) => { const [r, g, b] = at(x, y); return r > 238 && g > 238 && b > 238; };
+        // ink rows from the top: the legend is the first band; a bubble that climbs into it keeps the ink rows contiguous
+        const rowInk = (y) => { for (let x = 0; x < w; x++) if (!white(x, y)) return true; return false; };
+        let first = 0; while (first < h && !rowInk(first)) first++;
+        let legendEnd = first; while (legendEnd < h && rowInk(legendEnd)) legendEnd++;
+        let plotTop = legendEnd; while (plotTop < h && !rowInk(plotTop)) plotTop++;
+        return { w, h, first, legendEnd, plotTop };
+      });
+    };
+    await page.goto("/observatories/vri-udea/board-3");
+    const a = await measure();
+    console.log(`[live] panel 12 default: legend rows ${a.first}–${a.legendEnd - 1}, first plot ink at row ${a.plotTop} (a gap of ${a.plotTop - a.legendEnd} blank rows)`);
+    expect(a.legendEnd - a.first, "the legend band is a few rows tall (no bubble inside it)").toBeLessThanOrEqual(16);
+    expect(a.plotTop - a.legendEnd, "blank rows between the legend and the first bubble or tick").toBeGreaterThanOrEqual(2);
+  });
+});

@@ -198,7 +198,13 @@ function ArtsScatter({ points, groups, colors }) {
       animate: false,
       interaction: tooltipInteraction(),
       height: 300,
-      scale: { size: { type: "sqrt", range: [6, 22] }, color: { domain: groups, range: groups.map((g) => colors[g]) } },
+      /* Q-08 (D-202): room above the biggest value and at the left of the first one for the radius of the biggest bubble (18 px), so none climbs into the legend or the axis, with any filter. */
+      scale: {
+        size: { type: "sqrt", range: [6, 18] },
+        color: { domain: groups, range: groups.map((g) => colors[g]) },
+        x: { domainMin: 0, domainMax: Math.max(2, ...points.map((p) => p.products)) + 1 },
+        y: { domainMin: 0, domainMax: Math.ceil(Math.max(1, ...points.map((p) => p.professors)) * 1.4) },
+      },
       axis: { x: { title: "productos artísticos por profesor (obras + registros en la base)" }, y: { title: "profesores" } },
       legend: { color: { position: "top" } },
       style: { fill: (d) => colors[d.group], fillOpacity: 0.8, stroke: (d) => colors[d.group] },
