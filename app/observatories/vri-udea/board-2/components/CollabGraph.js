@@ -5,7 +5,7 @@ import { memo, useEffect, useRef, useState } from "react";
 
 /* Components & lib */
 import FillHeight from "@/app/observatories/components/FillHeight";
-import { CENTER_COLORS, CENTER_OTHER_COLOR, NEUTRAL } from "@/lib/observatories/palette";
+import { BRAND, CENTER_COLORS, CENTER_OTHER_COLOR, NEUTRAL } from "@/lib/observatories/palette";
 import { graphLabels, graphTooltip, GRAPH_VARIANTS, groupAnchors, ringPositions } from "@/lib/observatories/collabGraph";
 
 /* UI Library Components */
@@ -143,7 +143,7 @@ function CollabGraph({ graph, centers, centerNames }) {
         autoResize: false,
         data,
         ...(layoutOf(variant, data, c, width, height) ? { layout: layoutOf(variant, data, c, width, height) } : {}),
-        node: { style: { labelFill: NEUTRAL.dark, labelFontSize: 10.5, labelFontFamily: font, labelPlacement: "bottom", labelBackground: true, labelBackgroundFill: "#ffffff", labelBackgroundOpacity: 0.85, labelBackgroundRadius: 3, labelPadding: [1, 3] } },
+        node: { style: { labelFill: NEUTRAL.dark, labelFontSize: 10.5, labelFontFamily: font, labelPlacement: "bottom", labelBackground: true, labelBackgroundFill: BRAND.white, labelBackgroundOpacity: 0.85, labelBackgroundRadius: 3, labelPadding: [1, 3] } },
         edge: { style: { stroke: NEUTRAL.medium, strokeOpacity: 0.7 } },
         behaviors: ["zoom-canvas", "drag-canvas", "drag-element"],
         plugins: [
