@@ -55,3 +55,33 @@ test.describe("F94 Q-32 legend of the donut 15 px from the edge (one run)", () =
     }
   });
 });
+
+test.describe("F94 Q-34 typeface of the KPI row (one run)", () => {
+  test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+
+  test("the label of every KPI starts with a capital, 14 px, weight 500, grey 4.5:1 or more on white; the card stays white with shadow; nothing is cut", async ({ page }) => {
+    test.setTimeout(280000);
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    const heights = {};
+    for (const board of [1, 2, 3]) {
+      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
+      await page.waitForTimeout(2000);
+      const cards = await page.locator(".obs-kpi").evaluateAll((els) => els.map((el) => {
+        const l = el.querySelector("[title]");
+        const cs = getComputedStyle(l);
+        const lum = (c) => { const [r, g, b] = c.match(/\d+(\.\d+)?/g).slice(0, 3).map(Number).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+        const ratio = (1.05) / (lum(cs.color) + 0.05);
+        const cut = [...el.querySelectorAll("[title]")].some((t) => t.scrollHeight > t.clientHeight + 1);
+        return { text: l.textContent, size: cs.fontSize, weight: cs.fontWeight, ratio, cut, h: Math.round(el.getBoundingClientRect().height), bg: getComputedStyle(el).backgroundColor, shadow: getComputedStyle(el).boxShadow !== "none" };
+      }));
+      heights[board] = [...new Set(cards.map((c) => c.h))];
+      console.log(`[live] Board ${board}: ${cards.length} KPI; heights ${heights[board]}; contrast min ${Math.min(...cards.map((c) => c.ratio)).toFixed(2)}:1; cut ${cards.filter((c) => c.cut).map((c) => c.text).join(" / ") || "none"}; first «${cards[0].text}»`);
+      expect(cards.every((c) => /^\p{Lu}|^\d/u.test(c.text) && c.size === "14px" && c.weight === "500")).toBe(true);
+      expect(Math.min(...cards.map((c) => c.ratio))).toBeGreaterThanOrEqual(4.5);
+      expect(cards.every((c) => c.bg === "rgb(255, 255, 255)" && c.shadow)).toBe(true);
+      expect(cards.filter((c) => c.cut).map((c) => c.text)).toEqual([]);
+    }
+    expect(new Set([...heights[1], ...heights[2]]).size, "T1 and T2 keep one height per row").toBeLessThanOrEqual(2);
+  });
+});

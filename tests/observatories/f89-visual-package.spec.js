@@ -250,7 +250,7 @@ test.describe("F91 Q-17 in the browser (one run)", () => {
       console.log(`[live] Board ${board}: ${kpi.length} KPI (background ${[...new Set(kpi.map((c) => c.bg))].join(" | ")}; heights ${[...new Set(kpi.map((c) => c.h))].join(", ")}; shadow ${kpi.every((c) => c.shadow !== "none")}); ${tiles.length} tiles (background ${[...new Set(tiles.map((c) => c.bg))].join(" | ")}; heights ${[...new Set(tiles.map((c) => c.h))].join(", ")}; lowest contrast ${minTile.toFixed(2)}:1; cut texts ${tiles.filter((c) => c.clipped.length).length})`);
       expect(kpi.length).toBeGreaterThan(2);
       expect(kpi.every((c) => c.bg === "255,255,255" && c.shadow !== "none")).toBe(true);
-      expect(kpi.every((c) => c.h === 116 || c.h === 134 || c.h === 152)).toBe(true);
+      expect(kpi.every((c) => c.h === 116 || c.h === 134 || c.h === 176)).toBe(true);
       expect(tiles.every((c) => c.shadow === "none")).toBe(true);
       expect(minTile).toBeGreaterThanOrEqual(4.5);
       expect(tiles.filter((c) => c.clipped.length)).toEqual([]);
@@ -448,8 +448,8 @@ test.describe("F91 Q-23 first KPI says what it counts (one run)", () => {
     const t1 = await read(1);
     const t2 = await read(2);
     console.log(`[live] T1 «${t1.text}» ${t1.value} cut ${t1.cut}; T2 «${t2.text}» ${t2.value} cut ${t2.cut}`);
-    expect(t1.text).toBe("productos con tópico (artículos, libros, capítulos)");
-    expect(t2.text).toBe("productos (artículos, libros, capítulos y apropiación social)");
+    expect(t1.text).toBe("Productos con tópico (artículos, libros, capítulos)");
+    expect(t2.text).toBe("Productos (artículos, libros, capítulos y apropiación social)");
     expect(t1.cut || t2.cut).toBe(false);
   });
 });
