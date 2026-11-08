@@ -85,3 +85,28 @@ test.describe("F94 Q-34 typeface of the KPI row (one run)", () => {
     expect(new Set([...heights[1], ...heights[2]]).size, "T1 and T2 keep one height per row").toBeLessThanOrEqual(2);
   });
 });
+
+import { MONEY_NOTE, realNotes } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+
+test.describe("F94 note of the amounts (Q-28 iv)", () => {
+  test("the notes of method of Board 2 end with the money note, and it says COP", () => {
+    const notes = realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 });
+    expect(MONEY_NOTE).toBe("Montos en pesos colombianos (COP) según el registro de proyectos de la Universidad.");
+    expect(notes[notes.length - 1]).toBe(MONEY_NOTE);
+  });
+
+  test.describe("in the page", () => {
+    test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
+    test("the box «Notas metodológicas» of Board 2 carries it, before the cut-off date", async ({ page }) => {
+      test.setTimeout(150000);
+      await page.goto("/observatories/vri-udea/board-2");
+      const box = page.getByTestId("method-notes");
+      await box.waitFor({ timeout: 120000 });
+      await page.waitForTimeout(1500);
+      const notes = await box.locator("li").allInnerTexts();
+      console.log(`[live] notes of Board 2: ${notes.length}; the money note is number ${notes.indexOf(MONEY_NOTE) + 1}`);
+      expect(notes[notes.length - 2]).toBe(MONEY_NOTE);
+      expect(notes[notes.length - 1]).toMatch(/^Datos consultados/);
+    });
+  });
+});

@@ -89,6 +89,9 @@ export const REAL_FOOTER_TEXT =
   "Fuentes: obras, autoras y autores, grupos, instituciones coautoras y proyectos de ImpactU, tópicos de OpenAlex o del modelo v2 y el catálogo de Ejes Temáticos de los documentos de política. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin contorno en el mapa se listan en la ayuda «?» de su panel.";
 
 
+/** Note of the amounts of the ranking of funders (Q-28 iv, D-207; F94). Provisional for Luis. */
+export const MONEY_NOTE = "Montos en pesos colombianos (COP) según el registro de proyectos de la Universidad.";
+
 /**
  * Notes of method of the board with the data of the API (Q-22, Q-24; before, the notice «Ensayo con limitaciones de datos»): every
  * figure is calculated from the bundle. It drops the sentence on «Alcaldía de Medellín» (562 products): the bundle has no
@@ -105,6 +108,7 @@ export function realNotes({ documentsWithTerms, documents, appropriationWithoutY
     "Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias).",
     `${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año).`,
     "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+    MONEY_NOTE,
   ];
 }
 
