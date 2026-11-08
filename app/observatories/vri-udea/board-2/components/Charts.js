@@ -9,6 +9,7 @@ import { memo, useMemo } from "react";
 /* Components & utils */
 import TooltipBox from "@/app/observatories/components/TooltipBox";
 import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+import { trendTooltipItem } from "@/lib/observatories/trendTooltip";
 
 /* Libraries */
 const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
@@ -76,7 +77,7 @@ export const SegmentedBarsChart = memo(SegmentedBars);
 function TrendLines({ years, series, colors }) {
   const config = useMemo(
     () => ({
-      data: series.flatMap((s) => years.map((y, i) => ({ year: String(y), series: s.label, value: s.values[i] }))),
+      data: series.flatMap((s) => years.map((y, i) => ({ year: String(y), series: s.label, unit: s.unit || "", value: s.values[i] }))),
       xField: "year",
       yField: "value",
       colorField: "series",
@@ -85,7 +86,8 @@ function TrendLines({ years, series, colors }) {
       height: 260,
       scale: { color: { domain: series.map((s) => s.label), range: series.map((s) => colors[s.label]) } },
       legend: { color: { position: "top" } },
-      tooltip: { items: [{ channel: "y", name: "Productos" }] },
+      /* F85 (N-01): each series says its own name and unit (productos, proyectos, patentes), not «Productos» for all. */
+      tooltip: { items: [trendTooltipItem] },
     }),
     [years, series, colors],
   );

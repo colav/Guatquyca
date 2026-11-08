@@ -1,7 +1,7 @@
 "use client";
 
 /* Hooks */
-import { Profiler, useEffect, useMemo, useState } from "react";
+import { Profiler, useCallback, useEffect, useMemo, useState } from "react";
 import { profileRender, timed } from "@/lib/observatories/optionAvailability";
 import { useSearchParams } from "next/navigation";
 
@@ -158,6 +158,12 @@ function Board1Content({ dataset, source }) {
   const drawableCategories = useMemo(() => (modern ? CATEGORY_ORDER : CATEGORY_ORDER_LEGACY).filter((c) => c !== CATEGORY.NONE), [modern]);
   const { selected, toggle: toggleCategory, clear: clearCategories } = useCategorySelection(drawableCategories);
   const referent = REFERENCE_NAME[applied.ratioBasis];
+  /* «Restablecer filtros» also clears the pinned point and the isolated categories, as the artifact did (F85, A1-09). */
+  const resetAll = useCallback(() => {
+    reset();
+    setSelectedId(null);
+    clearCategories();
+  }, [reset, clearCategories]);
   const fmtRatio = (v) => (Number.isFinite(v) ? v.toFixed(2).replace(".", ",") : "–");
   const points = useStableValue(
     result.units
@@ -274,7 +280,7 @@ function Board1Content({ dataset, source }) {
       </header>
 
       <Profiler id="filters" onRender={profileRender}>
-        <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={reset} available={available} />
+        <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={resetAll} available={available} />
       </Profiler>
       <SummaryLine summary={summary} noun={DIMENSION_NOUN[applied.dimension]} pending={pending} />
       <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
@@ -368,7 +374,7 @@ function Board1Content({ dataset, source }) {
           </Col>
         ) : null}
         <Col xs={24} md={12} lg={8}>
-          <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados" empty={!goals.length}>
+          <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados. No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años; solo del documento y del Eje Temático." empty={!goals.length}>
             <RankingBarsChart rows={goals} labelSize={40} startCut unit="Ejes Temáticos" />
           </ChartCard>
         </Col>

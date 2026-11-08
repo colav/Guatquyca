@@ -24,7 +24,7 @@ test.describe("texts of Board 2 (no server)", () => {
       expect(text).toContain("tópicos de OpenAlex v2");
       expect(text).toContain("8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración");
       expect(text).not.toMatch(/términos Núcleo|coincidencia de términos|6 de los 12/);
-      if (text !== NOTICE) expect(text).toContain("las patentes salen del portafolio de propiedad intelectual"); // F66 changed this sentence in the notice of the API
+      if (text !== NOTICE) expect(text).toContain("Las patentes salen del portafolio de propiedad intelectual"); // F66 changed this sentence in the notice of the API
     }
     expect(NOTICE).toContain("la mayoría de los productos tiene resumen");
     expect(NOTICE).not.toMatch(/patentes ni resúmenes|no incluye resúmenes/);

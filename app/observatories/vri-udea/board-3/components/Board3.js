@@ -141,7 +141,7 @@ export default function Board3() {
 function Tiles({ tiles, staffLabel }) {
   return (
     <Row gutter={[12, 12]}>
-      {TILE_LABELS.map(([key, label]) => [key, key === "staff" ? `profesores (${staffLabel})` : label]).map(([key, label]) => (
+      {TILE_LABELS.map(([key, label]) => [key, key === "staff" ? `profesores con producción (${staffLabel})` : label]).map(([key, label]) => (
         <Col key={key} xs={12} md={8} lg={6} xl={3}>
           <KpiCard label={label} value={fmt(tiles[key])} />
         </Col>
@@ -291,7 +291,7 @@ function Board3Content({ dataset, source }) {
         <FiltersBar raw={raw} centerCoverage={dataset.centerCoverage} filters={draft} onChange={update} onReset={reset} available={available} />
       </Profiler>
       <Typography.Text type="secondary" style={{ display: "block", marginBottom: 12 }}>
-        {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
+        {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores con producción (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
         {pending ? " · Actualizando…" : ""}
       </Typography.Text>
       <Tiles tiles={tiles} staffLabel={staffLabel} />
@@ -366,7 +366,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="07 · Estudiantes en proyectos por nivel">
             <LinesChart years={students.years} series={students.series} colors={STUDENT_COLORS} unit="Personas" />
-            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : ""}`}</Note>
+            <Note>{`${fmt(students.uniqueStudents)} estudiantes únicos en ${fmt(students.projects)} proyectos (SIIU, 2014–2025). ${students.byCenter ? `Filtrado por centro gestor «${raw.centros[applied.centerIndex]}».` : students.centerMissing ? `La tabla de proyectos no trae el centro «${raw.centros[applied.centerIndex]}» con ese nombre: los proyectos no se separan por centro y se muestran todos.` : "Responde solo al filtro de centro y temporalidad."} ${isMock ? " 2025 es parcial (corte 3 jul 2025)." : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -409,7 +409,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard title="13 · Proyectos de los grupos del Centro de Investigación de Artes" empty={!projectsGroupRows.length}>
             <HBarsChart rows={projectsGroupRows} color={BAR_COLORS.artsProjects} unit="Proyectos" />
-            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos ${arts.uniqueProjects > 0 ? ` (${fmt(arts.uniqueProjects)} proyectos únicos; algunos tienen varios grupos)` : ""}. No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24}>

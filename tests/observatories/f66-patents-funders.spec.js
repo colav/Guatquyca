@@ -98,7 +98,7 @@ test.describe("patents, funders and document on projects, model (no server)", ()
   });
 
   test("the texts: the notice of the API says where the patents come from", () => {
-    expect(realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 })).toContain("las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias)");
+    expect(realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 })).toContain("Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias)");
     expect(NOTES.v6Patents).toContain("no indica quién co-inventó");
     expect(NOTES.v6Patents).not.toContain("no contiene patentes");
     expect(NOTES.v16Filtered).not.toContain("no responde a los filtros");

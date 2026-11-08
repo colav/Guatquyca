@@ -8,7 +8,7 @@ export const BOARD_TITLE = "Capacidades de base del sistema: talento, producció
 export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026 · Ensayo 1";
 
 export const BOARD_LEAD =
-  "Los indicadores sintetizan preocupaciones comunes de las agendas sobre las capacidades base del sistema (talento, producción, infraestructura abierta, identificadores) y las formas de relación deseables. Se calculan sobre artículos, libros, capítulos, apropiación social, investigación-creación, audiovisuales, conjuntos de datos, software, preprints, tesis y proyectos de la Universidad de Antioquia, 2010–2026, organizados en cinco bases: investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta. Los filtros de documento, centro, unidad y subcampo delimitan la producción asociada a los tópicos en los que participa cada entidad.";
+  "Los indicadores sintetizan preocupaciones comunes de las agendas sobre las capacidades base del sistema (talento, producción, infraestructura abierta, identificadores) y las formas de relación deseables. Se calculan sobre artículos, libros, capítulos, apropiación social, investigación-creación, audiovisuales, conjuntos de datos, software, preprints, tesis y proyectos de la Universidad de Antioquia, 2010–2026, organizados en cinco bases: investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta. El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes; los filtros de centro, unidad, subunidad y subcampo delimitan la producción asociada a los tópicos en los que participa cada entidad.";
 
 export const MOCK_TAG = "Datos de prueba · ensayo con limitaciones de datos";
 

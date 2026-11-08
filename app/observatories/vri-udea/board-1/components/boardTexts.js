@@ -135,6 +135,7 @@ export const ownReferentText = (ratioBasis, dimension) =>
  * @param {{ ratioBasis: string, dimension: string, fmtRatio: Function, fmt: Function }} options
  */
 export function ratioSentence(u, { ratioBasis, dimension, fmtRatio, fmt }) {
+  if (u.noReferent) return `${fmtRatio(u.ratio)} · sin referente (ninguna institución con citas en este tópico)`;
   if (isOwnReferent(u.referent)) return `${fmtRatio(u.ratio)} · ${ownReferentText(ratioBasis, dimension)}`;
   return `${fmtRatio(u.ratio)} (citas de la UdeA ${fmt(u.ratioCitations)} frente a ${fmt(u.leaderCitations)} de ${u.referent || "los referentes de sus tópicos"}${u.ratioTopics !== null ? `, ${ratioTopicsText(u.ratioTopics)}` : ""})`;
 }
@@ -172,7 +173,7 @@ export const DATA_WARNINGS = [
   "Benchmark institucional ausente. Las bases no incluyen citas por institución y tópico (institución más citada global / Colombia). El cociente de liderazgo se sustituye provisionalmente por el FWCI acotado a 1; «líder» aquí significa «cita por encima del promedio mundial con producción creciente», no «institución más citada».",
   "Regla de tendencia estricta. Con la definición literal (ningún año puede caer) la mayoría de los tópicos con producción queda en «riesgo de desaparecer». Compare con el interruptor «Pendiente».",
   "FWCI sensible a valores extremos: un solo producto hipercitado eleva el FWCI de campos enteros. Conviene usar mediana o truncar al percentil 99.",
-  "Cobertura: no todos los productos de los tipos solicitados tienen tópico. Hay DOI y títulos repetidos entre fuentes SCIENTI/OpenAlex y años atípicos.",
+  "Cobertura: no todos los productos de los tipos solicitados tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno).",
   "Sin ODS, sin ubicación geográfica de la investigación y sin agendas internacionales: los paneles de ODS, el mapa y el ámbito «Internacional» requieren campos adicionales.",
 ];
 
@@ -194,7 +195,7 @@ export function realDataWarnings(meta) {
     `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón. Es una medida provisional hasta que Luis apruebe los textos y los umbrales.`,
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
-    `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. Hay DOI y títulos repetidos entre fuentes y años atípicos; 2025 y 2026 pueden estar incompletos.`,
+    `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). 2025 y 2026 pueden estar incompletos.`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
   ];
 }

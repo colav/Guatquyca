@@ -107,7 +107,7 @@ test.describe("tooltip, bold number and trend against the real quyca (read-only)
         if (!(await page.locator(".g2-tooltip:visible").count())) continue;
         await page.mouse.click(x, y);
         await page.waitForTimeout(250);
-        rows = await page.getByText("Ejes Temáticos asociados por términos Núcleo").locator("xpath=..").locator("ul li").evaluateAll((items) =>
+        rows = await page.getByText("Ejes Temáticos asociados según nuestra metodología").locator("xpath=..").locator("ul li").evaluateAll((items) =>
           items.map((li) => ({ text: li.innerText.replace(/\s+/g, " ").trim(), bold: [...li.querySelectorAll("b, strong")].map((b) => b.innerText.trim()) })).filter((r) => /·/.test(r.text)),
         );
       }

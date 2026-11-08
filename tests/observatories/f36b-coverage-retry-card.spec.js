@@ -38,7 +38,7 @@ test.describe("F36b texts and coverage (no server)", () => {
 
   test("the notice of Board 2 says where the patents come from, and nothing about abstracts", () => {
     const text = realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 });
-    expect(text).toContain("las patentes salen del portafolio de propiedad intelectual");
+    expect(text).toContain("Las patentes salen del portafolio de propiedad intelectual");
     expect(text).not.toMatch(/resúmenes|resumenes/);
   });
 
@@ -106,7 +106,7 @@ test.describe("F36b against the real quyca (read-only)", () => {
     await page.goto(BOARD(2));
     await expect(page.getByText("Ensayo con limitaciones de datos").first()).toBeVisible({ timeout: 120000 });
     const text = await page.locator("main").innerText();
-    expect(text).toContain("las patentes salen del portafolio de propiedad intelectual");
+    expect(text).toContain("Las patentes salen del portafolio de propiedad intelectual");
     expect(text).not.toMatch(/patentes ni resúmenes/);
   });
 

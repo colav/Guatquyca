@@ -296,7 +296,7 @@ function Board2Content({ dataset, source }) {
           <ChartCard title="05b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
             <Note>{`${NOTES.v5b} ${appropriationYearNote(appropriationRecords.withoutYear, appropriationRecords.total)}`}</Note>
-            {result.hasPatents ? <Note>{NOTES.v5bPatents}</Note> : null}
+            {result.hasPatents ? <Note data-testid="patents-last-year-note">{NOTES.v5bPatents(result.patentsLastYear)}</Note> : null}
             {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
             {noProj ? <Note>La línea de proyectos {NO_AXIS_RESPONSE}.</Note> : null}
             {smallProjects ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
