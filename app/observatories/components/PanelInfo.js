@@ -82,8 +82,8 @@ export default function PanelInfo({ title, entry, note }) {
       trigger="click"
       placement="bottomRight"
       arrow={false}
-      destroyTooltipOnHide
-      overlayStyle={{ maxWidth: POPUP_WIDTH, width: POPUP_WIDTH }}
+      destroyOnHidden
+      styles={{ root: { maxWidth: POPUP_WIDTH, width: POPUP_WIDTH } }}
       content={<div id={id} role="dialog" aria-label={`Cómo leer: ${title}`}><PanelInfoContent entry={entry} note={note} /></div>}
     >
       <button
