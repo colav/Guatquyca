@@ -66,6 +66,7 @@ test.describe("Q-06 and Q-07 texts (no server)", () => {
 
 import * as texts1 from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { PANEL_HELP as PANEL_HELP_T2 } from "../../app/observatories/vri-udea/board-2/components/panelHelp";
 import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
 
 /* Q-09 and Q-14: nothing the reader sees names a file, a sheet, a table, a column or says «thesaurus». */
@@ -122,9 +123,11 @@ test.describe("Q-11 note of the panel 16 (page, one run)", () => {
 
 test.describe("Q-14 panel 14 of Board 2 (no server)", () => {
   test("the note names the Ejes Temáticos of the VRI-UdeA and says that the total adds presences by sector", () => {
-    expect(texts2.NOTES.v14).toContain("cada Eje Temático público de la VRI-UdeA");
-    expect(texts2.NOTES.v14).toContain("presencias por sector");
-    expect(texts2.NOTES.v14).not.toMatch(/thesaurus/i);
+    /* F108 (D-243): the explanation moved from the card to the button (i) */
+    const p14 = Object.values(PANEL_HELP_T2.p14).flat().join(" ");
+    expect(p14).toContain("cada Eje Temático público de la VRI-UdeA");
+    expect(p14).toContain("presencias por sector");
+    expect(p14).not.toMatch(/thesaurus/i);
   });
 });
 

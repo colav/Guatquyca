@@ -260,7 +260,6 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p1} title="1 · Transdisciplinariedad grupal" empty={!transdisciplinary.length}>
             <SegmentedBarsChart rows={transdisciplinary} colors={rankingColors} labelSize={40} />
-            <Note>{NOTES.v1}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -274,20 +273,17 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p3} title="3 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
             <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend unit="productos" />
-            <Note>{NOTES.v3}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p4} title="4 · Productos por sector no académico" empty={!sectorValues.length}>
             <DonutChart labels={sectorLabels} values={sectorValues} colors={sectorDonutColors} />
-            <Note>{NOTES.v4}</Note>
           </ChartCard>
         </Col>
 
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p5a} title="5a · Tendencia de artículos">
             <TrendLinesChart years={years} series={trendArticles} colors={trendColors} />
-            <Note>{NOTES.v5}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -328,14 +324,13 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} lg={12} xl={12}>
           <ChartCard info={PANEL_HELP.p9} title="9 · Colaboración interdepartamental">
             <DepartmentMap departments={departmentCounts} />
-            <Note>{NOTES.v9}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} lg={12} xl={12}>
           <ChartCard info={PANEL_HELP.p9b} title="9b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <SubregionMap rows={subregionRows} unit={subregionTab < 2 ? "Proyectos" : "Productos"} />
-            <Note>{NOTES.v15}{noProj && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
+            {noProj && subregionTab < 2 ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
             {smallProjects && subregionTab < 2 ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>
         </Col>
@@ -346,14 +341,12 @@ function Board2Content({ dataset, source }) {
               <Col xs={24} xl={14} style={{ display: "flex", flexDirection: "column" }}><CountryMap countries={world} /></Col>
               <Col xs={24} xl={10}><CountriesTable rows={worldTable} /></Col>
             </Row>
-            <Note>{NOTES.v10}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
           <ChartCard info={PANEL_HELP.p11} title="11 · 12 · Sur–Norte y Sur–Sur">
             <StatTiles stats={northSouth} />
             <SegmentedBarsChart rows={regions} colors={sideColors} labelSize={30} legend unit="productos" />
-            <Note>{NOTES.v11}</Note>
           </ChartCard>
         </Col>
 
@@ -361,7 +354,6 @@ function Board2Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p13} title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
             <Segmented size="small" options={domainTabs} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
             <DomainTable rows={domainRows} />
-            <Note>{NOTES.v13}</Note>
           </ChartCard>
         </Col>
 
@@ -372,7 +364,7 @@ function Board2Content({ dataset, source }) {
               <Segmented size="small" options={TAB_OPTIONS(dataset.axisTabs.map((t) => t.label))} value={axisTab} onChange={setAxisTab} />
             </div>
             <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend unit="productos" />
-            <Note>{`${NOTES.v14} ${missionFociNote(missionFoci)}`}</Note>
+            <Note>{missionFociNote(missionFoci)}</Note>
             {axis ? <Note data-testid="axis-14-note">{AXIS_14_NOTE}</Note> : null}
           </ChartCard>
         </Col>

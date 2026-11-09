@@ -57,24 +57,14 @@ export const SCOPE_OPTIONS = [
 
 /* Notes of each panel (as in the artifact). */
 export const NOTES = {
-  v1: "Subcampos OpenAlex con al menos un artículo del grupo (tópico primario). Grupos UdeA con 2 o más subcampos. Ránking descendente hasta 2 subcampos. La etiqueta indica también los campos distintos: participación en tópicos de campos diferentes es señal de transdisciplina.",
-  v2: `Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
-  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector según la clasificación de la organización.",
-  v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
-  v5: "Artículos de revista por año de publicación.",
-  v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025).",
+  v2: `Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
+  v5b: "Proyectos: SIIU, 2014–2025.",
   v6Patents: "Producción de tecnología: patentes distintas del portafolio de propiedad intelectual con al menos una empresa titular (cotitularidad registrada en el portafolio; no indica quién co-inventó). Responden a años, centro y unidad.",
   /* The last year comes from the bundle (F85, M-06): `result.patentsLastYear`. */
   v5bPatents: (lastYear) => `Patentes: patentes distintas del portafolio de propiedad intelectual, por año de la primera concesión${lastYear ? `; la última concesión es de ${lastYear}, por eso no hay datos después de ese año` : ""}.`,
   v6: "Bibliográfica: artículos con coautores de empresa y gobierno además de la UdeA. Proyectos: con aportante empresarial y aportante público. Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
   v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos.",
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
-  v9: "Productos con coautores de instituciones colombianas, por departamento de la institución (sin la UdeA). Escala logarítmica de color.",
-  v15: "Proyectos con lugar de ejecución en la subregión (SIIU) y productos cuyo título menciona la subregión o sus municipios.",
-  v10: "Productos en coautoría con instituciones de otros países. Color por país: cuantiles del logaritmo de los productos.",
-  v11: "Productos con coautoría del Norte global (Norteamérica, Europa, Asia y Oceanía del Norte) y del Sur global (América Latina y el Caribe, MENA, África Subsahariana, resto de Asia y Oceanía).",
-  v13: "Libros, capítulos de libro y apropiación social (sin artículos) realizados con coautores de empresa, gobierno, sin ánimo de lucro o salud. Dominio = dominio OpenAlex dominante en la producción del grupo. Como referencia se añade la columna con cualquier coautor externo.",
-  v14: "Colaboraciones por sector en los tópicos de cada Eje Temático público de la VRI-UdeA (artículos, libros y capítulos; un producto cuenta una vez en cada sector presente). El total de cada barra suma presencias por sector, no productos únicos: un producto con empresa y gobierno cuenta en los dos.",
   v16: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos. La clasificación sectorial es heurística. Este ránking no responde a los filtros (se calcula sobre todos los proyectos 2014–2025).",
   v16Filtered: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento). La clasificación sectorial es heurística.",
 };
