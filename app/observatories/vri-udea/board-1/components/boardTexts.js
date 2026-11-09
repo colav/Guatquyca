@@ -226,7 +226,6 @@ export function realDataWarnings(meta) {
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2010–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de ScienTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI se normaliza por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). ${INCOMPLETE_YEARS_NOTE}`,
-    "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
   ];
 }
 

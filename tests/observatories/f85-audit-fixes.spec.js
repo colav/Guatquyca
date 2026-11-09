@@ -156,9 +156,10 @@ test.describe("measures and pages (one run)", () => {
     expect(text).toContain("unidades emergentes + en consolidación (2010–2025)");
     expect(text).toContain("unidades en riesgo de desaparecer (2010–2025)");
     expect(text).toMatch(/con producción \(2010–2025\)/);
-    /* F100 (D-223): the note of the header of the panel 6 is the first thing of its information window */
+    /* F100 (D-223), F108 (D-243): the header note of the panel (it repeated the care) is gone; the window says once that it does not follow the filters */
     await page.getByTestId("chart-card").filter({ hasText: "5 · Meta / reto" }).first().getByTestId("panel-info").click();
-    await expect(page.getByTestId("panel-info-note").last()).toContainText("No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años");
+    await expect(page.getByTestId("panel-info-care").last()).toContainText("No mide producción: no cambia con los filtros de años, centro, tema, ODS ni unidad.");
+    await expect(page.getByTestId("panel-info-note")).toHaveCount(0);
     await page.keyboard.press("Escape");
     expect(text).not.toContain("términos Núcleo");
     // pin a point

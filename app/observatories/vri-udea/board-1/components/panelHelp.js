@@ -20,7 +20,7 @@ export const PANEL_HELP = Object.freeze({
       "El tamaño del punto es el FWCI normalizado por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación, y ese promedio mundial es la referencia. El color es la categoría de capacidad; haga clic en una categoría de la leyenda para dejar solo esa.",
     ],
     look: "Los puntos grandes arriba y a la derecha son tópicos con mucha producción y mucho impacto; los pequeños y a la izquierda, tópicos de poca presencia. Haga clic en un punto para ver su detalle debajo.",
-    care: "La tendencia marcada con asterisco es indicativa: se apoya en pocos productos. El FWCI solo se calcula para productos con registro en OpenAlex.",
+    care: "La tendencia marcada con asterisco es indicativa: se apoya en pocos productos.",
   },
   p2: {
     review: "F101",
@@ -30,7 +30,7 @@ export const PANEL_HELP = Object.freeze({
       "La categoría sale de dos cosas: la razón de capacidad (citas de la UdeA frente a las del referente) y la tendencia de la producción (creciente, estable o decreciente). La tabla de reglas de abajo dice cómo se combinan.",
     ],
     look: "Qué categorías concentran más unidades y cuántas están en «sin producción» o en presencia puntual.",
-    care: "La tendencia es indicativa cuando hay pocos productos. La categoría depende del referente elegido (Colombia o el mundo).",
+    care: "La categoría depende del referente elegido (Colombia o el mundo).",
   },
   p3: {
     what: "Los grupos de investigación con más productos en los tópicos que dejan los filtros.",
@@ -64,13 +64,13 @@ export const PANEL_HELP = Object.freeze({
   },
   p9: {
     what: "Dónde se menciona Antioquia en la producción: cuántos productos se asocian a cada subregión.",
-    how: "Cada subregión se pinta por su número de productos; el color más oscuro es más producción. Al pasar el cursor aparece el conteo y el detalle.",
+    how: "Cada subregión se pinta por su número de productos; el color más oscuro es más producción. Al pasar el cursor aparece el detalle, con los productos de autores adscritos a los Programas de Regionalización.",
     look: "Qué subregiones tienen más o menos presencia en la producción.",
     care: "Es una aproximación: las bases no traen la ubicación de la investigación, solo menciones en el título. No es dónde se hizo el trabajo.",
   },
   p10: {
     what: "Las organizaciones no académicas que firman productos junto con la UdeA, ordenadas por número de productos.",
-    how: "Cada fila es una organización; la columna de productos es cuántos firma con la UdeA. El tipo de actor (empresa, gobierno, etc.) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre.",
+    how: "Cada fila es una organización; la columna de productos es cuántos firma con la UdeA, según los filtros. El tipo de actor (empresa, gobierno, etc.) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre.",
     look: "Con qué tipo de actores colabora más la UdeA y cuáles organizaciones se repiten.",
     care: "El tipo de actor puede tener errores. Se excluyen las universidades y las instituciones universitarias.",
   },
