@@ -95,9 +95,12 @@ export const TALENT_LEVEL_TITLE = "1 · Talento investigador por nivel de formac
 export const TALENT_MINCIENCIAS_TITLE = "1 · Talento investigador por categoría Minciencias";
 export const TALENT_LEVEL_LABELS = { doctorado: "Doctorado", maestria: "Maestría", especializacion: "Especialización", profesional: "Profesional", sinDato: "Sin dato" };
 export const talentLevelNote = (staff, planta) =>
-  `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta} Este panel no responde a los filtros.`;
+  `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta} Sin filtros muestra la planta completa; con filtros cuenta a los profesores con productos en la selección.`;
 export const talentMincienciasNote = (planta) =>
-  `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta} Este panel no responde a los filtros.`;
+  `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta} Sin filtros muestra la planta completa; con filtros cuenta a los profesores con productos en la selección.`;
+/** F106 (D-234): the panel 1 with a filter active; provisional text for Luis. */
+export const talentSelectionNote = (view, staff, share, plant) =>
+  `${view === "level" ? "Nivel de formación" : "Categoría Minciencias"} de los ${staff} profesores con contrato vigente que figuran como autores de los productos de la selección (${share} de la planta de ${plant}). Los profesores sin productos en ImpactU no tienen unidad en las bases y no se cuentan cuando hay filtros; la unidad y la subunidad son la principal de cada profesor (no todos tienen una subunidad principal registrada). No se muestra la densidad por habitantes: la población de Antioquia no corresponde a una selección.`;
 
 /* F72 (D-175): panels 2, 12, 17 and 18 with the new keys of B126/B126b; provisional texts for Luis. */
 export const AREAS_NOTE = (active, from, linkage) =>

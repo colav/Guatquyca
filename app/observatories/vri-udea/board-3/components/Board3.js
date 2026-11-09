@@ -75,6 +75,7 @@ import {
   STAFF_LABEL,
   TALENT_LEVEL_LABELS,
   TALENT_LEVEL_TITLE,
+  talentSelectionNote,
   TALENT_MINCIENCIAS_TITLE,
   TALENT_VIEWS,
   TILE_LABELS,
@@ -208,8 +209,23 @@ function Board3Content({ dataset, source }) {
   /* Panel 01 by level of education (F71): the bundle carries it in talent.ext.por_nivel_academico; without it, the Minciencias category. */
   const levels = talent.ext && talent.ext.por_nivel_academico ? talent.ext.por_nivel_academico : null;
   const [talentView, setTalentView] = useState("level");
+  /* F106 (D-234): with a filter active the panel 1 counts the staff authors of the selection (no density). */
+  const sel = result.talentSelection;
   const levelRows = useMemo(() => {
     if (!levels) return [];
+    if (sel.active) {
+      const byLevel = sel.byLevel;
+      const L = TALENT_LEVEL_LABELS;
+      const medical = byLevel["especialización médico-quirúrgica"] || 0;
+      const other = byLevel["especialización"] || 0;
+      return [
+        [L.doctorado, byLevel["doctorado"] || 0, ""],
+        [L.maestria, byLevel["maestría"] || 0, ""],
+        [L.especializacion, medical + other, ` · ${fmt(medical)} médico-quirúrgica y ${fmt(other)} otra especialización`],
+        [L.profesional, byLevel["profesional"] || 0, ""],
+        [L.sinDato, byLevel["Sin dato"] || 0, ""],
+      ].map(([label, value, extra]) => ({ label, value, text: `${fmt(value)} · ${pct(value, sel.staff)}`, detail: `${fmt(value)} de ${fmt(sel.staff)} profesores de la selección${extra}` }));
+    }
     const L = TALENT_LEVEL_LABELS;
     const medical = levels["especialización médico-quirúrgica"] || 0;
     const other = levels["especialización"] || 0;
@@ -226,9 +242,9 @@ function Board3Content({ dataset, source }) {
       text: `${fmt(value)} · ${dens(value, talent.poblacion_ajustada)}/100k`,
       detail: `${dens(value, talent.poblacion_ajustada)} por 100.000 hab. (ajustada) · ${dens(value, talent.poblacion_censada)} (censada)${extra}`,
     }));
-  }, [levels, talent]);
+  }, [levels, talent, sel]);
   const talentRows = useMemo(() => {
-    const mc = talent.por_minciencias;
+    const mc = sel.active ? sel.byMinciencias : talent.por_minciencias;
     const groups = [
       ["Investigador Emérito", mc["Investigador Emérito"] || 0],
       ["Investigador Sénior", mc["Investigador Sénior"] || 0],
@@ -240,10 +256,10 @@ function Board3Content({ dataset, source }) {
     return groups.map(([label, value]) => ({
       label,
       value,
-      text: `${fmt(value)} · ${dens(value, talent.poblacion_ajustada)}/100k`,
-      detail: `${dens(value, talent.poblacion_ajustada)} por 100.000 hab. (ajustada) · ${dens(value, talent.poblacion_censada)} (censada)`,
+      text: sel.active ? `${fmt(value)} · ${pct(value, sel.staff)}` : `${fmt(value)} · ${dens(value, talent.poblacion_ajustada)}/100k`,
+      detail: sel.active ? `${fmt(value)} de ${fmt(sel.staff)} profesores de la selección` : `${dens(value, talent.poblacion_ajustada)} por 100.000 hab. (ajustada) · ${dens(value, talent.poblacion_censada)} (censada)`,
     }));
-  }, [talent]);
+  }, [talent, sel]);
   const datasetRows = useMemo(() => datasets.rows.map((r) => ({ label: r.label, value: r.value, text: `${r.value} · ${r.staff} prof. · ${r.faculties} und.`, detail: `${r.staff} profesores · ${r.faculties} unidades` })), [datasets]);
   const facultyRows = (rows) => rows.map((r) => ({ label: r.label, value: r.value, text: `${r.value} · ${pct(r.value, r.total)}`, detail: `${r.value} de ${r.total} (${pct(r.value, r.total)})` }));
   const appropriationRows = useMemo(() => facultyRows(appropriation.rows), [appropriation]);
@@ -324,14 +340,20 @@ function Board3Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p1} title={isMock ? "1 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE}>
             {isMock ? <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag> : null}
             <Row gutter={[8, 8]} style={{ marginBottom: 8 }}>
-              {[
+              {(sel.active && !isMock
+                ? [
+                    [fmt(sel.staff), "profesores con contrato con productos en la selección"],
+                    [pct(sel.staff, sel.plant), `de la planta vigente (${fmt(sel.plant)} profesores)`],
+                  ]
+                : [
                 [fmt(talent.staff_total), "profesores con contrato · agregado UdeA"],
                 [dens(talent.staff_total, talent.poblacion_ajustada), `por 100.000 hab. (población ajustada ${fmt(talent.poblacion_ajustada)})`],
                 [dens(talent.staff_total, talent.poblacion_censada), `por 100.000 hab. (población censada ${fmt(talent.poblacion_censada)})`],
                 ...(talent.inv_sheet.personas > 0
                   ? [[fmt(talent.inv_sheet.personas), `investigadores en grupos (conv. 894) · ${dens(talent.inv_sheet.personas, talent.poblacion_ajustada)} por 100.000 hab.`]]
                   : []),
-              ].map(([value, label]) => (
+                  ]
+              ).map(([value, label]) => (
                 <Col key={label} xs={12}>
                   <PanelTile label={label} value={value} valueFontSize={18} />
                 </Col>
@@ -342,7 +364,9 @@ function Board3Content({ dataset, source }) {
             <Note>
               {isMock
                 ? `No existe campo de nivel de formación en las bases; abajo, la categoría Minciencias de los profesores con contrato y su densidad por 100.000 habitantes (población ajustada). Pendiente: incorporar nivel de formación desde la base de talento humano. Planta 2021-2: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`
-                : (levels && talentView === "level" ? talentLevelNote : (staff, planta) => talentMincienciasNote(planta))(fmt(talent.staff_total), `Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más.`)}
+                : sel.active
+                  ? talentSelectionNote(levels && talentView === "level" ? "level" : "minciencias", fmt(sel.staff), pct(sel.staff, sel.plant), fmt(sel.plant))
+                  : (levels && talentView === "level" ? talentLevelNote : (staff, planta) => talentMincienciasNote(planta))(fmt(talent.staff_total), `Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más.`)}
             </Note>
           </ChartCard>
         </Col>

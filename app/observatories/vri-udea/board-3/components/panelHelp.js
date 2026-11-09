@@ -8,10 +8,10 @@ const withDirect = (entry) => ({ ...entry, care: [entry.care, DIRECT].filter(Boo
 
 const HELP = {
   p1: {
-    what: "Cuántos profesores con contrato tiene la Universidad y cómo se reparten por nivel de formación o por categoría de Minciencias; además, su densidad frente a la población de Antioquia.",
-    how: "Las tarjetas de arriba dan el total y su densidad por cada cien mil habitantes (con población ajustada y censada). Cada barra de abajo es un nivel o una categoría y su longitud es el número de profesores; el selector cambia entre las dos vistas cuando existen.",
+    what: "Cuántos profesores con contrato tiene la Universidad (o los de la selección, con filtros) y cómo se reparten por nivel de formación o por categoría de Minciencias; sin filtros, además, su densidad frente a la población de Antioquia.",
+    how: "Las tarjetas de arriba dan el total y, sin filtros, su densidad por cada cien mil habitantes (con población ajustada y censada); con filtros dan los profesores de la selección y qué parte de la planta son. Cada barra de abajo es un nivel o una categoría y su longitud es el número de profesores; el selector cambia entre las dos vistas cuando existen.",
     look: "Qué niveles o categorías concentran al profesorado y cómo cambia la densidad según la población de referencia.",
-    care: "Este panel no responde a los filtros: es siempre el agregado de la Universidad. La densidad depende de qué población se use.",
+    care: "Sin filtros es el agregado de toda la planta de la Universidad; con filtros cuenta solo a los profesores que figuran como autores de productos de la selección, porque las bases no traen la unidad de quienes no tienen productos. Los filtros de unidad y subunidad usan la principal de cada profesor; quien no tiene subunidad principal registrada no entra cuando se elige una subunidad. La densidad solo se muestra sin filtros y depende de qué población se use.",
   },
   p2: {
     what: "Cuántos investigadores activos están vinculados a grupos, por gran área de la OCDE.",

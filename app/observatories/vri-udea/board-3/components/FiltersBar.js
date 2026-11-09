@@ -102,7 +102,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
   ].filter(Boolean);
 
   return (
-    <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros" help={<><div>Se combinan con «y»; los paneles 1, 12, 13 y 14 no responden a los filtros y el 7 solo a centro y temporalidad.</div><div data-testid="options-note" style={{ marginTop: 6 }}>{OPTIONS_NOTE}</div></>}>
+    <StickyFilters active={active} onReset={onReset} resetLabel="Limpiar filtros" help={<><div>Se combinan con «y»; los paneles 12, 13 y 14 no responden a los filtros, el 7 solo a centro y temporalidad y el 1 cuenta a los profesores con productos en la selección.</div><div data-testid="options-note" style={{ marginTop: 6 }}>{OPTIONS_NOTE}</div></>}>
       <FilterRows
         rows={[
           {
