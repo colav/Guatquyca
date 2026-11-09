@@ -44,12 +44,6 @@ export const PANEL_HELP = Object.freeze({
     look: "Qué ejes concentran la producción y cuáles apenas aparecen.",
     care: "Un producto puede estar en varios ejes. La asignación es de nuestra metodología y no tiene validación humana.",
   },
-  p5: {
-    what: "Los Objetivos de Desarrollo Sostenible ordenados por el número de productos que se asignan a cada uno.",
-    how: "Cada barra es un objetivo; su longitud es el número de productos. Haga clic en un objetivo para acotar todo el tablero a él; haga clic de nuevo para quitar el filtro.",
-    look: "Qué objetivos tienen más producción y cuáles muy poca.",
-    care: "La cobertura es parcial: una obra sin objetivo está sin clasificar, no «sin relación». Una obra puede tener varios objetivos, así que las barras no se suman.",
-  },
   p6: {
     what: "Las metas, retos, programas o estrategias de los documentos de política y a cuántos Ejes Temáticos se asocia cada uno.",
     how: "Cada barra es una meta; su longitud es el número de Ejes Temáticos asociados. Cambia con el documento y el eje elegidos.",

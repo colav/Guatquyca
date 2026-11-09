@@ -171,26 +171,8 @@ test.describe("F71 against the real quyca (one run)", () => {
     const box2 = await tree.locator("canvas").first().boundingBox();
     await page.mouse.click(box2.x + box2.width * 0.5, box2.y + box2.height * 0.5);
     await expect(page).not.toHaveURL(/ods=/, { timeout: 15000 });
-    // a click on a bar of the ranking of ODS
-    const bars = page.getByTestId("ranking-selectable").last();
-    await bars.evaluate((el) => el.scrollIntoView({ block: "start" }));
-    // the chart must start below the sticky bar of filters (it is 220 px tall since F77)
-    const stickyBottom = (await page.getByTestId("filters").boundingBox()).y + (await page.getByTestId("filters").boundingBox()).height;
-    await page.evaluate((delta) => window.scrollBy(0, -delta), stickyBottom + 8);
-    await page.waitForTimeout(600);
-    const bb = await bars.locator("canvas").first().boundingBox();
-    /* F104: the labels of the ODS are complete (up to 320 px at the left) and the plot is narrow: the bars start at ~75 % of the canvas, so the
-       click scans the strip of the bars (74 to 90 %) every 6 px, not the strip at 88 % of the old layout. */
-    for (let y = 12; y < bb.height - 20 && !/ods=d+/.test(page.url()); y += 6) {
-      for (const fx of [0.755, 0.77, 0.79]) {
-        if (/ods=d+/.test(page.url())) break;
-        await page.mouse.move(bb.x + bb.width * fx, bb.y + y, { steps: 2 });
-        await page.waitForTimeout(120);
-        await page.mouse.click(bb.x + bb.width * fx, bb.y + y);
-        await page.waitForTimeout(250);
-      }
-    }
-    await expect(page).toHaveURL(/ods=\d+/, { timeout: 15000 });
-    console.log(`[live] click on the ranking chose ${/ods=(\d+)/.exec(page.url())[0]}`);
+    // F106 (D-234): the ranking of ODS (panel 5) was retired; the treemap above is the only way to choose an ODS from the chart
+    await expect(page.getByTestId("ranking-selectable")).toHaveCount(0);
+    await expect(page.getByText("Ránking ODS")).toHaveCount(0);
   });
 });

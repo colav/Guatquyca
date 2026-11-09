@@ -157,7 +157,7 @@ test.describe("measures and pages (one run)", () => {
     expect(text).toContain("unidades en riesgo de desaparecer (2010–2025)");
     expect(text).toMatch(/con producción \(2010–2025\)/);
     /* F100 (D-223): the note of the header of the panel 6 is the first thing of its information window */
-    await page.getByTestId("chart-card").filter({ hasText: "6 · Meta / reto" }).first().getByTestId("panel-info").click();
+    await page.getByTestId("chart-card").filter({ hasText: "5 · Meta / reto" }).first().getByTestId("panel-info").click();
     await expect(page.getByTestId("panel-info-note").last()).toContainText("No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años");
     await page.keyboard.press("Escape");
     expect(text).not.toContain("términos Núcleo");

@@ -88,7 +88,7 @@ export const RankingBarsChart = memo(RankingBars);
 
 /**
  * Treemap of the 17 ODS (panel 8, F71): the area is the number of products; the colour is PALETTE by the number of the goal (F77). A click
- * chooses the ODS (the same choice as the bar of the panel 5 and the filter); the others are drawn paler.
+ * chooses the ODS (the same choice as the filter; the ranking of the old panel 5 was retired in F106); the others are drawn paler.
  *
  * @param {{ number: number, name: string, color: string, value: number }[]} items - From rankOds.
  * @param {number} active - ODS chosen (0 = none).

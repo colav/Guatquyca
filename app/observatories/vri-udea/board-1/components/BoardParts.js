@@ -168,15 +168,8 @@ export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
 export function OdsPlaceholders() {
   return (
     <Row gutter={[12, 12]}>
-      <Col xs={24} md={12}>
-        <Descriptions size="small" column={1} bordered title="5 · Ránking ODS">
-          <Descriptions.Item label="Sin datos en la base entregada">
-            Las bases no incluyen todavía el dato de objetivos de desarrollo sostenible de OpenAlex. Cuando se agregue, este panel listará los ODS por número de productos y quedará enlazado a los tópicos del gráfico 1.
-          </Descriptions.Item>
-        </Descriptions>
-      </Col>
-      <Col xs={24} md={12}>
-        <Descriptions size="small" column={1} bordered title="8 · Tree map ODS">
+      <Col xs={24}>
+        <Descriptions size="small" column={1} bordered title="7 · Tree map ODS">
           <Descriptions.Item label="Pendiente del mismo campo">
             Mostrará la producción de la UdeA asociable a cada uno de los 17 objetivos; el área de cada rectángulo será el conteo de productos.
           </Descriptions.Item>
@@ -187,7 +180,7 @@ export function OdsPlaceholders() {
 }
 
 /**
- * Tiles of the 17 ODS (panel 8): one tile per goal with its product count for the current
+ * Tiles of the 17 ODS (panel 7): one tile per goal with its product count for the current
  * filters; the colour intensity follows the count (same scale rule as the subregion tiles).
  *
  * @param {{ number: number, name: string, value: number }[]} items - From rankOds.

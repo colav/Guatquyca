@@ -260,7 +260,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const t3 = await hover(page, "3 · Grupos", [[0.4, 0.08], [0.4, 0.12], [0.5, 0.2]]);
-    const t6 = await hover(page, "6 · Meta", [[0.4, 0.08], [0.4, 0.14], [0.5, 0.2]]);
+    const t6 = await hover(page, "5 · Meta", [[0.4, 0.08], [0.4, 0.14], [0.5, 0.2]]);
     console.log(`[live] T1 3: ${t3} | 6: ${t6}`);
     expect(t3).toContain("Productos");
     expect(t3).not.toContain("Valor");

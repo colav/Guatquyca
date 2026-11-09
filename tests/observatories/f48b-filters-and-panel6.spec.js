@@ -173,6 +173,6 @@ test.describe("fixed filters, help of the centre filter, panel 6 and titles agai
     expect(rows.slice(1).every((r) => !r.label.includes(" › "))).toBe(true);
     expect(ends.length).toBeGreaterThan(0);
     await open(page, 1, 1280, 720);
-    await expect(page.getByText("6 · Meta / reto / programa / estrategia")).toBeVisible();
+    await expect(page.getByText("5 · Meta / reto / programa / estrategia")).toBeVisible();
   });
 });

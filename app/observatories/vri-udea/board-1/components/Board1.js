@@ -361,38 +361,23 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
 
-        <Col xs={24} md={12} lg={8}>
+        <Col xs={24} md={12}>
           <ChartCard info={PANEL_HELP.p3} title="3 · Grupos de investigación" note="productos asociados a los tópicos filtrados" empty={!groups.length}>
             <RankingBarsChart rows={groups} unit="Productos" />
           </ChartCard>
         </Col>
-        <Col xs={24} md={12} lg={8}>
+        <Col xs={24} md={12}>
           <ChartCard info={PANEL_HELP.p4} title="4 · Ejes Temáticos públicos" note={dataset.hasFactDetails ? AXES_PANEL_NOTE[applied.pairLevel] : AXES_PANEL_NOTE.topics} empty={!axes.length}>
             <RankingBarsChart rows={axes} unit={dataset.hasFactDetails ? "Productos" : "Tópicos con producción"} />
           </ChartCard>
         </Col>
-        {hasOds ? (
-          <Col xs={24} md={12} lg={8}>
-            <ChartCard info={PANEL_HELP.p5} title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible; clic en un objetivo para acotar el tablero" empty={!ods.some((o) => o.value)}>
-              <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" active={draft.odsNumber || null} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
-              {draft.odsNumber > 0 ? (
-                <Typography.Paragraph style={{ fontSize: 12, marginBottom: 4 }} data-testid="ods-selected-note">
-                  {ODS_SELECTED_NOTE(`${draft.odsNumber} · ${ods.find((o) => o.number === draft.odsNumber)?.name ?? ""}`, result.odsNoRecord)}
-                </Typography.Paragraph>
-              ) : null}
-              <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
-                  Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
-                </Typography.Paragraph>
-            </ChartCard>
-          </Col>
-        ) : null}
         <Col xs={24} md={12} lg={8}>
-          <ChartCard info={PANEL_HELP.p6} title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados. No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años; solo del documento y del Eje Temático." empty={!goals.length}>
+          <ChartCard info={PANEL_HELP.p6} title="5 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados. No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años; solo del documento y del Eje Temático." empty={!goals.length}>
             <RankingBarsChart rows={goals} labelSize={40} startCut unit="Ejes Temáticos" />
           </ChartCard>
         </Col>
         <Col xs={24} lg={16}>
-          <ChartCard info={PANEL_HELP.p7} title="7 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
+          <ChartCard info={PANEL_HELP.p7} title="6 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
             <Row gutter={[12, 12]}>
               <Col xs={24} md={8}><Typography.Text strong>Tipo de producto</Typography.Text><DonutChart labels={DONUT_LABELS.type} values={typeValues} colors={TYPE_COLORS} /></Col>
               <Col xs={24} md={8}><Typography.Text strong>Cuartil Scimago</Typography.Text><DonutChart labels={DONUT_LABELS.quartile} values={quartileValues} colors={QUARTILE_COLORS} /></Col>
@@ -402,15 +387,23 @@ function Board1Content({ dataset, source }) {
         </Col>
         {hasOds ? (
           <Col xs={24}>
-            <ChartCard info={PANEL_HELP.p8} title="8 · Producción por ODS" note="treemap de los 17 objetivos: el área es el número de productos" empty={!ods.some((o) => o.value)}>
+            <ChartCard info={PANEL_HELP.p8} title="7 · Producción por ODS" note="treemap de los 17 objetivos: el área es el número de productos; clic en un objetivo para acotar el tablero" empty={!ods.some((o) => o.value)}>
               <OdsTreemapChart items={ods} active={draft.odsNumber} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
+              {draft.odsNumber > 0 ? (
+                <Typography.Paragraph style={{ fontSize: 12, marginBottom: 4 }} data-testid="ods-selected-note">
+                  {ODS_SELECTED_NOTE(`${draft.odsNumber} · ${ods.find((o) => o.number === draft.odsNumber)?.name ?? ""}`, result.odsNoRecord)}
+                </Typography.Paragraph>
+              ) : null}
+              <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
+                Cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». Se cuentan las asignaciones con puntaje de {(ODS_MIN_SCORE / 100).toFixed(2).replace(".", ",")} o más; una obra puede tener varios ODS.
+              </Typography.Paragraph>
             </ChartCard>
           </Col>
         ) : (
           <Col xs={24}><OdsPlaceholders /></Col>
         )}
         <Col xs={24} lg={12}>
-          <ChartCard info={PANEL_HELP.p9} title="9 · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
+          <ChartCard info={PANEL_HELP.p9} title="8 · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
             <SubregionMap rows={subregionRows} detailed />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, al pasar el cursor, productos con autores adscritos a los Programas de Regionalización. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra de Regionalización no." : "No responde a los filtros."}
@@ -418,7 +411,7 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} lg={12}>
-          <ChartCard info={PANEL_HELP.p10} title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
+          <ChartCard info={PANEL_HELP.p10} title="9 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
