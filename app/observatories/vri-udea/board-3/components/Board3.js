@@ -58,13 +58,11 @@ import {
   linkageNote,
   AREAS_NOTE,
   AREAS_NOTE_MOCK,
-  ARTS_LEVEL_NOTE,
   ARTS_TITLE_CONTRACT,
   ARTS_TITLE_LEVEL,
   ACCESS_PIE_TITLE,
   PIE_CLASSES_LABELS,
   PIE_CLASSES_TITLE,
-  PID_NOTE,
   pieNote,
   PROXY_LABEL,
   REAL_FOOTER_TEXT,
@@ -110,7 +108,6 @@ const SEX_COLOR_MAP = { [SEX_SERIES[1]]: SEX_COLORS.male, [SEX_SERIES[2]]: SEX_C
 const ID_SERIES = ["Con identificador", "Sin identificador"];
 const ID_COLORS = { "Con identificador": FOUNDATIONS_COLORS.identifiers.with, "Sin identificador": FOUNDATIONS_COLORS.identifiers.without };
 /** F105 (D-232): where the type of an organization comes from, after the unified classification of B155 and B156. */
-const SRC_T3 = "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores.";
 const REPO_SERIES = ["Productos (artículos, libros, capítulos)", "Con texto completo en repositorio"];
 const REPO_COLORS = { [REPO_SERIES[0]]: FOUNDATIONS_COLORS.repository.total, [REPO_SERIES[1]]: FOUNDATIONS_COLORS.repository.inRepository };
 
@@ -337,7 +334,7 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.researchers}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={12}>
-          <ChartCard info={PANEL_HELP.p1} title={isMock ? "1 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE}>
+          <ChartCard info={PANEL_HELP.p1} title={isMock ? "1 · Talento investigador por nivel (proxy)" : levels && talentView === "level" ? TALENT_LEVEL_TITLE : TALENT_MINCIENCIAS_TITLE} note={isMock || sel.active ? undefined : (levels && talentView === "level" ? talentLevelNote : (staff, planta) => talentMincienciasNote(planta))(fmt(talent.staff_total), `Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más.`)}>
             {isMock ? <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag> : null}
             <Row gutter={[8, 8]} style={{ marginBottom: 8 }}>
               {(sel.active && !isMock
@@ -361,13 +358,13 @@ function Board3Content({ dataset, source }) {
             </Row>
             {!isMock && levels ? <Segmented size="small" options={TALENT_VIEWS} value={talentView} onChange={setTalentView} data-testid="talent-view" style={{ marginBottom: 8 }} /> : null}
             <HBarsChart rows={!isMock && levels && talentView === "level" ? levelRows : talentRows} color={SERIES[0]} unit="Profesores" />
-            <Note>
+            {isMock || sel.active ? <Note>
               {isMock
                 ? `No existe campo de nivel de formación en las bases; abajo, la categoría Minciencias de los profesores con contrato y su densidad por 100.000 habitantes (población ajustada). Pendiente: incorporar nivel de formación desde la base de talento humano. Planta 2021-2: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más. Este panel no responde a los filtros.`
                 : sel.active
                   ? talentSelectionNote()
-                  : (levels && talentView === "level" ? talentLevelNote : (staff, planta) => talentMincienciasNote(planta))(fmt(talent.staff_total), `Planta vigente: ${fmt(talent.planta_2021.total)} docentes, edad media ${talent.planta_2021.edad_media.toFixed(1).replace(".", ",")} años; ${fmt(talent.planta_2021.por_edad["65+"])} de 65 años o más.`)}
-            </Note>
+                  : null}
+            </Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -379,7 +376,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p3} title="3 · Grupos activos por área OCDE y categoría Minciencias" empty={!groupGrid.cells.length}>
             <BubbleGridChart cells={groupGrid.cells} areas={OECD_AREAS} categories={GROUP_CATEGORIES} colors={AREA_COLORS} />
-            <Note>{`Grupos con estado «Activo» a 2026 y categoría de la convocatoria 957-2023. ${fmt(groupGrid.total)} grupos activos${applied.centerIndex >= 0 ? ` del centro ${raw.centros[applied.centerIndex]}` : ""}. Con otros filtros se muestran solo los grupos con producción en la selección.${registry && sameFoundationsFilters(applied, DEFAULT_FOUNDATIONS_FILTERS) ? ` ${officialActiveGroupsNote(groupGrid.total, registry)}.` : ""}`}</Note>
+            <Note>{`Grupos con estado «Activo» a 2026 y categoría de la convocatoria 957-2023. ${fmt(groupGrid.total)} grupos activos${applied.centerIndex >= 0 ? ` del centro ${raw.centros[applied.centerIndex]}` : ""}.${registry && sameFoundationsFilters(applied, DEFAULT_FOUNDATIONS_FILTERS) ? ` ${officialActiveGroupsNote(groupGrid.total, registry)}` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -424,14 +421,14 @@ function Board3Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p10} title="10 · Profesores con productos de apropiación social, por unidad académica" empty={!appropriationRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={appropriationRows} color={BAR_COLORS.appropriation} unit="Profesores" />
-            <Note>{`${fmt(appropriation.staff)} profesores con apropiación social, sobre los profesores de la unidad con producción en la selección. ${fmt(appropriationRecords.withoutYear)} de los ${fmt(appropriationRecords.total)} registros de apropiación no tienen año; la unidad se infiere de la unidad más frecuente del autor.`}</Note>
+            <Note>{`${fmt(appropriation.staff)} profesores con apropiación social, sobre los profesores de la unidad con producción en la selección. ${fmt(appropriationRecords.withoutYear)} de los ${fmt(appropriationRecords.total)} registros de apropiación no tienen año.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p11} title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
-            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). ${SRC_T3} Identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras.`}</Note>
+            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). Identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -444,13 +441,13 @@ function Board3Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p12} title={arts.byLevel ? ARTS_TITLE_LEVEL : ARTS_TITLE_CONTRACT} empty={!arts.points.length}>
             {arts.byLevel ? null : <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{PROXY_LABEL}</Tag>}
             <ArtsScatterChart points={arts.points} groups={arts.groups} colors={FOUNDATIONS_COLORS.arts} />
-            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). ${arts.byLevel ? ARTS_LEVEL_NOTE : "No hay nivel educativo en las bases; se usa el tipo de contrato."}${isMock ? " Parte de las personas de Productos de creación.xlsx se cruzó con la planta." : ""} No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.professors)} profesores con al menos un producto artístico (${fmt(arts.linked)} vinculados, ${fmt(arts.occasional)} ocasionales). ${arts.byLevel ? "" : "No hay nivel educativo en las bases; se usa el tipo de contrato."}${isMock ? " Parte de las personas de Productos de creación.xlsx se cruzó con la planta." : ""} No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p13} title="13 · Proyectos de los grupos del Centro de Investigación de Artes" empty={!projectsGroupRows.length}>
             <HBarsChart rows={projectsGroupRows} color={BAR_COLORS.artsProjects} unit="Proyectos" />
-            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos${arts.groupUniqueProjects != null ? ` (${fmt(arts.groupUniqueProjects)} proyectos únicos; algunos tienen varios grupos)` : ""}. No responde a los filtros.`}</Note>
+            <Note>{`${fmt(arts.projectsTotal)} proyectos de ${arts.projectsByGroup.length} grupos${arts.groupUniqueProjects != null ? ` (${fmt(arts.groupUniqueProjects)} proyectos únicos)` : ""}. No responde a los filtros.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24}>
@@ -555,7 +552,7 @@ function Board3Content({ dataset, source }) {
                 { title: "%", render: (_, r) => pct(r.withId, r.total), align: "right" },
               ]}
             />
-            <Note>{`${pid.some((r) => r.label.includes("Handle")) ? PID_NOTE : "No hay Handle en este conjunto de datos. Las organizaciones se identifican con ROR (9 caracteres) o con ids ScienTI/SNIES sin ROR."} ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
+            {isMock || !pid.some((r) => r.label.includes("Handle")) ? <Note>{`${pid.some((r) => r.label.includes("Handle")) ? "" : "No hay Handle en este conjunto de datos. Las organizaciones se identifican con ROR (9 caracteres) o con ids ScienTI/SNIES sin ROR. "}${isMock ? "Hay DOI duplicados en works.csv." : ""}`.trim()}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

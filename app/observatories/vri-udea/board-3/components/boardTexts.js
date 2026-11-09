@@ -95,9 +95,9 @@ export const TALENT_LEVEL_TITLE = "1 · Talento investigador por nivel de formac
 export const TALENT_MINCIENCIAS_TITLE = "1 · Talento investigador por categoría Minciencias";
 export const TALENT_LEVEL_LABELS = { doctorado: "Doctorado", maestria: "Maestría", especializacion: "Especialización", profesional: "Profesional", sinDato: "Sin dato" };
 export const talentLevelNote = (staff, planta) =>
-  `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta} Sin filtros muestra la planta completa; con filtros cuenta a los profesores con productos en la selección.`;
+  `Nivel de formación de los ${staff} profesores con contrato vigente (planta de la Universidad) y su densidad por 100.000 habitantes de Antioquia, con la población ajustada y la censada. La especialización suma la médico-quirúrgica y la otra; el desglose está en el tooltip. ${planta}`;
 export const talentMincienciasNote = (planta) =>
-  `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta} Sin filtros muestra la planta completa; con filtros cuenta a los profesores con productos en la selección.`;
+  `Categoría Minciencias de los profesores con contrato vigente y su densidad por 100.000 habitantes (población ajustada). ${planta}`;
 /** F110 (D-245): the short live note of the panel 1 with a filter active; the long detail is in the button (i) (D-243). */
 export const talentSelectionNote = () => "Con filtros activos solo se cuentan los profesores con al menos un producto en la selección.";
 

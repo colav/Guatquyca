@@ -3,6 +3,8 @@
  * Structure: `what`, `how`, `look` and `care`. No figure is written by hand (D-174); the notes below each chart are not repeated here.
  */
 /** The filters of centre, unit and subunit are direct (F102, D-226): the panels that answer to them say so in their `care`. */
+import { PID_NOTE } from "./boardTexts";
+
 const DIRECT = "Con un centro, unidad o subunidad elegidos solo se cuentan los productos de esa entidad.";
 const withDirect = (entry) => ({ ...entry, care: [entry.care, DIRECT].filter(Boolean) });
 
@@ -59,37 +61,36 @@ const HELP = {
     what: "En qué unidades académicas hay profesores con productos de apropiación social.",
     how: "Cada barra es una unidad académica; su longitud es el número de profesores de esa unidad con al menos un producto de apropiación social. Al pasar el cursor se ve cuántos profesores de la unidad hay en la selección y qué parte son.",
     look: "Qué unidades tienen más profesores en apropiación social, en cifras absolutas y en proporción.",
-    care: "Los profesores son los autores con contrato vigente. Una unidad sin barra no tiene profesores con este tipo de producto en la selección.",
+    care: "Una unidad sin barra no tiene profesores con este tipo de producto en la selección. La unidad se infiere de la unidad más frecuente del autor.",
   },
   p11: {
     what: "En qué unidades académicas hay profesores con productos hechos junto con empresas.",
     how: "Cada barra es una unidad académica; su longitud es el número de profesores con al menos un producto compartido con una empresa. Al pasar el cursor se ve qué parte son de los profesores de la unidad en la selección.",
     look: "Qué unidades se relacionan más con el sector empresarial, en cifras y en proporción.",
-    care: "La empresa se identifica con la clasificación de ROR y OpenAlex, el catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, reglas sobre el nombre: puede haber errores. Los profesores son los autores con contrato vigente.",
+    care: "La empresa se identifica con la clasificación de ROR y OpenAlex, el catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, reglas sobre el nombre: puede haber errores.",
   },
   p11b: {
     what: "Los activos de propiedad intelectual de la Universidad y a quién pertenecen o dónde se protegen.",
     how: "Las tarjetas dan el total y cuántos tienen grupo de investigación. Las barras de abajo los reparten por tipo de activo, por país y por grupo o unidad (el selector cambia entre grupo y unidad); la línea muestra su evolución por año.",
     look: "Qué tipos de activo dominan y qué grupos o unidades concentran la propiedad intelectual.",
-    care: "El contador de patentes viene de otra fuente y no responde a los filtros. Los activos sin año no entran en la línea.",
   },
   p12: {
     what: "Cuántos profesores tienen productos artísticos y cuántos productos tiene cada uno.",
-    how: "El eje horizontal es el número de productos artísticos por profesor y el vertical el número de profesores con ese número; cada color es un nivel de formación o un tipo de contrato (leyenda). El tamaño de la burbuja crece con el número de profesores.",
+    how: "El eje horizontal es el número de productos artísticos por profesor y el vertical el número de profesores con ese número; cada color es un nivel de formación (doctorado, maestría, especialización —médico-quirúrgica incluida—, profesional o sin dato) o un tipo de contrato (leyenda). El tamaño de la burbuja crece con el número de profesores.",
     look: "Si la producción artística está repartida entre muchos profesores o concentrada en pocos, y en qué nivel de formación.",
-    care: "Este panel no responde a los filtros. El eje horizontal se corta en un máximo; los profesores con más productos se agrupan en el último valor.",
+    care: "El eje horizontal se corta en un máximo; los profesores con más productos se agrupan en el último valor.",
   },
   p13: {
     what: "Cuántos proyectos tiene cada grupo del Centro de Investigación de Artes.",
     how: "Cada barra es un grupo y su longitud es el número de proyectos del grupo.",
     look: "Qué grupos concentran los proyectos del centro.",
-    care: "Un proyecto de varios grupos cuenta en cada uno, así que la suma de las barras es mayor que el número de proyectos distintos. Este panel no responde a los filtros.",
+    care: "Un proyecto de varios grupos cuenta en cada uno, así que la suma de las barras es mayor que el número de proyectos distintos.",
   },
   p14: {
     what: "En qué unidades académicas se hacen los proyectos de investigación-creación y las obras de creación.",
     how: "Cada barra es una unidad académica y su longitud es el número de obras de creación que declara.",
     look: "Qué unidades tienen más creación registrada.",
-    care: "Viene de un registro de productos de creación que no se puede cruzar con el resto de las obras. Este panel no responde a los filtros.",
+    care: "Viene de un registro de productos de creación que no se puede cruzar con el resto de las obras.",
   },
   p15: {
     what: "Cuántas publicaciones están en un repositorio abierto, en comparación con el total, por año y dominio del conocimiento.",
@@ -111,15 +112,15 @@ const HELP = {
   },
   p18: {
     what: "Qué parte de las personas, productos y organizaciones tiene un identificador persistente (PID).",
-    how: "Cada barra es una entidad (por ejemplo, personas con ORCID, productos con DOI) y se divide en los registros con PID y sin PID (leyenda); la tabla de abajo da las cifras y el porcentaje.",
+    how: `Cada barra es una entidad (por ejemplo, personas con ORCID, productos con DOI) y se divide en los registros con PID y sin PID (leyenda); la tabla de abajo da las cifras y el porcentaje. ${PID_NOTE}`,
     look: "Qué identificadores están más extendidos y dónde falta más cobertura.",
-    care: "Los totales de cada barra son distintos (personas, productos, organizaciones): compare los porcentajes, no las longitudes.",
+    care: "Los totales de cada barra son distintos (personas, productos, organizaciones): compare los porcentajes, no las longitudes. Los registros repetidos entre fuentes se pliegan en una sola obra.",
   },
   p19: {
     what: "Cuántos profesores tienen productos de cada tipo distinto de artículo, libro o capítulo, según su contrato.",
     how: "Cada barra es un tipo de producto y se divide en segmentos por tipo de contrato (leyenda); la longitud total es el número de profesores con ese tipo de producto.",
     look: "Qué tipos de producto hacen más los profesores según su tipo de contrato.",
-    care: "Un profesor con productos de varios tipos aparece en cada uno. Los productos de creación vienen de otro registro y no se cruzan con estas obras.",
+    care: "Un profesor con productos de varios tipos aparece en cada uno.",
   },
 };
 

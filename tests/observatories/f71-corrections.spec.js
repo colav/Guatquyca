@@ -87,7 +87,11 @@ test.describe("F71 against the real quyca (one run)", () => {
     await page.waitForTimeout(3000);
     const card = page.getByTestId("chart-card").filter({ hasText: "1 ·" }).first();
     await expect(card).toContainText("1 · Talento investigador por nivel de formación");
-    await expect(card).toContainText(`Nivel de formación de los ${fmt(staff)} profesores`);
+    /* F108 (D-243): the description of the plant is the «Nota del panel» of the button (i), not the foot of the card */
+    await expect(card).not.toContainText(`Nivel de formación de los ${fmt(staff)} profesores`);
+    await card.getByTestId("panel-info").click();
+    await expect(page.getByTestId("panel-info-note").last()).toContainText(`Nivel de formación de los ${fmt(staff)} profesores`);
+    await page.keyboard.press("Escape");
     await expect(card).not.toContainText("No existe campo de nivel");
     // the density per 100.000 inhabitants (adjusted and census) in the tooltip of a bar
     const canvas = card.locator("canvas").first();
@@ -106,7 +110,9 @@ test.describe("F71 against the real quyca (one run)", () => {
     // the second view
     await card.getByTestId("talent-view").getByText("Por categoría Minciencias").click();
     await expect(card).toContainText("1 · Talento investigador por categoría Minciencias");
-    await expect(card).toContainText("Categoría Minciencias de los profesores con contrato vigente");
+    await card.getByTestId("panel-info").click();
+    await expect(page.getByTestId("panel-info-note").last()).toContainText("Categoría Minciencias de los profesores con contrato vigente");
+    await page.keyboard.press("Escape");
     console.log(`[live] levels: ${JSON.stringify(lv)} (suma ${staff})`);
   });
 
