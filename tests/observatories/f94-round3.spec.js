@@ -230,7 +230,7 @@ import { NOTICE_NOTES } from "../../app/observatories/vri-udea/board-2/component
 import { methodNotes } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
 
 test.describe("F96 note of 2025 and 2026 (D-212)", () => {
-  const PHRASE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de SCIENTI.";
+  const PHRASE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de ScienTI.";
 
   test("the same sentence in the three boards, with its cause", () => {
     expect(INCOMPLETE_YEARS_NOTE).toBe(PHRASE);
@@ -259,7 +259,7 @@ test.describe("F96 note of 2025 and 2026 (D-212)", () => {
         await page.getByTestId("method-notes").waitFor({ timeout: 120000 });
         await page.waitForTimeout(1500);
         const text = await page.getByTestId("method-notes").innerText();
-        const n = text.split("la información de la última convocatoria de medición de SCIENTI").length - 1;
+        const n = text.split("la información de la última convocatoria de medición de ScienTI").length - 1;
         console.log(`[live] Board ${board}: the sentence appears ${n} time(s) in the notes of method`);
         expect(n).toBe(1);
       }

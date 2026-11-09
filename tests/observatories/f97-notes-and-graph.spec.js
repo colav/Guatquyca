@@ -31,7 +31,7 @@ test.describe("F97 notes without duplicates (no server)", () => {
       expect(foot).not.toMatch(/ImpactU|OpenAlex|3 de julio|30 de mayo/);
       expect(foot).toContain("SIIU:");
     }
-    expect(FOOT3).toContain("SCIENTI:");
+    expect(FOOT3).toContain("ScienTI:");
     expect(FOOT3).toContain("Población de Antioquia");
   });
 

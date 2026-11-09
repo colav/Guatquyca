@@ -279,7 +279,7 @@ function Board3Content({ dataset, source }) {
   const sexSeries = useMemo(() => sexByYear.series.map((s) => ({ label: SEX_SERIES[s.sex], values: s.values })), [sexByYear]);
 
   /* Q-10: the note of the panel 17 (same text as before) in short sentences, one per line. */
-  const accessNote = `Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en SCIENTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`.split(/(?<=\.)\s+/);
+  const accessNote = `Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en ScienTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`.split(/(?<=\.)\s+/);
   const withBirthPct = pct(ageByYear.withBirthYear, ageByYear.authors);
   const goals = raw.metas;
 
@@ -413,7 +413,7 @@ function Board3Content({ dataset, source }) {
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p8} title="8 · Tesis de maestría, doctorado y especialidad por año" empty={theses.totals.every((v) => v === 0)}>
             <LinesChart years={theses.years} series={theses.series} colors={colorMap(theses.series.map((s) => s.label), SERIES)} unit="Tesis" />
-            <Note>{`${fmt(theses.totals[0])} tesis de doctorado, ${fmt(theses.totals[1])} de maestría o especialidad clínica y ${fmt(theses.totals[2])} monografías de especialización en la selección. SCIENTI no separa maestría de especialidad clínica; la serie de Minciencias («Tesis de maestria») termina en 2020 y la de SCIENTI crece desde 2021, por lo que la curva combina dos fuentes. Las tesis registran como autor al director.`}</Note>
+            <Note>{`${fmt(theses.totals[0])} tesis de doctorado, ${fmt(theses.totals[1])} de maestría o especialidad clínica y ${fmt(theses.totals[2])} monografías de especialización en la selección. ScienTI no separa maestría de especialidad clínica; la serie de Minciencias («Tesis de maestria») termina en 2020 y la de ScienTI crece desde 2021, por lo que la curva combina dos fuentes. Las tesis registran como autor al director.`}</Note>
           </ChartCard>
         </Col>
       </Row>
@@ -484,14 +484,14 @@ function Board3Content({ dataset, source }) {
                 </Col>
               ))}
             </Row>
-            <Note>{`${fmt(repository.inRepository)} de ${fmt(repository.publications)} publicaciones en repositorio (${pct(repository.inRepository, repository.publications)}); el dato existe solo para los ${fmt(repository.known)} registros de OpenAlex. Los registros solo-SCIENTI (sin tópico) no tienen el campo.`}</Note>
+            <Note>{`${fmt(repository.inRepository)} de ${fmt(repository.publications)} publicaciones en repositorio (${pct(repository.inRepository, repository.publications)}); el dato existe solo para los ${fmt(repository.known)} registros de OpenAlex. Los registros solo-ScienTI (sin tópico) no tienen el campo.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
           <ChartCard info={PANEL_HELP.p16} title="16 · Conjuntos de datos abiertos por tópico" empty={!datasetRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={datasetRows} color={BAR_COLORS.datasets} unit="Conjuntos de datos" />
-            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en SCIENTI." : ""}${datasets.year2026 > 0 ? ` ${fmt(datasets.year2026)} de los ${fmt(datasets.total)} conjuntos de datos tienen año 2026 (fecha de carga del registro).` : ""} El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.`}</Note>
+            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en ScienTI." : ""}${datasets.year2026 > 0 ? ` ${fmt(datasets.year2026)} de los ${fmt(datasets.total)} conjuntos de datos tienen año 2026 (fecha de carga del registro).` : ""} El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
@@ -555,7 +555,7 @@ function Board3Content({ dataset, source }) {
                 { title: "%", render: (_, r) => pct(r.withId, r.total), align: "right" },
               ]}
             />
-            <Note>{`${pid.some((r) => r.label.includes("Handle")) ? PID_NOTE : "No hay Handle en este conjunto de datos. Las organizaciones se identifican con ROR (9 caracteres) o con ids SCIENTI/SNIES sin ROR."} ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
+            <Note>{`${pid.some((r) => r.label.includes("Handle")) ? PID_NOTE : "No hay Handle en este conjunto de datos. Las organizaciones se identifican con ROR (9 caracteres) o con ids ScienTI/SNIES sin ROR."} ${isMock ? "Hay DOI duplicados en works.csv." : "Los registros repetidos entre fuentes se pliegan en una sola obra."}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

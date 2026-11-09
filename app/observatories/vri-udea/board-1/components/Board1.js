@@ -219,7 +219,7 @@ function Board1Content({ dataset, source }) {
   /* Sources and dates (F47): the dates of OpenAlex come from meta.corte_openalex, in Bogotá time. */
   const sources = useMemo(() => sourceSentences(dataset.meta, dataset.obsCut), [dataset]);
   const fwciNote = result.fwciBasis
-    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas.${dataset.hasExpectedCitations ? " El FWCI se normaliza por tópico y año." : ""} ${sources.citations}`
+    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (ScienTI o Minciencias) no tienen datos de citas.${dataset.hasExpectedCitations ? " El FWCI se normaliza por tópico y año." : ""} ${sources.citations}`
     : "";
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));

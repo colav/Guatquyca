@@ -7,10 +7,10 @@ import { POLICY_DOCUMENTS, policyRank } from "@/lib/observatories/policyDocument
  */
 
 /**
- * Note of the recent years, the same in the three boards (F96, D-212): the cause is the one that Luis decided (the last call of SCIENTI is not yet in
+ * Note of the recent years, the same in the three boards (F96, D-212): the cause is the one that Luis decided (the last call of ScienTI is not yet in
  * the open data of Minciencias). Provisional for Luis; it is not mixed with the note of the projects (SIIU).
  */
-export const INCOMPLETE_YEARS_NOTE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de SCIENTI.";
+export const INCOMPLETE_YEARS_NOTE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de ScienTI.";
 
 export const BOARD_TITLE = "Masa crítica temática: campos de conocimiento demandados";
 
@@ -224,7 +224,7 @@ export function realDataWarnings(meta) {
   return [
     `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2010–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2010–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
-    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI se normaliza por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
+    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de ScienTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI se normaliza por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). ${INCOMPLETE_YEARS_NOTE}`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
   ];

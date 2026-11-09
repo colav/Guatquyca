@@ -96,7 +96,7 @@ test.describe("Q-09: no file, sheet, table or column in the texts (no server)", 
     expect(texts3.linkageNote({ personas: 100, por_vinculacion: { Regular: 10 } })).toContain("El registro de grupos de la convocatoria 894 incluye 100 personas");
   });
 
-  test("the sources are explained once in the method text: SIIU and SCIENTI in one sentence each (provisional)", () => {
+  test("the sources are explained once in the method text: SIIU and ScienTI in one sentence each (provisional)", () => {
     const method = [texts2.FOOTER_TEXT, texts2.REAL_FOOTER_TEXT, texts3.FOOTER_TEXT, texts3.REAL_FOOTER_TEXT].filter(Boolean);
     expect(method.length).toBeGreaterThan(0);
     for (const m of method) {
@@ -131,7 +131,7 @@ test.describe("Q-14 panel 14 of Board 2 (no server)", () => {
 test.describe("F90 rendered pages (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("the three boards show no file, sheet, table, column or «thesaurus»; the sources explain SIIU and SCIENTI; the funders carry their normalised names", async ({ page }) => {
+  test("the three boards show no file, sheet, table, column or «thesaurus»; the sources explain SIIU and ScienTI; the funders carry their normalised names", async ({ page }) => {
     test.setTimeout(280000);
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [1, 2, 3]) {
@@ -146,7 +146,7 @@ test.describe("F90 rendered pages (one run)", () => {
         expect(text).toContain("SIIU: sistema donde la Universidad registra oficialmente sus proyectos.");
         expect((text.match(/SIIU: sistema donde/g) || []).length).toBe(1);
       }
-      if (board === 3) expect(text).toContain("SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos.");
+      if (board === 3) expect(text).toContain("ScienTI: plataforma de Minciencias donde se registran grupos, investigadores y productos.");
     }
   });
 });

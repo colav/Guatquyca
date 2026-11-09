@@ -87,9 +87,9 @@ test.describe("computeFoundations against the original page (numbers read from t
       expect(r.groupGrid.cells.map((c) => `${c.area} · ${c.category}: ${fmt(c.value)} grupos`).sort()).toEqual([...tt("3")].sort());
       const oaTotal = r.openAccess.open + r.openAccess.closed + r.openAccess.noData;
       expect(
-        [["Acceso abierto", r.openAccess.open], ["Cerrado", r.openAccess.closed], ["Sin dato (solo SCIENTI)", r.openAccess.noData]]
+        [["Acceso abierto", r.openAccess.open], ["Cerrado", r.openAccess.closed], ["Sin dato (solo ScienTI)", r.openAccess.noData]]
           .filter(([, v]) => v > 0).map(([n, v]) => `${n}: ${fmt(v)} (${pct(v, oaTotal)})`),
-      ).toEqual(tt("17"));
+      ).toEqual(tt("17").map((s) => s.replace("SCIENTI", "ScienTI"))); // F106: the artifact writes SCIENTI, the board ScienTI
       expect(r.staffByType.flatMap((row) => row.values.map((v, i) => [row.label, v, i]).filter(([, v]) => v > 0).map(([l, v, i]) => `${l} · ${CONTRACTS[i]}: ${fmt(v)}`))).toEqual(tt("c"));
       /* 16: datasets by topic. */
       expect(r.datasets.rows.map((x) => `${x.label}: ${x.value} conjuntos · ${x.staff} profesores · ${x.faculties} unidades`)).toEqual(tt("16"));

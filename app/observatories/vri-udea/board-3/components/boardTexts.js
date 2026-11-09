@@ -21,7 +21,7 @@ export const STAFF_LABEL = "profesores según la tabla de personal anterior";
 export const PROXY_LABEL = "categoría Minciencias de la planta";
 
 export const FOOTER_TEXT =
-  "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
+  "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. ScienTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de ScienTI registran como autores a sus directores y, en parte, a los estudiantes.";
 
 export const SECTIONS = {
   researchers: "Base de investigadores",
@@ -51,7 +51,7 @@ export const SCOPE_LABELS = [
 
 export const SEX_SERIES = { 1: "Hombre", 2: "Mujer", 0: "Sin dato" };
 
-export const ACCESS_LABELS = { open: "Acceso abierto", closed: "Cerrado", noData: "Sin dato (solo SCIENTI)" };
+export const ACCESS_LABELS = { open: "Acceso abierto", closed: "Cerrado", noData: "Sin dato (solo ScienTI)" };
 
 /* Texts for the data of the API (provisional: Luis approves them). */
 export const REAL_TAG = "Datos de ImpactU";
@@ -60,7 +60,7 @@ export const REAL_TAG = "Datos de ImpactU";
 export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo de 2026";
 
 export const REAL_FOOTER_TEXT =
-  "SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título.";
+  "SIIU: sistema donde la Universidad registra oficialmente sus proyectos. ScienTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de ScienTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título.";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -116,7 +116,7 @@ export const PIE_CLASSES_LABELS = { publications: "Publicaciones", preprints: "P
 export const pieNote = (preprintsFromPublications) =>
   `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones.`;
 export const PID_NOTE =
-  "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de SCIENTI o SNIES.";
+  "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de ScienTI o SNIES.";
 
 /** Help of the filter Documento (F74, D-177): the board has no control of confidence. Provisional text. */
 export const DOCUMENT_FILTER_HELP =
