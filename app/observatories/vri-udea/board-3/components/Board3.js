@@ -25,6 +25,7 @@ import {
   AGE_GROUPS,
   CONTRACTS,
   DEFAULT_FOUNDATIONS_FILTERS,
+  FEW_PRODUCTS_THRESHOLD,
   FOUNDATIONS_FILTER_DEBOUNCE_MS,
   GROUP_CATEGORIES,
   OECD_AREAS,
@@ -52,6 +53,7 @@ import {
   BOARD_LEAD,
   BOARD_TITLE,
   FOOTER_TEXT,
+  fewProductsWarning,
   MOCK_TAG,
   linkageNote,
   AREAS_NOTE,
@@ -84,7 +86,7 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Col, Collapse, Divider, Row, Segmented, Skeleton, Statistic, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Divider, Row, Segmented, Skeleton, Statistic, Tag, Typography } from "antd";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -164,6 +166,8 @@ function Board3Content({ dataset, source }) {
   const notesOfMethod = useMemo(() => methodNotes(staffLabel), [staffLabel]);
   const { draft, applied, pending, update, reset } = useUrlFilters(URL_FILTERS);
   const result = useMemo(() => computeFoundations(dataset, applied), [dataset, applied]);
+  /* F102: a filter of entity (centre, unit or subunit) is active. */
+  const entityChosen = applied.centerIndex >= 0 || applied.facultyIndex >= 0 || applied.departmentIndex >= 0;
   /* Lists of options with products (F75, D-178), from the products that pass the filters. */
   const available = useMemo(() => timed("options", () => productOptionAvailability(dataset, applied)), [dataset, applied]);
 
@@ -302,6 +306,9 @@ function Board3Content({ dataset, source }) {
         {`${fmt(status.products)} productos · ${fmt(status.authors)} autores UdeA · ${fmt(status.staff)} profesores con producción (${staffLabel}) · ${fmt(status.groups)} grupos · ${status.yearFrom}–${status.yearTo}`}
         {pending ? " · Actualizando…" : ""}
       </Typography.Text>
+      {entityChosen && status.products < FEW_PRODUCTS_THRESHOLD ? (
+        <Alert type="info" showIcon data-testid="few-products-warning" message={fewProductsWarning(status.products)} style={{ marginBottom: 12 }} />
+      ) : null}
       <Tiles tiles={tiles} staffLabel={staffLabel} />
       {registry ? (
         <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginTop: 6 }} data-testid="official-groups-note">
@@ -378,7 +385,7 @@ function Board3Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard info={PANEL_HELP.p8} title="8 · Tesis de maestría, doctorado y especialidad por año">
+          <ChartCard info={PANEL_HELP.p8} title="8 · Tesis de maestría, doctorado y especialidad por año" empty={theses.totals.every((v) => v === 0)}>
             <LinesChart years={theses.years} series={theses.series} colors={colorMap(theses.series.map((s) => s.label), SERIES)} unit="Tesis" />
             <Note>{`${fmt(theses.totals[0])} tesis de doctorado, ${fmt(theses.totals[1])} de maestría o especialidad clínica y ${fmt(theses.totals[2])} monografías de especialización en la selección. SCIENTI no separa maestría de especialidad clínica; la serie de Minciencias («Tesis de maestria») termina en 2020 y la de SCIENTI crece desde 2021, por lo que la curva combina dos fuentes. Las tesis registran como autor al director.`}</Note>
           </ChartCard>
@@ -431,7 +438,7 @@ function Board3Content({ dataset, source }) {
       <Divider orientation="left">{SECTIONS.openScience}</Divider>
       <Row gutter={[12, 12]}>
         <Col xs={24}>
-          <ChartCard info={PANEL_HELP.p15} title="15 · Productos en repositorio frente al total, por año y dominio">
+          <ChartCard info={PANEL_HELP.p15} title="15 · Productos en repositorio frente al total, por año y dominio" empty={repository.publications === 0}>
             <div style={{ marginBottom: 8 }}>
               {REPO_SERIES.map((s) => <Tag key={s} color={REPO_COLORS[s]} style={{ color: BRAND.text }}>{s}</Tag>)}
             </div>
@@ -477,7 +484,7 @@ function Board3Content({ dataset, source }) {
               <Col xs={24} md={13}>
                 <Row gutter={[8, 8]} data-testid="access-cards">
                   {[
-                    [fmt(openAccess.open), `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)`],
+                    [fmt(openAccess.open), openAccess.open + openAccess.closed > 0 ? `publicaciones en abierto (${pct(openAccess.open, openAccess.open + openAccess.closed)} de las que tienen dato)` : "publicaciones en abierto (ninguna con dato de acceso)"],
                     [fmt(openAccess.datasetsOpen), `conjuntos de datos abiertos de ${fmt(openAccess.datasets)}`],
                     ...(openAccess.preprints > 0 ? [[fmt(openAccess.preprints), `preprints (marca de OpenAlex; ${fmt(openAccess.preprints - openAccess.preprintsFromPublications)} de otros tipos)`]] : []),
                     [fmt(openAccess.software), "software / código fuente registrado"],

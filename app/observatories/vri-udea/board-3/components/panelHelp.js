@@ -2,7 +2,11 @@
  * Help of the panels of the Board 3, for the button (i) of each card (F100, D-221). Provisional texts: Luis and Gabriel approve them.
  * Structure: `what`, `how`, `look` and `care`. No figure is written by hand (D-174); the notes below each chart are not repeated here.
  */
-export const PANEL_HELP = Object.freeze({
+/** The filters of centre, unit and subunit are direct (F102, D-226): the panels that answer to them say so in their `care`. */
+const DIRECT = "Con un centro, unidad o subunidad elegidos solo se cuentan los productos de esa entidad.";
+const withDirect = (entry) => ({ ...entry, care: [entry.care, DIRECT].filter(Boolean) });
+
+const HELP = {
   p1: {
     what: "Cuántos profesores con contrato tiene la Universidad y cómo se reparten por nivel de formación o por categoría de Minciencias; además, su densidad frente a la población de Antioquia.",
     how: "Las tarjetas de arriba dan el total y su densidad por cada cien mil habitantes (con población ajustada y censada). Cada barra de abajo es un nivel o una categoría y su longitud es el número de profesores; el selector cambia entre las dos vistas cuando existen.",
@@ -117,4 +121,8 @@ export const PANEL_HELP = Object.freeze({
     look: "Qué tipos de producto hacen más los profesores según su tipo de contrato.",
     care: "Un profesor con productos de varios tipos aparece en cada uno. Los productos de creación vienen de otro registro y no se cruzan con estas obras.",
   },
-});
+};
+
+const ENTITY_PANELS = ["p2", "p3", "p4", "p5", "p6", "p8", "p10", "p11", "p15", "p16", "p17", "p18", "p19"];
+
+export const PANEL_HELP = Object.freeze(Object.fromEntries(Object.entries(HELP).map(([key, entry]) => [key, ENTITY_PANELS.includes(key) ? withDirect(entry) : entry])));

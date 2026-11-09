@@ -49,10 +49,18 @@ test.describe("computeFoundations against the original page (numbers read from t
     default: DEFAULT_FOUNDATIONS_FILTERS,
     doc1: { ...DEFAULT_FOUNDATIONS_FILTERS, policyIndex: 1 },
     years_int: { ...DEFAULT_FOUNDATIONS_FILTERS, yearFrom: 2018, yearTo: 2022, scopeIndex: 3 },
-    centro_fac: { ...DEFAULT_FOUNDATIONS_FILTERS, centerIndex: centerArts, facultyIndex: 7 },
   });
 
-  for (const name of ["default", "doc1", "years_int", "centro_fac"]) {
+  /* F102 (X-05, D-226): the state «centro_fac» (centre Artes + faculty 7) is no longer compared with the page of the artifact: that page expanded the
+     entity filters to the topics of the entity and the board counts only the products of the entity now. The figure is checked against a count by hand. */
+  test("state centro_fac is direct (no longer comparable with the artifact): the products are the ones of the centre and of the faculty", () => {
+    const f = { ...DEFAULT_FOUNDATIONS_FILTERS, centerIndex: centerArts, facultyIndex: 7 };
+    const groups = ds.centerGroups[centerArts];
+    const expected = ds.raw.P.filter((p) => (p[0] == null || (p[0] >= 2010 && p[0] <= 2026)) && p[12].some((g) => groups.has(g)) && p[10].includes(7)).length;
+    expect(computeFoundations(ds, f).tiles.products).toBe(expected);
+  });
+
+  for (const name of ["default", "doc1", "years_int"]) {
     test(`state ${name}: tiles, status and the panels`, () => {
       const expected = ORIGINAL[name];
       const r = computeFoundations(ds, states()[name]);

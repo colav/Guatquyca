@@ -122,6 +122,10 @@ export const DOCUMENT_FILTER_HELP =
 /* Q-06 (F90, D-202): source and cut of the projects, as the team understands it (the list of the VRI-UdeA, cut on 3 July 2025); provisional for Luis. */
 export const PROJECTS_2025_WARNING = "Proyectos del listado de la VRI-UdeA (SIIU): el último inicio registrado es el 18 de junio de 2025 y los de mayo y junio pueden estar incompletos.";
 
+/* F102 (D-226): the filters of entity are direct. Provisional texts for Luis. */
+export const DIRECT_FILTERS_NOTE = "Los filtros de centro, unidad y subunidad cuentan solo los productos de la entidad elegida.";
+export const fewProductsWarning = (n) => `Esta selección tiene ${Number(n).toLocaleString("es-CO")} productos; con pocos productos varios paneles pueden quedar vacíos.`;
+
 /**
  * Notes of method at the foot of the board (Q-22, Q-24, F91): the sentences that were spread over the panels, now in one box.
  * No figure that the bundle does not carry. Provisional for Luis.
@@ -131,6 +135,7 @@ export const PROJECTS_2025_WARNING = "Proyectos del listado de la VRI-UdeA (SIIU
  */
 export const methodNotes = (staffLabel) => [
   `Los profesores son los autores UdeA ${staffLabel}; «autores UdeA» incluye estudiantes y otros vinculados.`,
+  DIRECT_FILTERS_NOTE,
   PROJECTS_2025_WARNING,
   INCOMPLETE_YEARS_NOTE,
   "La clasificación de las organizaciones coautoras (por ejemplo, las empresas) se hace por reglas sobre su nombre.",

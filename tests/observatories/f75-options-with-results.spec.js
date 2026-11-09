@@ -189,7 +189,7 @@ test.describe("options with products against the real bundles (one run)", () => 
     violations += run("T2", "document CONPES 4144", 2, { policyDoc: "CONPES 4144" }, u2, d2m, c2, o2);
     expect(Object.keys(o2({ axisId: 98 }))).toContain("policyDoc");
     expect([...o2({ axisId: 98 }).policyDoc]).toEqual([l2.axisById.get(98).agenda]);
-    // Board 3 (with the expansion by topics of X-05 the property is approximate: the violations are reported, not hidden)
+    // Board 3: the entity filters are direct since F102 (X-05, D-226), so the property is exact now (it was approximate with the expansion)
     const base3 = DEFAULT_FOUNDATIONS_FILTERS;
     const docs3 = (b3.agendas || []).map((n) => b3.agendas_all.indexOf(n));
     const u3 = { scope: [0, 1, 2, 3], policyDoc: docs3, center: b3.centros.map((_, i) => i), unit: b3.facs.map((_, i) => i), subunit: b3.deps.map((_, i) => i), subfield: b3.subs.map((_, i) => i) };
@@ -202,7 +202,8 @@ test.describe("options with products against the real bundles (one run)", () => 
     console.log(`[live] options by scenario:\n${hidden.join("\n")}`);
     expect(violations).toBe(0); // Boards 1 and 2: exact
     expect(v3none).toBe(0);
-    console.log(`[live] T3 with a centre chosen: ${v3centre} violation(s) of the property (expansion by topics, X-05)`);
+    console.log(`[live] T3 with a centre chosen: ${v3centre} violation(s) of the property (direct filters)`);
+    expect(v3centre).toBe(0); // F102: every visible option leaves at least one product
     expect([...o3({}).policyDoc].every((i) => docs3.includes(i))).toBe(true); // the 4 documents without axes are not offered
   });
 });
