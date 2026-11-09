@@ -179,11 +179,16 @@ test.describe("F71 against the real quyca (one run)", () => {
     await page.evaluate((delta) => window.scrollBy(0, -delta), stickyBottom + 8);
     await page.waitForTimeout(600);
     const bb = await bars.locator("canvas").first().boundingBox();
-    for (let y = 12; y < bb.height - 20 && !/ods=\d+/.test(page.url()); y += 14) {
-      await page.mouse.move(bb.x + bb.width * 0.88, bb.y + y, { steps: 3 });
-      await page.waitForTimeout(250);
-      await page.mouse.click(bb.x + bb.width * 0.88, bb.y + y);
-      await page.waitForTimeout(700);
+    /* F104: the labels of the ODS are complete (up to 320 px at the left) and the plot is narrow: the bars start at ~75 % of the canvas, so the
+       click scans the strip of the bars (74 to 90 %) every 6 px, not the strip at 88 % of the old layout. */
+    for (let y = 12; y < bb.height - 20 && !/ods=d+/.test(page.url()); y += 6) {
+      for (const fx of [0.755, 0.77, 0.79]) {
+        if (/ods=d+/.test(page.url())) break;
+        await page.mouse.move(bb.x + bb.width * fx, bb.y + y, { steps: 2 });
+        await page.waitForTimeout(120);
+        await page.mouse.click(bb.x + bb.width * fx, bb.y + y);
+        await page.waitForTimeout(250);
+      }
     }
     await expect(page).toHaveURL(/ods=\d+/, { timeout: 15000 });
     console.log(`[live] click on the ranking chose ${/ods=(\d+)/.exec(page.url())[0]}`);

@@ -19,7 +19,7 @@ test.describe("F51 against the real quyca (read-only)", () => {
       await expect(box).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(1200);
       const open = Math.round((await box.boundingBox()).height);
-      const rows = await box.locator(".ant-row").first().evaluate((el) => new Set([...el.children].map((c) => Math.round(c.getBoundingClientRect().top))).size);
+      const rows = await box.getByTestId("filter-row").first().evaluate((el) => new Set([...el.children].map((c) => Math.round(c.getBoundingClientRect().top))).size);
       const controls = await box.evaluate((el) => ({
         selectSmall: el.querySelectorAll(".ant-select-sm").length,
         selectNormal: el.querySelectorAll(".ant-select:not(.ant-select-sm)").length,

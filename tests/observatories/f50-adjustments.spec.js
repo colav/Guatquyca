@@ -166,7 +166,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
     const b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
     expect(b3.centros).toHaveLength(26);
     await open(page, 3);
-    await page.getByTestId("filters").locator(".ant-col", { hasText: "Centro de investigación" }).last().locator(".ant-select").click();
+    await page.getByTestId("filters").locator("label", { hasText: "Centro de investigación" }).locator("xpath=../..").locator(".ant-select").click();
     // the list is virtual: scroll to the end and read the last option; 26 options in all (aria-label of the listbox)
     await page.locator(".ant-select-dropdown:visible .rc-virtual-list-holder").evaluate((el) => { el.scrollTop = el.scrollHeight; });
     await page.waitForTimeout(300);
@@ -212,7 +212,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
     expect(await page.locator("main").innerText()).not.toContain("Health Sciences");
     expect(await page.locator("main").innerText()).not.toContain("Sin dominio");
     // subunits
-    await page.getByTestId("filters").locator(".ant-col", { hasText: "Subunidad académica" }).last().locator(".ant-select").click();
+    await page.getByTestId("filters").locator("label", { hasText: "Subunidad académica" }).locator("xpath=../..").locator(".ant-select").click();
     // search each empty subunit: it is not offered
     for (const name of empty) {
       await page.keyboard.press("Control+A");

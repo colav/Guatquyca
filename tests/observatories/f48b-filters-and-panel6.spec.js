@@ -77,8 +77,8 @@ test.describe("fixed filters, help of the centre filter, panel 6 and titles agai
         return { position: cs.position, z: cs.zIndex, shadow: cs.boxShadow, radius: cs.borderRadius, background: cs.backgroundColor, cardRadius: cc.borderRadius, height: Math.round(el.getBoundingClientRect().height) };
       });
       expect(style.position).toBe("sticky");
-      expect(+style.z).toBeLessThan(198); // under the site header
-      expect(+style.z).toBeGreaterThan(10); // over the charts
+      expect(+style.z).toBeLessThan(1050); // F104: below the menus and tooltips of Ant (F89, Q-16)
+      expect(+style.z).toBeGreaterThan(197); // over the charts and the controls of the maps (z-index 197)
       // F51: square top corners, bottom ones with the radius of the cards
       expect(style.radius).toBe(`0px 0px ${style.cardRadius} ${style.cardRadius}`);
       expect(style.background).not.toMatch(/rgba\(0, 0, 0, 0\)|transparent/);

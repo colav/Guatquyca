@@ -36,7 +36,7 @@ async function inkAtEnd(page, card, band = 70) {
     ctx.drawImage(img, 0, 0);
     const { data } = ctx.getImageData(0, 0, c.width, c.height);
     const bg = [data[0], data[1], data[2]];
-    const col = (x) => { for (let y = 0; y < c.height; y++) { const i = (y * c.width + x) * 4; if (Math.abs(data[i] - bg[0]) + Math.abs(data[i + 1] - bg[1]) + Math.abs(data[i + 2] - bg[2]) > 60) return true; } return false; };
+    const col = (x) => { for (let y = 0; y < c.height - 60; y++) /* F104: not the last 60 px: the floating «scroll to top» button of the site covers the corner of the canvas */ { const i = (y * c.width + x) * 4; if (Math.abs(data[i] - bg[0]) + Math.abs(data[i + 1] - bg[1]) + Math.abs(data[i + 2] - bg[2]) > 60) return true; } return false; };
     let rightmost = -1;
     for (let x = c.width - 1; x >= 0 && rightmost < 0; x--) if (col(x)) rightmost = x;
     let inBand = false;

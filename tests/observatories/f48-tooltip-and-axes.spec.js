@@ -34,8 +34,11 @@ async function open(page, width, query) {
   await page.waitForTimeout(1500);
 }
 
-/** Hovers the scatter until a tooltip shows and returns its text and where it is; the mouse stays on the point. */
-async function findPoint(page, { name = "", columns = 16, rows = 10 } = {}) {
+/**
+ * Hovers the scatter until a tooltip shows and returns its text and where it is; the mouse stays on the point. F104: the points of some
+ * categories (e.g. «emergente») are small, so when the grid asked for finds nothing it tries once a denser one (70 x 40) before giving up.
+ */
+async function findPoint(page, { name = "", columns = 16, rows = 10, dense = false } = {}) {
   const card = page.getByTestId("chart-card").first();
   await card.scrollIntoViewIfNeeded();
   const box = await card.locator("canvas").first().boundingBox();
@@ -52,7 +55,7 @@ async function findPoint(page, { name = "", columns = 16, rows = 10 } = {}) {
       }
     }
   }
-  return null;
+  return dense ? null : findPoint(page, { name, columns: 70, rows: 40, dense: true });
 }
 
 test.describe("tooltip, bold number and trend against the real quyca (read-only)", () => {
@@ -121,7 +124,7 @@ test.describe("tooltip, bold number and trend against the real quyca (read-only)
   });
 
   test("the detail of a topic says its trend, as the tooltip does, for one point of each category that is drawn", async ({ page }) => {
-    test.setTimeout(240000);
+    test.setTimeout(560000); // F104: the dense second pass of findPoint (small points) makes a slow category take minutes
     const slugs = { leader: "lider", consolidated: "consolidado", consolidating: "en-consolidacion", emerging: "emergente", atRisk: "riesgo", lowCapacity: "capacidad-baja", punctual: "presencia-puntual" };
     for (const [category, slug] of Object.entries(slugs)) {
       await open(page, 1280, `cat=${slug}`);
