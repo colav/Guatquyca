@@ -421,7 +421,7 @@ function Board1Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p10} title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
-              Clasificación estimada del tipo de actor por reglas sobre el nombre de la organización. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
+              Tipo de actor según la clasificación de la organización en OpenAlex y ROR; los financiadores se clasifican por reglas sobre el nombre. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
             </Typography.Paragraph>
           </ChartCard>
         </Col>
