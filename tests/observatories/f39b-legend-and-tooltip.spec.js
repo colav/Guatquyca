@@ -68,7 +68,10 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
       const { none, ...rest } = legend;
       expect(Object.values(rest).reduce((a, e) => a + e.count, 0)).toBe(drawn.length);
       for (const entry of Object.values(legend)) expect(entry.text).not.toMatch(/\d de \d/);
-      await expect(page.getByText(`${fmt(drawn.length)} puntos con producción`).first()).toBeVisible();
+      /* F100 (D-223): the count moved from the header of the panel 1 into its information window */
+      await page.getByTestId("chart-card").first().getByTestId("panel-info").click();
+      await expect(page.getByTestId("panel-info-note").last()).toContainText(`${fmt(drawn.length)} puntos con producción`);
+      await page.keyboard.press("Escape");
       if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmt(noneTotal)})`);
     });
   }

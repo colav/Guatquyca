@@ -39,7 +39,14 @@ const fmt = (n) => n.toLocaleString("es-CO");
 
 const legend = (page) =>
   page.getByTestId("category-legend").locator("[data-category]").evaluateAll((nodes) => Object.fromEntries(nodes.map((n) => [n.dataset.category, +n.dataset.count])));
-const shownPoints = async (page) => +(((await page.getByTestId("chart-card").first().locator(".ant-card-extra").innerText()).match(/^([\d.]+) puntos/) || [])[1] || "0").replace(/\./g, "");
+/* F100 (D-223): the note of the header of the panel 1 moved into its information window. */
+const noteText = async (page) => {
+  await page.getByTestId("chart-card").first().getByTestId("panel-info").click();
+  const text = (await page.getByTestId("panel-info-note").last().innerText()).replace(/^Nota del panel\s*/, "");
+  await page.keyboard.press("Escape");
+  return text;
+};
+const shownPoints = async (page) => +(((await noteText(page)).match(/^([\d.]+) puntos/) || [])[1] || "0").replace(/\./g, "");
 
 async function open(page, width, query) {
   await page.setViewportSize({ width, height: 900 });
@@ -80,6 +87,7 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
   });
 
   test("the legend has the eight entries with the real counts, with and without a unit filter and in the three dimensions", async ({ page }) => {
+    test.setTimeout(150000);
     for (const [query, filters] of [["", {}], ["faculty=1", { facultyIndex: 1 }], ["dimension=subfield", { dimension: "subfield" }], ["dimension=field", { dimension: "field" }]]) {
       const result = computeCapacity(createDataset(raw), filters);
       await open(page, 1280, query);
@@ -124,12 +132,13 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
     await expect(button).toHaveAttribute("aria-pressed", "true");
     await expect(page).toHaveURL(/cat=presencia-puntual/);
     expect(await shownPoints(page)).toBe(counts.punctual);
-    await expect(page.getByTestId("chart-card").first().locator(".ant-card-extra")).toContainText("solo presencia puntual");
+    await expect.poll(() => noteText(page)).toContain("solo presencia puntual");
     await button.click();
     expect(await shownPoints(page)).toBe(Object.entries(counts).filter(([c]) => c !== "none").reduce((a, [, n]) => a + n, 0));
   });
 
   test("the tooltip of a punctual point keeps Productos, Citas, FWCI, Tendencia and Razón and says that it is not classified", async ({ page }) => {
+    test.setTimeout(120000);
     await open(page, 1280, "cat=presencia-puntual");
     const card = page.getByTestId("chart-card").first();
     await card.scrollIntoViewIfNeeded();

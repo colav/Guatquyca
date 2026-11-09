@@ -403,7 +403,7 @@ test.describe("F91 Q-20 labels of the tiles (one run)", () => {
       expect(labels.every((l) => /^\p{Lu}|^\d/u.test(l.text))).toBe(true);
       expect(labels.every((l) => l.size === "14px" && l.weight === "500" && !l.clipped)).toBe(true);
       const kpi = await page.locator(".obs-kpi div[title]").first().evaluate((el) => getComputedStyle(el).fontSize);
-      expect(kpi).toBe("13px");
+      expect(kpi).toBe("14px"); /* F94 Q-34: the KPI row has the typeface of the tiles */
     }
   });
 });

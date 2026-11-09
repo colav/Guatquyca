@@ -71,10 +71,16 @@ const LIVE = !!process.env.E2E_LIVE;
 const PAGE = (query = "") => `/observatories/vri-udea/board-1?${[LIVE ? "" : "source=mock", query].filter(Boolean).join("&")}`;
 const WIDTHS = [1280, 768];
 
-const header = (page) => page.getByTestId("chart-card").first().locator(".ant-card-extra");
+/* F100 (D-223): the note of the header of the panel 1 moved into its information window. */
+const noteText = async (page) => {
+  await page.getByTestId("chart-card").first().getByTestId("panel-info").click();
+  const text = (await page.getByTestId("panel-info-note").last().innerText()).replace(/^Nota del panel\s*/, "");
+  await page.keyboard.press("Escape");
+  return text;
+};
 const legendCounts = (page) =>
   page.getByTestId("category-legend").locator("[data-category]").evaluateAll((nodes) => Object.fromEntries(nodes.map((n) => [n.dataset.category, +n.dataset.count])));
-const shownPoints = async (page) => +(((await header(page).innerText()).match(/^([\d.]+) puntos/) || [])[1] || "0").replace(/\./g, "");
+const shownPoints = async (page) => +(((await noteText(page)).match(/^([\d.]+) puntos/) || [])[1] || "0").replace(/\./g, "");
 
 async function open(page, width, query) {
   await page.setViewportSize({ width, height: 900 });
@@ -141,7 +147,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
     await expect(button("leader")).toHaveAttribute("aria-pressed", "true");
     await expect(page).toHaveURL(/cat=lider/);
     expect(await shownPoints(page)).toBe(counts.leader);
-    await expect(header(page)).toContainText("solo líder");
+    await expect.poll(() => noteText(page)).toContain("solo líder");
     expect((await legendCounts(page)).emerging).toBe(counts.emerging); // the numbers do not change
     expect(await page.locator(".obs-kpi").allInnerTexts()).toEqual(kpiBefore);
     expect(await page.getByTestId("chart-card").nth(2).innerText()).toBe(panelBefore);
@@ -159,7 +165,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
     await button("atRisk").click({ modifiers: ["Control"] });
     expect(await shownPoints(page)).toBe(counts.leader + counts.atRisk);
     await expect(page).toHaveURL(/cat=lider(%2C|,)riesgo/);
-    await expect(header(page)).toContainText("solo líder y riesgo de desaparecer");
+    await expect.poll(() => noteText(page)).toContain("solo líder y riesgo de desaparecer");
     await page.getByRole("button", { name: "Ver todas" }).click();
     expect(await shownPoints(page)).toBe(total);
     for (const c of drawable) await expect(button(c)).toHaveAttribute("aria-pressed", "false");
@@ -180,6 +186,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
   });
 
   test("the years filter does not move the legend or the points; ?cat= is read and the old ?ocultas= is ignored", async ({ page }) => {
+    test.setTimeout(120000);
     test.skip(!LIVE, "Set E2E_LIVE=1: these checks are about the snapshot of the real model; the test data (old model) draw the units without production.");
     await open(page, 1280);
     const base = await legendCounts(page);
@@ -203,6 +210,7 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
     await page.keyboard.press("Enter");
     await expect(emerging).toHaveAttribute("aria-pressed", "true");
     expect(await shownPoints(page)).toBe(counts.emerging);
+    await emerging.focus(); /* reading the points opened and closed the window (i), which took the focus */
     await page.keyboard.press("Space");
     await expect(emerging).toHaveAttribute("aria-pressed", "false");
   });
