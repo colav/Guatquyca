@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import TagRow from "@/app/observatories/components/TagRow";
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { PANEL_HELP } from "./panelHelp";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
 import FiltersBar from "./FiltersBar";
@@ -257,13 +258,13 @@ function Board2Content({ dataset, source }) {
       ) : null}
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
         <Col xs={24} xl={12}>
-          <ChartCard title="1 · Transdisciplinariedad grupal" empty={!transdisciplinary.length}>
+          <ChartCard info={PANEL_HELP.p1} title="1 · Transdisciplinariedad grupal" empty={!transdisciplinary.length}>
             <SegmentedBarsChart rows={transdisciplinary} colors={rankingColors} labelSize={40} />
             <Note>{NOTES.v1}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="2 · Grafo de colaboración entre grupos" empty={!graph.nodes.length}>
+          <ChartCard info={PANEL_HELP.p2} title="2 · Grafo de colaboración entre grupos" empty={!graph.nodes.length}>
             <CollabGraph graph={graph} centers={graphCenters} centerNames={raw.centros} />
             <Note>{NOTES.v2}</Note>
             {axis && result.sample.graph < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.graph)}</Note> : null}
@@ -271,26 +272,26 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} xl={12}>
-          <ChartCard title="3 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
+          <ChartCard info={PANEL_HELP.p3} title="3 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
             <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend unit="productos" />
             <Note>{NOTES.v3}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="4 · Productos por sector no académico" empty={!sectorValues.length}>
+          <ChartCard info={PANEL_HELP.p4} title="4 · Productos por sector no académico" empty={!sectorValues.length}>
             <DonutChart labels={sectorLabels} values={sectorValues} colors={sectorDonutColors} />
             <Note>{NOTES.v4}</Note>
           </ChartCard>
         </Col>
 
         <Col xs={24} xl={12}>
-          <ChartCard title="5a · Tendencia de artículos">
+          <ChartCard info={PANEL_HELP.p5a} title="5a · Tendencia de artículos">
             <TrendLinesChart years={years} series={trendArticles} colors={trendColors} />
             <Note>{NOTES.v5}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard title="5b · Tendencia de libros, capítulos, apropiación social y proyectos">
+          <ChartCard info={PANEL_HELP.p5b} title="5b · Tendencia de libros, capítulos, apropiación social y proyectos">
             <TrendLinesChart years={years} series={trendOthers} colors={trendColors} />
             <Note>{`${NOTES.v5b} ${appropriationYearNote(appropriationRecords.withoutYear, appropriationRecords.total)}`}</Note>
             {result.hasPatents ? <Note data-testid="patents-last-year-note">{NOTES.v5bPatents(result.patentsLastYear)}</Note> : null}
@@ -301,7 +302,7 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} xl={8}>
-          <ChartCard title="6 · Colaboraciones de triple hélice">
+          <ChartCard info={PANEL_HELP.p6} title="6 · Colaboraciones de triple hélice">
             <StatTiles stats={helices} />
             <Note>{result.hasPatents ? NOTES.v6Patents : NOTES.v6}</Note>
             {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note-06">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
@@ -309,14 +310,14 @@ function Board2Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
-          <ChartCard title="7 · Colaboraciones de cuádruple hélice">
+          <ChartCard info={PANEL_HELP.p7} title="7 · Colaboraciones de cuádruple hélice">
             <StatTiles stats={quadruple} />
             <Note>{NOTES.v7}</Note>
             {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
-          <ChartCard title="8 · Investigación acción participativa">
+          <ChartCard info={PANEL_HELP.p8} title="8 · Investigación acción participativa">
             <StatTiles stats={iapStats} />
             <Note>{NOTES.v8}</Note>
             {noProj ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
@@ -325,13 +326,13 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} lg={12} xl={12}>
-          <ChartCard title="9 · Colaboración interdepartamental">
+          <ChartCard info={PANEL_HELP.p9} title="9 · Colaboración interdepartamental">
             <DepartmentMap departments={departmentCounts} />
             <Note>{NOTES.v9}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} lg={12} xl={12}>
-          <ChartCard title="9b · Capacidades por subregión de Antioquia">
+          <ChartCard info={PANEL_HELP.p9b} title="9b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
             <SubregionMap rows={subregionRows} unit={subregionTab < 2 ? "Proyectos" : "Productos"} />
             <Note>{NOTES.v15}{noProj && subregionTab < 2 ? ` Los proyectos ${NO_AXIS_RESPONSE}.` : ""}</Note>
@@ -340,7 +341,7 @@ function Board2Content({ dataset, source }) {
         </Col>
         {/* F69 (T2-01): panel 10 next to 11·12, as in the artifact. */}
         <Col xs={24} xl={16}>
-          <ChartCard title="10 · Colaboración internacional" empty={!world.length}>
+          <ChartCard info={PANEL_HELP.p10} title="10 · Colaboración internacional" empty={!world.length}>
             <Row gutter={[12, 12]} style={{ flex: "1 1 auto" }}>
               <Col xs={24} xl={14} style={{ display: "flex", flexDirection: "column" }}><CountryMap countries={world} /></Col>
               <Col xs={24} xl={10}><CountriesTable rows={worldTable} /></Col>
@@ -349,7 +350,7 @@ function Board2Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
-          <ChartCard title="11 · 12 · Sur–Norte y Sur–Sur">
+          <ChartCard info={PANEL_HELP.p11} title="11 · 12 · Sur–Norte y Sur–Sur">
             <StatTiles stats={northSouth} />
             <SegmentedBarsChart rows={regions} colors={sideColors} labelSize={30} legend unit="productos" />
             <Note>{NOTES.v11}</Note>
@@ -357,7 +358,7 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24}>
-          <ChartCard title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
+          <ChartCard info={PANEL_HELP.p13} title="13 · Grupos de investigación con actores no académicos, por dominio de conocimiento">
             <Segmented size="small" options={domainTabs} value={domainTab} onChange={setDomainTab} style={{ marginBottom: 8 }} />
             <DomainTable rows={domainRows} />
             <Note>{NOTES.v13}</Note>
@@ -365,7 +366,7 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24}>
-          <ChartCard title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
+          <ChartCard info={PANEL_HELP.p14} title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
             <Segmented size="small" options={TAB_OPTIONS(dataset.axisTabs.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
             <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend unit="productos" />
             <Note>{`${NOTES.v14} ${missionFociNote(missionFoci)}`}</Note>
@@ -374,7 +375,7 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24}>
-          <ChartCard title="15 · Entidades que financian o cofinancian proyectos (no académicas)">
+          <ChartCard info={PANEL_HELP.p15} title="15 · Entidades que financian o cofinancian proyectos (no académicas)">
             <SegmentedBarsChart rows={funders} colors={sectorColors} labelSize={70} legend unit="proyectos" />
             <Note>{result.fundersByProject ? NOTES.v16Filtered : `${NOTES.v16}${axis ? ` ${NO_AXIS_RESPONSE[0].toUpperCase()}${NO_AXIS_RESPONSE.slice(1)}.` : ""}`}</Note>
           </ChartCard>

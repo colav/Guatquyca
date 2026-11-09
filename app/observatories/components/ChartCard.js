@@ -1,5 +1,8 @@
 "use client";
 
+/* Components */
+import PanelInfo from "./PanelInfo";
+
 /* lib */
 import { CARD_SHADOW } from "@/lib/observatories/layout";
 import { BRAND } from "@/lib/observatories/palette";
@@ -19,18 +22,20 @@ const CARD_HEADER_STYLE = {
  * Card of a panel of the board, with the same header as the charts of the rest of the platform.
  *
  * @param {string} title - Panel title.
- * @param {string} [note] - Short note next to the title.
+ * @param {string} [note] - Short note next to the title. With `info` the note moves into the information window (D-223).
+ * @param {Object} [info] - Help of the panel (F100): `what`, `how`, `look`, `care`. It adds the button (i) to the header.
  * @param {boolean} [empty] - Shows the "no data" state instead of the children.
  */
-export default function ChartCard({ title, note, empty = false, children, style }) {
+export default function ChartCard({ title, note, info, empty = false, children, style }) {
+  const plainTitle = typeof title === "string" ? title : "";
   return (
     <Card
       size="small"
       data-testid="chart-card"
       style={{ height: "100%", display: "flex", flexDirection: "column", boxShadow: CARD_SHADOW, scrollMarginTop: "calc(var(--obs-sticky-offset, 0px) + 8px)", ...style }}
-      styles={{ header: CARD_HEADER_STYLE, extra: { maxWidth: "45%", minWidth: 0 }, body: { padding: 10, flex: "1 1 auto", display: "flex", flexDirection: "column" } }}
+      styles={{ header: CARD_HEADER_STYLE, extra: info ? { maxWidth: "none", minWidth: 0, flexShrink: 0, marginInlineStart: 8 } : { maxWidth: "45%", minWidth: 0 }, body: { padding: 10, flex: "1 1 auto", display: "flex", flexDirection: "column" } }}
       title={<span style={{ display: "block", whiteSpace: "normal", lineHeight: 1.35 }}>{title}</span>}
-      extra={note ? <span title={typeof note === "string" ? note : undefined} style={{ color: BRAND.white, fontSize: 12, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", verticalAlign: "middle" }}>{note}</span> : null}
+      extra={info ? <PanelInfo title={plainTitle} entry={info} note={typeof note === "string" ? note : undefined} /> : note ? <span title={typeof note === "string" ? note : undefined} style={{ color: BRAND.white, fontSize: 12, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", verticalAlign: "middle" }}>{note}</span> : null}
     >
       {empty ? (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<Typography.Text>Sin datos para este filtro.</Typography.Text>} />

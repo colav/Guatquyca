@@ -5,6 +5,7 @@ import { memo, useMemo } from "react";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { PANEL_HELP } from "./panelHelp";
 import PanelTile from "@/app/observatories/components/PanelTile";
 import Note from "@/app/observatories/components/Note";
 import { HBarsChart, LinesChart } from "./Charts";
@@ -47,7 +48,7 @@ function PropertyCard({ pi, view, onView }) {
   return (
     <Row gutter={[12, 12]} style={{ marginTop: 12 }} data-testid="pi-card">
       <Col xs={24}>
-        <ChartCard title={PI_TITLE}>
+        <ChartCard info={PANEL_HELP.p11b} title={PI_TITLE}>
           <Row gutter={[8, 8]}>
             <Col xs={24} md={8}><PanelTile label="activos de propiedad intelectual en la selección" value={fmt(pi.total)} detail="derechos de autor, marcas, diseños, secretos y patentes" valueFontSize={20} /></Col>
             <Col xs={24} md={8}><PanelTile label="de ellos, con grupo de investigación" value={fmt(pi.withGroup)} detail={pi.total ? `${((100 * pi.withGroup) / pi.total).toFixed(0)} % de la selección` : ""} valueFontSize={20} /></Col>

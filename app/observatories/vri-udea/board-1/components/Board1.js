@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { PANEL_HELP } from "./panelHelp";
 import AxisTopicsTable from "./AxisTopicsTable";
 import LinkedText from "@/app/observatories/components/LinkedText";
 import { sourceSentences } from "@/lib/observatories/cutDate";
@@ -291,7 +292,7 @@ function Board1Content({ dataset, source }) {
       {applied.axisIds.length ? (
         <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
           <Col span={24}>
-            <ChartCard title={AXIS_TOPICS_TITLE} note={axisTopicsYears(applied.yearFrom, applied.yearTo)} empty={!axisTopics.length}>
+            <ChartCard info={PANEL_HELP.axisTopics} title={AXIS_TOPICS_TITLE} note={axisTopicsYears(applied.yearFrom, applied.yearTo)} empty={!axisTopics.length}>
               <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="axis-topics-note">
                 {axisTopicsYears(applied.yearFrom, applied.yearTo)}. {fmt(applied.axisIds.length)} {applied.axisIds.length === 1 ? "eje elegido" : "ejes elegidos"}; los tópicos sin productos con los filtros actuales aparecen con 0. {AXIS_TOPICS_RECONCILE_NOTE}
               </Typography.Text>
@@ -304,7 +305,7 @@ function Board1Content({ dataset, source }) {
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
         <Col xs={24} lg={14}>
           <ChartCard
-            title="1 · Dispersión de tópicos: producción vs. citas"
+            info={PANEL_HELP.p1} title="1 · Dispersión de tópicos: producción vs. citas"
             note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${selected.length ? ` · solo ${selected.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
             empty={!points.length}
           >
@@ -333,7 +334,7 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} lg={10}>
-          <ChartCard title="2 · Calculadora de capacidades" note={`${noun} por categoría`}>
+          <ChartCard info={PANEL_HELP.p2} title="2 · Calculadora de capacidades" note={`${noun} por categoría`}>
             {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
             <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
@@ -352,18 +353,18 @@ function Board1Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} md={12} lg={8}>
-          <ChartCard title="3 · Grupos de investigación" note="productos asociados a los tópicos filtrados" empty={!groups.length}>
+          <ChartCard info={PANEL_HELP.p3} title="3 · Grupos de investigación" note="productos asociados a los tópicos filtrados" empty={!groups.length}>
             <RankingBarsChart rows={groups} unit="Productos" />
           </ChartCard>
         </Col>
         <Col xs={24} md={12} lg={8}>
-          <ChartCard title="4 · Ejes Temáticos públicos" note={dataset.hasFactDetails ? AXES_PANEL_NOTE[applied.pairLevel] : AXES_PANEL_NOTE.topics} empty={!axes.length}>
+          <ChartCard info={PANEL_HELP.p4} title="4 · Ejes Temáticos públicos" note={dataset.hasFactDetails ? AXES_PANEL_NOTE[applied.pairLevel] : AXES_PANEL_NOTE.topics} empty={!axes.length}>
             <RankingBarsChart rows={axes} unit={dataset.hasFactDetails ? "Productos" : "Tópicos con producción"} />
           </ChartCard>
         </Col>
         {hasOds ? (
           <Col xs={24} md={12} lg={8}>
-            <ChartCard title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible; clic en un objetivo para acotar el tablero" empty={!ods.some((o) => o.value)}>
+            <ChartCard info={PANEL_HELP.p5} title="5 · Ránking ODS" note="productos por objetivo de desarrollo sostenible; clic en un objetivo para acotar el tablero" empty={!ods.some((o) => o.value)}>
               <RankingBarsChart rows={ods.filter((o) => o.value).map((o) => ({ id: o.number, label: `${o.number} · ${o.name}`, value: o.value }))} complete unit="Productos" active={draft.odsNumber || null} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
               {draft.odsNumber > 0 ? (
                 <Typography.Paragraph style={{ fontSize: 12, marginBottom: 4 }} data-testid="ods-selected-note">
@@ -377,12 +378,12 @@ function Board1Content({ dataset, source }) {
           </Col>
         ) : null}
         <Col xs={24} md={12} lg={8}>
-          <ChartCard title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados. No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años; solo del documento y del Eje Temático." empty={!goals.length}>
+          <ChartCard info={PANEL_HELP.p6} title="6 · Meta / reto / programa / estrategia" note="n.º de Ejes Temáticos asociados. No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años; solo del documento y del Eje Temático." empty={!goals.length}>
             <RankingBarsChart rows={goals} labelSize={40} startCut unit="Ejes Temáticos" />
           </ChartCard>
         </Col>
         <Col xs={24} lg={16}>
-          <ChartCard title="7 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
+          <ChartCard info={PANEL_HELP.p7} title="7 · Distribución de productos" note="tipo · cuartil Scimago · ruta de acceso" empty={!result.products}>
             <Row gutter={[12, 12]}>
               <Col xs={24} md={8}><Typography.Text strong>Tipo de producto</Typography.Text><DonutChart labels={DONUT_LABELS.type} values={typeValues} colors={TYPE_COLORS} /></Col>
               <Col xs={24} md={8}><Typography.Text strong>Cuartil Scimago</Typography.Text><DonutChart labels={DONUT_LABELS.quartile} values={quartileValues} colors={QUARTILE_COLORS} /></Col>
@@ -392,7 +393,7 @@ function Board1Content({ dataset, source }) {
         </Col>
         {hasOds ? (
           <Col xs={24}>
-            <ChartCard title="8 · Producción por ODS" note="treemap de los 17 objetivos: el área es el número de productos" empty={!ods.some((o) => o.value)}>
+            <ChartCard info={PANEL_HELP.p8} title="8 · Producción por ODS" note="treemap de los 17 objetivos: el área es el número de productos" empty={!ods.some((o) => o.value)}>
               <OdsTreemapChart items={ods} active={draft.odsNumber} onSelect={(n) => update({ odsNumber: draft.odsNumber === n ? 0 : n })} />
             </ChartCard>
           </Col>
@@ -400,7 +401,7 @@ function Board1Content({ dataset, source }) {
           <Col xs={24}><OdsPlaceholders /></Col>
         )}
         <Col xs={24} lg={12}>
-          <ChartCard title="9 · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
+          <ChartCard info={PANEL_HELP.p9} title="9 · Mapa por subregión de Antioquia" note="proxy: subregión o municipio mencionado en el título">
             <SubregionMap rows={subregionRows} detailed />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               Las bases no traen ubicación geográfica de la investigación. El conteo usa menciones en títulos (artículos, libros y capítulos 2010–2026) y, al pasar el cursor, productos con autores adscritos a los Programas de Regionalización. {dataset.hasFactDetails ? "El conteo por subregión responde a los filtros; la cifra de Regionalización no." : "No responde a los filtros."}
@@ -408,7 +409,7 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} lg={12}>
-          <ChartCard title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
+          <ChartCard info={PANEL_HELP.p10} title="10 · Actores no académicos coautores" note={dataset.hasFactDetails ? "productos en coautoría, según los filtros" : "productos en coautoría, toda la base"}>
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>
               Clasificación estimada del tipo de actor por reglas sobre el nombre de la organización. Se excluyen universidades e instituciones universitarias. {dataset.hasFactDetails ? "Responde a los filtros." : "No responde a los filtros."}
