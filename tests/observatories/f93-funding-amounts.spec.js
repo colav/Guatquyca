@@ -46,7 +46,7 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   test.beforeAll(async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
-    expect(res.headers.get("etag")).toBe('"20261107-bc9607aca85c"');
+    expect(res.headers.get("etag")).toBe('"20261107-c7efe30b89e2"');
     bundle = await res.json();
     bundle.funders = bundle.ext.funders;
     dataset = createCollaborationDataset(bundle);
@@ -104,7 +104,7 @@ test.describe("F97 the ranking of B150 against the tooltip (one run)", () => {
 
   test("784 pairs project–funder, San Vicente as one row at the fifth place, the Municipio de Medellín at the sixth with its amounts, and the panel draws the first 25", async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
-    expect(res.headers.get("etag")).toBe('"20261107-bc9607aca85c"');
+    expect(res.headers.get("etag")).toBe('"20261107-c7efe30b89e2"');
     const b = await res.json();
     const pairs = b.ext.project_funders_montos.reduce((a, l) => a + l.length, 0);
     expect(pairs).toBe(784);

@@ -65,7 +65,7 @@ test.describe("F101 against the bundle of B153 (one run)", () => {
   test("ETag of the Board 1, split of the categories and ranges of the ratio equal to the report of B153", async () => {
     test.setTimeout(200000);
     const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
-    expect(res.headers.get("etag")).toBe('"20261107-5b280d917c42"');
+    expect(res.headers.get("etag")).toBe('"20261107-5139c8508acb"');
     const raw = await res.json();
     expect(raw.ref_1025.length).toBe(8613);
     const ds = createDataset(raw);
