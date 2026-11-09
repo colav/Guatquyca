@@ -1,5 +1,5 @@
 /*
- * F45 (D-138): the eighth category «presencia puntual»: 1 to 4 products in 2021–2025 (with the other
+ * F45 (D-138): the eighth category «presencia puntual»: 1 to 4 products in 2010–2025 (with the other
  * filters), not classified by ratio or trend. The first block needs no server; the second reads the real
  * quyca and the dev server of Luis (D-100) and only runs with E2E_LIVE=1.
  */
@@ -25,7 +25,7 @@ test.describe("punctual presence (no server)", () => {
     expect(MIN_PRODUCTS_CLASSIFY).toBe(5);
     expect(RULES_TABLE.find((r) => r.key === "punctual").trend).toBe(`menos de ${MIN_PRODUCTS_CLASSIFY} productos`);
     expect(RULE_LINE.punctual).toContain("Presencia puntual");
-    expect(PUNCTUAL_DEFINITION).toBe("Menos de 5 productos en 2021–2025: no se clasifica por razón ni por tendencia.");
+    expect(PUNCTUAL_DEFINITION).toBe("Menos de 5 productos en 2010–2025: no se clasifica por razón ni por tendencia.");
     expect(categoryLine("punctual", "presencia puntual")).toBe("presencia puntual (menos de 5 productos: no se clasifica)");
     expect(categoryLine("leader", "líder")).toBe("líder");
     expect(lowCapacityDefinition()).toMatch(/y producción sin crecimiento, con 5 o más productos\.$/);
@@ -79,7 +79,7 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
     }
     const base = computeCapacity(createDataset(raw));
     expect(base.units).toHaveLength(4516);
-    expect(base.categoryCounts.none).toBe(2095);
+    expect(base.categoryCounts.none).toBe(1298); /* B153: 1.298 with 2010–2025 (2.095 with 2021–2025) */
     console.log(`[live] counts without filters: ${JSON.stringify(base.categoryCounts)}`);
     console.log(`[live] counts with faculty 1: ${JSON.stringify(computeCapacity(createDataset(raw), { facultyIndex: 1 }).categoryCounts)}`);
     console.log(`[live] counts subfield: ${JSON.stringify(computeCapacity(createDataset(raw), { dimension: "subfield" }).categoryCounts)}`);
@@ -181,7 +181,7 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
     expect(main).toContain("medida en ocho categorías");
     expect(main).not.toContain("siete categorías");
     await page.getByText("¿Cómo usar este tablero?").click();
-    await expect(page.getByText("Los tópicos con menos de 5 productos en 2021–2025 se muestran como «presencia puntual»", { exact: false })).toBeVisible();
+    await expect(page.getByText("Los tópicos con menos de 5 productos en 2010–2025 se muestran como «presencia puntual»", { exact: false })).toBeVisible();
     const label = await page.getByTestId("calculator-bars").getAttribute("aria-label");
     expect(label).toContain(`presencia puntual: ${fmt((await legend(page)).punctual)}`);
     expect(label.split(". ")[1].split("; ")).toHaveLength(8);

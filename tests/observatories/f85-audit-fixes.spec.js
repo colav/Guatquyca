@@ -121,7 +121,7 @@ test.describe("measures and pages (one run)", () => {
       const units = computeCapacity(dataset, { ratioBasis: basis }).units;
       const zero = units.filter((u) => u.noReferent && u.windowTotal > 0);
       const five = zero.filter((u) => u.windowTotal >= 5);
-      console.log(`[live] A1-01 ${basis}: ${units.filter((u) => u.windowTotal > 0).length} topics with production in 2021–2025; leader with 0 citations: ${zero.length}; with 5 or more products: ${five.length}${five.length ? ` (${five.map((u) => `${u.label} [${u.category}]`).join("; ")})` : ""}; categories of the ones with fewer: ${JSON.stringify(zero.reduce((a, u) => ({ ...a, [u.category]: (a[u.category] || 0) + 1 }), {}))}`);
+      console.log(`[live] A1-01 ${basis}: ${units.filter((u) => u.windowTotal > 0).length} topics with production in 2010–2025; leader with 0 citations: ${zero.length}; with 5 or more products: ${five.length}${five.length ? ` (${five.map((u) => `${u.label} [${u.category}]`).join("; ")})` : ""}; categories of the ones with fewer: ${JSON.stringify(zero.reduce((a, u) => ({ ...a, [u.category]: (a[u.category] || 0) + 1 }), {}))}`);
       expect(five.length, `topics with 5 or more products and no referent (${basis})`).toBe(0);
     }
     // (1) groups of Artes with 0 projects, (5) centres without key in the table of projects, (2) field filter on the real bundle
@@ -146,17 +146,20 @@ test.describe("measures and pages (one run)", () => {
     console.log(`[live] N-04: T2 «con aportante externo» (P[5]) = ${r2.kpis.projectsExternal}; T3 does not show a count of funders (no key «externo» in its code)`);
   });
 
-  test("Board 1: KPI 4 to 6 and the summary say 2021–2025, the panel 6 note, and «Restablecer filtros» clears the pinned point and the isolated categories", async ({ page }) => {
+  test("Board 1: KPI 4 to 6 and the summary say 2010–2025, the panel 6 note, and «Restablecer filtros» clears the pinned point and the isolated categories", async ({ page }) => {
     test.setTimeout(250000);
     await open(page, "/observatories/vri-udea/board-1?cat=lider,consolidado");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     const body = () => page.locator("body").innerText();
-    await expect.poll(body, { timeout: 60000 }).toContain("unidades líder + consolidado (2021–2025)");
-    const text = await body();
-    expect(text).toContain("unidades emergentes + en consolidación (2021–2025)");
-    expect(text).toContain("unidades en riesgo de desaparecer (2021–2025)");
-    expect(text).toMatch(/con producción \(2021–2025\)/);
-    expect(text).toContain("No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años");
+    await expect.poll(async () => (await body()).toLowerCase(), { timeout: 60000 }).toContain("unidades líder + consolidado (2010–2025)"); /* F94 puts a capital first */
+    const text = (await body()).toLowerCase();
+    expect(text).toContain("unidades emergentes + en consolidación (2010–2025)");
+    expect(text).toContain("unidades en riesgo de desaparecer (2010–2025)");
+    expect(text).toMatch(/con producción \(2010–2025\)/);
+    /* F100 (D-223): the note of the header of the panel 6 is the first thing of its information window */
+    await page.getByTestId("chart-card").filter({ hasText: "6 · Meta / reto" }).first().getByTestId("panel-info").click();
+    await expect(page.getByTestId("panel-info-note").last()).toContainText("No depende de la producción ni de los filtros de unidad, centro, tema, ODS o años");
+    await page.keyboard.press("Escape");
     expect(text).not.toContain("términos Núcleo");
     // pin a point
     const card = page.getByTestId("chart-card").first();

@@ -12,7 +12,7 @@ import { CATEGORY, CATEGORY_LABELS, CATEGORY_SLUGS } from "../../lib/observatori
 import { HELP_TEXT_REAL, RULES_TABLE, RULE_LINE, lowCapacityDefinition } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 
 const DEFINITION_COLOMBIA =
-  "Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas del país en ese tópico) y producción sin crecimiento, con 5 o más productos.";
+  "Citas de la UdeA en 2010–2025 iguales o menores al 50 % de las del referente (la institución con más citas del país en ese tópico) y producción sin crecimiento, con 5 o más productos.";
 
 test.describe("label and definition (no server)", () => {
   test("the label is «capacidad relativa baja»; the key and the key of the URL do not change", () => {
@@ -29,9 +29,9 @@ test.describe("label and definition (no server)", () => {
     expect(lowCapacityDefinition("global")).toBe(DEFINITION_COLOMBIA.replace("del país", "del mundo"));
   });
 
-  test("the help text says that the referent is the institution with the most citations of the chosen scope in 2021–2025, and keeps no «10 con más citas» caveat", () => {
+  test("the help text says that the referent is the institution with the most citations of the chosen scope in 2010–2025, and keeps no «10 con más citas» caveat", () => {
     const text = HELP_TEXT_REAL.join(" ");
-    expect(text).toContain("la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025");
+    expect(text).toContain("la institución con más citas del ámbito elegido (Colombia o el mundo) en 2010–2025");
     expect(text).toContain("capacidad relativa baja");
     expect(text).not.toMatch(/10 (instituciones|con más citas)|diez/i);
   });

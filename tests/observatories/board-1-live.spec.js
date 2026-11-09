@@ -117,7 +117,10 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     await expect(page.getByText("Confianza de la asignación a ejes")).toBeVisible({ timeout: 120000 });
     await page.getByText("Incluir baja", { exact: true }).click();
     await expect(page).toHaveURL(/pairs=all/, { timeout: 5000 });
-    await expect(page.getByText("productos con asignación de cualquier confianza (incluye baja)")).toBeVisible();
+    /* F100 (D-223): the note of the header of the panel 4 moved into its information window */
+    await page.getByTestId("chart-card").filter({ hasText: "4 · Ejes Temáticos públicos" }).first().getByTestId("panel-info").click();
+    await expect(page.getByTestId("panel-info-note").last()).toContainText("productos con asignación de cualquier confianza (incluye baja)");
+    await page.keyboard.press("Escape");
     await page.getByText("Alta y media", { exact: true }).click();
     await expect(page).not.toHaveURL(/pairs=/, { timeout: 5000 });
     await expect(page.getByText("productos con asignación de confianza alta o media")).toBeVisible();

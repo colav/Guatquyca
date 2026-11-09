@@ -52,9 +52,9 @@ test.describe("F50 (no server)", () => {
     expect(groups.map((g) => g.id)).toEqual(["G0"]);
   });
 
-  test("the warning 1 speaks of the single referent of 2021–2025 and no longer of «cada año» (point 3)", () => {
+  test("the warning 1 speaks of the single referent of 2010–2025 and no longer of «cada año» (point 3)", () => {
     const warning = realDataWarnings({ n_sel: 100, n_topic: 90 })[0];
-    expect(warning).toContain("La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año.");
+    expect(warning).toContain("La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año.");
     expect(warning).not.toContain("en cada año");
   });
 
@@ -102,7 +102,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
         const other = axisTopicsOther(result, rows);
         expect(rows.reduce((a, r) => a + r.products, 0) + other.products).toBe(result.products);
         expect(rows.reduce((a, r) => a + r.citations, 0) + other.citations).toBe(result.citations);
-        out.push(`${id}${years.yearFrom ? " 2021–2025" : ""}: cards ${result.products}, topics ${result.products - other.products}, others ${other.products}`);
+        out.push(`${id}${years.yearFrom ? " 2010–2025" : ""}: cards ${result.products}, topics ${result.products - other.products}, others ${other.products}`);
       }
     }
     const two = computeCapacity(dataset, { axisIds: [98, 203] });

@@ -1,7 +1,7 @@
 /*
  * F46 and F46b (D-139): «presencia puntual» is drawn as an X and 70 % smaller (factor 0,3, minimum of 5 px
  * of diameter), and the texts about «sin producción» say «sin productos con ese tópico principal en
- * 2021–2025» with the words «tópico principal» as a link to OpenAlex in the foot of the panels and in the
+ * 2010–2025» with the words «tópico principal» as a link to OpenAlex in the foot of the panels and in the
  * help text (not in the tooltip). The first block needs no server; the second reads the real quyca and the
  * dev server of Luis (D-100) and only runs with E2E_LIVE=1. No screenshots are saved (D-139 8).
  */
@@ -55,13 +55,13 @@ test.describe("X, size and wording (no server)", () => {
     expect(SIZE_NOTE).toBe("Tamaño = FWCI, solo productos con registro en OpenAlex; presencia puntual se dibuja 70 % más pequeña");
   });
 
-  test("the wording of «sin producción»: «sin productos con ese tópico principal en 2021–2025»; the tooltip has the text and no link", () => {
+  test("the wording of «sin producción»: «sin productos con ese tópico principal en 2010–2025»; the tooltip has the text and no link", () => {
     expect(PRIMARY_TOPIC_URL).toBe(URL_OPENALEX);
     expect(PRIMARY_TOPIC_LINK_TEXT).toBe("tópico principal");
-    expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe("Tópicos sin productos con ese tópico principal en 2021–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica");
+    expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe("Tópicos sin productos con ese tópico principal en 2010–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica");
     expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "tópicos" })).not.toMatch(/<a|http/);
-    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toContain("sin productos con ese tópico principal en 2021–2025");
-    expect(HELP_TEXT_REAL.join(" ")).toContain("«Sin producción» significa sin productos con ese tópico principal en 2021–2025.");
+    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toContain("sin productos con ese tópico principal en 2010–2025");
+    expect(HELP_TEXT_REAL.join(" ")).toContain("«Sin producción» significa sin productos con ese tópico principal en 2010–2025.");
   });
 });
 
@@ -114,8 +114,8 @@ test.describe("X, size and links against the real quyca (read-only)", () => {
       expect(await link.getAttribute("rel")).toContain("noreferrer");
     }
     // the sentences
-    await expect(page.getByTestId("undrawn-note")).toContainText("sin productos con ese tópico principal en 2021–2025 no se dibujan");
-    await expect(page.getByText("«Sin producción» = sin productos con ese tópico principal en 2021–2025.", { exact: false })).toBeVisible();
+    await expect(page.getByTestId("undrawn-note")).toContainText("sin productos con ese tópico principal en 2010–2025 no se dibujan");
+    await expect(page.getByText("«Sin producción» = sin productos con ese tópico principal en 2010–2025.", { exact: false })).toBeVisible();
     // the click opens the page of OpenAlex in a new tab
     const [popup] = await Promise.all([page.context().waitForEvent("page", { timeout: 20000 }), page.getByTestId("undrawn-note").getByTestId("primary-topic-link").click()]);
     expect(popup.url()).toContain("help.openalex.org/data/works/attributes");
@@ -126,7 +126,7 @@ test.describe("X, size and links against the real quyca (read-only)", () => {
     await open(page);
     await page.locator('[data-category="none"]').hover();
     const tip = page.locator(".ant-tooltip:not(.ant-tooltip-hidden)");
-    await expect(tip).toContainText("sin productos con ese tópico principal en 2021–2025");
+    await expect(tip).toContainText("sin productos con ese tópico principal en 2010–2025");
     expect(await tip.locator("a").count()).toBe(0);
     expect(await tip.innerText()).not.toMatch(/https?:/);
   });

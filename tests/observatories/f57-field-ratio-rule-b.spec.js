@@ -114,19 +114,19 @@ test.describe("rule (b) against the real quyca (read-only)", () => {
     dataset = createDataset(await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json());
   });
 
-  test("case Engineering (Colombia): rule (a) 1.050 products, 8.732 citations, 26.647, 0,328; rule (b) 67 topics, 6.957 over 14.330, 0,485", () => {
+  test("case Engineering (Colombia): rule (a) 2.970 products, 37.029 citations, 129.756, 0,285; rule (b) 130 topics, 33.894 over 100.072, 0,339", () => {
     const r = computeCapacity(dataset, { dimension: "field" });
     const eng = unit(r, "Engineering");
     const topics = r.topicUnits.filter((u) => u.field === "Engineering" && u.products > 0);
     const a = { products: topics.reduce((s, u) => s + u.products, 0), citations: topics.reduce((s, u) => s + u.citations, 0), leader: topics.reduce((s, u) => s + u.leaderCitations, 0), topics: topics.length };
     console.log(`[live] Engineering (a): ${a.products} products, ${a.citations} citations, ${a.topics} topics, denominator ${a.leader}, ratio ${(a.citations / a.leader).toFixed(3)}`);
     console.log(`[live] Engineering (b): ${eng.ratioTopics} topics, numerator ${eng.ratioCitations}, denominator ${eng.leaderCitations}, ratio ${eng.ratio.toFixed(3)}, category ${eng.category}`);
-    expect(a).toEqual({ products: 1050, citations: 8732, leader: 26647, topics: 220 });
-    expect(a.citations / a.leader).toBeCloseTo(0.328, 3);
-    expect(eng.ratioTopics).toBe(67);
-    expect(eng.ratioCitations).toBe(6957);
-    expect(eng.leaderCitations).toBe(14330);
-    expect(eng.ratio).toBeCloseTo(0.485, 3);
+    expect(a).toEqual({ products: 2970, citations: 37029, leader: 129756, topics: 324 });
+    expect(a.citations / a.leader).toBeCloseTo(0.285, 3);
+    expect(eng.ratioTopics).toBe(130);
+    expect(eng.ratioCitations).toBe(33894);
+    expect(eng.leaderCitations).toBe(100072);
+    expect(eng.ratio).toBeCloseTo(0.339, 3);
   });
 
   test("topic level (unchanged): tranches of the topics with 5 or more products, Colombia, no filters", () => {
@@ -170,7 +170,7 @@ test.describe("rule (b) against the real quyca (read-only)", () => {
     const text = await note.innerText();
     console.log(`[live] note: ${text}`);
     expect(text).toContain("tiene 5 o más productos");
-    expect(text).toContain("43 subcampos sin ningún tópico con 5 o más productos");
+    expect(text).toContain("16 subcampos sin ningún tópico con 5 o más productos");
     await page.goto("/observatories/vri-udea/board-1?dimension=field");
     await expect(page.getByTestId("field-ratio-note")).not.toContainText("sin ningún tópico", { timeout: 120000 });
     await page.goto("/observatories/vri-udea/board-1");

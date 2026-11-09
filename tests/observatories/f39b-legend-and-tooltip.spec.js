@@ -1,6 +1,6 @@
 /*
  * F39b (adjusted by F43b, D-134): the legend of the panel 1 shows «sin producción» as an informative
- * entry with the complete figure of 2021–2025, a note at the foot says that those units are not drawn,
+ * entry with the complete figure of 2010–2025, a note at the foot says that those units are not drawn,
  * and the tooltip of the scatter is wide enough for its longest lines. The first block needs no server;
  * the second reads the real quyca and the dev server of Luis (D-100) and only runs with E2E_LIVE=1.
  */
@@ -13,9 +13,9 @@ import { WIDE_TOOLTIP, tooltipInteraction } from "../../lib/observatories/toolti
 test.describe("texts and style (no server)", () => {
   test("the tooltip of «sin producción» and the note at the foot are built from the figures", () => {
     expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe(
-      "Tópicos sin productos con ese tópico principal en 2021–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica",
+      "Tópicos sin productos con ese tópico principal en 2010–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica",
     );
-    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toBe("Los tópicos sin productos con ese tópico principal en 2021–2025 no se dibujan (2.095)");
+    expect(undrawnNote({ count: 2095, noun: "tópicos" })).toBe("Los tópicos sin productos con ese tópico principal en 2010–2025 no se dibujan (2.095)");
     expect(undrawnNote({ count: 12, noun: "subcampos" })).toContain("subcampos");
     expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "campos" })).toMatch(/^Campos sin productos con ese tópico principal/);
   });
@@ -72,7 +72,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
       await page.getByTestId("chart-card").first().getByTestId("panel-info").click();
       await expect(page.getByTestId("panel-info-note").last()).toContainText(`${fmt(drawn.length)} puntos con producción`);
       await page.keyboard.press("Escape");
-      if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmt(noneTotal)})`);
+      if (noneTotal > 0) await expect(page.getByTestId("undrawn-note")).toHaveText(`Los tópicos sin productos con ese tópico principal en 2010–2025 no se dibujan (${fmt(noneTotal)})`);
     });
   }
 
@@ -83,7 +83,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
     await page.waitForTimeout(1500);
     await page.locator('[data-category="none"]').hover();
     const { otherYears, never } = result.noProduction;
-    await expect(page.getByText(`Tópicos sin productos con ese tópico principal en 2021–2025 (${fmt(otherYears)} con producción anterior y ${fmt(never)} sin ninguna): no se dibujan en la gráfica`)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(`Tópicos sin productos con ese tópico principal en 2010–2025 (${fmt(otherYears)} con producción anterior y ${fmt(never)} sin ninguna): no se dibujan en la gráfica`)).toBeVisible({ timeout: 5000 });
     expect(otherYears + never).toBe(result.categoryCounts.none);
   });
 
