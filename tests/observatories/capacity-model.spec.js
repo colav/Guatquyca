@@ -13,6 +13,7 @@ import {
   createDataset,
   trendByBand,
 } from "../../lib/observatories/capacity";
+import { TREND_WINDOW_YEARS } from "../../lib/observatories/capacity/constants";
 import { parseFilters } from "../../lib/observatories/filters";
 
 test.describe("trendByBand (slope over the mean, band ±10 %)", () => {
@@ -112,8 +113,8 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     ],
     ref_nacional: [0],
     inst_lider: ["Inst A", "Inst B", "Inst C"],
-    // Single referent of 2021–2025 [topic, scope, institution, works, citations] (B106, D-133): different from the sums above on purpose.
-    ref_2125: [[0, 0, 0, 10, 120], [0, 1, 1, 10, 300], [1, 0, 2, 10, 100]],
+    // Single referent of 2010–2025 [topic, scope, institution, works, citations] (B153, D-221): different from the sums above on purpose.
+    ref_1025: [[0, 0, 0, 10, 120], [0, 1, 1, 10, 300], [1, 0, 2, 10, 100]],
   };
   const dataset = createDataset(raw);
   const unit = (r, id) => r.units.find((u) => u.id === id);
@@ -121,45 +122,49 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
   test("the model applies only with leaders and the OpenAlex mark", () => {
     expect(dataset.hasCapacityModel).toBe(true);
     expect(computeCapacity(dataset).model).toBe("capacity");
-    // with the single referent of 2021–2025 the yearly leaders are not needed (B107 removes them from the bundle)
+    // with the single referent of 2010–2025 the yearly leaders are not needed (B107 removes them from the bundle)
     expect(createDataset({ ...raw, lideres: undefined }).hasCapacityModel).toBe(true);
-    expect(createDataset({ ...raw, lideres: undefined, ref_2125: undefined }).hasCapacityModel).toBe(false);
+    expect(createDataset({ ...raw, lideres: undefined, ref_1025: undefined }).hasCapacityModel).toBe(false);
+    // an old bundle with only `ref_2125` keeps working (fallback)
+    expect(createDataset({ ...raw, lideres: undefined, ref_1025: undefined, ref_2125: raw.ref_1025 }).hasCapacityModel).toBe(true);
     const without = computeCapacity(createDataset({ ...raw, lideres: undefined }));
     expect(without.units.map((u) => [u.id, u.ratio, u.category])).toEqual(computeCapacity(dataset).units.map((u) => [u.id, u.ratio, u.category]));
   });
 
-  test("ratio = UdeA citations of 2021–2025 over the single referent, capped to 1, Colombia by default, world on request", () => {
-    // UdeA T1 cites 40 + 15 * 11 = 205 in 2021–2025 (the work of 2015 is outside the snapshot); referent of Colombia 300, of the world 120
+  test("ratio = UdeA citations of 2010–2025 over the single referent, capped to 1, Colombia by default, world on request", () => {
+    // UdeA T1 cites 40 + 15 * 11 + 5 = 210 in 2010–2025 (the work of 2015 is inside the window now); referent of Colombia 300, of the world 120
     const colombia = computeCapacity(dataset);
     const world = computeCapacity(dataset, { ratioBasis: "global" });
     expect(colombia.filters.ratioBasis).toBe("national");
-    expect(colombia.referentSource).toBe("ref_2125");
-    expect(unit(colombia, "T1").ratio).toBeCloseTo(205 / 300, 6);
+    expect(colombia.referentSource).toBe("ref_1025");
+    expect(unit(colombia, "T1").ratio).toBeCloseTo(210 / 300, 6);
     expect(unit(colombia, "T1").referent).toBe("Inst B");
     expect(unit(colombia, "T1").leaderCitations).toBe(300);
-    expect(unit(world, "T1").ratio).toBe(1); // 205 / 120 capped
+    expect(unit(world, "T1").ratio).toBe(1); // 210 / 120 capped
     expect(unit(world, "T1").referent).toBe("Inst A");
     // T2 has no national reference: it uses the world ratio in both
     expect(unit(colombia, "T2").ratio).toBeCloseTo(60 / 100, 6);
     expect(unit(world, "T2").ratio).toBeCloseTo(60 / 100, 6);
   });
 
-  test("while the bundle has no ref_2125 the sum of the yearly leaders over 2021–2025 is used and the source says so", () => {
-    const stopgap = createDataset({ ...raw, ref_2125: undefined });
+  test("an old bundle with only ref_2125 reads it; without any referent the sum of the yearly leaders over 2010–2025 is used and the source says so", () => {
+    const old = createDataset({ ...raw, ref_1025: undefined, ref_2125: raw.ref_1025 });
+    expect(computeCapacity(old).referentSource).toBe("ref_2125");
+    const stopgap = createDataset({ ...raw, ref_1025: undefined });
     const result = computeCapacity(stopgap, { ratioBasis: "global" });
     expect(result.referentSource).toBe("lideres");
-    // world leaders of T1: 50 + 50 = 100 -> 205 / 100 capped
+    // world leaders of T1: 50 + 50 = 100 -> 210 / 100 capped
     expect(unit(result, "T1").ratio).toBe(1);
-    expect(unit(computeCapacity(stopgap), "T1").ratio).toBeCloseTo(205 / 400, 6);
+    expect(unit(computeCapacity(stopgap), "T1").ratio).toBeCloseTo(210 / 400, 6);
   });
 
-  test("the panels are a snapshot of 2021–2025: the years filter does not move any unit, the rest of the board follows it", () => {
+  test("the panels are a snapshot of 2010–2025: the years filter does not move any unit, the rest of the board follows it", () => {
     const all = computeCapacity(dataset);
     const narrow = computeCapacity(dataset, { yearFrom: 2010, yearTo: 2015 });
-    expect(narrow.snapshotYears).toEqual([2021, 2025]);
+    expect(narrow.snapshotYears).toEqual([2010, 2025]);
     expect(narrow.units.map((u) => [u.id, u.products, u.citations, u.ratio, u.category])).toEqual(all.units.map((u) => [u.id, u.products, u.citations, u.ratio, u.category]));
     expect(narrow.categoryCounts).toEqual(all.categoryCounts);
-    expect(unit(narrow, "T1").products).toBe(12);
+    expect(unit(narrow, "T1").products).toBe(13);
     // the products of the board do follow the years filter: only the work of 2015
     expect(narrow.products).toBe(1);
     expect(all.products).toBe(18);
@@ -167,40 +172,43 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     expect(unit(computeCapacity(dataset, { facultyIndex: 5 }), "T1").products).toBe(0);
   });
 
-  test("the tooltip figures agree: products and citations are the ones of 2021–2025 and match the yearly counts", () => {
+  test("the tooltip figures agree: products and citations are the ones of 2010–2025 and match the yearly counts", () => {
     const t1 = unit(computeCapacity(dataset), "T1");
     expect(t1.yearCounts.reduce((a, b) => a + b, 0)).toBe(t1.products);
-    expect(t1.citations).toBe(205);
+    expect(t1.citations).toBe(210);
   });
 
-  test("units without production in 2021–2025 are counted with how many had production in other years", () => {
+  test("units without production in 2010–2025 are counted with how many had production in other years", () => {
     const withOld = createDataset({
       ...raw,
       topics: [...raw.topics, { id: "T3", t: "Topic 3", sf: "S1", f: "F1", d: "D", gm: 5, gw: 10, link: [] }, { id: "T4", t: "Topic 4", sf: "S1", f: "F1", d: "D", gm: 5, gw: 10, link: [] }],
-      facts: [...raw.facts, fact(2, 2012, 3, 1)],
+      facts: [...raw.facts, fact(2, 2026, 3, 1)], // 2026 is outside the window (after it)
     });
     const result = computeCapacity(withOld);
     expect(result.categoryCounts[CATEGORY.NONE]).toBe(2);
     expect(result.noProduction).toEqual({ total: 2, otherYears: 1, never: 1 });
   });
 
-  test("the trend window is always 2021-2025 and ignores the years filter", () => {
+  test("the trend window is always 2010-2025 and ignores the years filter", () => {
     const narrow = computeCapacity(dataset, { yearFrom: 2010, yearTo: 2015 });
-    expect(unit(narrow, "T1").yearCounts).toEqual([1, 2, 3, 3, 3]);
+    const win = (m) => TREND_WINDOW_YEARS.map((y) => m[y] || 0);
+    expect(unit(narrow, "T1").yearCounts).toEqual(win({ 2015: 1, 2021: 1, 2022: 2, 2023: 3, 2024: 3, 2025: 3 }));
+    expect(unit(narrow, "T1").yearCounts).toHaveLength(16);
     expect(unit(narrow, "T1").trend).toBe(TREND.INCREASING);
-    expect(unit(narrow, "T1").products).toBe(12); // the snapshot of the panels ignores the years filter (D-133)
+    expect(unit(narrow, "T1").products).toBe(13); // the snapshot of the panels ignores the years filter (D-133)
     // but the other filters do apply
     const noFaculty = computeCapacity(dataset, { facultyIndex: 5 });
-    expect(unit(noFaculty, "T1").yearCounts).toEqual([0, 0, 0, 0, 0]);
+    expect(unit(noFaculty, "T1").yearCounts).toEqual(win({}));
   });
 
   test("categories and the indicative mark (fewer than 10 products in the window)", () => {
     const r = computeCapacity(dataset);
-    expect(unit(r, "T1").category).toBe(CATEGORY.CONSOLIDATING); // 205 / 300 = 0.68 > 0.50, increasing
-    expect(unit(r, "T1").indicative).toBe(false); // 12 products in the window
-    expect(unit(r, "T2").yearCounts).toEqual([2, 1, 1, 1, 0]);
-    expect(unit(r, "T2").trend).toBe(TREND.DECREASING); // nothing in 2025
-    expect(unit(r, "T2").category).toBe(CATEGORY.AT_RISK); // 0.60 > 0.50 and decreasing
+    expect(unit(r, "T1").category).toBe(CATEGORY.CONSOLIDATING); // 210 / 300 = 0.70 > 0.50, increasing
+    expect(unit(r, "T1").indicative).toBe(false); // 13 products in the window
+    const win = (m) => TREND_WINDOW_YEARS.map((y) => m[y] || 0);
+    expect(unit(r, "T2").yearCounts).toEqual(win({ 2021: 2, 2022: 1, 2023: 1, 2024: 1 }));
+    expect(unit(r, "T2").trend).toBe(TREND.INCREASING); // with sixteen years the zeros before 2021 make a late start grow (D-220)
+    expect(unit(r, "T2").category).toBe(CATEGORY.CONSOLIDATING); // 0.60 > 0.50 and increasing
     expect(unit(r, "T2").indicative).toBe(true); // 5 < MIN_TREND_VOLUME
     expect(MIN_TREND_VOLUME).toBe(10);
     expect(r.indicativeUnits).toBe(1);
@@ -211,12 +219,12 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
     expect(Object.values(r.categoryCounts).reduce((a, b) => a + b, 0)).toBe(r.units.length);
   });
 
-  test("a topic with 1 to 4 products in 2021–2025 is punctual presence even with ratio 1; the eight categories add up to the units", () => {
+  test("a topic with 1 to 4 products in 2010–2025 is punctual presence even with ratio 1; the eight categories add up to the units", () => {
     const punctual = createDataset({
       ...raw,
       topics: [...raw.topics, { id: "T3", t: "Topic 3", sf: "S1", f: "F1", d: "D", gm: 5, gw: 10, link: [] }],
       facts: [...raw.facts, fact(2, 2024, 1000, 1)],
-      ref_2125: [...raw.ref_2125, [2, 1, 1, 1, 5], [2, 0, 1, 1, 5]],
+      ref_1025: [...raw.ref_1025, [2, 1, 1, 1, 5], [2, 0, 1, 1, 5]],
       ref_nacional: [0, 2],
     });
     const result = computeCapacity(punctual);
@@ -237,9 +245,9 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
   test("FWCI only over the works with a record in OpenAlex", () => {
     const r = computeCapacity(dataset);
     const t1 = unit(r, "T1");
-    // T1 in 2021–2025: 12 works, 2 without record (15 citations each): 10 with record and 205 - 30 = 175 citations
-    expect(t1.recordProducts).toBe(10);
-    expect(t1.fwci).toBeCloseTo(175 / 10 / 10, 6);
+    // T1 in 2010–2025: 13 works, 2 without record (15 citations each): 11 with record and 210 - 30 = 180 citations
+    expect(t1.recordProducts).toBe(11);
+    expect(t1.fwci).toBeCloseTo(180 / 11 / 10, 6);
     expect(r.fwciBasis.withRecord + r.fwciBasis.withoutRecord).toBe(r.products);
     expect(r.fwciBasis.withoutRecord).toBe(2);
   });
@@ -247,10 +255,10 @@ test.describe("computeCapacity with leaders and OpenAlex mark (synthetic bundle)
   test("a coarser dimension adds the leaders of the topics with production", () => {
     const r = computeCapacity(dataset, { dimension: "subfield", ratioBasis: "global" });
     expect(r.units).toHaveLength(1);
-    // UdeA: 205 + 60 = 265 citations (2021–2025) over the world referents 120 + 100
+    // UdeA: 210 + 60 = 270 citations (2010–2025) over the world referents 120 + 100
     expect(r.units[0].ratio).toBe(1);
     const colombia = computeCapacity(dataset, { dimension: "subfield" });
-    expect(colombia.units[0].ratio).toBeCloseTo(265 / (300 + 100), 6);
+    expect(colombia.units[0].ratio).toBeCloseTo(270 / (300 + 100), 6);
   });
 });
 
