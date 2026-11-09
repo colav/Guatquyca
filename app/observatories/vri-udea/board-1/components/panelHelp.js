@@ -76,8 +76,8 @@ export const PANEL_HELP = Object.freeze({
   },
   p10: {
     what: "Las organizaciones no académicas que firman productos junto con la UdeA, ordenadas por número de productos.",
-    how: "Cada fila es una organización; la columna de productos es cuántos firma con la UdeA. Tipo de actor según la clasificación de la organización en OpenAlex y ROR; los financiadores se clasifican por reglas sobre el nombre.",
+    how: "Cada fila es una organización; la columna de productos es cuántos firma con la UdeA. El tipo de actor (empresa, gobierno, etc.) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre.",
     look: "Con qué tipo de actores colabora más la UdeA y cuáles organizaciones se repiten.",
-    care: "El tipo de actor es una estimación y puede equivocarse. Se excluyen las universidades y las instituciones universitarias.",
+    care: "El tipo de actor puede tener errores. Se excluyen las universidades y las instituciones universitarias.",
   },
 });

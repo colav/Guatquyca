@@ -108,6 +108,8 @@ const CONTRACT_COLOR_MAP = colorMap(CONTRACTS, CONTRACT_COLORS);
 const SEX_COLOR_MAP = { [SEX_SERIES[1]]: SEX_COLORS.male, [SEX_SERIES[2]]: SEX_COLORS.female, [SEX_SERIES[0]]: SEX_COLORS.noData };
 const ID_SERIES = ["Con identificador", "Sin identificador"];
 const ID_COLORS = { "Con identificador": FOUNDATIONS_COLORS.identifiers.with, "Sin identificador": FOUNDATIONS_COLORS.identifiers.without };
+/** F105 (D-232): where the type of an organization comes from, after the unified classification of B155 and B156. */
+const SRC_T3 = "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores.";
 const REPO_SERIES = ["Productos (artículos, libros, capítulos)", "Con texto completo en repositorio"];
 const REPO_COLORS = { [REPO_SERIES[0]]: FOUNDATIONS_COLORS.repository.total, [REPO_SERIES[1]]: FOUNDATIONS_COLORS.repository.inRepository };
 
@@ -405,7 +407,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p11} title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
-            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). La clasificación se hace por el nombre de la organización: identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras y se asigna por reglas sobre el nombre.`}</Note>
+            <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). ${SRC_T3} Identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras.`}</Note>
           </ChartCard>
         </Col>
       </Row>

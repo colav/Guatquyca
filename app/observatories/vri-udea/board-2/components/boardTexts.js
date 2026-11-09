@@ -21,7 +21,7 @@ export const NOTICE_NOTES = [
   "El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media).",
   "El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración).",
   "La base no contiene patentes; la mayoría de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año.",
-  "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+  "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores. El departamento de cada institución colombiana se asigna igualmente por el nombre.",
   INCOMPLETE_YEARS_NOTE,
   "«Alcaldía de Medellín» puede ser un error de afiliación de OpenAlex.",
 ];
@@ -59,7 +59,7 @@ export const SCOPE_OPTIONS = [
 export const NOTES = {
   v1: "Subcampos OpenAlex con al menos un artículo del grupo (tópico primario). Grupos UdeA con 2 o más subcampos. Ránking descendente hasta 2 subcampos. La etiqueta indica también los campos distintos: participación en tópicos de campos diferentes es señal de transdisciplina.",
   v2: `Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
-  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector asignado por reglas sobre el nombre de la organización.",
+  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector según la clasificación de la organización (ver las notas metodológicas).",
   v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
   v5: "Artículos de revista por año de publicación.",
   v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025).",
@@ -108,7 +108,7 @@ export function realNotes({ documentsWithTerms, documents, appropriationWithoutY
     `El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración).`,
     "Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias).",
     `${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año).`,
-    "El sector de cada organización y el departamento de cada institución colombiana se asignan por reglas sobre el nombre.",
+    "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores. El departamento de cada institución colombiana se asigna igualmente por el nombre.",
     INCOMPLETE_YEARS_NOTE,
     MONEY_NOTE,
   ];

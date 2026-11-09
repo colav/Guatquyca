@@ -65,7 +65,7 @@ const HELP = {
     what: "En qué unidades académicas hay profesores con productos hechos junto con empresas.",
     how: "Cada barra es una unidad académica; su longitud es el número de profesores con al menos un producto compartido con una empresa. Al pasar el cursor se ve qué parte son de los profesores de la unidad en la selección.",
     look: "Qué unidades se relacionan más con el sector empresarial, en cifras y en proporción.",
-    care: "La empresa se identifica por reglas sobre el nombre de la organización: puede haber errores. Los profesores son los autores con contrato vigente.",
+    care: "La empresa se identifica con la clasificación de ROR y OpenAlex, el catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, reglas sobre el nombre: puede haber errores. Los profesores son los autores con contrato vigente.",
   },
   p11b: {
     what: "Los activos de propiedad intelectual de la Universidad y a quién pertenecen o dónde se protegen.",

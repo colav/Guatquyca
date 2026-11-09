@@ -21,9 +21,9 @@ export const PANEL_HELP = Object.freeze({
   },
   p3: {
     what: "Las organizaciones no académicas que más productos firman junto con la UdeA, y de qué tipo son esos productos.",
-    how: "Cada barra es una organización; su longitud es el número de productos que firma con la UdeA y los colores separan el tipo de producto (leyenda: artículos, capítulos, libros y apropiación social). El sector de la organización se estima por reglas sobre su nombre.",
+    how: "Cada barra es una organización; su longitud es el número de productos que firma con la UdeA y los colores separan el tipo de producto (leyenda: artículos, capítulos, libros y apropiación social). El sector de la organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre.",
     look: "Qué organizaciones colaboran más y en qué tipo de producto (artículos, libros, capítulos, apropiación social).",
-    care: "La clasificación del sector es una estimación y puede equivocarse. Aparecen solo las organizaciones con más productos.",
+    care: "La clasificación del sector puede tener errores. Aparecen solo las organizaciones con más productos.",
   },
   p4: {
     what: "En qué sector no académico están las organizaciones con las que la UdeA firma productos.",
@@ -101,6 +101,6 @@ export const PANEL_HELP = Object.freeze({
     what: "Las entidades que más financian o cofinancian proyectos de la UdeA y a qué sector pertenecen.",
     how: "Cada barra es una entidad; su longitud es el número de proyectos que financia y el color es su sector (leyenda). Al pasar el cursor se ven los aportes en dinero y en especie.",
     look: "Qué entidades sostienen más proyectos y cuánto aportan en dinero y en especie.",
-    care: "La clasificación del sector es una estimación. Solo se muestran las entidades con más proyectos y no se cuentan las entidades de la propia Universidad.",
+    care: "La clasificación del sector puede tener errores. Solo se muestran las entidades con más proyectos y no se cuentan las entidades de la propia Universidad.",
   },
 });
