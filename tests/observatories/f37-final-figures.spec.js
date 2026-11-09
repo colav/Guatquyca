@@ -56,8 +56,8 @@ test.describe("figures of the final bundles (real quyca, read-only)", () => {
   test("T3 (figures of the bundle of the night, F103: 1.130 without year, no ondas): products without year, type ondas, sector government and health; the row of the Municipality of Medellín in T2 and T3", () => {
     expect.soft(b3.P.filter((p) => p[0] === null || p[0] === 0)).toHaveLength(1130);
     expect.soft(b3.P.filter((p) => p[1] === b3.tipos.indexOf("ondas"))).toHaveLength(0);
-    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(3587); // government (B159: 189 organizations reviewed by hand change type; was 3.319 with B156, 1.350 by name; rows of P of the bundle, not the "distinct works" 3.676 that backend counts)
-    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5533); // health (B159; was 5.581 with B156, 5.428 before)
+    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(3556); // government (B161b: 45 organizations without consensus go to «otros»; was 3.587 with B159, 3.319 with B156; backend gives the same 3.587 → 3.556)
+    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5524); // health (B161b; was 5.533 with B159, 5.581 with B156)
     const i2 = b2.insts.findIndex((x) => x.n === "Municipality of Medellín");
     expect.soft(b2.works.filter((w) => Array.isArray(w[9]) && w[9].includes(i2))).toHaveLength(14);
     const i3 = b3.inst.findIndex((x) => x[0] === "Municipality of Medellín");
