@@ -48,20 +48,20 @@ test.describe("figures of the final bundles (real quyca, read-only)", () => {
     expect.soft(createDataset(b1).centerCoverage).toEqual({ withCenter: 27139, total: 49315 });
     expect.soft(createCollaborationDataset(b2).centerCoverage).toEqual({ withCenter: 27822, total: 50581 });
     const c3 = createFoundationsDataset(b3).centerCoverage;
-    expect.soft(c3.total).toBe(95471);
+    expect.soft(c3.total).toBe(82589); // rows of P of the real bundle (the 95.471 of an older figure does not match it: D-225, F102)
     console.log(`[live] T3 coverage ${c3.withCenter} of ${c3.total}`);
-    expect.soft(b3.P).toHaveLength(95471);
+    expect.soft(b3.P).toHaveLength(82589);
   });
 
-  test("T3: products without year, type ondas, sector government and health; the row of the Municipality of Medellín in T2 and T3", () => {
-    expect.soft(b3.P.filter((p) => p[0] === null || p[0] === 0)).toHaveLength(1160);
-    expect.soft(b3.P.filter((p) => p[1] === b3.tipos.indexOf("ondas"))).toHaveLength(30);
-    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(1385); // government
-    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5494); // health
+  test("T3 (figures of the bundle of the night, F103: 1.130 without year, no ondas): products without year, type ondas, sector government and health; the row of the Municipality of Medellín in T2 and T3", () => {
+    expect.soft(b3.P.filter((p) => p[0] === null || p[0] === 0)).toHaveLength(1130);
+    expect.soft(b3.P.filter((p) => p[1] === b3.tipos.indexOf("ondas"))).toHaveLength(0);
+    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(1350); // government
+    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5428); // health
     const i2 = b2.insts.findIndex((x) => x.n === "Municipality of Medellín");
     expect.soft(b2.works.filter((w) => Array.isArray(w[9]) && w[9].includes(i2))).toHaveLength(14);
     const i3 = b3.inst.findIndex((x) => x[0] === "Municipality of Medellín");
-    expect.soft(b3.P.filter((p) => Array.isArray(p[14]) && p[14].includes(i3))).toHaveLength(15);
+    expect.soft(b3.P.filter((p) => Array.isArray(p[14]) && p[14].includes(i3))).toHaveLength(14);
     expect.soft(b3.inst[i3][2]).toBe("gobierno");
   });
 

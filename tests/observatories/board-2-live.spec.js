@@ -34,7 +34,7 @@ test.describe("Board 2 against a real quyca (read-only)", () => {
       expect(raw, `key ${key}`).toHaveProperty(key);
     }
     expect(raw.works[0]).toHaveLength(13);
-    expect(raw.projects[0]).toHaveLength(7);
+    expect(raw.projects[0]).toHaveLength(8); // B140 added projects[i][7]
     // The list of funders comes under ext (the artifact had it at the top level).
     expect(Array.isArray(raw.ext.funders)).toBe(true);
     expect(raw.ext.funders[0]).toHaveProperty("nm");

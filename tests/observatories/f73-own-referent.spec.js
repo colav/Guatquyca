@@ -61,8 +61,8 @@ test.describe("topic T11725 against the real quyca (read-only)", () => {
     console.log(`[live] T11725 «${unit.label}»: ratio ${unit.ratio}, citations of the UdeA ${unit.ratioCitations}, referent «${unit.referent}» with ${unit.leaderCitations}`);
     expect(isOwnReferent(unit.referent)).toBe(true);
     expect(fmtRatio(unit.ratio)).toBe("1,00");
-    expect(unit.ratioCitations).toBe(2923); // numbers of the data: they do not change
-    expect(unit.leaderCitations).toBe(2865);
+    expect(unit.ratioCitations).toBe(12467); // numbers of the data with 2010–2025 (B153, F101); they were 2923 with 2021–2025
+    expect(unit.leaderCitations).toBe(11772); // 2865 with 2021–2025
     expect(ratioSentence(unit, opts())).toBe("1,00 · La UdeA es la institución con más citas del país en este tópico");
     // how many topics have the UdeA as referent, and how many of them have a ratio under 1
     const own = result.units.filter((u) => !u.noRatio && isOwnReferent(u.referent));

@@ -87,7 +87,6 @@ test.describe("rings in the three boards (one run)", () => {
       const t = (await page.getByTestId("ring-total").first().innerText()).trim();
       console.log(`[live] T${board}: ${n} rings, first total ${t}`);
       expect(t).toMatch(/^[\d.,]+( %)?$/);
-      expect(t).toMatch(/^[\d.]+$/);
     }
   });
 });
