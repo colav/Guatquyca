@@ -59,7 +59,7 @@ export const SCOPE_OPTIONS = [
 export const NOTES = {
   v1: "Subcampos OpenAlex con al menos un artículo del grupo (tópico primario). Grupos UdeA con 2 o más subcampos. Ránking descendente hasta 2 subcampos. La etiqueta indica también los campos distintos: participación en tópicos de campos diferentes es señal de transdisciplina.",
   v2: `Nodos: grupos UdeA; tamaño según centralidad de grado; grosor de la línea según productos compartidos (artículos, libros y capítulos). Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
-  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector según la clasificación de la organización (ver las notas metodológicas).",
+  v3: "Productos por tipo (barras apiladas), 15 primeras. Sector según la clasificación de la organización.",
   v4: "Un producto cuenta en cada sector presente entre sus coautores. «Salud (hospitales y clínicas)» se muestra como sector propio: no está en la tipología original pero es el principal socio no académico de la Universidad.",
   v5: "Artículos de revista por año de publicación.",
   v5b: "Haga clic en la leyenda para comparar series. Proyectos: año de inicio (SIIU, 2014–2025).",

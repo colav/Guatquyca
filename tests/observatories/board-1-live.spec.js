@@ -129,7 +129,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("the model of D-121 and D-122 with the real bundle: reference counts, FWCI over the works with a record", async () => {
-    expect(raw.facts[0]).toHaveLength(15); // facts[14]: record in OpenAlex (B97)
+    expect(raw.facts[0]).toHaveLength(16); // facts[14]: record in OpenAlex (B97); facts[15]: expected citations by topic and year (B156)
     const dataset = createDataset(raw);
     expect(dataset.hasCapacityModel).toBe(true);
     const colombia = computeCapacity(dataset);

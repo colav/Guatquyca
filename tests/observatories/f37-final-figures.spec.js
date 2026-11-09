@@ -56,8 +56,8 @@ test.describe("figures of the final bundles (real quyca, read-only)", () => {
   test("T3 (figures of the bundle of the night, F103: 1.130 without year, no ondas): products without year, type ondas, sector government and health; the row of the Municipality of Medellín in T2 and T3", () => {
     expect.soft(b3.P.filter((p) => p[0] === null || p[0] === 0)).toHaveLength(1130);
     expect.soft(b3.P.filter((p) => p[1] === b3.tipos.indexOf("ondas"))).toHaveLength(0);
-    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(1350); // government
-    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5428); // health
+    expect.soft(b3.P.filter((p) => p[8] & 2)).toHaveLength(3319); // government (B156: the sector of the co-authors comes from ROR, the reviewed catalogue and the name; was 1.350 by name)
+    expect.soft(b3.P.filter((p) => p[8] & 8)).toHaveLength(5581); // health (B156; was 5.428)
     const i2 = b2.insts.findIndex((x) => x.n === "Municipality of Medellín");
     expect.soft(b2.works.filter((w) => Array.isArray(w[9]) && w[9].includes(i2))).toHaveLength(14);
     const i3 = b3.inst.findIndex((x) => x[0] === "Municipality of Medellín");
