@@ -64,7 +64,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(200000);
     const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
     console.log(`[live] ETag of the T3: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-72d119b00b79"'); // B142 (F88); B138 was a7410df8e340
+    expect(response.headers().etag).toBe('"20261107-555c1f3928db"'); // B142 (F88); B138 was a7410df8e340
     const body = await response.json();
     const b3 = body.data || body;
     const ds = createFoundationsDataset(b3);
@@ -113,7 +113,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(250000);
     const response = await request.get(`${API}/observatories/vri-udea/boards/2/bundle`);
     console.log(`[live] ETag of the T2: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-c7efe30b89e2"');
+    expect(response.headers().etag).toBe('"20261107-70aa807533bc"');
     const body = await response.json();
     const b2 = body.data || body;
     b2.funders = b2.ext.funders; // what the adapter of the page does

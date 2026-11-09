@@ -110,7 +110,7 @@ test.describe("part B with the real bundle (one run)", () => {
   test("B142: ETag, por_centro of the 25 centres, 37 projects, and the page", async ({ page, request }) => {
     test.setTimeout(250000);
     const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
-    expect(response.headers().etag).toBe('"20261107-72d119b00b79"');
+    expect(response.headers().etag).toBe('"20261107-555c1f3928db"');
     const body = await response.json();
     const b3 = body.data || body;
     expect(Object.keys(b3.proj.por_centro)).toHaveLength(25);

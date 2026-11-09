@@ -10,7 +10,7 @@ const LIVE = !!process.env.E2E_LIVE;
 const OUT = process.env.F103_OUT;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
 const BOARDS = [1, 2, 3];
-const ETAGS = { 1: '"20261107-5139c8508acb"', 2: '"20261107-c7efe30b89e2"', 3: '"20261107-72d119b00b79"' };
+const ETAGS = { 1: '"20261107-a29e68366a39"', 2: '"20261107-70aa807533bc"', 3: '"20261107-555c1f3928db"' };
 const FORBIDDEN = [/2021–2025/g, /\bensayo\b/gi, /\bNaN\b/g, /\bundefined\b/g, /s\. d\./g];
 const results = { overflow: [], smoke: [], console: {}, forbidden: [], etags: [], info: [] };
 

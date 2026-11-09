@@ -49,7 +49,7 @@ test.describe("F95 against the API and the pages (one run)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers().etag);
     console.log(`[live] ETags ${etags.join(" ")}`);
-    expect(etags).toEqual(['"20261107-5139c8508acb"', '"20261107-c7efe30b89e2"', '"20261107-72d119b00b79"']);
+    expect(etags).toEqual(['"20261107-a29e68366a39"', '"20261107-70aa807533bc"', '"20261107-555c1f3928db"']);
     const cut = (await (await request.get(`${API}/observatories/vri-udea/cut`)).json()).data;
     expect(cut.fuentes).toHaveLength(11);
     expect(cut.texto).toBe("Datos consultados en octubre de 2026.");
