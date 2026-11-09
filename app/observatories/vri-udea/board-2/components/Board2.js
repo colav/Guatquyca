@@ -367,7 +367,10 @@ function Board2Content({ dataset, source }) {
 
         <Col xs={24}>
           <ChartCard info={PANEL_HELP.p14} title="14 · Ejes Temáticos públicos por tipo de organización" empty={!axisRowsStable.length}>
-            <Segmented size="small" options={TAB_OPTIONS(dataset.axisTabs.map((t) => t.label))} value={axisTab} onChange={setAxisTab} style={{ marginBottom: 8 }} />
+            {/* F104: the tabs scroll inside their own container, so the page keeps the width of the window. */}
+            <div style={{ maxWidth: "100%", minWidth: 0, overflowX: "auto", marginBottom: 8 }}>
+              <Segmented size="small" options={TAB_OPTIONS(dataset.axisTabs.map((t) => t.label))} value={axisTab} onChange={setAxisTab} />
+            </div>
             <SegmentedBarsChart rows={axisRowsStable} colors={nonAcademicColors} labelSize={70} legend unit="productos" />
             <Note>{`${NOTES.v14} ${missionFociNote(missionFoci)}`}</Note>
             {axis ? <Note data-testid="axis-14-note">{AXIS_14_NOTE}</Note> : null}
