@@ -67,7 +67,7 @@ import {
   HELP_TEXT,
   HELP_TEXT_REAL,
   AXES_PANEL_NOTE,
-  METHOD_NOTE,
+  CALCULATOR_EXPLANATION,
   MOCK_TAG,
   REAL_TAG,
   REFERENCE_NAME,
@@ -193,7 +193,7 @@ function Board1Content({ dataset, source }) {
   const visiblePoints = useStableValue(selected.length ? points.filter((p) => selected.includes(p.category)) : points);
   const nounLower = DIMENSION_NOUN[applied.dimension].toLowerCase();
   /* The numbers of the buttons are the totals of the category and do not change when one is isolated. «Sin producción»
-     is informative: it is not drawn (no production in 2021–2025), so it has no click (F43b, D-134). */
+     is informative: it is not drawn (no production in 2010–2025), so it has no click (F43b, D-134). */
   const legendItems = useStableValue(
     result.categoryOrder.map((c) =>
       c === CATEGORY.NONE
@@ -201,7 +201,7 @@ function Board1Content({ dataset, source }) {
         : { category: c, label: CATEGORY_LABELS[c], count: points.filter((p) => p.category === c).length, hint: !modern ? "" : c === CATEGORY.LOW_CAPACITY ? lowCapacityDefinition(applied.ratioBasis) : c === CATEGORY.PUNCTUAL ? (result.unitsWithoutRatio ? NO_RATIO_DEFINITION : PUNCTUAL_DEFINITION) : "" },
     ),
   );
-  /* Units without production in 2021–2025: counted in the panel 2, not drawn in the panel 1. */
+  /* Units without production in 2010–2025: counted in the panel 2, not drawn in the panel 1. */
   const undrawn = result.categoryCounts[CATEGORY.NONE] || 0;
   const calcTotal = result.categoryOrder.reduce((n, c) => n + result.categoryCounts[c], 0);
   const withProduction = calcTotal - (result.categoryCounts[CATEGORY.NONE] || 0);
@@ -339,16 +339,25 @@ function Board1Content({ dataset, source }) {
             <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
               {modern
-                ? <LinkedText text={`Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = sin productos con ese tópico principal en 2021–2025.`} />
+                ? <LinkedText text={`Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = sin productos con ese tópico principal en 2010–2025.`} />
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
-            {modern ? <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{METHOD_NOTE}</Typography.Paragraph> : null}
+            {modern ? (
+              <div data-testid="calc-explanation" style={{ fontSize: 12, marginBottom: 8 }}>
+                {CALCULATOR_EXPLANATION.map((p) => (
+                  <Typography.Paragraph key={p.key} type="secondary" style={{ fontSize: 12, marginBottom: 4 }}>
+                    <Typography.Text strong style={{ fontSize: 12 }}>{p.label}. </Typography.Text>
+                    {p.text}
+                  </Typography.Paragraph>
+                ))}
+              </div>
+            ) : null}
             {modern ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12 }} data-testid="source-note">
                 {sources.full} {TYPES_FOOT}
               </Typography.Paragraph>
             ) : null}
-            <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2021–2025.` : "Regla estricta, ventana 2021–2025."} />
+            <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2010–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>
 

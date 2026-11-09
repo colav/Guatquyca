@@ -1,4 +1,4 @@
-import { MIN_TREND_VOLUME } from "@/lib/observatories/capacity/constants";
+import { CAPACITY_WINDOW, MIN_TREND_VOLUME, TREND_BAND } from "@/lib/observatories/capacity/constants";
 import { POLICY_DOCUMENTS, policyRank } from "@/lib/observatories/policyDocuments";
 
 /**
@@ -98,7 +98,7 @@ export const RULES_TABLE = [
   { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
   { key: "lowCapacity", category: "Capacidad relativa baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
   { key: "punctual", category: "Presencia puntual", ratio: "—", trend: `menos de ${MIN_PRODUCTS_CLASSIFY} productos` },
-  { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2021–2025" },
+  { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2010–2025" },
 ];
 
 /**
@@ -108,14 +108,14 @@ export const RULES_TABLE = [
  * @param {string} [ratioBasis] - "national" (default) or "global".
  */
 export function lowCapacityDefinition(ratioBasis = "national") {
-  return `Citas de la UdeA en 2021–2025 iguales o menores al 50 % de las del referente (la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en ese tópico) y producción sin crecimiento, con ${MIN_PRODUCTS_CLASSIFY} o más productos.`;
+  return `Citas de la UdeA en 2010–2025 iguales o menores al 50 % de las del referente (la institución con más citas ${ratioBasis === "global" ? "del mundo" : "del país"} en ese tópico) y producción sin crecimiento, con ${MIN_PRODUCTS_CLASSIFY} o más productos.`;
 }
 
 /** Tooltip of the category «presencia puntual» (F45): in the legend and in the row of the table of rules. */
-export const PUNCTUAL_DEFINITION = `Menos de ${MIN_PRODUCTS_CLASSIFY} productos en 2021–2025: no se clasifica por razón ni por tendencia.`;
+export const PUNCTUAL_DEFINITION = `Menos de ${MIN_PRODUCTS_CLASSIFY} productos en 2010–2025: no se clasifica por razón ni por tendencia.`;
 
 /** Ratio of a field or subfield (F57, D-153, rule b): only the topics with ${MIN_PRODUCTS_CLASSIFY} or more products add up. Provisional texts. */
-export const FIELD_RATIO_RULE = `En campos y subcampos la razón suma solo los tópicos en los que la UdeA tiene ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos: citas de la UdeA en esos tópicos ÷ citas del referente en los mismos tópicos (máximo 1). Los tópicos con menos productos no entran en la razón.`;
+export const FIELD_RATIO_RULE = `En campos y subcampos la razón suma solo los tópicos en los que la UdeA tiene ${MIN_PRODUCTS_CLASSIFY} o más productos en 2010–2025 con los filtros activos: citas de la UdeA en esos tópicos ÷ citas del referente en los mismos tópicos (máximo 1). Los tópicos con menos productos no entran en la razón.`;
 export const NO_RATIO_TEXT = `Sin tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos: no se calcula la razón`;
 export const NO_RATIO_DEFINITION = `${PUNCTUAL_DEFINITION} En campos y subcampos también: sin ningún tópico con ${MIN_PRODUCTS_CLASSIFY} o más productos no hay razón y no se clasifica.`;
 /** Sentence of the tooltip of a point with ratio: «0,49 (citas de la UdeA … frente a … de …, en N tópicos con 5 o más productos)». */
@@ -164,15 +164,39 @@ export const RULE_LINE = Object.fromEntries(
   RULES_TABLE.map((r) => [r.key, r.ratio === "—" ? `${r.category}: ${r.trend}` : `${r.category}: razón ${r.ratio} y tendencia ${r.trend}`]),
 );
 
-/** Methodological note of the calculator (provisional text: Luis approves it, D-121). */
-export const METHOD_NOTE =
-  "Cada tópico se clasifica por su capacidad relativa (citas de la UdeA frente a la institución más citada en Colombia o en el mundo) y por la tendencia de su producción en 2021–2025 (pendiente de la recta ajustada a los conteos anuales). Con pocos productos la tendencia es indicativa (*).";
+/**
+ * How the ratio, the trend and the categories are calculated, under the calculator (F101, D-221). Plain language; the figures come from the
+ * constants (window, band, thresholds), none is written by hand. Provisional text: Luis approves it.
+ */
+const WINDOW_TEXT = `${CAPACITY_WINDOW.from}–${CAPACITY_WINDOW.to}`;
+export const CALCULATOR_EXPLANATION = Object.freeze([
+  {
+    key: "ratio",
+    label: "Razón de capacidad",
+    text: `Son las citas de los productos de la UdeA de ${WINDOW_TEXT} que pasan los filtros, divididas entre las citas de la institución con más citas en ese tópico en el mismo periodo, en Colombia o en el mundo según el interruptor del referente y sin aplicar filtros al referente. El máximo es 1: un valor de 1 quiere decir que la UdeA iguala o supera a la institución de referencia; un valor cercano a 0, que sus citas son una parte muy pequeña de las del referente.`,
+  },
+  {
+    key: "trend",
+    label: "Tendencia",
+    text: `Se ajusta una recta a los conteos de productos de cada año de ${WINDOW_TEXT}. Es estable si la pendiente es menor al ${Math.round(TREND_BAND * 100)} % del promedio anual de productos, creciente si la supera y decreciente si cae por debajo de ese valor. Con menos de ${MIN_TREND_VOLUME} productos en la ventana la tendencia es indicativa y se marca con un asterisco.`,
+  },
+  {
+    key: "category",
+    label: "Categoría",
+    text: `La razón y la tendencia se combinan con las reglas de la tabla de abajo. Con menos de ${MIN_PRODUCTS_CLASSIFY} productos en ${WINDOW_TEXT} el tópico es presencia puntual y no se clasifica; sin productos, sin producción.`,
+  },
+  {
+    key: "care",
+    label: "Cuidado",
+    text: `El último año puede estar incompleto (véase la nota del pie). Un tópico que empezó a producirse tarde tiene los años anteriores en cero, así que su tendencia puede verse creciente aunque la producción sea reciente.`,
+  },
+]);
 
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
-  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2021–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2021–2025, y se cruza con la tendencia de la producción en 2021–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
-  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2021–2025 y no responden al filtro de años.",
-  "«Sin producción» significa sin productos con ese tópico principal en 2021–2025.",
+  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2010–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2010–2025, y se cruza con la tendencia de la producción en 2010–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
+  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2010–2025 y no responden al filtro de años.",
+  "«Sin producción» significa sin productos con ese tópico principal en 2010–2025.",
 ];
 
 export const DATA_WARNINGS = [
@@ -198,8 +222,8 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2021–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2021–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
-    `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2021–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
+    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2010–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
+    `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2010–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
     "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). ${INCOMPLETE_YEARS_NOTE}`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
@@ -227,22 +251,22 @@ import { PUNTUAL_SIZE_FACTOR } from "../../../../../lib/observatories/scatterSiz
 export const PRIMARY_TOPIC_URL = "https://help.openalex.org/data/works/attributes/#primary_topic";
 export const PRIMARY_TOPIC_LINK_TEXT = "tópico principal";
 
-export const SNAPSHOT_NOTE = "Fotografía 2021–2025; no responde al filtro de años";
+export const SNAPSHOT_NOTE = "Fotografía 2010–2025; no responde al filtro de años";
 
 const fmtCount = (n) => n.toLocaleString("es-CO");
 
 /**
  * Tooltip of the informative entry «sin producción» of the legend (F43b, D-134): the units that have
- * no production in 2021–2025, how many had some in other years and how many none at all. Figures
+ * no production in 2010–2025, how many had some in other years and how many none at all. Figures
  * come from the data.
  */
 export function noProductionTooltip({ otherYears, never, noun }) {
-  return `${noun[0].toUpperCase()}${noun.slice(1)} sin productos con ese tópico principal en 2021–2025 (${fmtCount(otherYears)} con producción anterior y ${fmtCount(never)} sin ninguna): no se dibujan en la gráfica`;
+  return `${noun[0].toUpperCase()}${noun.slice(1)} sin productos con ese tópico principal en 2010–2025 (${fmtCount(otherYears)} con producción anterior y ${fmtCount(never)} sin ninguna): no se dibujan en la gráfica`;
 }
 
-/** Foot of the panel 1 (F43b): the units without production in 2021–2025 are not drawn. */
+/** Foot of the panel 1 (F43b): the units without production in 2010–2025 are not drawn. */
 export function undrawnNote({ count, noun }) {
-  return `Los ${noun} sin productos con ese tópico principal en 2021–2025 no se dibujan (${fmtCount(count)})`;
+  return `Los ${noun} sin productos con ese tópico principal en 2010–2025 no se dibujan (${fmtCount(count)})`;
 }
 
 /* Types of product (F47, D-141). Provisional texts: Luis approves them. */
@@ -294,7 +318,7 @@ export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";
 export const RULES_HEADERS = {
   category: "Categoría",
   ratio: { short: "Razón", full: "Razón de capacidad" },
-  trend: { short: "Tendencia", full: "Tendencia 2021–2025" },
+  trend: { short: "Tendencia", full: "Tendencia 2010–2025" },
 };
 
 /* Centre of research filter (D-124). Provisional texts: Luis approves them. */

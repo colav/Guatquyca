@@ -32,9 +32,9 @@ export const KpiRow = memo(function KpiRow({ kpis, fwciLabel = "FWCI del conjunt
     [fmt(kpis.products), "productos con tópico (artículos, libros, capítulos)"],
     [fmt(kpis.citations), "citas acumuladas (OpenAlex)"],
     [kpis.fwci.toFixed(2), fwciLabel],
-    [fmt(kpis.leaders), "unidades líder + consolidado (2021–2025)"],
-    [fmt(kpis.emerging), "unidades emergentes + en consolidación (2021–2025)"],
-    [fmt(kpis.atRisk), "unidades en riesgo de desaparecer (2021–2025)"],
+    [fmt(kpis.leaders), "unidades líder + consolidado (2010–2025)"],
+    [fmt(kpis.emerging), "unidades emergentes + en consolidación (2010–2025)"],
+    [fmt(kpis.atRisk), "unidades en riesgo de desaparecer (2010–2025)"],
   ];
   return (
     <Row gutter={[12, 12]}>
@@ -56,7 +56,7 @@ export const KpiRow = memo(function KpiRow({ kpis, fwciLabel = "FWCI del conjunt
 export const SummaryLine = memo(function SummaryLine({ summary, noun, pending }) {
   return (
     <Typography.Paragraph type="secondary" style={{ marginBottom: 12 }}>
-      Productos filtrados <b>{fmt(summary.products)}</b> · Citas OpenAlex <b>{fmt(summary.citations)}</b> · {noun} con producción (2021–2025){" "}
+      Productos filtrados <b>{fmt(summary.products)}</b> · Citas OpenAlex <b>{fmt(summary.citations)}</b> · {noun} con producción (2010–2025){" "}
       <b>{fmt(summary.withProduction)}</b> de {fmt(summary.units)} · Ejes Temáticos en el filtro <b>{fmt(summary.axes)}</b>
       {pending ? " · actualizando…" : ""}
     </Typography.Paragraph>
@@ -76,7 +76,7 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
     <div>
       <b>{unit.label}</b>
       {unit.field ? ` · ${unit.field}${unit.subfield ? ` › ${unit.subfield}` : ""}` : ""} · categoría <b>{unit.categoryLabel}</b> (FWCI {unit.fwciText}; tendencia {unit.trendLabel}{unit.indicative ? " *" : ""};{" "}
-      {unit.yearCounts.join(", ")} productos por año en 2021–2025).
+      {unit.yearCounts.join(", ")} productos por año en 2010–2025).
       {axes ? (
         <>
           {" "}Ejes Temáticos asociados según nuestra metodología (n.º de productos que enlazan):

@@ -113,7 +113,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
           { field: "citationsLine", name: "Citas" },
           { field: "fwciLine", name: "FWCI" },
           { field: "trendLine", name: "Tendencia" },
-          { field: "yearsLine", name: "Productos por año (2021–2025)" },
+          { field: "yearsLine", name: "Productos por año (2010–2025)" },
           { field: "ratioText", name: `Razón de capacidad (${referent})` },
           { field: "categoryLabel", name: "Categoría" },
         ],
