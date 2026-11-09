@@ -219,7 +219,7 @@ function Board1Content({ dataset, source }) {
   /* Sources and dates (F47): the dates of OpenAlex come from meta.corte_openalex, in Bogotá time. */
   const sources = useMemo(() => sourceSentences(dataset.meta, dataset.obsCut), [dataset]);
   const fwciNote = result.fwciBasis
-    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas. ${sources.citations}`
+    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (SCIENTI o Minciencias) no tienen datos de citas.${dataset.hasExpectedCitations ? " El FWCI se normaliza por tópico y año." : ""} ${sources.citations}`
     : "";
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));
@@ -255,7 +255,7 @@ function Board1Content({ dataset, source }) {
     const unit = result.units.find((u) => u.id === selectedId);
     if (!unit) return null;
     /* The detail takes the same trend as the tooltip (F48 3): the label was missing and it said «tendencia ;». */
-    return { ...unit, categoryLabel: unit.noRatio ? categoryLineNoRatio(CATEGORY_LABELS[unit.category]) : categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci), trendLabel: TREND_LABELS[unit.trend] };
+    return { ...unit, categoryLabel: unit.noRatio ? categoryLineNoRatio(CATEGORY_LABELS[unit.category]) : categoryLine(unit.category, CATEGORY_LABELS[unit.category]), fwciText: fmtFwci(unit.fwci), fwciName: dataset.hasExpectedCitations ? "FWCI (normalizado por tópico y año)" : "FWCI", trendLabel: TREND_LABELS[unit.trend] };
   }, [result, selectedId]);
   const selectedAxes = useMemo(() => {
     if (!selectedUnit || selectedUnit.topicIndex < 0) return null;
@@ -287,7 +287,7 @@ function Board1Content({ dataset, source }) {
         <FiltersBar dataset={dataset} filters={draft} onChange={update} onReset={resetAll} available={available} />
       </Profiler>
       <SummaryLine summary={summary} noun={DIMENSION_NOUN[applied.dimension]} pending={pending} />
-      <KpiRow kpis={kpis} fwciLabel={modern ? "FWCI del conjunto filtrado" : undefined} fwciNote={fwciNote} />
+      <KpiRow kpis={kpis} fwciLabel={modern ? (dataset.hasExpectedCitations ? `FWCI (normalizado por tópico y año) del conjunto filtrado` : "FWCI del conjunto filtrado") : undefined} fwciNote={fwciNote} />
 
       {applied.axisIds.length ? (
         <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
@@ -312,7 +312,7 @@ function Board1Content({ dataset, source }) {
             {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
             <CategoryLegend items={legendItems} selected={selected} onToggle={toggleCategory} onClear={clearCategories} sizeNote={modern ? SIZE_NOTE : SIZE_NOTE_LEGACY} />
             <FillHeight min={400}>
-              {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} />}
+              {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} fwciName={dataset.hasExpectedCitations ? "FWCI (normalizado por tópico y año)" : "FWCI"} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
             {modern ? (

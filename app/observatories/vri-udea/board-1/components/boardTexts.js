@@ -195,7 +195,7 @@ export const CALCULATOR_EXPLANATION = Object.freeze([
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
   "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2010–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2010–2025, y se cruza con la tendencia de la producción en 2010–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
-  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI, calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2010–2025 y no responden al filtro de años.",
+  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI (normalizado por tópico y año), calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2010–2025 y no responden al filtro de años.",
   "«Sin producción» significa sin productos con ese tópico principal en 2010–2025.",
 ];
 
@@ -224,7 +224,7 @@ export function realDataWarnings(meta) {
   return [
     `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2010–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
     `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2010–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
-    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
+    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de SCIENTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI se normaliza por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). ${INCOMPLETE_YEARS_NOTE}`,
     "ODS con cobertura parcial: una obra sin ODS está sin clasificar, no «sin relación». La subregión se deduce solo de menciones en el título; las bases no traen ubicación geográfica de la investigación.",
   ];
@@ -313,7 +313,7 @@ export function goalRows(goals) {
 }
 
 /* Legend of the scatter (F39). Provisional texts: Luis approves them. */
-export const SIZE_NOTE = `Tamaño = FWCI, solo productos con registro en OpenAlex; presencia puntual se dibuja ${Math.round((1 - PUNTUAL_SIZE_FACTOR) * 100)} % más pequeña`;
+export const SIZE_NOTE = `Tamaño = FWCI (normalizado por tópico y año), solo productos con registro en OpenAlex; presencia puntual se dibuja ${Math.round((1 - PUNTUAL_SIZE_FACTOR) * 100)} % más pequeña`;
 export const SIZE_NOTE_LEGACY = "Tamaño = FWCI";
 export const RULES_HEADERS = {
   category: "Categoría",

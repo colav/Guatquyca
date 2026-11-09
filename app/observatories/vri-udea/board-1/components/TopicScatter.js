@@ -49,7 +49,7 @@ const SHAPES = Object.values(CATEGORY_MARKS).map((m) => G2_SHAPE[m.shape] || m.s
  * @param {string} [dimension] - "topic", "subfield" or "field": decides which hierarchy lines the tooltip has.
  * @param {string} [referent] - "Colombia" or "Mundo": name of the reference of the capacity ratio in the tooltip.
  */
-function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia", height = 400 }) {
+function TopicScatter({ points, selectedId, onSelect, dimension = "topic", referent = "Colombia", height = 400, fwciName = "FWCI" }) {
   const config = useMemo(
     () => ({
       /* The most capable categories are drawn last, so a leader is never hidden behind grey points. */
@@ -111,7 +111,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
               : [{ field: "name", name: "Campo" }]),
           { field: "productsLine", name: "Productos" },
           { field: "citationsLine", name: "Citas" },
-          { field: "fwciLine", name: "FWCI" },
+          { field: "fwciLine", name: fwciName },
           { field: "trendLine", name: "Tendencia" },
           { field: "yearsLine", name: "Productos por año (2010–2025)" },
           { field: "ratioText", name: `Razón de capacidad (${referent})` },
@@ -119,7 +119,7 @@ function TopicScatter({ points, selectedId, onSelect, dimension = "topic", refer
         ],
       },
     }),
-    [points, selectedId, dimension, referent, height],
+    [points, selectedId, dimension, referent, height, fwciName],
   );
 
   /* The wrapper's onEvent relay does not deliver G2 clicks (checked on the page), so the click is

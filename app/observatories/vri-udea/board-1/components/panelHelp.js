@@ -17,7 +17,7 @@ export const PANEL_HELP = Object.freeze({
     what: "Cada punto es un tópico (o un campo, subcampo o dominio, según la dimensión elegida): compara cuánto produce la UdeA con cuánto la citan.",
     how: [
       "Eje horizontal: número de productos de la UdeA en el tópico. Eje vertical: citas. Ambos están en escala logarítmica: cada marca multiplica la anterior, no le suma.",
-      "El tamaño del punto es el FWCI (impacto de citas normalizado: el promedio mundial es la referencia). El color es la categoría de capacidad; haga clic en una categoría de la leyenda para dejar solo esa.",
+      "El tamaño del punto es el FWCI normalizado por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación, y ese promedio mundial es la referencia. El color es la categoría de capacidad; haga clic en una categoría de la leyenda para dejar solo esa.",
     ],
     look: "Los puntos grandes arriba y a la derecha son tópicos con mucha producción y mucho impacto; los pequeños y a la izquierda, tópicos de poca presencia. Haga clic en un punto para ver su detalle debajo.",
     care: "La tendencia marcada con asterisco es indicativa: se apoya en pocos productos. El FWCI solo se calcula para productos con registro en OpenAlex.",

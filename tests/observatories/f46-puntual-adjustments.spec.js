@@ -52,7 +52,7 @@ test.describe("X, size and wording (no server)", () => {
   });
 
   test("the note of the size legend says that punctual presence is drawn 70 % smaller, from the factor", () => {
-    expect(SIZE_NOTE).toBe("Tamaño = FWCI, solo productos con registro en OpenAlex; presencia puntual se dibuja 70 % más pequeña");
+    expect(SIZE_NOTE).toBe("Tamaño = FWCI (normalizado por tópico y año), solo productos con registro en OpenAlex; presencia puntual se dibuja 70 % más pequeña");
   });
 
   test("the wording of «sin producción»: «sin productos con ese tópico principal en 2010–2025»; the tooltip has the text and no link", () => {

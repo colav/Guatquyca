@@ -75,7 +75,7 @@ export const UnitDetail = memo(function UnitDetail({ unit, axes }) {
   return (
     <div>
       <b>{unit.label}</b>
-      {unit.field ? ` · ${unit.field}${unit.subfield ? ` › ${unit.subfield}` : ""}` : ""} · categoría <b>{unit.categoryLabel}</b> (FWCI {unit.fwciText}; tendencia {unit.trendLabel}{unit.indicative ? " *" : ""};{" "}
+      {unit.field ? ` · ${unit.field}${unit.subfield ? ` › ${unit.subfield}` : ""}` : ""} · categoría <b>{unit.categoryLabel}</b> ({unit.fwciName || "FWCI"} {unit.fwciText}; tendencia {unit.trendLabel}{unit.indicative ? " *" : ""};{" "}
       {unit.yearCounts.join(", ")} productos por año en 2010–2025).
       {axes ? (
         <>
