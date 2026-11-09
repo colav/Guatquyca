@@ -34,7 +34,7 @@ const indexOptions = (list) => list.map((name, i) => ({ value: i, label: name })
 
 /**
  * Filters of Board 3 (report section 4). They apply at once and are combined with AND; the
- * entity filters (centre, unit, subunit, subfield) expand to the topics where the entity takes part.
+ * filters of centre, unit and subunit are direct since F102 (only the products of the entity, X-05); the one of subfield is a filter of the topic.
  *
  * @param {Object} raw - Tables of the dataset.
  * @param {{ withCenter: number, total: number }} centerCoverage - Products that belong to a research centre.
