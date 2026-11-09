@@ -140,5 +140,5 @@ export const methodNotes = (staffLabel) => [
   DIRECT_FILTERS_NOTE,
   PROJECTS_2025_WARNING,
   INCOMPLETE_YEARS_NOTE,
-  "La clasificación de las organizaciones coautoras (por ejemplo, las empresas) se hace por reglas sobre su nombre.",
+  "El tipo de cada organización coautora (por ejemplo, las empresas) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; la proporción de cada procedencia está en el botón (i) del panel 11.",
 ];

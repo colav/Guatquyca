@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import TagRow from "@/app/observatories/components/TagRow";
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { typeQualityText, withQuality } from "@/lib/observatories/typeQuality";
 import { PANEL_HELP } from "./panelHelp";
 import DonutChart from "@/app/observatories/components/DonutChart";
 import CollabGraph from "./CollabGraph";
@@ -271,7 +272,7 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} xl={12}>
-          <ChartCard info={PANEL_HELP.p3} title="3 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
+          <ChartCard info={withQuality(PANEL_HELP.p3, typeQualityText(raw.ext && raw.ext.calidad_tipo, "instituciones coautoras"))} title="3 · Organizaciones no académicas con las que coopera la UdeA" empty={!organizations.length}>
             <SegmentedBarsChart rows={organizations} colors={typeColors} labelSize={40} legend unit="productos" />
           </ChartCard>
         </Col>

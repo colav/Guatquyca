@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { typeQualityText, withQuality } from "@/lib/observatories/typeQuality";
 import { PANEL_HELP } from "./panelHelp";
 import { groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "@/lib/observatories/officialGroups";
 import CompactTable from "@/app/observatories/components/CompactTable";
@@ -425,7 +426,7 @@ function Board3Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>
-          <ChartCard info={PANEL_HELP.p11} title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
+          <ChartCard info={withQuality(PANEL_HELP.p11, typeQualityText(raw.ext && raw.ext.calidad_tipo, "instituciones coautoras"))} title="11 · Profesores con productos compartidos con empresas, por unidad académica" empty={!companyRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={companyRows} color={BAR_COLORS.company} unit="Profesores" />
             <Note>{`${fmt(company.products)} productos con empresa (${fmt(company.staff)} profesores). Identifica ${fmt(instStats.companies)} empresas entre ${fmt(instStats.institutions)} instituciones coautoras.`}</Note>

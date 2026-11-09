@@ -245,7 +245,7 @@ test.describe("F96 note of 2025 and 2026 (D-212)", () => {
     expect(all).not.toContain("Los datos de 2025 y 2026 pueden estar incompletos.");
     expect(all).not.toMatch(/ 2025 y 2026 pueden estar incompletos\.`?$/);
     expect(methodNotes("X").some((n) => n.includes("SIIU): el último inicio registrado"))).toBe(true);
-    expect(methodNotes("X").some((n) => n.includes("reglas sobre su nombre"))).toBe(true);
+    expect(methodNotes("X").some((n) => n.includes("reglas sobre el nombre"))).toBe(true);
     expect(realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 }).some((n) => n.includes("reglas sobre el nombre"))).toBe(true);
   });
 

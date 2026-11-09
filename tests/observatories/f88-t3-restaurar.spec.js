@@ -128,6 +128,6 @@ test.describe("part B with the real bundle (one run)", () => {
     await expect(text).toContainText("408 estudiantes únicos en 374 proyectos", { timeout: 60000 });
     await expect(text).not.toContainText("3.512 estudiantes únicos");
     await expect(text).toContainText("Proyectos del listado de la VRI-UdeA (SIIU): el último inicio registrado");
-    await expect(text).toContainText("39 proyectos de 11 grupos (37 proyectos únicos; algunos tienen varios grupos). No responde a los filtros.");
+    await expect(text).toContainText("39 proyectos de 11 grupos (37 proyectos únicos). No responde a los filtros.");
   });
 });

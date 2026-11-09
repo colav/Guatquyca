@@ -40,7 +40,11 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
     await page.waitForTimeout(2500);
     const text = await card.innerText();
     expect(text).not.toMatch(/NaN|undefined|ensayo/i);
-    expect(text).toMatch(/puede haber errores/);
+    /* F108/F109: the classification and its quantified warning are in the button (i), not in the card */
+    expect(text).not.toMatch(/puede haber errores/);
+    await card.getByTestId("panel-info").click();
+    await expect(page.getByTestId("panel-info-care").last()).toContainText("puede haber algunos errores");
+    await page.keyboard.press("Escape");
     expect(await card.locator("tbody tr").count()).toBeGreaterThan(5);
   });
 });

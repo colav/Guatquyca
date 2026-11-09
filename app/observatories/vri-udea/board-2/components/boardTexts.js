@@ -21,7 +21,7 @@ export const NOTICE_NOTES = [
   "El filtro por documento de política delimita los productos que el panel de jueces asignó a alguno de sus ejes (confianza alta o media).",
   "El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas de colaboración).",
   "La base no contiene patentes; la mayoría de los productos tiene resumen, pero las menciones a IAP y a subregión se buscan solo en el título; la apropiación social no tiene año.",
-  "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores. El departamento de cada institución colombiana se asigna igualmente por el nombre.",
+  "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; la proporción de cada procedencia está en el botón (i) del panel 3. El departamento de cada institución colombiana se asigna por el nombre de la institución.",
   INCOMPLETE_YEARS_NOTE,
   "«Alcaldía de Medellín» puede ser un error de afiliación de OpenAlex.",
 ];
@@ -65,8 +65,8 @@ export const NOTES = {
   v6: "Bibliográfica: artículos con coautores de empresa y gobierno además de la UdeA. Proyectos: con aportante empresarial y aportante público. Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
   v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos.",
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
-  v16: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos. La clasificación sectorial es heurística. Este ránking no responde a los filtros (se calcula sobre todos los proyectos 2014–2025).",
-  v16Filtered: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento). La clasificación sectorial es heurística.",
+  v16: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos. Este ránking no responde a los filtros (se calcula sobre todos los proyectos 2014–2025).",
+  v16Filtered: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento).",
 };
 export const patentsIgnoredNote = (list) => `Las patentes no responden a: ${list.join(", ")}.`;
 
@@ -98,7 +98,7 @@ export function realNotes({ documentsWithTerms, documents, appropriationWithoutY
     `El panel 14 (ránking por Eje Temático) se basa en los ejes curados del catálogo de Ejes Temáticos y en los tópicos de OpenAlex v2 (${documentsWithTerms} de los ${documents} documentos tienen ejes; los otros ${documents - documentsWithTerms} solo aportan metas de colaboración).`,
     "Las patentes salen del portafolio de propiedad intelectual (patentes distintas, no el contador de Minciencias).",
     `${fmt(appropriationWithoutYear)} de ${fmt(appropriation)} productos de apropiación social no tienen año (cuentan en los totales y no en las series por año).`,
-    "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; puede haber errores. El departamento de cada institución colombiana se asigna igualmente por el nombre.",
+    "El tipo de cada organización sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; la proporción de cada procedencia está en el botón (i) del panel 3. El departamento de cada institución colombiana se asigna por el nombre de la institución.",
     INCOMPLETE_YEARS_NOTE,
     MONEY_NOTE,
   ];

@@ -67,7 +67,7 @@ const HELP = {
     what: "En qué unidades académicas hay profesores con productos hechos junto con empresas.",
     how: "Cada barra es una unidad académica; su longitud es el número de profesores con al menos un producto compartido con una empresa. Al pasar el cursor se ve qué parte son de los profesores de la unidad en la selección.",
     look: "Qué unidades se relacionan más con el sector empresarial, en cifras y en proporción.",
-    care: "La empresa se identifica con la clasificación de ROR y OpenAlex, el catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, reglas sobre el nombre: puede haber errores.",
+    care: "La empresa se identifica con la clasificación de ROR y OpenAlex, el catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, reglas sobre el nombre. {calidad}",
   },
   p11b: {
     what: "Los activos de propiedad intelectual de la Universidad y a quién pertenecen o dónde se protegen.",
@@ -96,7 +96,7 @@ const HELP = {
     what: "Cuántas publicaciones están en un repositorio abierto, en comparación con el total, por año y dominio del conocimiento.",
     how: "Hay un gráfico por dominio. El eje horizontal son los años; una línea es el total de publicaciones y la otra es la parte con texto completo en repositorio (leyenda). Mientras más cerca estén las dos, más abierta es la producción.",
     look: "En qué dominios la distancia entre las líneas es mayor y si se está cerrando con los años.",
-    care: "No siempre se sabe si una publicación está en un repositorio. El último año suele estar incompleto.",
+    care: "El último año suele estar incompleto.",
   },
   p16: {
     what: "En qué tópicos están los conjuntos de datos abiertos que registra la Universidad.",

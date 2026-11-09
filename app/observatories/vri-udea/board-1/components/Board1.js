@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 /* Components */
 import ChartCard from "@/app/observatories/components/ChartCard";
+import { typeQualityText, withQuality } from "@/lib/observatories/typeQuality";
 import { PANEL_HELP } from "./panelHelp";
 import AxisTopicsTable from "./AxisTopicsTable";
 import LinkedText from "@/app/observatories/components/LinkedText";
@@ -411,7 +412,7 @@ function Board1Content({ dataset, source }) {
           </ChartCard>
         </Col>
         <Col xs={24} lg={12}>
-          <ChartCard info={PANEL_HELP.p10} title="9 · Actores no académicos coautores">
+          <ChartCard info={withQuality(PANEL_HELP.p10, typeQualityText(dataset.typeQuality, "organizaciones no académicas"))} title="9 · Actores no académicos coautores">
             <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
             {dataset.hasFactDetails ? null : (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>No responde a los filtros.</Typography.Paragraph>
