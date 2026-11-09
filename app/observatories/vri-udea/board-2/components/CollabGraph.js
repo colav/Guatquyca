@@ -72,6 +72,13 @@ function buildData({ nodes, links }, centers, centerNames, preset, partition) {
   };
 }
 
+/** F97 (Q-38): the hulls of D are faint (low fill, thin outline, tight margin) and the communities are pulled apart (anchors farther, stronger pull). */
+const D_HULL = { fill: NEUTRAL.dark, fillOpacity: 0.05, stroke: NEUTRAL.dark, strokeOpacity: 0.35, lineWidth: 1, padding: 4, corner: "rounded" };
+const D_SPREAD = 0.85;
+const D_PULL = 0.4;
+const D_BETWEEN_WEAKER = 0.15;
+const D_BETWEEN_LONGER = 1.8;
+
 /** Layout of the variant: «ref» is the one of before (F92 reference), A and C pull each centre to its own anchor, B is preset. */
 function layoutOf(variant, data, centers, width, height) {
   if (variant === "B") return undefined;
@@ -83,15 +90,18 @@ function layoutOf(variant, data, centers, width, height) {
     const weightOf = (e) => (weights.get(e.id) ?? 1) / maxWeight;
     /* a mild pull of each node towards the anchor of ITS COMMUNITY (not of its centre), so the communities do not interleave and their hulls can be read */
     const communityOf = new Map(data.nodes.map((n) => [n.id, n.data.community]));
-    const anchorsD = groupAnchors([...new Set(communityOf.values())].sort((a, b) => a - b), width, height, 0.5);
+    const anchorsD = groupAnchors([...new Set(communityOf.values())].sort((a, b) => a - b), width, height, D_SPREAD);
+    const ends = new Map(data.edges.map((e) => [e.id, [communityOf.get(e.source), communityOf.get(e.target)]]));
+    const between = (e) => { const p = ends.get(e.id); return p ? p[0] !== p[1] : false; };
     const anchorOfD = (n) => anchorsD.get(communityOf.get(n.id)) ?? { x: width / 2, y: height / 2 };
     return {
       type: "d3-force",
-      link: { distance: (e) => 120 - 80 * Math.sqrt(weightOf(e)), strength: (e) => 0.05 + 0.95 * Math.sqrt(weightOf(e)) },
+      /* an edge between two communities pulls less and is longer than one inside a community, so the communities do not melt into one */
+      link: { distance: (e) => (120 - 80 * Math.sqrt(weightOf(e))) * (between(e) ? D_BETWEEN_LONGER : 1), strength: (e) => (0.05 + 0.95 * Math.sqrt(weightOf(e))) * (between(e) ? D_BETWEEN_WEAKER : 1) },
       manyBody: { strength: -200 },
       collide: { radius: (n) => (sizesD.get(n.id) ?? 8) + 6, strength: 1, iterations: 3 },
-      x: { x: (n) => anchorOfD(n).x, strength: 0.1 },
-      y: { y: (n) => anchorOfD(n).y, strength: 0.1 },
+      x: { x: (n) => anchorOfD(n).x, strength: D_PULL },
+      y: { y: (n) => anchorOfD(n).y, strength: D_PULL },
       center: false,
       iterations: 400,
     };
@@ -158,7 +168,7 @@ function CollabGraph({ graph, centers, centerNames }) {
       data.nodes.forEach((n) => groups.set(n.data.group, [...(groups.get(n.data.group) || []), n.id]));
       /* Q-33 (c): the hull of D is the one of each community, in neutral grey */
       const communityHulls = variant === "D"
-        ? [...new Set(partition.values())].map((k) => ({ k, ids: data.nodes.filter((n) => partition.get(Number(n.id)) === k || partition.get(n.id) === k).map((n) => n.id) })).filter(({ ids }) => ids.length >= 2).map(({ k, ids }) => ({ type: "hull", key: `hull-community-${k}`, members: ids, fill: NEUTRAL.dark, fillOpacity: 0.14, stroke: NEUTRAL.dark, strokeOpacity: 0.6, lineWidth: 1, padding: 12, corner: "smooth", label: true, labelText: `Comunidad ${k + 1}`, labelPlacement: "top", labelFontSize: 11, labelFill: NEUTRAL.dark }))
+        ? [...new Set(partition.values())].map((k) => ({ k, ids: data.nodes.filter((n) => partition.get(Number(n.id)) === k || partition.get(n.id) === k).map((n) => n.id) })).filter(({ ids }) => ids.length >= 2).map(({ k, ids }) => ({ type: "hull", key: `hull-community-${k}`, members: ids, fill: NEUTRAL.dark, ...D_HULL, label: true, labelText: `Comunidad ${k + 1}`, labelPlacement: "top", labelFontSize: 11, labelFill: NEUTRAL.dark }))
         : [];
       const hulls = variant === "D" ? communityHulls : variant === "C"
         ? [...groups.entries()].filter(([, ids]) => ids.length >= 2).map(([group, ids]) => {
@@ -196,7 +206,7 @@ function CollabGraph({ graph, centers, centerNames }) {
         const chosen = graphLabels(placed);
         instance.updateNodeData(data.nodes.map((n) => ({ id: n.id, style: { labelText: chosen.get(n.id) || "" } })));
         /* the new arrangements are fitted to the canvas (the biggest cluster never leaves it); the reference stays as it was */
-        (variant === "ref" ? Promise.resolve() : instance.fitView({ when: "always", direction: "both" }, false).then(() => instance.zoomBy(variant === "D" ? 0.76 : 0.92, false))).catch(() => {}).then(() => {
+        (variant === "ref" ? Promise.resolve() : instance.fitView({ when: "always", direction: "both" }, false).then(() => instance.zoomBy(variant === "D" ? 0.88 : 0.92, false))).catch(() => {}).then(() => {
           /* Q-33 (d): in D almost every node has its name (abbreviated to 22 characters); the labels that overlap are hidden by degree, and zooming in shows the missing ones */
           if (variant !== "D") return undefined;
           let shown = "";
@@ -216,6 +226,7 @@ function CollabGraph({ graph, centers, centerNames }) {
           return undefined;
         }).then(() => instance.draw()).catch(() => {});
         if (containerRef.current) {
+          if (variant === "D") containerRef.current.dataset.hullStyle = JSON.stringify(D_HULL);
           containerRef.current.dataset.drawMs = String(Math.round(performance.now() - t0));
           containerRef.current.dataset.variant = variant;
         }
