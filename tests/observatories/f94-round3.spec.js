@@ -250,7 +250,7 @@ test.describe("F96 note of 2025 and 2026 (D-212)", () => {
     const all = [...realDataWarnings({ n_sel: 100, n_topic: 90 }), ...realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 }), ...methodNotes("X")].join(" ");
     expect(all).not.toContain("Los datos de 2025 y 2026 pueden estar incompletos.");
     expect(all).not.toMatch(/ 2025 y 2026 pueden estar incompletos\.`?$/);
-    expect(methodNotes("X").some((n) => n.includes("corte al 3 de julio de 2025"))).toBe(true);
+    expect(methodNotes("X").some((n) => n.includes("SIIU): el último inicio registrado"))).toBe(true);
     expect(methodNotes("X").some((n) => n.includes("reglas sobre su nombre"))).toBe(true);
     expect(realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 }).some((n) => n.includes("reglas sobre el nombre"))).toBe(true);
   });

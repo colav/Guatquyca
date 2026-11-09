@@ -46,7 +46,7 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   test.beforeAll(async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
-    expect(res.headers.get("etag")).toBe('"20261107-a919ea5742a7"');
+    expect(res.headers.get("etag")).toBe('"20261107-bc9607aca85c"');
     bundle = await res.json();
     bundle.funders = bundle.ext.funders;
     dataset = createCollaborationDataset(bundle);
@@ -99,20 +99,24 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   });
 });
 
-test.describe("F95 the ranking of B147 against the tooltip (one run)", () => {
+test.describe("F97 the ranking of B150 against the tooltip (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("780 pairs project–funder, the Municipio de Medellín at the fifth place with its amounts, and the panel draws the first 25", async () => {
+  test("784 pairs project–funder, San Vicente as one row at the fifth place, the Municipio de Medellín at the sixth with its amounts, and the panel draws the first 25", async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
-    expect(res.headers.get("etag")).toBe('"20261107-a919ea5742a7"');
+    expect(res.headers.get("etag")).toBe('"20261107-bc9607aca85c"');
     const b = await res.json();
     const pairs = b.ext.project_funders_montos.reduce((a, l) => a + l.length, 0);
-    expect(pairs).toBe(780);
+    expect(pairs).toBe(784);
     b.funders = b.ext.funders;
     const ranking = computeCollaboration(createCollaborationDataset(b), { yearFrom: 2010, yearTo: 2026 }).funders;
+    const sv = ranking.filter((f) => /san vicente/i.test(f.nm) && !/pa[uú]l/i.test(f.nm));
+    expect(sv).toHaveLength(1);
+    expect(ranking.indexOf(sv[0])).toBe(4);
+    expect(sv[0].proyectos).toBe(21);
     const k = ranking.findIndex((f) => f.nm.trim() === "Municipio de Medellín");
     console.log(`[live] pairs ${pairs}; bundle funders ${b.ext.funders.length}; shown ${ranking.length}; Municipio de Medellín at place ${k + 1}: ${ranking[k]?.proyectos} projects, cash ${Math.round(ranking[k]?.cash / 1e6)} and in kind ${Math.round(ranking[k]?.inKind / 1e6)} millones`);
-    expect(k).toBe(4);
+    expect(k).toBe(5);
     expect(ranking[k].proyectos).toBe(21);
     expect(Math.round(ranking[k].cash / 1e6)).toBe(1694);
     expect(Math.round(ranking[k].inKind / 1e6)).toBe(1931);

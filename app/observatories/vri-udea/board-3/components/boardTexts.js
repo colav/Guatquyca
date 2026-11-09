@@ -21,7 +21,7 @@ export const STAFF_LABEL = "profesores según la tabla de personal anterior";
 export const PROXY_LABEL = "categoría Minciencias de la planta";
 
 export const FOOTER_TEXT =
-  "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los conteos de «profesores» usan los autores con tipo de contrato en la base; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
+  "Fuentes: obras, autores, tópicos, grupos e instituciones coautoras de ImpactU; registro de grupos de investigación y centros, con sus investigadores y la planta de personal; listado de proyectos de la VRI-UdeA con corte al 3 de julio de 2025 (SIIU); registro de productos de creación; catálogo de tópicos de OpenAlex y catálogo de Ejes Temáticos (términos Núcleo). SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta 2021-2 cruzada por nombre, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes.";
 
 export const SECTIONS = {
   researchers: "Base de investigadores",
@@ -60,7 +60,7 @@ export const REAL_TAG = "Datos de ImpactU";
 export const REAL_STAFF_LABEL = "con contrato vigente al 30 de mayo de 2026";
 
 export const REAL_FOOTER_TEXT =
-  "Fuentes: obras, autoras y autores, grupos, instituciones coautoras, proyectos y tesis de ImpactU, campos de OpenAlex (acceso abierto y texto completo en repositorio), identificadores de las personas y la planta de la Universidad, tópicos de OpenAlex o del modelo v2 y el catálogo de Ejes Temáticos de los documentos de política. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). Los «profesores» son los autores con contrato vigente al 30 de mayo de 2026; «autores UdeA» incluye estudiantes y otros vinculados. La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título y el sector de cada institución por reglas sobre el nombre.";
+  "SIIU: sistema donde la Universidad registra oficialmente sus proyectos. SCIENTI: plataforma de Minciencias donde se registran grupos, investigadores y productos. Población de Antioquia: CNPV 2018 (DANE). La edad proviene de la fecha de nacimiento de la planta cruzada con los autores, por lo que los paneles 4 y 6 son parciales. Las tesis de SCIENTI registran como autores a sus directores y, en parte, a los estudiantes. Las menciones a subregión se estiman por reglas sobre el título.";
 
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 
@@ -120,7 +120,7 @@ export const DOCUMENT_FILTER_HELP =
   "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes, con confianza alta o media (este tablero no tiene control de confianza). Un producto sin eje asignado no cuenta aunque su tópico esté vinculado.";
 
 /* Q-06 (F90, D-202): source and cut of the projects, as the team understands it (the list of the VRI-UdeA, cut on 3 July 2025); provisional for Luis. */
-export const PROJECTS_2025_WARNING = "Proyectos registrados en el SIIU, listado de la VRI-UdeA con corte al 3 de julio de 2025; el último inicio registrado es el 18 de junio de 2025 y los de mayo y junio pueden estar incompletos.";
+export const PROJECTS_2025_WARNING = "Proyectos del listado de la VRI-UdeA (SIIU): el último inicio registrado es el 18 de junio de 2025 y los de mayo y junio pueden estar incompletos.";
 
 /**
  * Notes of method at the foot of the board (Q-22, Q-24, F91): the sentences that were spread over the panels, now in one box.
@@ -130,7 +130,7 @@ export const PROJECTS_2025_WARNING = "Proyectos registrados en el SIIU, listado 
  * @returns {string[]}
  */
 export const methodNotes = (staffLabel) => [
-  `Los profesores son los autores UdeA ${staffLabel}.`,
+  `Los profesores son los autores UdeA ${staffLabel}; «autores UdeA» incluye estudiantes y otros vinculados.`,
   PROJECTS_2025_WARNING,
   INCOMPLETE_YEARS_NOTE,
   "La clasificación de las organizaciones coautoras (por ejemplo, las empresas) se hace por reglas sobre su nombre.",

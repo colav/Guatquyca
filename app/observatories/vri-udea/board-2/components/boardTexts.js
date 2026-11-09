@@ -87,7 +87,7 @@ export const REAL_TAG = "Datos de ImpactU";
 
 /** Footer with the sources of the data of the API (provisional text, Luis approves it). */
 export const REAL_FOOTER_TEXT =
-  "Fuentes: obras, autoras y autores, grupos, instituciones coautoras y proyectos de ImpactU, tópicos de OpenAlex o del modelo v2 y el catálogo de Ejes Temáticos de los documentos de política. SIIU: sistema donde la Universidad registra oficialmente sus proyectos. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años; los que no tienen año cuentan en los totales y no entran en las series por año). Las menciones a IAP y a subregión se estiman por reglas sobre el título, el sector de cada organización se asigna por reglas sobre el nombre y los países sin contorno en el mapa se listan en la ayuda «?» de su panel.";
+  "SIIU: sistema donde la Universidad registra oficialmente sus proyectos. Universo: artículos, libros y capítulos 2010–2026 y productos de apropiación social (todos los años). Las menciones a IAP y a subregión se estiman por reglas sobre el título y los países sin contorno en el mapa se listan en la ayuda «?» de su panel.";
 
 
 /** Note of the amounts of the ranking of funders (Q-28 iv, D-207; F94). Provisional for Luis. */

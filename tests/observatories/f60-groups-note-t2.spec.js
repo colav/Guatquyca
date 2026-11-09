@@ -27,7 +27,7 @@ test.describe("F60 against the bundles of D-160 (read-only)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
     console.log(`[live] ETags: ${etags.join(" ")}`);
-    expect(etags).toEqual(["20261107-812ab23f70b7", "20261107-a919ea5742a7", "20261107-c97503a60029"]);
+    expect(etags).toEqual(["20261107-812ab23f70b7", "20261107-bc9607aca85c", "20261107-c97503a60029"]);
   });
 
   test("Board 2 shows the note with the figures of its bundle; Board 3 keeps its own", async ({ page }) => {
