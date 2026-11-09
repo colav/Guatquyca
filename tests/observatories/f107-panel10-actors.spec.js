@@ -14,7 +14,7 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
 
   test("actors by type: in the bundle, in the default selection and in the 22 rows of the panel", async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
-    expect(res.headers.get("etag")).toBe('"20261107-a29e68366a39"');
+    expect(res.headers.get("etag")).toBe('"20261107-176ca66482cb"');
     const raw = await res.json();
     const ds = createDataset(raw);
     const inBundle = {};

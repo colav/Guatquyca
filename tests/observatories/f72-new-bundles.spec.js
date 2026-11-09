@@ -104,7 +104,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
     console.log(`[live] ETags ${etags.join(" ")}`);
-    expect(etags).toEqual(["20261107-a29e68366a39", "20261107-70aa807533bc", "20261107-555c1f3928db"]);
+    expect(etags).toEqual(["20261107-176ca66482cb", "20261107-1d00bdd70b19", "20261107-956a71cbf0c3"]);
     b1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
     b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
     for (const p of b3.P) if (p[0] === 0) p[0] = null;

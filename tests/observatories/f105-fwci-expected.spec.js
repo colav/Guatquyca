@@ -67,7 +67,7 @@ test.describe("F105 against the bundle of B156 (one run)", () => {
   test("ETag of B156, KPI of 1,56 (default years) and 1,62 (2021–2025) and the eleven samples of B154 (c)", async () => {
     test.setTimeout(200000);
     const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
-    expect(res.headers.get("etag")).toBe('"20261107-a29e68366a39"');
+    expect(res.headers.get("etag")).toBe('"20261107-176ca66482cb"');
     const raw = await res.json();
     expect(raw.facts[0]).toHaveLength(16);
     const ds = createDataset(raw);
