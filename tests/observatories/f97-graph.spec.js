@@ -67,7 +67,7 @@ test.describe("F97 graph D (one run per measure)", () => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     const runs = [];
     for (let i = 0; i < 3; i++) {
-      await page.goto("/observatories/vri-udea/board-2?grafo=D");
+      await page.goto("/observatories/vri-udea/board-2");
       await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
       await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 60000 });
       await page.waitForTimeout(3000);
@@ -84,7 +84,7 @@ test.describe("F97 graph D (one run per measure)", () => {
 
   test("the hulls are faint: low fill, thin outline", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2?grafo=D");
+    await page.goto("/observatories/vri-udea/board-2");
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 120000 });
     const hull = await page.evaluate(() => JSON.parse(document.querySelector('[data-testid="collab-graph"]').dataset.hullStyle || "null"));
     expect(hull).not.toBeNull();

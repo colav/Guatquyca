@@ -1,46 +1,20 @@
 /*
  * F92 (Q-25, D-206, D-208): collaboration graph of Board 2. The first block needs no server (helpers and tooltips); the second
- * (E2E_LIVE=1) measures the four arrangements (ref, A, B, C) in one run and the two tooltips. Screenshots: f92-graph-capture.spec.js.
+ * (E2E_LIVE=1) reads the two tooltips of the graph (the only one since F98; its measures are in f94-round3 and f97-graph).
  */
 import { test, expect } from "@playwright/test";
 
-import { GRAPH_VARIANTS, graphLabels, graphTooltip, groupAnchors, labelBox, ringPositions } from "../../lib/observatories/collabGraph";
+import { graphTooltip, groupAnchors } from "../../lib/observatories/collabGraph";
 
 const LIVE = !!process.env.E2E_LIVE;
 
 test.describe("F92 helpers of the graph (no server)", () => {
-  test("variants", () => {
-    expect(GRAPH_VARIANTS).toEqual(["ref", "A", "B", "C", "D"]);
-  });
-
   test("an anchor per group on an ellipse, the first one on top", () => {
     const a = groupAnchors([0, 1, 2, 3], 800, 600);
     expect(a.get(0).x).toBeCloseTo(400);
     expect(a.get(0).y).toBeLessThan(300);
     expect(new Set([...a.values()].map((p) => `${Math.round(p.x)},${Math.round(p.y)}`)).size).toBe(4);
     expect(groupAnchors([5], 800, 600).get(5)).toEqual({ x: 400, y: 300 });
-  });
-
-  test("option B: nodes of a group are contiguous on its own ring and no two nodes of a ring touch", () => {
-    const nodes = Array.from({ length: 12 }, (_, i) => ({ id: i, group: i % 3, r: 6 + (i % 5), degree: 20 - i }));
-    const pos = ringPositions(nodes, 700, 520);
-    expect(Object.keys(pos)).toHaveLength(12);
-    for (const g of [0, 1, 2]) {
-      const members = nodes.filter((n) => n.group === g);
-      for (const a of members) for (const b of members) if (a.id < b.id) expect(Math.hypot(pos[a.id].x - pos[b.id].x, pos[a.id].y - pos[b.id].y)).toBeGreaterThanOrEqual(a.r + b.r);
-    }
-  });
-
-  test("labels: the lower-degree label is dropped when two overlap, and there are never more than the limit", () => {
-    const placed = [
-      { id: "a", name: "Grupo de Investigación A", degree: 30, r: 14, x: 100, y: 100 },
-      { id: "b", name: "Grupo de Investigación B", degree: 20, r: 12, x: 110, y: 104 },
-      { id: "c", name: "Otro grupo", degree: 10, r: 8, x: 400, y: 300 },
-    ];
-    const chosen = graphLabels(placed);
-    expect([...chosen.keys()]).toEqual(["a", "c"]);
-    expect(graphLabels(Array.from({ length: 40 }, (_, i) => ({ id: String(i), name: "G", degree: i, r: 5, x: i * 100, y: 0 })), 14).size).toBe(14);
-    expect(labelBox("x".repeat(40), 0, 0, 5).w).toBeLessThan(26 * 5.8 + 11);
   });
 
   test("tooltip of an edge: the two groups and the shared products, without «Grado»", () => {
@@ -62,57 +36,14 @@ test.describe("F92 helpers of the graph (no server)", () => {
   });
 });
 
-/* Measures of one arrangement, read from the G6 instance that the component leaves in the element. */
-const MEASURE_IN_PAGE = () => {
-  const el = document.querySelector('[data-testid="collab-graph"]');
-  const g = el.__g6;
-  const nodes = g.getNodeData().map((n) => {
-    const [x, y] = g.getElementPosition(n.id);
-    return { id: n.id, x, y, r: n.data.radius, degree: n.data.degree, name: n.data.name, label: g.getElementRenderStyle(n.id).labelText || "" };
-  });
-  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
-  let touching = 0;
-  for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) if (dist(nodes[i], nodes[j]) < nodes[i].r + nodes[j].r) touching++;
-  const meanMin = nodes.reduce((a, n) => a + Math.min(...nodes.filter((m) => m !== n).map((m) => dist(n, m) - n.r - m.r)), 0) / nodes.length;
-  /* labels that overlap: the new labels (the ones drawn) and the old ones (top 10 by degree, centred on the node, font of 9.5 px) */
-  const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
-  const pairs = (boxes) => { let n = 0; for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) if (hit(boxes[i], boxes[j])) n++; return n; };
-  const newBoxes = nodes.filter((n) => n.label).map((n) => { const w = n.label.length * 5.8 + 10; return { x: n.x - w / 2, y: n.y + n.r + 2, w, h: 16 }; });
-  const oldBoxes = [...nodes].sort((a, b) => b.degree - a.degree).slice(0, 10).map((n) => { const t = n.name.length > 26 ? 26 : n.name.length; const w = t * 5.3; return { x: n.x - w / 2, y: n.y - 6, w, h: 12 }; });
-  const edges = g.getEdgeData().map((e) => ({ id: e.id, w: e.data.weight, a: e.data.sourceName, b: e.data.targetName, s: e.source, t: e.target }));
-  const [cx, cy] = g.getCanvasByClient([0, 0]);
-  return {
-    variant: el.dataset.variant, drawMs: Number(el.dataset.drawMs), height: Math.round(el.getBoundingClientRect().height), nodes: nodes.length, edges: edges.length,
-    touching, meanMinGap: Math.round(meanMin * 10) / 10, labelsShown: newBoxes.length, labelOverlapNew: pairs(newBoxes), labelOverlapOld: pairs(oldBoxes), cx: Math.round(cx), cy: Math.round(cy),
-  };
-};
-
-test.describe("F92 the four arrangements (one run)", () => {
+test.describe("F92 tooltips of the graph (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("measures of ref, A, B and C at 1440 px, and the two tooltips of the option C", async ({ page }) => {
-    test.setTimeout(290000);
+  test("the tooltip of an edge and of a node", async ({ page }) => {
+    test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    const results = {};
-    for (const v of GRAPH_VARIANTS) {
-      await page.goto(`/observatories/vri-udea/board-2${v === "ref" ? "" : `?grafo=${v}`}`);
-      const graph = page.getByTestId("collab-graph");
-      await graph.waitFor({ timeout: 120000 });
-      await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 60000 });
-      await page.waitForTimeout(1500);
-      results[v] = await page.evaluate(MEASURE_IN_PAGE);
-    }
-    console.log(`[live] ${JSON.stringify(results)}`);
-    for (const v of GRAPH_VARIANTS) {
-      expect(results[v].nodes).toBe(60);
-      if (v !== "D") expect(results[v].labelOverlapNew, `${v}: labels overlap`).toBe(0); // D places its labels around the node (graphLabelsAround), measured in f94
-    }
-    expect(results.A.height).toBeGreaterThanOrEqual(520);
-    expect(results.ref.height).toBe(460);
-    expect(results.A.touching).toBeLessThanOrEqual(results.ref.touching);
-
-    // tooltip of an edge and of a node, on the option C
-    await page.goto("/observatories/vri-udea/board-2?grafo=C");
+    await page.goto("/observatories/vri-udea/board-2");
+    await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 120000 });
     await page.waitForTimeout(1500);
     const target = await page.evaluate(() => {

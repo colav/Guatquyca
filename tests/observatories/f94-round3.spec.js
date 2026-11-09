@@ -111,17 +111,13 @@ test.describe("F94 note of the amounts (Q-28 iv)", () => {
   });
 });
 
-import { GRAPH_VARIANTS, detectCommunities, graphLabels, partitionStats } from "../../lib/observatories/collabGraph";
+import { detectCommunities, graphLabelsAround, partitionStats } from "../../lib/observatories/collabGraph";
 
 test.describe("F94 Q-33 communities of the graph D (no server)", () => {
   /* two groups of four nodes, strongly tied inside, one weak edge between them; centres: 0 and 1 mixed in the second group */
   const nodes = Array.from({ length: 8 }, (_, i) => ({ id: `n${i}`, center: i < 4 ? 0 : i < 6 ? 1 : 0 }));
   const clique = (ids, w) => ids.flatMap((a, i) => ids.slice(i + 1).map((b) => ({ source: a, target: b, weight: w })));
   const links = [...clique(["n0", "n1", "n2", "n3"], 10), ...clique(["n4", "n5", "n6", "n7"], 8), { source: "n3", target: "n4", weight: 2 }];
-
-  test("the variant D exists", () => {
-    expect(GRAPH_VARIANTS).toContain("D");
-  });
 
   test("Louvain finds the two groups by the weight of the edges, deterministically, the biggest first", () => {
     const p = detectCommunities(nodes, links);
@@ -148,10 +144,10 @@ test.describe("F94 Q-33 communities of the graph D (no server)", () => {
 
   test("labels: with the scale of a zoom-in the hidden labels appear; the abbreviation has at most 22 characters", () => {
     const placed = Array.from({ length: 6 }, (_, i) => ({ id: `n${i}`, name: "Grupo de Investigación en Neurociencias", degree: 10 - i, r: 8, x: 40 * i, y: 0 }));
-    const far = graphLabels(placed, Infinity, { scale: 1, maxChars: 22 });
-    const near = graphLabels(placed, Infinity, { scale: 0.2, maxChars: 22 });
+    const far = graphLabelsAround(placed, { scale: 1, maxChars: 22 });
+    const near = graphLabelsAround(placed, { scale: 0.2, maxChars: 22 });
     expect(near.size).toBeGreaterThan(far.size);
-    for (const t of near.values()) expect(t.length).toBeLessThanOrEqual(22);
+    for (const t of near.values()) expect(t.text.length).toBeLessThanOrEqual(22);
   });
 });
 
@@ -176,25 +172,23 @@ const GRAPH_MEASURES = () => {
 test.describe("F94 Q-33 graph D in the page (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("measures of ref, A, B, C and D; labels of D with the zoom; tooltip of a node with its community", async ({ page }) => {
+  test("measures of the graph (7 communities, 39 labels, nothing touches); labels with the zoom; tooltip of a node with its community", async ({ page }) => {
     test.setTimeout(290000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    const out = {};
-    for (const v of GRAPH_VARIANTS) {
-      await page.goto(`/observatories/vri-udea/board-2${v === "ref" ? "" : `?grafo=${v}`}`);
-      await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
-      await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 60000 });
-      await page.waitForTimeout(2500);
-      out[v] = await page.evaluate(GRAPH_MEASURES);
-    }
-    console.log(`[live] ${JSON.stringify(out)}`);
-    expect(out.D.groups).toBeGreaterThan(1);
-    expect(out.D.insidePct).toBeGreaterThan(out.C.insidePct - 100); // reported; the comparison is in the report
-    expect(out.D.labels).toBeGreaterThan(out.C.labels);
-    expect(out.D.touching).toBe(0);
+    await page.goto("/observatories/vri-udea/board-2");
+    await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
+    await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 60000 });
+    await page.waitForTimeout(2500);
+    const D = await page.evaluate(GRAPH_MEASURES);
+    console.log(`[live] ${JSON.stringify(D)}`);
+    expect(D.groups).toBe(7);
+    expect(D.insidePct).toBeGreaterThan(60);
+    expect(D.mixedPct).toBe(100);
+    expect(D.labels).toBeGreaterThanOrEqual(39);
+    expect(D.touching).toBe(0);
 
     // D: legend, labels with the zoom and tooltip of a node
-    await page.goto("/observatories/vri-udea/board-2?grafo=D");
+    await page.goto("/observatories/vri-udea/board-2");
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(page.getByTestId("community-legend")).toContainText("grupos que colaboran más entre sí");
