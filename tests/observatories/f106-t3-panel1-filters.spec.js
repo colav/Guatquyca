@@ -17,7 +17,8 @@ test.describe("F106 panel 1 of the T3 (no server)", () => {
     const text = Object.values(PANEL_HELP.p1).flat().join(" ");
     expect(text).not.toMatch(/no responde a los filtros/);
     expect(PANEL_HELP.p1.care).toMatch(/con filtros/);
-    expect(talentSelectionNote("level", "10", "1,0 %", "2.621")).not.toMatch(/no responde/);
+    expect(talentSelectionNote()).not.toMatch(/no responde/);
+    expect(talentSelectionNote()).toBe("Con filtros activos solo se cuentan los profesores con al menos un producto en la selección."); /* F110 */
   });
 });
 
@@ -72,6 +73,7 @@ test.describe("F106 panel 1 of the T3, filter by filter, against the real bundle
     await page.waitForTimeout(2500);
     await expect(card).toContainText("2.621");
     await expect(card).toContainText("por 100.000 hab.");
+    await expect(card).not.toContainText("solo se cuentan los profesores con al menos un producto en la selección"); /* F110: the short note only with a filter */
     await page.goto("/observatories/vri-udea/board-3?faculty=17");
     await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
@@ -80,5 +82,6 @@ test.describe("F106 panel 1 of the T3, filter by filter, against the real bundle
     await expect(filtered).not.toContainText("por 100.000 hab.");
     await expect(filtered).toContainText(/de la planta vigente/i);
     await expect(filtered).not.toContainText("no responde a los filtros");
+    await expect(filtered).toContainText("Con filtros activos solo se cuentan los profesores con al menos un producto en la selección.");
   });
 });
