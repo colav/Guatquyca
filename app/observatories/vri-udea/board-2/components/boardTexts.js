@@ -5,14 +5,19 @@
 
 /* Numbers of the notes come from the constants of the calculation, not from the text. */
 import { GRAPH_MIN_EDGE, LIMITS } from "../../../../../lib/observatories/collaboration/constants";
-import { INCOMPLETE_YEARS_NOTE, POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
+import { INCOMPLETE_YEARS_NOTE } from "../../board-1/components/boardTexts";
 
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026";
 
-export const BOARD_LEAD =
-  `Los indicadores de este tablero sintetizan las demandas, metas y programas que, en doce documentos de política (${POLICY_DOCUMENTS.join("; ")}), mencionan la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta; caracteriza cómo colabora la Universidad y con quién.`;
+/** Subtitle of the header (F119, D-260): one line; the orientation is in «¿Cómo usar este tablero?». */
+export const BOARD_LEAD = "Cómo colabora la UdeA y con quién: grupos, organizaciones no académicas, hélices, territorios y países.";
+
+/** Text of the collapsible «¿Cómo usar este tablero?» (F119, D-260: proposal (c) of F112, approved by Luis). The twelve documents are the tags of the header. */
+export const HOW_TO_USE = [
+  "Este tablero caracteriza cómo colabora la Universidad y con quién, a partir de las metas de colaboración que doce documentos de política (las etiquetas de arriba) asignan a la cooperación, el capital social y las formas de relación deseables: triple y cuádruple hélice, cooperación entre territorios e investigación colaborativa. No responde a cada indicador de cada meta. Empiece por el grafo de colaboración entre grupos (panel 2) y las organizaciones no académicas (panel 3); con los filtros de arriba acote el tablero. El botón (i) de cada panel explica cómo leerlo; las fuentes, las fechas de corte y los tipos de producto están en las notas metodológicas del pie.",
+];
 
 export const MOCK_TAG = "Datos de prueba";
 

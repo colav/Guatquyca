@@ -5,17 +5,18 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { BOARD_LEAD, FOOTER_TEXT, NOTES, NOTICE, realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { BOARD_LEAD, HOW_TO_USE, FOOTER_TEXT, NOTES, NOTICE, realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
 import { POLICY_DOCUMENTS } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 
 test.describe("texts of Board 2 (no server)", () => {
-  test("the lead names the twelve documents, in the order of Gabriel", () => {
+  test("F119: the lead is one line; the twelve documents are the tags (in the order of Gabriel), not a list in the text", () => {
     expect(POLICY_DOCUMENTS).toHaveLength(12);
-    for (const name of POLICY_DOCUMENTS) expect(BOARD_LEAD).toContain(name);
-    expect(BOARD_LEAD.indexOf("PDD mpal Medellín")).toBeLessThan(BOARD_LEAD.indexOf("Global Sustainable Development Report 2023 (ONU)"));
-    expect(BOARD_LEAD).toContain("en doce documentos de política (PDD mpal Medellín; PDD dptal Antioquia; CONPES 4069; Misión de sabios 2019; CONPES 4144;");
+    expect(BOARD_LEAD).toBe("Cómo colabora la UdeA y con quién: grupos, organizaciones no académicas, hélices, territorios y países.");
+    for (const name of POLICY_DOCUMENTS) expect(BOARD_LEAD + HOW_TO_USE.join(" ")).not.toContain(name);
+    expect(POLICY_DOCUMENTS.indexOf("PDD mpal Medellín")).toBeLessThan(POLICY_DOCUMENTS.indexOf("Global Sustainable Development Report 2023 (ONU)"));
+    expect(HOW_TO_USE.join(" ")).toContain("doce documentos de política (las etiquetas de arriba)");
   });
 
   test("the notice: curated axes of the thesaurus 6 and topics v2, 8 of 12 documents, the abstracts said as they are", () => {

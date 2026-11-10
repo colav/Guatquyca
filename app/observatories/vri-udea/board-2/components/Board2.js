@@ -52,6 +52,7 @@ import { useUrlFilters } from "@/app/observatories/components/useUrlFilters";
 import {
   BOARD_EYEBROW,
   BOARD_LEAD,
+  HOW_TO_USE,
   BOARD_TITLE,
   AXIS_14_NOTE,
   FOOTER_TEXT,
@@ -246,6 +247,10 @@ function Board2Content({ dataset, source }) {
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </TagRow>
+        <Collapse
+          ghost
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: HOW_TO_USE.map((t) => <Typography.Paragraph key={t.slice(0, 20)}>{t}</Typography.Paragraph>) }]}
+        />
         <Collapse ghost items={[{ key: "goals", label: `Ver las ${raw.metas.length} metas de colaboración que los documentos de política asignan a este tablero`, children: <GoalsTable goals={raw.metas} /> }]} />
       </header>
 
