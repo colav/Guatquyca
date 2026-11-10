@@ -20,6 +20,8 @@ const SECTIONS = [
   ["look", "Qué mirar"],
   ["care", "Cuidado"],
 ];
+/* F111 (D-248): above the panel of filters (1040, StickyFilters) and below the menus and tooltips of Ant (1050), so an open Select stays over the window. */
+export const POPUP_Z_INDEX = 1045;
 const POPUP_WIDTH = "min(440px, calc(100vw - 24px))";
 
 /**
@@ -83,6 +85,7 @@ export default function PanelInfo({ title, entry, note }) {
       placement="bottomRight"
       arrow={false}
       destroyOnHidden
+      zIndex={POPUP_Z_INDEX}
       styles={{ root: { maxWidth: POPUP_WIDTH, width: POPUP_WIDTH } }}
       content={<div id={id} role="dialog" aria-label={`Cómo leer: ${title}`}><PanelInfoContent entry={entry} note={note} /></div>}
     >
