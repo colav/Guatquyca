@@ -8,7 +8,7 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { CENTER_FILTER_HELP, DOCUMENT_FILTER_HELP, SCOPE_LABELS, SUBFIELD_FILTER_HELP, SUBUNIT_FILTER_HELP, UNIT_FILTER_HELP } from "./boardTexts";
+import { CENTER_FILTER_HELP, DOCUMENT_FILTER_HELP, SCOPE_FILTER_HELP, SCOPE_LABELS, SUBFIELD_FILTER_HELP, SUBUNIT_FILTER_HELP, UNIT_FILTER_HELP } from "./boardTexts";
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
 import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
@@ -119,7 +119,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
           {
             columns: "1fr 1fr 1fr 1fr",
             cells: [
-              <Field key="scope" label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>,
+              <Field key="scope" label="Ámbito" help={SCOPE_FILTER_HELP}>{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>,
               <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyIndex", documents, "Todos")}</Field>,
               <Field key="subfield" label="Subcampo de conocimiento" help={SUBFIELD_FILTER_HELP}>
                 <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />

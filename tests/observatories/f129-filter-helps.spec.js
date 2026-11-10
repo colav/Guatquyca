@@ -1,6 +1,6 @@
 /*
  * F129 (D-273): the «?» help of the filters whose meaning is not obvious exists and carries no hand-written figure (D-174).
- * Board 1: unit and subunit. Board 2: unit, subunit, scope, the state line of the panel 9b by view and the (i) of panels 10 and 11·12.
+ * Board 1: unit and subunit. Board 3: scope. Board 2: unit, subunit, scope, the state line of the panel 9b by view and the (i) of panels 10 and 11·12.
  * E2E_LIVE=1 reads the real quyca.
  */
 import { test, expect } from "@playwright/test";
@@ -17,6 +17,9 @@ const HELPS = {
     "Unidad académica": ["unidad elegida", "cuenta en cada una"],
     "Subunidad académica": ["subunidad elegida", "cuenta en cada una"],
     Ámbito: ["coautor en Antioquia", "coautor de otros departamentos", "coautor extranjero", "puede estar en varios", "título", "Valle de Aburrá", "proyectos solo responde «Departamental»"],
+  },
+  3: {
+    Ámbito: ["un solo alcance", "coautor es extranjero", "coautor colombiano externo", "no tiene coautor externo", "Valle de Aburrá", "paneles de personas"],
   },
 };
 

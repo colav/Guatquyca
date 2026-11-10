@@ -21,6 +21,9 @@ export const HOW_TO_USE = [
 export const UNIT_FILTER_HELP = "Cuenta solo los productos de la unidad elegida.";
 export const SUBUNIT_FILTER_HELP = "Cuenta solo los productos de la subunidad elegida.";
 export const CENTER_FILTER_HELP = "Cuenta solo los productos del centro elegido.";
+/* F129 (D-273): help of the filter Ámbito. Rule of D-198 and 02 §16 (one scope per product, precomputed in the bundle); checked on the real bundle: the products of scope local and departamental have no external institution. The people panels count the authors of the filtered products. */
+export const SCOPE_FILTER_HELP =
+  "Cada producto tiene un solo alcance según sus coautores: «Internacional» si algún coautor es extranjero, «Nacional» si tiene coautor colombiano externo, «Departamental» si no tiene coautor externo y su título menciona una subregión de Antioquia (sin el Valle de Aburrá), y «Local» el resto. En los paneles de personas cuenta a los autores de los productos con ese alcance.";
 export const SUBFIELD_FILTER_HELP = "Cuenta los productos cuyo tópico principal pertenece al subcampo elegido.";
 
 /** Note of the foot (F119, D-260): the universe of products, which was in the header. */
