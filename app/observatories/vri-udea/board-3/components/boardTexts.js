@@ -14,7 +14,7 @@ export const BOARD_LEAD = "Talento, producción e infraestructura abierta de la 
 
 /** Text of the collapsible «¿Cómo usar este tablero?» (F119, D-260: proposal (c) of F112, approved by Luis). */
 export const HOW_TO_USE = [
-  "Este tablero resume las capacidades de base que piden las agendas de política: talento, producción, infraestructura abierta e identificadores, organizados en cinco bases (investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta). Empiece por el talento investigador (panel 1) y la producción por año; con los filtros de arriba acote el tablero (la ayuda «?» de cada filtro dice qué acota) y tenga en cuenta que algunos paneles no responden a todos los filtros y lo dicen en su tarjeta. El botón (i) de cada panel explica cómo leerlo; las fuentes, las fechas de corte y el universo de productos están en las notas metodológicas del pie.",
+  "Este tablero resume las capacidades de base que piden las agendas de política: talento, producción, infraestructura abierta e identificadores, organizados en cinco bases (investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta). Empiece por el talento investigador (panel 1); con los filtros de arriba acote el tablero (la ayuda «?» de cada filtro dice qué acota) y tenga en cuenta que algunos paneles no responden a todos los filtros y lo dicen en su tarjeta. El botón (i) de cada panel explica cómo leerlo; las fuentes, las fechas de corte y el universo de productos están en las notas metodológicas del pie.",
 ];
 
 /** Help of the filters of entity (F119, D-260): the rule is direct (D-226); the subfield goes by the main topic of the product. */

@@ -16,7 +16,8 @@ test("texts: one line of subtitle, the orientation inside, no outdated rule, the
   expect(LEAD3).toBe("Talento, producción e infraestructura abierta de la UdeA.");
   for (const t of [...HELP2, ...HELP3]) expect(t).not.toMatch(OUTDATED);
   expect(HELP2.join(" ")).toContain("Empiece por el grafo de colaboración entre grupos (panel 2)");
-  expect(HELP3.join(" ")).toContain("Empiece por el talento investigador (panel 1)");
+  expect(HELP3.join(" ")).toContain("Empiece por el talento investigador (panel 1); con los filtros");
+  expect(HELP3.join(" ")).not.toContain("la producción por año");
   expect(UNIVERSE_NOTE).toMatch(/^Universo de productos\. Artículos, libros, capítulos, apropiación social/);
   expect(methodNotes("x")).toContain(UNIVERSE_NOTE);
   expect(LEAD3).not.toContain("artículos, libros");
