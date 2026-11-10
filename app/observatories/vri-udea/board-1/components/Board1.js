@@ -97,7 +97,10 @@ import CategoryLegend from "./CategoryLegend";
 import { useBoardFilters, useCategorySelection, useStableValue } from "./hooks";
 
 /* UI Library Components */
-import { Alert, Col, Collapse, Row, Skeleton, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Row, Tag, Typography } from "antd";
+
+/* Loading component of the site (spinner of ImpactU), not the skeleton of Ant Design */
+import Loading from "@/app/loading";
 
 /* Colours of the access route donut, one per label (palette of lib/constants.js). */
 const ACCESS_COLORS = DONUT_LABELS.access.map(accessColor);
@@ -131,7 +134,7 @@ export default function Board1() {
     setAttempt((a) => a + 1);
   };
 
-  if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
+  if (state.status === "loading") return <Loading height="60vh" />;
   if (state.status === "error") {
     return <LoadError error={state.error} onRetry={retry} />;
   }

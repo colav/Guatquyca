@@ -73,7 +73,10 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Alert, Col, Collapse, Row, Segmented, Skeleton, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Row, Segmented, Tag, Typography } from "antd";
+
+/* Loading component of the site (spinner of ImpactU), not the skeleton of Ant Design */
+import Loading from "@/app/loading";
 
 /* F112 (D-253 6): what the tiles of a panel count is said in its button (i), after the way to read it. */
 const withDefinitions = (entry, texts) => ({ ...entry, how: [entry.how, ...texts] });
@@ -116,7 +119,7 @@ export default function Board2() {
     setAttempt((a) => a + 1);
   };
 
-  if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
+  if (state.status === "loading") return <Loading height="60vh" />;
   if (state.status === "error") {
     return <LoadError error={state.error} onRetry={retry} />;
   }

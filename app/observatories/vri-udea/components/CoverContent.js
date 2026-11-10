@@ -4,6 +4,7 @@
 import { Suspense } from "react";
 
 /* Components */
+import Loading from "@/app/loading";
 import PageContainer from "../../components/PageContainer";
 import BoardTabs from "./BoardTabs";
 import Board1 from "../board-1/components/Board1";
@@ -21,7 +22,7 @@ export default function CoverContent() {
       <Typography.Title level={2}>Observatorio VRI-UdeA</Typography.Title>
       <Typography.Paragraph>Universidad de Antioquia · Capacidades VRI 2026.</Typography.Paragraph>
       <BoardTabs active="board-1" />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loading height="60vh" />}>
         <Board1 />
       </Suspense>
     </PageContainer>

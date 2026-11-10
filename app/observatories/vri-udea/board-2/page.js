@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 
 /* Components */
+import Loading from "@/app/loading";
 import PageContainer from "../../components/PageContainer";
 import BoardTabs from "../components/BoardTabs";
 import Board2 from "./components/Board2";
@@ -23,7 +24,7 @@ export default function Board2Page() {
       ]}
     >
       <BoardTabs active="board-2" />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loading height="60vh" />}>
         <Board2 />
       </Suspense>
     </PageContainer>

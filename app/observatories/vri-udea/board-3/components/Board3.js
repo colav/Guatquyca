@@ -87,7 +87,10 @@ import {
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
 /* UI Library Components */
-import { Alert, Col, Collapse, Divider, Row, Segmented, Skeleton, Statistic, Tag, Typography } from "antd";
+import { Alert, Col, Collapse, Divider, Row, Segmented, Statistic, Tag, Typography } from "antd";
+
+/* Loading component of the site (spinner of ImpactU), not the skeleton of Ant Design */
+import Loading from "@/app/loading";
 
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
@@ -139,7 +142,7 @@ export default function Board3() {
     setAttempt((a) => a + 1);
   };
 
-  if (state.status === "loading") return <Skeleton active paragraph={{ rows: 12 }} />;
+  if (state.status === "loading") return <Loading height="60vh" />;
   if (state.status === "error") {
     return <LoadError error={state.error} onRetry={retry} />;
   }
