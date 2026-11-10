@@ -56,7 +56,7 @@ export const PANEL_HELP = Object.freeze({
     what: "Cuántos productos y proyectos mencionan la investigación-acción participativa.",
     how: "Cada tarjeta es una medida: el número grande es la cantidad de registros que mencionan el término, y el texto de debajo aclara qué se cuenta.",
     look: "Si el enfoque participativo aparece más en productos o en proyectos.",
-    care: "Se busca el término en el título de los productos y en el nombre, los objetivos o las palabras clave de los proyectos: es una aproximación y puede dejar fuera trabajos que no usan esas palabras.",
+    care: "Es una aproximación: puede dejar fuera trabajos que no usan esas palabras.",
   },
   p9: {
     what: "Con qué departamentos de Colombia colabora la UdeA, medido por los productos con coautores de instituciones de cada departamento.",

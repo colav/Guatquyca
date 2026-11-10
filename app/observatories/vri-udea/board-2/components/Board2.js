@@ -74,6 +74,9 @@ import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 /* UI Library Components */
 import { Alert, Col, Collapse, Row, Segmented, Skeleton, Tag, Typography } from "antd";
 
+/* F112 (D-253 6): what the tiles of a panel count is said in its button (i), after the way to read it. */
+const withDefinitions = (entry, texts) => ({ ...entry, how: [entry.how, ...texts] });
+
 /* Constants */
 const fmt = (n) => Number(n).toLocaleString("es-CO");
 const URL_FILTERS = {
@@ -299,24 +302,22 @@ function Board2Content({ dataset, source }) {
         </Col>
 
         <Col xs={24} xl={8}>
-          <ChartCard info={PANEL_HELP.p6} title="6 · Colaboraciones de triple hélice">
+          <ChartCard info={withDefinitions(PANEL_HELP.p6, result.hasPatents ? [NOTES.v6, NOTES.v6Patents] : [NOTES.v6])} title="6 · Colaboraciones de triple hélice">
             <StatTiles stats={helices} />
-            <Note>{result.hasPatents ? NOTES.v6Patents : NOTES.v6}</Note>
+            {result.hasPatents ? null : <Note>{NOTES.v6NoPatents}</Note>}
             {result.hasPatents && result.patentsIgnored.length ? <Note data-testid="patents-ignored-note-06">{patentsIgnoredNote(result.patentsIgnored)}</Note> : null}
             {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
-          <ChartCard info={PANEL_HELP.p7} title="7 · Colaboraciones de cuádruple hélice">
+          <ChartCard info={withDefinitions(PANEL_HELP.p7, [NOTES.v7])} title="7 · Colaboraciones de cuádruple hélice">
             <StatTiles stats={quadruple} />
-            <Note>{NOTES.v7}</Note>
             {axis && result.sample.helices < SMALL_SAMPLE ? <Note>{smallSampleNote(result.sample.helices)}</Note> : null}
           </ChartCard>
         </Col>
         <Col xs={24} xl={8}>
-          <ChartCard info={PANEL_HELP.p8} title="8 · Investigación acción participativa">
+          <ChartCard info={withDefinitions(PANEL_HELP.p8, [NOTES.v8])} title="8 · Investigación acción participativa">
             <StatTiles stats={iapStats} />
-            <Note>{NOTES.v8}</Note>
             {noProj ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
             {smallProjects ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
           </ChartCard>

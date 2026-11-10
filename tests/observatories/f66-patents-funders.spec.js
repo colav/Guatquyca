@@ -174,7 +174,7 @@ test.describe("patents, funders and document against the real quyca (read-only, 
     await page.waitForTimeout(1000);
     await expect(page.getByTestId("patents-ignored-note")).toContainText("eje");
     await expect(page.getByText("patentes con empresa como cotitular")).toBeVisible();
-    await expect(page.getByText("no indica quién co-inventó", { exact: false }).first()).toBeVisible();
+    await expect(page.getByText("no indica quién co-inventó", { exact: false })).toHaveCount(0); // F112 (D-253 6): the definition is in the button (i) of the panel 6
     await expect(page.getByText("Este ránking no responde a los filtros")).toHaveCount(0);
     await page.mouse.move(0, 0);
     await page.getByRole("button", { name: "Ayuda del filtro del panel" }).hover(); // the line under the filters is the help of the panel (F77b)

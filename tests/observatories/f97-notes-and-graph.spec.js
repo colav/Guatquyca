@@ -42,7 +42,7 @@ test.describe("F97 notes without duplicates (no server)", () => {
     expect(t3.match(/3 de julio de 2025/g)).toBeNull();
     const t2 = [FOOT2, ...realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 1, appropriation: 2 })].join(" ");
     expect(t2.match(/reglas sobre el nombre/g)).toHaveLength(1);
-    expect(t2.match(/no tienen año/g)).toHaveLength(1);
+    expect(t2.match(/no tienen año/g)).toBeNull(); /* F112 (D-253 8): the note 4 of the foot of the T2 is out; the card of the panel 5b says it */
     expect(t3.match(/reglas sobre el nombre/g)).toHaveLength(1); /* F109: the foot of the T3 says the origin of the type and points to the panel 11 */
   });
 });
