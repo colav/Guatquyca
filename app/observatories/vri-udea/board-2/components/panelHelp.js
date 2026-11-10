@@ -84,9 +84,9 @@ export const PANEL_HELP = Object.freeze({
   },
   p13: {
     what: "En qué dominios del conocimiento trabajan los grupos que colaboran con actores no académicos.",
-    how: "Cada fila es un grupo y las columnas son el número de libros, capítulos y productos de apropiación social hechos con coautores de empresa, gobierno, sin ánimo de lucro o salud, su total y, como referencia, los hechos con cualquier coautor externo. Las pestañas filtran por dominio de conocimiento.",
+    how: "Libros y capítulos de libro (sin artículos) realizados con coautores de empresa, gobierno, sin ánimo de lucro o salud. Cada fila es un grupo y las columnas son el número de libros y capítulos hechos con esos coautores, su total y, como referencia, los hechos con cualquier coautor externo. Las pestañas filtran por dominio de conocimiento.",
     look: "Qué grupos son los que más cooperan con la sociedad y con qué actor lo hacen.",
-    care: "El dominio es el dominante en la producción del grupo. Aquí no cuentan los artículos, solo libros, capítulos y apropiación social.",
+    care: "El dominio es el dominante en la producción del grupo. Aquí no cuentan los artículos, solo libros y capítulos. Los productos de apropiación social no se incluyen porque la fuente no registra, para ellos, coautores de otro sector: solo universidades.",
   },
   p14: {
     what: "Con qué tipo de organización colabora la UdeA en los tópicos de cada Eje Temático público.",

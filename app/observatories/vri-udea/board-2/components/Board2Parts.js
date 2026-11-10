@@ -70,7 +70,6 @@ export const DomainTable = memo(function DomainTable({ rows }) {
         { title: "Centro", dataIndex: "center", width: "16%" },
         { title: "Libros", dataIndex: "books", ...num },
         { title: "Capítulos", dataIndex: "chapters", ...num },
-        { title: "Apropiación social", dataIndex: "appropriation", ...num },
         { title: "Total con actor no académico", dataIndex: "total", align: "right", width: 120, render: (v) => <b>{fmt(v)}</b> },
         { title: "Con cualquier coautor externo", dataIndex: "external", ...num },
       ]}
