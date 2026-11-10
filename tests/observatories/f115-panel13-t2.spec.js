@@ -29,8 +29,8 @@ test.describe("panel 13 against the real bundle (one run)", () => {
     expect(rows.every((r) => !("appropriation" in r))).toBe(true);
     const sum = (k) => rows.reduce((a, r) => a + r[k], 0);
     console.log(`[live] books ${sum("books")}, chapters ${sum("chapters")}, total ${sum("total")}, external ${sum("external")}`);
-    /* the panel shows the first groups of each tab: 14 books, 90 chapters and 104 in total (the 20, 102 and 122 of B162 are over all the groups); total = books + chapters, so nothing is lost by dropping the column */
-    expect([sum("books"), sum("chapters"), sum("total")]).toEqual([14, 90, 104]);
+    /* F118 (D-260): all the groups of each tab, so the rows add the 20 books, 102 chapters and 122 of B162 (D-255) */
+    expect([sum("books"), sum("chapters"), sum("total")]).toEqual([20, 102, 122]);
     expect(sum("books") + sum("chapters")).toBe(sum("total"));
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto("/observatories/vri-udea/board-2");

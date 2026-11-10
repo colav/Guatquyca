@@ -53,6 +53,9 @@ export const StatTiles = memo(function StatTiles({ stats }) {
   );
 });
 
+/** Height of the body of the table of the indicator 13: with all the groups of a domain it scrolls inside the card (F118). */
+export const DOMAIN_TABLE_HEIGHT = 480;
+
 /** Table of the groups with non-academic actors (indicator 13). */
 export const DomainTable = memo(function DomainTable({ rows }) {
   if (!rows.length) return <Typography.Text type="secondary">Sin productos en este dominio con el filtro actual.</Typography.Text>;
@@ -63,6 +66,7 @@ export const DomainTable = memo(function DomainTable({ rows }) {
       size="small"
       pagination={false}
       tableLayout="fixed"
+      scroll={{ y: DOMAIN_TABLE_HEIGHT }}
       rowKey="id"
       dataSource={rows}
       columns={[
