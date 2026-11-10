@@ -7,8 +7,8 @@ import { memo, useMemo, useRef, useState } from "react";
 import { YEAR_RANGE } from "@/lib/observatories/collaboration";
 
 /* Texts */
-import { CENTER_TOOLTIP, byPolicyOrder, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, DOCUMENT_FILTER_HELP, SCOPE_OPTIONS } from "./boardTexts";
+import { CENTER_TOOLTIP, SUBUNIT_FILTER_HELP, UNIT_FILTER_HELP, byPolicyOrder, centerCoverageNote } from "../../board-1/components/boardTexts";
+import { AXIS_FILTER_NOTE, AXIS_FILTER_NOTE_NO_PROJECTS, DOCUMENT_FILTER_HELP, SCOPE_FILTER_HELP, SCOPE_OPTIONS } from "./boardTexts";
 
 /* Components */
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
@@ -135,8 +135,8 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
             {
               columns: "1fr 1fr 1fr 1fr",
               cells: [
-                <Field key="unit" label="Unidad académica">{select("facultyIndex", faculties, "Todas", true, (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
-                <Field key="subunit" label="Subunidad académica">{select("departmentIndex", units, "Todas", true)}</Field>,
+                <Field key="unit" label="Unidad académica" help={UNIT_FILTER_HELP}>{select("facultyIndex", faculties, "Todas", true, (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
+                <Field key="subunit" label="Subunidad académica" help={SUBUNIT_FILTER_HELP}>{select("departmentIndex", units, "Todas", true)}</Field>,
                 <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
                   {select("centerIndex", centers, "Todos", true)}
                 </Field>,
@@ -146,7 +146,7 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
             {
               columns: "1fr 1fr 1fr 1fr",
               cells: [
-                <Field key="scope" label="Ámbito">{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>,
+                <Field key="scope" label="Ámbito" help={SCOPE_FILTER_HELP}>{select("scope", SCOPE_OPTIONS, "Todos", false)}</Field>,
                 <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>
                   <FilterSelect
                     placeholder="Todos"

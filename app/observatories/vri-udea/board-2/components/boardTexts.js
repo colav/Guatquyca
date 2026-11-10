@@ -53,6 +53,16 @@ export const smallProjectsNote = (n) => `Muestra pequeña: ${n} proyectos con el
 export const smallSampleNote = (n) => `Muestra pequeña: ${n} productos con el eje elegido en este panel. Las cifras pueden cambiar mucho con pocos productos.`;
 export const AXIS_14_NOTE = "Con un eje elegido solo se muestra ese eje, contado con la misma definición del filtro (productos con eje asignado de confianza alta o media), no por tópico principal; sin eje elegido se cuenta por los tópicos del eje.";
 
+/* F129 (D-273): help of the filter Ámbito. Checked in `collaboration/compute.js` (inScope, filterProjects) and in D-198: local, national and international look at the coauthors and a work can be in several; departmental looks at the title (subregion mask without the Valle de Aburrá bit) and is the only one that filters projects (their place of execution). */
+export const SCOPE_FILTER_HELP =
+  "Alcance de cada producto según sus coautores: local (coautor en Antioquia), nacional (coautor de otros departamentos) o internacional (coautor extranjero); un producto puede estar en varios. «Departamental» no mira a los coautores sino al título: menciona una subregión de Antioquia distinta del Valle de Aburrá. En los proyectos solo responde «Departamental» (su lugar de ejecución).";
+
+/* F129 (D-273): state line of the panel 9b by view. Projects (views 1 and 2) go through filterProjects: years, centre, scope «Departamental», axis and document (the last two only if the bundle has pairs of projects). Products (view 3) go through filterWorks: every filter. */
+export const subregionViewNote = (tab, hasProjectPairs) =>
+  tab >= 2
+    ? "Esta vista responde a todos los filtros."
+    : `Esta vista responde a años, centro${hasProjectPairs ? ", Eje Temático, documento" : ""} y al ámbito «Departamental».`;
+
 export const SCOPE_OPTIONS = [
   { value: "local", label: "Local (coautor en Antioquia)" },
   { value: "dep", label: "Departamental (subregión de Antioquia en el título, sin el Valle de Aburrá)" },

@@ -74,13 +74,13 @@ export const PANEL_HELP = Object.freeze({
     what: "Con qué países colabora la UdeA, medido por los productos con coautores de instituciones de cada país.",
     how: "El mapa pinta cada país según el número de productos (más oscuro es más); la tabla de la derecha da el mismo conteo en orden. El color sigue cuantiles del logaritmo de los productos. Pase el cursor por un país para ver su cifra.",
     look: "Qué países concentran la colaboración y qué regiones del mundo casi no aparecen.",
-    care: "El país es el de la institución del coautor. Los países sin contorno en el mapa se listan en la ayuda «?» del panel y aparecen solo en la tabla.",
+    care: "El país es el de la institución del coautor. Los países sin contorno en el mapa se listan en la ayuda «?» del panel y aparecen solo en la tabla. Solo cuenta los productos con coautores extranjeros, por eso el ámbito «Internacional» no lo cambia.",
   },
   p11: {
     what: "Qué parte de la colaboración internacional es con el Norte global y qué parte con el Sur global.",
     how: "Las tarjetas dan el total de productos con coautoría de cada lado. Las barras dividen esos productos por región del mundo y los colores distinguen el Norte y el Sur (leyenda).",
     look: "Si la colaboración se inclina hacia el Norte o hacia el Sur, y qué regiones pesan más dentro de cada lado.",
-    care: "El Norte global reúne Norteamérica, Europa, Asia y Oceanía del Norte; el Sur global, América Latina y el Caribe, MENA, África Subsahariana, el resto de Asia y Oceanía.",
+    care: "El Norte global reúne Norteamérica, Europa, Asia y Oceanía del Norte; el Sur global, América Latina y el Caribe, MENA, África Subsahariana, el resto de Asia y Oceanía. Solo cuenta los productos con coautores extranjeros, por eso el ámbito «Internacional» no lo cambia.",
   },
   p13: {
     what: "En qué dominios del conocimiento trabajan los grupos que colaboran con actores no académicos.",

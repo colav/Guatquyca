@@ -69,6 +69,7 @@ import {
   appropriationYearNote,
   missionFociNote,
   patentsIgnoredNote,
+  subregionViewNote,
 } from "./boardTexts";
 import { POLICY_DOCUMENTS } from "../../board-1/components/boardTexts";
 
@@ -339,6 +340,7 @@ function Board2Content({ dataset, source }) {
         <Col xs={24} lg={12} xl={12}>
           <ChartCard info={PANEL_HELP.p9b} title="9b · Capacidades por subregión de Antioquia">
             <Segmented size="small" block options={TAB_OPTIONS(SUBREGION_TABS)} value={subregionTab} onChange={setSubregionTab} style={{ marginBottom: 8 }} />
+            <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="subregion-view-note">{subregionViewNote(subregionTab, dataset.hasProjectPairs)}</Typography.Text>
             <SubregionMap rows={subregionRows} unit={subregionTab < 2 ? "Proyectos" : "Productos"} />
             {noProj && subregionTab < 2 ? <Note>Los proyectos {NO_AXIS_RESPONSE}.</Note> : null}
             {smallProjects && subregionTab < 2 ? <Note>{smallProjectsNote(result.sample.projects)}</Note> : null}
