@@ -277,7 +277,7 @@ function Board3Content({ dataset, source }) {
   const sexSeries = useMemo(() => sexByYear.series.map((s) => ({ label: SEX_SERIES[s.sex], values: s.values })), [sexByYear]);
 
   /* Q-10: the note of the panel 17 (same text as before) in short sentences, one per line. */
-  const accessNote = `Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en ScienTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron. Las patentes y demás propiedad intelectual están en la tarjeta 11b.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`.split(/(?<=\.)\s+/);
+  const accessNote = `Sin dato de acceso para ${fmt(openAccess.noData)} publicaciones que solo están en ScienTI. Los repositorios de software de GitHub asociados a la UdeA no están en las bases entregadas y no se verificaron.${openAccess.classes.preprints > 0 ? ` ${pieNote(openAccess.preprintsFromPublications)}` : ""}`.split(/(?<=\.)\s+/);
   const withBirthPct = pct(ageByYear.withBirthYear, ageByYear.authors);
   const goals = raw.metas;
 
@@ -489,7 +489,7 @@ function Board3Content({ dataset, source }) {
           <ChartCard info={PANEL_HELP.p16} title="16 · Conjuntos de datos abiertos por tópico" empty={!datasetRows.length}>
             <Tag color="gold" style={{ marginBottom: 8, whiteSpace: "normal" }}>{staffLabel}</Tag>
             <HBarsChart rows={datasetRows} color={BAR_COLORS.datasets} unit="Conjuntos de datos" />
-            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en ScienTI." : ""}${datasets.year2026 > 0 ? ` ${fmt(datasets.year2026)} de los ${fmt(datasets.total)} conjuntos de datos tienen año 2026 (fecha de carga del registro).` : ""} El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.`}</Note>
+            <Note>{`${fmt(datasets.total)} conjuntos (${pct(datasets.open, datasets.total)} abiertos) · ${datasets.staff} profesores · ${datasets.faculties} unidades. ${isMock ? " Sin tipos «dataset» en ScienTI." : ""}${datasets.year2026 > 0 ? ` ${fmt(datasets.year2026)} de los ${fmt(datasets.total)} conjuntos de datos tienen año 2026 (fecha de carga del registro).` : ""}`}</Note>
           </ChartCard>
         </Col>
         <Col xs={24} xl={12}>

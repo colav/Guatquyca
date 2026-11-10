@@ -113,7 +113,7 @@ export const PIE_CLASSES_TITLE = "Producto por clase (cada producto en una sola 
 export const ACCESS_PIE_TITLE = "Publicaciones por acceso";
 export const PIE_CLASSES_LABELS = { publications: "Publicaciones", preprints: "Preprints", datasets: "Datos de investigación", software: "Software" };
 export const pieNote = (preprintsFromPublications) =>
-  `En la torta de clases cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software; por eso ${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos salen de «publicaciones». La dona de acceso cuenta todas las publicaciones.`;
+  `${preprintsFromPublications.toLocaleString("es-CO")} preprints que son artículos, libros o capítulos no cuentan como «publicaciones» en la torta de clases.`;
 export const PID_NOTE =
   "«Todos»: producto = DOI o Handle; persona = ORCID o ID de OpenAlex (el ID de OpenAlex no es un identificador persistente registrado, solo un identificador de la fuente); organización = ROR, el único disponible. Las organizaciones sin ROR llevan ids de ScienTI o SNIES.";
 
@@ -138,7 +138,6 @@ export const fewProductsWarning = (n) => `Esta selección tiene ${Number(n).toLo
 export const methodNotes = (staffLabel) => [
   `Los profesores son los autores UdeA ${staffLabel}; «autores UdeA» incluye estudiantes y otros vinculados.`,
   DIRECT_FILTERS_NOTE,
-  PROJECTS_2025_WARNING,
   INCOMPLETE_YEARS_NOTE,
   "El tipo de cada organización coautora (por ejemplo, las empresas) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; la proporción de cada procedencia está en el botón (i) del panel 11.",
 ];

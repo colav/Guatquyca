@@ -116,7 +116,8 @@ test.describe("Q-11 note of the panel 16 (page, one run)", () => {
     await page.goto("/observatories/vri-udea/board-3");
     const card = page.getByTestId("chart-card").filter({ hasText: "16 · Conjuntos de datos abiertos por tópico" }).first();
     await card.waitFor({ timeout: 120000 });
-    await expect(card).toContainText("El tópico de cada conjunto es el principal de OpenAlex v2; por eso no coincide con el del artefacto de Gabriel.");
+    /* F112 (D-253 12): the note about the artifact of Gabriel is out of the card */
+    await expect(card).not.toContainText("artefacto de Gabriel");
     await expect(card).toContainText("119 de los 406 conjuntos de datos tienen año 2026");
   });
 });

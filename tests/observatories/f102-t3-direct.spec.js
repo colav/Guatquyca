@@ -61,8 +61,8 @@ test.describe("F102 direct filters (no server)", () => {
     expect(DIRECT_FILTERS_NOTE).toBe("Los filtros de centro, unidad y subunidad cuentan solo los productos de la entidad elegida.");
     expect(fewProductsWarning(7)).toBe("Esta selección tiene 7 productos; con pocos productos varios paneles pueden quedar vacíos.");
     expect(FEW_PRODUCTS_THRESHOLD).toBe(50);
-    for (const key of ["p2", "p4", "p10", "p16", "p19"]) expect([PANEL_HELP[key].care].flat().join(" ")).toContain("solo se cuentan los productos de esa entidad");
-    for (const key of ["p1", "p12", "p13", "p14"]) expect([PANEL_HELP[key].care].flat().join(" ")).not.toContain("solo se cuentan los productos de esa entidad");
+    /* F112 (D-253 9): the rule is said once, in the foot; no «Cuidado» repeats it */
+    for (const key of ["p2", "p4", "p10", "p16", "p19", "p1", "p12", "p13", "p14"]) expect([PANEL_HELP[key].care].flat().join(" ")).not.toContain("solo se cuentan los productos de esa entidad");
   });
 });
 

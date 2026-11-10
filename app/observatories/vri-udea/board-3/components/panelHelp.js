@@ -5,8 +5,8 @@
 /** The filters of centre, unit and subunit are direct (F102, D-226): the panels that answer to them say so in their `care`. */
 import { PID_NOTE } from "./boardTexts";
 
-const DIRECT = "Con un centro, unidad o subunidad elegidos solo se cuentan los productos de esa entidad.";
-const withDirect = (entry) => ({ ...entry, care: [entry.care, DIRECT].filter(Boolean) });
+/* F112 (D-253 9): the rule of the filters of centre, unit and subunit is said once, in the foot of the board. */
+const withDirect = (entry) => entry;
 
 const HELP = {
   p1: {
@@ -100,13 +100,13 @@ const HELP = {
   },
   p16: {
     what: "En qué tópicos están los conjuntos de datos abiertos que registra la Universidad.",
-    how: "Cada barra es un tópico y su longitud es el número de conjuntos de datos; los tópicos van del que más tiene al que menos.",
+    how: "Cada barra es un tópico y su longitud es el número de conjuntos de datos; los tópicos van del que más tiene al que menos. El tópico de cada conjunto es el principal del modelo de tópicos de OpenAlex.",
     look: "Qué temas concentran los datos abiertos de la Universidad.",
     care: "Algunos conjuntos no tienen tópico y se agrupan aparte. Solo se muestran los tópicos con más conjuntos.",
   },
   p17: {
     what: "Qué parte de la producción está en acceso abierto y cuánta es de otros tipos abiertos (datos, preprints, software).",
-    how: "El anillo reparte las publicaciones según su acceso (abierto, cerrado o sin dato) y su centro dice la parte abierta. Las tarjetas dan los totales de publicaciones abiertas, conjuntos de datos abiertos, preprints y software. Cuando hay preprints, un segundo anillo reparte todos los productos por clase.",
+    how: "El anillo reparte las publicaciones según su acceso (abierto, cerrado o sin dato) y su centro dice la parte abierta. Las tarjetas dan los totales de publicaciones abiertas, conjuntos de datos abiertos, preprints y software. Cuando hay preprints, un segundo anillo reparte todos los productos por clase; cada producto entra en una sola porción, con esta precedencia: preprint, publicación, dato de investigación, software.",
     look: "Cuánto de la producción es abierta frente a cerrada y cuánta falta clasificar.",
     care: "El porcentaje de abiertas se calcula sobre las que tienen dato, no sobre todas. Los preprints son una marca de OpenAlex y pueden ser de cualquier tipo.",
   },

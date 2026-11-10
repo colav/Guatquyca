@@ -77,7 +77,7 @@ test.describe("Board 3 with the new keys (no server)", () => {
     const note = AREAS_NOTE("2.943", 2021, "x");
     expect(note).toContain("miembros de un grupo");
     expect(note).not.toContain("9.005");
-    expect(pieNote(362)).toContain("362 preprints");
+    expect(pieNote(362)).toContain("362 preprints"); // F112: the precedence rule is in the button (i)
   });
 
   test("Board 2, indicator 7: the calculation still tells whether the social appropriation has a sector", () => {
