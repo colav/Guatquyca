@@ -235,7 +235,7 @@ export const PAIR_LEVEL_OPTIONS = [
   { value: "all", label: "Incluir baja" },
 ];
 export const PAIR_LEVEL_TOOLTIP =
-  "Cada producto se asigna a un Eje Temático con una confianza (alta, media o baja) calculada por nuestra metodología, sin validación humana. Por defecto se cuentan solo las asignaciones de confianza alta y media.";
+  "Cada producto se asigna a un Eje Temático con una confianza (alta, media o baja) calculada por nuestra metodología. Por defecto se cuentan solo las asignaciones de confianza alta y media.";
 export const AXES_PANEL_NOTE = {
   core: "productos con asignación de confianza alta o media",
   all: "productos con asignación de cualquier confianza (incluye baja)",

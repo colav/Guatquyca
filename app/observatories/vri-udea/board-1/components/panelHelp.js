@@ -42,7 +42,7 @@ export const PANEL_HELP = Object.freeze({
     what: "Los Ejes Temáticos públicos ordenados por cuántos productos de la UdeA tienen asignados.",
     how: "Cada barra es un eje y su longitud el número de productos. La asignación de un producto a un eje tiene un nivel de confianza (alta, media o baja); el filtro «Incluir baja» decide si entran las de confianza baja.",
     look: "Qué ejes concentran la producción y cuáles apenas aparecen.",
-    care: "Un producto puede estar en varios ejes. La asignación es de nuestra metodología y no tiene validación humana.",
+    care: "Un producto puede estar en varios ejes. La asignación es de nuestra metodología.",
   },
   p6: {
     what: "Las metas, retos, programas o estrategias de los documentos de política y a cuántos Ejes Temáticos se asocia cada uno.",
