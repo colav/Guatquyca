@@ -16,7 +16,8 @@ test.beforeEach(async () => {
 test("the home lists the VRI-UdeA observatory", async ({ page }) => {
   await page.goto("/observatories");
   await expect(page.getByRole("heading", { name: "Observatorios" })).toBeVisible();
-  await expect(page.getByText("VRI-UdeA").first()).toBeVisible();
+  await expect(page.getByText("VRI-UdeA", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Capacidades de investigación de la UdeA")).toBeVisible();
 });
 
 test("the cover has three tabs, loads the first board and keeps the filters of each board apart", async ({ page }) => {
