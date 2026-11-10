@@ -9,8 +9,22 @@ export const BOARD_TITLE = "Capacidades de base del sistema: talento, producció
 
 export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
 
-export const BOARD_LEAD =
-  "Los indicadores sintetizan preocupaciones comunes de las agendas sobre las capacidades base del sistema (talento, producción, infraestructura abierta, identificadores) y las formas de relación deseables. Se calculan sobre artículos, libros, capítulos, apropiación social, investigación-creación, audiovisuales, conjuntos de datos, software, preprints, tesis y proyectos de la Universidad de Antioquia, 2010–2026, organizados en cinco bases: investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta. El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes; los filtros de centro, unidad, subunidad y subcampo delimitan la producción asociada a los tópicos en los que participa cada entidad.";
+/** Subtitle of the header (F119, D-260): one line; the orientation is in «¿Cómo usar este tablero?». */
+export const BOARD_LEAD = "Talento, producción e infraestructura abierta de la UdeA.";
+
+/** Text of the collapsible «¿Cómo usar este tablero?» (F119, D-260: proposal (c) of F112, approved by Luis). */
+export const HOW_TO_USE = [
+  "Este tablero resume las capacidades de base que piden las agendas de política: talento, producción, infraestructura abierta e identificadores, organizados en cinco bases (investigadores, estudiantes en formación, transferencia y apropiación, artes y ciencia abierta). Empiece por el talento investigador (panel 1) y la producción por año; con los filtros de arriba acote el tablero (la ayuda «?» de cada filtro dice qué acota) y tenga en cuenta que algunos paneles no responden a todos los filtros y lo dicen en su tarjeta. El botón (i) de cada panel explica cómo leerlo; las fuentes, las fechas de corte y el universo de productos están en las notas metodológicas del pie.",
+];
+
+/** Help of the filters of entity (F119, D-260): the rule is direct (D-226); the subfield goes by the main topic of the product. */
+export const UNIT_FILTER_HELP = "Cuenta solo los productos de la unidad elegida.";
+export const SUBUNIT_FILTER_HELP = "Cuenta solo los productos de la subunidad elegida.";
+export const CENTER_FILTER_HELP = "Cuenta solo los productos del centro elegido.";
+export const SUBFIELD_FILTER_HELP = "Cuenta los productos cuyo tópico principal pertenece al subcampo elegido.";
+
+/** Note of the foot (F119, D-260): the universe of products, which was in the header. */
+export const UNIVERSE_NOTE = "Universo de productos. Artículos, libros, capítulos, apropiación social, investigación-creación, audiovisuales, conjuntos de datos, software, preprints, tesis y proyectos de la Universidad de Antioquia, 2010–2026.";
 
 export const MOCK_TAG = "Datos de prueba";
 
@@ -140,4 +154,5 @@ export const methodNotes = (staffLabel) => [
   DIRECT_FILTERS_NOTE,
   INCOMPLETE_YEARS_NOTE,
   "El tipo de cada organización coautora (por ejemplo, las empresas) sale de la clasificación de ROR y OpenAlex, del catálogo revisado de organizaciones de la Universidad y, cuando esas fuentes no lo dicen, de reglas sobre el nombre; la proporción de cada procedencia está en el botón (i) del panel 11.",
+  UNIVERSE_NOTE,
 ];

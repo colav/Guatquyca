@@ -64,8 +64,9 @@ test.describe("fixes of the audit (no server)", () => {
     expect(known.students.series[0].values).toEqual([1]);
   });
 
-  test("Board 3 (G-1, G-3): the lead says what the document delimits; panel 13 no longer carries the unique projects of the creation base", () => {
-    expect(BOARD_LEAD).toContain("El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes; los filtros de centro, unidad, subunidad y subcampo delimitan la producción asociada a los tópicos en los que participa cada entidad.");
+  test("Board 3 (G-1, G-3, F119): the lead is one line and no longer carries the outdated rule of the filters; panel 13 no longer carries the unique projects of the creation base", () => {
+    expect(BOARD_LEAD).toBe("Talento, producción e infraestructura abierta de la UdeA.");
+    expect(BOARD_LEAD).not.toContain("delimitan la producción asociada a los tópicos");
     expect(BOARD_LEAD).not.toContain("Los filtros de documento, centro");
   });
 
@@ -195,7 +196,7 @@ test.describe("measures and pages (one run)", () => {
     expect(t3).toContain("(37 proyectos únicos)"); // F88 restores it with B142
     expect(t3).toMatch(/\d+ proyectos de \d+ grupos \(\d+ proyectos únicos\)\. No responde a los filtros\./);
     expect(t3).toContain("profesores con producción (con contrato vigente al 30 de mayo de 2026)");
-    expect(t3).toContain("El filtro de documento delimita los productos que el panel de jueces asignó a alguno de sus ejes");
+    expect(t3).toContain("Talento, producción e infraestructura abierta de la UdeA."); // F119: the lead is one line; the rule of the document filter is in its help
     await open(page, "/observatories/vri-udea/board-2");
     await expect(page.getByTestId("patents-last-year-note")).toBeVisible({ timeout: 120000 });
     await expect(page.getByTestId("patents-last-year-note")).toContainText("la última concesión es de 2023");

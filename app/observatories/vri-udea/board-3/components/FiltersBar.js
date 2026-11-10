@@ -8,7 +8,7 @@ import { ACTIVE_POLICY_DOCUMENTS, YEAR_RANGE } from "@/lib/observatories/foundat
 
 /* Texts */
 import { CENTER_TOOLTIP, centerCoverageNote } from "../../board-1/components/boardTexts";
-import { DOCUMENT_FILTER_HELP, SCOPE_LABELS } from "./boardTexts";
+import { CENTER_FILTER_HELP, DOCUMENT_FILTER_HELP, SCOPE_LABELS, SUBFIELD_FILTER_HELP, SUBUNIT_FILTER_HELP, UNIT_FILTER_HELP } from "./boardTexts";
 import { OPTIONS_NOTE, onlyAvailable } from "@/lib/observatories/optionAvailability";
 import { HierarchySelect, indexTree, pruneTree } from "@/app/observatories/components/HierarchySelect";
 import { subunitOptions, unitChangePatch } from "@/lib/observatories/unitHierarchy";
@@ -108,9 +108,9 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
           {
             columns: "1fr 1fr 1fr 1fr",
             cells: [
-              <Field key="unit" label="Unidad académica">{select("facultyIndex", faculties, "Todas", (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
-              <Field key="subunit" label="Subunidad académica">{select("departmentIndex", units, "Todas")}</Field>,
-              <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
+              <Field key="unit" label="Unidad académica" help={UNIT_FILTER_HELP}>{select("facultyIndex", faculties, "Todas", (v) => onChange(unitChangePatch(raw.deps_fac, v ?? -1, filters.departmentIndex)))}</Field>,
+              <Field key="subunit" label="Subunidad académica" help={SUBUNIT_FILTER_HELP}>{select("departmentIndex", units, "Todas")}</Field>,
+              <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div><div style={{ marginTop: 6 }}>{CENTER_FILTER_HELP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
                 {select("centerIndex", centers, "Todos")}
               </Field>,
               <YearsField key="years" options={YEAR_OPTIONS} yearFrom={filters.yearFrom} yearTo={filters.yearTo} onYearFrom={stable("yearFrom", (v) => onChange({ yearFrom: v }))} onYearTo={stable("yearTo", (v) => onChange({ yearTo: v }))} />,
@@ -121,7 +121,7 @@ function FiltersBar({ raw, centerCoverage, filters, onChange, onReset, available
             cells: [
               <Field key="scope" label="Ámbito">{select("scopeIndex", SCOPE_OPTIONS, "Todos")}</Field>,
               <Field key="doc" label="Documento de política" help={DOCUMENT_FILTER_HELP}>{select("policyIndex", documents, "Todos")}</Field>,
-              <Field key="subfield" label="Subcampo de conocimiento">
+              <Field key="subfield" label="Subcampo de conocimiento" help={SUBFIELD_FILTER_HELP}>
                 <HierarchySelect tree={subfieldShown} paths={subfieldPaths} value={subfieldValue} onChange={stable("subfield", changeSubfield)} data-testid="subfield-filter" />
               </Field>,
             ],

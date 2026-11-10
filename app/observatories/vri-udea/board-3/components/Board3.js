@@ -52,6 +52,7 @@ import {
   ACCESS_LABELS,
   BOARD_EYEBROW,
   BOARD_LEAD,
+  HOW_TO_USE,
   BOARD_TITLE,
   FOOTER_TEXT,
   fewProductsWarning,
@@ -291,6 +292,10 @@ function Board3Content({ dataset, source }) {
           <Tag color="gold">{isMock ? MOCK_TAG : REAL_TAG}</Tag>
           {POLICY_DOCUMENTS.map((d) => <Tag key={d}>{d}</Tag>)}
         </TagRow>
+        <Collapse
+          ghost
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: HOW_TO_USE.map((t) => <Typography.Paragraph key={t.slice(0, 20)}>{t}</Typography.Paragraph>) }]}
+        />
         <Collapse
           ghost
           items={[
