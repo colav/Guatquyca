@@ -11,7 +11,7 @@ import { CATEGORY, computeCapacity, createDataset } from "../../lib/observatorie
 import { CATEGORY_MARKS } from "../../lib/observatories/palette";
 import { shapePath, xmark } from "../../lib/observatories/shapes";
 import { PUNTUAL_MIN_SIZE, PUNTUAL_SIZE_FACTOR, pointRadius, sizeFor } from "../../lib/observatories/scatterSize";
-import { HELP_TEXT_REAL, PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL, SIZE_NOTE, noProductionTooltip, undrawnNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL, SIZE_NOTE, noProductionTooltip, undrawnNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 
 const URL_OPENALEX = "https://help.openalex.org/data/works/attributes/#primary_topic";
 
@@ -61,7 +61,7 @@ test.describe("X, size and wording (no server)", () => {
     expect(noProductionTooltip({ otherYears: 811, never: 1284, noun: "tópicos" })).toBe("Tópicos sin productos con ese tópico principal en 2010–2025 (811 con producción anterior y 1.284 sin ninguna): no se dibujan en la gráfica");
     expect(noProductionTooltip({ otherYears: 1, never: 2, noun: "tópicos" })).not.toMatch(/<a|http/);
     expect(undrawnNote({ count: 2095, noun: "tópicos" })).toContain("sin productos con ese tópico principal en 2010–2025");
-    expect(HELP_TEXT_REAL.join(" ")).toContain("«Sin producción» significa sin productos con ese tópico principal en 2010–2025.");
+    /* F112: the definition is in the card of the panel 2, not in the block of help */
   });
 });
 
@@ -100,12 +100,11 @@ test.describe("X, size and links against the real quyca (read-only)", () => {
     for (let i = 0; i < after.length; i++) expect(after[i]).toBeLessThan(before[i]);
   });
 
-  test("the links of «tópico principal» are in the foot of the panels 1 and 2 and in the help text, open in a new tab and carry the OpenAlex address", async ({ page }) => {
+  test("the links of «tópico principal» are in the foot of the panels 1 and 2, open in a new tab and carry the OpenAlex address", async ({ page }) => {
     await open(page);
-    await page.getByText("¿Cómo usar este tablero?").click();
     const links = page.getByTestId("primary-topic-link");
-    expect(await links.count()).toBe(3); // foot of the panel 1, foot of the panel 2, help text
-    for (let i = 0; i < 3; i++) {
+    expect(await links.count()).toBe(2); // foot of the panel 1, foot of the panel 2 (F112: not in the block of help)
+    for (let i = 0; i < 2; i++) {
       const link = links.nth(i);
       await expect(link).toHaveText("tópico principal");
       await expect(link).toHaveAttribute("href", URL_OPENALEX);

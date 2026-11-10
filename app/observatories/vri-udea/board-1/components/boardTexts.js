@@ -194,9 +194,7 @@ export const CALCULATOR_EXPLANATION = Object.freeze([
 
 /** Help text of the board with the data of the API (provisional: Luis approves it). */
 export const HELP_TEXT_REAL = [
-  "Este tablero presenta las capacidades de la Universidad de Antioquia de generar impacto en diferentes investigaciones en el mundo con su propia producción. Se mide la capacidad de la Universidad en términos de ocho categorías: líder, consolidado, en consolidación, emergente, riesgo de desaparecer, capacidad relativa baja, presencia puntual y sin producción. Los tópicos con menos de " + MIN_PRODUCTS_CLASSIFY + " productos en 2010–2025 se muestran como «presencia puntual» y no se clasifican por razón ni por tendencia. La capacidad se mide comparando las citas de la UdeA en cada tópico con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en 2010–2025, y se cruza con la tendencia de la producción en 2010–2025: la categoría más alta, el liderazgo, la tiene el tópico en el que la UdeA iguala a la institución más citada y su producción no decrece, en un gradiente hasta los temas en los que no hay producción.",
-  "Cada categoría tiene su forma y su color (véase la leyenda). El tamaño del punto es el FWCI (normalizado por tópico y año), calculado solo sobre los productos con registro en OpenAlex. Los paneles 1 y 2 muestran la situación 2010–2025 y no responden al filtro de años.",
-  "«Sin producción» significa sin productos con ese tópico principal en 2010–2025.",
+  "Empiece por la dispersión de tópicos (panel 1) y la calculadora de capacidades (panel 2): muestran cada tópico y su categoría frente a la institución de referencia. Con los filtros de arriba acote el tablero; un clic en un punto, en una barra de categoría o en un objetivo de desarrollo sostenible lo acota también. El botón (i) de cada panel explica cómo leerlo; las fuentes, las fechas de corte y los tipos de producto están en las notas metodológicas del pie.",
 ];
 
 export const DATA_WARNINGS = [
@@ -222,10 +220,10 @@ export function realDataWarnings(meta) {
   const fmt = (n) => n.toLocaleString("es-CO");
   const share = Math.round((100 * meta.n_topic) / meta.n_sel);
   return [
-    `Capacidad relativa. La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año. Los tópicos sin referencia nacional usan la mundial. En campos y subcampos la razón suma solo los tópicos con ${MIN_PRODUCTS_CLASSIFY} o más productos en 2010–2025 con los filtros activos (citas de la UdeA ÷ citas del referente en esos tópicos, máximo 1); un campo o subcampo sin ninguno no tiene razón.`,
-    `Tendencia indicativa (*). Con menos de ${MIN_TREND_VOLUME} productos en 2010–2025 la pendiente de la recta es poco fiable; esos tópicos se marcan y se cuentan en el panel.`,
-    "FWCI solo sobre productos con registro en OpenAlex. Los productos que vienen solo de ScienTI o de Minciencias no tienen datos de citas (no son «cero citas») y no entran en el FWCI. El FWCI se normaliza por tópico y año: cada producto se compara con el promedio mundial de citas de su tópico en su mismo año de publicación. El FWCI es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
+    "Capacidad relativa. La razón compara las citas de la UdeA con las de la institución con más citas del ámbito elegido en 2010–2025 (referente único; no se compara año a año); los tópicos sin referencia nacional usan la mundial. El método de la razón, de la tendencia y de las categorías está en el panel 2.",
+    "FWCI. Solo cuenta los productos con registro en OpenAlex: los que vienen solo de ScienTI o de Minciencias no tienen datos de citas (no son «cero citas»). Es sensible a valores extremos: un solo producto hipercitado eleva el de campos enteros.",
     `Cobertura: ${fmt(meta.n_sel)} productos de los tipos solicitados; ${fmt(meta.n_topic)} (${share} %) tienen tópico. El universo se pliega por obra (identificador de OpenAlex, DOI o identificador interno). ${INCOMPLETE_YEARS_NOTE}`,
+    TYPES_HELP,
   ];
 }
 
@@ -268,10 +266,9 @@ export function undrawnNote({ count, noun }) {
   return `Los ${noun} sin productos con ese tópico principal en 2010–2025 no se dibujan (${fmtCount(count)})`;
 }
 
-/* Types of product (F47, D-141). Provisional texts: Luis approves them. */
+/* Types of product (F47, D-141; F112, D-249: said once, in the foot). Provisional texts: Luis approves them. */
 export const TYPES_HELP =
-  "Se comparan artículos, libros y capítulos. En la UdeA el tipo es el normalizado de ImpactU, que cruza varias fuentes y asigna el de la fuente en la que más confía; el referente usa el tipo de OpenAlex (article, book, book-chapter). Pueden diferir en algunos productos, por ejemplo las reseñas.";
-export const TYPES_FOOT = "Tipos según cada fuente; ver ayuda.";
+  "Tipo de producto. Se comparan artículos, libros y capítulos. En la UdeA el tipo es el normalizado de ImpactU, que cruza varias fuentes y asigna el de la fuente en la que más confía; el referente usa el tipo de OpenAlex (article, book, book-chapter). Pueden diferir en algunos productos, por ejemplo las reseñas.";
 
 /* Table «Tópicos del Eje Temático» (F49, D-142, D-143). Provisional texts: Luis approves them. */
 export const AXIS_TOPICS_TITLE = "Tópicos del Eje Temático";

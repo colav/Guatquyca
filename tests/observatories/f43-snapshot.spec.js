@@ -13,7 +13,8 @@ import { SNAPSHOT_NOTE, HELP_TEXT_REAL } from "../../app/observatories/vri-udea/
 test.describe("snapshot texts (no server)", () => {
   test("the notice and the help text say 2010–2025 and that the years filter does not apply", () => {
     expect(SNAPSHOT_NOTE).toBe("Fotografía 2010–2025; no responde al filtro de años");
-    expect(HELP_TEXT_REAL.join(" ")).toContain("situación 2010–2025");
+    /* F112 (D-249): the block «¿Cómo usar este tablero?» no longer repeats the snapshot; the cards of the panels 1 and 2 say it. */
+    expect(HELP_TEXT_REAL.join(" ")).not.toContain("situación 2010–2025");
   });
 });
 
@@ -64,10 +65,11 @@ test.describe("snapshot 2010–2025 against the real quyca (read-only)", () => {
     expect(await legend(page)).not.toEqual(base);
   });
 
-  test("the help text says «situación 2010–2025»", async ({ page }) => {
+  test("the cards of the panels 1 and 2 say the snapshot; the block of help only orients (F112)", async ({ page }) => {
     await open(page);
+    await expect(page.getByText(SNAPSHOT_NOTE, { exact: false }).first()).toBeVisible();
     await page.getByText("¿Cómo usar este tablero?").click();
-    await expect(page.getByText("situación 2010–2025", { exact: false })).toBeVisible();
+    await expect(page.getByText("situación 2010–2025", { exact: false })).toHaveCount(0);
   });
 
   test("the tooltip agrees: products and citations of 2010–2025 add up with the yearly counts and the ratio names the referent", async ({ page }) => {

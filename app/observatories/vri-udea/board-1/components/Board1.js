@@ -11,7 +11,6 @@ import { typeQualityText, withQuality } from "@/lib/observatories/typeQuality";
 import { PANEL_HELP } from "./panelHelp";
 import AxisTopicsTable from "./AxisTopicsTable";
 import LinkedText from "@/app/observatories/components/LinkedText";
-import { sourceSentences } from "@/lib/observatories/cutDate";
 import FillHeight from "@/app/observatories/components/FillHeight";
 import CutoffNote from "@/app/observatories/components/CutoffNote";
 import TagRow from "@/app/observatories/components/TagRow";
@@ -76,8 +75,6 @@ import {
   SIZE_NOTE,
   SIZE_NOTE_LEGACY,
   SNAPSHOT_NOTE,
-  TYPES_FOOT,
-  TYPES_HELP,
   AXIS_TOPICS_TITLE,
   AXIS_TOPICS_RECONCILE_NOTE,
   axisTopicsYears,
@@ -217,10 +214,9 @@ function Board1Content({ dataset, source }) {
     })),
   );
   const noun = DIMENSION_NOUN[applied.dimension].toLowerCase();
-  /* Sources and dates (F47): the dates of OpenAlex come from meta.corte_openalex, in Bogotá time. */
-  const sources = useMemo(() => sourceSentences(dataset.meta, dataset.obsCut), [dataset]);
+  /* F112 (D-249): sources and dates are said once, in the foot (GET /cut), not in the notes of the panels. */
   const fwciNote = result.fwciBasis
-    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (ScienTI o Minciencias) no tienen datos de citas.${dataset.hasExpectedCitations ? " El FWCI se normaliza por tópico y año." : ""} ${sources.citations}`
+    ? `FWCI calculado sobre ${fmt(result.fwciBasis.withRecord)} productos con registro en OpenAlex; ${fmt(result.fwciBasis.withoutRecord)} productos (ScienTI o Minciencias) no tienen datos de citas.`
     : "";
   const groups = useStableValue(rankGroups(dataset, result));
   const actors = useStableValue(rankActors(dataset, result));
@@ -280,7 +276,7 @@ function Board1Content({ dataset, source }) {
         </TagRow>
         <Collapse
           ghost
-          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : [...HELP_TEXT_REAL, sources.full, TYPES_HELP]).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
+          items={[{ key: "help", label: "¿Cómo usar este tablero?", children: (isMock ? HELP_TEXT : HELP_TEXT_REAL).map((t) => <Typography.Paragraph key={t.slice(0, 20)}><LinkedText text={t} /></Typography.Paragraph>) }]}
         />
       </header>
 
@@ -316,11 +312,6 @@ function Board1Content({ dataset, source }) {
               {(height) => <TopicScatter points={visiblePoints} selectedId={selectedId} onSelect={setSelectedId} dimension={applied.dimension} referent={referent} height={height} fwciName={dataset.hasExpectedCitations ? "FWCI (normalizado por tópico y año)" : "FWCI"} />}
             </FillHeight>
             <UnitDetail unit={selectedUnit} axes={selectedAxes} />
-            {modern ? (
-              <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="source-note">
-                {sources.full}
-              </Typography.Paragraph>
-            ) : null}
             {modern && applied.dimension !== "topic" ? (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 6, marginBottom: 0 }} data-testid="field-ratio-note">
                 {FIELD_RATIO_RULE}
@@ -352,11 +343,6 @@ function Board1Content({ dataset, source }) {
                   </Typography.Paragraph>
                 ))}
               </div>
-            ) : null}
-            {modern ? (
-              <Typography.Paragraph type="secondary" style={{ fontSize: 12 }} data-testid="source-note">
-                {sources.full} {TYPES_FOOT}
-              </Typography.Paragraph>
             ) : null}
             <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2010–2025.` : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
