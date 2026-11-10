@@ -4,7 +4,7 @@
 import { memo } from "react";
 
 /* lib */
-import { TILE, clampLines } from "@/lib/observatories/layout";
+import { TABLE_ROW, TILE, clampLines } from "@/lib/observatories/layout";
 import { sequentialTile } from "@/lib/observatories/palette";
 
 /* Components */
@@ -141,7 +141,8 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
 });
 
 /** Non-academic co-authoring actors table (complement, current proxy). */
-export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
+/* F114 (D-251): `height` is what the card leaves to the table; the body of the table takes it all (header: one row). */
+export const ActorsTable = memo(function ActorsTable({ actors, ranked, height = 400 }) {
   const clean = (t) => t.replace(" (públicos y privados)", "").replace(" (no universitarios)", "");
   /* `ranked` (bundle): rows already counted for the current filters; otherwise the fixed list of the artifact. */
   const rows = ranked
@@ -152,7 +153,7 @@ export const ActorsTable = memo(function ActorsTable({ actors, ranked }) {
         .map((a, i) => ({ key: i, name: a.n, country: a.c, type: clean(a.t), products: a.p }));
   return (
     <CompactTable
-      scroll={{ y: 360 }}
+      scroll={{ y: Math.max(160, height - TABLE_ROW.height - 2) }}
       dataSource={rows}
       columns={[
         { title: "Institución", dataIndex: "name" },

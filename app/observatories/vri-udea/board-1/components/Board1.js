@@ -399,7 +399,9 @@ function Board1Content({ dataset, source }) {
         </Col>
         <Col xs={24} lg={12}>
           <ChartCard info={withQuality(PANEL_HELP.p10, typeQualityText(dataset.typeQuality, "organizaciones no académicas"))} title="9 · Actores no académicos coautores">
-            <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} />
+            <FillHeight min={360}>
+              {(height) => <ActorsTable actors={dataset.actors} ranked={dataset.hasFactDetails ? actors : undefined} height={height} />}
+            </FillHeight>
             {dataset.hasFactDetails ? null : (
               <Typography.Paragraph type="secondary" style={{ fontSize: 12, marginTop: 8 }}>No responde a los filtros.</Typography.Paragraph>
             )}
