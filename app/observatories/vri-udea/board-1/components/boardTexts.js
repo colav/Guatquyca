@@ -312,6 +312,10 @@ export const RULES_HEADERS = {
 };
 
 /* Centre of research filter (D-124). Provisional texts: Luis approves them. */
+/* F129 (D-273): what the unit and the subunit count. Checked in the code: the filter keeps the products whose list of units (facts[6]) or subunits (facts[7]) has the one chosen, and the bundle has products with several. */
+export const UNIT_FILTER_HELP = "Cuenta solo los productos de la unidad elegida; un producto asociado a varias unidades cuenta en cada una.";
+export const SUBUNIT_FILTER_HELP = "Cuenta solo los productos de la subunidad elegida; un producto asociado a varias subunidades cuenta en cada una.";
+
 export const CENTER_TOOLTIP = "Centro de investigación al que se adscriben los grupos que firman el producto";
 
 /**

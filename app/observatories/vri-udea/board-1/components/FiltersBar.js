@@ -15,6 +15,8 @@ import {
   PAIR_LEVEL_OPTIONS,
   PAIR_LEVEL_TOOLTIP,
   CENTER_TOOLTIP,
+  UNIT_FILTER_HELP,
+  SUBUNIT_FILTER_HELP,
   RATIO_BASIS_OPTIONS,
   centerCoverageNote,
   AXIS_FILTER_LABEL,
@@ -161,8 +163,8 @@ function FiltersBar({ dataset, filters, onChange, onReset, available = null }) {
           {
             columns: `1fr 1fr 1fr ${SWITCH_COLUMN}px`,
             cells: [
-              <Field key="unit" label="Unidad académica">{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>,
-              <Field key="subunit" label="Subunidad académica">{select("departmentIndex", departmentOptions, "Todas", true)}</Field>,
+              <Field key="unit" label="Unidad académica" help={UNIT_FILTER_HELP}>{select("facultyIndex", facultyOptions, "Todas", true, (v) => onChange(unitChangePatch(dataset.departmentUnit, v ?? -1, filters.departmentIndex)))}</Field>,
+              <Field key="subunit" label="Subunidad académica" help={SUBUNIT_FILTER_HELP}>{select("departmentIndex", departmentOptions, "Todas", true)}</Field>,
               <Field key="center" label="Centro de investigación" help={<><div>{CENTER_TOOLTIP}</div>{centerNote ? <div style={{ marginTop: 6 }}>{centerNote}</div> : null}</>}>
                 {select("centerIndex", centerOptions, "Todos", true)}
               </Field>,
