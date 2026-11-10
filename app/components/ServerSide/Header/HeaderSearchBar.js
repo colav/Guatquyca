@@ -25,6 +25,9 @@ import { Button, Col, Layout, Row } from "antd";
 /* UI Library Sub-components */
 const Header = Layout;
 
+/** F110 (D-245): the search bar is not loaded in the home, in sources, nor in any route under /observatories. */
+const hasSearchBar = (pathname) => pathname !== "/" && pathname !== "/sources" && !(pathname === "/observatories" || pathname?.startsWith("/observatories/"));
+
 /**
  * HeaderSearchBar displays the application header with logo,
  * search bar and user actions.
@@ -69,7 +72,7 @@ export default function HeaderSearchBar() {
           id={styles.searchbar}
         >
           <Suspense>
-            {pathname !== "/" && pathname !== "/sources" ? <SearchBar /> : null}
+            {hasSearchBar(pathname) ? <SearchBar /> : null}
           </Suspense>
         </Col>
 

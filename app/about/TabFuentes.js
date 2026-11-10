@@ -191,7 +191,7 @@ export default function TabFuentes() {
             </a>
           </li>
           <li>
-            <b>Scienti:</b>{" "}
+            <b>ScienTI:</b>{" "}
             <a
               href="https://minciencias.gov.co/scienti"
               target="_blank"

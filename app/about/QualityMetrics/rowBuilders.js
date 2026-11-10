@@ -143,7 +143,7 @@ export const PERSON_SCALARS = [
   { key: "with_orcid", label: "Con ORCID" },
   { key: "with_staff", label: "Autores activos (staff)" },
   { key: "with_cedula.total", label: "Con cédula (total)" },
-  { key: "with_cedula.scienti", label: "Con cédula — desde Scienti" },
+  { key: "with_cedula.scienti", label: "Con cédula — desde ScienTI" },
   { key: "with_cedula.staff", label: "Con cédula — desde Staff" },
 ];
 

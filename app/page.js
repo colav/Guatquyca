@@ -6,6 +6,7 @@ import HomeTable from "./components/ServerSide/HomeTable/HomeTable";
 import SearchBar from "./components/ClientSide/SearchBar/SearchBar";
 import OurDataSection from "./components/ClientSide/OurDataSection/OurDataSection";
 import NewsletterSection from "./components/ClientSide/NewsletterSection/NewsletterSection";
+import ObservatoriesSection from "./components/ClientSide/ObservatoriesSection/ObservatoriesSection";
 
 /* Icons */
 import { DownloadOutlined, LinkOutlined } from "@ant-design/icons";
@@ -76,6 +77,7 @@ export default function Home() {
       </div>
       <br />
       <OurDataSection />
+      <ObservatoriesSection />
       <NewsletterSection />
       <Row justify="center" align="middle" id={styles.cta}>
         <Row
