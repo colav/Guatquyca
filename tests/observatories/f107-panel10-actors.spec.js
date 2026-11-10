@@ -14,7 +14,7 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
 
   test("actors by type: in the bundle, in the default selection and in the 22 rows of the panel", async () => {
     const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
-    expect(res.headers.get("etag")).toBe('"20261107-176ca66482cb"');
+    expect(res.headers.get("etag")).toBe('"20261107-c550a33072f7"');
     const raw = await res.json();
     const ds = createDataset(raw);
     const inBundle = {};
@@ -28,7 +28,7 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
     console.log(`[live] afils ${raw.afils.length}\nin the bundle ${JSON.stringify(inBundle)}\nin the default selection ${JSON.stringify(selection)}\ntop 22 of the panel ${JSON.stringify(top)}\nfirst rows ${ranked.slice(0, 5).map((a) => `${a.name} (${a.type}, ${a.products})`).join("; ")}`);
     expect(ranked).toHaveLength(22);
     expect(ranked.every((a) => a.type && !/undefined|NaN/.test(`${a.name}${a.type}${a.products}`))).toBe(true);
-    expect(Object.keys(top).every((t) => !/sin clasificar/i.test(t))).toBe(true);
+    /* F116: «Otros» is no longer left out of the ranking */
   });
 
   test("in the page the panel of the actors (9 · Actores no académicos, help p10) shows its 22 rows without NaN or undefined", async ({ page }) => {
