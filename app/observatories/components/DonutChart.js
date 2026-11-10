@@ -66,7 +66,7 @@ function DonutChart({ labels, values, colors, centerText = null, legend = "auto"
     <div ref={rootRef} data-testid="ring-root" data-legend={right ? "right" : "below"} style={{ flex: "1 1 auto", display: "flex", flexDirection: right ? "row" : "column", alignItems: right ? "center" : "stretch", gap: right ? 12 : 0 }}>
       <div style={{ flex: "1 1 0", minWidth: 0, alignSelf: "stretch", display: "flex", flexDirection: "column" }}>
       <TooltipBox fill>
-        <FillHeight min={200} max={320}>
+        <FillHeight min={200} max={480}>
           {(h) => (
             <div style={{ position: "relative", height: h }}>
               <Pie {...config} height={h} />
