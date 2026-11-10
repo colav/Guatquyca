@@ -114,7 +114,8 @@ test.describe("X, size and links against the real quyca (read-only)", () => {
     }
     // the sentences
     await expect(page.getByTestId("undrawn-note")).toContainText("sin productos con ese tópico principal en 2010–2025 no se dibujan");
-    await expect(page.getByText("«Sin producción» = sin productos con ese tópico principal en 2010–2025.", { exact: false })).toBeVisible();
+    /* F124: the definition of «sin producción» moved to the short explanation of the panel 2 */
+    await expect(page.getByTestId("calc-explanation")).toContainText("Sin ningún producto con ese tópico principal: sin producción");
     // the click opens the page of OpenAlex in a new tab
     const [popup] = await Promise.all([page.context().waitForEvent("page", { timeout: 20000 }), page.getByTestId("undrawn-note").getByTestId("primary-topic-link").click()]);
     expect(popup.url()).toContain("help.openalex.org/data/works/attributes");

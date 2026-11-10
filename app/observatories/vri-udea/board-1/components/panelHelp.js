@@ -30,7 +30,10 @@ export const PANEL_HELP = Object.freeze({
       "La categoría sale de dos cosas: la razón de capacidad (citas de la UdeA frente a las del referente) y la tendencia de la producción (creciente, estable o decreciente). La tabla de reglas de abajo dice cómo se combinan.",
     ],
     look: "Qué categorías concentran más unidades y cuántas están en «sin producción» o en presencia puntual.",
-    care: "La categoría depende del referente elegido (Colombia o el mundo).",
+    care: [
+      "La categoría depende del referente elegido (Colombia o el mundo).",
+      "El último año puede estar incompleto (véase la nota del pie). Un tópico que empezó a producirse tarde puede verse creciente aunque su producción sea reciente.",
+    ],
   },
   p3: {
     what: "Los grupos de investigación con más productos en los tópicos que dejan los filtros.",

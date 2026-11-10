@@ -38,7 +38,6 @@ import {
   CATEGORY_LABELS,
   MIN_TREND_VOLUME,
   ODS_MIN_SCORE,
-  TREND_BAND,
   factOptionAvailability,
   reconcileChain,
   computeCapacity,
@@ -303,7 +302,8 @@ function Board1Content({ dataset, source }) {
       ) : null}
 
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
-        <Col xs={24} lg={14}>
+        {/* Luis: 60/40 between the scatter and the calculator from lg up */}
+        <Col xs={24} lg={{ flex: "0 0 60%" }}>
           <ChartCard
             info={PANEL_HELP.p1} title="1 · Dispersión de tópicos: producción vs. citas"
             note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${selected.length ? ` · solo ${selected.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
@@ -328,13 +328,13 @@ function Board1Content({ dataset, source }) {
             ) : null}
           </ChartCard>
         </Col>
-        <Col xs={24} lg={10}>
+        <Col xs={24} lg={{ flex: "0 0 40%" }}>
           <ChartCard info={PANEL_HELP.p2} title="2 · Calculadora de capacidades">
             {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
             <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
             <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
               {modern
-                ? <LinkedText text={`Sobre ${summary.units.toLocaleString("es-CO")} ${noun} de la dimensión elegida. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*). «Sin producción» = sin productos con ese tópico principal en 2010–2025.`} />
+                ? <LinkedText text={`Sobre ${summary.units.toLocaleString("es-CO")} ${noun}. Referente: ${referent} · ${fmt(result.indicativeUnits)} de ${fmt(result.unitsInWindow)} con tendencia indicativa (*).`} />
                 : `Sobre ${summary.units.toLocaleString("es-CO")} unidades de la dimensión elegida; cálculo anterior (regla estricta, ventana 2021–2025). «Sin producción» = cero productos en la ventana.`}
             </Typography.Paragraph>
             {modern ? (
@@ -342,12 +342,12 @@ function Board1Content({ dataset, source }) {
                 {CALCULATOR_EXPLANATION.map((p) => (
                   <Typography.Paragraph key={p.key} type="secondary" style={{ fontSize: 12, marginBottom: 4 }}>
                     <Typography.Text strong style={{ fontSize: 12 }}>{p.label}. </Typography.Text>
-                    {p.text}
+                    <LinkedText text={p.text} />
                   </Typography.Paragraph>
                 ))}
               </div>
             ) : null}
-            <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? `Referente: ${referent}. Tendencia por la pendiente de la recta, banda estable ±${Math.round(TREND_BAND * 100)} %, ventana 2010–2025.` : "Regla estricta, ventana 2021–2025."} />
+            <RulesTable legacy={!modern} ratioBasis={applied.ratioBasis} caption={modern ? "" : "Regla estricta, ventana 2021–2025."} />
           </ChartCard>
         </Col>
 

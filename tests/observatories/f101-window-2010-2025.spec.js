@@ -5,6 +5,7 @@
 import { test, expect } from "@playwright/test";
 
 import { CAPACITY_WINDOW, LEGACY_TREND_WINDOW_YEARS, TREND_WINDOW_YEARS } from "../../lib/observatories/capacity/constants";
+import { PANEL_HELP } from "../../app/observatories/vri-udea/board-1/components/panelHelp";
 import { CALCULATOR_EXPLANATION, PUNCTUAL_DEFINITION, SNAPSHOT_NOTE } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
 import { CATEGORY, CATEGORY_ORDER, computeCapacity, createDataset } from "../../lib/observatories/capacity";
 
@@ -24,15 +25,15 @@ test.describe("F101 window 2010–2025 (no server)", () => {
   test("the texts of the panels say 2010–2025 and the explanation under the calculator has the four parts, with the figures of the constants", () => {
     expect(SNAPSHOT_NOTE).toContain("2010–2025");
     expect(PUNCTUAL_DEFINITION).toContain("2010–2025");
-    expect(CALCULATOR_EXPLANATION.map((p) => p.key)).toEqual(["ratio", "trend", "category", "care"]);
+    /* F124: three short items; the window is said once, in the snapshot note; the care went to the button (i) */
+    expect(CALCULATOR_EXPLANATION.map((p) => p.key)).toEqual(["ratio", "trend", "category"]);
     const all = CALCULATOR_EXPLANATION.map((p) => p.text).join(" ");
-    expect(all).toContain("2010–2025");
-    expect(all).toMatch(/máximo es 1/);
-    expect(all).toMatch(/cercano a 0/);
-    expect(all).toMatch(/10 % del promedio anual/);
-    expect(all).toMatch(/asterisco/);
-    expect(all).toMatch(/empezó a producirse tarde/);
-    expect(all).not.toContain("2021");
+    expect(all).not.toMatch(/20(10|21|25)/);
+    expect(all).toMatch(/1 = lo iguala o supera/);
+    expect(all).toMatch(/cerca de 0 = /);
+    expect(all).toMatch(/dentro de ±10 %, estable/);
+    expect(all).toContain("(*)");
+    expect(PANEL_HELP.p2.care.join(" ")).toMatch(/empezó a producirse tarde/);
   });
 
   test("a bundle with ref_1025 reads it; an old bundle falls back to ref_2125", () => {
@@ -93,9 +94,8 @@ test.describe("F101 against the bundle of B153 (one run)", () => {
     await expect(box).toBeVisible({ timeout: 120000 });
     await expect(box).toContainText("Razón de capacidad");
     await expect(box).toContainText("Tendencia");
-    await expect(box).toContainText("2010–2025");
     const text = await page.locator("body").innerText();
     expect(text.match(/2021–2025/g) ?? []).toHaveLength(0);
-    expect(text).toContain("Fotografía 2010–2025");
+    expect(text).toContain("Datos fijos de 2010–2025");
   });
 });

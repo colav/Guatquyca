@@ -180,8 +180,8 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
     const main = await page.locator("main").innerText();
     expect(main).toContain("medida en ocho categorías");
     expect(main).not.toContain("siete categorías");
-    await page.getByText("¿Cómo usar este tablero?").click();
-    await expect(page.getByText("Los tópicos con menos de 5 productos en 2010–2025 se muestran como «presencia puntual»", { exact: false })).toBeVisible();
+    /* F112/F124: the sentence moved from the help of the lead to the short explanation under the calculator */
+    await expect(page.getByTestId("calc-explanation")).toContainText("Con menos de 5 productos: presencia puntual");
     const label = await page.getByTestId("calculator-bars").getAttribute("aria-label");
     expect(label).toContain(`presencia puntual: ${fmt((await legend(page)).punctual)}`);
     expect(label.split(". ")[1].split("; ")).toHaveLength(8);

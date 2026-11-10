@@ -1,4 +1,4 @@
-import { CAPACITY_WINDOW, MIN_TREND_VOLUME, TREND_BAND } from "@/lib/observatories/capacity/constants";
+import { MIN_TREND_VOLUME, TREND_BAND } from "@/lib/observatories/capacity/constants";
 import { POLICY_DOCUMENTS, policyRank } from "@/lib/observatories/policyDocuments";
 
 /**
@@ -98,7 +98,7 @@ export const RULES_TABLE = [
   { key: "atRisk", category: "Riesgo de desaparecer", ratio: "> 0,50", trend: "decreciente" },
   { key: "lowCapacity", category: "Capacidad relativa baja", ratio: "≤ 0,50", trend: "estable o decreciente" },
   { key: "punctual", category: "Presencia puntual", ratio: "—", trend: `menos de ${MIN_PRODUCTS_CLASSIFY} productos` },
-  { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos en 2010–2025" },
+  { key: "none", category: "Sin producción", ratio: "—", trend: "sin productos" },
 ];
 
 /**
@@ -168,27 +168,21 @@ export const RULE_LINE = Object.fromEntries(
  * How the ratio, the trend and the categories are calculated, under the calculator (F101, D-221). Plain language; the figures come from the
  * constants (window, band, thresholds), none is written by hand. Provisional text: Luis approves it.
  */
-const WINDOW_TEXT = `${CAPACITY_WINDOW.from}–${CAPACITY_WINDOW.to}`;
 export const CALCULATOR_EXPLANATION = Object.freeze([
   {
     key: "ratio",
     label: "Razón de capacidad",
-    text: `Son las citas de los productos de la UdeA de ${WINDOW_TEXT} que pasan los filtros, divididas entre las citas de la institución con más citas en ese tópico en el mismo periodo, en Colombia o en el mundo según el interruptor del referente y sin aplicar filtros al referente. El máximo es 1: un valor de 1 quiere decir que la UdeA iguala o supera a la institución de referencia; un valor cercano a 0, que sus citas son una parte muy pequeña de las del referente.`,
+    text: "Citas de la UdeA divididas entre las del referente en el tópico. 1 = lo iguala o supera; cerca de 0 = una parte muy pequeña.",
   },
   {
     key: "trend",
     label: "Tendencia",
-    text: `Se ajusta una recta a los conteos de productos de cada año de ${WINDOW_TEXT}. Es estable si la pendiente es menor al ${Math.round(TREND_BAND * 100)} % del promedio anual de productos, creciente si la supera y decreciente si cae por debajo de ese valor. Con menos de ${MIN_TREND_VOLUME} productos en la ventana la tendencia es indicativa y se marca con un asterisco.`,
+    text: `Pendiente de la recta anual frente al promedio anual: dentro de ±${Math.round(TREND_BAND * 100)} %, estable; por encima, creciente; por debajo, decreciente. Con menos de ${MIN_TREND_VOLUME} productos es indicativa (*).`,
   },
   {
     key: "category",
     label: "Categoría",
-    text: `La razón y la tendencia se combinan con las reglas de la tabla de abajo. Con menos de ${MIN_PRODUCTS_CLASSIFY} productos en ${WINDOW_TEXT} el tópico es presencia puntual y no se clasifica; sin productos, sin producción.`,
-  },
-  {
-    key: "care",
-    label: "Cuidado",
-    text: `El último año puede estar incompleto (véase la nota del pie). Un tópico que empezó a producirse tarde tiene los años anteriores en cero, así que su tendencia puede verse creciente aunque la producción sea reciente.`,
+    text: `Combina razón y tendencia, como muestra la tabla. Con menos de ${MIN_PRODUCTS_CLASSIFY} productos: presencia puntual. Sin ningún producto con ese tópico principal: sin producción.`,
   },
 ]);
 
@@ -248,7 +242,7 @@ import { PUNTUAL_SIZE_FACTOR } from "../../../../../lib/observatories/scatterSiz
 export const PRIMARY_TOPIC_URL = "https://help.openalex.org/data/works/attributes/#primary_topic";
 export const PRIMARY_TOPIC_LINK_TEXT = "tópico principal";
 
-export const SNAPSHOT_NOTE = "Fotografía 2010–2025; no responde al filtro de años";
+export const SNAPSHOT_NOTE = "Datos fijos de 2010–2025: el filtro de años no los cambia.";
 
 const fmtCount = (n) => n.toLocaleString("es-CO");
 

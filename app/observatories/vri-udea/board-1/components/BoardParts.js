@@ -116,7 +116,7 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
           {
             title: RULES_HEADERS.category,
             dataIndex: "category",
-            width: "42%",
+            width: "46%",
             ellipsis: false,
             render: (text, row) => {
               const cell = (
@@ -132,7 +132,7 @@ export const RulesTable = memo(function RulesTable({ legacy = false, caption = "
               return row.key === "punctual" ? <Tooltip title={PUNCTUAL_DEFINITION}>{cell}</Tooltip> : cell;
             },
           },
-          { title: head(RULES_HEADERS.ratio.short, legacy ? "Cociente (proxy FWCI ≤ 1)" : RULES_HEADERS.ratio.full), dataIndex: "ratio", width: "14%", ellipsis: false },
+          { title: head(RULES_HEADERS.ratio.short, legacy ? "Cociente (proxy FWCI ≤ 1)" : RULES_HEADERS.ratio.full), dataIndex: "ratio", width: "13%", ellipsis: false },
           { title: head(legacy ? "Producción" : RULES_HEADERS.trend.short, legacy ? "Producción 5 años" : RULES_HEADERS.trend.full), dataIndex: "trend", ellipsis: false },
         ]}
       />

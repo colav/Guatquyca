@@ -125,8 +125,6 @@ test.describe(`legend, isolation and rules (${LIVE ? "real quyca" : "local test 
       const heads = await table.locator("th").allInnerTexts();
       expect(heads.map((h) => h.trim())).toEqual(["Categoría", "Razón", "Tendencia"]);
       await expect(table.locator("th span[title='Razón de capacidad']")).toHaveCount(1);
-      const align = await page.getByText(/^Referente: .*banda estable/).evaluate((el) => getComputedStyle(el).textAlign);
-      expect(["left", "start"]).toContain(align);
       expect(await table.locator("svg").count()).toBe(8); // the shape of every category in the first column
     });
   }

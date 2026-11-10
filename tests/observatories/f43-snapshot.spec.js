@@ -12,7 +12,7 @@ import { SNAPSHOT_NOTE, HELP_TEXT_REAL } from "../../app/observatories/vri-udea/
 
 test.describe("snapshot texts (no server)", () => {
   test("the notice and the help text say 2010–2025 and that the years filter does not apply", () => {
-    expect(SNAPSHOT_NOTE).toBe("Fotografía 2010–2025; no responde al filtro de años");
+    expect(SNAPSHOT_NOTE).toBe("Datos fijos de 2010–2025: el filtro de años no los cambia.");
     /* F112 (D-249): the block «¿Cómo usar este tablero?» no longer repeats the snapshot; the cards of the panels 1 and 2 say it. */
     expect(HELP_TEXT_REAL.join(" ")).not.toContain("situación 2010–2025");
   });
@@ -47,7 +47,7 @@ test.describe("snapshot 2010–2025 against the real quyca (read-only)", () => {
     expect(await legend(page)).toEqual(base);
     expect(await page.locator(".obs-kpi").first().innerText()).not.toBe(kpiBase); // the products of the board do follow the years
     await expect(page.getByTestId("snapshot-note")).toHaveCount(2);
-    for (const note of await page.getByTestId("snapshot-note").allInnerTexts()) expect(note).toBe("Fotografía 2010–2025; no responde al filtro de años");
+    for (const note of await page.getByTestId("snapshot-note").allInnerTexts()) expect(note).toBe("Datos fijos de 2010–2025: el filtro de años no los cambia.");
     // the calculation says the same
     const a = computeCapacity(createDataset(raw));
     const b = computeCapacity(createDataset(raw), { yearFrom: 2024, yearTo: 2025 });
