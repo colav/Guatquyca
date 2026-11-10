@@ -302,8 +302,8 @@ function Board1Content({ dataset, source }) {
       ) : null}
 
       <Row gutter={[12, 12]} style={{ marginTop: 12 }}>
-        {/* Luis: 60/40 between the scatter and the calculator from lg up */}
-        <Col xs={24} lg={{ flex: "0 0 60%" }}>
+        {/* Luis: 60/40 between the scatter and the calculator from lg up. minWidth 0 (F128): a flex item has min-width:auto, so the canvas of a chart (a fixed width in px from the last layout) kept the column wide when the window was narrowed after loading and the pair wrapped. */}
+        <Col xs={24} lg={{ flex: "0 0 60%" }} style={{ minWidth: 0 }}>
           <ChartCard
             info={PANEL_HELP.p1} title="1 · Dispersión de tópicos: producción vs. citas"
             note={`${visiblePoints.length.toLocaleString("es-CO")} puntos con producción${selected.length ? ` · solo ${selected.map((c) => CATEGORY_LABELS[c]).join(" y ")}` : ""}`}
@@ -328,7 +328,7 @@ function Board1Content({ dataset, source }) {
             ) : null}
           </ChartCard>
         </Col>
-        <Col xs={24} lg={{ flex: "0 0 40%" }}>
+        <Col xs={24} lg={{ flex: "0 0 40%" }} style={{ minWidth: 0 }}>
           <ChartCard info={PANEL_HELP.p2} title="2 · Calculadora de capacidades">
             {modern ? <Typography.Text type="secondary" style={{ display: "block", fontSize: 12, marginBottom: 6 }} data-testid="snapshot-note">{SNAPSHOT_NOTE}</Typography.Text> : null}
             <CalculatorBarsChart items={calculator} noun={noun} active={selected} onSelect={toggleCategory} />
