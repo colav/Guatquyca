@@ -57,7 +57,7 @@ test.describe("F123 final sweep (one run)", () => {
     expect([...new Set(log.failed)].filter((e) => !ENV.test(e)), "failed requests").toEqual([]);
   });
 
-  test("the home of the observatories loads with no uncaught error; the cover (board 1) has one known error of the L7 map library", async ({ page }) => {
+  test("the home of the observatories loads with no uncaught error; the cover has none either (F126)", async ({ page }) => {
     test.setTimeout(300000);
     const home = watch(page);
     await page.goto("/observatories");
@@ -69,7 +69,7 @@ test.describe("F123 final sweep (one run)", () => {
     await page.waitForTimeout(9000);
     const errors = [...new Set(cover.errors)].filter((e) => !ENV.test(e));
     console.log(`[real] cover: ${JSON.stringify(errors)}`);
-    /* KNOWN (F123): the map of the subregions of the board 1 (AreaMap of @ant-design/maps, @antv/l7-layers 2.23.2) throws «enableRelativeCoordinates» when its data change while the layer is being built; it is the «1 error» of the Next indicator. */
-    expect(errors.every((e) => /enableRelativeCoordinates/.test(e)), JSON.stringify(errors)).toBe(true);
+    /* F126: the PolygonLayer exception of the map of the subregions is prevented (mapGuard.js); the cover has no uncaught error. */
+    expect(errors, "cover of the VRI-UdeA").toEqual([]);
   });
 });

@@ -4,6 +4,8 @@
 import MapLegendMaker from "@/lib/utils/MapLegendMaker";
 import { MAP_PALETTE } from "@/lib/constants";
 import { TOOLTIP_DOM_STYLES, fitTooltip, tooltipValue } from "@/lib/observatories/mapTooltip";
+import { guardRelativeCoordinates, isMapLibraryError } from "./mapGuard";
+import MapErrorBoundary from "./MapErrorBoundary";
 import { useEffect, useRef, useState, useMemo } from "react";
 
 /**
@@ -19,14 +21,42 @@ const DEFAULT_TOOLTIP_ITEMS = [
   { field: "count", alias: "Cantidad:" },
 ];
 
-export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS }) {
+/* F126: no `key` by data on purpose: F80 requires that a filter redraws the map in place, not rebuilds it (tested in f80). */
+/** F126: the map inside an error boundary («No se pudo dibujar el mapa» + «Reintentar»). */
+export default function MapChart(props) {
+  return (
+    <MapErrorBoundary>
+      <MapChartInner {...props} />
+    </MapErrorBoundary>
+  );
+}
+
+function MapChartInner({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS }) {
   const [AreaMap, setAreaMap] = useState(null);
+  const [fatal, setFatal] = useState(null);
   const wrapper = useRef(null);
 
   useEffect(() => {
-    import("@ant-design/maps").then((mod) => {
-      setAreaMap(() => mod.AreaMap);
+    let alive = true;
+    // The guard goes on before the first map is built (F126).
+    Promise.all([import("@antv/l7-layers"), import("@ant-design/maps")]).then(([l7, mod]) => {
+      guardRelativeCoordinates(l7);
+      if (alive) setAreaMap(() => mod.AreaMap);
     });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  /* F126: errors of the map libraries thrown outside React (events of the layers) go to the boundary of the map. */
+  useEffect(() => {
+    const onError = (event) => {
+      if (!isMapLibraryError(event.error)) return;
+      event.preventDefault();
+      setFatal(event.error);
+    };
+    window.addEventListener("error", onError);
+    return () => window.removeEventListener("error", onError);
   }, []);
 
   const config = useMemo(
@@ -86,6 +116,7 @@ export default function MapChart({ data, tooltipItems = DEFAULT_TOOLTIP_ITEMS })
     return () => observer.disconnect();
   }, [ready]);
 
+  if (fatal) throw fatal;
   if (!ready) return null;
 
   return (
