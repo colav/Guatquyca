@@ -222,7 +222,8 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     }
     // F39 (11): Citas on its own line, and the ratio says what it was calculated from.
     expect(text).not.toMatch(/Productos[^\n]*Citas/);
-    expect(text).toMatch(/\(citas de la UdeA [\d.]+ frente a [\d.]+ de [^)]+\)/);
+    /* the point under the cursor depends on the layout: either the ratio with its basis or, when the UdeA is the referent (F73), its own sentence */
+    expect(text).toMatch(/\(citas de la UdeA [\d.]+ frente a [\d.]+ de [^)]+\)|La UdeA es la institución con más citas/);
     // The sixteen yearly counts of the window 2010–2025 (F101).
     const years = text.split("Productos por año (2010–2025)")[1].split("\n").map((s) => s.trim()).filter(Boolean)[0];
     expect(years.split(",").map((n) => n.trim())).toHaveLength(16);

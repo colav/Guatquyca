@@ -66,7 +66,8 @@ test.describe("computeCollaboration against the original page (numbers read from
     expect(r.axisRows(6)).toBe(r.axisRows(6));
     expect(r.axisRows(6).length).toBeGreaterThan(0);
     expect(r.axisRows(6)[0].total).toBeGreaterThanOrEqual(r.axisRows(6)[1].total);
-    expect(r.domainRows(0).length).toBeLessThanOrEqual(12);
+    /* F118 (D-260): no cap, all the groups of the domain */
+    expect(r.domainRows(0).length).toBeGreaterThan(12);
     expect(Object.keys(r.subregionCounts(2))).toHaveLength(9);
     expect(r.organizations.find((o) => o.verify)?.label ?? "Alcaldía de Medellín").toBe("Alcaldía de Medellín");
   });

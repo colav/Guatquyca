@@ -54,7 +54,8 @@ test.describe("F50 (no server)", () => {
 
   test("the warning 1 speaks of the single referent of 2010–2025 and no longer of «cada año» (point 3)", () => {
     const warning = realDataWarnings({ n_sel: 100, n_topic: 90 })[0];
-    expect(warning).toContain("La razón de capacidad compara las citas de la UdeA con las de la institución con más citas del ámbito elegido (Colombia o el mundo) en cada tópico, en 2010–2025 (referente único); no se compara año a año.");
+    /* F108/F112: the warning was reworded */
+    expect(warning).toContain("La razón compara las citas de la UdeA con las de la institución con más citas del ámbito elegido en 2010–2025 (referente único; no se compara año a año)");
     expect(warning).not.toContain("en cada año");
   });
 

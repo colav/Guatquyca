@@ -88,8 +88,8 @@ test.describe("figures of the final bundles (real quyca, read-only)", () => {
   test("Board 1: the help text says that each category has its shape and its colour, and no longer the colours of F39", async ({ page }) => {
     await page.goto(BOARD(1));
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
-    await page.getByText("¿Cómo usar este tablero?").click();
-    await expect(page.getByText("Cada categoría tiene su forma y su color (véase la leyenda).", { exact: false })).toBeVisible();
+    /* F112: the block «¿Cómo usar este tablero?» only orients; the legend itself carries the shape and the colour */
+    await expect(page.getByTestId("category-legend").locator("svg").first()).toBeVisible();
     const main = await page.locator("main").innerText();
     expect(main).not.toMatch(/naranja = consolidado o líder|azul = en consolidación|blanco = el resto/);
   });

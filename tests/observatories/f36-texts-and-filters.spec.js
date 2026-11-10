@@ -51,7 +51,8 @@ test.describe("texts with calculated figures (no server)", () => {
   test("the notice of Board 2 for the API is built from the figures it receives", () => {
     const text = realNotice({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 });
     expect(text).toContain("8 de los 12 documentos tienen ejes; los otros 4 solo aportan metas");
-    expect(text).toContain("735 de 752 productos de apropiación social no tienen año");
+    /* F112 (D-253): the sentence about the social appropriation without year left the foot */
+    expect(text).not.toContain("no tienen año");
     expect(text).not.toContain("Alcaldía de Medellín");
   });
 
