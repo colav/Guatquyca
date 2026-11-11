@@ -23,6 +23,7 @@ import MathJax from "@/lib/utils/mathjax";
 import { PRODUCT_TYPES } from "@/lib/constants";
 import Script from "next/script";
 import UseCleanupAltmetric from "@/lib/hooks/useCleanupAltmetric";
+import { workIdFromParams, workPath } from "@/lib/utils/workId";
 
 export const metadata = {
   title: "ImpactU - Detalle del Producto",
@@ -46,13 +47,14 @@ export const metadata = {
  * @component
  * @param {Object} props - The component props
  * @param {Object} props.params - Next.js dynamic route parameters
- * @param {string} props.params.ID - The unique identifier of the academic work
+ * @param {string[]} props.params.ID - URL segments of the work identifier (a DOI-based id contains "/", so it spans several segments)
  *
  * @returns {Promise<JSX.Element>} The rendered work detail page
  *
  */
 export default async function WorkPage({ params }) {
-  const URL = `/work/${params.ID}`;
+  const workId = workIdFromParams(params.ID);
+  const URL = workPath(workId);
   const { data } = await getData(URL);
   const workData = data.data;
 
@@ -119,13 +121,13 @@ export default async function WorkPage({ params }) {
             yearPublished={workData.year_published}
             authors={workData.authors}
             authorsCount={workData.authors_count}
-            workID={params.ID}
+            workID={workId}
             apc={workData.apc}
           />
           <div className={styles.external_buttons_container}>
             <WorkExternalButtons
               open_access={workData.open_access}
-              documentID={params.ID}
+              documentID={workId}
               html={html}
               bibtex={workData.bibliographic_info?.bibtex}
             />
