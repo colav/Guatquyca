@@ -16,11 +16,12 @@ import { Menu } from "antd";
  * When a menu item is selected, the component navigates to a new path based on the selected item's key.
  *
  * @param {boolean} person - A boolean indicating whether the menu items should be related to a person's activities or an affiliation's activities.
+ * @param {boolean} geo - If true, the menu is the one of a city or a state (Afiliaciones, Investigación).
  * @param {string} currentTab - The key of the currently selected menu item.
  *
  * @returns {JSX.Element} A Menu component from Ant Design library that contains selectable items.
  */
-export default function TopMenu({ person = false, currentTab }) {
+export default function TopMenu({ person = false, geo = false, currentTab }) {
   const router = useRouter();
   const { ID, entity } = useParams();
 
@@ -34,7 +35,12 @@ export default function TopMenu({ person = false, currentTab }) {
     "04sqpjb51",
   ];
 
-  const items = person
+  const items = geo
+    ? [
+        { label: "Afiliaciones", key: "affiliations" },
+        { label: "Investigación", key: "research" },
+      ]
+    : person
     ? [
         { label: "Investigación", key: "research" },
         /* { label: "Extensión", key: "extension", disabled: true }, */
@@ -58,7 +64,9 @@ export default function TopMenu({ person = false, currentTab }) {
   };
 
   const buildUrl = (key) => {
-    const base = person
+    const base = geo
+      ? `/geo/${entity}/${ID}/${key}${defaultTab[key] ? "/" + defaultTab[key] : ""}`
+      : person
       ? `/person/${ID}/${key}/${defaultTab[key]}`
       : `/affiliation/${entity}/${ID}/${key}${
           defaultTab[key] ? "/" + defaultTab[key] : ""

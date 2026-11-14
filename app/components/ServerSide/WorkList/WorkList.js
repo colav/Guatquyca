@@ -31,6 +31,8 @@ export default async function WorkList({ searchParams, params, entity }) {
     pathname = "/search/works";
   } else if (entity === "affiliation") {
     pathname = `/affiliation/${params.entity}/${params.ID}/research/products`;
+  } else if (entity === "geo") {
+    pathname = `/geo/${params.entity}/${params.ID}/research/products`;
   } else if (entity === "source") {
     pathname = `/source/${params.ID}/products`;
   } else {
@@ -52,6 +54,12 @@ export default async function WorkList({ searchParams, params, entity }) {
       correctedParams,
       { view: "summary" },
     );
+  } else if (entity === "geo") {
+    URL = URLBuilder(
+      `/geo/${params.entity}/${params.ID}/research/products`,
+      correctedParams,
+      { view: "summary" },
+    );
   } else if (entity === "source") {
     URL = URLBuilder(`/source/${params.ID}/products`, correctedParams, {
       view: "summary",
@@ -70,8 +78,8 @@ export default async function WorkList({ searchParams, params, entity }) {
       searchParams={correctedParams}
       total_results={data.meta.count}
       type="works"
-      csv={entity !== "search"}
-      xls={entity !== "search"}
+      csv={entity !== "search" && entity !== "geo"}
+      xls={entity !== "search" && entity !== "geo"}
     >
       <UseCleanupAltmetric />
       <MathJax />

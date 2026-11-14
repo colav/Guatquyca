@@ -15,12 +15,15 @@ const SEARCH_CONFIG = {
     patents: "alphabetical_asc",
     projects: "alphabetical_asc",
     sources: "products_desc",
+    city: "citations_desc",
+    state: "citations_desc",
   },
   defaultQueryParams: {
     max: "10",
     page: "1",
   },
 };
+const GEO_TYPES = ["city", "state"];
 
 /* Components */
 import Flag from "../../ServerSide/Flag/Flag";
@@ -105,7 +108,10 @@ export default function SearchBar({ defaultEntity }) {
     }
     if (params.entity) return OPTIONS[OPTIONS_INDEX[params.entity]];
     if (pathname.startsWith("/search")) {
-      const type = pathname.split("/search/")[1]?.split("?")[0];
+      const type = pathname
+        .split("/search/")[1]
+        ?.split("?")[0]
+        .replace("geo/", "");
       return {
         label:
           type === "person" ? "Autor" : OPTIONS[OPTIONS_INDEX[type]]?.label,
@@ -120,9 +126,11 @@ export default function SearchBar({ defaultEntity }) {
   const handleSearch = useCallback(
     (input) => {
       const isAffiliation = AFFILIATIONLIST.includes(selectedOption.value);
-      const path = isAffiliation
-        ? `/search/affiliations/${selectedOption.value}`
-        : `/search/${selectedOption.value}`;
+      const path = GEO_TYPES.includes(selectedOption.value)
+        ? `/search/geo/${selectedOption.value}`
+        : isAffiliation
+          ? `/search/affiliations/${selectedOption.value}`
+          : `/search/${selectedOption.value}`;
 
       const sortType =
         SEARCH_CONFIG.sortTypeMap[selectedOption.value] ||

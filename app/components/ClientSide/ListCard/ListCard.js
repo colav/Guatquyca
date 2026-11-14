@@ -50,7 +50,9 @@ export default function ListCard({ type, list }) {
                     href={
                       type === "person"
                         ? `/person/${item.id}/research/products`
-                        : `/affiliation/${type}/${item.id}/affiliations`
+                        : type === "city"
+                          ? `/geo/city/${item.id}/affiliations`
+                          : `/affiliation/${type}/${item.id}/affiliations`
                     }
                   >
                     {formatName(item.full_name)}
