@@ -31,6 +31,7 @@ export const HierarchySelect = memo(function HierarchySelect({ tree, paths, valu
     <TreeSelect
       showSearch
       allowClear
+      size="small"
       style={{ width: "100%" }}
       placeholder={placeholder}
       treeData={data}

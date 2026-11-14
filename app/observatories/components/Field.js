@@ -3,7 +3,7 @@
 /* Components */
 import FilterHelp from "./FilterHelp";
 
-const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 2 };
+const labelStyle = { display: "block", fontSize: 12, fontWeight: 600, marginBottom: 0, lineHeight: "18px" };
 
 /** Label + control of the bar of filters (F77, the same piece in the three boards). The width comes from the grid of `FilterRows`. */
 export default function Field({ label, children, help = null }) {

@@ -25,7 +25,7 @@ export default function FilterRows({ rows }) {
     );
   }
   return (
-    <div data-testid="filter-rows" style={{ display: "grid", rowGap: 6 }}>
+    <div data-testid="filter-rows" style={{ display: "grid", rowGap: 4 }}>
       {rows.map((r, i) => (
         <div key={i} data-testid="filter-row" style={{ display: "grid", gridTemplateColumns: r.columns, columnGap: 12, alignItems: "start" }}>
           {r.cells.map((cell, j) => <div key={j} style={{ minWidth: 0 }}>{cell}</div>)}

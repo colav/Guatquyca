@@ -78,11 +78,11 @@ export default function StickyFilters({ children, active = [], onReset, resetLab
         boxShadow: CARD_SHADOW,
         /* Square top corners (F51); the bottom ones keep the radius of the cards. */
         borderRadius: `0 0 ${token.borderRadiusLG}px ${token.borderRadiusLG}px`,
-        padding: folded ? 8 : 12,
+        padding: 8,
         marginBottom: 16,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: folded ? 0 : 8, minHeight: 32 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: folded ? 0 : 4, minHeight: 28 }}>
         <Button size="small" aria-expanded={!folded} data-testid="filters-toggle" onClick={toggle}>
           {folded ? "▸" : "▾"} Filtros ({active.length})
         </Button>

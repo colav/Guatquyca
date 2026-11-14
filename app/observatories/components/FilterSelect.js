@@ -13,6 +13,7 @@ import { Select } from "antd";
 export const FilterSelect = memo(function FilterSelect({ options, value, placeholder, onChange, filterOption, optionRender, ...rest }) {
   return (
     <Select
+      size="small"
       showSearch
       allowClear
       style={{ width: "100%" }}
