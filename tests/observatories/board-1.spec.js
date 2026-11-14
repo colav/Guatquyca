@@ -13,21 +13,21 @@ test.beforeEach(async () => {
   test.skip(!up, "Nothing listens on localhost:3000: ask Luis to start `npm run dev`.");
 });
 
-test("the home lists the VRI-UdeA observatory", async ({ page }) => {
+test("the home lists the Atlas UdeA observatory", async ({ page }) => {
   await page.goto("/observatories");
   await expect(page.getByRole("heading", { name: "Observatorios" })).toBeVisible();
-  await expect(page.getByText("VRI-UdeA", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Capacidades de investigación de la UdeA")).toBeVisible();
+  await expect(page.getByText("Atlas UdeA", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Atlas de las ciencias, las tecnologías, las humanidades y las artes de la Universidad de Antioquia")).toBeVisible();
 });
 
 test("the cover has three tabs, loads the first board and keeps the filters of each board apart", async ({ page }) => {
-  await page.goto("/observatories/vri-udea?source=mock");
+  await page.goto("/observatories/atlas-udea?source=mock");
   const tabs = page.getByRole("tab");
   await expect(tabs).toHaveText(["Masa crítica temática", "Colaboración, redes y hélices", "Capacidades de base UdeA"]);
   await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
   await expect(page.getByText("Tablero 1")).toHaveCount(0);
   await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 60000 });
-  await page.goto("/observatories/vri-udea/board-1?doc=CONPES%204144");
+  await page.goto("/observatories/atlas-udea/board-1?doc=CONPES%204144");
   await page.getByRole("tab", { name: "Colaboración, redes y hélices" }).click();
   await expect(page).toHaveURL(/board-2$/, { timeout: 60000 });
   await page.getByRole("tab", { name: "Capacidades de base UdeA" }).click();
@@ -36,7 +36,7 @@ test("the cover has three tabs, loads the first board and keeps the filters of e
 });
 
 test("Board 1 loads the test data and a filter applies at once and goes to the URL", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1?source=mock");
+  await page.goto("/observatories/atlas-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 60000 });
   await expect(page.getByText(/Datos consultados en octubre de 2026|Fuentes y fechas de corte/).first()).toBeVisible();
   await expect(page.getByText("41.653", { exact: false }).first()).toBeVisible();
@@ -47,12 +47,12 @@ test("Board 1 loads the test data and a filter applies at once and goes to the U
 });
 
 test("the filters are read from the URL", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1?dimension=field&rule=slope");
+  await page.goto("/observatories/atlas-udea/board-1?dimension=field&rule=slope");
   await expect(page.getByText("Campos con producción")).toBeVisible({ timeout: 60000 });
 });
 
 test("the evidence state is not named in any screen", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1?source=mock");
+  await page.goto("/observatories/atlas-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba")).toBeVisible({ timeout: 60000 });
   await expect(page.locator("body")).not.toContainText("ai_panel_unreviewed");
 });

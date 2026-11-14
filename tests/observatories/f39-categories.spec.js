@@ -68,7 +68,7 @@ test.describe("marks and selection of categories (no server)", () => {
 });
 
 const LIVE = !!process.env.E2E_LIVE;
-const PAGE = (query = "") => `/observatories/vri-udea/board-1?${[LIVE ? "" : "source=mock", query].filter(Boolean).join("&")}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1?${[LIVE ? "" : "source=mock", query].filter(Boolean).join("&")}`;
 const WIDTHS = [1280, 768];
 
 /* F100 (D-223): the note of the header of the panel 1 moved into its information window. */
@@ -261,7 +261,7 @@ test.describe("tooltip of the scatter: referent of the topic (real quyca)", () =
 
   test("the tooltip data of a topic: snapshot figures, the referent and a ratio between 0 and 1", async () => {
     const { computeCapacity, createDataset } = await import("../../lib/observatories/capacity");
-    const raw = await (await fetch(`${process.env.E2E_API_URL || "http://localhost:8080"}/observatories/vri-udea/boards/1/bundle`)).json();
+    const raw = await (await fetch(`${process.env.E2E_API_URL || "http://localhost:8080"}/observatories/atlas-udea/boards/1/bundle`)).json();
     const result = computeCapacity(createDataset(raw));
     const unit = result.units.find((u) => u.label === "Particle physics theoretical and experimental studies");
     expect(unit, "topic found").toBeTruthy();

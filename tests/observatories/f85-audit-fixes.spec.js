@@ -10,9 +10,9 @@ import { OECD_AREAS } from "../../lib/observatories/foundations/constants";
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
 import { trendTooltipItem } from "../../lib/observatories/trendTooltip";
-import { BOARD_LEAD } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
-import { NOTES, realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { ratioSentence, realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { BOARD_LEAD } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
+import { NOTES, realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { ratioSentence, realDataWarnings } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -112,7 +112,7 @@ test.describe("measures and pages (one run)", () => {
   test("measures on the real bundles (no page): topics without referent, groups without projects, centres, external funder, last patent year", async ({ request }) => {
     test.setTimeout(250000);
     const get = async (n) => {
-      const body = await (await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+      const body = await (await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
       return body.data || body;
     };
     // (13) topics whose leader has 0 citations
@@ -149,7 +149,7 @@ test.describe("measures and pages (one run)", () => {
 
   test("Board 1: KPI 4 to 6 and the summary say 2010–2025, the panel 6 note, and «Restablecer filtros» clears the pinned point and the isolated categories", async ({ page }) => {
     test.setTimeout(250000);
-    await open(page, "/observatories/vri-udea/board-1?cat=lider,consolidado");
+    await open(page, "/observatories/atlas-udea/board-1?cat=lider,consolidado");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     const body = () => page.locator("body").innerText();
     await expect.poll(async () => (await body()).toLowerCase(), { timeout: 60000 }).toContain("unidades líder + consolidado (2010–2025)"); /* F94 puts a capital first */
@@ -190,14 +190,14 @@ test.describe("measures and pages (one run)", () => {
 
   test("Board 3 and Board 2 in the page: panel 13 note, tile of professors, lead, note of the patents with the year of the bundle", async ({ page }) => {
     test.setTimeout(250000);
-    await open(page, "/observatories/vri-udea/board-3");
+    await open(page, "/observatories/atlas-udea/board-3");
     await expect(page.getByText("13 · Proyectos de los grupos")).toBeVisible({ timeout: 120000 });
     const t3 = await page.locator("body").innerText();
     expect(t3).toContain("(37 proyectos únicos)"); // F88 restores it with B142
     expect(t3).toMatch(/\d+ proyectos de \d+ grupos \(\d+ proyectos únicos\)\. No responde a los filtros\./);
     expect(t3).toContain("profesores con producción (con contrato vigente al 30 de mayo de 2026)");
     expect(t3).toContain("Talento, producción e infraestructura abierta de la UdeA."); // F119: the lead is one line; the rule of the document filter is in its help
-    await open(page, "/observatories/vri-udea/board-2");
+    await open(page, "/observatories/atlas-udea/board-2");
     await expect(page.getByTestId("patents-last-year-note")).toBeVisible({ timeout: 120000 });
     await expect(page.getByTestId("patents-last-year-note")).toContainText("la última concesión es de 2023");
   });

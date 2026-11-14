@@ -6,8 +6,8 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { centerCoverageNote, CENTER_TOOLTIP } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import { realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { centerCoverageNote, CENTER_TOOLTIP } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import { realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 import { getBoardBundle } from "../../lib/apis/observatory.api";
 
 test.describe("download of the bundle that is cut halfway (no server)", () => {
@@ -65,14 +65,14 @@ test.describe("texts with calculated figures (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
+const BOARD = (n) => `/observatories/atlas-udea/board-${n}`;
 
 test.describe("F36 against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   let raw1;
   test.beforeAll(async () => {
-    raw1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    raw1 = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
   });
 
   test("Board 1: «Unidad académica» and «Subunidad académica», the coverage note and the tooltip of the centre filter", async ({ page }) => {
@@ -131,7 +131,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     await page.goto(BOARD(2));
     await expect(page.getByText("Notas metodológicas").first()).toBeVisible({ timeout: 120000 });
     const t2 = await page.locator("main").innerText();
-    const raw2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const raw2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     expect(t2).toContain(`${raw2.thesaurus.agendas.length} de los 12 documentos tienen ejes`);
     expect(t2).not.toContain("562 productos");
     expect(t2).not.toContain("6 de los 12 documentos");
@@ -142,7 +142,7 @@ test.describe("F36 against the real quyca (read-only)", () => {
     for (const stale of ["8.168", "472 empresas", "18 registros sin código", "447 DOI", "corte 3 jul 2025", "42 de las 57"]) {
       expect(t3, stale).not.toContain(stale);
     }
-    const raw3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const raw3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const companies = raw3.inst.filter((i) => i[2] === "empresa").length;
     expect(t3).toContain(`${companies.toLocaleString("es-CO")} empresas entre`);
   });

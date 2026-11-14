@@ -5,8 +5,8 @@
 import { test, expect } from "@playwright/test";
 
 import { CAPACITY_WINDOW, LEGACY_TREND_WINDOW_YEARS, TREND_WINDOW_YEARS } from "../../lib/observatories/capacity/constants";
-import { PANEL_HELP } from "../../app/observatories/vri-udea/board-1/components/panelHelp";
-import { CALCULATOR_EXPLANATION, PUNCTUAL_DEFINITION, SNAPSHOT_NOTE } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { PANEL_HELP } from "../../app/observatories/atlas-udea/board-1/components/panelHelp";
+import { CALCULATOR_EXPLANATION, PUNCTUAL_DEFINITION, SNAPSHOT_NOTE } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 import { CATEGORY, CATEGORY_ORDER, computeCapacity, createDataset } from "../../lib/observatories/capacity";
 
 const LIVE = !!process.env.E2E_LIVE;
@@ -65,7 +65,7 @@ test.describe("F101 against the bundle of B153 (one run)", () => {
 
   test("ETag of the Board 1, split of the categories and ranges of the ratio equal to the report of B153", async () => {
     test.setTimeout(200000);
-    const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
     expect(res.headers.get("etag")).toBe('"20261107-c550a33072f7"');
     const raw = await res.json();
     expect(raw.ref_1025.length).toBe(8613);
@@ -89,7 +89,7 @@ test.describe("F101 against the bundle of B153 (one run)", () => {
   test("the page: the explanation is under the calculator, the notes say 2010–2025 and the header of the ratio has no 2021–2025", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto(`${BASE}/observatories/vri-udea/board-1`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE}/observatories/atlas-udea/board-1`, { waitUntil: "domcontentloaded" });
     const box = page.getByTestId("calc-explanation");
     await expect(box).toBeVisible({ timeout: 120000 });
     await expect(box).toContainText("Razón de capacidad");

@@ -7,10 +7,10 @@ import PageContainer from "../../components/PageContainer";
 import BoardTabs from "../components/BoardTabs";
 import Board3 from "./components/Board3";
 
-export const metadata = { title: "Capacidades de base UdeA | Observatorio VRI-UdeA | ImpactU" };
+export const metadata = { title: "Capacidades de base UdeA | Atlas UdeA | ImpactU" };
 
 /**
- * Board 3 of the VRI-UdeA observatory. The Suspense boundary is required by the filters, which
+ * Board 3 of the Atlas UdeA observatory. The Suspense boundary is required by the filters, which
  * read the URL (useSearchParams).
  */
 export default function Board3Page() {
@@ -19,7 +19,7 @@ export default function Board3Page() {
       compact
       trail={[
         { title: "Observatorios", href: "/observatories" },
-        { title: "VRI-UdeA", href: "/observatories/vri-udea" },
+        { title: "Atlas UdeA", href: "/observatories/atlas-udea" },
         { title: "Capacidades de base UdeA" },
       ]}
     >

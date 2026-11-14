@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
 
 import { GRAPH_MIN_EDGE, LIMITS } from "../../lib/observatories/collaboration";
 import { OFFICIAL_GROUPS, groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "../../lib/observatories/officialGroups";
-import { NOTES } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { NOTES } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 test.describe("texts about groups (no server)", () => {
   test("the note of the list says «346 de 359» and the 13 that have no products (F54)", () => {
@@ -26,13 +26,13 @@ test.describe("texts about groups (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?${query}` : ""}`;
+const BOARD = (n, query = "") => `/observatories/atlas-udea/board-${n}${query ? `?${query}` : ""}`;
 
 test.describe("groups against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("Board 3: the list of groups of the bundle has 346 (from the registry of the bundle) and the notes say so", async ({ page }) => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const active = raw.groups.filter((g) => g[6] === "Activo").length;
     const inactive = raw.groups.filter((g) => g[6] !== "Activo").length;
     expect(raw.groups).toHaveLength(346);

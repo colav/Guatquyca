@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { OWN_REFERENT_ID, OWN_REFERENT_NAME, isOwnReferent, ownReferentText, ratioSentence } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { OWN_REFERENT_ID, OWN_REFERENT_NAME, isOwnReferent, ownReferentText, ratioSentence } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -53,7 +53,7 @@ test.describe("topic T11725 against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("the reading: Immunodeficiency and Autoimmune Disorders has the UdeA as referent; the text changes and the data do not", async ({ page, request }) => {
     test.setTimeout(250000);
-    const bundle = await (await request.get(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const bundle = await (await request.get(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const dataset = createDataset(bundle);
     const result = computeCapacity(dataset, {});
     const unit = result.units.find((u) => u.id === "T11725");
@@ -75,7 +75,7 @@ test.describe("topic T11725 against the real quyca (read-only)", () => {
 
     // the page: sweep of the scatter until a tooltip with the sentence appears
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const canvas = page.getByTestId("chart-card").filter({ hasText: "1 · Dispersión" }).first().locator("canvas").first();

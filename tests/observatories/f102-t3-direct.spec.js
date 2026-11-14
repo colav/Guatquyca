@@ -16,8 +16,8 @@ import {
   productOptionAvailability,
 } from "../../lib/observatories/foundations";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
-import { DIRECT_FILTERS_NOTE, fewProductsWarning, methodNotes } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
-import { PANEL_HELP } from "../../app/observatories/vri-udea/board-3/components/panelHelp";
+import { DIRECT_FILTERS_NOTE, fewProductsWarning, methodNotes } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
+import { PANEL_HELP } from "../../app/observatories/atlas-udea/board-3/components/panelHelp";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -81,8 +81,8 @@ test.describe("F102 against the real bundles (one run)", () => {
 
   test("without an entity filter 82.589 products; with an entity, the figures of F99; the T3 agrees with the T2 within 70 products; the lists of the filters", async () => {
     test.setTimeout(250000);
-    const b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
-    const b2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
+    const b2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     b2.funders = b2.ext?.funders;
     for (const p of b3.P) if (p[0] === 0) p[0] = null; /* what the adapter does (capacidadesAdapter) */
     const ds3 = createFoundationsDataset(b3);
@@ -110,7 +110,7 @@ test.describe("F102 against the real bundles (one run)", () => {
       const errors = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.setViewportSize({ width: 1440, height: 1000 });
-      await page.goto(`${BASE}/observatories/vri-udea/board-3?${query}`, { waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE}/observatories/atlas-udea/board-3?${query}`, { waitUntil: "domcontentloaded" });
       await expect(page.getByTestId("chart-card").first()).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(3500);
       const text = await page.locator("body").innerText();

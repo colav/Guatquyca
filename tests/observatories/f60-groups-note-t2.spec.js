@@ -10,7 +10,7 @@ import { groupRegistry, officialGroupsNote } from "../../lib/observatories/offic
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const bundle = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+const bundle = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
 
 test.describe("F60 note of the groups (no server)", () => {
   test("the note of Board 2 takes every figure from registro_grupos and says nothing without it", () => {
@@ -25,7 +25,7 @@ test.describe("F60 against the bundles of D-160 (read-only)", () => {
 
   test("the three bundles carry the ETags of D-160", async () => {
     const etags = [];
-    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
+    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
     console.log(`[live] ETags: ${etags.join(" ")}`);
     expect(etags).toEqual(["20261107-c550a33072f7", "20261107-1d00bdd70b19", "20261107-956a71cbf0c3"]);
   });
@@ -34,9 +34,9 @@ test.describe("F60 against the bundles of D-160 (read-only)", () => {
     const raw = await bundle(2);
     expect(raw.registro_grupos).toEqual({ total: 359, activos: 324, inactivos: 35, sin_productos_impactu: 13 });
     expect(raw.groups).toHaveLength(346);
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await expect(page.getByTestId("official-groups-note")).toHaveText("346 de 359 grupos de investigación tienen productos en ImpactU; 13 no.", { timeout: 120000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await expect(page.getByTestId("official-groups-note")).toHaveText("346 de 359 grupos de investigación tienen productos en ImpactU; 13 no.", { timeout: 120000 });
   });
 

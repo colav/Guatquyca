@@ -11,17 +11,17 @@ import path from "path";
 
 import { axisTabsFor, createCollaborationDataset } from "../../lib/observatories/collaboration";
 import { POLICY_DOCUMENTS, policyRank } from "../../lib/observatories/policyDocuments";
-import { SCOPE_OPTIONS, appropriationYearNote, missionFociNote } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { SCOPE_LABELS as T1_SCOPES, byPolicyOrder } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import { SCOPE_LABELS as T3_SCOPES } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { SCOPE_OPTIONS, appropriationYearNote, missionFociNote } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { SCOPE_LABELS as T1_SCOPES, byPolicyOrder } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import { SCOPE_LABELS as T3_SCOPES } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 import { TYPE_LABELS } from "../../lib/observatories/foundations";
 import { computeCapacity, createDataset, rankGoals, topicPredicate } from "../../lib/observatories/capacity";
 import { parseFilters, serializeFilters } from "../../lib/observatories/filters";
-import { goalRows } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { goalRows } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const ROOT = path.resolve(__dirname, "../../app/observatories/vri-udea");
+const ROOT = path.resolve(__dirname, "../../app/observatories/atlas-udea");
 
 test.describe("corrections of F68 (no server)", () => {
   test("the order of the documents is the one of Gabriel in the three boards", () => {
@@ -153,8 +153,8 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
   let b3;
 
   test.beforeAll(async () => {
-    b2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
-    b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    b2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
+    b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
   });
 
   test("B125 checks on the data: year 0, labels of all the types, the 8 agendas with products", () => {
@@ -172,7 +172,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
   test("T2 page: tooltips with the name of the series, unit and total; Ámbito; documents in order; tabs; panel 10 next to 11·12", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3500);
     // tooltips
@@ -212,7 +212,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
   test("T3 page: tooltip of the panel 02, notes without fixed figures, Ámbito and documents, tile with year 0", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3500);
     const t02 = await hover(page, "2 ·", [[0.3, 0.3], [0.5, 0.5], [0.25, 0.7], [0.7, 0.4]]);
@@ -237,7 +237,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
 
   test("T1 page: the filter of field, subfield or topic cuts the board and comes from the URL", async ({ page }) => {
     test.setTimeout(250000);
-    const b1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const b1 = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const dataset = createDataset(b1);
     const field = b1.topics[0].f;
     const expected = computeCapacity(dataset, { topicKey: `f:${field}` }).products;
@@ -246,7 +246,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
     expect(expected).toBeGreaterThan(0);
     expect(expected).toBeLessThan(all);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(`/observatories/vri-udea/board-1?topic=${encodeURIComponent(`f:${field}`)}`);
+    await page.goto(`/observatories/atlas-udea/board-1?topic=${encodeURIComponent(`f:${field}`)}`);
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1500);
     await expect(page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first()).toContainText(expected.toLocaleString("es-CO"));
@@ -256,7 +256,7 @@ test.describe("corrections of F68 against the real quyca (one run)", () => {
   test("T1 page: unit in the tooltips, Ámbito descriptive and documents in order", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const t3 = await hover(page, "3 · Grupos", [[0.4, 0.08], [0.4, 0.12], [0.5, 0.2]]);

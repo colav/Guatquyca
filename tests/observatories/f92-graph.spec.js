@@ -42,7 +42,7 @@ test.describe("F92 tooltips of the graph (one run)", () => {
   test("the tooltip of an edge and of a node", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 120000 });
     await page.waitForTimeout(1500);

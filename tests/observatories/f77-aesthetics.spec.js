@@ -53,7 +53,7 @@ test.describe("rings in the three boards (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("T1 panel 7: total at the centre equal to the products, legend with percentages; the total changes with a filter", async ({ page }) => {
     test.setTimeout(240000);
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const totals = page.getByTestId("ring-total");
@@ -68,7 +68,7 @@ test.describe("rings in the three boards (one run)", () => {
     // the products of the board: same number as the first KPI
     await expect(page.locator(".obs-kpi").first()).toContainText(first);
     // a filter changes the total
-    await page.goto("/observatories/vri-udea/board-1?from=2020&to=2022");
+    await page.goto("/observatories/atlas-udea/board-1?from=2020&to=2022");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const second = (await page.getByTestId("ring-total").first().innerText()).trim();
@@ -80,7 +80,7 @@ test.describe("rings in the three boards (one run)", () => {
   test("T2 and T3 rings show a total and a legend", async ({ page }) => {
     test.setTimeout(240000);
     for (const board of [2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.getByTestId("ring-legend").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);
       const n = await page.getByTestId("ring-total").count();
@@ -99,7 +99,7 @@ test.describe("filter panel: height by width (one run)", () => {
       const out = [];
       for (const width of [1920, 1440, 1280]) {
         await page.setViewportSize({ width, height: 1000 });
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("filters").waitFor({ timeout: 120000 });
         await page.waitForTimeout(2500);
         const box = await page.getByTestId("filters").boundingBox();
@@ -125,7 +125,7 @@ test.describe("lists wider than the selector (one run)", () => {
   test("T1: the ODS, the tree and the axes open wider than their selector", async ({ page }) => {
     test.setTimeout(240000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     const out = [];
@@ -166,7 +166,7 @@ test.describe("treemaps use the whole palette (one run)", () => {
         return [...seen.entries()].filter(([h]) => h !== "#ffffff" && h !== "#000000");
       });
     };
-    for (const [name, id, url] of [["T1 ODS", "ods-treemap", "/observatories/vri-udea/board-1"], ["T3 areas", "areas-treemap", "/observatories/vri-udea/board-3"]]) {
+    for (const [name, id, url] of [["T1 ODS", "ods-treemap", "/observatories/atlas-udea/board-1"], ["T3 areas", "areas-treemap", "/observatories/atlas-udea/board-3"]]) {
       const seen = await colours(id, url);
       const palette = new Set(PALETTE.map((c) => c.toLowerCase()));
       const fromPalette = seen.filter(([h]) => palette.has(h));
@@ -181,7 +181,7 @@ test.describe("F77b: phrases of the panel as help and nothing under the last row
   for (const board of [1, 2, 3]) {
     test(`T${board}: the phrase of the lists is in the «?» of the panel, no text under the filters, tooltips over controls gone`, async ({ page }) => {
       test.setTimeout(240000);
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.getByTestId("filters").waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);
       const body = page.getByTestId("filters-body");

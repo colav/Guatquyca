@@ -14,7 +14,7 @@ test.describe("F117 panel 9 of the T1 with 50 rows (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("the ranking has 50 rows and «Otros» is among them", async () => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } })).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } })).json();
     const last = raw.actor_tipos[raw.actor_tipos.length - 1];
     const ds = createDataset(raw);
     const r = computeCapacity(ds, DEFAULT_FILTERS);
@@ -33,7 +33,7 @@ test.describe("F117 panel 9 of the T1 with 50 rows (one run)", () => {
     const lines = [];
     for (const width of [1440, 1280, 768]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       const card = page.getByTestId("chart-card").filter({ hasText: /^9 · Actores/ }).first();
       await card.waitFor({ timeout: 120000 });
       await page.waitForTimeout(4000);

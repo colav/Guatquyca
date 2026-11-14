@@ -20,7 +20,7 @@ test.afterAll(() => {
 
 async function open(page, board, query = "", width = 1440) {
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto(`/observatories/vri-udea/board-${board}${query ? `?${query}` : ""}`, { waitUntil: "domcontentloaded" });
+  await page.goto(`/observatories/atlas-udea/board-${board}${query ? `?${query}` : ""}`, { waitUntil: "domcontentloaded" });
   await page.locator('[data-testid="chart-card"]').first().waitFor({ timeout: 120000 });
   await page.waitForTimeout(3500);
 }
@@ -30,7 +30,7 @@ test.describe("F103 final review (one run)", () => {
 
   test("ETags in force: every board answers 200 and then 304 with its ETag", async () => {
     for (const board of BOARDS) {
-      const url = `${API}/observatories/vri-udea/boards/${board}/bundle`;
+      const url = `${API}/observatories/atlas-udea/boards/${board}/bundle`;
       const first = await fetch(url, { headers: { "Accept-Encoding": "gzip" } });
       const etag = first.headers.get("etag");
       await first.arrayBuffer();

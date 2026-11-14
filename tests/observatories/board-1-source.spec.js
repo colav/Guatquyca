@@ -2,7 +2,7 @@
 import { test, expect } from "@playwright/test";
 
 test("a filter change keeps ?source=mock in the URL (it does not flip to the API)", async ({ page }) => {
-  await page.goto("/observatories/vri-udea/board-1?source=mock");
+  await page.goto("/observatories/atlas-udea/board-1?source=mock");
   await expect(page.getByText("Datos de prueba · métrica de liderazgo")).toBeVisible({ timeout: 120000 });
   await page.getByText("Subcampos", { exact: true }).click();
   await expect(page).toHaveURL(/dimension=subfield/, { timeout: 5000 });

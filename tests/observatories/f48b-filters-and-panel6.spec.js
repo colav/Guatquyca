@@ -9,7 +9,7 @@ import { test, expect } from "@playwright/test";
 
 import { CARD_SHADOW } from "../../lib/observatories/layout";
 import { createDataset, rankGoals } from "../../lib/observatories/capacity";
-import { centerCoverageNote, CENTER_TOOLTIP, NO_PARENT_GOAL_LABEL, NO_PARENT_GOAL_TOOLTIP, goalRows } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { centerCoverageNote, CENTER_TOOLTIP, NO_PARENT_GOAL_LABEL, NO_PARENT_GOAL_TOOLTIP, goalRows } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const axis = (id, agenda, meta) => ({ id, agenda, meta });
 
@@ -54,7 +54,7 @@ test.describe("panel 6 labels (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?${query}` : ""}`;
+const BOARD = (n, query = "") => `/observatories/atlas-udea/board-${n}${query ? `?${query}` : ""}`;
 
 async function open(page, n, width, height) {
   await page.setViewportSize({ width, height });
@@ -134,7 +134,7 @@ test.describe("fixed filters, help of the centre filter, panel 6 and titles agai
   for (const n of [1, 2, 3]) {
     test(`Board ${n}: the note of the centre filter is in the help tooltip (keyboard) and not under the control`, async ({ page }) => {
       await open(page, n, 1280, 720);
-      const raw = await (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+      const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
       const field = page.locator("label", { hasText: /Centro de investigación/ }).first().locator("xpath=../..");
       const help = field.getByTestId("filter-help");
       await expect(help).toBeVisible();
@@ -161,7 +161,7 @@ test.describe("fixed filters, help of the centre filter, panel 6 and titles agai
   });
 
   test("panel 6: the bar of the Misión de sabios says «Sin meta superior definida» and the figures are the ones of the bundle", async ({ page }) => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const rows = goalRows(rankGoals(createDataset(raw), { axisFilter: null }));
     const values = rows.map((r) => r.value);
     expect(values.slice(0, 3)).toEqual([8, 7, 5]); // 8, 7, 5, 2 x 5, 1 x 4 (D-143)

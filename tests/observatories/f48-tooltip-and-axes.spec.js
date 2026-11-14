@@ -9,7 +9,7 @@
 import { test, expect } from "@playwright/test";
 
 import { WIDE_TOOLTIP, tooltipInteraction } from "../../lib/observatories/tooltipStyle";
-import { TREND_LABELS } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { TREND_LABELS } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 test.describe("width of the tooltip (no server)", () => {
   test("the maximum is the width of the longest line (1.000 px) or of the window, in the content", () => {
@@ -25,7 +25,7 @@ test.describe("width of the tooltip (no server)", () => {
 });
 
 const LIVE = !!process.env.E2E_LIVE;
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 
 async function open(page, width, query) {
   await page.setViewportSize({ width, height: 900 });

@@ -123,13 +123,13 @@ test.describe("maps of Boards 1 and 2 (one run)", () => {
   test("Board 2: map of departments and of subregions; redraw with a filter; the maps are not rebuilt; the tab changes the numbers", async ({ page, request }) => {
     test.setTimeout(300000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    const raw = await (await request.get(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const raw = await (await request.get(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     expect(raw.depts).toContain("Sin asignar");
     const polygonNames = new Set(colombia.features.map((f) => f.properties.nombre_t2).filter(Boolean));
     expect(raw.depts.filter((d) => d !== "Sin asignar").every((d) => polygonNames.has(d))).toBe(true);
     expect([...raw.subregs].sort()).toEqual([...SUBREGIONS].sort());
 
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const dep = page.getByTestId("department-map");
     await dep.waitFor({ timeout: 120000 });
     await dep.evaluate((el) => el.scrollIntoView({ block: "center" }));
@@ -209,7 +209,7 @@ test.describe("maps of Boards 1 and 2 (one run)", () => {
   test("Board 1: map of subregions with the attribution; redraw with a filter; not rebuilt", async ({ page }) => {
     test.setTimeout(240000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     const sub = page.getByTestId("subregion-map");
     await sub.waitFor({ timeout: 120000 });
     await sub.evaluate((el) => el.scrollIntoView({ block: "center" }));

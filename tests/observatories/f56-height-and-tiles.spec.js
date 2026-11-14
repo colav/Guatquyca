@@ -6,7 +6,7 @@
 import { test, expect } from "@playwright/test";
 
 const LIVE = !!process.env.E2E_LIVE;
-const BOARD = (n, q = "") => `/observatories/vri-udea/board-${n}${q ? `?${q}` : ""}`;
+const BOARD = (n, q = "") => `/observatories/atlas-udea/board-${n}${q ? `?${q}` : ""}`;
 const BODY = ".ant-table-body:has([data-testid='axis-topics-other'])";
 
 test.describe("F56 against the real quyca (read-only)", () => {

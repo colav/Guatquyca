@@ -88,7 +88,7 @@ test.describe("tree and unit → subunit against the real bundles (one run)", ()
 
   test("the three bundles carry deps_fac and the trees choose what their leaves add up to", async ({ request }) => {
     test.setTimeout(240000);
-    const get = async (n) => (await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+    const get = async (n) => (await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
     const [b1, b2, b3] = [await get(1), await get(2), await get(3)];
     const report = [];
     for (const [name, b] of [["T1", b1], ["T2", b2], ["T3", b3]]) {
@@ -134,7 +134,7 @@ test.describe("tree and unit → subunit in the page (one run)", () => {
 
   test("T1: the tree opens fast, the search finds any level, URL keys f: s: t: d: and unit → subunit", async ({ page }) => {
     test.setTimeout(240000);
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     const topic = page.getByTestId("topic-filter");
@@ -156,7 +156,7 @@ test.describe("tree and unit → subunit in the page (one run)", () => {
     await expect(page).toHaveURL(/topic=/, { timeout: 15000 });
     console.log(`[live] T1 URL after choosing: ${page.url()}`);
     // unit → subunit: with a unit chosen, only its subunits
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2000);
     const subunit = page.getByTestId("filter-departmentIndex");
@@ -190,7 +190,7 @@ test.describe("tree of subfields in Boards 2 and 3 (one run)", () => {
   for (const board of [2, 3]) {
     test(`T${board}: field → subfield opens fast, a field is choosable and goes to the URL, the old subfield key holds`, async ({ page }) => {
       test.setTimeout(240000);
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.getByTestId("subfield-filter").waitFor({ timeout: 120000 });
       await page.waitForTimeout(3000);
       const filter = page.getByTestId("subfield-filter");
@@ -205,7 +205,7 @@ test.describe("tree of subfields in Boards 2 and 3 (one run)", () => {
       await page.locator(".ant-tree-select-dropdown:visible .ant-select-tree-node-content-wrapper").first().click();
       await expect(page).toHaveURL(/field=/, { timeout: 15000 });
       console.log(`[live] T${board} URL: ${page.url()}`);
-      await page.goto(`/observatories/vri-udea/board-${board}?subfield=3`);
+      await page.goto(`/observatories/atlas-udea/board-${board}?subfield=3`);
       await page.getByTestId("subfield-filter").waitFor({ timeout: 120000 });
       await expect(page.getByTestId("subfield-filter")).toContainText("›", { timeout: 30000 });
     });

@@ -44,7 +44,7 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   let bundle;
   let dataset;
   test.beforeAll(async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
     expect(res.headers.get("etag")).toBe('"20261107-1d00bdd70b19"');
     bundle = await res.json();
@@ -87,7 +87,7 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   test("the page: the ranking draws, the panel says nothing about the currency and no «Nombre original»", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const card = page.getByTestId("chart-card").filter({ hasText: "Entidades que financian" }).first();
     await card.waitFor({ timeout: 120000 });
     await card.scrollIntoViewIfNeeded();
@@ -103,7 +103,7 @@ test.describe("F97 the ranking of B150 against the tooltip (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("784 pairs project–funder, San Vicente as one row at the fifth place, the Municipio de Medellín at the sixth with its amounts, and the panel draws the first 25", async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
     expect(res.headers.get("etag")).toBe('"20261107-1d00bdd70b19"');
     const b = await res.json();
     const pairs = b.ext.project_funders_montos.reduce((a, l) => a + l.length, 0);

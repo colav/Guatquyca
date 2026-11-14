@@ -7,7 +7,7 @@ const BAR = 'input[placeholder="Búsqueda por palabra clave"]';
 test.describe("F110 search bar of the header", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to open the pages.");
 
-  for (const route of ["/observatories", "/observatories/vri-udea", "/observatories/vri-udea/board-1", "/observatories/vri-udea/board-2", "/observatories/vri-udea/board-3"]) {
+  for (const route of ["/observatories", "/observatories/atlas-udea", "/observatories/atlas-udea/board-1", "/observatories/atlas-udea/board-2", "/observatories/atlas-udea/board-3"]) {
     test(`not loaded in ${route}`, async ({ page }) => {
       test.setTimeout(150000);
       await page.goto(route);

@@ -13,7 +13,7 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("actors by type: in the bundle, in the default selection and in the 50 rows of the panel", async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
     expect(res.headers.get("etag")).toBe('"20261107-c550a33072f7"');
     const raw = await res.json();
     const ds = createDataset(raw);
@@ -34,7 +34,7 @@ test.describe("F107 panel 10 of the T1 on the bundle of B159 (real)", () => {
   test("in the page the panel of the actors (9 · Actores no académicos, help p10) shows its 50 rows without NaN or undefined", async ({ page }) => {
     test.setTimeout(150000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     const card = page.getByTestId("chart-card").filter({ hasText: /^9 · Actores/ }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);

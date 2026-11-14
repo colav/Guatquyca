@@ -8,7 +8,7 @@
 import { test, expect } from "@playwright/test";
 
 import { PATENT_SERIES_LABEL, computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
-import { NOTES, patentsIgnoredNote, realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { NOTES, patentsIgnoredNote, realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -124,7 +124,7 @@ test.describe("patents, funders and document against the real quyca (read-only, 
   let bundle;
   let dataset;
   test.beforeAll(async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
     bundle = await res.json();
     bundle.funders = bundle.ext.funders;
@@ -167,7 +167,7 @@ test.describe("patents, funders and document against the real quyca (read-only, 
   test("the page: the tile of patents, the funders card without the old note, and the line under the filters", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-2?axis=98");
+    await page.goto("/observatories/atlas-udea/board-2?axis=98");
     await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).waitFor({ timeout: 120000 });
     await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 30000 });

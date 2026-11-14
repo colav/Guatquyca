@@ -31,7 +31,7 @@ test.describe("F91 Q-26 donuts, legend at the right (one run)", () => {
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const board of [1, 2, 3]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("ring-legend").first().waitFor({ timeout: 120000 });
         await page.waitForTimeout(2500);
         out[`${width}-T${board}`] = await page.evaluate(DONUTS_IN_PAGE);
@@ -66,7 +66,7 @@ test.describe("F91 Q-18 maps take the height of the panel (one run)", () => {
     for (const [width, height] of [[1440, 1000], [1280, 1000], [390, 800]]) {
       await page.setViewportSize({ width, height });
       for (const board of [1, 2]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.locator('[data-testid$="-map"]').first().waitFor({ timeout: 120000 });
         await page.waitForTimeout(4000);
         report[`${width}-T${board}`] = await read();
@@ -80,9 +80,9 @@ test.describe("F91 Q-18 maps take the height of the panel (one run)", () => {
   });
 });
 
-import * as texts1 from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import * as texts1 from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import * as texts2 from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import * as texts3 from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 /* Q-22 and Q-24: nothing visible says «ensayo», «limitaciones de datos», «provisional», «deben revisarse», «requiere revisión manual» or names Luis. */
 const WORKING = /ensayo|limitaciones de datos|provisional|debe(n)? revisarse|requiere revisi[oó]n|no hemos definido|Luis|aprueb/i;
@@ -124,7 +124,7 @@ test.describe("F91 Q-22 and Q-24 in the page (one run)", () => {
     test.setTimeout(280000);
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       const box = page.getByTestId("method-notes");
       await box.waitFor({ timeout: 120000 });
       await page.waitForTimeout(2000);
@@ -147,11 +147,11 @@ test.describe("F91 Q-28 part A: no «Nombre original» in the tooltip (one run)"
   test("the bundle keeps ext.nombres_originales and the panel does not show it", async ({ page, request }) => {
     test.setTimeout(200000);
     const API = process.env.E2E_API_URL || "http://localhost:8080";
-    const body = await (await request.get(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const body = await (await request.get(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const b2 = body.data || body;
     expect(Object.keys(b2.ext.nombres_originales).length).toBeGreaterThan(5);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("chart-card").filter({ hasText: "Entidades que financian" }).first().waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     expect(await page.locator("body").innerText()).not.toContain("Nombre original");

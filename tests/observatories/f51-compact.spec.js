@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
+const BOARD = (n) => `/observatories/atlas-udea/board-${n}`;
 
 test.describe("F51 against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -45,7 +45,7 @@ test.describe("F51 against the real quyca (read-only)", () => {
   }
 
   test("topics[i].link: the third element (state) arrives in the bundle, in the dataset and in the code", async () => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const lens = new Map();
     const states = new Map();
     for (const t of raw.topics) for (const l of t.link) { lens.set(l.length, (lens.get(l.length) || 0) + 1); states.set(l[2], (states.get(l[2]) || 0) + 1); }

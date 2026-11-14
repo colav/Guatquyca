@@ -18,7 +18,7 @@ const layout = (page) =>
   }));
 const card = (m, n) => m.cards.find((c) => c.title === String(n));
 const load = async (page, board) => {
-  await page.goto(`/observatories/vri-udea/board-${board}`);
+  await page.goto(`/observatories/atlas-udea/board-${board}`);
   await page.getByTestId("method-notes").waitFor({ timeout: 150000 });
   await page.waitForTimeout(3500);
 };

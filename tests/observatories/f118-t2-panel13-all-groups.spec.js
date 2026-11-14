@@ -15,7 +15,7 @@ test.describe("F118 panel 13 of the T2 with all the groups (one run)", () => {
 
   test("the rows add books 20, chapters 102, total 122 and external 713; the page scrolls the table inside the card", async ({ page }) => {
     test.setTimeout(250000);
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const result = computeCollaboration(createCollaborationDataset(raw));
     const perTab = raw.doms.map((_, tab) => result.domainRows(tab));
     const rows = perTab.flat();
@@ -27,7 +27,7 @@ test.describe("F118 panel 13 of the T2 with all the groups (one run)", () => {
     expect(Math.max(...perTab.map((r) => r.length))).toBeGreaterThan(12);
 
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const card = page.getByTestId("chart-card").filter({ hasText: /^13 ·/ }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);

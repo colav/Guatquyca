@@ -11,8 +11,8 @@ import { createFoundationsDataset } from "../../lib/observatories/foundations";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
-const get = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+const BOARD = (n) => `/observatories/atlas-udea/board-${n}`;
+const get = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
 
 test.describe("figures of the final bundles (real quyca, read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");

@@ -12,7 +12,7 @@ test.describe("F106 ScienTI (live)", () => {
     test(`T${board}: no visible text says SCIENTI or Scienti, and the windows (i) neither`, async ({ page }) => {
       test.setTimeout(150000);
       await page.setViewportSize({ width: 1440, height: 1000 });
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.locator('[data-testid="chart-card"]').first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(3000);
       const bad = /\bSCIENTI\b|\bScienti\b/;

@@ -62,7 +62,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
 
   test("the bundle of B138: every centre of the filter has its key, and the panel shows its own data", async ({ request }) => {
     test.setTimeout(200000);
-    const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
+    const response = await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`);
     console.log(`[live] ETag of the T3: ${response.headers().etag}`);
     expect(response.headers().etag).toBe('"20261107-956a71cbf0c3"'); // B142 (F88); B138 was a7410df8e340
     const body = await response.json();
@@ -99,11 +99,11 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
 
   test("the page: «Sin centro asignado» says there are no projects without a centre and shows none", async ({ page, request }) => {
     test.setTimeout(200000);
-    const body3 = await (await request.get(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const body3 = await (await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const index = (body3.data || body3).centros.indexOf("Sin centro");
     expect(index).toBeGreaterThanOrEqual(0);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto(`/observatories/vri-udea/board-3?center=${index}`);
+    await page.goto(`/observatories/atlas-udea/board-3?center=${index}`);
     await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const body = page.locator("body");
     await expect(body).toContainText("Ningún proyecto del listado figura sin centro gestor.", { timeout: 60000 });
@@ -111,7 +111,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
 
   test("Board 2: the projects of each of the 25 centres by position 7, before (first word) and after; KPI and funders of SIU", async ({ request }) => {
     test.setTimeout(250000);
-    const response = await request.get(`${API}/observatories/vri-udea/boards/2/bundle`);
+    const response = await request.get(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag of the T2: ${response.headers().etag}`);
     expect(response.headers().etag).toBe('"20261107-1d00bdd70b19"');
     const body = await response.json();

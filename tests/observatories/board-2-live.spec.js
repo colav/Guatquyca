@@ -2,7 +2,7 @@
  * Board 2 against a REAL quyca (read-only). Skipped unless E2E_LIVE is set, for example:
  *   E2E_LIVE=1 npx playwright test tests/observatories/board-2-live.spec.js -c playwright.observatories.config.js
  *
- * They only read GET /observatories/vri-udea/boards/2/bundle (02 §3.11). They check the shape,
+ * They only read GET /observatories/atlas-udea/boards/2/bundle (02 §3.11). They check the shape,
  * the headers, that the computation does not break with the real vectors (countries without
  * coordinates, works without year) and that filters stack. No exact figures of the real data.
  */
@@ -12,7 +12,7 @@ import { computeCollaboration, createCollaborationDataset } from "../../lib/obse
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BUNDLE = `${API}/observatories/vri-udea/boards/2/bundle`;
+const BUNDLE = `${API}/observatories/atlas-udea/boards/2/bundle`;
 
 test.describe("Board 2 against a real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -85,7 +85,7 @@ test.describe("Board 2 against a real quyca (read-only)", () => {
   });
 
   test("the page loads the bundle, shows the real tag and the footer from /cut", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await expect(page.getByText("Datos de ImpactU")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("Fuentes y fechas de corte:")).toBeVisible();
@@ -94,7 +94,7 @@ test.describe("Board 2 against a real quyca (read-only)", () => {
   });
 
   test("a filter keeps the other parameters of the URL", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-2?scope=int");
+    await page.goto("/observatories/atlas-udea/board-2?scope=int");
     await expect(page.getByRole("button", { name: "Limpiar filtros" })).toBeVisible({ timeout: 120000 });
     await page.getByRole("button", { name: "Limpiar filtros" }).click();
     await expect(page).not.toHaveURL(/scope=/, { timeout: 5000 });

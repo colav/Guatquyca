@@ -47,7 +47,7 @@ test.describe("panel 16 with the real bundle (one run)", () => {
 
   test("the bundle gives 119 of 406 datasets with year 2026 (B141) and the page says it", async ({ page, request }) => {
     test.setTimeout(250000);
-    const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
+    const response = await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`);
     console.log(`[live] ETag of the T3: ${response.headers().etag}`);
     const body = await response.json();
     const b3 = body.data || body;
@@ -56,14 +56,14 @@ test.describe("panel 16 with the real bundle (one run)", () => {
     expect(d.total).toBe(406);
     expect(d.year2026).toBe(119);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await expect(page.getByText("16 · Conjuntos de datos abiertos por tópico")).toBeVisible({ timeout: 120000 });
     await expect(page.locator("body")).toContainText("119 de los 406 conjuntos de datos tienen año 2026 (fecha de carga del registro).", { timeout: 60000 });
   });
 });
 
 /* ---- Part B (B142): totals per centre in the panel 07, distinct projects of Artes in the panel 13, warning of 2025 ---- */
-import { PROJECTS_2025_WARNING } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { PROJECTS_2025_WARNING } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const rawB = () => {
   const r = raw([product(2022, 0)]);
@@ -109,7 +109,7 @@ test.describe("part B with the real bundle (one run)", () => {
 
   test("B142: ETag, por_centro of the 25 centres, 37 projects, and the page", async ({ page, request }) => {
     test.setTimeout(250000);
-    const response = await request.get(`${API}/observatories/vri-udea/boards/3/bundle`);
+    const response = await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`);
     expect(response.headers().etag).toBe('"20261107-956a71cbf0c3"');
     const body = await response.json();
     const b3 = body.data || body;
@@ -122,7 +122,7 @@ test.describe("part B with the real bundle (one run)", () => {
     console.log(`[live] SIU: ${s.uniqueStudents} students in ${s.projects} projects`);
     expect([s.uniqueStudents, s.projects]).toEqual([408, 374]);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto(`/observatories/vri-udea/board-3?center=${siu}`);
+    await page.goto(`/observatories/atlas-udea/board-3?center=${siu}`);
     await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const text = page.locator("body");
     await expect(text).toContainText("408 estudiantes únicos en 374 proyectos", { timeout: 60000 });

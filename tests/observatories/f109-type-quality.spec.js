@@ -35,7 +35,7 @@ test.describe("F109 quality of the type against the real bundles (one run)", () 
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("the three bundles carry calidad_tipo and the shares add 100 %", async () => {
-    const get = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`, { headers: { "Accept-Encoding": "gzip" } })).json();
+    const get = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`, { headers: { "Accept-Encoding": "gzip" } })).json();
     const [b1, b2, b3] = await Promise.all([get(1), get(2), get(3)]);
     const rows = [["T1 panel de actores", b1.obs.calidad_tipo.no_academicas, "organizaciones no académicas"], ["T2", b2.ext.calidad_tipo, "instituciones coautoras"], ["T3", b3.ext.calidad_tipo, "instituciones coautoras"]];
     const lines = [];
@@ -54,7 +54,7 @@ test.describe("F109 quality of the type against the real bundles (one run)", () 
     await page.setViewportSize({ width: 1440, height: 1000 });
     const targets = [[1, /^9 · Actores/, "organizaciones no académicas"], [2, /^3 · Organizaciones/, "instituciones coautoras"], [3, /^11 · Profesores con productos compartidos con empresas/, "instituciones coautoras"]];
     for (const [board, title, noun] of targets) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       const card = page.getByTestId("chart-card").filter({ hasText: title }).first();
       await card.waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);

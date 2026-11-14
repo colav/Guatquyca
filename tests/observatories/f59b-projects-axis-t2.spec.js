@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 import { AXIS_PROJECT_CONFIDENCE_MAX, SMALL_SAMPLE, computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
-import { AXIS_FILTER_NOTE, NO_AXIS_RESPONSE, smallProjectsNote } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { AXIS_FILTER_NOTE, NO_AXIS_RESPONSE, smallProjectsNote } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -79,7 +79,7 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
   let bundle;
   let dataset;
   test.beforeAll(async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/2/bundle`);
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
     bundle = await res.json();
     dataset = createCollaborationDataset(bundle);
@@ -130,7 +130,7 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 900 });
     const big = bundle.thesaurus.ejes.map((e) => ({ id: e.id, n: directProj(e.id).length })).sort((a, b) => b.n - a.n)[0];
-    await page.goto(`/observatories/vri-udea/board-2?axis=${big.id}`);
+    await page.goto(`/observatories/atlas-udea/board-2?axis=${big.id}`);
     await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1000);

@@ -13,13 +13,13 @@ import Board1 from "../board-1/components/Board1";
 import { Typography } from "antd";
 
 /**
- * Cover of the VRI-UdeA observatory (F27, D-106 Q5): three tabs, the first board loaded by
+ * Cover of the Atlas UdeA observatory (F27, D-106 Q5): three tabs, the first board loaded by
  * default. The other tabs go to their own routes, so their data loads only when they are opened.
  */
 export default function CoverContent() {
   return (
-    <PageContainer trail={[{ title: "Observatorios", href: "/observatories" }, { title: "VRI-UdeA" }]}>
-      <Typography.Title level={2}>Observatorio VRI-UdeA</Typography.Title>
+    <PageContainer trail={[{ title: "Observatorios", href: "/observatories" }, { title: "Atlas UdeA" }]}>
+      <Typography.Title level={2}>Atlas de las ciencias, las tecnologías, las humanidades y las artes de la Universidad de Antioquia</Typography.Title>
       <Typography.Paragraph>Universidad de Antioquia · Capacidades VRI 2026.</Typography.Paragraph>
       <BoardTabs active="board-1" />
       <Suspense fallback={<Loading height="60vh" />}>

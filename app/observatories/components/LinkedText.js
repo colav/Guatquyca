@@ -1,7 +1,7 @@
 "use client";
 
 /* Texts */
-import { PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL } from "../vri-udea/board-1/components/boardTexts";
+import { PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL } from "../atlas-udea/board-1/components/boardTexts";
 
 /**
  * Text in which the words of the primary topic are a link to the OpenAlex definition (F46, D-139). It

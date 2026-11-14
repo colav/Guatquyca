@@ -4,9 +4,9 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { PANEL_HELP as HELP1 } from "../../app/observatories/vri-udea/board-1/components/panelHelp";
-import { PANEL_HELP as HELP2 } from "../../app/observatories/vri-udea/board-2/components/panelHelp";
-import { PANEL_HELP as HELP3 } from "../../app/observatories/vri-udea/board-3/components/panelHelp";
+import { PANEL_HELP as HELP1 } from "../../app/observatories/atlas-udea/board-1/components/panelHelp";
+import { PANEL_HELP as HELP2 } from "../../app/observatories/atlas-udea/board-2/components/panelHelp";
+import { PANEL_HELP as HELP3 } from "../../app/observatories/atlas-udea/board-3/components/panelHelp";
 
 const LIVE = !!process.env.E2E_LIVE;
 const BOARDS = [
@@ -38,7 +38,7 @@ test.describe("F100 help texts (no server)", () => {
 
 async function openBoard(page, n, width) {
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto(`/observatories/vri-udea/board-${n}`, { waitUntil: "domcontentloaded" });
+  await page.goto(`/observatories/atlas-udea/board-${n}`, { waitUntil: "domcontentloaded" });
   await page.locator('[data-testid="chart-card"]').first().waitFor({ timeout: 120000 });
   await page.waitForTimeout(2500);
 }

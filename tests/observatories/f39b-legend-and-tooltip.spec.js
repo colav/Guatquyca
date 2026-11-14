@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { noProductionTooltip, undrawnNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { noProductionTooltip, undrawnNote } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 import { WIDE_TOOLTIP, tooltipInteraction } from "../../lib/observatories/tooltipStyle";
 
 test.describe("texts and style (no server)", () => {
@@ -32,7 +32,7 @@ test.describe("texts and style (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 const fmt = (n) => n.toLocaleString("es-CO");
 
 async function figures(page) {
@@ -46,7 +46,7 @@ test.describe("legend with «sin producción» informative and wide tooltip (rea
 
   let raw;
   test.beforeAll(async () => {
-    raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
   });
 
   for (const [name, query, filters] of [

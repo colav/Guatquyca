@@ -17,7 +17,7 @@ for (const width of WIDTHS) {
   for (const n of BOARDS) {
     test(`board ${n} at ${width}px: groups of equal size`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`/observatories/vri-udea/board-${n}${process.env.E2E_LIVE ? "" : "?source=mock"}`);
+      await page.goto(`/observatories/atlas-udea/board-${n}${process.env.E2E_LIVE ? "" : "?source=mock"}`);
       await expect(page.getByLabel("Filtros").first()).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(1500);
 

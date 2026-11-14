@@ -9,7 +9,7 @@ import path from "path";
 import { test, expect } from "@playwright/test";
 
 import { CATEGORY, CATEGORY_LABELS, CATEGORY_SLUGS } from "../../lib/observatories/capacity";
-import { BOARD_LEAD_REAL, RULES_TABLE, RULE_LINE, lowCapacityDefinition, realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { BOARD_LEAD_REAL, RULES_TABLE, RULE_LINE, lowCapacityDefinition, realDataWarnings } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const DEFINITION_COLOMBIA =
   "Citas de la UdeA en 2010–2025 iguales o menores al 50 % de las del referente (la institución con más citas del país en ese tópico) y producción sin crecimiento, con 5 o más productos.";
@@ -53,7 +53,7 @@ test.describe("label and definition (no server)", () => {
 });
 
 const LIVE = !!process.env.E2E_LIVE;
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 
 async function open(page, width, query) {
   await page.setViewportSize({ width, height: 900 });

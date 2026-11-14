@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
 import { CATEGORY, CATEGORY_LABELS, CATEGORY_ORDER, CATEGORY_SLUGS, MIN_PRODUCTS_CLASSIFY, computeCapacity, createDataset } from "../../lib/observatories/capacity";
 import { CATEGORY_MARKS } from "../../lib/observatories/palette";
 import { CATEGORY_PALETTE } from "../../lib/constants";
-import { PUNCTUAL_DEFINITION, RULES_TABLE, RULE_LINE, categoryLine, lowCapacityDefinition } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { PUNCTUAL_DEFINITION, RULES_TABLE, RULE_LINE, categoryLine, lowCapacityDefinition } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 test.describe("punctual presence (no server)", () => {
   test("the label, the shape and the colour of the eighth category are its own", () => {
@@ -34,7 +34,7 @@ test.describe("punctual presence (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 const fmt = (n) => n.toLocaleString("es-CO");
 
 const legend = (page) =>
@@ -60,7 +60,7 @@ test.describe("punctual presence against the real quyca (read-only)", () => {
 
   let raw;
   test.beforeAll(async () => {
-    raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
   });
 
   test("the rule: no point classified has fewer than 5 products and every punctual one has 1 to 4; 0 products is «sin producción»", async () => {

@@ -2,7 +2,7 @@
  * Board 3 against a REAL quyca (read-only). Skipped unless E2E_LIVE is set, for example:
  *   E2E_LIVE=1 npx playwright test tests/observatories/board-3-live.spec.js -c playwright.observatories.config.js
  *
- * They only read GET /observatories/vri-udea/boards/3/bundle (02 §3.11). They check the shape,
+ * They only read GET /observatories/atlas-udea/boards/3/bundle (02 §3.11). They check the shape,
  * the headers, the rules of the bundle (author level from A[10], repository flag null = no data,
  * group category from the 957 call, products without year) and that the page does not break
  * with the real vectors. No exact figures of the real data.
@@ -14,7 +14,7 @@ import { withoutPersonalIdentifiers } from "../../lib/observatories/data/capacid
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BUNDLE = `${API}/observatories/vri-udea/boards/3/bundle`;
+const BUNDLE = `${API}/observatories/atlas-udea/boards/3/bundle`;
 
 test.describe("Board 3 against a real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -83,7 +83,7 @@ test.describe("Board 3 against a real quyca (read-only)", () => {
   test("the page loads the bundle, shows the real tag, the new staff label and the footer from /cut", async ({ page }) => {
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await expect(page.getByText("Datos de ImpactU")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("1 · Talento investigador por nivel", { exact: false }).first()).toBeVisible();

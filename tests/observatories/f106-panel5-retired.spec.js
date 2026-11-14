@@ -13,7 +13,7 @@ test.describe("F106 panel 5 retired (live)", () => {
     test(`at ${width} px the panels are numbered 1 to 9 without «Ránking ODS», and the panels 3 and 4 fill their row`, async ({ page }) => {
       test.setTimeout(150000);
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       await page.getByTestId("category-legend").waitFor({ timeout: 120000 });
       await page.waitForTimeout(3000);
       const titles = await page.locator('[data-testid="chart-card"] .ant-card-head-title').evaluateAll((els) => els.map((e) => e.innerText.split("\n")[0].trim()));
@@ -35,7 +35,7 @@ test.describe("F106 panel 5 retired (live)", () => {
   test("the panel 7 keeps the choice of an ODS: the note of the choice and the coverage note", async ({ page }) => {
     test.setTimeout(150000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-1?ods=3");
+    await page.goto("/observatories/atlas-udea/board-1?ods=3");
     await page.getByTestId("category-legend").waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     const card = page.getByTestId("chart-card").filter({ hasText: /^7 · Producción por ODS/ }).first();

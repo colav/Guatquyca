@@ -13,7 +13,7 @@ test.describe("F94 Q-30 panel 7 of Board 2 (one run)", () => {
   test("no tile of social appropriation, five tiles with the same height per row, and the note of the panel does not name it", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const card = page.getByTestId("chart-card").filter({ hasText: "7 · Colaboraciones de cuádruple hélice" }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2000);
@@ -38,7 +38,7 @@ test.describe("F94 Q-32 legend of the donut 15 px from the edge (one run)", () =
     test.setTimeout(200000);
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-2");
+      await page.goto("/observatories/atlas-udea/board-2");
       const card = page.getByTestId("chart-card").filter({ hasText: "4 ·" }).filter({ has: page.getByTestId("ring-legend") }).first();
       await card.waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);
@@ -64,7 +64,7 @@ test.describe("F94 Q-34 typeface of the KPI row (one run)", () => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     const heights = {};
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(2000);
       const cards = await page.locator(".obs-kpi").evaluateAll((els) => els.map((el) => {
@@ -86,7 +86,7 @@ test.describe("F94 Q-34 typeface of the KPI row (one run)", () => {
   });
 });
 
-import { MONEY_NOTE, realNotes } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { MONEY_NOTE, realNotes } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 test.describe("F94 note of the amounts (Q-28 iv)", () => {
   test("the notes of method of Board 2 end with the money note, and it says COP", () => {
@@ -99,7 +99,7 @@ test.describe("F94 note of the amounts (Q-28 iv)", () => {
     test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
     test("the box «Notas metodológicas» of Board 2 carries it, before the cut-off date", async ({ page }) => {
       test.setTimeout(150000);
-      await page.goto("/observatories/vri-udea/board-2");
+      await page.goto("/observatories/atlas-udea/board-2");
       const box = page.getByTestId("method-notes");
       await box.waitFor({ timeout: 120000 });
       await page.waitForTimeout(1500);
@@ -175,7 +175,7 @@ test.describe("F94 Q-33 graph D in the page (one run)", () => {
   test("measures of the graph (7 communities, 39 labels, nothing touches); labels with the zoom; tooltip of a node with its community", async ({ page }) => {
     test.setTimeout(290000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("collab-graph").waitFor({ timeout: 120000 });
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 60000 });
     await page.waitForTimeout(2500);
@@ -188,7 +188,7 @@ test.describe("F94 Q-33 graph D in the page (one run)", () => {
     expect(D.touching).toBe(0);
 
     // D: legend, labels with the zoom and tooltip of a node
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.waitForFunction(() => document.querySelector('[data-testid="collab-graph"]')?.dataset.variant, null, { timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(page.getByTestId("community-legend")).toContainText("grupos que colaboran más entre sí");
@@ -225,9 +225,9 @@ test.describe("F94 Q-33 graph D in the page (one run)", () => {
   });
 });
 
-import { INCOMPLETE_YEARS_NOTE, realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import { NOTICE_NOTES } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { methodNotes } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { INCOMPLETE_YEARS_NOTE, realDataWarnings } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import { NOTICE_NOTES } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { methodNotes } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 test.describe("F96 note of 2025 and 2026 (D-212)", () => {
   const PHRASE = "Los productos de 2025 y 2026 pueden estar incompletos: Minciencias aún no ha publicado en datos abiertos la información de la última convocatoria de medición de ScienTI.";
@@ -255,7 +255,7 @@ test.describe("F96 note of 2025 and 2026 (D-212)", () => {
       test.setTimeout(250000);
       await page.setViewportSize({ width: 1440, height: 1000 });
       for (const board of [1, 2, 3]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("method-notes").waitFor({ timeout: 120000 });
         await page.waitForTimeout(1500);
         const text = await page.getByTestId("method-notes").innerText();

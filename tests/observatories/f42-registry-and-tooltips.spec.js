@@ -45,14 +45,14 @@ test.describe("registry of groups (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?${query}` : ""}`;
-const BUNDLE_3 = "**/observatories/vri-udea/boards/3/bundle";
+const BOARD = (n, query = "") => `/observatories/atlas-udea/board-${n}${query ? `?${query}` : ""}`;
+const BUNDLE_3 = "**/observatories/atlas-udea/boards/3/bundle";
 
 test.describe("registry and tooltips against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("the real bundle has registro_grupos 359, 324, 35 and 13, and the page says «346 de 359» from them", async ({ page }) => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     expect(raw.registro_grupos).toEqual({ total: 359, activos: 324, inactivos: 35, sin_productos_impactu: 13 });
     expect(raw.registro_grupos.activos + raw.registro_grupos.inactivos).toBe(raw.registro_grupos.total);
     expect(raw.groups.length + raw.registro_grupos.sin_productos_impactu).toBe(raw.registro_grupos.total);
@@ -89,7 +89,7 @@ test.describe("registry and tooltips against the real quyca (read-only)", () => 
   });
 
   test("the groups per subregion of proj.subregion are of the list of groups and the board does not show them (nothing to change)", async () => {
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const counts = Object.fromEntries(Object.entries(raw.proj.subregion).map(([name, s]) => [name, s.grupos]));
     for (const [name, n] of Object.entries(counts)) expect(n, name).toBeLessThanOrEqual(raw.groups.length);
     expect(counts).toEqual({ "Bajo Cauca": 28, "Magdalena Medio": 10, Nordeste: 13, Norte: 4, Occidente: 20, Oriente: 73, Suroeste: 31, Urabá: 64, "Valle de Aburrá": 306 });

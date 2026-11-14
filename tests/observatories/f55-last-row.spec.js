@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 const LIVE = !!process.env.E2E_LIVE;
-const BOARD = (q = "") => `/observatories/vri-udea/board-1${q ? `?${q}` : ""}`;
+const BOARD = (q = "") => `/observatories/atlas-udea/board-1${q ? `?${q}` : ""}`;
 
 test.use({ launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"], args: ["--disable-features=OverlayScrollbar,OverlayScrollbarFlashAfterAnyScrollUpdate"] } });
 

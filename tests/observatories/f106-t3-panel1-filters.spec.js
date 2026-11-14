@@ -6,8 +6,8 @@
 import { test, expect } from "@playwright/test";
 
 import { DEFAULT_FOUNDATIONS_FILTERS, computeFoundations, createFoundationsDataset } from "../../lib/observatories/foundations";
-import { PANEL_HELP } from "../../app/observatories/vri-udea/board-3/components/panelHelp";
-import { talentSelectionNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { PANEL_HELP } from "../../app/observatories/atlas-udea/board-3/components/panelHelp";
+import { talentSelectionNote } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -27,7 +27,7 @@ test.describe("F106 panel 1 of the T3, filter by filter, against the real bundle
 
   test("each filter changes the staff of the panel 1; without a filter nothing changes; the table of the report", async () => {
     test.setTimeout(200000);
-    const res = await fetch(`${API}/observatories/vri-udea/boards/3/bundle`, { headers: { "Accept-Encoding": "gzip" } });
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`, { headers: { "Accept-Encoding": "gzip" } });
     const raw = await res.json();
     const ds = createFoundationsDataset(raw);
     const base = computeFoundations(ds, DEFAULT_FOUNDATIONS_FILTERS);
@@ -67,14 +67,14 @@ test.describe("F106 panel 1 of the T3, filter by filter, against the real bundle
   test("in the page: with a unit chosen the tiles and the note say the selection, without density; without a filter the tiles are the planta", async ({ page }) => {
     test.setTimeout(150000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const card = page.getByTestId("chart-card").filter({ hasText: /^1 ·|Talento|profesores/ }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(card).toContainText("2.621");
     await expect(card).toContainText("por 100.000 hab.");
     await expect(card).not.toContainText("solo se cuentan los profesores con al menos un producto en la selección"); /* F110: the short note only with a filter */
-    await page.goto("/observatories/vri-udea/board-3?faculty=17");
+    await page.goto("/observatories/atlas-udea/board-3?faculty=17");
     await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     const filtered = page.getByTestId("chart-card").first();

@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computePropertyAssets, createFoundationsDataset, DEFAULT_FOUNDATIONS_FILTERS } from "../../lib/observatories/foundations";
-import { PI_FILTER_NOTE, PI_TITLE } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { PI_FILTER_NOTE, PI_TITLE } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -102,7 +102,7 @@ test.describe("card 11b against the real quyca (read-only)", () => {
   let bundle;
   let dataset;
   test.beforeAll(async () => {
-    bundle = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    bundle = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     dataset = createFoundationsDataset(bundle);
   });
 
@@ -137,7 +137,7 @@ test.describe("card 11b against the real quyca (read-only)", () => {
 
   test("the page: the card sits after panel 11, with the figures, the notes and the switch of ranking", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const card = page.getByTestId("pi-card");
     await expect(card).toBeVisible({ timeout: 120000 });
     await expect(card).toContainText("11b · Propiedad intelectual y patentes");
@@ -164,7 +164,7 @@ test.describe("card 11b against the real quyca (read-only)", () => {
 
   test("the page: a filter that does not answer is named; a unit narrows the figures", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-3?department=2&subfield=1&from=2015&to=2020");
+    await page.goto("/observatories/atlas-udea/board-3?department=2&subfield=1&from=2015&to=2020");
     const note = page.getByTestId("pi-not-responding");
     await expect(note).toBeVisible({ timeout: 120000 });
     await expect(note).toContainText("subunidad, subcampo");

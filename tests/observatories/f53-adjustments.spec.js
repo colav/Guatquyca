@@ -7,7 +7,7 @@
 import { test, expect } from "@playwright/test";
 
 const LIVE = !!process.env.E2E_LIVE;
-const BOARD = (n, q = "") => `/observatories/vri-udea/board-${n}${q ? `?${q}` : ""}`;
+const BOARD = (n, q = "") => `/observatories/atlas-udea/board-${n}${q ? `?${q}` : ""}`;
 const AI = /\bIA\b|inteligencia artificial|modelo de lenguaje|panel de IA/;
 
 test.describe("F53 against the real quyca (read-only)", () => {

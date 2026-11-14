@@ -40,7 +40,7 @@ test("texts, chips and the two links; usable with the keyboard; no sideways scro
     await expect(cta).toContainText("Explora cómo investiga la Universidad de Antioquia: sus capacidades por tema, sus colaboraciones y las bases que sostienen su producción.");
     const chips = await cta.getByRole("listitem").allInnerTexts();
     expect(chips).toEqual(["Masa crítica temática", "Colaboración, redes y hélices", "Capacidades de base UdeA"]);
-    await expect(cta.getByRole("link", { name: /Explorar el observatorio/ })).toHaveAttribute("href", "/observatories/vri-udea");
+    await expect(cta.getByRole("link", { name: /Explorar el atlas/ })).toHaveAttribute("href", "/observatories/atlas-udea");
     await expect(cta.getByRole("link", { name: "Ver todos los observatorios" })).toHaveAttribute("href", "/observatories");
     expect(await cta.innerText()).not.toMatch(/NaN|undefined/);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), `${width} sideways`).toBeLessThanOrEqual(0);
@@ -92,7 +92,7 @@ test("contrast of the texts on the band (4.5:1 or more) and the animation is off
 test("the button keeps the blue-turquoise gradient and white text on hover, keyboard focus and press", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
-  const btn = page.getByTestId("observatories-cta").getByRole("button", { name: /Explorar el observatorio/ });
+  const btn = page.getByTestId("observatories-cta").getByRole("button", { name: /Explorar el atlas/ });
   const style = () => btn.evaluate((el) => { const s = getComputedStyle(el); return { image: s.backgroundImage, color: s.color, border: s.borderTopWidth }; });
   const states = {};
   states.rest = await style();

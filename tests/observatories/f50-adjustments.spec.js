@@ -7,7 +7,7 @@ import { test, expect } from "@playwright/test";
 
 import { axisTopicsOther, computeCapacity, createDataset, rankAxisTopics, rankGroups } from "../../lib/observatories/capacity";
 import { createCollaborationDataset, computeCollaboration } from "../../lib/observatories/collaboration";
-import { realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { realDataWarnings } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 // facts: [topic, year, citations, type, quartile, access, facs, deps, centres, groups, subregions, ods, pairs, actors, record]
 const fact = (topic, year, citations, pairs, groups = [0]) => [topic, year, citations, 0, 0, 0, [0], [], [0], groups, [], [], pairs, [], 1];
@@ -76,7 +76,7 @@ test.describe("F50 (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?${query}` : ""}`;
+const BOARD = (n, query = "") => `/observatories/atlas-udea/board-${n}${query ? `?${query}` : ""}`;
 const fmt = (n) => n.toLocaleString("es-CO");
 
 test.describe("F50 against the real quyca (read-only)", () => {
@@ -84,7 +84,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   let real;
   let dataset;
   test.beforeAll(async () => {
-    real = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    real = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     dataset = createDataset(real);
   });
   const open = async (page, n, query = "") => {
@@ -164,7 +164,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   });
 
   test("Board 3: «Sin centro asignado» is the 26.ª option at the end of the centre list and filters its products", async ({ page }) => {
-    const b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     expect(b3.centros).toHaveLength(26);
     await open(page, 3);
     await page.getByTestId("filters").locator("label", { hasText: "Centro de investigación" }).locator("xpath=../..").locator(".ant-select").click();
@@ -183,7 +183,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   });
 
   test("Board 3: the column of projects of the panel 14 is hidden while it is 0, and the note says so", async ({ page }) => {
-    const b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const projects = Object.values(b3.artes.fac_creacion).map((r) => r.proyectos ?? r.projects ?? 0);
     await open(page, 3);
     const text = await page.locator("main").innerText();
@@ -194,7 +194,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   });
 
   test("Board 3: the preprints statistic is hidden when there are none", async ({ page }) => {
-    const b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    const b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     const preprints = b3.P.filter((p) => p[1] === b3.tipos.indexOf("preprint")).length;
     await open(page, 3);
     const text = await page.locator("main").innerText();
@@ -202,7 +202,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   });
 
   test("Board 2: subunits without works are not offered, repeated subfields carry their field, domains read like Boards 1 and 3, institutions with the same name carry the country", async ({ page }) => {
-    const b2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const b2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const used = new Set(b2.works.flatMap((w) => w[7]));
     const empty = b2.deps.filter((_, i) => !used.has(i));
     expect(empty.length).toBe(3);
@@ -227,7 +227,7 @@ test.describe("F50 against the real quyca (read-only)", () => {
   test("Board 2: «Instituto De Filosofía», the axes of the panel 14 come from the thesaurus by key and there are no axes without products", async ({ page }) => {
     await open(page, 2);
     await expect(page.getByText("14 · Ejes Temáticos públicos por tipo de organización")).toBeVisible();
-    const b2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const b2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const keys = b2.thesaurus.ejes.map((e) => e.clave);
     expect(new Set(keys).size).toBe(keys.length);
   });

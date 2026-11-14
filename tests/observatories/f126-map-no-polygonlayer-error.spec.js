@@ -22,7 +22,7 @@ test.describe("F126 map without PolygonLayer exception (one run)", () => {
     test.setTimeout(400000);
     const errors = watch(page);
     for (let i = 0; i < 4; i += 1) {
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       await page.getByTestId("method-notes").waitFor({ timeout: 150000 });
       await page.getByTestId("subregion-map").scrollIntoViewIfNeeded();
       await page.waitForTimeout(6000);
@@ -47,7 +47,7 @@ test.describe("F126 map without PolygonLayer exception (one run)", () => {
   test("safety net: a failure of the map shows the message with «Reintentar», one console.error, and the retry draws the map again", async ({ page }) => {
     test.setTimeout(300000);
     const errors = watch(page);
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await page.getByTestId("method-notes").waitFor({ timeout: 150000 });
     await page.getByTestId("subregion-map").scrollIntoViewIfNeeded();
     await expect(page.getByTestId("subregion-map").locator("canvas").first()).toBeAttached({ timeout: 60000 });

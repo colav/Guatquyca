@@ -9,7 +9,7 @@ import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset, rankOds } from "../../lib/observatories/capacity";
 import { parseFilters, serializeFilters } from "../../lib/observatories/filters";
-import { TALENT_VIEWS, talentLevelNote, talentMincienciasNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { TALENT_VIEWS, talentLevelNote, talentMincienciasNote } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -71,8 +71,8 @@ test.describe("F71 against the real quyca (one run)", () => {
   let b3;
   let d1;
   test.beforeAll(async () => {
-    b1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
-    b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    b1 = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
+    b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     d1 = createDataset(b1);
   });
 
@@ -82,7 +82,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     const staff = Object.values(lv).reduce((a, b) => a + b, 0);
     expect(staff).toBe(b3.talent.staff_total);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const card = page.getByTestId("chart-card").filter({ hasText: "1 ·" }).first();
@@ -119,7 +119,7 @@ test.describe("F71 against the real quyca (one run)", () => {
   test("T1: panels 1 to 8 in order, label of the filter 5, ODS from the URL and from the filter, treemap and clicks", async ({ page }) => {
     test.setTimeout(280000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(3000);
     // order of the panels
@@ -135,7 +135,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     const ods3 = computeCapacity(d1, { odsNumber: 3 }).products;
     expect(ods3).toBeGreaterThan(0);
     expect(ods3).toBeLessThan(all);
-    await page.goto("/observatories/vri-udea/board-1?ods=3");
+    await page.goto("/observatories/atlas-udea/board-1?ods=3");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(kpi()).toContainText(fmt(ods3));
@@ -155,7 +155,7 @@ test.describe("F71 against the real quyca (one run)", () => {
     // combines with «y»: ODS 2 and a range of years
     expect(computeCapacity(d1, { odsNumber: 2, yearFrom: 2015, yearTo: 2020 }).products).toBeLessThan(computeCapacity(d1, { odsNumber: 2 }).products);
     // a click on the treemap chooses an ODS (the biggest block is the top left one); a second click on it removes it
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     const tree = page.getByTestId("ods-treemap");

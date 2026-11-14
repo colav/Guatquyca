@@ -13,7 +13,7 @@ test.describe("panel 9 of the T1 includes «Otros» (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
   test("ETag of B164, label from the bundle, 4.909 organizations by type, and «Otros» in the ranking", async () => {
-    const res = await fetch(`${API}/observatories/vri-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
+    const res = await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`, { headers: { "Accept-Encoding": "gzip" } });
     expect(res.headers.get("etag")).toBe('"20261107-c550a33072f7"');
     const raw = await res.json();
     const last = raw.actor_tipos[raw.actor_tipos.length - 1];
@@ -37,7 +37,7 @@ test.describe("panel 9 of the T1 includes «Otros» (one run)", () => {
   test("the table shows the label of the bundle and the warning keeps the share without type", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     const card = page.getByTestId("chart-card").filter({ hasText: /^9 · Actores/ }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);

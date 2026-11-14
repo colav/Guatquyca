@@ -12,6 +12,17 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      // The Atlas UdeA used to live at /observatories/vri-udea: old links keep working.
+      {
+        source: "/observatories/vri-udea",
+        destination: "/observatories/atlas-udea",
+        permanent: false,
+      },
+      {
+        source: "/observatories/vri-udea/:path*",
+        destination: "/observatories/atlas-udea/:path*",
+        permanent: false,
+      },
     ];
   },
 };

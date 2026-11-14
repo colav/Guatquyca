@@ -2,7 +2,7 @@
 import { test, expect } from "@playwright/test";
 
 const BASE = "http://localhost:3000";
-const PATH = "/observatories/vri-udea/board-2";
+const PATH = "/observatories/atlas-udea/board-2";
 const MOCK = "source=mock"; /* the board reads the API by default; these tests are written for the test data */
 
 test.beforeEach(async () => {

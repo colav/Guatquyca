@@ -6,7 +6,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { TYPES_HELP, realDataWarnings } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { TYPES_HELP, realDataWarnings } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 test.describe("texts of the foot (no server)", () => {
   test("the text of the types says what each source does and is a note of the foot", () => {
@@ -26,7 +26,7 @@ test.describe("texts of the sources against the real quyca (read-only)", () => {
 
   const open = async (page) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1200);
   };
@@ -52,7 +52,7 @@ test.describe("texts of the sources against the real quyca (read-only)", () => {
     await open(page);
     const main = await page.locator("main").innerText();
     expect(main).not.toMatch(/citas de ImpactU|Citas ImpactU|citas \(ImpactU\)/i);
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const withRecord = raw.facts.filter((f) => f[14] === 1).length;
     const without = raw.facts.length - withRecord;
     const result = computeCapacity(createDataset(raw));

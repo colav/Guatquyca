@@ -33,7 +33,7 @@ test.describe("B144 bundles (one run)", () => {
     test.setTimeout(120000);
     const t = {};
     for (const n of [1, 2, 3]) {
-      const r = await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`);
+      const r = await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`);
       t[n] = { etag: r.headers().etag, body: await r.json() };
     }
     console.log(`[live] ETags ${t[1].etag} ${t[2].etag} ${t[3].etag}`);
@@ -53,7 +53,7 @@ test.describe("B144 bundles (one run)", () => {
   });
 });
 
-import { pieNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { pieNote } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 test.describe("Q-06 and Q-07 texts (no server)", () => {
   test("the note of the pie of classes has no working phrase", () => {
@@ -64,10 +64,10 @@ test.describe("Q-06 and Q-07 texts (no server)", () => {
   });
 });
 
-import * as texts1 from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import * as texts2 from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { PANEL_HELP as PANEL_HELP_T2 } from "../../app/observatories/vri-udea/board-2/components/panelHelp";
-import * as texts3 from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import * as texts1 from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import * as texts2 from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { PANEL_HELP as PANEL_HELP_T2 } from "../../app/observatories/atlas-udea/board-2/components/panelHelp";
+import * as texts3 from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 /* Q-09 and Q-14: nothing the reader sees names a file, a sheet, a table, a column or says «thesaurus». */
 const FORBIDDEN = /BD_Grupos|\.xlsx|\.csv|\bCSV\b|work_authors|work_groups|work_topics|instituciones_coautoras|ListadoProyectos|Tablero\d?_data|thesaurus|consultasol|\bworks\b|Res-Finales|ClickHouse|\bhojas?\b|obs_|topicos_openalex/i;
@@ -113,7 +113,7 @@ test.describe("Q-11 note of the panel 16 (page, one run)", () => {
   test("the note says that the topic is the main one of OpenAlex v2 and why it does not match the artifact", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const card = page.getByTestId("chart-card").filter({ hasText: "16 · Conjuntos de datos abiertos por tópico" }).first();
     await card.waitFor({ timeout: 120000 });
     /* F112 (D-253 12): the note about the artifact of Gabriel is out of the card */
@@ -139,7 +139,7 @@ test.describe("F90 rendered pages (one run)", () => {
     test.setTimeout(280000);
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);
       const text = await page.locator("body").innerText();

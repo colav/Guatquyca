@@ -5,8 +5,8 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { BOARD_LEAD as LEAD2, HOW_TO_USE as HELP2 } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { BOARD_LEAD as LEAD3, HOW_TO_USE as HELP3, UNIVERSE_NOTE, methodNotes } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { BOARD_LEAD as LEAD2, HOW_TO_USE as HELP2 } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { BOARD_LEAD as LEAD3, HOW_TO_USE as HELP3, UNIVERSE_NOTE, methodNotes } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const OUTDATED = /delimitan la producción asociada a los tópicos/;
@@ -30,7 +30,7 @@ test.describe("F119 in the page (one run)", () => {
     test(`T${board}: subtitle visible, «¿Cómo usar este tablero?» closed and open, goals collapsible untouched`, async ({ page }) => {
       test.setTimeout(200000);
       await page.setViewportSize({ width: 1440, height: 1000 });
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.getByTestId("method-notes").waitFor({ timeout: 120000 });
       const header = page.locator("header").first();
       await expect(header.getByText(lead, { exact: true })).toBeVisible();
@@ -49,7 +49,7 @@ test.describe("F119 in the page (one run)", () => {
   test("T3: the foot has the universe of products; the filters of entity say the direct rule in their help", async ({ page }) => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const notes = page.getByTestId("method-notes");
     await notes.waitFor({ timeout: 120000 });
     await expect(notes).toContainText(UNIVERSE_NOTE);

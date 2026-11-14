@@ -65,7 +65,7 @@ test.describe("chain in Board 1 against the real quyca (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("scope Local: the documents and the axes listed; a change clears; the URL; the products with an axis", async ({ page, request }) => {
     test.setTimeout(250000);
-    const b1 = await (await request.get(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const b1 = await (await request.get(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const dataset = createDataset(b1);
     const local = docsInScope(dataset, "Local");
     console.log(`[live] documents of scope Local: ${local.join(" | ")}`);
@@ -80,7 +80,7 @@ test.describe("chain in Board 1 against the real quyca (one run)", () => {
       return items;
     };
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1?scope=Local");
+    await page.goto("/observatories/atlas-udea/board-1?scope=Local");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     expect((await options("Documento de política")).sort()).toEqual(local);
@@ -95,14 +95,14 @@ test.describe("chain in Board 1 against the real quyca (one run)", () => {
     console.log(`[live] axes of scope Local offered for «Seguridad»: ${shown.length}`);
     expect(shown.every((t) => expectedLocalAxes.has(t))).toBe(true);
     // a document of another level in the URL with the scope: the lower filter is cleared
-    await page.goto("/observatories/vri-udea/board-1?scope=Local&doc=CONPES+4069");
+    await page.goto("/observatories/atlas-udea/board-1?scope=Local&doc=CONPES+4069");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     expect(page.url()).not.toContain("doc=");
     expect(page.url()).toContain("scope=Local");
     // an axis of another level in the URL: the axis wins and the scope goes
     const national = dataset.axes.find((e) => e.nivel === "Nacional");
-    await page.goto(`/observatories/vri-udea/board-1?scope=Local&axis=${national.id}`);
+    await page.goto(`/observatories/atlas-udea/board-1?scope=Local&axis=${national.id}`);
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     expect(page.url()).not.toContain("scope=");

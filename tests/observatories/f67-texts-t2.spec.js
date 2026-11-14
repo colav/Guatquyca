@@ -5,8 +5,8 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { BOARD_LEAD, HOW_TO_USE, FOOTER_TEXT, NOTES, NOTICE, realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { POLICY_DOCUMENTS } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { BOARD_LEAD, HOW_TO_USE, FOOTER_TEXT, NOTES, NOTICE, realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { POLICY_DOCUMENTS } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 
@@ -46,7 +46,7 @@ test.describe("list of documents in two lines (real quyca, one run)", () => {
     test(`${board}: no name of document is cut`, async ({ page }) => {
       test.setTimeout(150000);
       await page.setViewportSize({ width: 1440, height: 900 });
-      await page.goto(`/observatories/vri-udea/${board}`);
+      await page.goto(`/observatories/atlas-udea/${board}`);
       await expect(page.getByTestId("filters")).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(1000);
       await page.getByTestId("filters").locator("label", { hasText: "Documento de política" }).locator("xpath=../..").locator(".ant-select-selector").first().click();

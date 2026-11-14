@@ -4,12 +4,12 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { BOARD_TABS } from "../../app/observatories/vri-udea/components/BoardTabs";
+import { BOARD_TABS } from "../../app/observatories/atlas-udea/components/BoardTabs";
 
 const LINKS = [
-  ["board-1", "Masa crítica temática", "/observatories/vri-udea/board-1", "Capacidad de la UdeA en cada tópico frente a una institución de referencia, y su relación con ODS, territorios y actores no académicos."],
-  ["board-2", "Colaboración, redes y hélices", "/observatories/vri-udea/board-2", "Con quién colabora: grupos, organizaciones no académicas, hélices, territorios y países."],
-  ["board-3", "Capacidades de base UdeA", "/observatories/vri-udea/board-3", "Talento, producción e infraestructura abierta."],
+  ["board-1", "Masa crítica temática", "/observatories/atlas-udea/board-1", "Capacidad de la UdeA en cada tópico frente a una institución de referencia, y su relación con ODS, territorios y actores no académicos."],
+  ["board-2", "Colaboración, redes y hélices", "/observatories/atlas-udea/board-2", "Con quién colabora: grupos, organizaciones no académicas, hélices, territorios y países."],
+  ["board-3", "Capacidades de base UdeA", "/observatories/atlas-udea/board-3", "Talento, producción e infraestructura abierta."],
 ];
 
 test.beforeAll(async () => {
@@ -30,11 +30,11 @@ test("the home has the new texts and no old text", async ({ page }) => {
   await page.goto("/observatories");
   const main = page.locator("main, body").first();
   await expect(page.getByText("Espacios de consulta construidos con datos de ImpactU, en coordinación con dependencias e instituciones. Cada observatorio reúne tableros para explorar, filtrar y comparar.")).toBeVisible();
-  await expect(page.getByText("Capacidades de investigación de la UdeA")).toBeVisible();
-  await expect(page.getByText("VRI-UdeA", { exact: true })).toBeVisible();
+  await expect(page.getByText("Atlas de las ciencias, las tecnologías, las humanidades y las artes de la Universidad de Antioquia")).toBeVisible();
+  await expect(page.getByText("Atlas UdeA", { exact: true })).toBeVisible();
   await expect(page.getByText("Dónde tiene la Universidad de Antioquia masa crítica, con quién colabora y qué bases sostienen su investigación. Producción 2010–2026 de ImpactU, con citas y referentes de OpenAlex.")).toBeVisible();
   await expect(page.getByText("Las fuentes y las fechas de corte están al pie de cada tablero.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Abrir observatorio" })).toHaveAttribute("href", "/observatories/vri-udea");
+  await expect(page.getByRole("link", { name: "Abrir observatorio" })).toHaveAttribute("href", "/observatories/atlas-udea");
   const text = await main.innerText();
   expect(text).not.toMatch(/Aquí estarán|NaN|undefined/);
 });
@@ -58,5 +58,5 @@ test("three links with their routes and descriptions; usable with the keyboard; 
   await page.getByTestId("board-link-board-2").focus();
   await expect(page.getByTestId("board-link-board-2")).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/observatories\/vri-udea\/board-2$/);
+  await expect(page).toHaveURL(/\/observatories\/atlas-udea\/board-2$/);
 });

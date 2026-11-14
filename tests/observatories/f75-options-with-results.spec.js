@@ -141,7 +141,7 @@ test.describe("options with products against the real bundles (one run)", () => 
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("Boards 1, 2 and 3: the property in four scenarios, and the options hidden by scenario", async ({ request }) => {
     test.setTimeout(280000);
-    const get = async (n) => (await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+    const get = async (n) => (await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
     const [b1, b2, b3] = [await get(1), await get(2), await get(3)];
     for (const p of b3.P) if (p[0] === 0) p[0] = null;
     const l1 = createDataset(b1);

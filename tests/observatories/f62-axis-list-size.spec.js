@@ -26,12 +26,12 @@ test.describe("size of the open lists (real quyca)", () => {
       test.setTimeout(200000);
       await page.setViewportSize({ width, height: 900 });
       const field = (label) => page.getByTestId("filters").locator("label", { hasText: label }).locator("xpath=../..").locator(".ant-select-selector").first();
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
       await page.waitForTimeout(800);
       const t1 = await measure(page, page.getByTestId("filters").locator(".ant-select").filter({ has: page.locator("input[aria-label='Eje Temático']") }).locator(".ant-select-selector"));
       const t1doc = await measure(page, field("Documento de política"));
-      await page.goto("/observatories/vri-udea/board-2");
+      await page.goto("/observatories/atlas-udea/board-2");
       await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
       const t2 = await measure(page, page.getByTestId("axis-filter").locator(".ant-select-selector"));
       const t2doc = await measure(page, field("Documento de política"));

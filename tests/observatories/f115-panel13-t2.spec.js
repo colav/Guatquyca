@@ -4,7 +4,7 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { PANEL_HELP } from "../../app/observatories/vri-udea/board-2/components/panelHelp";
+import { PANEL_HELP } from "../../app/observatories/atlas-udea/board-2/components/panelHelp";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
 
 const LIVE = !!process.env.E2E_LIVE;
@@ -23,7 +23,7 @@ test.describe("panel 13 against the real bundle (one run)", () => {
 
   test("no column of social appropriation; the totals of the rows shown do not change", async ({ page }) => {
     test.setTimeout(200000);
-    const raw = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const raw = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const result = computeCollaboration(createCollaborationDataset(raw));
     const rows = raw.doms.flatMap((_, tab) => result.domainRows(tab));
     expect(rows.every((r) => !("appropriation" in r))).toBe(true);
@@ -33,7 +33,7 @@ test.describe("panel 13 against the real bundle (one run)", () => {
     expect([sum("books"), sum("chapters"), sum("total")]).toEqual([20, 102, 122]);
     expect(sum("books") + sum("chapters")).toBe(sum("total"));
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const card = page.getByTestId("chart-card").filter({ hasText: /^13 ·/ }).first();
     await card.waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);

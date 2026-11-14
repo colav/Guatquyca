@@ -67,7 +67,7 @@ test.describe("the page of Board 2 (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("the map is drawn, redraws with a filter, and the countries without outline are counted", async ({ page, request }) => {
     test.setTimeout(240000);
-    const raw = await (await request.get(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    const raw = await (await request.get(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     const codes = new Set(geo.features.map((f) => f.properties.country_code));
     const bundleMissing = raw.countries.filter((c) => !codes.has(c.c)).map((c) => c.c);
     console.log(`[live] countries of the bundle: ${raw.countries.length}; without polygon even after the corrections: ${bundleMissing.length} (${bundleMissing.join(", ")})`);
@@ -87,7 +87,7 @@ test.describe("the page of Board 2 (one run)", () => {
     expect(polygon("TW").name).toBe(raw.countries[index("TW")].n);
     expect(real.withoutOutline).toEqual([]);
     const t0 = Date.now();
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const box = page.getByTestId("country-map");
     await box.waitFor({ timeout: 120000 });
     await box.evaluate((el) => el.scrollIntoView({ block: "center" }));
@@ -118,7 +118,7 @@ test.describe("the page of Board 2 (one run)", () => {
     // a filter: the map redraws and the table changes
     const rowsBefore = await page.locator("[data-testid=country-map] canvas").count();
     const tFilter = Date.now();
-    await page.goto("/observatories/vri-udea/board-2?scope=int");
+    await page.goto("/observatories/atlas-udea/board-2?scope=int");
     await page.getByTestId("country-map").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
     await page.getByTestId("country-map").evaluate((el) => el.scrollIntoView({ block: "center" }));
@@ -134,7 +134,7 @@ test.describe("cost of the map (one run)", () => {
   test("redraw when a filter changes: time, and whether the map is rebuilt", async ({ page }) => {
     test.setTimeout(240000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     const box = page.getByTestId("country-map");
     await box.waitFor({ timeout: 120000 });
     await page.waitForTimeout(6000);

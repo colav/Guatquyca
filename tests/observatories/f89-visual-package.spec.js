@@ -51,7 +51,7 @@ test.describe("F89 in the browser (one run)", () => {
   test("Q-05: the total is at the end of the bars and does not leave the frame (Board 3 panel 6, Board 2 panels 3 and 4)", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const p6 = page.getByTestId("chart-card").filter({ hasText: "6 · Investigadores por grupo etario" }).first();
     await p6.waitFor({ timeout: 120000 });
     await p6.scrollIntoViewIfNeeded();
@@ -60,7 +60,7 @@ test.describe("F89 in the browser (one run)", () => {
     console.log(`[live] T3 panel 6: ink gap to the right edge ${r6.gapToEdge} px; ink in the band of the totals ${r6.inBand}`);
     expect(r6.gapToEdge).toBeGreaterThanOrEqual(8);
     console.log("[live] (inBand not asserted: the gap is the measure)");
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     for (const title of ["3 · Organizaciones no académicas", "4 · Productos por sector"]) {
       const card = page.getByTestId("chart-card").filter({ hasText: title }).first();
       await card.waitFor({ timeout: 120000 });
@@ -96,7 +96,7 @@ test.describe("F89 Q-03 in the browser (one run)", () => {
   test("Board 3 panel 3: the number is centred in its bubble and the six area names are all drawn (they go to another line)", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const card = page.getByTestId("chart-card").filter({ hasText: "3 · Grupos activos por área OCDE" }).first();
     await card.waitFor({ timeout: 120000 });
     await card.scrollIntoViewIfNeeded();
@@ -177,7 +177,7 @@ test.describe("F89 Q-08 in the browser (one run)", () => {
         return { w, h, first, legendEnd, plotTop };
       });
     };
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const a = await measure();
     console.log(`[live] panel 12 default: legend rows ${a.first}–${a.legendEnd - 1}, first plot ink at row ${a.plotTop} (a gap of ${a.plotTop - a.legendEnd} blank rows)`);
     expect(a.legendEnd - a.first, "the legend band is a few rows tall (no bubble inside it)").toBeLessThanOrEqual(16);
@@ -191,7 +191,7 @@ test.describe("F89 Q-10 in the browser (one run)", () => {
   test("Board 3 panel 17: the open share at the centre of the donut, four cards 2×2 at its right with their labels complete, short sentences", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const card = page.getByTestId("chart-card").filter({ hasText: "17 · Acceso abierto" }).first();
     await card.waitFor({ timeout: 120000 });
     await card.scrollIntoViewIfNeeded();
@@ -241,7 +241,7 @@ test.describe("F91 Q-17 in the browser (one run)", () => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     const tileBgs = new Set();
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(2000);
       const { kpi, tiles } = await page.evaluate(CONTRAST_IN_PAGE);
@@ -278,7 +278,7 @@ test.describe("F89 Q-04 in the browser (one run)", () => {
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const board of [1, 2, 3]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
         await page.waitForTimeout(3500);
         const cards = await page.evaluate(FREE_SPACE_IN_PAGE);
@@ -299,7 +299,7 @@ test.describe("F89 Q-04 treemap label (one run)", () => {
   test("Board 3 panel 2: the label of the smallest block («Ciencias Agrícolas») in three lines fits its block", async ({ page }) => {
     test.setTimeout(250000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     const map = page.getByTestId("areas-treemap");
     await map.waitFor({ timeout: 120000 });
     await map.scrollIntoViewIfNeeded();
@@ -341,7 +341,7 @@ test.describe("F89 Q-16 in the browser (one run)", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const maps = { 1: ["subregion-map"], 2: ["department-map", "subregion-map", "country-map"], 3: [] };
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       const filters = page.getByTestId("filters");
       await filters.waitFor({ timeout: 120000 });
       await page.waitForTimeout(2500);
@@ -377,7 +377,7 @@ test.describe("F89 Q-16 in the browser (one run)", () => {
       }
     }
     // an open menu and a tooltip are above the panel (z-index of Ant: 1050)
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.getByTestId("filters").locator(".ant-select").first().click();
     const dropdown = page.locator(".ant-select-dropdown:visible").first();
@@ -395,7 +395,7 @@ test.describe("F91 Q-20 labels of the tiles (one run)", () => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.locator(".obs-tile").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(1500);
       const labels = await page.locator(".obs-tile").evaluateAll((els) => els.map((el) => { const d = el.firstElementChild; const cs = getComputedStyle(d); return { text: d.textContent, size: cs.fontSize, weight: cs.fontWeight, clipped: d.scrollHeight > d.clientHeight + 1 }; }));
@@ -415,7 +415,7 @@ test.describe("F91 Q-21 complete dates (one run)", () => {
     test.setTimeout(150000);
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-3");
+      await page.goto("/observatories/atlas-udea/board-3");
       await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(1500);
       const kpi = page.locator(".obs-kpi div[title]").filter({ hasText: "al 30 de mayo de 2026" }).first();
@@ -436,7 +436,7 @@ test.describe("F91 Q-23 first KPI says what it counts (one run)", () => {
     test.setTimeout(200000);
     await page.setViewportSize({ width: 1440, height: 1000 });
     const read = async (board, label) => {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       await page.locator(".obs-kpi").first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(1500);
       const card = page.locator(".obs-kpi").first();
@@ -462,7 +462,7 @@ test.describe("F91 Q-19 vertical gap of the tags of the header (one run)", () =>
     for (const board of [1, 2, 3]) {
       for (const width of [1440, 1280, 390]) {
         await page.setViewportSize({ width, height: 900 });
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         const row = page.locator(".obs-tag-row").first();
         await row.waitFor({ timeout: 120000 });
         const gaps = await row.locator(".ant-tag").evaluateAll((els) => {

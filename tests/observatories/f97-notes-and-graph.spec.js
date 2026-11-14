@@ -5,8 +5,8 @@
 import { test, expect } from "@playwright/test";
 
 import { sourceLines } from "../../lib/observatories/cutSources";
-import { REAL_FOOTER_TEXT as FOOT2, realNotes } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { REAL_FOOTER_TEXT as FOOT3, methodNotes, REAL_STAFF_LABEL } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { REAL_FOOTER_TEXT as FOOT2, realNotes } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { REAL_FOOTER_TEXT as FOOT3, methodNotes, REAL_STAFF_LABEL } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const BASE = process.env.E2E_BASE_URL || "http://localhost:3000";
@@ -52,7 +52,7 @@ test.describe("F97 live (one run)", () => {
 
   for (const board of [1, 2, 3]) {
     test(`T${board}: the footer prose does not repeat the list of sources`, async ({ page }) => {
-      await page.goto(`${BASE}/observatories/vri-udea/board-${board}`, { waitUntil: "domcontentloaded" });
+      await page.goto(`${BASE}/observatories/atlas-udea/board-${board}`, { waitUntil: "domcontentloaded" });
       const notes = page.getByTestId("method-notes");
       await expect(notes).toBeVisible({ timeout: 90000 });
       await expect(page.getByTestId("cut-sources")).toBeVisible({ timeout: 30000 });

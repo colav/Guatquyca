@@ -33,8 +33,8 @@ test.describe("documents of the filter (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
-const bundle = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+const BOARD = (n) => `/observatories/atlas-udea/board-${n}`;
+const bundle = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
 
 async function listedDocuments(page, labelText) {
   const field = page.locator("label", { hasText: labelText }).first().locator("xpath=../..");

@@ -9,9 +9,9 @@ import { test, expect } from "@playwright/test";
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
 import { computeFoundations, createFoundationsDataset, DEFAULT_FOUNDATIONS_FILTERS } from "../../lib/observatories/foundations";
-import { DOCUMENT_FILTER_HELP as HELP1 } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import { DOCUMENT_FILTER_HELP as HELP2 } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { DOCUMENT_FILTER_HELP as HELP3 } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
+import { DOCUMENT_FILTER_HELP as HELP1 } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import { DOCUMENT_FILTER_HELP as HELP2 } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { DOCUMENT_FILTER_HELP as HELP3 } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -98,7 +98,7 @@ test.describe("document by pairs against the real quyca (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("the 8 documents: T1 and T2 give the same publications as the mask of the T3; CONPES 4144 = 1.651", async ({ request, page }) => {
     test.setTimeout(250000);
-    const get = async (n) => (await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+    const get = async (n) => (await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
     const [b1, b2, b3] = [await get(1), await get(2), await get(3)];
     for (const p of b3.P) if (p[0] === 0) p[0] = null;
     const d1 = createDataset(b1);
@@ -124,11 +124,11 @@ test.describe("document by pairs against the real quyca (one run)", () => {
     expect(computeCapacity(d1, { scope: "Departamental" }).products).toBe(14108);
     // the page: CONPES 4144 in the KPI of Board 1 and the help of the filter
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1?doc=CONPES+4144");
+    await page.goto("/observatories/atlas-udea/board-1?doc=CONPES+4144");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(page.locator(".obs-kpi").filter({ hasText: "productos con tópico (artículos" }).first()).toContainText("1.651");
-    await page.goto("/observatories/vri-udea/board-2?doc=CONPES+4144");
+    await page.goto("/observatories/atlas-udea/board-2?doc=CONPES+4144");
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(page.locator(".obs-kpi").first()).toContainText("1.651");

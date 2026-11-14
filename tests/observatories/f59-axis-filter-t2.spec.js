@@ -8,7 +8,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCollaboration, createCollaborationDataset, parseCollabFilters, serializeCollabFilters } from "../../lib/observatories/collaboration";
-import { AXIS_FILTER_NOTE, NO_AXIS_RESPONSE } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { AXIS_FILTER_NOTE, NO_AXIS_RESPONSE } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -126,7 +126,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     return [...set].filter((i) => inRange(bundle.works[i]));
   };
   test.beforeAll(async () => {
-    bundle = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    bundle = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     dataset = createCollaborationDataset(bundle);
   });
 
@@ -166,7 +166,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
 
   test("the page: the filter is small, searchable and grouped; the document narrows the list; the URL keeps ?axis=", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await expect(page.getByTestId("filters-toggle")).toBeVisible({ timeout: 120000 });
     const height = Math.round((await page.getByTestId("filters").boundingBox()).height);
     const rows = await page.getByTestId("filter-row").count(); // F77b: two rows of filters
@@ -193,7 +193,7 @@ test.describe("filter of axis against the real quyca (read-only)", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const e = bundle.thesaurus.ejes.find((x) => x.id === 98);
     const expected = direct(98).length;
-    await page.goto(`/observatories/vri-udea/board-2?axis=98&doc=${encodeURIComponent(e.agenda)}`);
+    await page.goto(`/observatories/atlas-udea/board-2?axis=98&doc=${encodeURIComponent(e.agenda)}`);
     const topics = new Set(bundle.thesaurus.agendas.find((a) => a.name === e.agenda).topics);
     const both = expected; /* F61: the document does not restrict when there is an axis */
     await expect(page.locator(".obs-kpi").first()).toContainText(both.toLocaleString("es-CO"), { timeout: 120000 });

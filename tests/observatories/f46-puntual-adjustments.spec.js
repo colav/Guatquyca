@@ -11,7 +11,7 @@ import { CATEGORY, computeCapacity, createDataset } from "../../lib/observatorie
 import { CATEGORY_MARKS } from "../../lib/observatories/palette";
 import { shapePath, xmark } from "../../lib/observatories/shapes";
 import { PUNTUAL_MIN_SIZE, PUNTUAL_SIZE_FACTOR, pointRadius, sizeFor } from "../../lib/observatories/scatterSize";
-import { PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL, SIZE_NOTE, noProductionTooltip, undrawnNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { PRIMARY_TOPIC_LINK_TEXT, PRIMARY_TOPIC_URL, SIZE_NOTE, noProductionTooltip, undrawnNote } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const URL_OPENALEX = "https://help.openalex.org/data/works/attributes/#primary_topic";
 
@@ -67,7 +67,7 @@ test.describe("X, size and wording (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 
 async function open(page, width = 1280, query) {
   await page.setViewportSize({ width, height: 900 });
@@ -81,7 +81,7 @@ test.describe("X, size and links against the real quyca (read-only)", () => {
 
   let raw;
   test.beforeAll(async () => {
-    raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
   });
 
   test("sizes of the punctual points before and after (text): the minimum diameter holds and the noise goes down", async () => {

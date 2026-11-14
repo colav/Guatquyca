@@ -6,12 +6,12 @@
 import { test, expect } from "@playwright/test";
 
 import { groupRegistry, officialActiveGroupsNote, officialGroupsNote } from "../../lib/observatories/officialGroups";
-import { AXIS_LINK_BY_PRODUCTS_HELP } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { AXIS_LINK_BY_PRODUCTS_HELP } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n, query = "") => `/observatories/vri-udea/board-${n}${query ? `?${query}` : ""}`;
-const bundle = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+const BOARD = (n, query = "") => `/observatories/atlas-udea/board-${n}${query ? `?${query}` : ""}`;
+const bundle = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
 
 test.describe("F54 texts (no server)", () => {
   test("the note of the groups takes every figure from the registry of the bundle", () => {
@@ -32,7 +32,7 @@ test.describe("F54 against the final bundles (read-only)", () => {
 
   test("the three bundles carry the final ETags", async () => {
     const etags = [];
-    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag"));
+    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).headers.get("etag"));
     console.log(`[live] ETags: ${etags.join(" ")}`);
     expect(etags.map((e) => e.replace(/"/g, ""))).toEqual(["20261107-c550a33072f7", "20261107-1d00bdd70b19", "20261107-956a71cbf0c3"]); // B128 (D-180)
   });

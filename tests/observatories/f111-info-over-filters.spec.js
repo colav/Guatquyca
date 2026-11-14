@@ -23,7 +23,7 @@ test.describe("window (i) over the panel of filters (one run)", () => {
     for (const width of [1440, 1280, 768]) {
       await page.setViewportSize({ width, height: 520 });
       for (const board of [1, 2, 3]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("filters").waitFor({ timeout: 120000 });
         await page.getByTestId("chart-card").first().waitFor({ timeout: 120000 });
         await page.waitForTimeout(3000);
@@ -58,7 +58,7 @@ test.describe("window (i) over the panel of filters (one run)", () => {
       }
     }
     /* the menu of a filter (Ant, 1050) is above the window (1045): a click outside closes the window, so they never coexist; the numbers are compared */
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await page.getByTestId("filters").locator(".ant-select").first().click();

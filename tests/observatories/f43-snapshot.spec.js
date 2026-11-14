@@ -8,7 +8,7 @@
 import { test, expect } from "@playwright/test";
 
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { SNAPSHOT_NOTE, HELP_TEXT_REAL } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { SNAPSHOT_NOTE, HELP_TEXT_REAL } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 test.describe("snapshot texts (no server)", () => {
   test("the notice and the help text say 2010–2025 and that the years filter does not apply", () => {
@@ -20,7 +20,7 @@ test.describe("snapshot texts (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 
 const legend = (page) =>
   page.getByTestId("category-legend").locator("[data-category]").evaluateAll((nodes) => Object.fromEntries(nodes.map((n) => [n.dataset.category, +n.dataset.count])));
@@ -36,7 +36,7 @@ test.describe("snapshot 2010–2025 against the real quyca (read-only)", () => {
 
   let raw;
   test.beforeAll(async () => {
-    raw = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    raw = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
   });
 
   test("the year filter moves no point and no count of the panels 1 and 2, but it moves the rest of the board", async ({ page }) => {

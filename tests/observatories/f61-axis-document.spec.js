@@ -10,8 +10,8 @@ import { test, expect } from "@playwright/test";
 
 import { computeCollaboration, createCollaborationDataset, parseCollabFilters, reconcileAxisDocument } from "../../lib/observatories/collaboration";
 import { axesOutsideDocument, computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { AXIS_FILTER_NOTE } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
-import { AXIS_FILTER_TOOLTIP } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { AXIS_FILTER_NOTE } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
+import { AXIS_FILTER_TOOLTIP } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -117,8 +117,8 @@ test.describe("axis and document, model (no server)", () => {
 });
 
 /* ---- Real quyca ---- */
-const open2 = "/observatories/vri-udea/board-2";
-const open1 = "/observatories/vri-udea/board-1";
+const open2 = "/observatories/atlas-udea/board-2";
+const open1 = "/observatories/atlas-udea/board-1";
 const fmt = (n) => n.toLocaleString("es-CO");
 
 test.describe("axis and document against the real quyca (read-only, one run)", () => {
@@ -128,9 +128,9 @@ test.describe("axis and document against the real quyca (read-only, one run)", (
   let d1;
   let d2;
   test.beforeAll(async () => {
-    b2 = await (await fetch(`${API}/observatories/vri-udea/boards/2/bundle`)).json();
+    b2 = await (await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`)).json();
     d2 = createCollaborationDataset(b2);
-    b1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    b1 = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     d1 = createDataset(b1);
   });
 

@@ -8,7 +8,7 @@
 import { test, expect } from "@playwright/test";
 
 import { CATEGORY, MIN_PRODUCTS_CLASSIFY, computeCapacity, createDataset } from "../../lib/observatories/capacity";
-import { NO_RATIO_TEXT, FIELD_RATIO_RULE, ratioTopicsText, withoutRatioNote } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { NO_RATIO_TEXT, FIELD_RATIO_RULE, ratioTopicsText, withoutRatioNote } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -111,7 +111,7 @@ test.describe("rule (b) against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   let dataset;
   test.beforeAll(async () => {
-    dataset = createDataset(await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json());
+    dataset = createDataset(await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json());
   });
 
   test("case Engineering (Colombia): rule (a) 2.970 products, 37.029 citations, 129.756, 0,285; rule (b) 130 topics, 33.894 over 100.072, 0,339", () => {
@@ -164,16 +164,16 @@ test.describe("rule (b) against the real quyca (read-only)", () => {
   });
 
   test("the page explains the rule for fields and subfields and says how many have no ratio; topics show no such note", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-1?dimension=subfield");
+    await page.goto("/observatories/atlas-udea/board-1?dimension=subfield");
     const note = page.getByTestId("field-ratio-note");
     await expect(note).toBeVisible({ timeout: 120000 });
     const text = await note.innerText();
     console.log(`[live] note: ${text}`);
     expect(text).toContain("tiene 5 o más productos");
     expect(text).toContain("16 subcampos sin ningún tópico con 5 o más productos");
-    await page.goto("/observatories/vri-udea/board-1?dimension=field");
+    await page.goto("/observatories/atlas-udea/board-1?dimension=field");
     await expect(page.getByTestId("field-ratio-note")).not.toContainText("sin ningún tópico", { timeout: 120000 });
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("snapshot-note").first()).toBeVisible({ timeout: 120000 });
     await expect(page.getByTestId("field-ratio-note")).toHaveCount(0);
   });

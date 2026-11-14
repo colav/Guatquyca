@@ -7,9 +7,9 @@ import { test, expect } from "@playwright/test";
 
 const LIVE = !!process.env.E2E_LIVE;
 const BOARDS = [
-  ["T1", "/observatories/vri-udea/board-1", "category-legend"],
-  ["T2", "/observatories/vri-udea/board-2", "axis-filter"],
-  ["T3", "/observatories/vri-udea/board-3", "filters"],
+  ["T1", "/observatories/atlas-udea/board-1", "category-legend"],
+  ["T2", "/observatories/atlas-udea/board-2", "axis-filter"],
+  ["T3", "/observatories/atlas-udea/board-3", "filters"],
 ];
 
 test.describe("cost of a change of filter (real quyca, CPU at a quarter)", () => {

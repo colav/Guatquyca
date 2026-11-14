@@ -1,6 +1,6 @@
 /*
  * F123 (D-263): final sweep before the push. The 44 panels of the three boards at 1440, 1280 and 768 px with the real bundles: no «NaN» or
- * «undefined» in the text, no console error, no failed request, ETags of 02 v28, and the home of the observatories and the cover of the VRI-UdeA
+ * «undefined» in the text, no console error, no failed request, ETags of 02 v28, and the home of the observatories and the cover of the Atlas UdeA
  * without console errors either. E2E_LIVE=1 reads the real quyca and the dev server.
  */
 import { test, expect } from "@playwright/test";
@@ -36,7 +36,7 @@ test.describe("F123 final sweep (one run)", () => {
     for (const width of [1440, 1280, 768]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const board of [1, 2, 3]) {
-        await page.goto(`/observatories/vri-udea/board-${board}`);
+        await page.goto(`/observatories/atlas-udea/board-${board}`);
         await page.getByTestId("method-notes").waitFor({ timeout: 150000 });
         await page.waitForTimeout(4000);
         const m = await page.evaluate(() => {
@@ -65,11 +65,11 @@ test.describe("F123 final sweep (one run)", () => {
     const homeErrors = [...new Set(home.errors)].filter((e) => !ENV.test(e));
     expect(homeErrors, "home of the observatories").toEqual([]);
     const cover = watch(page);
-    await page.goto("/observatories/vri-udea");
+    await page.goto("/observatories/atlas-udea");
     await page.waitForTimeout(9000);
     const errors = [...new Set(cover.errors)].filter((e) => !ENV.test(e));
     console.log(`[real] cover: ${JSON.stringify(errors)}`);
     /* F126: the PolygonLayer exception of the map of the subregions is prevented (mapGuard.js); the cover has no uncaught error. */
-    expect(errors, "cover of the VRI-UdeA").toEqual([]);
+    expect(errors, "cover of the Atlas UdeA").toEqual([]);
   });
 });

@@ -47,7 +47,7 @@ test.describe("F95 against the API and the pages (one run)", () => {
 
   test("ETags of B147 and the sources of /cut", async ({ request }) => {
     const etags = [];
-    for (const n of [1, 2, 3]) etags.push((await request.get(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers().etag);
+    for (const n of [1, 2, 3]) etags.push((await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).headers().etag);
     console.log(`[live] ETags ${etags.join(" ")}`);
     expect(etags).toEqual(['"20261107-c550a33072f7"', '"20261107-1d00bdd70b19"', '"20261107-956a71cbf0c3"']);
     const cut = (await (await request.get(`${API}/observatories/vri-udea/cut`)).json()).data;
@@ -60,7 +60,7 @@ test.describe("F95 against the API and the pages (one run)", () => {
     const cut = (await (await request.get(`${API}/observatories/vri-udea/cut`)).json()).data;
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [1, 2, 3]) {
-      await page.goto(`/observatories/vri-udea/board-${board}`);
+      await page.goto(`/observatories/atlas-udea/board-${board}`);
       const box = page.getByTestId("cut-sources");
       await box.waitFor({ timeout: 120000 });
       const shown = await box.locator("ul > li").allInnerTexts();

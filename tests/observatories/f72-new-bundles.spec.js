@@ -8,8 +8,8 @@ import { test, expect } from "@playwright/test";
 
 import { DEFAULT_FOUNDATIONS_FILTERS, ART_LEVELS, PRODUCT, computeFoundations, createFoundationsDataset } from "../../lib/observatories/foundations";
 import { computeCollaboration, createCollaborationDataset } from "../../lib/observatories/collaboration";
-import { SCOPE_LABELS, AREAS_NOTE, PID_NOTE, pieNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
-import { SCOPE_OPTIONS } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { SCOPE_LABELS, AREAS_NOTE, PID_NOTE, pieNote } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
+import { SCOPE_OPTIONS } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
@@ -102,11 +102,11 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
   let dataset;
   test.beforeAll(async () => {
     const etags = [];
-    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
+    for (const n of [1, 2, 3]) etags.push((await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).headers.get("etag").replace(/"/g, ""));
     console.log(`[live] ETags ${etags.join(" ")}`);
     expect(etags).toEqual(["20261107-c550a33072f7", "20261107-1d00bdd70b19", "20261107-956a71cbf0c3"]);
-    b1 = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
-    b3 = await (await fetch(`${API}/observatories/vri-udea/boards/3/bundle`)).json();
+    b1 = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
+    b3 = await (await fetch(`${API}/observatories/atlas-udea/boards/3/bundle`)).json();
     for (const p of b3.P) if (p[0] === 0) p[0] = null;
     dataset = createFoundationsDataset({ ...b3, artes: { ...b3.artes, prof: b3.artes.prof.map(({ id, ...rest }) => rest) } });
   });
@@ -143,7 +143,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
   test("the pages: T3 panels 2, 12, 14, 17 and 18, the scope list; T2 indicator 7; T1 without «Financiadores»", async ({ page }) => {
     test.setTimeout(280000);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-3");
+    await page.goto("/observatories/atlas-udea/board-3");
     await page.getByTestId("filters").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3500);
     const text = (title) => page.getByTestId("chart-card").filter({ hasText: title }).first().innerText();
@@ -190,7 +190,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     expect(items[1]).toContain("sin el Valle de Aburrá");
 
     // Board 2, indicator 7
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     await page.getByTestId("axis-filter").waitFor({ timeout: 120000 });
     await page.waitForTimeout(3000);
     const p7 = await page.getByTestId("chart-card").filter({ hasText: "7 ·" }).first().innerText();
@@ -199,7 +199,7 @@ test.describe("the new bundles (real quyca, read-only, one run)", () => {
     expect(await page.locator("main").innerText()).not.toContain("UNAULA");
 
     // Board 1: no «Financiadores»
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     expect(await page.locator("main").innerText()).not.toContain("Financiadores");
@@ -210,12 +210,12 @@ test.describe("T1 · note of the panel 5 with an ODS chosen (real quyca)", () =>
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
   test("it says that the products without a record in OpenAlex stay out (11.569)", async ({ page }) => {
     test.setTimeout(150000);
-    const b1 = await (await page.request.get(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    const b1 = await (await page.request.get(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     const noRecord = b1.facts.filter((f) => f[14] !== 1).length;
     expect(noRecord).toBe(11569);
     expect(b1.facts.filter((f) => f[14] !== 1 && f[11].length).length).toBe(0); // none of them has an ODS
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/observatories/vri-udea/board-1?ods=3");
+    await page.goto("/observatories/atlas-udea/board-1?ods=3");
     await expect(page.getByTestId("category-legend")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2500);
     await expect(page.getByTestId("ods-selected-note")).toContainText("quedan fuera los 11.569 productos sin registro en OpenAlex");

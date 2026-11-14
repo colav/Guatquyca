@@ -7,9 +7,9 @@ import { test, expect } from "@playwright/test";
 
 import { createCollaborationDataset } from "../../lib/observatories/collaboration";
 import { createFoundationsDataset } from "../../lib/observatories/foundations";
-import { centerCoverageNote, CENTER_TOOLTIP } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
-import { linkageNote } from "../../app/observatories/vri-udea/board-3/components/boardTexts";
-import { realNotice } from "../../app/observatories/vri-udea/board-2/components/boardTexts";
+import { centerCoverageNote, CENTER_TOOLTIP } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
+import { linkageNote } from "../../app/observatories/atlas-udea/board-3/components/boardTexts";
+import { realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
 import { LOAD_ERROR_SUBTITLES } from "../../lib/observatories/data/loadError";
 
 test.describe("F36b texts and coverage (no server)", () => {
@@ -55,8 +55,8 @@ test.describe("F36b texts and coverage (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BOARD = (n) => `/observatories/vri-udea/board-${n}`;
-const bundle = async (n) => (await fetch(`${API}/observatories/vri-udea/boards/${n}/bundle`)).json();
+const BOARD = (n) => `/observatories/atlas-udea/board-${n}`;
+const bundle = async (n) => (await fetch(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).json();
 
 test.describe("F36b against the real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -84,7 +84,7 @@ test.describe("F36b against the real quyca (read-only)", () => {
   test("«Reintentar» asks for the bundle again without reloading the page (three boards)", async ({ page }) => {
     for (const n of [1, 2, 3]) {
       let calls = 0;
-      await page.route(`**/observatories/vri-udea/boards/${n}/bundle`, (route) => {
+      await page.route(`**/observatories/atlas-udea/boards/${n}/bundle`, (route) => {
         calls += 1;
         return calls === 1 ? route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "x", code: "observatory_not_loaded" }) }) : route.continue();
       });
@@ -98,7 +98,7 @@ test.describe("F36b against the real quyca (read-only)", () => {
       await expect(page.getByLabel("Filtros").first()).toBeVisible({ timeout: 120000 });
       expect(calls).toBe(2);
       expect(reloaded).toBe(false);
-      await page.unroute(`**/observatories/vri-udea/boards/${n}/bundle`);
+      await page.unroute(`**/observatories/atlas-udea/boards/${n}/bundle`);
     }
   });
 

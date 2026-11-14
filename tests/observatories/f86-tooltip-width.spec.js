@@ -120,7 +120,7 @@ test.describe("width of the tooltip in the four maps (one run)", () => {
     test.setTimeout(290000);
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       const sub = page.getByTestId("subregion-map");
       await ready(page, sub);
       const result = await measure(page, sub, `Board 1 at ${width}`);
@@ -133,7 +133,7 @@ test.describe("width of the tooltip in the four maps (one run)", () => {
   test("Board 2 at 1440: departments, subregions and countries", async ({ page }) => {
     test.setTimeout(290000);
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto("/observatories/vri-udea/board-2");
+    await page.goto("/observatories/atlas-udea/board-2");
     for (const id of ["department-map", "subregion-map", "country-map"]) {
       const box = page.getByTestId(id);
       await ready(page, box);

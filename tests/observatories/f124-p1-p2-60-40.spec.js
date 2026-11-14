@@ -4,7 +4,7 @@
  */
 import { test, expect } from "@playwright/test";
 
-import { CALCULATOR_EXPLANATION } from "../../app/observatories/vri-udea/board-1/components/boardTexts";
+import { CALCULATOR_EXPLANATION } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 
 const LIVE = !!process.env.E2E_LIVE;
 
@@ -22,7 +22,7 @@ test.describe("panels 1 and 2 in the page (one run)", () => {
     const lines = [];
     for (const width of [1440, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/observatories/vri-udea/board-1");
+      await page.goto("/observatories/atlas-udea/board-1");
       await page.getByTestId("method-notes").waitFor({ timeout: 150000 });
       await page.waitForTimeout(4000);
       const m = await page.evaluate(() => {

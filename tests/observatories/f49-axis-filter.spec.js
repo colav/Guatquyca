@@ -112,7 +112,7 @@ test.describe("axis filter and table of topics (no server)", () => {
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const PAGE = (query = "") => `/observatories/vri-udea/board-1${query ? `?${query}` : ""}`;
+const PAGE = (query = "") => `/observatories/atlas-udea/board-1${query ? `?${query}` : ""}`;
 const fmt = (n) => n.toLocaleString("es-CO");
 
 test.describe("axis filter against the real quyca (read-only)", () => {
@@ -121,7 +121,7 @@ test.describe("axis filter against the real quyca (read-only)", () => {
   let real;
   let dataset;
   test.beforeAll(async () => {
-    real = await (await fetch(`${API}/observatories/vri-udea/boards/1/bundle`)).json();
+    real = await (await fetch(`${API}/observatories/atlas-udea/boards/1/bundle`)).json();
     dataset = createDataset(real);
   });
 

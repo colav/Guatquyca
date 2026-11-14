@@ -41,9 +41,9 @@ export default function ObservatoriesSection() {
             ))}
           </ul>
           <div className={styles.actions}>
-            <Link href="/observatories/vri-udea">
+            <Link href="/observatories/atlas-udea">
               <Button type="primary" size="large" className={styles.primary_button}>
-                Explorar el observatorio <ArrowRightOutlined className={styles.arrow} />
+                Explorar el atlas <ArrowRightOutlined className={styles.arrow} />
               </Button>
             </Link>
             <Link href="/observatories" className={styles.secondary_link}>

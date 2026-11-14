@@ -2,7 +2,7 @@
  * Board 1 against a REAL quyca (read-only). Skipped unless E2E_LIVE is set, for example:
  *   E2E_LIVE=1 npx playwright test tests/observatories/board-1-live.spec.js -c playwright.observatories.config.js
  *
- * They only read: GET /observatories/vri-udea/boards/1/bundle and /cut (02 §3.11 and §3.12). They
+ * They only read: GET /observatories/atlas-udea/boards/1/bundle and /cut (02 §3.11 and §3.12). They
  * check the shape, the headers, the error states and that the filters stack on the counts. They
  * do not assert exact figures of the real data (those change with every load).
  */
@@ -12,7 +12,7 @@ import { CALCULATOR_FONT_SIZE, CALCULATOR_LABEL_WIDTH, CATEGORY_LABELS, CATEGORY
 
 const LIVE = !!process.env.E2E_LIVE;
 const API = process.env.E2E_API_URL || "http://localhost:8080";
-const BUNDLE = `${API}/observatories/vri-udea/boards/1/bundle`;
+const BUNDLE = `${API}/observatories/atlas-udea/boards/1/bundle`;
 
 test.describe("Board 1 against a real quyca (read-only)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -52,7 +52,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
     const response = await fetch(`${API}/observatories/otro/boards/1/bundle`);
     expect(response.status).toBe(404);
     expect(await response.json()).toHaveProperty("error");
-    expect((await fetch(`${API}/observatories/vri-udea/boards/9/bundle`)).status).toBe(404);
+    expect((await fetch(`${API}/observatories/atlas-udea/boards/9/bundle`)).status).toBe(404);
   });
 
   test("/cut gives the footer text (02 §3.12)", async () => {
@@ -113,7 +113,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("the confidence control goes to the URL (?pairs=all) and keeps the other parameters", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByText("Confianza de la asignación a ejes")).toBeVisible({ timeout: 120000 });
     await page.getByText("Incluir baja", { exact: true }).click();
     await expect(page).toHaveURL(/pairs=all/, { timeout: 5000 });
@@ -155,7 +155,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("the calculator is horizontal bars: eight complete labels in order, figures that match the calculation, zeros with the world as reference", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     const chart = page.getByTestId("calculator-bars");
     await expect(chart).toBeVisible({ timeout: 120000 });
     const dataset = createDataset(raw);
@@ -197,7 +197,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("the tooltip of the scatter has one labelled line per datum (F34)", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     const card = page.locator(".ant-card", { hasText: "Dispersión de tópicos" }).first();
     await expect(card.locator("canvas").first()).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(2000);
@@ -231,7 +231,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("the page loads the bundle, shows the footer from /cut and no 'Datos de prueba'", async ({ page }) => {
-    await page.goto("/observatories/vri-udea/board-1");
+    await page.goto("/observatories/atlas-udea/board-1");
     await expect(page.getByText("Datos de ImpactU · capacidad frente a la institución más citada")).toBeVisible({ timeout: 120000 });
     await expect(page.getByText("Datos de prueba")).toHaveCount(0);
     await expect(page.getByText("Fuentes y fechas de corte:")).toBeVisible();

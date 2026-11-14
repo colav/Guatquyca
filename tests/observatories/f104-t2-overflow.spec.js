@@ -8,7 +8,7 @@ const LIVE = !!process.env.E2E_LIVE;
 
 async function measure(page, width) {
   await page.setViewportSize({ width, height: 1000 });
-  await page.goto("/observatories/vri-udea/board-2", { waitUntil: "domcontentloaded" });
+  await page.goto("/observatories/atlas-udea/board-2", { waitUntil: "domcontentloaded" });
   await page.locator('[data-testid="chart-card"]').first().waitFor({ timeout: 120000 });
   await page.waitForTimeout(3500);
   return page.evaluate(() => {
@@ -47,7 +47,7 @@ test.describe("F104 antd warnings of PanelInfo", () => {
       const warnings = [];
       page.on("console", (m) => { if (/antd/i.test(m.text()) && /deprecated/i.test(m.text())) warnings.push(m.text().slice(0, 160)); });
       await page.setViewportSize({ width: 1440, height: 1000 });
-      await page.goto(`/observatories/vri-udea/board-${board}`, { waitUntil: "domcontentloaded" });
+      await page.goto(`/observatories/atlas-udea/board-${board}`, { waitUntil: "domcontentloaded" });
       await page.locator('[data-testid="chart-card"]').first().waitFor({ timeout: 120000 });
       await page.waitForTimeout(3000);
       const button = page.getByTestId("panel-info").first();
