@@ -98,7 +98,8 @@ test.describe("part B (no server)", () => {
   });
 
   test("text of the warning of 2025 (provisional)", () => {
-    expect(PROJECTS_2025_WARNING).toContain("listado de la VRI-UdeA (SIIU): el último inicio registrado");
+    expect(PROJECTS_2025_WARNING).toContain("Los proyectos de SIIU llegan hasta el 18 de junio de 2025");
+    expect(PROJECTS_2025_WARNING).toContain("el archivo de la Fundación UdeA no declara fecha de corte");
     expect(PROJECTS_2025_WARNING).toContain("18 de junio de 2025");
     expect(PROJECTS_2025_WARNING).not.toContain("extrajeron");
   });
@@ -110,24 +111,24 @@ test.describe("part B with the real bundle (one run)", () => {
   test("B142: ETag, por_centro of the 25 centres, 37 projects, and the page", async ({ page, request }) => {
     test.setTimeout(250000);
     const response = await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`);
-    expect(response.headers().etag).toBe('"20261107-956a71cbf0c3"');
+    expect(response.headers().etag).toBe('"20261107-e1499dff824f"');
     const body = await response.json();
     const b3 = body.data || body;
     expect(Object.keys(b3.proj.por_centro)).toHaveLength(25);
-    expect(Object.values(b3.proj.por_centro).reduce((a, v) => a + v.proyectos, 0)).toBe(2524);
+    expect(Object.values(b3.proj.por_centro).reduce((a, v) => a + v.proyectos, 0)).toBe(2587);
     expect(b3.artes.proy_unicos).toBe(37);
     const ds = createFoundationsDataset(b3);
     const siu = b3.centros.indexOf("SIU");
     const s = computeFoundations(ds, { ...DEFAULT_FOUNDATIONS_FILTERS, centerIndex: siu, yearFrom: 2014, yearTo: 2025 }).students;
     console.log(`[live] SIU: ${s.uniqueStudents} students in ${s.projects} projects`);
-    expect([s.uniqueStudents, s.projects]).toEqual([408, 374]);
+    expect([s.uniqueStudents, s.projects]).toEqual([408, 413]);
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(`/observatories/atlas-udea/board-3?center=${siu}`);
     await expect(page.getByText("7 · Estudiantes en proyectos por nivel")).toBeVisible({ timeout: 120000 });
     const text = page.locator("body");
-    await expect(text).toContainText("408 estudiantes únicos en 374 proyectos", { timeout: 60000 });
+    await expect(text).toContainText("408 estudiantes únicos en 413 proyectos", { timeout: 60000 });
     await expect(text).not.toContainText("3.512 estudiantes únicos");
-    await expect(text).toContainText("Proyectos del listado de la VRI-UdeA (SIIU): el último inicio registrado");
+    await expect(text).toContainText("Los proyectos de SIIU llegan hasta el 18 de junio de 2025");
     await expect(text).toContainText("39 proyectos de 11 grupos (37 proyectos únicos). No responde a los filtros.");
   });
 });

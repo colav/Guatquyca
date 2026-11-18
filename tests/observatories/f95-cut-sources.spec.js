@@ -49,15 +49,15 @@ test.describe("F95 against the API and the pages (one run)", () => {
     const etags = [];
     for (const n of [1, 2, 3]) etags.push((await request.get(`${API}/observatories/atlas-udea/boards/${n}/bundle`)).headers().etag);
     console.log(`[live] ETags ${etags.join(" ")}`);
-    expect(etags).toEqual(['"20261107-c550a33072f7"', '"20261107-1d00bdd70b19"', '"20261107-956a71cbf0c3"']);
-    const cut = (await (await request.get(`${API}/observatories/vri-udea/cut`)).json()).data;
-    expect(cut.fuentes).toHaveLength(11);
+    expect(etags).toEqual(['"20261107-c550a33072f7"', '"20261107-bec6b50fc071"', '"20261107-e1499dff824f"']);
+    const cut = (await (await request.get(`${API}/observatories/atlas-udea/cut`)).json()).data;
+    expect(cut.fuentes).toHaveLength(12);
     expect(cut.texto).toBe("Datos consultados en octubre de 2026.");
   });
 
   test("each board shows the sources of its list with the dates of the API, and no date of loading", async ({ page, request }) => {
     test.setTimeout(250000);
-    const cut = (await (await request.get(`${API}/observatories/vri-udea/cut`)).json()).data;
+    const cut = (await (await request.get(`${API}/observatories/atlas-udea/cut`)).json()).data;
     await page.setViewportSize({ width: 1440, height: 1000 });
     for (const board of [1, 2, 3]) {
       await page.goto(`/observatories/atlas-udea/board-${board}`);
@@ -68,7 +68,7 @@ test.describe("F95 against the API and the pages (one run)", () => {
       console.log(`[live] Board ${board}: ${shown.length} sources; first «${shown[0]}»; without date: ${shown.filter((s) => !/\d{4}$/.test(s)).length}`);
       expect(shown.map((s) => s.replace(/\s+/g, " ").trim())).toEqual(expected);
       const all = await page.getByTestId("method-notes").innerText();
-      expect(all).not.toContain("7 de noviembre");
+      expect(all).not.toMatch(/7 de noviembre/);
       expect(all).not.toContain("Datos consultados en octubre de 2026.");
     }
   });

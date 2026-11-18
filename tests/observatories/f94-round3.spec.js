@@ -91,7 +91,7 @@ import { MONEY_NOTE, realNotes } from "../../app/observatories/atlas-udea/board-
 test.describe("F94 note of the amounts (Q-28 iv)", () => {
   test("the notes of method of Board 2 end with the money note, and it says COP", () => {
     const notes = realNotes({ documentsWithTerms: 8, documents: 12, appropriationWithoutYear: 735, appropriation: 752 });
-    expect(MONEY_NOTE).toBe("Montos en pesos colombianos (COP) según el registro de proyectos de la Universidad.");
+    expect(MONEY_NOTE).toBe("Los montos en moneda extranjera se convirtieron a pesos colombianos (COP) con la TRM promedio del año de inicio del proyecto; son estimaciones y no valores contables.");
     expect(notes[notes.length - 1]).toBe(MONEY_NOTE);
   });
 

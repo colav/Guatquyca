@@ -14,7 +14,7 @@ export const INCOMPLETE_YEARS_NOTE = "Los productos de 2025 y 2026 pueden estar 
 
 export const BOARD_TITLE = "Masa crítica temática: campos de conocimiento demandados";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Atlas de Capacidades 2026";
 
 export const BOARD_LEAD =
   "Capacidad de la UdeA para generar impacto con su propia producción en cada tópico de OpenAlex, medida en seis categorías (líder, consolidado, en consolidación, emergente, riesgo de desaparecer, sin producción) y asociada a los Ejes Temáticos de las agendas públicas.";

@@ -24,10 +24,20 @@ test.describe("F93 amounts of the funders (no server)", () => {
     expect(lines).toEqual([
       { name: "Aportes en dinero", value: "$237.500 millones" },
       { name: "Aportes en especie", value: "$2.526 millones" },
-      { name: "Con monto declarado", value: "445 proyectos" },
+      { name: "Con monto en dinero o en especie declarado en COP", value: "445 proyectos" },
     ]);
     expect(JSON.stringify(lines)).not.toMatch(/moneda|USD|EUR|UdeA/i);
     expect(fundingDetails({ cash: 0, inKind: 0, withAmount: 1 })[2].value).toBe("1 proyecto");
+  });
+
+  test("F135: the tooltip adds «Total estimado (COP)» after the three lines when the funder carries a total, and the bar stays the number of projects", () => {
+    const lines = fundingDetails({ cash: 504e6, inKind: 0, withAmount: 2, total: 22876e6 });
+    expect(lines).toHaveLength(4);
+    expect(lines[3]).toEqual({ name: "Total estimado (COP)", value: "$22.876 millones" });
+    const rows = funderRows([{ nm: "NIH", fsector: "g", proyectos: 15, cash: 504e6, inKind: 0, withAmount: 2, total: 22876e6 }, { nm: "Solo total", fsector: "g", proyectos: 6, total: 2203e6 }], () => "S");
+    expect(rows[0].segments[0].value).toBe(15);
+    expect(rows[1].details).toEqual([{ name: "Total estimado (COP)", value: "$2.203 millones" }]);
+    expect(JSON.stringify(lines)).not.toMatch(/USD|EUR|UdeA/i);
   });
 
   test("a row has details only when the funder carries amounts, and its value is still the number of projects", () => {
@@ -46,7 +56,7 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
   test.beforeAll(async () => {
     const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag T2 ${res.headers.get("etag")}`);
-    expect(res.headers.get("etag")).toBe('"20261107-1d00bdd70b19"');
+    expect(res.headers.get("etag")).toBe('"20261107-bec6b50fc071"');
     bundle = await res.json();
     bundle.funders = bundle.ext.funders;
     dataset = createCollaborationDataset(bundle);
@@ -80,8 +90,35 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
     for (let i = 1; i < wide.length; i++) expect(wide[i - 1].proyectos).toBeGreaterThanOrEqual(wide[i].proyectos);
   });
 
-  test("none of the 30 funders has doubtful lines, so the panel carries no note about the currency", () => {
-    expect(bundle.ext.funders_montos.filter((m) => m.lineas_dudosas > 0)).toEqual([]);
+  test("none of the 30 funders has a doubtful line (B177 [real]: the six lines in foreign currency are converted; NIH had 1 in B176); the panel carries no note per line", () => {
+    const doubtful = bundle.ext.funders_montos.map((m, i) => [bundle.ext.funders[i].nm, m.lineas_dudosas]).filter((x) => x[1] > 0);
+    expect(doubtful).toEqual([]);
+  });
+
+  test("F135 (B176): the pair totals reproduce monto_total_cop of every funder over the whole range, and a narrower range gives less", () => {
+    const pairs = bundle.ext.project_funders_total_cop;
+    expect(pairs).toHaveLength(bundle.projects.length);
+    bundle.ext.project_funders.forEach((l, p) => expect(pairs[p]).toHaveLength(l.length));
+    const all = computeCollaboration(dataset, { yearFrom: 2000, yearTo: 2030 }).funders;
+    const names = bundle.ext.funders.map((x) => x.nm);
+    expect(all.length).toBeGreaterThan(20);
+    let sum = 0;
+    for (const f of all) {
+      expect(f.total, f.nm).toBeCloseTo(bundle.ext.funders[names.indexOf(f.nm)].monto_total_cop, 0);
+      sum += f.total;
+    }
+    const nih = all.find((f) => /NIH/.test(f.nm));
+    console.log("[live] F135: NIH total " + Math.round(nih.total / 1e6) + " millones with " + nih.proyectos + " projects; shown funders sum " + Math.round(sum / 1e6) + " millones");
+    const narrow = computeCollaboration(dataset, { yearFrom: 2020, yearTo: 2022 }).funders;
+    expect(narrow.reduce((a, f) => a + f.total, 0)).toBeLessThan(sum);
+  });
+
+  test("F135: without the list per project the ranking of the bundle carries monto_total_cop as the total", () => {
+    const fixed = createCollaborationDataset({ ...bundle, ext: { ...bundle.ext, project_funders: undefined } });
+    const unfiltered = computeCollaboration(fixed, {}).funders;
+    expect(unfiltered.every((f) => Number.isFinite(f.total))).toBe(true);
+    const nih = unfiltered.find((f) => /NIH/.test(f.nm));
+    expect(nih.total).toBeCloseTo(bundle.ext.funders.find((x) => /NIH/.test(x.nm)).monto_total_cop, 0);
   });
 
   test("the page: the ranking draws, the panel says nothing about the currency and no «Nombre original»", async ({ page }) => {
@@ -102,12 +139,12 @@ test.describe("F93 against the bundle of B146 (one run)", () => {
 test.describe("F97 the ranking of B150 against the tooltip (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
 
-  test("784 pairs project–funder, San Vicente as one row at the fifth place, the Municipio de Medellín at the sixth with its amounts, and the panel draws the first 25", async () => {
+  test("797 pairs project–funder (B176; 784 before), San Vicente as one row at the fifth place, the Municipio de Medellín at the sixth with its amounts, and the panel draws the first 25", async () => {
     const res = await fetch(`${API}/observatories/atlas-udea/boards/2/bundle`);
-    expect(res.headers.get("etag")).toBe('"20261107-1d00bdd70b19"');
+    expect(res.headers.get("etag")).toBe('"20261107-bec6b50fc071"');
     const b = await res.json();
     const pairs = b.ext.project_funders_montos.reduce((a, l) => a + l.length, 0);
-    expect(pairs).toBe(784);
+    expect(pairs).toBe(797);
     b.funders = b.ext.funders;
     const ranking = computeCollaboration(createCollaborationDataset(b), { yearFrom: 2010, yearTo: 2026 }).funders;
     const sv = ranking.filter((f) => /san vicente/i.test(f.nm) && !/pa[uú]l/i.test(f.nm));

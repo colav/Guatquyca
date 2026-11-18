@@ -20,7 +20,7 @@ export const KpiRow = memo(function KpiRow({ kpis, projectDetail = "" }) {
     [kpis.withExternal, "con al menos un coautor externo"],
     [kpis.withNonAcademic, "con actor no académico (empresa, gobierno, ONG, salud)"],
     [kpis.withInternational, "con coautoría internacional"],
-    [kpis.projects, "proyectos SIIU", projectDetail],
+    [kpis.projects, "proyectos", projectDetail],
     [kpis.projectsExternal, "proyectos con aportante externo", projectDetail],
   ];
   return (

@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 
 /* APIs */
-import { getCutoff } from "@/lib/apis/observatory.api";
+import { getCutoff, OBSERVATORY_SLUG } from "@/lib/apis/observatory.api";
 import { sourceLines } from "@/lib/observatories/cutSources";
 
 /* UI Library Components */
@@ -15,7 +15,7 @@ export const CUTOFF_FOOTER = "Datos consultados en octubre de 2026.";
 
 /**
  * The only box of methodological notes at the foot of each board (Q-24, F91): the numbered notes of the board and, as the last one,
- * the cut-off date of the data. The date comes from GET /observatories/vri-udea/cut (02 §3.12, field `texto`); if the call fails
+ * the cut-off date of the data. The date comes from GET /observatories/atlas-udea/cut (02 §3.12, field `texto`); if the call fails
  * the fixed text stays.
  *
  * F95 (Q-31, B148): when the API gives `fuentes`, the last note lists the sources that the board uses, each with its real date (a source
@@ -31,7 +31,7 @@ export default function CutoffNote({ notes = [], board }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    getCutoff("vri-udea", { signal: controller.signal })
+    getCutoff(OBSERVATORY_SLUG, { signal: controller.signal })
       .then((cut) => {
         if (cut && typeof cut.texto === "string" && cut.texto) setText(cut.texto);
         if (cut && board) setSources(sourceLines(cut.fuentes, board));

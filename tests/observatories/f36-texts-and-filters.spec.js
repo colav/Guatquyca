@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
 import { computeCapacity, createDataset } from "../../lib/observatories/capacity";
 import { centerCoverageNote, CENTER_TOOLTIP } from "../../app/observatories/atlas-udea/board-1/components/boardTexts";
 import { realNotice } from "../../app/observatories/atlas-udea/board-2/components/boardTexts";
-import { getBoardBundle } from "../../lib/apis/observatory.api";
+import { getBoardBundle, OBSERVATORY_SLUG } from "../../lib/apis/observatory.api";
 
 test.describe("download of the bundle that is cut halfway (no server)", () => {
   const realFetch = globalThis.fetch;
@@ -18,14 +18,14 @@ test.describe("download of the bundle that is cut halfway (no server)", () => {
   test("a body cut halfway is tried once more and then it works", async () => {
     let calls = 0;
     globalThis.fetch = async () => { calls++; return answer(calls === 1 ? async () => { throw new TypeError("network error"); } : async () => ({ ok: 1 })); };
-    await expect(getBoardBundle("vri-udea", 1)).resolves.toEqual({ ok: 1 });
+    await expect(getBoardBundle(OBSERVATORY_SLUG, 1)).resolves.toEqual({ ok: 1 });
     expect(calls).toBe(2);
   });
 
   test("two cuts in a row are reported as a network failure, not as a server error", async () => {
     let calls = 0;
     globalThis.fetch = async () => { calls++; return answer(async () => { throw new TypeError("network error"); }); };
-    const error = await getBoardBundle("vri-udea", 1).catch((e) => e);
+    const error = await getBoardBundle(OBSERVATORY_SLUG, 1).catch((e) => e);
     expect(error.isNetwork).toBe(true);
     expect(calls).toBe(2);
   });
@@ -33,7 +33,7 @@ test.describe("download of the bundle that is cut halfway (no server)", () => {
   test("an HTTP error is not retried and keeps its status and code", async () => {
     let calls = 0;
     globalThis.fetch = async () => { calls++; return { ok: false, status: 503, json: async () => ({ error: "x", code: "observatory_not_loaded" }) }; };
-    const error = await getBoardBundle("vri-udea", 1).catch((e) => e);
+    const error = await getBoardBundle(OBSERVATORY_SLUG, 1).catch((e) => e);
     expect(error.status).toBe(503);
     expect(error.code).toBe("observatory_not_loaded");
     expect(calls).toBe(1);

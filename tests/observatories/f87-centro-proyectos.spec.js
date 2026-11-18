@@ -54,8 +54,8 @@ test.describe("panel 07 by centre (no server)", () => {
   });
 });
 
-/* Projects per centre of the table of B138 §1 (the sum of the 25 is 2.524), for the report. */
-const EXPECTED = { Agrarias: 54, Nutrición: 69, Ingeniería: 300, Artes: 35, SIU: 374, "Corporación Académica Ambiental": 18, Farmacia: 92, Económicas: 84, Comunicaciones: 117, Exactas: 290, Bibliotecología: 35, Deportes: 41, INER: 32, "Estudios Políticos": 31, Idiomas: 51, Filosofía: 32, "Corporación Académica para el Estudio de Patologías Tropicales": 52, Educación: 88, Enfermería: 71, "Salud Pública": 73, Medicina: 200, Derecho: 127, Microbiología: 95, Odontología: 71, Sociales: 92 };
+/* Projects per centre of the table of B138 §1 (the sum of the 25 is 2.587 since B172–B175: 63 projects of the Fundación UdeA more), for the report. */
+const EXPECTED = { Agrarias: 56, Nutrición: 70, Ingeniería: 301, Artes: 36, SIU: 413, "Corporación Académica Ambiental": 18, Farmacia: 94, Económicas: 86, Comunicaciones: 118, Exactas: 292, Bibliotecología: 35, Deportes: 42, INER: 32, "Estudios Políticos": 31, Idiomas: 52, Filosofía: 33, "Corporación Académica para el Estudio de Patologías Tropicales": 53, Educación: 88, Enfermería: 72, "Salud Pública": 74, Medicina: 203, Derecho: 127, Microbiología: 96, Odontología: 72, Sociales: 93 };
 
 test.describe("panel 07 with the 25 centres (one run)", () => {
   test.skip(!LIVE, "Set E2E_LIVE=1 to read the real quyca.");
@@ -64,7 +64,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(200000);
     const response = await request.get(`${API}/observatories/atlas-udea/boards/3/bundle`);
     console.log(`[live] ETag of the T3: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-956a71cbf0c3"'); // B142 (F88); B138 was a7410df8e340
+    expect(response.headers().etag).toBe('"20261107-e1499dff824f"'); // B142 (F88); B138 was a7410df8e340
     const body = await response.json();
     const b3 = body.data || body;
     const ds = createFoundationsDataset(b3);
@@ -89,7 +89,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
       expect(r.expectedProjects, `${r.name} is in the table of B138`).toBeGreaterThan(0);
       expect(r.shown, `${r.name} shows less than all`).toBeLessThan(total(all) + 1);
     }
-    expect(sumKeys).toBe(2524);
+    expect(sumKeys).toBe(2587);
     const sin = rows.find((r) => r.name === "Sin centro");
     expect(sin.shown).toBe(0);
     // the larger the centre in projects, the more it shows: the three largest of B138 are the three largest in the panel
@@ -113,7 +113,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     test.setTimeout(250000);
     const response = await request.get(`${API}/observatories/atlas-udea/boards/2/bundle`);
     console.log(`[live] ETag of the T2: ${response.headers().etag}`);
-    expect(response.headers().etag).toBe('"20261107-1d00bdd70b19"');
+    expect(response.headers().etag).toBe('"20261107-bec6b50fc071"');
     const body = await response.json();
     const b2 = body.data || body;
     b2.funders = b2.ext.funders; // what the adapter of the page does
@@ -128,7 +128,7 @@ test.describe("panel 07 with the 25 centres (one run)", () => {
     console.log(`[live] all projects ${computeCollaboration(after, filters).kpis.projects}; sum after ${rows.reduce((a, r) => a + r.after, 0)}; sum before ${rows.reduce((a, r) => a + r.before, 0)}`);
     expect(rows).toHaveLength(25);
     for (const r of rows) expect(r.after, `${r.name}: as B140`).toBe(r.expected);
-    expect(rows.reduce((a, r) => a + r.after, 0)).toBe(2524);
+    expect(rows.reduce((a, r) => a + r.after, 0)).toBe(2587);
     for (const name of ["SIU", "Medicina", "Derecho", "Farmacia", "Educación", "Odontología", "Bibliotecología", "Deportes", "INER"]) {
       const r = rows.find((x) => x.name === name);
       expect(r.before, `${name} showed none before`).toBe(0);

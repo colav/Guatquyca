@@ -56,7 +56,7 @@ test.describe("Board 1 against a real quyca (read-only)", () => {
   });
 
   test("/cut gives the footer text (02 §3.12)", async () => {
-    const response = await fetch(`${API}/observatories/vri-udea/cut`);
+    const response = await fetch(`${API}/observatories/atlas-udea/cut`);
     expect(response.status).toBe(200);
     const { data } = await response.json();
     expect(typeof data.texto).toBe("string");

@@ -38,8 +38,8 @@ test.describe("B144 bundles (one run)", () => {
     }
     console.log(`[live] ETags ${t[1].etag} ${t[2].etag} ${t[3].etag}`);
     expect(t[1].etag).toBe('"20261107-c550a33072f7"');
-    expect(t[2].etag).toBe('"20261107-1d00bdd70b19"');
-    expect(t[3].etag).toBe('"20261107-956a71cbf0c3"');
+    expect(t[2].etag).toBe('"20261107-bec6b50fc071"');
+    expect(t[3].etag).toBe('"20261107-e1499dff824f"');
     const b2 = t[2].body.data || t[2].body;
     const originals = b2.ext.nombres_originales;
     const shown = b2.ext.funders.map((f) => f.nm.trim());

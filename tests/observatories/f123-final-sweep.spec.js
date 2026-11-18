@@ -10,7 +10,7 @@ const LIVE = !!process.env.E2E_LIVE;
 const ENV = /sentry|status of 401|^401 |ERR_FAILED|ERR_ABORTED|google-analytics|__nextjs_original-stack-frame/;
 /* KNOWN: the L7 map of the subregions of the board 1 (see the report of F123). */
 const KNOWN = /enableRelativeCoordinates/;
-const ETAGS = { 1: '"20261107-c550a33072f7"', 2: '"20261107-1d00bdd70b19"', 3: '"20261107-956a71cbf0c3"' };
+const ETAGS = { 1: '"20261107-c550a33072f7"', 2: '"20261107-bec6b50fc071"', 3: '"20261107-e1499dff824f"' };
 
 const watch = (page) => {
   const log = { errors: [], failed: [], etags: {} };

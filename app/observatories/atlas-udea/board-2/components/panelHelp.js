@@ -3,6 +3,8 @@
  * Structure: `what`, `how`, `look` and `care`. No figure is written by hand (D-174); the notes below each chart (method, coverage,
  * small samples) are not repeated here.
  */
+import { AMOUNTS_CONVERSION_NOTE } from "../../../../../lib/observatories/projectTexts";
+
 export const PANEL_HELP = Object.freeze({
   p1: {
     what: "Los grupos de investigación de la UdeA que publican en más subcampos del conocimiento distintos.",
@@ -96,8 +98,8 @@ export const PANEL_HELP = Object.freeze({
   },
   p15: {
     what: "Las entidades que más financian o cofinancian proyectos de la UdeA y a qué sector pertenecen.",
-    how: "Cada barra es una entidad; su longitud es el número de proyectos que financia y el color es su sector (leyenda). Al pasar el cursor se ven los aportes en dinero y en especie.",
+    how: "Cada barra es una entidad; su longitud es el número de proyectos que financia y el color es su sector (leyenda). Al pasar el cursor se ven los aportes en dinero y en especie y el total estimado en COP.",
     look: "Qué entidades sostienen más proyectos y cuánto aportan en dinero y en especie.",
-    care: "El sector de cada entidad financiadora se asigna con reglas de detección sobre el nombre. Solo se muestran las entidades con más proyectos y no se cuentan las entidades de la propia Universidad.",
+    care: "El sector de cada entidad financiadora se asigna con reglas de detección sobre el nombre. Solo se muestran las entidades con más proyectos y no se cuentan las entidades de la propia Universidad. " + AMOUNTS_CONVERSION_NOTE,
   },
 });

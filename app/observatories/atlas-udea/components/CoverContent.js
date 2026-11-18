@@ -20,7 +20,7 @@ export default function CoverContent() {
   return (
     <PageContainer trail={[{ title: "Observatorios", href: "/observatories" }, { title: "Atlas UdeA" }]}>
       <Typography.Title level={2}>Atlas de las ciencias, las tecnologías, las humanidades y las artes de la Universidad de Antioquia</Typography.Title>
-      <Typography.Paragraph>Universidad de Antioquia · Capacidades VRI 2026.</Typography.Paragraph>
+      <Typography.Paragraph>Universidad de Antioquia · Atlas de Capacidades 2026.</Typography.Paragraph>
       <BoardTabs active="board-1" />
       <Suspense fallback={<Loading height="60vh" />}>
         <Board1 />

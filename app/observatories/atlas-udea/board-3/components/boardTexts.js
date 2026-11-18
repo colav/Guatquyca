@@ -7,7 +7,7 @@ import { INCOMPLETE_YEARS_NOTE } from "../../board-1/components/boardTexts";
 
 export const BOARD_TITLE = "Capacidades de base del sistema: talento, producción e infraestructura";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Capacidades VRI 2026";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Atlas de Capacidades 2026";
 
 /** Subtitle of the header (F119, D-260): one line; the orientation is in «¿Cómo usar este tablero?». */
 export const BOARD_LEAD = "Talento, producción e infraestructura abierta de la UdeA.";
@@ -139,7 +139,7 @@ export const DOCUMENT_FILTER_HELP =
   "El documento delimita los productos que el panel de jueces asignó a alguno de sus ejes, con confianza alta o media (este tablero no tiene control de confianza). Un producto sin eje asignado no cuenta aunque su tópico esté vinculado.";
 
 /* Q-06 (F90, D-202): source and cut of the projects, as the team understands it (the list of the VRI-UdeA, cut on 3 July 2025); provisional for Luis. */
-export const PROJECTS_2025_WARNING = "Proyectos del listado de la VRI-UdeA (SIIU): el último inicio registrado es el 18 de junio de 2025 y los de mayo y junio pueden estar incompletos.";
+export const PROJECTS_2025_WARNING = "Los proyectos de SIIU llegan hasta el 18 de junio de 2025 (los de mayo y junio pueden estar incompletos); el archivo de la Fundación UdeA no declara fecha de corte.";
 
 /* F102 (D-226): the filters of entity are direct. Provisional texts for Luis. */
 export const DIRECT_FILTERS_NOTE = "Los filtros de centro, unidad y subunidad cuentan solo los productos de la entidad elegida.";

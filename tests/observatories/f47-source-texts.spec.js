@@ -32,7 +32,7 @@ test.describe("texts of the sources against the real quyca (read-only)", () => {
   };
 
   test("the sources and their dates are only in the foot, with the dates of /cut; the cards, the KPI and the block of help carry none", async ({ page }) => {
-    const cut = await (await fetch(`${API}/observatories/vri-udea/cut`)).json();
+    const cut = await (await fetch(`${API}/observatories/atlas-udea/cut`)).json();
     const openalex = cut.data.fuentes.find((f) => f.clave === "openalex_citas");
     expect(openalex.fecha_corte).toBe("2026-11-06");
     await open(page);

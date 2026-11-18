@@ -60,7 +60,10 @@ test.describe("F97 live (one run)", () => {
       expect(body.match(/Fuentes:/g) ?? []).toHaveLength(0);
       expect(body.match(/Fuentes y fechas de corte/g)).toHaveLength(1);
       const sources = await page.getByTestId("cut-sources").innerText();
-      expect(sources).not.toMatch(/encabezado|propiedades|no declara|nombre del archivo|nombre de la hoja/i);
+      /* F135: the detail that B176 gives to the file of the Fundación UdeA says «no declara fecha de corte» (D-295); only that line may say it. */
+      const withoutFua = sources.split("\n").filter((l) => !l.startsWith("Proyectos UdeA–Fundación UdeA")).join("\n");
+      expect(withoutFua).not.toMatch(/encabezado|propiedades|no declara|nombre del archivo|nombre de la hoja/i);
+      expect(sources).not.toMatch(/encabezado|propiedades|nombre del archivo|nombre de la hoja/i);
       expect(sources.split("\n").slice(1).some((l) => /:\s*$/.test(l))).toBe(false);
     });
   }

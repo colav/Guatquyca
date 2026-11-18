@@ -6,10 +6,11 @@
 /* Numbers of the notes come from the constants of the calculation, not from the text. */
 import { GRAPH_MIN_EDGE, LIMITS } from "../../../../../lib/observatories/collaboration/constants";
 import { INCOMPLETE_YEARS_NOTE } from "../../board-1/components/boardTexts";
+import { AMOUNTS_CONVERSION_NOTE } from "../../../../../lib/observatories/projectTexts";
 
 export const BOARD_TITLE = "Colaboración, redes y hélices";
 
-export const BOARD_EYEBROW = "Universidad de Antioquia · Vicerrectoría de Investigación · Capacidades 2026";
+export const BOARD_EYEBROW = "Universidad de Antioquia · Atlas de Capacidades 2026";
 
 /** Subtitle of the header (F119, D-260): one line; the orientation is in «¿Cómo usar este tablero?». */
 export const BOARD_LEAD = "Cómo colabora la UdeA y con quién: grupos, organizaciones no académicas, hélices, territorios y países.";
@@ -73,7 +74,7 @@ export const SCOPE_OPTIONS = [
 /* Notes of each panel (as in the artifact). */
 export const NOTES = {
   v2: `Se muestran los ${LIMITS.graphNodes} grupos con mayor grado ponderado y aristas con ${GRAPH_MIN_EDGE} o más productos.`,
-  v5b: "Proyectos: SIIU, 2014–2025.",
+  v5b: "Proyectos por año de inicio (SIIU y Fundación UdeA).",
   v6Patents: "Producción de tecnología: patentes distintas del portafolio de propiedad intelectual con al menos una empresa titular (cotitularidad registrada en el portafolio; no indica quién co-inventó). Responden a años, centro y unidad.",
   /* The last year comes from the bundle (F85, M-06): `result.patentsLastYear`. */
   v5bPatents: (lastYear) => `Patentes: patentes distintas del portafolio de propiedad intelectual, por año de la primera concesión${lastYear ? `; la última concesión es de ${lastYear}, por eso no hay datos después de ese año` : ""}.`,
@@ -81,8 +82,8 @@ export const NOTES = {
   v6NoPatents: "Producción de tecnología: la base no contiene patentes (0 registros con tipo patente).",
   v7: "Bibliográfica: artículos con empresa, sin ánimo de lucro y gobierno. Proyectos: empresa, sin ánimo de lucro y fondos públicos.",
   v8: "Mención de «investigación-acción (participativa)» o «action research» en títulos de productos y en nombre, objetivos o palabras clave de proyectos. En los productos se busca solo en el título; los resúmenes no se usan.",
-  v16: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos. Este ránking no responde a los filtros (se calcula sobre todos los proyectos 2014–2025).",
-  v16Filtered: "Aportantes externos de proyectos SIIU 2014–2025, por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento).",
+  v16: "Aportantes externos de los proyectos (SIIU y Fundación UdeA), por número de proyectos. Este ránking no responde a los filtros (se calcula sobre todos los proyectos).",
+  v16Filtered: "Aportantes externos de los proyectos (SIIU y Fundación UdeA), por número de proyectos que pasan los filtros de proyectos (años, centro, ámbito departamental, eje y documento).",
 };
 export const patentsIgnoredNote = (list) => `Las patentes no responden a: ${list.join(", ")}.`;
 
@@ -97,7 +98,7 @@ export const REAL_FOOTER_TEXT =
 
 
 /** Note of the amounts of the ranking of funders (Q-28 iv, D-207; F94). Provisional for Luis. */
-export const MONEY_NOTE = "Montos en pesos colombianos (COP) según el registro de proyectos de la Universidad.";
+export const MONEY_NOTE = AMOUNTS_CONVERSION_NOTE;
 
 /**
  * Notes of method of the board with the data of the API (Q-22, Q-24; before, the notice «Ensayo con limitaciones de datos»): every

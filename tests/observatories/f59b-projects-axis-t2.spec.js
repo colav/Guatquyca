@@ -89,14 +89,14 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
     return e.direct_proj.filter((_, k) => e.direct_proj_conf[k] <= 1);
   };
 
-  test("control figures: 3.974 pairs in 1.275 projects, and a large and a small axis against the direct count", () => {
+  test("control figures: 4.012 pairs in 1.288 projects (B176; 3.974 and 1.275 before the FUA projects), and a large and a small axis against the direct count", () => {
     const list = bundle.thesaurus.ejes;
     let pairs = 0;
     const projects = new Set();
     for (const e of list) e.direct_proj.forEach((p, k) => { if (e.direct_proj_conf[k] <= 1) { pairs++; projects.add(p); } });
     console.log(`[live] pairs of projects high + medium: ${pairs} in ${projects.size} projects`);
-    expect(pairs).toBe(3974);
-    expect(projects.size).toBe(1275);
+    expect(pairs).toBe(4012);
+    expect(projects.size).toBe(1288);
     const ranked = list.map((e) => ({ id: e.id, n: directProj(e.id).length })).filter((x) => x.n > 0).sort((a, b) => b.n - a.n);
     const picks = [ranked[0], ranked[ranked.length - 1]];
     const all = computeCollaboration(dataset).kpis.projects;
@@ -134,7 +134,7 @@ test.describe("projects and axis against the real quyca (read-only, one run)", (
     await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
     await expect(page.getByTestId("axis-filter-note")).toBeVisible({ timeout: 120000 });
     await page.waitForTimeout(1000);
-    const kpiProjects = page.locator(".obs-kpi").filter({ hasText: "proyectos SIIU" }).first();
+    const kpiProjects = page.locator(".obs-kpi").filter({ hasText: "proyectos" }).filter({ hasNotText: "aportante" }).first();
     await expect(kpiProjects).toContainText(big.n.toLocaleString("es-CO"));
     await expect(kpiProjects).not.toContainText(NO_AXIS_RESPONSE);
     await page.getByRole("button", { name: "Ayuda del filtro Eje Temático" }).hover(); // the note of the axis is the help «?» (F77b)
