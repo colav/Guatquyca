@@ -1,12 +1,11 @@
 /* Components */
-import CitationsBadges from "../CitationsBadges/CitationsBadges";
 import Licenses from "../../ServerSide/Licenses/Licenses";
 import OpenAccessSection from "../../ServerSide/OpenAccessSection/OpenAccessSection";
-import ProductsCount from "../../ServerSide/ProductsCount/ProductsCount";
 import PublicationTime from "../../ServerSide/PublicationTime/PublicationTime";
 import Publisher from "../../ServerSide/Publisher/Publisher";
 import ReviewProcessList from "../../ServerSide/ReviewProcessList/ReviewProcessList";
 import SCImago from "../SCImago/SCImago";
+import SourceMetrics from "../SourceMetrics/SourceMetrics";
 import SourcesExternalIDSTags from "../../ServerSide/SourcesExternalIDSTags/SourcesExternalIDSTags";
 import SourcesExternalUrls from "../SourcesExternalUrls/SourcesExternalUrls";
 import TopicsTagList from "../../ServerSide/TopicsTagList/TopicsTagList";
@@ -109,13 +108,11 @@ export default function SourceItem({ item, onList = false }) {
                   <Licenses licenses={item.licenses} />
                 )}
                 {item.publisher && <Publisher publisher={item.publisher} />}
-                <ProductsCount
-                  products_count={item.products_count}
-                  size="small"
-                />
-                <CitationsBadges
+                <SourceMetrics
+                  productsCount={item.products_count}
                   citationsCount={item.citations_count}
-                  showTitle={true}
+                  globalProductsCount={item.global_products_count}
+                  globalCitationsCount={item.global_citations_count}
                 />
                 {item.review_process && (
                   <ReviewProcessList review_process={item.review_process} />

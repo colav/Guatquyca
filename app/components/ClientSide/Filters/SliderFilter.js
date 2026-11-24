@@ -35,17 +35,19 @@ export default function SliderFilter({ data, filterType }) {
     return param ? param.split(",") : null;
   });
 
+  const min = data.min_weeks ?? data.min_apc ?? 0;
+  const max = data.max_weeks ?? data.max_apc ?? min;
+
   const onChangeComplete = (value) => {
-    console.log("onChangeComplete: ", value);
     setValue(value);
   };
 
   return (
     <>
       <Slider
-        min={data.min_weeks || 0}
-        max={data.max_weeks || data.max_apc}
-        defaultValue={[data.min_weeks || 0, data.max_weeks || data.max_apc]}
+        min={min}
+        max={max}
+        defaultValue={[min, max]}
         range
         step={1}
         tooltip={{ color: "white", styles: { body: { color: "black" } } }}

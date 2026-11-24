@@ -40,9 +40,9 @@ export default async function SourcesPage() {
     }
   }
 
-  const filterData = await safeFetch(`/app/search/sources/filters`);
+  const filterData = await safeFetch(`/search/sources/filters`);
   const journalsData = await safeFetch(
-    `/app/search/sources?source_types=journal&max=4&page=1&sort=products_desc`,
+    `/search/sources?source_types=journal&max=4&page=1&sort=products_desc`,
   );
 
   return (

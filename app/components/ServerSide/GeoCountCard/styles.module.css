@@ -1,0 +1,23 @@
+.metricCell {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+}
+
+.metricCard {
+  height: 100%;
+  width: 100%;
+}
+
+.metricTitle {
+  margin: 0 0 5px 0;
+  color: gray;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.metricText {
+  font-weight: 600;
+  color: rgb(82, 99, 126);
+  font-size: 16px;
+}

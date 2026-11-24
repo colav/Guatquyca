@@ -1,0 +1,141 @@
+"use client";
+
+/* Next */
+import dynamic from "next/dynamic";
+
+/* Hooks */
+import { memo, useCallback, useMemo, useRef } from "react";
+
+/* Libraries */
+const Bar = dynamic(() => import("@ant-design/charts").then((mod) => mod.Bar), { ssr: false });
+
+/* lib */
+import { calculatorBarsConfig } from "@/lib/observatories/capacity";
+import { barsDescending } from "@/lib/observatories/barOrder";
+import { tooltipInteraction } from "@/lib/observatories/tooltipStyle";
+import ObservatoryTreemap from "@/app/observatories/components/ObservatoryTreemap";
+import FillHeight from "@/app/observatories/components/FillHeight";
+import TooltipBox from "@/app/observatories/components/TooltipBox";
+import { useTooltipInside } from "@/app/observatories/components/useTooltipInside";
+import { RANKING_COLOR } from "@/lib/observatories/palette";
+
+/* Utils */
+const truncate = (text, size) => (text.length > size ? `${text.slice(0, size - 2)}…` : text);
+/** Cuts at the start (the end of a route is what tells two goals apart). */
+const truncateStart = (text, size) => (text.length > size ? `…${text.slice(text.length - size + 1)}` : text);
+
+/**
+ * Horizontal ranking (top N). Categories use a unique key because labels can repeat
+ * (e.g. the same Eje Temático name in two agendas); the label is only the axis text.
+ *
+ * @param {{ id: *, label: string, fullLabel?: string, detail?: string, value: number }[]} rows
+ * @param {number} [labelSize] - Characters kept in the axis label.
+ * @param {string} [unit] - What the value counts, in the tooltip (F69; "Productos", "Tópicos", "Ejes").
+ * @param {Function} [onSelect] - A click on a bar calls it with the `id` of the row (F71: choosing an ODS).
+ * @param {*} [active] - `id` of the row chosen: the others are drawn paler.
+ * @param {boolean} [startCut] - Long labels are cut at the start («…» first) and not at the end.
+ * @param {boolean} [complete] - Complete labels (no cut, no hiding) with room at the left for the
+ *   longest one, as in the calculator.
+ */
+function RankingBars({ rows: given, labelSize = 34, complete = false, startCut = false, unit = "Productos", onSelect = null, active = null, keepOrder = false }) {
+  const rows = useMemo(() => barsDescending(given, (r) => r.value, keepOrder), [given, keepOrder]);
+  const config = useMemo(() => {
+    const labels = Object.fromEntries(rows.map((r, i) => [String(i), complete ? r.label : (startCut ? truncateStart : truncate)(r.label, labelSize)]));
+    const longest = Math.max(0, ...rows.map((r) => r.label.length));
+    const hasDetail = rows.some((r) => r.detail);
+    return {
+      ...(complete ? { paddingLeft: Math.min(320, Math.round(longest * 7 + 16)) } : {}),
+      /* Q-05: the figure is written at the end of every bar. */
+      paddingRight: 64,
+      labels: [{ text: "text", position: "right", textAlign: "start", dx: 4, fontSize: 11 }],
+      data: rows.map((r, i) => ({ key: String(i), id: r.id, name: r.fullLabel || r.label, detail: r.detail || "", value: r.value, text: Number(r.value).toLocaleString("es-CO") })),
+      xField: "key",
+      yField: "value",
+      animate: false,
+      interaction: tooltipInteraction(),
+      height: Math.max(220, rows.length * 24 + 40),
+      axis: {
+        x: { labelAutoRotate: false, ...(complete ? { labelAutoEllipsis: false, labelAutoHide: false } : {}), labelFormatter: (key) => labels[key] ?? key },
+        y: { labelAutoRotate: false },
+      },
+      style: { fill: RANKING_COLOR, fillOpacity: (d) => (active != null && d.id !== active ? 0.35 : 1) },
+      tooltip: {
+        title: (d) => d.name,
+        items: [{ field: "value", name: unit }, ...(hasDetail ? [{ field: "detail", name: "Detalle" }] : [])],
+      },
+    };
+  }, [rows, labelSize, complete, startCut, unit, active]);
+  /* A click on a bar chooses its row (F71); the ref keeps the latest handler. */
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+  const onReady = useCallback((plot) => {
+    plot.chart.on("element:click", (event) => {
+      const id = event?.data?.data?.id;
+      if (id != null && onSelectRef.current) onSelectRef.current(id);
+    });
+  }, []);
+
+  return (
+    <TooltipBox fill>
+      <div data-testid={onSelect ? "ranking-selectable" : undefined} style={{ flex: "1 1 auto", display: "flex", flexDirection: "column", ...(onSelect ? { cursor: "pointer" } : {}) }}>
+        <FillHeight min={config.height} max={Math.round(config.height * 1.8)}>{(h) => <Bar {...config} height={h} onReady={onReady} />}</FillHeight>
+      </div>
+    </TooltipBox>
+  );
+}
+
+export const RankingBarsChart = memo(RankingBars);
+
+/**
+ * Treemap of the 17 ODS (panel 8, F71): the area is the number of products; the colour is PALETTE by the number of the goal (F77). A click
+ * chooses the ODS (the same choice as the filter; the ranking of the old panel 5 was retired in F106); the others are drawn paler.
+ *
+ * @param {{ number: number, name: string, color: string, value: number }[]} items - From rankOds.
+ * @param {number} active - ODS chosen (0 = none).
+ * @param {Function} onSelect - Called with the number of the ODS clicked.
+ */
+function OdsTreemap({ items, active = 0, onSelect }) {
+  const shown = useMemo(() => items.map((o) => ({ key: o.number, name: `${o.number} · ${o.name}`, value: o.value, slot: o.number - 1 })), [items]);
+  return <ObservatoryTreemap items={shown} unitName="Productos" height={360} labelFontSize={11} activeKey={active > 0 ? active : null} onSelect={onSelect} ariaLabel="Treemap de ODS" testId="ods-treemap" />;
+}
+
+export const OdsTreemapChart = memo(OdsTreemap);
+
+/**
+ * Horizontal bars of the capacity calculator: one bar per category, from top to bottom in the
+ * order given, all starting at zero. The label of each category is complete (no rotation, no
+ * truncation) at the left and the figure is always visible at the end of the bar, also for zero
+ * and for the very short bars (the figure then sits outside the bar). The scale is linear and
+ * starts at zero; it leaves room on the right for the longest figure.
+ *
+ * @param {{ category: string, label: string, value: number, color: string, pctText: string, rule: string }[]} items
+ * @param {string} noun - What is counted ("tópicos", "subcampos" or "campos").
+ */
+function CalculatorBars({ items, noun, active = [], onSelect }) {
+  const config = useMemo(() => calculatorBarsConfig(items, noun, active), [items, noun, active]);
+  /* A click on a bar does the same as a click on the legend (F39); the ref keeps the latest handler. */
+  const wrapper = useTooltipInside();
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+  const byLabel = useMemo(() => Object.fromEntries(items.map((i) => [i.label, i.category])), [items]);
+  const onReady = useCallback(
+    (plot) => {
+      plot.chart.on("element:click", (event) => {
+        const category = byLabel[event?.data?.data?.label];
+        /* "Sin producción" is not drawn in the scatter: its bar does not answer to the click (F43b). */
+        const native = event?.nativeEvent || event?.originalEvent || event;
+        if (category && category !== "none" && onSelectRef.current) onSelectRef.current(category, !!(native.ctrlKey || native.shiftKey || native.metaKey));
+      });
+    },
+    [byLabel],
+  );
+  /* The chart is a canvas: the wrapper says the same in text for assistive technology and for the tests. */
+  const summary = items.map((i) => `${i.label}: ${i.value.toLocaleString("es-CO")}`).join("; ");
+  return (
+    <div ref={wrapper} role="img" aria-label={`${noun} por categoría. ${summary}`} data-testid="calculator-bars" style={onSelect ? { cursor: "pointer" } : undefined}>
+      <Bar {...config} onReady={onReady} />
+    </div>
+  );
+}
+
+export const CalculatorBarsChart = memo(CalculatorBars);

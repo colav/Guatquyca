@@ -9,12 +9,12 @@ import dateBuilder from "@/lib/utils/dateBuilder";
 /**
  * Client component that fetches and returns the last database update date.
  *
- * Fetches info from `/app/info` endpoint and formats the `db_update` field.
+ * Fetches info from `/info` endpoint and formats the `db_update` field.
  *
  * @returns {Promise<string>} Formatted last database update date
  */
 export default function DBUpdatedAt() {
-  const [state] = APIRequest("/app/info");
+  const [state] = APIRequest("/info");
 
   return dateBuilder(state.data.db_update);
 }

@@ -41,14 +41,14 @@ export default async function NewsList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/news", correctedParams);
+    URL = URLBuilder("/search/news", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
-      `/app/affiliation/${params.entity}/${params.ID}/research/news`,
+      `/affiliation/${params.entity}/${params.ID}/research/news`,
       correctedParams,
     );
   } else {
-    URL = URLBuilder(`/app/person/${params.ID}/research/news`, correctedParams);
+    URL = URLBuilder(`/person/${params.ID}/research/news`, correctedParams);
   }
   const { data, fullUrl } = await getData(URL);
 
@@ -58,10 +58,9 @@ export default async function NewsList({ searchParams, params, entity }) {
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="news"
       csv={false}
-      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -69,7 +68,7 @@ export default async function NewsList({ searchParams, params, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

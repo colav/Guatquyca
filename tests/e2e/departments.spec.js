@@ -213,7 +213,7 @@ test.describe("Testing Departments entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL
-      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/affiliation/department/${departmentId}/research/products?plot=${item}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/affiliation/department/${departmentId}/research/products?plot=${item}`;
       console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond

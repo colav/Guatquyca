@@ -21,7 +21,7 @@ import { Button, Tooltip } from "antd";
  * @param {Object} searchParams - The query parameters used to build the API URL.
  * @returns {JSX.Element} The APIButton component.
  */
-export default function APIButton({ searchParams, apiExpert }) {
+export default function APIButton({ searchParams }) {
   const pathname = usePathname();
   const URL = URLBuilder(pathname, searchParams);
 
@@ -35,9 +35,7 @@ export default function APIButton({ searchParams, apiExpert }) {
         type="primary"
         icon={<CodeOutlined id={styles.icon} />}
         size="small"
-        href={`${process.env.NEXT_PUBLIC_CLIENT_API}${
-          apiExpert ? "" : "/app"
-        }${URL}`}
+        href={`${process.env.NEXT_PUBLIC_CLIENT_API}${URL}`}
         target="_blank"
         id={styles.api_button}
       >

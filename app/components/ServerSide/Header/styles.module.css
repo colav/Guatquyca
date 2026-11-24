@@ -4,26 +4,28 @@
   top: 0;
   z-index: 198;
   height: auto;
-  line-height: 80px;
+  line-height: 60px;
   background-color: #3b72a1;
   font-size: 16px;
   box-shadow: 0 5px 10px rgba(15, 15, 20, 0.25), 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 #logo_container {
-  height: 80px;
+  height: 60px;
   display: flex;
 }
 
 #logo {
-  padding: 15px 15px 10px 15px;
+  padding: 12px 15px;
   max-width: 100%;
+  height: 60px;
+  width: auto;
 }
 
 #searchbar {
   display: flex;
   padding: 0 8px;
-  margin: 10px auto;
+  margin: 6px auto;
 }
 
 #user_button {
@@ -52,6 +54,7 @@
   }
 
   #logo {
-    width: 240px;
+    width: 170px;
+    height: auto;
   }
 }

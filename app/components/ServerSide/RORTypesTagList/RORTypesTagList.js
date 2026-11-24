@@ -35,7 +35,11 @@ export default function RORTypesTagList({ types }) {
             key={`${originalType || "ror-type"}-${index}`}
             title={`Tipo según ROR: ${originalType}`}
           >
-            <Tag color="geekblue" bordered style={{ fontWeight: 500 }}>
+            <Tag
+              color="geekblue"
+              bordered
+              style={{ fontWeight: 500, fontSize: "11px" }}
+            >
               {translatedType}
             </Tag>
           </Tooltip>

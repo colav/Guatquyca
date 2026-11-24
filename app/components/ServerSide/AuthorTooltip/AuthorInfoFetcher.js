@@ -11,7 +11,7 @@ import { APIRequest } from "@/lib/apis/client.api";
  * @returns {JSX.Element|null} The AuthorsExternalProfiles component with the author's external profiles, or null if loading or error.
  */
 export default function AuthorsInfoFetcher({ id }) {
-  const [state] = APIRequest(`/app/person/${id}`);
+  const [state] = APIRequest(`/person/${id}`);
 
   if (state.isError || state.isLoading) {
     return null;

@@ -1,0 +1,42 @@
+.pattern {
+  background-color: white;
+  border-radius: 7px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background-size: cover;
+  background-image: url(/media/pattern.svg);
+  z-index: 1;
+  position: relative;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 3px;
+  font-size: 1.6em;
+}
+
+.infoRow {
+  margin-top: 10px;
+  color: #636a72;
+  font-size: 0.8em;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.metricCell {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+}
+
+.metricCard {
+  height: 100%;
+  width: 100%;
+}

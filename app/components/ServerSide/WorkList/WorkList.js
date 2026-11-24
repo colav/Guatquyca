@@ -31,6 +31,8 @@ export default async function WorkList({ searchParams, params, entity }) {
     pathname = "/search/works";
   } else if (entity === "affiliation") {
     pathname = `/affiliation/${params.entity}/${params.ID}/research/products`;
+  } else if (entity === "geo") {
+    pathname = `/geo/${params.entity}/${params.ID}/research/products`;
   } else if (entity === "source") {
     pathname = `/source/${params.ID}/products`;
   } else {
@@ -45,18 +47,28 @@ export default async function WorkList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/works", correctedParams);
+    URL = URLBuilder("/search/works", correctedParams, { view: "summary" });
   } else if (entity === "affiliation") {
     URL = URLBuilder(
-      `/app/affiliation/${params.entity}/${params.ID}/research/products`,
+      `/affiliation/${params.entity}/${params.ID}/research/products`,
       correctedParams,
+      { view: "summary" },
+    );
+  } else if (entity === "geo") {
+    URL = URLBuilder(
+      `/geo/${params.entity}/${params.ID}/research/products`,
+      correctedParams,
+      { view: "summary" },
     );
   } else if (entity === "source") {
-    URL = URLBuilder(`/app/source/${params.ID}/products`, correctedParams);
+    URL = URLBuilder(`/source/${params.ID}/products`, correctedParams, {
+      view: "summary",
+    });
   } else {
     URL = URLBuilder(
-      `/app/person/${params.ID}/research/products`,
+      `/person/${params.ID}/research/products`,
       correctedParams,
+      { view: "summary" },
     );
   }
   const { data, fullUrl } = await getData(URL);
@@ -64,10 +76,10 @@ export default async function WorkList({ searchParams, params, entity }) {
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="works"
-      csv={entity !== "search"}
-      apiExpert={true}
+      csv={entity !== "search" && entity !== "geo"}
+      xls={entity !== "search" && entity !== "geo"}
     >
       <UseCleanupAltmetric />
       <MathJax />
@@ -79,7 +91,7 @@ export default async function WorkList({ searchParams, params, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

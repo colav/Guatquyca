@@ -1,0 +1,45 @@
+.article {
+  margin: 0 auto;
+  padding: 32px 40px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.heading {
+  margin-bottom: 4px;
+}
+
+.date {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}
+
+.content {
+  margin-top: 24px;
+  line-height: 1.6;
+}
+
+.content :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.content :global(th),
+.content :global(td) {
+  border: 1px solid #e5e5e5;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.content :global(blockquote) {
+  border-left: 3px solid #003e65;
+  margin: 16px 0;
+  padding: 4px 16px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.content :global(img) {
+  max-width: 100%;
+}

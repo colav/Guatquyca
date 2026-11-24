@@ -217,7 +217,7 @@ test.describe("Testing Authors entity", () => {
 
     async function fetchAndMeasure(item) {
       // Construct the API URL using the person's ID and the current plot item
-      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/app/person/${personId}/research/products?plot=${item}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CLIENT_API}/person/${personId}/research/products?plot=${item}`;
       console.log(`API call for "${item}" Fetched at the URL: ${apiUrl}`);
 
       // Measure the time taken for the API to respond

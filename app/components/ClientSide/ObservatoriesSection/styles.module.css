@@ -1,0 +1,174 @@
+.observatories_section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 25px;
+  padding: 64px 20px;
+  text-align: center;
+  background: radial-gradient(circle at 15% 20%, rgba(255, 170, 0, 0.12), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(87, 150, 205, 0.18), transparent 50%),
+    linear-gradient(135deg, #f3f8fc, #dbe9f5);
+  color: #052036;
+}
+
+/* Decorative grid of dots: it drifts slowly only when the user has not asked for less motion. */
+.observatories_section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(57, 101, 140, 0.16) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .observatories_section::before {
+    animation: drift 40s linear infinite;
+  }
+
+  .arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .primary_button:hover .arrow,
+  .primary_button:focus-visible .arrow {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 22px 22px;
+  }
+}
+
+.content_container {
+  position: relative;
+  margin: 0 auto;
+}
+
+.icon {
+  font-size: 36px;
+  color: #39658c;
+  margin-bottom: 10px;
+}
+
+.main_title {
+  color: #3b72a1;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.description {
+  color: #3f3d35;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 4px 14px;
+  border: 1px solid #9cc4e8;
+  border-radius: 999px;
+  background: #fff;
+  color: #2f567a;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 24px;
+}
+
+/*
+ * Gradient of blues and turquoises; at rest the white text is 5:1 or more on every point of it; on hover the gradient lightens
+ * (about 3:1 at the turquoise end). The site's primary color is orange and Ant Design (and a global rule) paint the primary button
+ * orange on hover, focus and press: !important keeps the gradient in every state.
+ */
+.primary_button.primary_button,
+.primary_button.primary_button:not(:disabled):not(.ant-btn-disabled) {
+  background: linear-gradient(135deg, #2b5f9e, #0b7a89) !important;
+  border: 0 !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(11, 122, 137, 0.35);
+}
+
+.primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):hover,
+.primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):focus,
+.primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):focus-visible,
+.primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):active {
+  background: linear-gradient(135deg, #3380d0, #10a0b2) !important;
+  border: 0 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 22px rgba(16, 160, 178, 0.5);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .primary_button.primary_button {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):hover,
+  .primary_button.primary_button:not(:disabled):not(.ant-btn-disabled):focus-visible {
+    transform: translateY(-2px);
+  }
+}
+
+.primary_button.primary_button:focus-visible {
+  outline: 2px solid #052036;
+  outline-offset: 2px;
+}
+
+/* globals.css paints every link teal with !important (and a lighter teal on hover): the contrast on this band needs the dark blue. */
+.secondary_link.secondary_link {
+  color: #2f567a !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.secondary_link.secondary_link:hover,
+.secondary_link.secondary_link:focus-visible {
+  color: #052036 !important;
+}
+
+.arrow {
+  display: inline-block;
+}
+
+#impact {
+  color: #39658c;
+  font-weight: 700;
+}
+
+#u {
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+@media (max-width: 993px) {
+  .observatories_section {
+    padding: 40px 15px;
+    margin-top: 50px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+}

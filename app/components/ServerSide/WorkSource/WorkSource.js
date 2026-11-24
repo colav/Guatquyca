@@ -4,6 +4,9 @@ import SCImago from "@/app/components/ClientSide/SCImago/SCImago";
 /* Icons */
 import { ReadOutlined } from "@ant-design/icons";
 
+/* lib */
+import formatSourceISSNs from "@/lib/utils/formatSourceISSNs";
+
 /* UI Library Components */
 import { Col, Descriptions, Row } from "antd";
 
@@ -39,10 +42,18 @@ import { Col, Descriptions, Row } from "antd";
  */
 export default function WorkSource({ source, bibliographicInfo }) {
   const { name, scimago_quartile } = source || {};
-  const { pissn, issn, scimago, openalex } = source?.external_ids || {};
+  const sourceExternalIDs = Array.isArray(source?.external_ids)
+    ? source.external_ids
+    : [];
+  const sourceISSNs = Array.isArray(source?.issn) ? source.issn : [];
+  const getSourceID = (sourceName) =>
+    sourceExternalIDs.find((item) => item.source === sourceName)?.id;
+  const scimago = getSourceID("scimago");
+  const openalex = getSourceID("openalex");
   const { issue, volume, start_page, end_page } = bibliographicInfo || {};
 
   const notAvailable = "No disponible";
+  const sourceISSNItems = formatSourceISSNs(sourceISSNs);
 
   const sourceItems = [
     {
@@ -73,16 +84,9 @@ export default function WorkSource({ source, bibliographicInfo }) {
           ? `${start_page || "N/A"} - ${end_page || "N/A"}`
           : notAvailable,
     },
-    {
-      key: "pissn",
-      label: "pISSN",
-      children: pissn || notAvailable,
-    },
-    {
-      key: "issn",
-      label: "ISSN",
-      children: issn || notAvailable,
-    },
+    ...(sourceISSNItems.length > 0
+      ? sourceISSNItems
+      : [{ key: "issn", label: "ISSN", children: notAvailable }]),
     {
       key: "openalex",
       label: "Perfil OpenAlex",

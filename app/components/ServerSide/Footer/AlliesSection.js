@@ -30,12 +30,6 @@ export const allies = [
     alt: "Logotipo Universidad del Valle",
   },
   {
-    href: "https://ascun.org.co/",
-    src: "/media/logo_ascun.svg",
-    alt: "Logotipo Asociación Colombiana de Universidades - ASCUN",
-    external: true,
-  },
-  {
     href: "/affiliation/institution/04cmc9894/affiliations",
     src: "/media/logo_upn.svg",
     alt: "Logotipo Universidad Pedagógica Nacional",
@@ -50,11 +44,22 @@ export const allies = [
     src: "/media/logo_fucs.svg",
     alt: "Logotipo Fundación Universitaria de Ciencias de la Salud",
   },
+  {
+    href: "/affiliation/institution/02t54e151/affiliations",
+    src: "/media/logo_icesi.svg",
+    alt: "Logotipo Universidad Icesi",
+  },
+  {
+    href: "https://ascun.org.co/",
+    src: "/media/logo_ascun.svg",
+    alt: "Logotipo Asociación Colombiana de Universidades - ASCUN",
+    external: true,
+  },
 ];
 
 export default function AlliesSection() {
   return (
-    <Row gutter={[85, 12]} justify="center" align="middle">
+    <Row gutter={[80, 12]} justify="center" align="middle">
       <Col span={24} id={styles.title}>
         • Aliados •
       </Col>
@@ -72,8 +77,8 @@ function LinkLogo({ ally, index }) {
         xs={12}
         sm={8}
         md={6}
-        lg={{ flex: "0 0 14%" }}
-        xl={{ flex: "0 0 14%" }}
+        lg={{ flex: "0 0 12%" }}
+        xl={{ flex: "0 0 12%" }}
         className={styles.logoContainer}
       >
         <Link href={ally.href}>
@@ -86,7 +91,7 @@ function LinkLogo({ ally, index }) {
           />
         </Link>
       </Col>
-      {(index + 1) % 7 === 0 && <Col xs={0} sm={0} md={0} lg={0} xl={24} />}
+      {(index + 1) % 8 === 0 && <Col xs={0} sm={0} md={0} lg={0} xl={24} />}
     </>
   );
 }

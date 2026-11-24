@@ -50,7 +50,6 @@ export default function StackedColumnChart({ data }) {
         palette: PALETTE,
       },
     },
-    transform: [{ type: "sortX" }],
     axis: { x: { labelSpacing: 4, labelAutoRotate: false } },
     interaction: {
       tooltip: {

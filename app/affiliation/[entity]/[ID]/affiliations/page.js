@@ -31,7 +31,7 @@ import { SINGULAR } from "@/lib/constants";
  * )
  */
 export default async function AffiliationsPage({ params }) {
-  const URL = `/app/affiliation/${params.entity}/${params.ID}/affiliations`;
+  const URL = `/affiliation/${params.entity}/${params.ID}/affiliations`;
   const { data, fullUrl } = await getData(URL);
 
   // Filter keys to include only those with non-empty arrays

@@ -1,0 +1,30 @@
+"use client";
+
+/* React */
+import { Suspense } from "react";
+
+/* Components */
+import Loading from "@/app/loading";
+import PageContainer from "../../components/PageContainer";
+import BoardTabs from "./BoardTabs";
+import Board1 from "../board-1/components/Board1";
+
+/* UI Library Components */
+import { Typography } from "antd";
+
+/**
+ * Cover of the Atlas UdeA observatory (F27, D-106 Q5): three tabs, the first board loaded by
+ * default. The other tabs go to their own routes, so their data loads only when they are opened.
+ */
+export default function CoverContent() {
+  return (
+    <PageContainer trail={[{ title: "Observatorios", href: "/observatories" }, { title: "Atlas UdeA" }]}>
+      <Typography.Title level={2}>Atlas de las ciencias, las tecnologías, las humanidades y las artes de la Universidad de Antioquia</Typography.Title>
+      <Typography.Paragraph>Universidad de Antioquia · Atlas de Capacidades 2026.</Typography.Paragraph>
+      <BoardTabs active="board-1" />
+      <Suspense fallback={<Loading height="60vh" />}>
+        <Board1 />
+      </Suspense>
+    </PageContainer>
+  );
+}

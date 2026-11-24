@@ -47,7 +47,7 @@ const { Text } = Typography;
  * depending on the request status.
  */
 export default function QualityMetrics() {
-  const [state] = APIRequest("/app/info/quality");
+  const [state] = APIRequest("/info/quality");
   const { token } = theme.useToken();
 
   const history = useMemo(() => {

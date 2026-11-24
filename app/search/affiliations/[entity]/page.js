@@ -6,6 +6,7 @@ import Loading from "@/app/loading";
 
 /* Constants */
 import { TITLES } from "@/lib/constants";
+import FilterPanel from "@/app/components/ClientSide/Filters/FilterPanel";
 
 /**
  * Generates metadata for the search results page dynamically based on the entity type.
@@ -46,6 +47,9 @@ export default async function Search({ searchParams, params }) {
 
   return (
     <Suspense fallback={<Loading />} key={key}>
+      {(params.entity === "group" || params.entity === "institution") && (
+        <FilterPanel searchParams={searchParams} entity={params.entity} />
+      )}
       <EntityList searchParams={searchParams} entity={params.entity} />
     </Suspense>
   );

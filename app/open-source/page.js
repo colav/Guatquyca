@@ -77,7 +77,7 @@ const dataSource = [
   {
     key: "5",
     name: "KayPacha",
-    description: "Extracción de modelos relacionales  Scienti / SIIU",
+    description: "Extracción de modelos relacionales  ScienTI / SIIU",
     repo: (
       <a
         href={"https://github.com/colav/KayPacha"}
@@ -133,7 +133,7 @@ const dataSource = [
   {
     key: "9",
     name: "OracleDocker",
-    description: "Docker con oracle para la base de datos de Scienti y SIIU",
+    description: "Docker con oracle para la base de datos de ScienTI y SIIU",
     repo: (
       <a
         href={"https://github.com/colav/oracle-docker"}
@@ -175,7 +175,7 @@ const dataSource = [
   {
     key: "12",
     name: "Yuku",
-    description: "Scienti Open Data using socrata (and  cvlac Scrapper)",
+    description: "ScienTI Open Data using socrata (and  cvlac Scrapper)",
     repo: (
       <a
         href={"https://github.com/colav/Yuku"}

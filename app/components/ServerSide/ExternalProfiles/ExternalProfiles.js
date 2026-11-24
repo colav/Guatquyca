@@ -162,8 +162,8 @@ export default function ExternalProfiles({ idsList, entity }) {
   };
 
   return (
-    <>
-      <h2 style={{ margin: "0 0 5px 0", color: "gray" }}>
+    <div>
+      <h2 style={{ margin: "0 0 5px 0", color: "gray", fontSize: "16px" }}>
         <UserOutlined /> Perfil externo:
       </h2>
       {uniqueIdsList?.length > 0 ? (
@@ -171,6 +171,6 @@ export default function ExternalProfiles({ idsList, entity }) {
       ) : (
         <p className={styles.noData}>No disponible</p>
       )}
-    </>
+    </div>
   );
 }

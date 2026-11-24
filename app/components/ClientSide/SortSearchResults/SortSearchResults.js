@@ -75,6 +75,22 @@ export default function SortSearchResults({ searchParams, type }) {
       { value: "citations_desc", label: "Más citaciones" },
       { value: "alphabetical_asc", label: "Alfabético" },
     ],
+    city: [
+      { value: "alphabetical_asc", label: "Alfabético (A-Z)" },
+      { value: "alphabetical_desc", label: "Alfabético (Z-A)" },
+      { value: "products_desc", label: "Mayor producción" },
+      { value: "products_asc", label: "Menor producción" },
+      { value: "citations_desc", label: "Más citaciones" },
+      { value: "citations_asc", label: "Menos citaciones" },
+    ],
+    state: [
+      { value: "alphabetical_asc", label: "Alfabético (A-Z)" },
+      { value: "alphabetical_desc", label: "Alfabético (Z-A)" },
+      { value: "products_desc", label: "Mayor producción" },
+      { value: "products_asc", label: "Menor producción" },
+      { value: "citations_desc", label: "Más citaciones" },
+      { value: "citations_asc", label: "Menos citaciones" },
+    ],
   };
 
   return (

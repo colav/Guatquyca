@@ -1,3 +1,4 @@
+/* Shared with AlliesSection */
 .logoContainer {
   display: flex;
   justify-content: center;
@@ -16,21 +17,6 @@
   transform: scale(1.1);
 }
 
-.operatorSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 5px 0;
-}
-
-.operatorTitle {
-  color: #234461;
-  font-size: 15px;
-  font-weight: 600;
-}
-
 #title {
   color: #234461;
   font-size: 16px;
@@ -38,9 +24,126 @@
   margin-bottom: 10px;
 }
 
+/* Footer layout */
 #footer_container {
-  text-align: center;
   margin: 15px;
-  padding: 30px;
+  padding: 20px 30px 14px;
   background-color: #e2e6ec;
+  color: #234461;
+}
+
+.partners {
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 48px;
+  padding-bottom: 12px;
+}
+
+.creditBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.creditTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-top: 1px solid #c3cbd8;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #234461;
+}
+
+.badge:hover {
+  text-decoration: underline;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 24px;
+  padding: 10px 0 14px;
+  text-align: left;
+}
+
+.columnTitle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #234461;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linkList a {
+  font-size: 13px;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 12px;
+  padding-top: 10px;
+  border-top: 1px solid #c3cbd8;
+  font-size: 12px;
+  text-align: left;
+}
+
+@media (max-width: 992px) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  #footer_container {
+    padding: 16px;
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .credits,
+  .top,
+  .bottom {
+    justify-content: center;
+    text-align: center;
+  }
 }

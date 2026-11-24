@@ -41,17 +41,14 @@ export default async function PatentsList({ searchParams, params, entity }) {
 
   let URL = "";
   if (entity === "search") {
-    URL = URLBuilder("/app/search/patents", correctedParams);
+    URL = URLBuilder("/search/patents", correctedParams);
   } else if (entity === "affiliation") {
     URL = URLBuilder(
-      `/app/affiliation/${params.entity}/${params.ID}/research/patents`,
+      `/affiliation/${params.entity}/${params.ID}/research/patents`,
       correctedParams,
     );
   } else {
-    URL = URLBuilder(
-      `/app/person/${params.ID}/research/patents`,
-      correctedParams,
-    );
+    URL = URLBuilder(`/person/${params.ID}/research/patents`, correctedParams);
   }
   const { data, fullUrl } = await getData(URL);
 
@@ -61,10 +58,9 @@ export default async function PatentsList({ searchParams, params, entity }) {
   return (
     <CardWrapper
       searchParams={correctedParams}
-      total_results={data.total_results}
+      total_results={data.meta.count}
       type="patents"
       csv={false}
-      apiExpert={false}
     >
       <ul className={styles.ul}>
         {data.data.map((item) => (
@@ -72,7 +68,7 @@ export default async function PatentsList({ searchParams, params, entity }) {
         ))}
       </ul>
       <PaginationController
-        totalItems={data.total_results}
+        totalItems={data.meta.count}
         searchParams={correctedParams}
       />
       <ClientLogger url={fullUrl} />

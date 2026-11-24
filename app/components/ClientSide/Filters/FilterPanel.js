@@ -33,9 +33,7 @@ export default function FilterPanel() {
   const pathname = usePathname();
   const query = useSearchParams();
   const [visible, setVisible] = useState(false);
-  const [state, setUrl] = APIRequest(
-    `/app${pathname}/filters?${query.toString()}`,
-  );
+  const [state, setUrl] = APIRequest(`${pathname}/filters?${query.toString()}`);
 
   useEffect(() => {
     const fixedWidget = document.querySelector("[data-fixed-widget]");
@@ -49,7 +47,7 @@ export default function FilterPanel() {
   }, [visible]);
 
   useEffect(() => {
-    setUrl(`/app${pathname}/filters?${query.toString()}`);
+    setUrl(`${pathname}/filters?${query.toString()}`);
   }, [query]);
 
   const toggleDrawer = () => setVisible((prev) => !prev);

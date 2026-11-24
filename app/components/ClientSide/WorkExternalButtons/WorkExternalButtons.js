@@ -82,7 +82,7 @@ export default function WorkExternalButtons({
           type="default"
           size="small"
           icon={<FileTextOutlined />}
-          href={`${process.env.NEXT_PUBLIC_CLIENT_API}/app/work/${documentID}`}
+          href={`${process.env.NEXT_PUBLIC_CLIENT_API}/work/${documentID}`}
           target="_blank"
         >
           JSON

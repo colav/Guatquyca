@@ -64,7 +64,7 @@ export default function ChartsHandler({ plotlist }) {
     ),
   );
 
-  const initialURL = URLBuilder(`/app${pathname}`, queryParams, {
+  const initialURL = URLBuilder(pathname, queryParams, {
     plot: selectedPlot.value,
   });
   const [state, setUrl] = APIRequest(initialURL);
@@ -76,7 +76,7 @@ export default function ChartsHandler({ plotlist }) {
       JSON.stringify(filteredQueryParams) !==
       JSON.stringify(previousQueryParams)
     ) {
-      const updatedUrl = URLBuilder(`/app${pathname}`, filteredQueryParams, {
+      const updatedUrl = URLBuilder(pathname, filteredQueryParams, {
         plot: selectedPlot.value,
       });
       setUrl(updatedUrl);
@@ -86,7 +86,7 @@ export default function ChartsHandler({ plotlist }) {
 
   const handleChange = (value, option) => {
     setSelectedPlot(option);
-    setUrl(URLBuilder(`/app${pathname}`, filteredQueryParams, { plot: value }));
+    setUrl(URLBuilder(pathname, filteredQueryParams, { plot: value }));
   };
 
   const chartComponents = {
