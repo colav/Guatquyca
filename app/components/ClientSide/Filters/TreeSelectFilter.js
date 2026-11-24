@@ -44,20 +44,24 @@ export default function TreeSelectFilter({ data, filterType }) {
     setValue(newValue);
   };
 
-  const findNodeTitle = (nodes, selectedValue) => {
+  /* Returns the title of the node with that value, or null if it is not in the tree. */
+  const searchNodeTitle = (nodes, selectedValue) => {
     for (const node of nodes) {
       if (String(node.value ?? node.key) === String(selectedValue)) {
-        return node.title;
+        return node.title ?? null;
       }
 
       if (node.children) {
-        const title = findNodeTitle(node.children, selectedValue);
+        const title = searchNodeTitle(node.children, selectedValue);
         if (title) return title;
       }
     }
 
-    return selectedValue;
+    return null;
   };
+
+  const findNodeTitle = (nodes, selectedValue) =>
+    searchNodeTitle(nodes, selectedValue) ?? selectedValue;
 
   return (
     <>

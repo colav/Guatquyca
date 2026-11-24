@@ -24,7 +24,7 @@ import { Layout } from "antd";
 const Footer = Layout;
 
 /* Date of the last user interface release (dd/mm/yyyy). Update it on each release. */
-const UI_UPDATED_AT = "14/11/2026";
+const UI_UPDATED_AT = "24/11/2026";
 
 /**
  * FooterLink renders a footer link: Next Link for internal routes, anchor for external URLs and mailto.
